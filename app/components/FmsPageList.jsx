@@ -15,8 +15,7 @@ var FmsPageList = React.createClass({
     },
     render: function () {
         return (
-            <div className="row">
-                <h3>Pages</h3>
+            <div>   
                 {this.renderPages()}
             </div>
         );

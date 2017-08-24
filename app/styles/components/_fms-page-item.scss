@@ -1,6 +1,16 @@
 .page-item {
     cursor: pointer;
     border: 1px solid;
-    padding: 2px;
+    padding: 12px;
     margin: 9px;
+}
+.page-profile {
+    border-radius: 50%;
+    width: 64px;
+    margin-right: 24px;
+}
+.fanpage-title {
+    vertical-align: middle;
+    font-size: 24px;
+    color: #1abc9c;
 }

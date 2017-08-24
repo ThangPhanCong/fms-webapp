@@ -1,22 +1,17 @@
 @import "base/variables";
 @import "components/fms-page-item";
+@import "components/fms-navigation";
+@import "components/fms-login";
 
 // Components
-.page-title {
-    margin: 0;
-    padding: 2rem 0;
-    text-align:center;
-    color: green;
-}
-
-.callout-auth {
-    background-color: $grey;
-    border: 1px solid $grey-border;
-    padding: 2rem;
+.button {
+    background-color: #008CBA; /* Green */
+    border: none;
+    color: white;
+    padding: 12px 24px;
     text-align: center;
-    vertical-align: middle;
-
-    h3, p {
-        margin-bottom: 2rem;
-    }
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 3px;
 }
