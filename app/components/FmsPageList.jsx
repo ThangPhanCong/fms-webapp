@@ -1,5 +1,6 @@
 var React = require('react');
 var FmsPageItem = require('FmsPageItem');
+var { browserHistory } = require('react-router');
 
 var FmsPageList = React.createClass({
     renderPages() {
@@ -12,6 +13,11 @@ var FmsPageList = React.createClass({
         return pages.map(function (page) {
             return <FmsPageItem data={page} key={page.fb_id}></FmsPageItem>
         });
+    },
+    componentWillMount: function() {
+        if (window.location == 'http://localhost:3000/pages#_=_') {
+            browserHistory.push('/pages');
+        }
     },
     render: function () {
         return (

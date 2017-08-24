@@ -1,11 +1,11 @@
 var React = require('react');
 var FmsPageList = require('FmsPageList');
 var FmsNavigation = require('FmsNavigation');
-var { Route, Router, IndexRoute, hashHistory } = require('react-router');
+var { Route, Router, IndexRoute, hashHistory, browserHistory } = require('react-router');
 
 var FmsApp = React.createClass({
     enterPages: function () {
-        hashHistory.push('/pages');
+        browserHistory.push('/pages');
     },
     render: function () {
         return (

@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var { Route, Router, IndexRoute, hashHistory } = require('react-router');
+var { Route, Router, IndexRoute, hashHistory, browserHistory } = require('react-router');
 var FmsApp = require('FmsApp');
 var FmsLogin = require('FmsLogin');
 var FmsPageList = require('FmsPageList');
@@ -24,9 +24,9 @@ function requireLogin(nextState, replace) {
 };
 
 ReactDOM.render(
-	<Router history={hashHistory}>
+	<Router history={browserHistory}>
 		<Route path="/">
-			<Route path="/pages" component={FmsPageList}></Route>
+			<Route path="pages" component={FmsPageList}></Route>
 			<IndexRoute component={FmsApp}></IndexRoute>
 		</Route>
 	</Router>,
