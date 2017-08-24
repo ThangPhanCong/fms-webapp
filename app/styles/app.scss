@@ -1,0 +1,22 @@
+@import "base/variables";
+@import "components/fms-page-item";
+
+// Components
+.page-title {
+    margin: 0;
+    padding: 2rem 0;
+    text-align:center;
+    color: green;
+}
+
+.callout-auth {
+    background-color: $grey;
+    border: 1px solid $grey-border;
+    padding: 2rem;
+    text-align: center;
+    vertical-align: middle;
+
+    h3, p {
+        margin-bottom: 2rem;
+    }
+}
