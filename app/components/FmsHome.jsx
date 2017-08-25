@@ -1,9 +1,17 @@
 var React = require('react');
 var { browserHistory } = require('react-router');
+var FmsAuthen = require('FmsAuthen');
+var Cookie = require('universal-cookie');
 
 var FmsHome = React.createClass({
     enterPages: function () {
-        browserHistory.push('/pages');
+        var cookie = new Cookie();
+        let jwt = cookie.get('jwt');
+        if (jwt) {
+            browserHistory.push('/pages');
+        } else {
+            FmsAuthen.onLogin();
+        }
     },
     render: function () {
         return (

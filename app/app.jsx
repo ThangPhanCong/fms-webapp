@@ -2,7 +2,6 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var { Route, Router, IndexRoute, hashHistory, browserHistory } = require('react-router');
 var FmsApp = require('FmsApp');
-var FmsLogin = require('FmsLogin');
 var FmsPageList = require('FmsPageList');
 var Cookie = require('universal-cookie');
 var FmsNavigation = require('FmsNavigation');

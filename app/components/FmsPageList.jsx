@@ -21,7 +21,13 @@ var FmsPageList = React.createClass({
     },
     render: function () {
         return (
-            <div>   
+            <div>
+                <div id="checkboxUnactive">
+                    <label>
+                        <input type="checkbox"/> 
+                        Hiển thị trang chưa kích hoạt
+                    </label>
+                </div>
                 {this.renderPages()}
             </div>
         );
