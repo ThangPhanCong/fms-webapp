@@ -1,11 +1,10 @@
 @import "base/variables";
 @import "components/fms-page-item";
-@import "components/fms-navigation";
-@import "components/fms-login";
+@import "components/fms-home";
 
 // Components
 .button {
-    background-color: #008CBA; /* Green */
+    background-color: #008CBA;
     border: none;
     color: white;
     padding: 12px 24px;
@@ -14,4 +13,26 @@
     display: inline-block;
     font-size: 16px;
     border-radius: 3px;
+}
+
+//Navigation
+.navbar {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    letter-spacing: 2px;
+}
+.navbar-nav  li a:hover {
+    color: #1abc9c !important;
+}
+.navbar-brand:hover {
+    color: #1abc9c !important;
+    font-family: Courier New, Courier, monospace;
+    font-weight: bold;
+}
+.navbar-brand {
+    font-family: Courier New, Courier, monospace;
+    font-weight: bold;
+}
+#login-button:hover {
+    cursor: pointer;
 }

@@ -1,5 +1,6 @@
 var React = require('react');
 var Cookie = require('universal-cookie');
+var {browserHistory} = require('react-router');
 
 var FmsNavigation = React.createClass({
     onLogin: function () {
@@ -11,7 +12,9 @@ var FmsNavigation = React.createClass({
         window.location = fbLoginLink;
     },
     onLogout: function () {
-        
+        let cookie = new Cookie();
+        cookie.remove('jwt');
+        browserHistory.push('/');
     },
     renderLoginLogout: function () {
         let cookie = new Cookie();

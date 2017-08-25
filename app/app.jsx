@@ -5,6 +5,8 @@ var FmsApp = require('FmsApp');
 var FmsLogin = require('FmsLogin');
 var FmsPageList = require('FmsPageList');
 var Cookie = require('universal-cookie');
+var FmsNavigation = require('FmsNavigation');
+var FmsHome = require('FmsHome');
 
 // Load foundation
 // require('style!css!foundation-sites/dist/css/foundation.min.css');
@@ -25,9 +27,9 @@ function requireLogin(nextState, replace) {
 
 ReactDOM.render(
 	<Router history={browserHistory}>
-		<Route path="/">
-			<Route path="pages" component={FmsPageList}></Route>
-			<IndexRoute component={FmsApp}></IndexRoute>
+		<Route path="/" component={FmsApp}>
+			<Route path="pages" component={FmsPageList}/>
+			<IndexRoute component={FmsHome}/>
 		</Route>
 	</Router>,
 	document.getElementById('app')
