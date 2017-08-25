@@ -1,4 +1,5 @@
 var React = require('react');
+var Cookie = require('universal-cookie');
 
 var FmsNavigation = React.createClass({
     onLogin: function () {
@@ -8,6 +9,18 @@ var FmsNavigation = React.createClass({
         let scope = 'public_profile,email,manage_pages,publish_pages,read_page_mailboxes,pages_messaging,user_posts,business_management';
         let fbLoginLink = `https://www.facebook.com/v2.8/dialog/oauth?auth_type=rerequest&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
         window.location = fbLoginLink;
+    },
+    onLogout: function () {
+        
+    },
+    renderLoginLogout: function () {
+        let cookie = new Cookie();
+        let jwt = cookie.get('jwt');
+        if (!jwt) {
+            return <a onClick={this.onLogin} id="login-button"><span className="glyphicon glyphicon-log-in"></span> Đăng nhập</a>;
+        } else {
+            return <a onClick={this.onLogout} id="login-button"><span className="glyphicon glyphicon-log-in"></span> Đăng xuất</a>;
+        }
     },
     render: function () {
         return (
@@ -27,7 +40,7 @@ var FmsNavigation = React.createClass({
                                 
                             </ul>
                             <ul className="nav navbar-nav navbar-right">
-                                <li><a onClick={this.onLogin} id="login-button"><span className="glyphicon glyphicon-log-in"></span> Đăng nhập</a></li>
+                                <li>{this.renderLoginLogout()}</li>
                             </ul>
                         </div>
                     </div>
