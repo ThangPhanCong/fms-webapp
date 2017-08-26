@@ -6,28 +6,39 @@ var ListPagesAPI = require('ListPagesAPI');
 var FmsPageList = React.createClass({
     getInitialState: function () {
         return {
-            inactivePages: ListPagesAPI.getInactivePages(),
-            activePages: ListPagesAPI.getActivePages()
-        };
+            active: [],
+            inactive: []
+        }
+    },
+    getPages: function (isActive) {
+        var that = this;
+        ListPagesAPI.getPages(isActive).then(function (pages) {
+            if (isActive) that.setState({ active: pages });
+            else that.setState({ inactive: pages });
+        }, function (err) {
+            throw new Error(err);
+        })
     },
     renderPages() {
-        let pages = this.state.activePages;
-
+        var pages = this.state.active;
         return pages.map(function (page) {
             return <FmsPageItem data={page} key={page.fb_id} inModal="false"></FmsPageItem>
         });
     },
     renderPagesInModal() {
-        let pages = this.state.inactivePages;
-
+        var pages = this.state.inactive;
         return pages.map(function (page) {
             return <FmsPageItem data={page} key={page.fb_id} inModal="true"></FmsPageItem>
         });
     },
-    componentWillMount: function() {
+    componentWillMount: function () {
         if (window.location == 'http://localhost:3000/pages#_=_') {
             browserHistory.replace('/pages');
         }
+    },
+    componentDidMount: function () {
+        this.getPages(true);
+        this.getPages(false);
     },
     render: function () {
         return (
