@@ -1,58 +1,27 @@
 .page-item {
     cursor: pointer;
     border: 1px solid;
-    padding: 12px;
+    padding: 8px;
     margin: 9px;
     border-radius: 10px;
     border-color: #bcbcbc;
+    min-width: 400px;
+    width: 98%;
+    display: inline-block;
 }
 .page-profile {
     border-radius: 50%;
-    width: 64px;
+    width: 56px;
     margin-right: 24px;
 }
 .fanpage-title {
     vertical-align: middle;
-    font-size: 24px;
+    font-size: 20px;
     color: #1abc9c;
 }
-#activebutton {
-    margin-top: 9px;
-    margin-right: 20px;
-    background-color: white;
-    color: black;
-    padding: 12px 24px;
-    border: none;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-#activebutton:hover {
-    margin-top: 9px;
-    margin-right: 20px;
-    background-color: white;
-    color: #1abc9c;
-    border: none;
-    padding: 12px 24px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-#activebutton:active {
-    margin-top: 9px;
-    margin-right: 20px;
-    background-color: white;
-    color: #1abc9c;
-    border: none;
-    padding: 12px 24px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-#checkboxUnactive {
-    text-align: center;
-    padding: 12px;
+#tick {
+    float: right;
+    width: 32px;
+    margin-right: 8px;
+    margin-top: 10px;
 }

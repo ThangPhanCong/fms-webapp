@@ -14,9 +14,9 @@ var FmsNavigation = React.createClass({
         let cookie = new Cookie();
         let jwt = cookie.get('jwt');
         if (!jwt) {
-            return <a onClick={this.onLogin} id="login-button"><span className="glyphicon glyphicon-log-in"></span> Đăng nhập</a>;
+            return <a onClick={this.onLogin} id="login-button"><span className="glyphicon glyphicon-log-in"></span> Log in</a>;
         } else {
-            return <a onClick={this.onLogout} id="login-button"><span className="glyphicon glyphicon-log-in"></span> Đăng xuất</a>;
+            return <a onClick={this.onLogout} id="login-button"><span className="glyphicon glyphicon-log-in"></span> Log out</a>;
         }
     },
     render: function () {

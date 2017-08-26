@@ -17,8 +17,8 @@ var FmsHome = React.createClass({
         return (
             <div className="container-fluid homepage">
                 <h1 className="page-title">Facebook Manager Suite</h1>
-                <p className="page-description">Công cụ quản lý tương tác, khách hàng, bán hàng tại quẩy, tích hợp vận chuyển, và các tiện ích hỗ trợ</p>
-                <button className="button" onClick={this.enterPages}>VÀO ỨNG DỤNG</button>
+                <p className="page-description">Tools for conversation management, customers, selling at stall, integrated transportation and supporting utilities</p>
+                <button className="button" onClick={this.enterPages}>ENTER DASHBOARD</button>
                 <div className="image-description">
                     <img src="https://pages.fm/static/images/pancake-banner.png"/>
                 </div>
