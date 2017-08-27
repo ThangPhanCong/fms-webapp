@@ -6,11 +6,16 @@ var FmsPageItem = React.createClass({
             isSelected: false
         }
     },
-    addActiveFunction: function () {
+    onPageClick: function () {
         if (this.props.inModal == 'true') {
             this.setState({
                 isSelected: !this.state.isSelected
             });
+        }
+    },
+    componentDidUpdate: function () {
+        if (this.props.onPageClick) {
+            this.props.onPageClick(this.state.isSelected, this.props.data.fb_id);
         }
     },
     render: function () {
@@ -22,7 +27,7 @@ var FmsPageItem = React.createClass({
             }
         }
         return (
-            <div className="page-item" onClick={this.addActiveFunction}>
+            <div className="page-item" onClick={this.onPageClick}>
                 <img src={avaUrl} className="page-profile" />
                 <span className="fanpage-title">{this.props.data.name}</span>
                 {renderActiveImg()}
