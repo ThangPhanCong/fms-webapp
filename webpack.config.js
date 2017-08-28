@@ -7,12 +7,12 @@ module.exports = {
   ],
   output: {
     path: __dirname,
-    filename: './public/bundle.js'
+    filename: './build/bundle.js'
   },
   resolve: {
     root: __dirname,
     modulesDirectories: [
-      'node_modules', 
+      'node_modules',
       './app/components',
       './app/api'
     ],

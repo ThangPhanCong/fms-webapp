@@ -1,1 +1,7 @@
-Boilerplate React App
+# Facebook mananger suite
+
+## Build
+`webpack`
+
+## Run
+`npm start`

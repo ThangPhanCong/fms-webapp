@@ -1,12 +1,12 @@
 {
-  "name": "boilerplate",
+  "name": "Fms",
   "version": "1.0.0",
-  "description": "Simple react app",
-  "main": "index.js",
+  "description": "Facebook manager suite",
   "scripts": {
+    "prestart": "npm i",
     "start": "node server.js"
   },
-  "author": "The Captain",
+  "author": "Fms team",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.9.1",
