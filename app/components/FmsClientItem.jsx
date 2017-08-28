@@ -3,7 +3,7 @@ var React = require('react');
 var FmsClientItem = React.createClass({
     render: function () {
         var that = this;
-        let avaUrl = `https://graph.facebook.com/v2.10/${this.props.data.id}/picture`;
+        let avaUrl = `https://graph.facebook.com/v2.10/${this.props.data.fb_id}/picture`;
         return (
             <div id="client-item">
                 <img src={avaUrl} id="client-profile" />

@@ -13,7 +13,7 @@ module.exports = {
                 fb_id: "100004430053999",
                 name: "Nguyễn Đăng Thế",
                 message: "Facebook Manager Suite",
-                is_self: fale
+                is_self: false
             },
             {
                 fb_id: "100001815903421",
