@@ -12,7 +12,7 @@ module.exports = {
   resolve: {
     root: __dirname,
     modulesDirectories: [
-      'node_modules', 
+      'node_modules',
       './app/components',
       './app/api'
     ],
