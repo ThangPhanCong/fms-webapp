@@ -11,6 +11,8 @@ var FmsPageItem = React.createClass({
             this.setState({
                 isSelected: !this.state.isSelected
             });
+        } else {
+            this.props.onPageClick(this.props.data);
         }
     },
     componentDidUpdate: function () {
@@ -23,7 +25,7 @@ var FmsPageItem = React.createClass({
         let avaUrl = `https://graph.facebook.com/v2.10/${this.props.data.fb_id}/picture`;
         function renderActiveImg() {
             if (that.props.inModal == 'true' && that.state.isSelected) {
-                return <img src="http://www.freeiconspng.com/download/14150" id="tick"/>
+                return <img src="/img/tick.png" id="tick"/>
             }
         }
         return (

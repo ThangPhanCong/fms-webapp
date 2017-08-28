@@ -40,7 +40,7 @@ var FmsPageList = React.createClass({
         });
         tempPages = [];
     },
-    handleClickOnPage: function (isSelected, id) {
+    handleClickOnPageInModal: function (isSelected, id) {
         var pages = this.state.inactive;
         pages.map(function (page) {
             if (page.fb_id == id) {
@@ -49,10 +49,15 @@ var FmsPageList = React.createClass({
         });
         tempPages = pages;
     },
+    handleClickOnPage: function (data) {
+        var id = data.fb_id;
+        browserHistory.push('/' + id);
+    },
     renderPages() {
+        var that = this;
         var pages = this.state.active;
         return pages.map(function (page) {
-            return <FmsPageItem data={page} key={page.fb_id} inModal="false"></FmsPageItem>
+            return <FmsPageItem data={page} key={page.fb_id} inModal="false" onPageClick={that.handleClickOnPage}></FmsPageItem>
         });
     },
     renderPagesInModal() {
@@ -62,7 +67,7 @@ var FmsPageList = React.createClass({
             return <p>All your pages is active. Nothing to show!</p>
         }
         return pages.map(function (page) {
-            return <FmsPageItem data={page} key={page.fb_id} inModal="true" onPageClick={that.handleClickOnPage} onActiveClick={that.handleActiveButton}></FmsPageItem>
+            return <FmsPageItem data={page} key={page.fb_id} inModal="true" onPageClick={that.handleClickOnPageInModal} onActiveClick={that.handleActiveButton}></FmsPageItem>
         });
     },
     componentWillMount: function () {

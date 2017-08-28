@@ -1,0 +1,26 @@
+#client-item {
+    cursor: pointer;
+    border-bottom: 1px solid;
+    padding: 10px;
+    border-color: #bcbcbc;
+    width: 100%;
+    display: inline-block;
+}
+#client-profile {
+    border-radius: 50%;
+    width: 45px;
+    margin-right: 12px;
+}
+#client-name {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 15px;
+    color: #1abc9c;
+}
+#lastest-message {
+
+}
+#name-and-message {
+    display: inline-block;
+    vertical-align: middle;
+}
