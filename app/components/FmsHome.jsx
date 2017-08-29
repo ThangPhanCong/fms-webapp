@@ -19,9 +19,7 @@ var FmsHome = React.createClass({
                 <h1 className="page-title">Facebook Manager Suite</h1>
                 <p className="page-description">Tools for conversation management, customers, selling at stall, integrated transportation and supporting utilities</p>
                 <button className="button" onClick={this.enterPages}>ENTER DASHBOARD</button>
-                <div className="image-description">
-                    <img src="https://pages.fm/static/images/pancake-banner.png"/>
-                </div>
+                
             </div>
         );
     }

@@ -6,6 +6,7 @@ var FmsPageList = require('FmsPageList');
 var Cookie = require('universal-cookie');
 var FmsNavigation = require('FmsNavigation');
 var FmsHome = require('FmsHome');
+var FmsDashboard = require('FmsDashboard');
 
 // Load foundation
 // require('style!css!foundation-sites/dist/css/foundation.min.css');
@@ -19,7 +20,7 @@ function requireLogin(nextState, replace) {
 	let jwt = cookie.get('jwt');
 	if (!jwt) {
 		replace({
-			pathname: '/login'
+			pathname: '/'
 		});
 	}
 };
@@ -27,7 +28,8 @@ function requireLogin(nextState, replace) {
 ReactDOM.render(
 	<Router history={browserHistory}>
 		<Route path="/" component={FmsApp}>
-			<Route path="pages" component={FmsPageList}/>
+			<Route path="pages" component={FmsPageList} onEnter={requireLogin}/>
+			<Route path="*" component={FmsDashboard} onEnter={requireLogin}/>
 			<IndexRoute component={FmsHome}/>
 		</Route>
 	</Router>,
