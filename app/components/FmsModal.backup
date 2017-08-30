@@ -4,12 +4,13 @@ var Modal = require('react-bootstrap').Modal;
 var PagesAPI = require('PagesAPI');
 
 var pages = [];
+var pageSelected = null;
 
 var FmsModal = React.createClass({
     getInitialState: function () {
         return {
             isShown: false,
-            buttonIsActive: true
+            buttonIsActive: false
         }
     },
     handleActiveButton: function () {
