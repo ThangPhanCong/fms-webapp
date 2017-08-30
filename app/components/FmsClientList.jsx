@@ -7,7 +7,7 @@ var FmsClientList = React.createClass({
         var renderClients = function () {
             var clients = DashboardAPI.getClients();
             return clients.map(function (client) {
-                return <FmsClientItem data={client} key={client.id}/>
+                return <FmsClientItem data={client} key={client.fb_id}/>
             });
         };
         return (
