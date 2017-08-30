@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+var path = require('path');
 
 let app = express();
 
@@ -8,6 +9,10 @@ app.use(express.static('public'));
 
 app.get('/', (req, res) => {
   res.sendFile('/build/index.html');
+});
+
+app.get('*', function (request, response){
+  response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
 });
 
 app.listen(3000, function (err) {

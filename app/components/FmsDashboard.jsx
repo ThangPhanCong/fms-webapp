@@ -8,11 +8,11 @@ var FmsDashBoard = React.createClass({
     componentWillMount: function () {
         // need to change to getPages(1) when using real API
         var that = this;
-        PagesAPI.getPages(0).then(function (pages) {
-            if (!pages) browserHistory.replace('/');
+        PagesAPI.getPages().then(function (pages) {
+            if (!pages.active) browserHistory.replace('/');
             else {
                 var linkIsOK = false;
-                pages.map(function (page) {
+                pages.active.map(function (page) {
                     var nameInListPages = page.fb_id;
                     var nameInUrl = that.props.location.pathname.slice(1);
                     if (nameInUrl == nameInListPages) linkIsOK = true;
