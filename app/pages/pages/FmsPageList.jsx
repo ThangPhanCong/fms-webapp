@@ -6,7 +6,7 @@ var FmsActivePageModal = require('FmsActivePageModal');
 
 var FmsPageList = React.createClass({
     getInitialState: function () {
-        return { 
+        return {
             active: [],
             inactive: []
         }
@@ -54,6 +54,7 @@ var FmsPageList = React.createClass({
                     <div id="description-active-button">Click Active button to view all available pages and active new pages</div>
                     <button id="active-button" className="button" onClick={this.openModal}>Choose Pages</button>
                 </div>
+
                 <FmsActivePageModal ref={(child) => {this._child = child;}} inactive={this.state.inactive} updatePages={this.updatePages}/>
             </div>
         );
