@@ -17,7 +17,8 @@ module.exports = {
       './app/api',
       './app/pages',
       './app/pages/pages',
-      './app/pages/dashboard'
+      './app/pages/dashboard',
+      './app/pages/posts'
     ],
     alias: {
       applicationStyles: 'app/styles/app.scss'

@@ -7,6 +7,9 @@
 @import "components/fms-left-message";
 @import "components/fms-right-message";
 
+@import "pages/posts/fms-post-item";
+@import "pages/posts/fms-posts";
+
 // Components
 
 .button {
@@ -49,6 +52,9 @@
 .navbar-brand {
     font-family: Courier New, Courier, monospace;
     font-weight: bold;
+}
+.page {
+  margin-top: 90px;
 }
 #login-button:hover {
     cursor: pointer;

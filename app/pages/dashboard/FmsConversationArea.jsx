@@ -5,8 +5,6 @@ var jwtDecode = require('jwt-decode');
 var Cookie = require('universal-cookie');
 var uuid = require('uuid');
 
-
-
 var FmsConversationArea = React.createClass({
     getUserId: function () {
         let cookie = new Cookie();
@@ -34,7 +32,7 @@ var FmsConversationArea = React.createClass({
                 <div id="chat-area">
                     {renderConversation()}
                 </div>
-                <div id="input-message-area"> 
+                <div id="input-message-area">
 
                 </div>
             </div>
