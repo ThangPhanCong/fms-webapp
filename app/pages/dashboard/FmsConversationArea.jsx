@@ -5,16 +5,12 @@ var jwtDecode = require('jwt-decode');
 var Cookie = require('universal-cookie');
 var uuid = require('uuid');
 
-
-
 var FmsConversationArea = React.createClass({
     getUserId: function () {
         let cookie = new Cookie();
-        let jwt = cookie.get('jwt');
-        let user_id;
-        if (jwt) {
-            user_id = jwtDecode(jwt).fb_id;
-        }
+        // let jwt = cookie.get('jwt');
+        let user_id = cookie.get('user_fb_id');
+
         return user_id;
     },
     render: function () {
@@ -34,7 +30,7 @@ var FmsConversationArea = React.createClass({
                 <div id="chat-area">
                     {renderConversation()}
                 </div>
-                <div id="input-message-area"> 
+                <div id="input-message-area">
 
                 </div>
             </div>
