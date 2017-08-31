@@ -14,8 +14,11 @@
 #chat-area {
     width: 100%;
     padding: 8px;
+    padding-bottom: 0px;
     background-color: #ececec;
     height: 73vh;
+    max-height: 73vh;
+    overflow: scroll;
 }
 #input-message-area {
     border-top: 1px solid #cecece;

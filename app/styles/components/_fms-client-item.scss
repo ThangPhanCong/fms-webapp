@@ -16,9 +16,16 @@
     vertical-align: middle;
     font-size: 15px;
     color: #1abc9c;
+    text-overflow:ellipsis;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 #lastest-message {
-
+    text-overflow:ellipsis;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 #name-and-message {
     display: inline-block;
