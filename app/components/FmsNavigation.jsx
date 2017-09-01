@@ -1,4 +1,6 @@
-var React = require('react');
+'use strict';
+// todo: refactor
+const React = require('react');
 var Cookie = require('universal-cookie');
 var {browserHistory} = require('react-router');
 var FmsAuthen = require('FmsAuthen');
