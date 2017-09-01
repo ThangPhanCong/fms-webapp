@@ -26,8 +26,8 @@ var FmsActivePageModal = React.createClass({
         for (let page of this.props.inactive) {
             if (page.fb_id == page_fb_id) {
                 this.setState({
-                    selectedPage: page, 
-                    isDisabled: !isSelected, 
+                    selectedPage: page,
+                    isDisabled: !isSelected,
                     isSelected: isSelected
                 });
             }
@@ -41,7 +41,7 @@ var FmsActivePageModal = React.createClass({
         }
         return pages.map(function (page) {
             let isSelected = self.state.selectedPage && self.state.selectedPage.fb_id == page.fb_id && self.state.isSelected;
-            return <FmsPageItemInModal data={page} key={page.fb_id} 
+            return <FmsPageItemInModal data={page} key={page.fb_id}
                 onPageClick={self.handleClickOnPageInModal} isSelected={isSelected}/>
         });
     },
@@ -66,8 +66,8 @@ var FmsActivePageModal = React.createClass({
                     {this.renderPagesInModal()}
                 </Modal.Body>
                 <Modal.Footer>
-                    <button type="button" className={"btn btn-primary"} 
-                        disabled={this.state.isDisabled} 
+                    <button type="button" className={"btn btn-primary"}
+                        disabled={this.state.isDisabled}
                         onClick={this.handleActiveButton}>Active</button>
                 </Modal.Footer>
             </Modal>
