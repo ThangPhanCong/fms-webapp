@@ -11,14 +11,18 @@ let FmsPageList = React.createClass({
   getInitialState: function() {
     return {active: [], inactive: []}
   },
-  updatePages: function() {
+  updatePages: function(pages) {
     let self = this;
 
-    PagesAPI.getPages().then(function(pages) {
+    if (pages) {
       self.setState({active: pages.active, inactive: pages.inactive});
-    }, function(err) {
-      throw new Error(err);
-    })
+    } else {
+      PagesAPI.getPages().then(function(_pages) {
+        self.setState({active: _pages.active, inactive: _pages.inactive});
+      }, function(err) {
+        throw new Error(err);
+      })
+    }
   },
   handleClickOnPage: function(data) {
     let id = data.fb_id;

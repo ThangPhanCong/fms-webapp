@@ -8,7 +8,7 @@ let subscribePage = (page_fb_id) => {
   if (socket) {
     socket.emit(constant.SUBSCRIBE_PAGE_EVENT, page_fb_id);
   } else {
-    retryConnect(subscribePage, page_fb_id);
+    retry(subscribePage, page_fb_id);
   }
 };
 
@@ -16,23 +16,29 @@ let activePage = ({page_fb_id, onUpdate, onDone}) => {
   if (socket) {
     socket.emit(constant.ACTIVE_PAGE_EVENT, page_fb_id);
 
+    socket.on(constant.ACTIVE_PAGE_UPDATE_EVENT, (data) => {
+      console.log('ACTIVE_PAGE_UPDATE_EVENT', data);
+
+      onUpdate(data);
+    });
+
     socket.on(constant.ACTIVE_PAGE_SUCCESSFUL_EVENT, (data) => {
       console.log('ACTIVE_PAGE_SUCCESSFUL_EVENT', data);
 
-      onDone();
+      onDone(null, data);
     });
 
     socket.on(constant.ACTIVE_PAGE_FAILURE_EVENT, (data) => {
-      console.log('ACTIVE_PAGE_FAILURE_EVENT',data);
+      console.log('ACTIVE_PAGE_FAILURE_EVENT', data);
 
-      onDone();
+      onDone(data);
     });
   } else {
-    retryConnect(activePage, {page_fb_id, onUpdate, onDone});
+    retry(activePage, {page_fb_id, onUpdate, onDone});
   }
 };
 
-let retryConnect = (func, params) => {
+let retry = (func, params) => {
   setTimeout(func, 1000, params);
 }
 

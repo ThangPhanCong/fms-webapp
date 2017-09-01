@@ -29,10 +29,12 @@ let FmsActivePageModal = React.createClass({
 			console.log('onUpdate', data);
 		};
 
-		let onDone = () => {
-			console.log('onDone');
-			self.props.updatePages();
-			self.close();
+		let onDone = (err, data) => {
+			console.log('onDone', data);
+			if (!err) {
+				self.props.updatePages();
+				self.close();
+			}
 		};
 
 		// use socket
