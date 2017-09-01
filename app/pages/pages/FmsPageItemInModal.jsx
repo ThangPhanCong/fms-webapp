@@ -4,7 +4,9 @@ const React = require('react');
 
 let FmsPageItemInModal = React.createClass({
   onPageClick: function() {
-    this.props.onPageClick(!this.props.isSelected, this.props.data.fb_id);
+    if (this.props.onPageClick) {
+      this.props.onPageClick(!this.props.isSelected, this.props.data.fb_id);
+    }
   },
   renderActiveImg: function() {
     if (this.props.isSelected) {

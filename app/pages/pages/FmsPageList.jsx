@@ -25,8 +25,8 @@ let FmsPageList = React.createClass({
     browserHistory.push('/' + id);
   },
   renderPages() {
-    var that = this;
-    var pages = this.state.active;
+    let that = this;
+    let pages = this.state.active;
     return pages.map(function(page) {
       return <FmsPageItem data={page} key={page.fb_id} onPageClick={that.handleClickOnPage}></FmsPageItem>
     });

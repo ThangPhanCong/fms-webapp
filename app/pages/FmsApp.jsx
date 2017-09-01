@@ -1,7 +1,7 @@
-var React = require('react');
-var FmsNavigation = require('FmsNavigation');
+const React = require('react');
+let FmsNavigation = require('FmsNavigation');
 
-var FmsApp = (props) => {
+let FmsApp = (props) => {
     return (
         <div>
             <FmsNavigation/>

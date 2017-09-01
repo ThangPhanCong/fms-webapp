@@ -1,18 +1,19 @@
 'use strict';
 // todo: refactor
 const React = require('react');
-var Cookie = require('universal-cookie');
-var {browserHistory} = require('react-router');
-var FmsAuthen = require('FmsAuthen');
+const Cookie = require('universal-cookie');
+const { browserHistory } = require('react-router');
 
-var FmsNavigation = React.createClass({
-  onLogin: function() {
+let FmsAuthen = require('FmsAuthen');
+
+let FmsNavigation = React.createClass({
+  onLogin: function () {
     FmsAuthen.onLogin();
   },
-  onLogout: function() {
+  onLogout: function () {
     FmsAuthen.onLogout();
   },
-  renderItemRight: function() {
+  renderItemRight: function () {
     let cookie = new Cookie();
     let jwt = cookie.get('jwt');
 
@@ -21,7 +22,7 @@ var FmsNavigation = React.createClass({
         <ul className="nav navbar-nav navbar-right">
           <li>
             <a onClick={this.onLogin} id="login-button">
-              <span className="glyphicon glyphicon-log-in"></span>Log in</a>
+              <span className="glyphicon glyphicon-log-in"></span> Log in</a>
           </li>
         </ul>
       )
@@ -33,17 +34,17 @@ var FmsNavigation = React.createClass({
       return (
         <ul className="nav navbar-nav navbar-right">
           <li>
-            <img className="user-ava" src={avaUser}/> {user_name}
+            <img className="user-ava" src={avaUser} /> {user_name}
           </li>
           <li><a onClick={this.onLogout}
-            id="login-button"><span className="glyphicon glyphicon-log-in"></span>Log out</a>
+            id="login-button"><span className="glyphicon glyphicon-log-in"></span> Log out</a>
           </li>
 
         </ul>
       )
     }
   },
-  render: function() {
+  render: function () {
     return (
       <div>
         <nav className="navbar navbar-default navbar-fixed-top">

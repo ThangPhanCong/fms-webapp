@@ -1,0 +1,38 @@
+.row {
+    margin: 0;
+    min-width: 500px;
+    overflow-x: auto;
+}
+.col-xs-3 {
+    padding: 0;
+}
+.col-xs-9 {
+    padding: 0;
+}
+.client-list {
+    border-right: 1px solid;
+    height: 89vh;
+    border-color: #cecece;
+}
+.conversation-area {
+    
+}
+#chat-area {
+    width: 100%;
+    padding: 8px;
+    padding-bottom: 0px;
+    background-color: #ececec;
+    height: 73vh;
+    max-height: 73vh;
+    overflow: scroll;
+}
+#chat-area::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+#input-message-area {
+    border-top: 1px solid #cecece;
+    padding: 8px;
+    width: 100%;
+    height: 16vh;
+}
