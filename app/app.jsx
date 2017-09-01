@@ -9,7 +9,9 @@ var FmsHome = require('FmsHome');
 var FmsDashboard = require('FmsDashboard');
 var FmsPosts = require('FmsPosts');
 
-// Load foundation
+let socket = require('Socket');
+
+// Load boostrap
 // require('style!css!foundation-sites/dist/css/foundation.min.css');
 // $(document).foundation();
 
@@ -19,7 +21,10 @@ require('style!css!sass!applicationStyles');
 function requireLogin(nextState, replace) {
 	let cookie = new Cookie();
 	let jwt = cookie.get('jwt');
-	if (!jwt) {
+
+	if (jwt) {
+		socket.connect(jwt);
+	} else {
 		replace({
 			pathname: '/'
 		});

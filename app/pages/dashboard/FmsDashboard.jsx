@@ -5,6 +5,8 @@ var PagesAPI = require('PagesAPI');
 var {browserHistory} = require('react-router');
 var DashboardAPI = require('DashboardAPI');
 
+let socket = require('Socket');
+
 var FmsDashBoard = React.createClass({
     getInitialState: function () {
         return {
@@ -21,7 +23,7 @@ var FmsDashBoard = React.createClass({
         }
     },
     componentWillMount: function () {
-        this.setState({ 
+        this.setState({
             conversations: DashboardAPI.getConversations()
         });
         var that = this;
@@ -34,11 +36,14 @@ var FmsDashBoard = React.createClass({
                     var nameInUrl = that.props.location.pathname.slice(1);
                     if (nameInUrl == nameInListPages) linkIsOK = true;
                 });
-                if (!linkIsOK) browserHistory.replace('/'); 
+                if (!linkIsOK) browserHistory.replace('/');
             }
         }, function (err) {
             console.log(err);
         });
+    },
+    componentDidMount: function() {
+      socket.subscribePage('132413412341234');
     },
     render: function () {
         return (

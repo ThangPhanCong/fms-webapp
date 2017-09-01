@@ -13,8 +13,10 @@ module.exports = {
     root: __dirname,
     modulesDirectories: [
       'node_modules',
+      './app',
       './app/components',
       './app/api',
+      './app/socket',
       './app/pages',
       './app/pages/pages',
       './app/pages/dashboard',
