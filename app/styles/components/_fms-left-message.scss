@@ -12,6 +12,10 @@
     border-radius: 15px;
     background-color: white;
     padding: 10px;
+    box-sizing: border-box;
+    max-width: 85%;
+    display: block;
+    float: right;
 }
 #div-in-left-message {
     float: left;

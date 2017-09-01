@@ -1,15 +1,21 @@
-#client-list {
-    display: inline-block;
-    width: 27%;
-    min-width: 300px;
+.row {
+    margin: 0;
+    min-width: 500px;
+    overflow-x: auto;
+}
+.col-xs-3 {
+    padding: 0;
+}
+.col-xs-9 {
+    padding: 0;
+}
+.client-list {
     border-right: 1px solid;
     height: 89vh;
     border-color: #cecece;
 }
-#conversation-area {
-    width: 73%;
-    min-width: 73%;
-    float: right;
+.conversation-area {
+    
 }
 #chat-area {
     width: 100%;
@@ -19,6 +25,10 @@
     height: 73vh;
     max-height: 73vh;
     overflow: scroll;
+}
+#chat-area::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
 }
 #input-message-area {
     border-top: 1px solid #cecece;

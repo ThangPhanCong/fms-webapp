@@ -42,11 +42,11 @@ var FmsDashBoard = React.createClass({
     },
     render: function () {
         return (
-            <div>
-                <div id="client-list">
+            <div className="row">
+                <div className="col-xs-3 client-list">
                     <FmsClientList handleClientClick={this.handleClientClick} conversations={this.state.conversations}/>
                 </div>
-                <div id="conversation-area">
+                <div className="col-xs-9 conversation-area">
                     <FmsConversationArea currentConversation={this.state.currentConversation}/>
                 </div>
             </div>

@@ -1,33 +1,40 @@
 #client-item {
     cursor: pointer;
     border-bottom: 1px solid;
-    padding: 10px;
-    border-color: #bcbcbc;
-    width: 100%;
-    display: inline-block;
+    height: 64px;
+    border-color: #dedede;
+    position: relative;
+    padding-left: 12px;
+    display: flex;
 }
 #client-profile {
     border-radius: 50%;
-    width: 45px;
-    margin-right: 12px;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    align-items: center;
+    margin-top: 7px;
 }
 #client-name {
-    display: inline-block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     vertical-align: middle;
     font-size: 15px;
     color: #1abc9c;
-    text-overflow:ellipsis;
-    width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
 }
 #lastest-message {
-    text-overflow:ellipsis;
-    width: 200px;
-    white-space: nowrap;
+    min-width: 0;
     overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 #name-and-message {
-    display: inline-block;
-    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    min-width: 0;
+    padding-right: 8px;
+    flex-direction: column;
+    overflow: hidden;
 }

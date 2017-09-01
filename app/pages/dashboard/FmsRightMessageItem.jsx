@@ -6,8 +6,8 @@ var FmsRightMessageItem = React.createClass({
         return (
             <div id="right-message">
                 <div id="div-in-right-message">
-                    <span id="right-message-content">{this.props.message.message}</span>
                     <img src={avaUrl} id="right-profile"/>
+                    <span id="right-message-content">{this.props.message.message}</span>
                 </div>
             </div>
         );

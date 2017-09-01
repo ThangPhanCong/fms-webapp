@@ -19,7 +19,7 @@ var FmsNavigation = React.createClass({
         <ul className="nav navbar-nav navbar-right">
           <li>
             <a onClick={this.onLogin} id="login-button">
-              <span className="glyphicon glyphicon-log-in"></span>Log in</a>
+              <span className="glyphicon glyphicon-log-in"></span> Log in</a>
           </li>
         </ul>
       )
@@ -34,7 +34,7 @@ var FmsNavigation = React.createClass({
             <img className="user-ava" src={avaUser}/> {user_name}
           </li>
           <li><a onClick={this.onLogout}
-            id="login-button"><span className="glyphicon glyphicon-log-in"></span>Log out</a>
+            id="login-button"><span className="glyphicon glyphicon-log-in"></span> Log out</a>
           </li>
 
         </ul>
