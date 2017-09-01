@@ -10,7 +10,7 @@ let FmsPageItemInModal = React.createClass({
   },
   renderActiveImg: function() {
     if (this.props.isSelected) {
-      return <img src="/img/tick.png" id="tick"/>
+      return <img src="/img/tick.png" className="tick"/>
     }
   },
   render: function() {

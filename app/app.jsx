@@ -11,7 +11,9 @@ var FmsPosts = require('FmsPosts');
 
 let socket = require('Socket');
 
-// Load boostrap
+//require('style!css!foundation-sites/dist/css/foundation.min.css');
+
+// Load foundation
 // require('style!css!foundation-sites/dist/css/foundation.min.css');
 // $(document).foundation();
 

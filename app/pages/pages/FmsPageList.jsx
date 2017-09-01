@@ -43,13 +43,13 @@ let FmsPageList = React.createClass({
   },
   render: function() {
     return (
-      <div id="dashboard-border">
-        <div id="div-list-page">
+      <div className="dashboard-border">
+        <div className="div-list-page">
           {this.renderPages()}
         </div>
-        <div id="div-active-button">
-          <div id="description-active-button">Click Active button to view all available pages and active new pages</div>
-          <button id="active-button" className="button" onClick={this.openModal}>Choose Pages</button>
+        <div className="div-active-button">
+          <div className="description-active-button">Click Active button to view all available pages and active new pages</div>
+          <button className="active-button" className="button" onClick={this.openModal}>Choose Pages</button>
         </div>
 
         <FmsActivePageModal ref={(child) => {

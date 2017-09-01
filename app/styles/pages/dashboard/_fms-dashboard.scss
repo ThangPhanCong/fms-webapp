@@ -1,6 +1,6 @@
 .row {
     margin: 0;
-    min-width: 500px;
+    min-width: 620px;
     overflow-x: auto;
 }
 .col-xs-3 {
@@ -17,20 +17,21 @@
 .conversation-area {
     
 }
-#chat-area {
+.chat-area {
     width: 100%;
     padding: 8px;
     padding-bottom: 0px;
-    background-color: #ececec;
+    background-color: #E6E6FA;
     height: 73vh;
     max-height: 73vh;
     overflow: scroll;
 }
-#chat-area::-webkit-scrollbar {
+.chat-area::-webkit-scrollbar {
     width: 0px;
+    height: 0px;
     background: transparent; /* make scrollbar transparent */
 }
-#input-message-area {
+.input-message-area {
     border-top: 1px solid #cecece;
     padding: 8px;
     width: 100%;
