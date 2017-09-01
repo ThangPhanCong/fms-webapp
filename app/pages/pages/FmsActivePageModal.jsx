@@ -7,7 +7,7 @@ var FmsActivePageModal = React.createClass({
     getInitialState: function () {
         return {
             isShown: false,
-            selectedPage: undefined,
+            selectedPage: null,
             isDisabled: true,
             isSelected: false
         }
@@ -48,7 +48,7 @@ var FmsActivePageModal = React.createClass({
     open: function () {
         this.setState({
             isShown: true,
-            selectedPage: undefined,
+            selectedPage: null,
             isDisabled: true,
             isSelected: false
         });
