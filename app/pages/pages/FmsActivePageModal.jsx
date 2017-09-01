@@ -5,6 +5,7 @@ const Modal = require('react-bootstrap').Modal;
 
 let FmsPageItemInModal = require('FmsPageItemInModal');
 let PagesAPI = require('PagesAPI');
+let socket = require('Socket');
 
 let FmsActivePageModal = React.createClass({
 	getInitialState: function () {
@@ -19,10 +20,28 @@ let FmsActivePageModal = React.createClass({
 		let self = this;
 		if (!this.state.selectedPage) return;
 
-		PagesAPI.activePage(this.state.selectedPage.fb_id, function () {
+		// PagesAPI.activePage(this.state.selectedPage.fb_id, function () {
+		// 	self.props.updatePages();
+		// 	self.close();
+		// });
+
+		let onUpdate = (data) => {
+			console.log('onUpdate', data);
+		};
+
+		let onDone = () => {
+			console.log('onDone');
 			self.props.updatePages();
 			self.close();
+		};
+
+		// use socket
+		socket.activePage({
+			page_fb_id: self.state.selectedPage.fb_id,
+			onUpdate,
+			onDone
 		});
+
 		this.setState({ isDisabled: true, canSelect: false });
 	},
 	handleClickOnPageInModal: function (isSelected, page_fb_id) {

@@ -4,6 +4,8 @@ const React = require('react');
 const Cookie = require('universal-cookie');
 const { browserHistory } = require('react-router');
 
+let socket = require('Socket');
+
 module.exports = {
 	onLogin: function () {
 		let clientId = '1507361489342874';
@@ -23,5 +25,7 @@ module.exports = {
 		cookie.remove('user_fb_id');
 		cookie.remove('user_name');
 		browserHistory.push('/');
+
+		socket.disconnect();
 	}
 }

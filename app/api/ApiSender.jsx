@@ -20,6 +20,7 @@ exports.get = (route) => {
       );
 };
 
+// todo: use promise instead of callback
 exports.post = (route, callback, payload) => {
   let cookie = new Cookie();
   let jwt = cookie.get('jwt');
