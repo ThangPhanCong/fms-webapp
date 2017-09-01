@@ -18,6 +18,7 @@ let FmsActivePageModal = React.createClass({
 	handleActiveButton: function () {
 		let self = this;
 		if (!this.state.selectedPage) return;
+
 		PagesAPI.activePage(this.state.selectedPage.fb_id, function () {
 			self.props.updatePages();
 			self.close();
