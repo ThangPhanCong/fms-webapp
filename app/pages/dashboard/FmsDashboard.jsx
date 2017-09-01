@@ -7,6 +7,7 @@ let DashboardAPI = require('DashboardAPI');
 let FmsConversationArea = require('FmsConversationArea');
 let FmsClientList = require('FmsClientList');
 let PagesAPI = require('PagesAPI');
+let socket = require('Socket');
 
 let FmsDashBoard = React.createClass({
 	getInitialState: function () {
@@ -43,6 +44,9 @@ let FmsDashBoard = React.createClass({
 			console.log(err);
 		});
 	},
+  componentDidMount: function() {
+    socket.subscribePage('132413412341234');
+  },
 	render: function () {
 		return (
 			<div className="row">
