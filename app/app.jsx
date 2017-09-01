@@ -1,17 +1,17 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var { Route, Router, IndexRoute, hashHistory, browserHistory } = require('react-router');
-var FmsApp = require('FmsApp');
-var FmsPageList = require('FmsPageList');
-var Cookie = require('universal-cookie');
-var FmsNavigation = require('FmsNavigation');
-var FmsHome = require('FmsHome');
-var FmsDashboard = require('FmsDashboard');
-var FmsPosts = require('FmsPosts');
+'use strict';
 
+const React = require('react');
+const ReactDOM = require('react-dom');
+const { Route, Router, IndexRoute, hashHistory, browserHistory } = require('react-router');
+const Cookie = require('universal-cookie');
+
+let FmsApp = require('FmsApp');
+let FmsPageList = require('FmsPageList');
+let FmsNavigation = require('FmsNavigation');
+let FmsHome = require('FmsHome');
+let FmsDashboard = require('FmsDashboard');
+let FmsPosts = require('FmsPosts');
 let socket = require('Socket');
-
-//require('style!css!foundation-sites/dist/css/foundation.min.css');
 
 // Load foundation
 // require('style!css!foundation-sites/dist/css/foundation.min.css');

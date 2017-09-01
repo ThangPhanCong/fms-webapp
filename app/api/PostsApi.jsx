@@ -1,7 +1,7 @@
 'use strict';
 
 const Cookie = require('universal-cookie');
-let apiSender = require('APISender');
+let apiSender = require('ApiSender');
 
 module.exports = {
   getPosts: function() {

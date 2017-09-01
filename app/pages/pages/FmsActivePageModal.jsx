@@ -60,7 +60,6 @@ let FmsActivePageModal = React.createClass({
 	renderPagesInModal() {
 		let self = this;
 		let pages = this.props.inactive;
-		let handleClickOnPageInModal = (this.state.canSelect) ? this.handleClickOnPageInModal : "";
 		if (pages.length === 0) {
 			return <p>All your pages is active. Nothing to show!</p>
 		}
@@ -68,7 +67,7 @@ let FmsActivePageModal = React.createClass({
 			let isSelected = self.state.selectedPage && self.state.selectedPage.fb_id == page.fb_id
 				&& self.state.selectedPage != null;
 			return <FmsPageItemInModal data={page} key={page.fb_id}
-				onPageClick={handleClickOnPageInModal} isSelected={isSelected} />
+				onPageClick={self.handleClickOnPageInModal} isSelected={isSelected} canSelect={self.state.canSelect}/>
 		});
 	},
 	open: function () {
