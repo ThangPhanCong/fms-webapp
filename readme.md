@@ -1,4 +1,4 @@
-# Facebook mananger suite
+# Facebook manangement suite
 
 ## Build
 `webpack`

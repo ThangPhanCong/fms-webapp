@@ -54,7 +54,7 @@ var FmsNavigation = React.createClass({
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
               </button>
-              <a className="navbar-brand" href="/">Facebook Manager Suite</a>
+              <a className="navbar-brand" href="/">Facebook Management Suite</a>
             </div>
             <div className="collapse navbar-collapse" id="myNavbar">
               <ul className="nav navbar-nav"></ul>

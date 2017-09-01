@@ -1,7 +1,7 @@
 {
   "name": "Fms",
   "version": "1.0.0",
-  "description": "Facebook manager suite",
+  "description": "Facebook management suite",
   "scripts": {
     "build": "webpack",
     "prestart": "npm i",
