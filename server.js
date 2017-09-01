@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-var path = require('path');
+const path = require('path');
 
 let app = express();
 

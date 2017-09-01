@@ -1,17 +1,20 @@
-var React = require('react');
-var FmsLeftMessageItem = require('FmsLeftMessageItem');
-var FmsRightMessageItem = require('FmsRightMessageItem');
-var Cookie = require('universal-cookie');
-var uuid = require('uuid');
+'use strict';
 
-var FmsConversationArea = React.createClass({
+const React = require('react');
+const Cookie = require('universal-cookie');
+const uuid = require('uuid');
+
+let FmsLeftMessageItem = require('FmsLeftMessageItem');
+let FmsRightMessageItem = require('FmsRightMessageItem');
+
+let FmsConversationArea = React.createClass({
 	getUserId: function () {
 		let cookie = new Cookie();
 		let user_id = cookie.get('user_fb_id');
 		return user_id;
 	},
 	render: function () {
-		var self = this, user_id = this.getUserId();
+		let self = this, user_id = this.getUserId();
 		let renderConversation = function () {
 			if (!self.props.currentConversation) return;
 			return self.props.currentConversation.messages.map(function (message) {
