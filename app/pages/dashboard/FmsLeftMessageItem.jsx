@@ -4,12 +4,13 @@ const React = require('react');
 
 let FmsLeftMessageItem = React.createClass({
 	render: function () {
-		let avaUrl = `https://graph.facebook.com/v2.10/${this.props.message.sender.fb_id}/picture`;
+		let avaUrl = (this.props.showAvatar) ? `https://graph.facebook.com/v2.10/${this.props.message.sender.fb_id}/picture` : '/img/fake-avatar.png';
+		let margin = (this.props.showAvatar) ? " margintop-for-message" : "";
 		return (
-			<div id="left-message">
-				<div id="div-in-left-message">
-					<img src={avaUrl} id="left-profile" />
-					<span id="left-message-content">{this.props.message.message}</span>
+			<div className="left-message">
+				<div className={"div-in-left-message" + margin}>
+					<img src={avaUrl} className="left-profile" />
+					<span className="left-message-content">{this.props.message.message}</span>
 				</div>
 			</div>
 		);

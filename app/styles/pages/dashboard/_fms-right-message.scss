@@ -1,22 +1,23 @@
-#right-message {
+.right-message {
     display: inline-block;
     width: 100%;
 }
-#right-profile {
+.right-profile {
     width: 40px;
     border-radius: 50%;
     margin-left: 10px;
     float: right;
 }
-#right-message-content {
-    border: 1px solid white;
+.right-message-content {
     border-radius: 15px;
-    background-color: white;
+    background-color: #A0DB8E;
     padding: 10px;
     box-sizing: border-box;
-    max-width: 75%;
+    max-width: 85%;
     float: right;
 }
-#div-in-right-message {
+.div-in-right-message {
     float: right;
+    max-width: 85%;
+    box-sizing: border-box;
 } 

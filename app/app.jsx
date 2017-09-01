@@ -9,6 +9,8 @@ var FmsHome = require('FmsHome');
 var FmsDashboard = require('FmsDashboard');
 var FmsPosts = require('FmsPosts');
 
+//require('style!css!foundation-sites/dist/css/foundation.min.css');
+
 // Load foundation
 // require('style!css!foundation-sites/dist/css/foundation.min.css');
 // $(document).foundation();

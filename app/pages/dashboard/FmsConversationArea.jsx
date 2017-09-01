@@ -15,22 +15,28 @@ let FmsConversationArea = React.createClass({
 	},
 	render: function () {
 		let self = this, user_id = this.getUserId();
+		let lastMessage = null;
 		let renderConversation = function () {
 			if (!self.props.currentConversation) return;
 			return self.props.currentConversation.messages.map(function (message) {
+				let showAvatar = true;
+				if (lastMessage && lastMessage.sender.fb_id == message.sender.fb_id) {
+					showAvatar = false;
+				}
+				lastMessage = message;
 				if (message.sender.fb_id == user_id) {
-					return <FmsRightMessageItem message={message} key={uuid()} />;
+					return <FmsRightMessageItem message={message} key={uuid()} showAvatar={showAvatar} />;
 				} else {
-					return <FmsLeftMessageItem message={message} key={uuid()} />;
+					return <FmsLeftMessageItem message={message} key={uuid()} showAvatar={showAvatar} />;
 				}
 			});
 		};
 		return (
 			<div>
-				<div id="chat-area">
+				<div className="chat-area">
 					{renderConversation()}
 				</div>
-				<div id="input-message-area">
+				<div className="input-message-area">
 
 				</div>
 			</div>
