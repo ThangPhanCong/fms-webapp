@@ -1,4 +1,5 @@
-var $ = require('jquery');
+'use strict';
+
 var Cookie = require('universal-cookie');
 var axios = require('axios');
 
