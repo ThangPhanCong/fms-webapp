@@ -1,0 +1,47 @@
+.client-list {
+    border-right: 1px solid;
+    height: 89vh;
+    border-color: #cecece;
+}
+
+//client item
+.client-item {
+    cursor: pointer;
+    border-bottom: 1px solid;
+    height: 64px;
+    border-color: #dedede;
+    position: relative;
+    padding-left: 12px;
+    display: flex;
+}
+.client-profile {
+    border-radius: 50%;
+    width: 50px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-right: 10px;
+    align-items: center;
+}
+.client-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+    font-size: 15px;
+    color: #1abc9c;
+}
+.lastest-message {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.name-and-message {
+    display: flex;
+    justify-content: center;
+    min-width: 0;
+    padding-right: 8px;
+    flex-direction: column;
+    overflow: hidden;
+}

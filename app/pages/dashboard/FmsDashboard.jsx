@@ -50,7 +50,7 @@ let FmsDashBoard = React.createClass({
   },
 	render: function () {
 		return (
-			<div className="row">
+			<div className="row dashboard">
 				<div className="col-xs-3 client-list">
 					<FmsClientList handleClientClick={this.handleClientClick} conversations={this.state.conversations} />
 				</div>
