@@ -6,12 +6,17 @@ const uuid = require('uuid');
 
 let FmsLeftMessageItem = require('FmsLeftMessageItem');
 let FmsRightMessageItem = require('FmsRightMessageItem');
+let FmsMessageForm = require('FmsMessageForm');
 
 let FmsConversationArea = React.createClass({
 	getUserId: function () {
 		let cookie = new Cookie();
 		let user_id = cookie.get('user_fb_id');
 		return user_id;
+	},
+	componentDidUpdate: function () {
+		var obj = this.refs.chat_area;
+		obj.scrollTop = obj.scrollHeight;
 	},
 	render: function () {
 		let self = this, user_id = this.getUserId();
@@ -33,11 +38,11 @@ let FmsConversationArea = React.createClass({
 		};
 		return (
 			<div>
-				<div className="chat-area">
+				<div className="chat-area" ref="chat_area">
 					{renderConversation()}
 				</div>
 				<div className="input-message-area">
-
+					<FmsMessageForm/>
 				</div>
 			</div>
 		);

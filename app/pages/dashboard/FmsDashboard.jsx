@@ -8,6 +8,7 @@ let FmsConversationArea = require('FmsConversationArea');
 let FmsClientList = require('FmsClientList');
 let PagesAPI = require('PagesAPI');
 let socket = require('Socket');
+let FmsClientInformation = require('FmsClientInformation');
 
 let FmsDashBoard = React.createClass({
 	getInitialState: function () {
@@ -53,8 +54,11 @@ let FmsDashBoard = React.createClass({
 				<div className="col-xs-3 client-list">
 					<FmsClientList handleClientClick={this.handleClientClick} conversations={this.state.conversations} />
 				</div>
-				<div className="col-xs-9 conversation-area">
+				<div className="col-xs-9 col-md-6 conversation-area">
 					<FmsConversationArea currentConversation={this.state.currentConversation} />
+				</div>
+				<div className="client-information-area col-md-3">
+					<FmsClientInformation/>
 				</div>
 			</div>
 		);

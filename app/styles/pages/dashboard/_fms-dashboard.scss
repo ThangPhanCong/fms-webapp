@@ -3,10 +3,7 @@
     min-width: 620px;
     overflow-x: auto;
 }
-.col-xs-3 {
-    padding: 0;
-}
-.col-xs-9 {
+.col-xs-3, .col-md-3, .col-xs-9, .col-md-6, .col-xs-10, .col-xs-2{
     padding: 0;
 }
 .client-list {
@@ -15,15 +12,19 @@
     border-color: #cecece;
 }
 .conversation-area {
-    
+    border-right: 1px solid #cecece;
+}
+.client-information-area {
+    overflow: hidden;
+    min-width: 0px;
 }
 .chat-area {
     width: 100%;
     padding: 8px;
     padding-bottom: 0px;
     background-color: #E6E6FA;
-    height: 73vh;
-    max-height: 73vh;
+    height: 76vh;
+    max-height: 76vh;
     overflow: scroll;
 }
 .chat-area::-webkit-scrollbar {
@@ -33,7 +34,20 @@
 }
 .input-message-area {
     border-top: 1px solid #cecece;
-    padding: 8px;
+    padding: 7px 10px;
     width: 100%;
-    height: 16vh;
+    height: 13vh;
+}
+.btn-group-vertical {
+    float: right;
+    padding-left: 8px;
+}
+.message-area {
+    resize: none;
+    border-radius: 5px;
+    padding: 3px 8px;
+    width: 100%;
+}
+.wrap-textarea {
+    overflow: hidden;
 }
