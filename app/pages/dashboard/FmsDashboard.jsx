@@ -53,17 +53,23 @@ let FmsDashBoard = React.createClass({
 		return (
 			<div className="dashboard">
 				<div className="vertical-nav">
-					
+					<FmsVerticalNav/>
 				</div>
 				<div className="row working-area">
-					<div className="col-xs-4 col-md-3 client-list">
-						<FmsClientList handleClientClick={this.handleClientClick} conversations={this.state.conversations} />
+					<div className="col-xs-4 col-md-3">
+						<div className="client-list">
+							<FmsClientList handleClientClick={this.handleClientClick} conversations={this.state.conversations} />
+						</div>
 					</div>
-					<div className="col-xs-8 col-md-6 conversation-area">
-						<FmsConversationArea currentConversation={this.state.currentConversation} />
+					<div className="col-xs-8 col-md-6">
+						<div className="conversation-area">
+							<FmsConversationArea currentConversation={this.state.currentConversation} />
+						</div>
 					</div>
-					<div className="client-information-area col-md-3">
-						<FmsClientInformation/>
+					<div className="col-md-3">
+						<div className="client-information-area">
+							<FmsClientInformation/>
+						</div>
 					</div>
 				</div>
 			</div>

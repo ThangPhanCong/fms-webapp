@@ -1,17 +1,18 @@
 .client-list {
-    border-right: 1px solid;
-    height: 89vh;
-    border-color: #cecece;
+    margin: 18px 15px 18px 24px;
+    background-color: white;
+    border-radius: 5px;
+    height: 85vh;
 }
 
 //client item
 .client-item {
     cursor: pointer;
-    border-bottom: 1px solid;
     height: 64px;
-    border-color: #dedede;
     position: relative;
     padding-left: 12px;
+    border-radius: 5px;
+    background-color: white;
     display: flex;
 }
 .client-profile {
