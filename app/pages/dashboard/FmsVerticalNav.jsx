@@ -1,4 +1,4 @@
-const React = rquire('react');
+const React = require('react');
 
 let FmsVerticalNav = React.createClass({
   render: function () {

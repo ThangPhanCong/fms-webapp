@@ -9,6 +9,7 @@ let FmsClientList = require('FmsClientList');
 let PagesAPI = require('PagesAPI');
 let socket = require('Socket');
 let FmsClientInformation = require('FmsClientInformation');
+let FmsVerticalNav = require('FmsVerticalNav');
 
 let FmsDashBoard = React.createClass({
 	getInitialState: function () {
@@ -50,15 +51,20 @@ let FmsDashBoard = React.createClass({
   },
 	render: function () {
 		return (
-			<div className="row dashboard">
-				<div className="col-xs-4 col-md-3 client-list">
-					<FmsClientList handleClientClick={this.handleClientClick} conversations={this.state.conversations} />
+			<div className="dashboard">
+				<div className="vertical-nav">
+					
 				</div>
-				<div className="col-xs-8 col-md-6 conversation-area">
-					<FmsConversationArea currentConversation={this.state.currentConversation} />
-				</div>
-				<div className="client-information-area col-md-3">
-					<FmsClientInformation/>
+				<div className="row working-area">
+					<div className="col-xs-4 col-md-3 client-list">
+						<FmsClientList handleClientClick={this.handleClientClick} conversations={this.state.conversations} />
+					</div>
+					<div className="col-xs-8 col-md-6 conversation-area">
+						<FmsConversationArea currentConversation={this.state.currentConversation} />
+					</div>
+					<div className="client-information-area col-md-3">
+						<FmsClientInformation/>
+					</div>
 				</div>
 			</div>
 		);
