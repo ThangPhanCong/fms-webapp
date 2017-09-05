@@ -1,14 +1,15 @@
 .dashboard {
     margin: 0;
-    min-width: 620px;
+    min-width: 670px;
     overflow-x: auto;
     overflow-y: hidden;
-}
-.col-xs-3, .col-md-3, .col-xs-9, .col-md-6, .col-xs-10, .col-xs-2{
+    .col-xs-4, .col-md-3, .col-xs-8, .col-md-6{
     padding: 0;
+    }
+    .client-information-area {
+        overflow: hidden;
+        min-width: 0px;
+    }
 }
-.client-information-area {
-    overflow: hidden;
-    min-width: 0px;
-}
+
 

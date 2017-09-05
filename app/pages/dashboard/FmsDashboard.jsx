@@ -51,10 +51,10 @@ let FmsDashBoard = React.createClass({
 	render: function () {
 		return (
 			<div className="row dashboard">
-				<div className="col-xs-3 client-list">
+				<div className="col-xs-4 col-md-3 client-list">
 					<FmsClientList handleClientClick={this.handleClientClick} conversations={this.state.conversations} />
 				</div>
-				<div className="col-xs-9 col-md-6 conversation-area">
+				<div className="col-xs-8 col-md-6 conversation-area">
 					<FmsConversationArea currentConversation={this.state.currentConversation} />
 				</div>
 				<div className="client-information-area col-md-3">
