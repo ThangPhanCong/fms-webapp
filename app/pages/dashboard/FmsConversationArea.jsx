@@ -4,8 +4,7 @@ const React = require('react');
 const Cookie = require('universal-cookie');
 const uuid = require('uuid');
 
-let FmsLeftMessageItem = require('FmsLeftMessageItem');
-let FmsRightMessageItem = require('FmsRightMessageItem');
+let FmsMessageItem = require('FmsMessageItem');
 let FmsMessageForm = require('FmsMessageForm');
 
 let FmsConversationArea = React.createClass({
@@ -28,12 +27,9 @@ let FmsConversationArea = React.createClass({
 				if (lastMessage && lastMessage.sender.fb_id == message.sender.fb_id) {
 					showAvatar = false;
 				}
+				let isSelf = message.sender.fb_id == user_id;
 				lastMessage = message;
-				if (message.sender.fb_id == user_id) {
-					return <FmsRightMessageItem message={message} key={uuid()} showAvatar={showAvatar} />;
-				} else {
-					return <FmsLeftMessageItem message={message} key={uuid()} showAvatar={showAvatar} />;
-				}
+				return <FmsMessageItem message={message} key={uuid()} showAvatar={showAvatar} isSelf={isSelf}/>;
 			});
 		};
 		return (
