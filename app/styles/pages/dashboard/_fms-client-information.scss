@@ -1,0 +1,24 @@
+.client-information-area {
+    overflow: hidden;
+    min-width: 0px;
+}
+
+.information-tab {
+    padding: 0px 12px;
+}
+.note-icon {
+    margin: auto;
+    width: 64px;
+    padding: 48px 0;
+    display: block;
+}
+.note-form {
+    border: none;
+    width: 100%;
+    padding: 8px;
+    background-color: #e8e8e8;
+    border-radius: 5px;
+}
+.note-form:focus {
+    outline: none;
+}

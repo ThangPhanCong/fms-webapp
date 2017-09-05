@@ -2,6 +2,7 @@
 
 @import "components/fms-home";
 @import "components/fms-nav";
+@import "components/fms-tabs";
 
 @import "pages/pages/fms-page-item";
 @import "pages/pages/fms-page-list";
@@ -11,6 +12,8 @@
 @import "pages/dashboard/fms-message-form";
 @import "pages/dashboard/fms-client-list";
 @import "pages/dashboard/fms-message-item";
+@import "pages/dashboard/fms-client-information";
+@import "pages/dashboard/fms-vertical-nav";
 
 @import "pages/posts/fms-post-item";
 @import "pages/posts/fms-posts";
@@ -40,27 +43,3 @@
     border-radius: 3px;
 }
 
-//Navigation
-.navbar {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    letter-spacing: 2px;
-}
-.navbar-nav  li a:hover {
-    color: #1abc9c !important;
-}
-.navbar-brand:hover {
-    color: #1abc9c !important;
-    font-family: Courier New, Courier, monospace;
-    font-weight: bold;
-}
-.navbar-brand {
-    font-family: Courier New, Courier, monospace;
-    font-weight: bold;
-}
-.page {
-  margin-top: 90px;
-}
-.login-button:hover {
-    cursor: pointer;
-}

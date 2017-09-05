@@ -33,11 +33,12 @@ let FmsNavigation = React.createClass({
 
       return (
         <ul className="nav navbar-nav navbar-right">
-          <li>
-            <img className="user-ava" src={avaUser} /> {user_name}
+          <li className="user-info">
+            <img className="user-ava" src={avaUser} /> 
+            <span className="white-color"> {user_name}  </span>
           </li>
-          <li><a onClick={this.onLogout}
-            className="login-button"><span className="glyphicon glyphicon-log-in"></span> Log out</a>
+          <li><a onClick={this.onLogout} className="login-button">
+            <span className="glyphicon glyphicon-log-out"></span> Log out</a>
           </li>
 
         </ul>
