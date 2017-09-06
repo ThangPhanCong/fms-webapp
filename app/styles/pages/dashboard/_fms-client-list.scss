@@ -6,6 +6,28 @@
     max-height: 84.8vh;
 }
 
+.search-icon {
+    width: 16px;
+    margin-top: 17px;
+    margin-left: 8px;
+    float: left;
+}
+.search-client {
+    height: 7.8vh;
+    margin: 8px 12px;
+    border-bottom: 1px solid #dedede;
+}
+.input-search-client {
+    padding: 3px 8px;
+    margin-top: 12px;
+    border: none;
+    margin-left: 3px;
+    font-size: 16px;
+}
+.input-search-client:focus {
+    outline: none;
+}
+
 //client item
 .client-item {
     cursor: pointer;

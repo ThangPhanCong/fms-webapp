@@ -19,7 +19,13 @@ let FmsClientList = React.createClass({
 		};
 		return (
 			<div>
-				{renderClients()}
+				<div className="search-client">
+					<img src="/img/search.png" className="search-icon"/>
+					<input type="text" className="input-search-client"/>
+				</div>
+				<div>
+					{renderClients()}
+				</div>
 			</div>
 		);
 	}
