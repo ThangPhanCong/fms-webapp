@@ -5,14 +5,14 @@ const path = require('path');
 
 let app = express();
 
-app.use(express.static('public'));
+app.use(express.static('build'));
 
 app.get('/', (req, res) => {
   res.sendFile('/build/index.html');
 });
 
 app.get('*', function (request, response){
-  response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
+  response.sendFile(path.resolve(__dirname, 'build', 'index.html'))
 });
 
 app.listen(3000, function (err) {

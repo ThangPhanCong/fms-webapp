@@ -34,7 +34,7 @@ let FmsNavigation = React.createClass({
       return (
         <ul className="nav navbar-nav navbar-right">
           <li className="user-info">
-            <img className="user-ava" src={avaUser} /> 
+            <img className="user-ava" src={avaUser} />
             <span className="white-color"> {user_name}  </span>
           </li>
           <li><a onClick={this.onLogout} className="login-button">
@@ -47,24 +47,22 @@ let FmsNavigation = React.createClass({
   },
   render: function () {
     return (
-      <div>
-        <nav className="navbar navbar-default navbar-fixed-top">
-          <div className="container">
-            <div className="navbar-header">
-              <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-              </button>
-              <a className="navbar-brand" href="/">Facebook Management Suite</a>
-            </div>
-            <div className="collapse navbar-collapse" id="myNavbar">
-              <ul className="nav navbar-nav"></ul>
-              {this.renderItemRight()}
-            </div>
+      <nav className="navbar navbar-default navbar-fixed-top">
+        <div className="container">
+          <div className="navbar-header">
+            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span className="icon-bar"></span>
+              <span className="icon-bar"></span>
+              <span className="icon-bar"></span>
+            </button>
+            <a className="navbar-brand" href="/">Facebook Management Suite</a>
           </div>
-        </nav>
-      </div>
+          <div className="collapse navbar-collapse" id="myNavbar">
+            <ul className="nav navbar-nav"></ul>
+            {this.renderItemRight()}
+          </div>
+        </div>
+      </nav>
     );
   }
 });

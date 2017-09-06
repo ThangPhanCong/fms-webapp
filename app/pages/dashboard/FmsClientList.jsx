@@ -4,6 +4,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const $ = require('jquery');
 
+const searchImg = require('search.png');
 let FmsClientItem = require('FmsClientItem');
 let DashboardAPI = require('DashboardAPI');
 
@@ -34,7 +35,7 @@ let FmsClientList = React.createClass({
 		return (
 			<div>
 				<div className={"search-client" + ((this.state.hide == true) ? " hide" : "")}>
-					<img src="/img/search.png" className="search-icon" />
+					<img src={searchImg} className="search-icon"/>
 					<input type="text" className="input-search-client" />
 				</div>
 				<div>

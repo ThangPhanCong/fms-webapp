@@ -78,7 +78,7 @@ let FmsDashBoard = React.createClass({
 			clientInfoClass = "col-md-3";
 		}
 		return (
-			<div className="dashboard">
+			<div className="dashboard page">
 				<div className="vertical-nav">
 					<FmsVerticalNav/>
 				</div>

@@ -25,6 +25,7 @@ exports.post = (route, callback, payload) => {
   let cookie = new Cookie();
   let jwt = cookie.get('jwt');
   let url = `${BASE_URL}${route}?access_token=${jwt}`;
+
   return axios.post(url, payload).then((res) => {
     if (callback) callback();
   }, (err) => {
