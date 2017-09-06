@@ -11,17 +11,11 @@ let FmsNavigation = require('FmsNavigation');
 let FmsHome = require('FmsHome');
 let FmsDashboard = require('FmsDashboard');
 let FmsPosts = require('FmsPosts');
+
 let socket = require('Socket');
 
-// Load foundation
-// require('style!css!foundation-sites/dist/css/foundation.min.css');
-// $(document).foundation();
-
-// Load Bootstrap
-@import "~bootstrap/dist/css/bootstrap";
-
-// App css
-require('style!css!sass!applicationStyles');
+// Load Bootstrap js
+require("bootstrapJs");
 
 function requireLogin(nextState, replace) {
 	let cookie = new Cookie();
