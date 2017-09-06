@@ -1,9 +1,9 @@
 .client-information-area {
     overflow: hidden;
     min-width: 0px;
-    margin: 18px 24px 18px 15px;
+    margin: 18px 24px 18px 0px;
     background-color: white;
-    border-radius: 5px;
+    border-radius: 7px;
     height: 85vh;
 }
 
@@ -21,7 +21,7 @@
     width: 100%;
     padding: 8px;
     background-color: #e8e8e8;
-    border-radius: 5px;
+    border-radius: 7px;
 }
 .note-form:focus {
     outline: none;
