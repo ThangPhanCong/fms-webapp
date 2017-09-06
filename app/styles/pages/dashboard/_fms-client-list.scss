@@ -4,6 +4,7 @@
     border-radius: 7px;
     height: 84.8vh;
     max-height: 84.8vh;
+    min-width: 75px;
 }
 
 .search-icon {
@@ -23,12 +24,20 @@
     border: none;
     margin-left: 3px;
     font-size: 16px;
+    width: 136px;
 }
 .input-search-client:focus {
     outline: none;
 }
 
 //client item
+.resized-width {
+    max-width: 75px;
+    width: 75px;
+}
+.hide {
+    display: none;
+}
 .client-item {
     cursor: pointer;
     height: 64px;
@@ -37,6 +46,7 @@
     border-radius: 7px;
     background-color: white;
     display: flex;
+    min-width: 75px;
 }
 .client-profile {
     border-radius: 50%;

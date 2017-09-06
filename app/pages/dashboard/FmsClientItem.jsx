@@ -9,10 +9,11 @@ let FmsClientItem = React.createClass({
 	render: function () {
 		let that = this;
 		let avaUrl = `https://graph.facebook.com/v2.10/${this.props.data.fb_id}/picture`;
+		let isDisplay = (this.props.hide == true) ? " hide" : "";
 		return (
 			<div className="client-item" onClick={this.handleClientClick}>
 				<img src={avaUrl} className="client-profile" />
-				<div className="name-and-message">
+				<div className={"name-and-message" + isDisplay}>
 					<div className="client-name">{this.props.data.name}</div>
 					<div className="lastest-message">{this.props.data.messages[0].message}</div>
 				</div>

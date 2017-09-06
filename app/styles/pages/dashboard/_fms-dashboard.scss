@@ -7,18 +7,18 @@
 .working-area {
     margin: 0;
     margin-left: 54px;
-    .col-xs-4, .col-md-3, .col-xs-8, .col-md-6{
+    .col-xs-2, .col-xs-6, .col-xs-4, .col-md-3, .col-md-6{
         padding: 0;
-    }
-    .client-information-area {
-        overflow: hidden;
-        min-width: 0px;
     }
 }
 .notifiy-no-conversation {
     font-size: 20px;
     text-align: center;
     margin-top: 128px;
+}
+.negative-margin {
+    margin-left: -54px;
+    margin-right: 54px;
 }
 
 
