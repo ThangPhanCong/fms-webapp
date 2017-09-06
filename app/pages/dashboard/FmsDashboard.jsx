@@ -14,7 +14,7 @@ let FmsVerticalNav = require('FmsVerticalNav');
 let FmsDashBoard = React.createClass({
 	getInitialState: function () {
 		return {
-			currentConversation: undefined,
+			currentConversation: null,
 			conversations: []
 		}
 	},
@@ -50,6 +50,14 @@ let FmsDashBoard = React.createClass({
     socket.subscribePage('132413412341234');
   },
 	render: function () {
+		let self = this;
+		function renderConversation() {
+			if (self.state.currentConversation) {
+				return <FmsConversationArea currentConversation={self.state.currentConversation} />
+			} else {
+				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
+			}
+		};
 		return (
 			<div className="dashboard">
 				<div className="vertical-nav">
@@ -63,7 +71,7 @@ let FmsDashBoard = React.createClass({
 					</div>
 					<div className="col-xs-8 col-md-6">
 						<div className="conversation-area">
-							<FmsConversationArea currentConversation={this.state.currentConversation} />
+							{renderConversation()}
 						</div>
 					</div>
 					<div className="col-md-3">

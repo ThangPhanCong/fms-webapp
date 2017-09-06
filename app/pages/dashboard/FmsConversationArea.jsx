@@ -6,6 +6,7 @@ const uuid = require('uuid');
 
 let FmsMessageItem = require('FmsMessageItem');
 let FmsMessageForm = require('FmsMessageForm');
+let FmsInfoChat = require('FmsInfoChat');
 
 let FmsConversationArea = React.createClass({
 	getUserId: function () {
@@ -22,18 +23,24 @@ let FmsConversationArea = React.createClass({
 		let lastMessage = null;
 		let renderConversation = function () {
 			if (!self.props.currentConversation) return;
+			let count = self.props.currentConversation.messages.length;
 			return self.props.currentConversation.messages.map(function (message) {
+				count--;
 				let showAvatar = true;
 				if (lastMessage && lastMessage.sender.fb_id == message.sender.fb_id) {
 					showAvatar = false;
 				}
 				let isSelf = message.sender.fb_id == user_id;
+				let isLast = (count == 0);
 				lastMessage = message;
-				return <FmsMessageItem message={message} key={uuid()} showAvatar={showAvatar} isSelf={isSelf}/>;
+				return <FmsMessageItem message={message} key={uuid()} showAvatar={showAvatar} isSelf={isSelf} isLast={isLast}/>;
 			});
 		};
 		return (
 			<div>
+				<div className="info-chat">
+					<FmsInfoChat clientName={this.props.currentConversation.name}/>
+				</div>
 				<div className="chat-area" ref="chat_area">
 					{renderConversation()}
 				</div>
