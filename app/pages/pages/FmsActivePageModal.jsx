@@ -5,6 +5,7 @@ const Modal = require('react-bootstrap').Modal;
 
 let FmsPageItemInModal = require('FmsPageItemInModal');
 let PagesAPI = require('PagesAPI');
+let FmsSpin = require('FmsSpin');
 let socket = require('Socket');
 
 let FmsActivePageModal = React.createClass({
@@ -91,9 +92,12 @@ let FmsActivePageModal = React.createClass({
 					{this.renderPagesInModal()}
 				</Modal.Body>
 				<Modal.Footer>
-					<button type="button" className={"btn btn-primary"}
-						disabled={this.state.isDisabled}
-						onClick={this.handleActiveButton}>Active</button>
+					<div className="pagemodal-footer-wrapper">
+						<FmsSpin></FmsSpin>
+						<button type="button" className={"btn btn-primary"}
+							disabled={this.state.isDisabled}
+							onClick={this.handleActiveButton}>Active</button>
+					</div>
 				</Modal.Footer>
 			</Modal>
 		);
