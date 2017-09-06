@@ -1,5 +1,42 @@
 .user-ava {
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 43px;
+  height: 43px;
+}
+.user-info {
+  margin-top: 4px;
+}
+
+//Navigation
+.navbar {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    letter-spacing: 1px;
+}
+.navbar-nav  li a:hover {
+    color: #A9D3EF !important;
+}
+.navbar-brand:hover {
+    color: #A9D3EF !important;
+    font-family: Courier New, Courier, monospace;
+    font-weight: bold;
+}
+.navbar-brand {
+    font-family: Courier New, Courier, monospace;
+    font-weight: bold;
+    font-size: 20px;
+    color: white !important;
+}
+.login-button {
+  color: white !important;
+}
+.login-button:hover {
+    cursor: pointer;
+}
+.navbar-default {
+  background-color: #3499DB;
+  border: none;
+}
+.white-color {
+  color: white;
 }

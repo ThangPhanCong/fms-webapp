@@ -1,13 +1,11 @@
 .conversation-area {
-    border-right: 1px solid #cecece;
+    margin: 18px 15px;
 }
 .chat-area {
     width: 100%;
-    padding: 8px 0px;
-    padding-bottom: 0px;
-    background-color: #E6E6FA;
-    height: 76vh;
-    max-height: 76vh;
+    background-color: #f1f2f3;
+    height: 69vh;
+    max-height: 69vh;
     overflow: scroll;
 }
 .chat-area::-webkit-scrollbar {

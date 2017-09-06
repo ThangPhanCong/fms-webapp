@@ -1,6 +1,7 @@
 'use strict';
 
 const React = require('react');
+const tickImg = require('tick.png');
 
 let FmsPageItemInModal = React.createClass({
   onPageClick: function() {
@@ -10,7 +11,7 @@ let FmsPageItemInModal = React.createClass({
   },
   renderActiveImg: function() {
     if (this.props.isSelected) {
-      return <img src="/img/tick.png" className="tick"/>
+      return <img src={tickImg} className="tick"/>
     }
   },
   render: function() {

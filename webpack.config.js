@@ -72,6 +72,9 @@ module.exports = {
           limit: '5000',
           name: '[name].[ext]'
         }
+      }, {
+        test: /\.(png|jpg)$/,
+        loader: 'file-loader?name=[name].[ext]'
       }
     ]
   },

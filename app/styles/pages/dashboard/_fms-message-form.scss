@@ -1,19 +1,29 @@
-.input-message-area {
-    border-top: 1px solid #cecece;
-    padding: 7px 10px;
-    width: 100%;
-    height: 13vh;
+.input-wrapper {
+    background-color: white;
+    border-radius: 7px;
+    margin: 0px 8px;
 }
-.btn-group-vertical {
+.input-area {
+    border-radius: 7px;
+    border: none;
+    padding: 15px 20px;
+    width: 80%;
+}
+.input-area:focus {
+    outline: none;
+}
+.attach-button {
+    width: 26px;
+    height: 26px;
     float: right;
-    padding-left: 8px;
+    margin: 12px 5px 0px 0px;
 }
-.message-area {
-    resize: none;
-    border-radius: 5px;
-    padding: 3px 8px;
-    width: 100%;
-}
-.wrap-textarea {
-    overflow: hidden;
+.send-button {
+    width: 32px;
+    height: 32px;
+    background-color: #3499DB;
+    border-radius: 50%;
+    padding: 7px 4px 7px 7px;
+    float: right;
+    margin: 9px 12px 0px 0px;
 }

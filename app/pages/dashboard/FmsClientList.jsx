@@ -2,6 +2,7 @@
 
 const React = require('react');
 
+const searchImg = require('search.png');
 let FmsClientItem = require('FmsClientItem');
 let DashboardAPI = require('DashboardAPI');
 
@@ -19,7 +20,13 @@ let FmsClientList = React.createClass({
 		};
 		return (
 			<div>
-				{renderClients()}
+				<div className="search-client">
+					<img src={searchImg} className="search-icon"/>
+					<input type="text" className="input-search-client"/>
+				</div>
+				<div>
+					{renderClients()}
+				</div>
 			</div>
 		);
 	}

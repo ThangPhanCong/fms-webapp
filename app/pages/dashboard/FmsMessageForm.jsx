@@ -1,4 +1,9 @@
+'use strict';
+
 const React = require('react');
+
+const attachImg = require('attach.png');
+const sendImg = require('send.png');
 
 let FmsMessageForm = React.createClass({
   onFormSubmit: function (e) {
@@ -8,12 +13,10 @@ let FmsMessageForm = React.createClass({
     return (
       <div>
         <form onSubmit={this.onFormSubmit}>
-          <div className="btn-group-vertical">
-            <button className="btn btn-default"><i className="glyphicon glyphicon-send"></i></button>
-            <button className="btn btn-default"><i className="glyphicon glyphicon-picture"></i></button>
-          </div>
-          <div className="wrap-textarea">
-            <textarea className="message-area" ref="message" rows="3" placeholder="Soạn tin nhắn..."/>
+          <div className="input-wrapper">
+            <input className="input-area" ref="message" rows="3" placeholder="Soạn tin nhắn..."/>
+            <img src={sendImg} className="send-button"/>
+            <img src={attachImg} className="attach-button"/>
           </div>
         </form>
       </div>
