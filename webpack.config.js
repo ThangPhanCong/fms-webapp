@@ -78,5 +78,5 @@ module.exports = {
       }
     ]
   },
-  // devtool: 'cheap-module-eval-source-map'
+  devtool: 'cheap-module-eval-source-map'
 };

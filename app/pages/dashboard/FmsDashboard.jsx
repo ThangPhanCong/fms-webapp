@@ -15,30 +15,57 @@ let FmsDashBoard = React.createClass({
 	getInitialState: function () {
 		return {
 			currentConversation: null,
-			conversations: []
+			conversations: [],
+			pageid: null
 		}
 	},
-	handleClientClick: function (fb_id) {
-		for (let conversation of this.state.conversations) {
-			if (conversation.fb_id == fb_id) {
-				this.setState({ currentConversation: conversation });
-				break;
+	updateConversation: function () {
+		let self = this;
+		DashboardAPI.getConversations(this.state.pageid).then(function (res) {
+			let convers = [];
+			for (let inbox of res.inboxes) {
+				inbox.type = "inbox";
 			}
+			for (let comment of res.comments) {
+				comment.type = "comment";
+			}
+			convers = convers.concat(res.inboxes).concat(res.comments);
+			convers = convers.sort(function (a, b) { return a.updated_time < b.updated_time });
+			self.setState({ conversations: convers });
+		}, function (err) {
+			throw new Error(err);
+		})
+	},
+	handleClientClick: function (fb_id, type) {
+		let self = this;
+		if (type == "inbox") {
+			DashboardAPI.getMessageInbox(fb_id).then(function (data) {
+				self.setState({ currentConversation: data });
+			}, function (err) {
+				throw new Error(err);
+			})
+		} else if (type == "comment") {
+			DashboardAPI.getReplyComment(fb_id).then(function (data) {
+				self.setState({ currentConversation: data });
+			}, function (err) {
+				throw new Error(err);
+			})
 		}
 	},
 	componentWillMount: function () {
-		this.setState({
-			conversations: DashboardAPI.getConversations()
-		});
-		let that = this;
+		let self = this;
 		PagesAPI.getPages().then(function (pages) {
 			if (!pages.active) browserHistory.replace('/');
 			else {
 				let linkIsOK = false;
 				pages.active.map(function (page) {
 					let nameInListPages = page.fb_id;
-					let nameInUrl = that.props.location.pathname.slice(1);
-					if (nameInUrl == nameInListPages) linkIsOK = true;
+					let nameInUrl = self.props.location.pathname.slice(1);
+					if (nameInUrl == nameInListPages) {
+						linkIsOK = true;
+						self.setState({ pageid: page.fb_id });
+						self.updateConversation();
+					}
 				});
 				if (!linkIsOK) browserHistory.replace('/');
 			}
@@ -46,15 +73,15 @@ let FmsDashBoard = React.createClass({
 			console.log(err);
 		});
 	},
-  componentDidMount: function() {
-    socket.subscribePage('132413412341234');
+	componentDidMount: function () {
+		socket.subscribePage('132413412341234');
 		//window.addEventListener("resize", this.resizeComponents);
-  },
+	},
 	render: function () {
 		let self = this;
 		function renderConversation() {
 			if (self.state.currentConversation) {
-				return <FmsConversationArea currentConversation={self.state.currentConversation} />
+				return <FmsConversationArea currentConversation={self.state.currentConversation} pageid={self.state.pageid}/>
 			} else {
 				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
 			}
@@ -62,12 +89,12 @@ let FmsDashBoard = React.createClass({
 		return (
 			<div className="dashboard page">
 				<div className="vertical-nav">
-					<FmsVerticalNav/>
+					<FmsVerticalNav />
 				</div>
 				<div className="row working-area">
 					<div className="col-xs-4 col-md-3">
 						<div className="client-list">
-							<FmsClientList handleClientClick={this.handleClientClick} conversations={this.state.conversations}/>
+							<FmsClientList handleClientClick={this.handleClientClick} conversations={this.state.conversations} />
 						</div>
 					</div>
 					<div className="col-xs-8 col-md-6">
@@ -77,7 +104,7 @@ let FmsDashBoard = React.createClass({
 					</div>
 					<div className="col-md-3">
 						<div className="client-information-area">
-							<FmsClientInformation/>
+							<FmsClientInformation />
 						</div>
 					</div>
 				</div>

@@ -5,6 +5,12 @@
     height: 84.8vh;
     max-height: 84.8vh;
     min-width: 75px;
+    overflow-y: scroll;
+}
+.client-list::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    background: transparent; /* make scrollbar transparent */
 }
 
 .search-icon {

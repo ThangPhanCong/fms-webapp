@@ -1,47 +1,42 @@
 'use strict';
 
 const React = require('react');
-const {browserHistory} = require('react-router');
+const { browserHistory } = require('react-router');
 
 let FmsActivePageModal = require('FmsActivePageModal');
 let FmsPageItem = require('FmsPageItem');
 let PagesAPI = require('PagesAPI');
 
 let FmsPageList = React.createClass({
-  getInitialState: function() {
-    return {active: [], inactive: []}
+  getInitialState: function () {
+    return { active: [], inactive: [] }
   },
-  updatePages: function(pages) {
+  updatePages: function (pages) {
     let self = this;
-
-    if (pages) {
-      self.setState({active: pages.active, inactive: pages.inactive});
-    } else {
-      PagesAPI.getPages().then(function(_pages) {
-        self.setState({active: _pages.active, inactive: _pages.inactive});
-      }, function(err) {
-        throw new Error(err);
-      })
-    }
+    PagesAPI.getPages().then(function (_pages) {
+      self.setState({ active: _pages.active, inactive: _pages.inactive });
+    }, function (err) {
+      throw new Error(err);
+    })
   },
-  handleClickOnPage: function(data) {
+  handleClickOnPage: function (data) {
     let id = data.fb_id;
     browserHistory.push('/' + id);
   },
   renderPages() {
     let that = this;
     let pages = this.state.active;
-    return pages.map(function(page) {
+    return pages.map(function (page) {
       return <FmsPageItem data={page} key={page.fb_id} onPageClick={that.handleClickOnPage}></FmsPageItem>
     });
   },
-  componentDidMount: function() {
+  componentDidMount: function () {
     this.updatePages();
   },
-  openModal: function() {
+  openModal: function () {
     this._child.open();
   },
-  render: function() {
+  render: function () {
     return (
       <div className="dashboard-border">
         <div className="div-list-page">
@@ -54,7 +49,7 @@ let FmsPageList = React.createClass({
 
         <FmsActivePageModal ref={(child) => {
           this._child = child;
-        }} inactive={this.state.inactive} updatePages={this.updatePages}/>
+        }} inactive={this.state.inactive} updatePages={this.updatePages} />
       </div>
     );
   }
