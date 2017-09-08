@@ -21,14 +21,12 @@ exports.get = (route) => {
 };
 
 // todo: use promise instead of callback
-exports.post = (route, callback, payload) => {
+exports.post = (route, payload) => {
   let cookie = new Cookie();
   let jwt = cookie.get('jwt');
   let url = `${BASE_URL}${route}?access_token=${jwt}`;
 
-  return axios.post(url, payload).then((res) => {
-    if (callback) callback();
-  }, (err) => {
+  return axios.post(url, payload).then((res) => {}, (err) => {
     alert(err);
   });
 };

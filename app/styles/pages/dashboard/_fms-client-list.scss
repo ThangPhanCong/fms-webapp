@@ -21,7 +21,7 @@
 }
 .search-client {
     height: 7.8vh;
-    margin: 8px 12px;
+    margin: 0px 12px;
     border-bottom: 1px solid #dedede;
 }
 .input-search-client {
@@ -42,7 +42,6 @@
     height: 64px;
     position: relative;
     padding-left: 12px;
-    border-radius: 7px;
     background-color: white;
     display: flex;
     min-width: 75px;
@@ -77,4 +76,7 @@
     padding-right: 8px;
     flex-direction: column;
     overflow: hidden;
+}
+.selectedItem {
+    background-color: #e4e6e8;
 }

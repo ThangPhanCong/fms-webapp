@@ -7,8 +7,8 @@ module.exports = {
 		let route = `/api/pages`;
 		return APISender.get(route);
 	},
-	activePage: function (pageid, updateComponent) {
+	activePage: function (pageid) {
 		let route = `/api/pages/${pageid}/active`;
-		return APISender.post(route, updateComponent);
+		return APISender.post(route);
 	}
 };

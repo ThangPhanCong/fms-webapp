@@ -8,6 +8,7 @@ let FmsClientItem = React.createClass({
 	},
 	render: function () {
 		let clientid, clientName, message = this.props.data.message;
+		let isSelected = (this.props.isSelected) ? " selectedItem" : "";
 		if (this.props.data.type == "inbox") {
 			clientid = this.props.data.customer.id;
 			clientName = this.props.data.customer.name;
@@ -17,7 +18,7 @@ let FmsClientItem = React.createClass({
 		}
 		let avaUrl = `https://graph.facebook.com/v2.10/${clientid}/picture`;
 		return (
-			<div className="client-item" onClick={this.handleClientClick}>
+			<div className={"client-item" + isSelected} onClick={this.handleClientClick}>
 				<img src={avaUrl} className="client-profile" />
 				<div className="name-and-message">
 					<div className="client-name">{clientName}</div>

@@ -39,7 +39,7 @@ let FmsConversationArea = React.createClass({
 					{renderConversation()}
 				</div>
 				<div className="input-message-area">
-					<FmsMessageForm/>
+					<FmsMessageForm sendMessage={this.props.sendMessage}/>
 				</div>
 			</div>
 		);

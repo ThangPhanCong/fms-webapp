@@ -52,6 +52,10 @@ let FmsDashBoard = React.createClass({
 			})
 		}
 	},
+	sendMessage: function (msg) {
+		//check malicious injection
+		alert(msg);
+	},
 	componentWillMount: function () {
 		let self = this;
 		PagesAPI.getPages().then(function (pages) {
@@ -81,7 +85,7 @@ let FmsDashBoard = React.createClass({
 		let self = this;
 		function renderConversation() {
 			if (self.state.currentConversation) {
-				return <FmsConversationArea currentConversation={self.state.currentConversation} pageid={self.state.pageid}/>
+				return <FmsConversationArea currentConversation={self.state.currentConversation} pageid={self.state.pageid} sendMessage={self.sendMessage}/>
 			} else {
 				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
 			}
