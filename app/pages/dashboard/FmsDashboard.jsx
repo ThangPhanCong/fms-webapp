@@ -1,9 +1,7 @@
 'use strict';
 
 const React = require('react');
-const ReactDOM = require('react-dom');
 const { browserHistory } = require('react-router');
-const $ = require('jquery');
 
 let DashboardAPI = require('DashboardAPI');
 let FmsConversationArea = require('FmsConversationArea');
@@ -17,8 +15,7 @@ let FmsDashBoard = React.createClass({
 	getInitialState: function () {
 		return {
 			currentConversation: null,
-			conversations: [],
-			resized: false
+			conversations: []
 		}
 	},
 	handleClientClick: function (fb_id) {
@@ -49,13 +46,9 @@ let FmsDashBoard = React.createClass({
 			console.log(err);
 		});
 	},
-	resizeComponents: function () {
-		if ($(window).width() < 1000 && !this.state.resized) this.setState({ resized: true });
-		else if ($(window).width() >= 1000 && this.state.resized) this.setState({ resized: false });
-	},
   componentDidMount: function() {
     socket.subscribePage('132413412341234');
-		window.addEventListener("resize", this.resizeComponents);
+		//window.addEventListener("resize", this.resizeComponents);
   },
 	render: function () {
 		let self = this;
@@ -66,34 +59,23 @@ let FmsDashBoard = React.createClass({
 				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
 			}
 		};
-		let clientListClass, conversationClass, clientInfoClass, resizedWidth = "";
-		if (this.state.resized == true) {
-			clientListClass = "col-xs-2";
-			conversationClass = "col-xs-6 negative-margin";
-			clientInfoClass = "col-xs-4";
-			resizedWidth = " resized-width"
-		} else {
-			clientListClass = "col-md-3";
-			conversationClass = "col-md-6";
-			clientInfoClass = "col-md-3";
-		}
 		return (
 			<div className="dashboard page">
 				<div className="vertical-nav">
 					<FmsVerticalNav/>
 				</div>
 				<div className="row working-area">
-					<div className={clientListClass}>
-						<div className={"client-list" + resizedWidth}>
+					<div className="col-xs-4 col-md-3">
+						<div className="client-list">
 							<FmsClientList handleClientClick={this.handleClientClick} conversations={this.state.conversations}/>
 						</div>
 					</div>
-					<div className={conversationClass}>
+					<div className="col-xs-8 col-md-6">
 						<div className="conversation-area">
 							{renderConversation()}
 						</div>
 					</div>
-					<div className={clientInfoClass} ref="clientInfo">
+					<div className="col-md-3">
 						<div className="client-information-area">
 							<FmsClientInformation/>
 						</div>
