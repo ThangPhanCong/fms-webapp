@@ -10,9 +10,9 @@ let FmsClientItem = React.createClass({
 		let clientid, clientName, message;
 		let isSelected = (this.props.isSelected) ? " selectedItem" : "";
 		if (this.props.data.type == "inbox") {
-			clientid = this.props.data.customer.id;
-			clientName = this.props.data.customer.name;
-			message = this.props.data.snippet;
+			clientid = this.props.data.snippet.from.id;
+			clientName = this.props.data.snippet.from.name;
+			message = this.props.data.snippet.message;
 		} else if (this.props.data.type == "comment") {
 			clientid = this.props.data.from.id;
 			clientName = this.props.data.from.name;
