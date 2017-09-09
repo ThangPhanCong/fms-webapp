@@ -1,10 +1,12 @@
 .client-list {
-    margin: 18px 0px 18px 24px;
     background-color: white;
-    border-radius: 5px;
-    height: 84.8vh;
+    border-radius: 0px;
+    width: 75px;
+    height: 100%;
+    margin: 0px 0px 0px 0px;
     overflow-y: scroll;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
+    box-shadow: 0;
+    border-left: 1px solid #dedede;
 }
 .client-list::-webkit-scrollbar {
     display: none;
@@ -14,7 +16,7 @@
     padding: 12px 0;
     margin: 0 12px;
     border-bottom: 1px solid #dedede;
-    display: flex;
+    display: none;
 }
 .search-icon {
     width: 16px;
@@ -40,10 +42,15 @@
     display: flex;
     min-width: 75px;
 }
+.client-profile-wrapper {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
 .client-profile {
     border-radius: 50%;
     width: 50px;
-    margin-right: 10px;
+    height: 50px;
 }
 .name-and-message {
     display: flex;
@@ -66,4 +73,17 @@
 }
 .selectedItem {
     background-color: #d4d6d8;
+}
+@media only screen and (min-width: 1000px) {
+    .client-list {
+        min-width: 20%;
+        max-width: 22%;
+        margin: 18px 0px 18px 24px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
+        height: 84.8vh;
+    }
+    .search-client {
+        display: flex;
+    }
 }

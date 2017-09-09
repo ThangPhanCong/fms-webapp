@@ -21,7 +21,9 @@ let FmsClientItem = React.createClass({
 		let avaUrl = `https://graph.facebook.com/v2.10/${clientid}/picture`;
 		return (
 			<div className={"client-item" + isSelected} onClick={this.handleClientClick}>
-				<img src={avaUrl} className="client-profile" />
+				<div className="client-profile-wrapper">
+					<img src={avaUrl} className="client-profile" />
+				</div>
 				<div className="name-and-message">
 					<div className="client-name">{clientName}</div>
 					<div className="lastest-message">{message}</div>
