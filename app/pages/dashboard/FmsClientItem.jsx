@@ -10,14 +10,16 @@ let FmsClientItem = React.createClass({
 		let clientid, clientName, message;
 		let isSelected = (this.props.isSelected) ? " selectedItem" : "";
 		if (this.props.data.type == "inbox") {
-			clientid = this.props.data.snippet.from.id;
-			clientName = this.props.data.snippet.from.name;
-			message = this.props.data.snippet.message;
+			clientid = this.props.data.customer.id;
+			clientName = this.props.data.customer.name;
+			message = this.props.data.snippet;
 		} else if (this.props.data.type == "comment") {
 			clientid = this.props.data.from.id;
 			clientName = this.props.data.from.name;
 			message = this.props.data.message
 		}
+		// TODO: use query param to set image size
+		// eg: https://graph.facebook.com/v2.10/${clientid}/picture?width=50&height=50
 		let avaUrl = `https://graph.facebook.com/v2.10/${clientid}/picture`;
 		return (
 			<div className={"client-item" + isSelected} onClick={this.handleClientClick}>

@@ -2,7 +2,9 @@
 
 const Cookie = require('universal-cookie');
 const axios = require('axios');
-const BASE_URL = 'http://localhost:3001';
+const config = require('config');
+
+const BASE_URL = config.BASE_URL;
 
 exports.get = (route) => {
   let cookie = new Cookie();
@@ -20,15 +22,20 @@ exports.get = (route) => {
       );
 };
 
-// todo: use promise instead of callback
 exports.post = (route, payload) => {
   let cookie = new Cookie();
   let jwt = cookie.get('jwt');
   let url = `${BASE_URL}${route}?access_token=${jwt}`;
 
-  return axios.post(url, payload).then((res) => {}, (err) => {
-    alert(err);
-  });
+  return axios.post(url, payload)
+    .then(
+      res => {
+        return Promise.resolve(res.data.data);
+      },
+      err => {
+        alert(err);
+      }
+    );
 };
 
 exports.getWithoutAuth = (route) => {
