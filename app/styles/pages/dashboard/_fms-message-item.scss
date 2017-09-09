@@ -22,11 +22,11 @@
 }
 .left-message-wrapper {
     float: left;
-    margin-right: 56px;
+    margin-right: 57px;
 }
 .right-message-wrapper {
     float: right;
-    margin-left: 56px;
+    margin-left: 57px;
 }
 .left-profile-wrapper {
     float: left;
@@ -34,11 +34,11 @@
 }
 .right-profile-wrapper {
     float: right;
-    order: 2;
+    order: 3;
 }
 .left-message-content {
     float: left;
-    order: 2;
+    order: 3;
     background-color: white;
 }
 .right-message-content {
@@ -49,4 +49,18 @@
 }
 .last-message {
     margin-bottom: 32px;
+}
+.right-arrow-message {
+    width: 12px;
+    height: 12px;
+    margin-left: -3px;
+    margin-top: 15px;
+    order: 2;
+}
+.left-arrow-message {
+    width: 12px;
+    height: 12px;
+    margin-right: -3px;
+    margin-top: 15px;
+    order: 2;
 }
