@@ -1,11 +1,12 @@
 .dashboard {
-    min-width: 780px;
+    min-width: 400px;
     overflow-x: auto;
     overflow-y: hidden;
     background-color: #f1f2f3;
+    height: 100vh;
 }
 .working-area {
-    margin: 0;
+    margin: 0px;
     margin-left: 54px;
     .col-xs-4, .col-xs-8, .col-md-3, .col-md-6{
         padding: 0;

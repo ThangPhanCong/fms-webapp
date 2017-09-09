@@ -1,36 +1,32 @@
 .client-list {
     margin: 18px 0px 18px 24px;
     background-color: white;
-    border-radius: 7px;
+    border-radius: 5px;
     height: 84.8vh;
-    max-height: 84.8vh;
-    min-width: 75px;
     overflow-y: scroll;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
 }
 .client-list::-webkit-scrollbar {
-    width: 0px;
-    height: 0px;
-    background: transparent; /* make scrollbar transparent */
+    display: none;
 }
 
+.search-client {
+    padding: 12px 0;
+    margin: 0 12px;
+    border-bottom: 1px solid #dedede;
+    display: flex;
+}
 .search-icon {
     width: 16px;
-    margin-top: 17px;
-    margin-left: 8px;
+    height: 16px;
     float: left;
-}
-.search-client {
-    height: 7.8vh;
-    margin: 0px 12px;
-    border-bottom: 1px solid #dedede;
+    margin: 4px 8px 0 0;
 }
 .input-search-client {
-    padding: 3px 8px;
-    margin-top: 12px;
     border: none;
-    margin-left: 3px;
     font-size: 16px;
-    width: 136px;
+    overflow: hidden;
+    flex: 2;
 }
 .input-search-client:focus {
     outline: none;
@@ -39,9 +35,7 @@
 //client item
 .client-item {
     cursor: pointer;
-    height: 64px;
-    position: relative;
-    padding-left: 12px;
+    padding: 10px 12px;
     background-color: white;
     display: flex;
     min-width: 75px;
@@ -49,34 +43,27 @@
 .client-profile {
     border-radius: 50%;
     width: 50px;
-    padding-top: 7px;
-    padding-bottom: 7px;
     margin-right: 10px;
-    align-items: center;
-}
-.client-name {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    vertical-align: middle;
-    font-size: 15px;
-    color: #1abc9c;
-}
-.lastest-message {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 .name-and-message {
     display: flex;
     justify-content: center;
-    min-width: 0;
-    padding-right: 8px;
     flex-direction: column;
     overflow: hidden;
 }
+.client-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
+}
+.lastest-message {
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #888888;
+}
 .selectedItem {
-    background-color: #e4e6e8;
+    background-color: #d4d6d8;
 }

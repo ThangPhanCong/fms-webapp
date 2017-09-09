@@ -30,7 +30,7 @@ let FmsDashBoard = React.createClass({
 				comment.type = "comment";
 			}
 			convers = convers.concat(res.inboxes).concat(res.comments);
-			convers = convers.sort(function (a, b) { return a.updated_time < b.updated_time });
+			convers = convers.sort(function (a, b) { return a.updated_time > b.updated_time });
 			self.setState({ conversations: convers });
 		}, function (err) {
 			throw new Error(err);
@@ -40,13 +40,15 @@ let FmsDashBoard = React.createClass({
 		let self = this;
 		if (type == "inbox") {
 			DashboardAPI.getMessageInbox(fb_id).then(function (data) {
-				self.setState({ currentConversation: data });
+				self.setState({ currentConversation: data.reverse() });
 			}, function (err) {
 				throw new Error(err);
 			})
 		} else if (type == "comment") {
 			DashboardAPI.getReplyComment(fb_id).then(function (data) {
-				self.setState({ currentConversation: data });
+				let newData = [];
+				newData = newData.concat(data.parent).concat(data.childrent);
+				self.setState({ currentConversation: newData });
 			}, function (err) {
 				throw new Error(err);
 			})

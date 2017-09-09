@@ -1,42 +1,51 @@
 .message-item {
     display: inline-block;
     width: 100%;
+    margin-top: 12px;
+}
+.message-wrapper {
+    display: flex;
+}
+.profile-wrapper {
+    width: 32px;
+    height: 32px;
+    margin: 6px 8px;
 }
 .profile-message {
     width: 100%;
     border-radius: 50%;
 }
 .message-content {
-    display: inline-block;
-    border-radius: 15px;
-    padding: 10px;
-    box-sizing: border-box;
-    max-width: 85%;
+    border-radius: 5px;
+    padding: 12px 18px;
+    flex: 1;
 }
-.div-in-message {
-    max-width: 85%;
-    box-sizing: border-box;
-}
-.div-wrap-profile {
-    width: 40px;
-    height: 40px;
-    margin: 0px 8px;
-    display: inline-block;
-}
-.margintop-for-message {
-    margin-top: 12px;
-}
-.float-left {
+.left-message-wrapper {
     float: left;
+    margin-right: 56px;
 }
-.float-right {
+.right-message-wrapper {
     float: right;
+    margin-left: 56px;
 }
-.background-left-message {
+.left-profile-wrapper {
+    float: left;
+    order: 1;
+}
+.right-profile-wrapper {
+    float: right;
+    order: 2;
+}
+.left-message-content {
+    float: left;
+    order: 2;
     background-color: white;
 }
-.background-right-message {
-    background-color: #A0DB8E;
+.right-message-content {
+    float: right;
+    order: 1;
+    background-color: #3598DB;
+    color: white;
 }
 .last-message {
     margin-bottom: 32px;
