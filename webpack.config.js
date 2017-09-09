@@ -29,7 +29,7 @@ module.exports = {
     alias: {
       bootstrapJs: 'bootstrap/dist/js/bootstrap.min.js'
     },
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.json', '.js', '.jsx']
   },
   plugins: [
     new webpack.ProvidePlugin({
@@ -75,6 +75,9 @@ module.exports = {
       }, {
         test: /\.(png|jpg)$/,
         loader: 'file-loader?name=[name].[ext]'
+      }, {
+        test: /\.json$/,
+        loader: 'json-loader'
       }
     ]
   },

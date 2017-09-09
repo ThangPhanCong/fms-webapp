@@ -1,5 +1,5 @@
 'use strict';
-// todo: refactor
+
 const React = require('react');
 const Cookie = require('universal-cookie');
 const { browserHistory } = require('react-router');
