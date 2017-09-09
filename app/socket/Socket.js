@@ -6,7 +6,7 @@ let socket = null;
 
 let subscribePage = (page_fb_id) => {
   if (socket) {
-    socket.emit(constant.SUBSCRIBE_PAGE_EVENT, page_fb_id);
+    socket.emit(constant.SUBSCRIBE_PAGE_CHANGES_EVENT, page_fb_id);
   } else {
     retry(subscribePage, page_fb_id);
   }
@@ -42,12 +42,12 @@ let retry = (func, params) => {
   setTimeout(func, 1000, params);
 }
 
-let connect = (jwt) => {
+let connect = (serverUrl, jwt) => {
   if (socket) {
     return;
   }
   let query = {access_token: jwt};
-	let _socket = io.connect('localhost:3001', {query});
+	let _socket = io.connect(serverUrl, {query});
 
   _socket.on('connect', () => {
     socket = _socket;

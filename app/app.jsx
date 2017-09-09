@@ -12,6 +12,7 @@ let FmsHome = require('FmsHome');
 let FmsDashboard = require('FmsDashboard');
 let FmsPosts = require('FmsPosts');
 
+let config = require('config');
 let socket = require('Socket');
 
 // Load Bootstrap js
@@ -22,7 +23,7 @@ function requireLogin(nextState, replace) {
 	let jwt = cookie.get('jwt');
 
 	if (jwt) {
-		socket.connect(jwt);
+		socket.connect(config.BASE_URL, jwt);
 	} else {
 		replace({
 			pathname: '/'
