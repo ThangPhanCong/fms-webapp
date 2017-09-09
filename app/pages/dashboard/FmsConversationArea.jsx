@@ -31,7 +31,7 @@ let FmsConversationArea = React.createClass({
 			});
 		};
 		return (
-			<div>
+			<div className="inner-conversation-area">
 				<div className="info-chat">
 					<FmsInfoChat clientName={this.props.currentConversation[0].from.name}/>
 				</div>

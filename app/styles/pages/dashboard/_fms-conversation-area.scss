@@ -1,12 +1,16 @@
 .conversation-area {
     margin: 18px 3px;
     flex: 1;
+    height: calc(100% - 18*2px)
+}
+.inner-conversation-area {
+    height: 100%;
 }
 .chat-area {
     width: 100%;
     background-color: #f1f2f3;
-    height: 69vh;
-    max-height: 69vh;
+    min-height: calc(100% - 101px);
+    max-height: calc(100% - 101px);
     overflow: scroll;
 }
 .chat-area::-webkit-scrollbar {
