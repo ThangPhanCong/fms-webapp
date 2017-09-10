@@ -1,5 +1,5 @@
 .information-tab {
-    padding: 0px 12px;
+    padding: 16px 12px;
 }
 .note-icon {
     margin: auto;
@@ -16,6 +16,30 @@
 }
 .note-form:focus {
     outline: none;
+}
+.create-form-tab {
+  padding: 8px 12px;
+}
+.form-in-tab {
+  border: 1px solid #cecece;
+  border-radius: 3px;
+  margin: 10px 0;
+  display: flex;
+}
+.icon-in-tabform {
+  padding: 4px 8px;
+  color: #bcbcbc;
+  float: left;
+}
+.input-in-tab {
+  min-width: 100px;
+  border: none;
+  padding: 2px 5px;
+  vertical-align: top;
+  flex: 1;
+}
+.input-in-tab:focus {
+  outline: none;
 }
 @media only screen and (min-width: 100px) and (max-width: 999px){
     .client-information-area {
