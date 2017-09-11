@@ -4,7 +4,7 @@ const io = require('socket.io-client');
 const constant = require('constant');
 let socket = null;
 
-let subscribePage = (page_fb_id) => {
+let subscribePageChanges = (page_fb_id) => {
   if (socket) {
     socket.emit(constant.SUBSCRIBE_PAGE_CHANGES_EVENT, page_fb_id);
   } else {

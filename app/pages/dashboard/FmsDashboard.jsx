@@ -18,7 +18,6 @@ let FmsDashBoard = React.createClass({
 			conversations: [],
 			// TODO: check in child component
 			selectedConversation: null,
-			// rename page_id
 			pageid: null
 		}
 	},
@@ -81,6 +80,7 @@ let FmsDashBoard = React.createClass({
 	},
 	componentWillMount: function () {
 		let self = this;
+		
 		PagesAPI.getPages().then(function (pages) {
 			if (!pages.active) browserHistory.replace('/');
 			else {
@@ -101,8 +101,7 @@ let FmsDashBoard = React.createClass({
 		});
 	},
 	componentDidMount: function () {
-		socket.subscribePage('132413412341234');
-		//window.addEventListener("resize", this.resizeComponents);
+		socket.subscribePageChanges(this.state.pageid);
 	},
 	render: function () {
 		let self = this;
