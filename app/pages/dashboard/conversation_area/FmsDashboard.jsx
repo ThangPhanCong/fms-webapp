@@ -74,27 +74,36 @@ let FmsDashBoard = React.createClass({
 	componentWillMount: function () {
 		let self = this;
 
-		PagesAPI.getPages().then(function (pages) {
-			if (!pages.active) browserHistory.replace('/');
-			else {
-				let linkIsOK = false;
-				pages.active.map(function (page) {
-					let nameInListPages = page.fb_id;
-					let nameInUrl = self.props.location.pathname.slice(1);
-					if (nameInUrl == nameInListPages) {
-						linkIsOK = true;
-						self.setState({ pageid: page.fb_id });
-						self.updateConversation();
-					}
-				});
-				if (!linkIsOK) browserHistory.replace('/');
-			}
-		}, function (err) {
-			console.log(err);
-		});
-	},
-	componentDidMount: function () {
-		socket.subscribePageChanges(this.state.pageid);
+		let subscribePageChanges = (page_fb_id) => {
+
+				let onUpdateChanges = (data) => {
+		      console.log('onUpdateChanges data', data);
+		    };
+
+				socket.subscribePageChanges({page_fb_id, onUpdateChanges});
+		};
+
+		PagesAPI.getPages()
+			.then(function (pages) {
+				if (!pages.active) browserHistory.replace('/');
+
+				else {
+					let linkIsOK = false;
+
+					pages.active.map(function (page) {
+						let nameInListPages = page.fb_id;
+						let nameInUrl = self.props.location.pathname.slice(1);
+						if (nameInUrl == nameInListPages) {
+							linkIsOK = true;
+							self.setState({ pageid: page.fb_id });
+							self.updateConversation();
+							subscribePageChanges(page.fb_id);
+						}
+					});
+					if (!linkIsOK) browserHistory.replace('/');
+				}
+			})
+			.catch(err => console.log(err));
 	},
 	render: function () {
 		let self = this;
@@ -113,8 +122,8 @@ let FmsDashBoard = React.createClass({
 					<FmsVerticalNav />
 				</div>
 				<div className="client-list">
-					<FmsClientList handleClientClick={this.handleClientClick}
-						conversations={this.state.conversations} currentConversation={this.state.selectedConversation}/>
+					<FmsClientList handleClientClick={this.handleClientClick} conversations={this.state.conversations}
+												currentConversation={this.state.selectedConversation}/>
 				</div>
 				<div className="conversation-area">
 					{renderConversation()}
