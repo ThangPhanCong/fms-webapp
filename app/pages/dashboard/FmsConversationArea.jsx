@@ -20,7 +20,7 @@ let FmsConversationArea = React.createClass({
 		let self = this;
 
 		let renderConversation = function () {
-			console.log('renderConversation', self.props.currentConversation);
+			// console.log('renderConversation', self.props.currentConversation);
 
 			if (self.props.currentConversation && Array.isArray(self.props.currentConversation.children)) {
 				let lastItem = self.props.currentConversation.children[self.props.currentConversation.children.length - 1];

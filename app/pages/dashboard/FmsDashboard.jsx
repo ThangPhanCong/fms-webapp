@@ -21,6 +21,17 @@ let FmsDashBoard = React.createClass({
 			pageid: null
 		}
 	},
+	parseConversationItem: function (item) {
+		switch (item.type) {
+			case "inbox":
+
+				return item;
+			case "comment":
+				item.customer = item.from;
+				item.snippet = item.message;
+				return item;
+		}
+	},
 	updateConversation: function () {
 		let self = this;
 
@@ -29,12 +40,16 @@ let FmsDashBoard = React.createClass({
 
 			for (let inbox of res.inboxes) {
 				inbox.type = "inbox";
+				inbox = self.parseConversationItem(inbox);
 			}
+
 			for (let comment of res.comments) {
 				comment.type = "comment";
-				comment.customer = comment.from;
-				comment.snippet = comment.message;
+				// comment.customer = comment.from;
+				// comment.snippet = comment.message;
+				comment = self.parseConversationItem(comment);
 			}
+
 			_convers = _convers.concat(res.inboxes)
 									.concat(res.comments)
 									.sort((a, b) => { return a.updated_time > b.updated_time });
@@ -45,8 +60,6 @@ let FmsDashBoard = React.createClass({
 		})
 	},
 	handleClientClick: function (fb_id, type) {
-		console.log('fb_id', fb_id);
-		console.log('type', type);
 		let self = this;
 
 		let _conversations = this.state.conversations;
@@ -57,7 +70,7 @@ let FmsDashBoard = React.createClass({
 		this.setState({selectedConversation: _selectedConversation});
 
 		let updateChildren = (msgs) => {
-			console.log('updateChildren msgs', msgs);
+			// console.log('updateChildren msgs', msgs);
 			let _selectedConversation = this.state.selectedConversation;
 			_selectedConversation.children = msgs;
 
@@ -83,11 +96,23 @@ let FmsDashBoard = React.createClass({
 
 		let subscribePageChanges = (page_fb_id) => {
 
-				let onUpdateChanges = (data) => {
-		      console.log('onUpdateChanges data', data);
-		    };
+				let onUpdateChanges = (msg) => {
+		      console.log('onUpdateChanges msg', msg);
+					// parent : inbox | comment
+					let _conversations = self.state.conversations;
+					let updatedConversations = _conversations.filter((c) => {return c.fb_id == msg.parent.fb_id})
+					let parent = null;
 
-				console.log('page_fb_id', page_fb_id);
+					if (updatedConversations.length == 0) {
+						parent = self.parseConversationItem(msg.parent);
+						_conversations.unshift(parent);
+					} else {
+						parent = updatedConversations[0];
+						parent.children.push(msg);
+					}
+
+					self.setState({conversations: _conversations});
+		    };
 
 				socket.subscribePageChanges({page_fb_id, onUpdateChanges});
 		};
@@ -114,17 +139,6 @@ let FmsDashBoard = React.createClass({
 			})
 			.catch(err => console.log(err));
 	},
-	// componentDidMount: function () {
-	//
-	// 	let onUpdateChanges = (data) => {
-  //     console.log('onUpdateChanges data', data);
-  //   };
-	//
-	// 	let page_fb_id = this.props.location.pathname.slice(1);
-	// 	console.log('page_fb_id', page_fb_id);
-	// 	console.log('this.props.location', this.props.location);
-	// 	socket.subscribePageChanges(page_fb_id, onUpdateChanges);
-	// },
 	render: function () {
 		let self = this;
 
