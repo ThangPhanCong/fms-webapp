@@ -8,7 +8,7 @@ let subscribePageChanges = (page_fb_id) => {
   if (socket) {
     socket.emit(constant.SUBSCRIBE_PAGE_CHANGES_EVENT, page_fb_id);
   } else {
-    retry(subscribePage, page_fb_id);
+    retry(subscribePageChanges, page_fb_id);
   }
 };
 
@@ -72,5 +72,5 @@ let disconnect = () => {
 
 exports.connect = connect;
 exports.disconnect = disconnect;
-exports.subscribePage = subscribePage;
+exports.subscribePageChanges = subscribePageChanges;
 exports.activePage = activePage;
