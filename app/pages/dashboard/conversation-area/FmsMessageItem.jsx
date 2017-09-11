@@ -20,7 +20,7 @@ let self = this;
 		let arrow = (isSelf) ? " right-arrow-message" : " left-arrow-message";
 		let isLast = (this.props.isLast) ? " last-message" : "";
 		function renderAttachment() {
-				//return <FmsAttachmentContent attachSrc={self.props.message.attach} isSelf={isSelf}/>
+				return <FmsAttachmentContent attachSrc={self.props.message.attach} isSelf={isSelf}/>
 		}
 		return (
 			<div className={"message-item" + isLast}>
