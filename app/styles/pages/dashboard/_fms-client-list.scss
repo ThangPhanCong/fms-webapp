@@ -41,6 +41,11 @@
     background-color: white;
     display: flex;
     min-width: 75px;
+
+    .seen {
+      font-weight: 600;
+      color: black;
+    }
 }
 .client-profile-wrapper {
     width: 50px;
@@ -74,6 +79,7 @@
 .selectedItem {
     background-color: #e1e3e5;
 }
+
 @media only screen and (min-width: 1000px) {
     .client-list {
         min-width: 20%;

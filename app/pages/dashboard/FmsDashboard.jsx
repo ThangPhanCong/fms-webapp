@@ -20,6 +20,9 @@ let FmsDashBoard = React.createClass({
 		}
 	},
 	parseConversationItem: function (item) {
+		// TODO: delete test
+		item.seen = false;
+
 		switch (item.type) {
 			case "inbox":
 
@@ -43,8 +46,6 @@ let FmsDashBoard = React.createClass({
 
 			for (let comment of res.comments) {
 				comment.type = "comment";
-				// comment.customer = comment.from;
-				// comment.snippet = comment.message;
 				comment = self.parseConversationItem(comment);
 			}
 
@@ -64,6 +65,7 @@ let FmsDashBoard = React.createClass({
 		let _selectedConversation = _conversations.filter((currConversation) => {return currConversation.fb_id == fb_id})[0];
 
 		console.log('selectedConversation', _selectedConversation);
+		_selectedConversation.seen = true;
 
 		this.setState({selectedConversation: _selectedConversation});
 
@@ -94,6 +96,7 @@ let FmsDashBoard = React.createClass({
 		let subscribePageChanges = (page_fb_id) => {
 
 				let onUpdateChanges = (msg) => {
+					if (!msg) return;
 		      console.log('onUpdateChanges msg', msg);
 					// parent : inbox | comment
 					let _conversations = self.state.conversations;
@@ -105,7 +108,16 @@ let FmsDashBoard = React.createClass({
 						_conversations.unshift(parent);
 					} else {
 						parent = updatedConversations[0];
-						parent.children.push(msg);
+						parent.snippet = msg.message;
+
+						let _selectedConversation = self.state.selectedConversation;
+						if (parent.fb_id != _selectedConversation.fb_id) {
+							parent.seen = false;
+						}
+
+						if (Array.isArray(parent.children)) {
+							parent.children.push(msg);
+						}
 					}
 
 					self.setState({conversations: _conversations});

@@ -14,6 +14,8 @@ let FmsClientItem = React.createClass({
 		clientName = this.props.data.customer.name;
 		message = this.props.data.snippet;
 
+		let seenClass = this.props.data.seen ? '' : ' seen';
+
 		// TODO: use query param to set image size
 		// eg: https://graph.facebook.com/v2.10/${clientid}/picture?width=50&height=50
 		let avaUrl = `https://graph.facebook.com/v2.10/${clientid}/picture`;
@@ -23,8 +25,8 @@ let FmsClientItem = React.createClass({
 					<img src={avaUrl} className="client-profile" />
 				</div>
 				<div className="name-and-message">
-					<div className="client-name">{clientName}</div>
-					<div className="lastest-message">{message}</div>
+					<div className={"client-name " + seenClass}>{clientName}</div>
+					<div className={"lastest-message " + seenClass}>{message}</div>
 				</div>
 			</div>
 		);
