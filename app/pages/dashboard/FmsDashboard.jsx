@@ -80,29 +80,51 @@ let FmsDashBoard = React.createClass({
 	},
 	componentWillMount: function () {
 		let self = this;
-		
-		PagesAPI.getPages().then(function (pages) {
-			if (!pages.active) browserHistory.replace('/');
-			else {
-				let linkIsOK = false;
-				pages.active.map(function (page) {
-					let nameInListPages = page.fb_id;
-					let nameInUrl = self.props.location.pathname.slice(1);
-					if (nameInUrl == nameInListPages) {
-						linkIsOK = true;
-						self.setState({ pageid: page.fb_id });
-						self.updateConversation();
-					}
-				});
-				if (!linkIsOK) browserHistory.replace('/');
-			}
-		}, function (err) {
-			console.log(err);
-		});
+
+		let subscribePageChanges = (page_fb_id) => {
+
+				let onUpdateChanges = (data) => {
+		      console.log('onUpdateChanges data', data);
+		    };
+
+				console.log('page_fb_id', page_fb_id);
+
+				socket.subscribePageChanges({page_fb_id, onUpdateChanges});
+		};
+
+		PagesAPI.getPages()
+			.then(function (pages) {
+				if (!pages.active) browserHistory.replace('/');
+
+				else {
+					let linkIsOK = false;
+
+					pages.active.map(function (page) {
+						let nameInListPages = page.fb_id;
+						let nameInUrl = self.props.location.pathname.slice(1);
+						if (nameInUrl == nameInListPages) {
+							linkIsOK = true;
+							self.setState({ pageid: page.fb_id });
+							self.updateConversation();
+							subscribePageChanges(page.fb_id);
+						}
+					});
+					if (!linkIsOK) browserHistory.replace('/');
+				}
+			})
+			.catch(err => console.log(err));
 	},
-	componentDidMount: function () {
-		socket.subscribePageChanges(this.state.pageid);
-	},
+	// componentDidMount: function () {
+	//
+	// 	let onUpdateChanges = (data) => {
+  //     console.log('onUpdateChanges data', data);
+  //   };
+	//
+	// 	let page_fb_id = this.props.location.pathname.slice(1);
+	// 	console.log('page_fb_id', page_fb_id);
+	// 	console.log('this.props.location', this.props.location);
+	// 	socket.subscribePageChanges(page_fb_id, onUpdateChanges);
+	// },
 	render: function () {
 		let self = this;
 

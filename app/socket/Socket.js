@@ -4,11 +4,13 @@ const io = require('socket.io-client');
 const constant = require('constant');
 let socket = null;
 
-let subscribePageChanges = (page_fb_id) => {
+let subscribePageChanges = ({page_fb_id, onUpdateChanges}) => {
   if (socket) {
     socket.emit(constant.SUBSCRIBE_PAGE_CHANGES_EVENT, page_fb_id);
+
+    socket.on(constant.PAGE_CHANGES_EVENT, onUpdateChanges);
   } else {
-    retry(subscribePage, page_fb_id);
+    retry(subscribePageChanges, {page_fb_id, onUpdateChanges});
   }
 };
 
@@ -72,5 +74,5 @@ let disconnect = () => {
 
 exports.connect = connect;
 exports.disconnect = disconnect;
-exports.subscribePage = subscribePage;
+exports.subscribePageChanges = subscribePageChanges;
 exports.activePage = activePage;
