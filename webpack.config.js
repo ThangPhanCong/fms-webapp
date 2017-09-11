@@ -25,9 +25,9 @@ module.exports = {
       'app/pages/pages',
       'app/pages/posts',
       'app/pages/dashboard',
-      'app/pages/dashboard/client_info',
-      'app/pages/dashboard/client_list',
-      'app/pages/dashboard/conversation_area'
+      'app/pages/dashboard/client-info',
+      'app/pages/dashboard/client-list',
+      'app/pages/dashboard/conversation-area'
     ],
     alias: {
       bootstrapJs: 'bootstrap/dist/js/bootstrap.min.js'
