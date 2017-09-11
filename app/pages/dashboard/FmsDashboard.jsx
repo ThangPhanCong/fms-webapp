@@ -25,7 +25,6 @@ let FmsDashBoard = React.createClass({
 
 		switch (item.type) {
 			case "inbox":
-
 				return item;
 			case "comment":
 				item.customer = item.from;
@@ -63,8 +62,6 @@ let FmsDashBoard = React.createClass({
 
 		let _conversations = this.state.conversations;
 		let _selectedConversation = _conversations.filter((currConversation) => {return currConversation.fb_id == fb_id})[0];
-
-		console.log('selectedConversation', _selectedConversation);
 		_selectedConversation.seen = true;
 
 		this.setState({selectedConversation: _selectedConversation});
@@ -79,11 +76,9 @@ let FmsDashBoard = React.createClass({
 		if (type == "inbox") {
 			DashboardAPI.getMessageInbox(fb_id)
 				.then(updateChildren)
-				.catch(err => console.log(err));
 		} else if (type == "comment") {
 			DashboardAPI.getReplyComment(fb_id)
 				.then(updateChildren)
-				.catch(err => console.log(err));
 		}
 	},
 	sendMessage: function (msg) {
