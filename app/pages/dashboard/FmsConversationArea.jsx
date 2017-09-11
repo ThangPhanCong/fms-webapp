@@ -18,22 +18,24 @@ let FmsConversationArea = React.createClass({
 	},
 	render: function () {
 		let self = this;
-		let lastMessage = null;
+
 		let renderConversation = function () {
-			if (!self.props.currentConversation) return;
-			let count = self.props.currentConversation.length;
-			return self.props.currentConversation.map(function (message) {
-				count--;
-				let isSelf = message.from.id == self.props.pageid;
-				let isLast = (count == 0);
-				lastMessage = message;
-				return <FmsMessageItem message={message} key={message.fb_id} isSelf={isSelf} isLast={isLast}/>;
-			});
+			console.log('renderConversation', self.props.currentConversation);
+
+			if (self.props.currentConversation && Array.isArray(self.props.currentConversation.children)) {
+				let lastItem = self.props.currentConversation.children[self.props.currentConversation.children.length - 1];
+				return self.props.currentConversation.children.map(message => {
+					let isSelf = message.from.id == self.props.pageid;
+					let isLast = lastItem === message;
+
+					return <FmsMessageItem message={message} key={message.fb_id} isSelf={isSelf} isLast={isLast}/>;
+				});
+			}
 		};
 		return (
 			<div className="inner-conversation-area">
 				<div className="info-chat">
-					<FmsInfoChat clientName={this.props.currentConversation[0].from.name}/>
+					<FmsInfoChat currentConversation={this.props.currentConversation}/>
 				</div>
 				<div className="chat-area" ref="chat_area">
 					{renderConversation()}

@@ -14,48 +14,69 @@ let FmsVerticalNav = require('FmsVerticalNav');
 let FmsDashBoard = React.createClass({
 	getInitialState: function () {
 		return {
-			currentConversation: null,
+			currentConversation: null, // array
 			conversations: [],
+			// TODO: check in child component
+			selectedConversation: null,
+			// rename page_id
 			pageid: null
 		}
 	},
 	updateConversation: function () {
 		let self = this;
+
 		DashboardAPI.getConversations(this.state.pageid).then(function (res) {
-			let convers = [];
+			let _convers = [];
+
 			for (let inbox of res.inboxes) {
 				inbox.type = "inbox";
 			}
 			for (let comment of res.comments) {
 				comment.type = "comment";
+				comment.customer = comment.from;
+				comment.snippet = comment.message;
 			}
-			convers = convers.concat(res.inboxes).concat(res.comments);
-			convers = convers.sort(function (a, b) { return a.updated_time > b.updated_time });
-			self.setState({ conversations: convers });
+			_convers = _convers.concat(res.inboxes)
+									.concat(res.comments)
+									.sort((a, b) => { return a.updated_time > b.updated_time });
+
+			self.setState({ conversations: _convers });
 		}, function (err) {
 			throw new Error(err);
 		})
 	},
 	handleClientClick: function (fb_id, type) {
+		console.log('fb_id', fb_id);
+		console.log('type', type);
 		let self = this;
+
+		let _conversations = this.state.conversations;
+		let _selectedConversation = _conversations.filter((currConversation) => {return currConversation.fb_id == fb_id})[0];
+
+		console.log('selectedConversation', _selectedConversation);
+
+		this.setState({selectedConversation: _selectedConversation});
+
+		let updateChildren = (msgs) => {
+			console.log('updateChildren msgs', msgs);
+			let _selectedConversation = this.state.selectedConversation;
+			_selectedConversation.children = msgs;
+
+			this.setState({selectedConversation: _selectedConversation});
+		}
+
 		if (type == "inbox") {
-			DashboardAPI.getMessageInbox(fb_id).then(function (data) {
-				self.setState({ currentConversation: data.reverse() });
-			}, function (err) {
-				throw new Error(err);
-			})
+			DashboardAPI.getMessageInbox(fb_id)
+				.then(updateChildren)
+				.catch(err => console.log(err));
 		} else if (type == "comment") {
-			DashboardAPI.getReplyComment(fb_id).then(function (data) {
-				let newData = [];
-				newData = newData.concat(data.parent).concat(data.childrent);
-				self.setState({ currentConversation: newData });
-			}, function (err) {
-				throw new Error(err);
-			})
+			DashboardAPI.getReplyComment(fb_id)
+				.then(updateChildren)
+				.catch(err => console.log(err));
 		}
 	},
 	sendMessage: function (msg) {
-		//check malicious injection
+		// TODO: send API send msg, like, rep-cmt, hide-cmt, del-cmt
 		alert(msg);
 	},
 	componentWillMount: function () {
@@ -85,13 +106,15 @@ let FmsDashBoard = React.createClass({
 	},
 	render: function () {
 		let self = this;
+
 		function renderConversation() {
-			if (self.state.currentConversation) {
-				return <FmsConversationArea currentConversation={self.state.currentConversation} pageid={self.state.pageid} sendMessage={self.sendMessage}/>
+			if (self.state.selectedConversation) {
+				return <FmsConversationArea currentConversation={self.state.selectedConversation} pageid={self.state.pageid} sendMessage={self.sendMessage}/>
 			} else {
 				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
 			}
 		};
+
 		return (
 			<div className="dashboard page">
 				<div className="vertical-nav">
