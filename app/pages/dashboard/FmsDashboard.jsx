@@ -30,7 +30,7 @@ let FmsDashBoard = React.createClass({
 				item.customer = item.from;
 				item.snippet = item.message;
 				return item;
-				
+
 		}
 	},
 	updateConversation: function () {
@@ -103,11 +103,11 @@ let FmsDashBoard = React.createClass({
 						parent = self.parseConversationItem(msg.parent);
 						_conversations.unshift(parent);
 					} else {
-						parent = updatedConversations[0];
+						parent = updatedConversations.pop();
 						parent.snippet = msg.message;
 
 						let _selectedConversation = self.state.selectedConversation;
-						if (parent.fb_id != _selectedConversation.fb_id) {
+						if (_selectedConversation && (parent.fb_id != _selectedConversation.fb_id)) {
 							parent.seen = false;
 						}
 
