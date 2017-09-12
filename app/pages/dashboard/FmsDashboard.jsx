@@ -30,6 +30,7 @@ let FmsDashBoard = React.createClass({
 				item.customer = item.from;
 				item.snippet = item.message;
 				return item;
+				
 		}
 	},
 	updateConversation: function () {
