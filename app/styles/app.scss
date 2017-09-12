@@ -2,10 +2,12 @@
 
 @import "components/fms-home";
 @import "components/fms-nav";
+@import "components/fms-spin";
 @import "components/fms-tabs";
 
 @import "pages/pages/fms-page-item";
 @import "pages/pages/fms-page-list";
+@import "pages/pages/fms-page-modal";
 
 @import "pages/dashboard/fms-dashboard";
 @import "pages/dashboard/fms-conversation-area";
@@ -47,4 +49,8 @@
 .page {
   padding-top: 62px;
   overflow-y: scroll;
+}
+
+.fms-hidden {
+  visibility: hidden;
 }

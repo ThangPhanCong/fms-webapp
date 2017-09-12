@@ -18,23 +18,31 @@ let activePage = ({page_fb_id, onUpdate, onDone}) => {
   if (socket) {
     socket.emit(constant.ACTIVE_PAGE_EVENT, page_fb_id);
 
-    socket.on(constant.ACTIVE_PAGE_UPDATE_EVENT, (data) => {
-      console.log('ACTIVE_PAGE_UPDATE_EVENT', data);
+    socket.on(constant.ACTIVE_PAGE_UPDATE_EVENT, (res) => {
+      console.log('ACTIVE_PAGE_UPDATE_EVENT', res.data);
 
-      onUpdate(data);
+      onUpdate(res.data);
     });
 
-    socket.on(constant.ACTIVE_PAGE_SUCCESSFUL_EVENT, (data) => {
-      console.log('ACTIVE_PAGE_SUCCESSFUL_EVENT', data);
+    socket.on(constant.ACTIVE_PAGE_SUCCESSFUL_EVENT, (res) => {
+      console.log('ACTIVE_PAGE_SUCCESSFUL_EVENT', res);
 
-      onDone(null, data);
+      onDone(null, res);
+      unsubscribeActivePage(socket);
     });
 
-    socket.on(constant.ACTIVE_PAGE_FAILURE_EVENT, (data) => {
-      console.log('ACTIVE_PAGE_FAILURE_EVENT', data);
+    socket.on(constant.ACTIVE_PAGE_FAILURE_EVENT, (res) => {
+      console.log('ACTIVE_PAGE_FAILURE_EVENT', res);
 
-      onDone(data);
+      onDone(true, res);
+      unsubscribeActivePage(socket);
     });
+
+    function unsubscribeActivePage (_socket) {
+      _socket.off(constant.ACTIVE_PAGE_UPDATE_EVENT);
+      _socket.off(constant.ACTIVE_PAGE_FAILURE_EVENT);
+      _socket.off(constant.ACTIVE_PAGE_SUCCESSFUL_EVENT);
+    }
   } else {
     retry(activePage, {page_fb_id, onUpdate, onDone});
   }

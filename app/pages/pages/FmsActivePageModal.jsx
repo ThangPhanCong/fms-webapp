@@ -14,31 +14,60 @@ let FmsActivePageModal = React.createClass({
 			isShown: false,
 			selectedPage: null,
 			isDisabled: true,
-			canSelect: true
+			canSelect: true,
+			loadingStatus: null
 		}
 	},
 	handleActiveButton: function () {
 		let self = this;
 		if (!this.state.selectedPage) return;
 
-		// PagesAPI.activePage(this.state.selectedPage.fb_id, function () {
-		// 	self.props.updatePages();
-		// 	self.close();
-		// });
-
 		let onUpdate = (data) => {
 			console.log('onUpdate', data);
-		};
 
-		let onDone = (err, data) => {
-			console.log('onDone', data);
-			if (!err) {
-				self.props.updatePages();
-				self.close();
+			let updateStatus = (status, i) => {
+				const TIME_DELAY = 200; // miliseconds
+
+				setTimeout(() => {
+					self.setState({loadingStatus : status});
+				}, i * TIME_DELAY);
+			}
+
+			switch(data.type) {
+				case 'inbox':
+					let users = data.items;
+
+					users.forEach((user, index) => {
+						let _loadingStatus = 'Lấy hội thoại người dùng: ' + user;
+						updateStatus(_loadingStatus, index);
+					});
+
+					break;
+				case 'post':
+					let titles = data.items;
+
+					titles.map(title => {
+						if (!title) return '';
+						return (title.length > 39) ? (title.substring(0, 37) + '...') : title;
+					})
+					.forEach((title, index) => {
+						let _loadingStatus = 'Lấy nội dung bài đăng: ' + title;
+						updateStatus(_loadingStatus, index);
+					});
+					break;
 			}
 		};
 
-		// use socket
+		let onDone = (err, res) => {
+			console.log('onDone', res);
+			if (err) {
+				alert(`Lỗi ${res.code}: ` + res.msg);
+			}
+
+			self.props.updatePages();
+			self.close();
+		};
+
 		socket.activePage({
 			page_fb_id: self.state.selectedPage.fb_id,
 			onUpdate,
@@ -83,9 +112,13 @@ let FmsActivePageModal = React.createClass({
 		this.setState({ isShown: false });
 	},
 	render: function () {
+		let loadingStatus = '' + (this.state.loadingStatus || '');
+		let statusHidden = !this.state.canSelect ? ' ' : ' fms-hidden';
+		let canClose = this.state.canSelect;
+
 		return (
-			<Modal show={this.state.isShown} onHide={this.close} backdrop='static'>
-				<Modal.Header closeButton>
+			<Modal show={this.state.isShown} onHide={this.close} backdrop='static' keyboard={false} >
+				<Modal.Header closeButton={canClose}>
 					<Modal.Title>Choose pages to active</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
@@ -93,8 +126,11 @@ let FmsActivePageModal = React.createClass({
 				</Modal.Body>
 				<Modal.Footer>
 					<div className="pagemodal-footer-wrapper">
-						<FmsSpin></FmsSpin>
-						<button type="button" className={"btn btn-primary"}
+						<div className={"status " + statusHidden}>
+							<FmsSpin size={34}></FmsSpin>
+							<p className="text-status">{loadingStatus}</p>
+						</div>
+						<button type="button" className={"btn btn-primary active-btn"}
 							disabled={this.state.isDisabled}
 							onClick={this.handleActiveButton}>Active</button>
 					</div>
