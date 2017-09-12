@@ -51,7 +51,7 @@ let FmsDashBoard = React.createClass({
 
 			_convers = _convers.concat(res.inboxes)
 									.concat(res.comments)
-									.sort((a, b) => { return a.updated_time > b.updated_time });
+									.sort((a, b) => { return a.updated_time < b.updated_time });
 
 			self.setState({ conversations: _convers });
 		}, function (err) {
