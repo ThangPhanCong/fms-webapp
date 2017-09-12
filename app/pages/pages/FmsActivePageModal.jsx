@@ -26,7 +26,7 @@ let FmsActivePageModal = React.createClass({
 			console.log('onUpdate', data);
 
 			let updateStatus = (status, i) => {
-				const TIME_DELAY = 200; // miliseconds
+				const TIME_DELAY = 300; // miliseconds
 
 				setTimeout(() => {
 					self.setState({loadingStatus : status});

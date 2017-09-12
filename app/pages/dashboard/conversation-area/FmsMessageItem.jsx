@@ -9,7 +9,7 @@ let FmsTextMessageContent = require('FmsTextMessageContent');
 
 let FmsMessageItem = React.createClass({
 	render: function () {
-let self = this;
+		let self = this;
 
 		let avaUrl = `https://graph.facebook.com/v2.10/${this.props.message.from.id}/picture`;
 		let isSelf = this.props.isSelf;
@@ -19,9 +19,11 @@ let self = this;
 		let srcArrow = (isSelf) ? rightArrowImg : leftArrowImg;
 		let arrow = (isSelf) ? " right-arrow-message" : " left-arrow-message";
 		let isLast = (this.props.isLast) ? " last-message" : "";
+
 		function renderAttachment() {
 				return <FmsAttachmentContent attachSrc={self.props.message.attach} isSelf={isSelf}/>
 		}
+
 		return (
 			<div className={"message-item" + isLast}>
 				<div className={"message-wrapper" + messageWrapper}>
