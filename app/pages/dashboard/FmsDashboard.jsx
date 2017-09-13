@@ -24,18 +24,15 @@ let FmsDashBoard = React.createClass({
 		}
 	},
 	parseConversationItem: function (item) {
-		// TODO: delete test
-		item.seen = false;
-
 		switch (item.type) {
 			case "inbox":
-				return item;
+				break;
 			case "comment":
 				item.customer = item.from;
-				item.snippet = item.message;
-				return item;
-
+				break;
 		}
+
+		return item;
 	},
 	updateConversation: function () {
 		let self = this;
@@ -62,29 +59,43 @@ let FmsDashBoard = React.createClass({
 			throw new Error(err);
 		})
 	},
+	postSeenCv: function (conversation) {
+		if (conversation.type == 'inbox') {
+			DashboardAPI.postSeenInbox(conversation.fb_id);
+		} else if (conversation.type == 'comment') {
+			DashboardAPI.postSeenCmt(conversation.fb_id);
+		}
+	},
 	handleClientClick: function (fb_id, type) {
 		let self = this;
 
 		let _conversations = this.state.conversations;
-		let _selectedConversation = _conversations.filter((currConversation) => { return currConversation.fb_id == fb_id })[0];
-		_selectedConversation.seen = true;
+		let _selectedConversation = _conversations
+			.filter((currConversation) => { return currConversation.fb_id == fb_id })
+			.pop();
+
+		if (!_selectedConversation.is_seen) {
+			_selectedConversation.is_seen = true;
+			self.postSeenCv(_selectedConversation);
+		}
+
+		if (!_selectedConversation.children) {
+			let updateChildren = (msgs) => {
+				let _selectedConversation = this.state.selectedConversation;
+				_selectedConversation.children = msgs;
+				this.setState({ selectedConversation: _selectedConversation });
+			}
+
+			if (type == "inbox") {
+				DashboardAPI.getMessageInbox(fb_id)
+					.then(updateChildren)
+			} else if (type == "comment") {
+				DashboardAPI.getReplyComment(fb_id)
+					.then(updateChildren)
+			}
+		}
 
 		this.setState({ selectedConversation: _selectedConversation });
-
-		let updateChildren = (msgs) => {
-			let _selectedConversation = this.state.selectedConversation;
-			_selectedConversation.children = msgs;
-
-			this.setState({ selectedConversation: _selectedConversation });
-		}
-
-		if (type == "inbox") {
-			DashboardAPI.getMessageInbox(fb_id)
-				.then(updateChildren)
-		} else if (type == "comment") {
-			DashboardAPI.getReplyComment(fb_id)
-				.then(updateChildren)
-		}
 	},
 	sendMessage: function (msg) {
 		// TODO: send API send msg, like, rep-cmt, hide-cmt, del-cmt
@@ -96,36 +107,49 @@ let FmsDashBoard = React.createClass({
 		let subscribePageChanges = (page_fb_id) => {
 
 			let onUpdateChanges = (msg) => {
-				if (!msg) return;
+				if (!msg || !msg.parent || !msg.parent.type) return;
 				console.log('onUpdateChanges msg', msg);
-				// parent : inbox | comment
+
 				let _conversations = self.state.conversations;
-				let updatedConversations = _conversations.filter((c) => { return c.fb_id == msg.parent.fb_id })
+				let updatedConversations = _conversations.filter((c) => { return c.fb_id == msg.parent.fb_id });
 				let parent = null;
 
 				if (updatedConversations.length == 0) {
+					// if conversation is not found in current conversations -> create as new conversation and push to first
 					parent = self.parseConversationItem(msg.parent);
 					_conversations.unshift(parent);
 				} else {
+					// if exists conversation -> update it and push it to first
+					// dont forget to post seen api
 					parent = updatedConversations.pop();
+
+					// todo delete
 					parent.snippet = msg.message;
 
 					let _selectedConversation = self.state.selectedConversation;
-					if (_selectedConversation && (parent.fb_id != _selectedConversation.fb_id)) {
-						parent.seen = false;
+					if (_selectedConversation && (_selectedConversation.fb_id == parent.fb_id)) {
+						parent.is_seen = true;
+						self.postSeenCv(parent);
+					} else {
+						parent.is_seen = false;
 					}
 
 					if (Array.isArray(parent.children)) {
 						parent.children.push(msg);
 					}
+
+					let filterConversations = _conversations.filter((c) => { return c.fb_id != parent.fb_id });
+					filterConversations.unshift(parent);
+
+					_conversations = filterConversations;
 				}
 
 				self.setState({ conversations: _conversations });
 			};
-
 			socket.subscribePageChanges({ page_fb_id, onUpdateChanges });
 		};
 
+		// TODO: refactor
 		PagesAPI.getPages()
 			.then(function (pages) {
 				if (!pages.active) browserHistory.replace('/');
@@ -148,13 +172,13 @@ let FmsDashBoard = React.createClass({
 			})
 			.catch(err => console.log(err));
 	},
-	loadMoreConversations: function() {
+	loadMoreConversations: function () {
 		if (count != 0) return;
 		count++;
 		let newConversations = this.state.conversations.concat(DashboardAPI.getMoreConversations());
 		this.setState({ showSpin: true });
 		setTimeout(() => {
-			this.setState({ 
+			this.setState({
 				showSpin: false,
 				conversations: newConversations
 			});
@@ -186,7 +210,7 @@ let FmsDashBoard = React.createClass({
 				</div>
 				<div className="client-list" ref="list">
 					<FmsClientList handleClientClick={this.handleClientClick} conversations={this.state.conversations}
-						currentConversation={this.state.selectedConversation} showSpin={this.state.showSpin}/>
+						currentConversation={this.state.selectedConversation} showSpin={this.state.showSpin} />
 				</div>
 				<div className="conversation-area">
 					{renderConversation()}

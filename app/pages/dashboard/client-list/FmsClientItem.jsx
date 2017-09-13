@@ -14,7 +14,7 @@ let FmsClientItem = React.createClass({
 		clientName = this.props.data.customer.name;
 		message = this.props.data.snippet;
 
-		let seenClass = this.props.data.seen ? '' : ' seen';
+		let seenClass = this.props.data.is_seen ? '' : ' not-seen';
 
 		// TODO: use query param to set image size
 		// eg: https://graph.facebook.com/v2.10/${clientid}/picture?width=50&height=50

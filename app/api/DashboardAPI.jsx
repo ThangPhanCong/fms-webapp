@@ -15,6 +15,14 @@ module.exports = {
 		let route = `/api/comment/${comment_id}/comments`;
 		return apiSender.get(route);
 	},
+	postSeenCmt: function (comment_id) {
+		let route = `/api/comment/${comment_id}/seen`;
+		return apiSender.post(route);
+	},
+	postSeenInbox: function (inbox_id) {
+		let route = `/api/inbox/${inbox_id}/seen`;
+		return apiSender.post(route);
+	},
 	getMoreConversations: function () {
 		return [
 			{
