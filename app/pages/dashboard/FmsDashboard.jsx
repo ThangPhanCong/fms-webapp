@@ -25,7 +25,6 @@ let FmsDashBoard = React.createClass({
 				break;
 			case "comment":
 				item.customer = item.from;
-				item.snippet = item.message;
 				break;
 		}
 
@@ -101,29 +100,42 @@ let FmsDashBoard = React.createClass({
 		let subscribePageChanges = (page_fb_id) => {
 
 				let onUpdateChanges = (msg) => {
-					if (!msg) return;
+					if (!msg || !msg.parent || !msg.parent.type) return;
 		      console.log('onUpdateChanges msg', msg);
-					// parent : inbox | comment
+
 					let _conversations = self.state.conversations;
-					let updatedConversations = _conversations.filter((c) => {return c.fb_id == msg.parent.fb_id})
+					let updatedConversations = _conversations.filter((c) => {return c.fb_id == msg.parent.fb_id});
 					let parent = null;
 
 					if (updatedConversations.length == 0) {
+						// if conversation is not found in current conversations -> create as new conversation and push to first
 						parent = self.parseConversationItem(msg.parent);
 						_conversations.unshift(parent);
 					} else {
+						// if exists conversation -> update it and push it to first
+						// dont forget to post seen api
 						parent = updatedConversations.pop();
 						parent.snippet = msg.message;
 
 						let _selectedConversation = self.state.selectedConversation;
-						if (_selectedConversation && (parent.fb_id != _selectedConversation.fb_id)) {
+						if (_selectedConversation && (_selectedConversation.fb_id == parent.fb_id)) {
+							parent.is_seen = true;
+							self.postSeenCv(parent);
+						} else {
 							parent.is_seen = false;
 						}
 
 						if (Array.isArray(parent.children)) {
 							parent.children.push(msg);
 						}
+
+						let filterConversations = _conversations.filter((c) => {return c.fb_id != parent.fb_id});
+						filterConversations.unshift(parent);
+
+						_conversations = filterConversations;
 					}
+
+
 
 					self.setState({conversations: _conversations});
 		    };

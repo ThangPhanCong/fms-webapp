@@ -36,9 +36,6 @@ let FmsMessageItem = React.createClass({
 				attachmentData = msg.attachment;
 			}
 
-			console.log('attachment data', attachmentData);
-			console.log('msg data', msg);
-
 			if (attachmentData) {
 				return <FmsAttachmentContent hasMessage={hasMessage} conversationType={conversationType} data={attachmentData} isSelf={isSelf}/>
 			}
