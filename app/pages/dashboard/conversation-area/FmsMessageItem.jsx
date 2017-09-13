@@ -23,11 +23,12 @@ let FmsMessageItem = React.createClass({
 		arrow += (this.props.message.message == "") ? " hide" : "";
 		function renderAttachment() {
 			let msg = self.props.message;
+			let hasMessage = (self.props.message.message == "") ? false : true;
 			if (self.props.type == "comment" && msg.attachment) {
-				return <FmsAttachmentContent attachSrc={msg.attachment.media.image.src} isSelf={isSelf}/>
+				return <FmsAttachmentContent hasMessage={hasMessage} attachSrc={msg.attachment.media.image.src} isSelf={isSelf}/>
 			} else if (self.props.type == "inbox" && msg.attachments && msg.attachments.data.length > 0) {
 				console.log(msg.attachments.data[0].image_data.preview_url);
-				return <FmsAttachmentContent attachSrc={msg.attachments.data[0].image_data.preview_url} isSelf={isSelf}/>
+				return <FmsAttachmentContent hasMessage={hasMessage} attachSrc={msg.attachments.data[0].image_data.preview_url} isSelf={isSelf}/>
 			}
 		}
 		return (
