@@ -58,12 +58,23 @@ let FmsDashBoard = React.createClass({
 			throw new Error(err);
 		})
 	},
+	postSeenCv: function(conversation) {
+		if (conversation.type == 'inbox') {
+			DashboardAPI.postSeenInbox(conversation.fb_id);
+		} else if (conversation.type == 'comment') {
+			DashboardAPI.postSeenCmt(conversation.fb_id);
+		}
+	},
 	handleClientClick: function (fb_id, type) {
 		let self = this;
 
 		let _conversations = this.state.conversations;
 		let _selectedConversation = _conversations.filter((currConversation) => {return currConversation.fb_id == fb_id})[0];
-		_selectedConversation.seen = true;
+
+		if (!_selectedConversation.seen) {
+			_selectedConversation.seen = true;
+			self.postSeenCv(_selectedConversation);
+		}
 
 		this.setState({selectedConversation: _selectedConversation});
 

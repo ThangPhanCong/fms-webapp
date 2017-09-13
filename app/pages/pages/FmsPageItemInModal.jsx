@@ -17,10 +17,10 @@ let FmsPageItemInModal = React.createClass({
   render: function() {
     let self = this;
     let avaUrl = `https://graph.facebook.com/v2.10/${this.props.data.fb_id}/picture`;
-    let blur = (this.props.canSelect) ? "" : " blur";
+    let disabled = (this.props.canSelect) ? "" : " disabled";
 
     return (
-      <div className={"page-item" + blur} onClick={this.onPageClick}>
+      <div className={"page-item" + disabled} onClick={this.onPageClick}>
         <img src={avaUrl} className="page-profile"/>
         <span className="fanpage-title">{this.props.data.name}</span>
         {this.renderActiveImg()}
