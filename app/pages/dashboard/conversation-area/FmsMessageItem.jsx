@@ -21,16 +21,29 @@ let FmsMessageItem = React.createClass({
 		let isLast = (this.props.isLast) ? " last-message" : "";
 		messageContent += (this.props.message.message == "" ? " hide" : "");
 		arrow += (this.props.message.message == "") ? " hide" : "";
+
 		function renderAttachment() {
 			let msg = self.props.message;
 			let hasMessage = (self.props.message.message == "") ? false : true;
-			if (self.props.type == "comment" && msg.attachment) {
-				return <FmsAttachmentContent hasMessage={hasMessage} attachSrc={msg.attachment.media.image.src} isSelf={isSelf}/>
-			} else if (self.props.type == "inbox" && msg.attachments && msg.attachments.data.length > 0) {
-				console.log(msg.attachments.data[0].image_data.preview_url);
-				return <FmsAttachmentContent hasMessage={hasMessage} attachSrc={msg.attachments.data[0].image_data.preview_url} isSelf={isSelf}/>
+			let conversationType = self.props.type;
+			let attachmentData = null;
+
+			if (conversationType == 'inbox' && msg.attachments
+					&& Array.isArray(msg.attachments.data)
+					&& msg.attachments.data.length > 0) {
+				attachmentData = msg.attachments.data.pop();
+			} else if (conversationType == 'comment' && msg.attachment) {
+				attachmentData = msg.attachment;
+			}
+
+			console.log('attachment data', attachmentData);
+			console.log('msg data', msg);
+
+			if (attachmentData) {
+				return <FmsAttachmentContent hasMessage={hasMessage} conversationType={conversationType} data={attachmentData} isSelf={isSelf}/>
 			}
 		}
+
 		return (
 			<div className={"message-item" + isLast}>
 				<div className={"message-wrapper" + messageWrapper}>

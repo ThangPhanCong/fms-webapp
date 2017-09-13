@@ -20,18 +20,16 @@ let FmsDashBoard = React.createClass({
 		}
 	},
 	parseConversationItem: function (item) {
-		// TODO: delete test
-		item.seen = false;
-
 		switch (item.type) {
 			case "inbox":
-				return item;
+				break;
 			case "comment":
 				item.customer = item.from;
 				item.snippet = item.message;
-				return item;
-
+				break;
 		}
+
+		return item;
 	},
 	updateConversation: function () {
 		let self = this;
@@ -71,8 +69,8 @@ let FmsDashBoard = React.createClass({
 		let _conversations = this.state.conversations;
 		let _selectedConversation = _conversations.filter((currConversation) => {return currConversation.fb_id == fb_id})[0];
 
-		if (!_selectedConversation.seen) {
-			_selectedConversation.seen = true;
+		if (!_selectedConversation.is_seen) {
+			_selectedConversation.is_seen = true;
 			self.postSeenCv(_selectedConversation);
 		}
 
@@ -119,7 +117,7 @@ let FmsDashBoard = React.createClass({
 
 						let _selectedConversation = self.state.selectedConversation;
 						if (_selectedConversation && (parent.fb_id != _selectedConversation.fb_id)) {
-							parent.seen = false;
+							parent.is_seen = false;
 						}
 
 						if (Array.isArray(parent.children)) {
