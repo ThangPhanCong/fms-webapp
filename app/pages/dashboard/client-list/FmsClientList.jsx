@@ -5,6 +5,7 @@ const React = require('react');
 const searchImg = require('search.png');
 let FmsClientItem = require('FmsClientItem');
 let DashboardAPI = require('DashboardAPI');
+let FmsSpin = require('FmsSpin');
 
 let FmsClientList = React.createClass({
 	handleClientClick: function(fb_id, type) {
@@ -16,11 +17,11 @@ let FmsClientList = React.createClass({
 			let conversations = self.props.conversations;
 			if (!conversations) return;
 			return conversations.map(conversation => {
-				console.log('conversation', conversation);
 				let isSelected = (self.props.currentConversation && self.props.currentConversation.fb_id == conversation.fb_id);
 				return <FmsClientItem data={conversation} key={conversation.fb_id} handleClientClick={self.handleClientClick} isSelected={isSelected}/>
 			});
 		};
+		let showSpin = (this.props.showSpin == true) ? "" : " hide";
 		return (
 			<div>
 				<div className="search-client">
@@ -29,6 +30,9 @@ let FmsClientList = React.createClass({
 				</div>
 				<div>
 					{renderClients()}
+				</div>
+				<div className={"client-list-spin" + showSpin}>
+					<FmsSpin size={27}/>
 				</div>
 			</div>
 		);

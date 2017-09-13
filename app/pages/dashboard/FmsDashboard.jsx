@@ -1,6 +1,7 @@
 'use strict';
 
 const React = require('react');
+const ReactDOM = require('react-dom');
 const { browserHistory } = require('react-router');
 
 let DashboardAPI = require('DashboardAPI');
@@ -11,10 +12,13 @@ let socket = require('Socket');
 let FmsClientInformation = require('FmsClientInformation');
 let FmsVerticalNav = require('FmsVerticalNav');
 
+let count = 0;
+
 let FmsDashBoard = React.createClass({
 	getInitialState: function () {
 		return {
 			conversations: [],
+			showSpin: false,
 			selectedConversation: null,
 			pageid: null
 		}
@@ -50,8 +54,8 @@ let FmsDashBoard = React.createClass({
 			}
 
 			_convers = _convers.concat(res.inboxes)
-									.concat(res.comments)
-									.sort((a, b) => { return a.updated_time < b.updated_time });
+				.concat(res.comments)
+				.sort((a, b) => { return a.updated_time < b.updated_time });
 
 			self.setState({ conversations: _convers });
 		}, function (err) {
@@ -62,16 +66,16 @@ let FmsDashBoard = React.createClass({
 		let self = this;
 
 		let _conversations = this.state.conversations;
-		let _selectedConversation = _conversations.filter((currConversation) => {return currConversation.fb_id == fb_id})[0];
+		let _selectedConversation = _conversations.filter((currConversation) => { return currConversation.fb_id == fb_id })[0];
 		_selectedConversation.seen = true;
 
-		this.setState({selectedConversation: _selectedConversation});
+		this.setState({ selectedConversation: _selectedConversation });
 
 		let updateChildren = (msgs) => {
 			let _selectedConversation = this.state.selectedConversation;
 			_selectedConversation.children = msgs;
 
-			this.setState({selectedConversation: _selectedConversation});
+			this.setState({ selectedConversation: _selectedConversation });
 		}
 
 		if (type == "inbox") {
@@ -91,35 +95,35 @@ let FmsDashBoard = React.createClass({
 
 		let subscribePageChanges = (page_fb_id) => {
 
-				let onUpdateChanges = (msg) => {
-					if (!msg) return;
-		      console.log('onUpdateChanges msg', msg);
-					// parent : inbox | comment
-					let _conversations = self.state.conversations;
-					let updatedConversations = _conversations.filter((c) => {return c.fb_id == msg.parent.fb_id})
-					let parent = null;
+			let onUpdateChanges = (msg) => {
+				if (!msg) return;
+				console.log('onUpdateChanges msg', msg);
+				// parent : inbox | comment
+				let _conversations = self.state.conversations;
+				let updatedConversations = _conversations.filter((c) => { return c.fb_id == msg.parent.fb_id })
+				let parent = null;
 
-					if (updatedConversations.length == 0) {
-						parent = self.parseConversationItem(msg.parent);
-						_conversations.unshift(parent);
-					} else {
-						parent = updatedConversations.pop();
-						parent.snippet = msg.message;
+				if (updatedConversations.length == 0) {
+					parent = self.parseConversationItem(msg.parent);
+					_conversations.unshift(parent);
+				} else {
+					parent = updatedConversations.pop();
+					parent.snippet = msg.message;
 
-						let _selectedConversation = self.state.selectedConversation;
-						if (_selectedConversation && (parent.fb_id != _selectedConversation.fb_id)) {
-							parent.seen = false;
-						}
-
-						if (Array.isArray(parent.children)) {
-							parent.children.push(msg);
-						}
+					let _selectedConversation = self.state.selectedConversation;
+					if (_selectedConversation && (parent.fb_id != _selectedConversation.fb_id)) {
+						parent.seen = false;
 					}
 
-					self.setState({conversations: _conversations});
-		    };
+					if (Array.isArray(parent.children)) {
+						parent.children.push(msg);
+					}
+				}
 
-				socket.subscribePageChanges({page_fb_id, onUpdateChanges});
+				self.setState({ conversations: _conversations });
+			};
+
+			socket.subscribePageChanges({ page_fb_id, onUpdateChanges });
 		};
 
 		PagesAPI.getPages()
@@ -144,12 +148,32 @@ let FmsDashBoard = React.createClass({
 			})
 			.catch(err => console.log(err));
 	},
+	loadMoreConversations: function() {
+		if (count != 0) return;
+		count++;
+		let newConversations = this.state.conversations.concat(DashboardAPI.getMoreConversations());
+		this.setState({ showSpin: true });
+		setTimeout(() => {
+			this.setState({ 
+				showSpin: false,
+				conversations: newConversations
+			});
+		}, 3000);
+	},
+	componentDidMount: function () {
+		const list = ReactDOM.findDOMNode(this.refs.list);
+		list.addEventListener('scroll', () => {
+			if ($(list).scrollTop() + $(list).innerHeight() >= $(list)[0].scrollHeight - 32) {
+				this.loadMoreConversations();
+			}
+		})
+	},
 	render: function () {
 		let self = this;
 
 		function renderConversation() {
 			if (self.state.selectedConversation) {
-				return <FmsConversationArea currentConversation={self.state.selectedConversation} pageid={self.state.pageid} sendMessage={self.sendMessage}/>
+				return <FmsConversationArea currentConversation={self.state.selectedConversation} pageid={self.state.pageid} sendMessage={self.sendMessage} />
 			} else {
 				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
 			}
@@ -160,9 +184,9 @@ let FmsDashBoard = React.createClass({
 				<div className="vertical-nav">
 					<FmsVerticalNav />
 				</div>
-				<div className="client-list">
+				<div className="client-list" ref="list">
 					<FmsClientList handleClientClick={this.handleClientClick} conversations={this.state.conversations}
-												currentConversation={this.state.selectedConversation}/>
+						currentConversation={this.state.selectedConversation} showSpin={this.state.showSpin}/>
 				</div>
 				<div className="conversation-area">
 					{renderConversation()}
