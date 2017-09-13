@@ -31,13 +31,16 @@ let FmsMessageItem = React.createClass({
 			if (conversationType == 'inbox' && msg.attachments
 					&& Array.isArray(msg.attachments.data)
 					&& msg.attachments.data.length > 0) {
-				attachmentData = msg.attachments.data.pop();
+				attachmentData = msg.attachments.data;
+
 			} else if (conversationType == 'comment' && msg.attachment) {
-				attachmentData = msg.attachment;
+				attachmentData = [msg.attachment];
 			}
 
 			if (attachmentData) {
-				return <FmsAttachmentContent hasMessage={hasMessage} conversationType={conversationType} data={attachmentData} isSelf={isSelf}/>
+				return attachmentData.map(attachment => {
+					return <FmsAttachmentContent hasMessage={hasMessage} conversationType={conversationType} data={attachment} isSelf={isSelf}/>
+				})
 			}
 		}
 

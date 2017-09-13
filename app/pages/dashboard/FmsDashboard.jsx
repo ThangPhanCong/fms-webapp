@@ -66,29 +66,33 @@ let FmsDashBoard = React.createClass({
 		let self = this;
 
 		let _conversations = this.state.conversations;
-		let _selectedConversation = _conversations.filter((currConversation) => {return currConversation.fb_id == fb_id})[0];
+		let _selectedConversation = _conversations
+					.filter((currConversation) => {return currConversation.fb_id == fb_id})
+					.pop();
 
 		if (!_selectedConversation.is_seen) {
 			_selectedConversation.is_seen = true;
 			self.postSeenCv(_selectedConversation);
 		}
 
+		if (!_selectedConversation.children) {
+			let updateChildren = (msgs) => {
+				let _selectedConversation = this.state.selectedConversation;
+				_selectedConversation.children = msgs;
+
+				this.setState({selectedConversation: _selectedConversation});
+			}
+
+			if (type == "inbox") {
+				DashboardAPI.getMessageInbox(fb_id)
+					.then(updateChildren)
+			} else if (type == "comment") {
+				DashboardAPI.getReplyComment(fb_id)
+					.then(updateChildren)
+			}
+		}
+
 		this.setState({selectedConversation: _selectedConversation});
-
-		let updateChildren = (msgs) => {
-			let _selectedConversation = this.state.selectedConversation;
-			_selectedConversation.children = msgs;
-
-			this.setState({selectedConversation: _selectedConversation});
-		}
-
-		if (type == "inbox") {
-			DashboardAPI.getMessageInbox(fb_id)
-				.then(updateChildren)
-		} else if (type == "comment") {
-			DashboardAPI.getReplyComment(fb_id)
-				.then(updateChildren)
-		}
 	},
 	sendMessage: function (msg) {
 		// TODO: send API send msg, like, rep-cmt, hide-cmt, del-cmt
@@ -115,6 +119,8 @@ let FmsDashBoard = React.createClass({
 						// if exists conversation -> update it and push it to first
 						// dont forget to post seen api
 						parent = updatedConversations.pop();
+
+						// todo delete
 						parent.snippet = msg.message;
 
 						let _selectedConversation = self.state.selectedConversation;
