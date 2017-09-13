@@ -19,11 +19,18 @@ let FmsMessageItem = React.createClass({
 		let srcArrow = (isSelf) ? rightArrowImg : leftArrowImg;
 		let arrow = (isSelf) ? " right-arrow-message" : " left-arrow-message";
 		let isLast = (this.props.isLast) ? " last-message" : "";
-
+		messageContent += (this.props.message.message == "" ? " hide" : "");
+		arrow += (this.props.message.message == "") ? " hide" : "";
 		function renderAttachment() {
-				return <FmsAttachmentContent attachSrc={self.props.message.attach} isSelf={isSelf}/>
+			let msg = self.props.message;
+			let hasMessage = (self.props.message.message == "") ? false : true;
+			if (self.props.type == "comment" && msg.attachment) {
+				return <FmsAttachmentContent hasMessage={hasMessage} attachSrc={msg.attachment.media.image.src} isSelf={isSelf}/>
+			} else if (self.props.type == "inbox" && msg.attachments && msg.attachments.data.length > 0) {
+				console.log(msg.attachments.data[0].image_data.preview_url);
+				return <FmsAttachmentContent hasMessage={hasMessage} attachSrc={msg.attachments.data[0].image_data.preview_url} isSelf={isSelf}/>
+			}
 		}
-
 		return (
 			<div className={"message-item" + isLast}>
 				<div className={"message-wrapper" + messageWrapper}>

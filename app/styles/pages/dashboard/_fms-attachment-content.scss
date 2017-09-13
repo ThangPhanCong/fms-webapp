@@ -1,0 +1,33 @@
+.message-attachment-wrapper {
+  display: inline-block;
+  width: 100%;
+}
+.left-message-attachment {
+  max-width: 60%;
+  margin: 5px 0px 0px 51px;
+  float: left;
+  border-radius: 5px;
+}
+.right-message-attachment {
+  max-width: 60%;
+  margin: 5px 51px 0px 0px;
+  float: right;
+  border-radius: 5px;
+}
+.has-message {
+  margin-top: -3px;
+}
+.no-message {
+  margin-top: -48px;
+}
+// .left-message-content {
+//     float: left;
+//     order: 3;
+//     background-color: white;
+// }
+// .right-message-content {
+//     float: right;
+//     order: 1;
+//     background-color: #3598DB;
+//     color: white;
+// }

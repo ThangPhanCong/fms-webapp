@@ -26,8 +26,9 @@ let FmsConversationArea = React.createClass({
 				return self.props.currentConversation.children.map(message => {
 					let isSelf = message.from.id == self.props.pageid;
 					let isLast = lastItem === message;
+					let type = (self.props.currentConversation.type == "comment") ? "comment" : "inbox";
 
-					return <FmsMessageItem message={message} key={message.fb_id} isSelf={isSelf} isLast={isLast}/>;
+					return <FmsMessageItem message={message} key={message.fb_id} isSelf={isSelf} isLast={isLast} type={type}/>;
 				});
 			}
 		};
