@@ -149,6 +149,7 @@ let FmsDashBoard = React.createClass({
 				socket.subscribePageChanges({page_fb_id, onUpdateChanges});
 		};
 
+		// TODO: refactor
 		PagesAPI.getPages()
 			.then(function (pages) {
 				if (!pages.active) browserHistory.replace('/');

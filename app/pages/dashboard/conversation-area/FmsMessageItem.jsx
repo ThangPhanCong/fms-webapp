@@ -1,6 +1,7 @@
 'use strict';
 
 const React = require('react');
+const uuid = require('uuid');
 const rightArrowImg = require('right_arrow.png');
 const leftArrowImg = require('left_arrow.png');
 
@@ -39,7 +40,7 @@ let FmsMessageItem = React.createClass({
 
 			if (attachmentData) {
 				return attachmentData.map(attachment => {
-					return <FmsAttachmentContent hasMessage={hasMessage} conversationType={conversationType} data={attachment} isSelf={isSelf}/>
+					return <FmsAttachmentContent key={uuid()} hasMessage={hasMessage} conversationType={conversationType} data={attachment} isSelf={isSelf}/>
 				})
 			}
 		}
