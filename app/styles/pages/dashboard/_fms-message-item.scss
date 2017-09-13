@@ -69,6 +69,7 @@
 .message-attachment-wrapper {
   display: inline-block;
   width: 100%;
+  margin-top: -48px;
 }
 .left-message-attachment {
   max-width: 60%;
@@ -81,4 +82,7 @@
   margin: 5px 51px 0px 0px;
   float: right;
   border-radius: 5px;
+}
+.hide {
+  display: none;
 }

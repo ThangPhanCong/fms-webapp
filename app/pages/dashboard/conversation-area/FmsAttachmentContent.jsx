@@ -7,7 +7,7 @@ let FmsAttachmentContent = React.createClass({
 
     return (
       <div className="message-attachment-wrapper">
-        <img className={messageAttachment} src={tempImg}/>
+        <img className={messageAttachment} src={this.props.attachSrc}/>
       </div>
     )
   }
