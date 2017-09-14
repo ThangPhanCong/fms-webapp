@@ -23,12 +23,12 @@
     p {
       max-width: 230px;
       word-wrap: break-word;
+      margin: 0;
     }
 
     @media (min-width: 768px) {
       p {
         max-width: 383px;
-        word-wrap: break-word;
       }
     }
 }
