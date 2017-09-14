@@ -6,7 +6,7 @@ let FmsTextMessageContent = React.createClass({
   render: function () {
     return (
       <div>
-        <span>{this.props.content}</span>
+        <p>{this.props.content}</p>
       </div>
     );
   }
