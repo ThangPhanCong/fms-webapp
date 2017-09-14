@@ -16,13 +16,32 @@
     outline: none;
 }
 .group-button {
-    float: right;
+    // float: right;
+    margin: 0;
+
+    li {
+      display: inline-block;
+      position: relative;
+      vertical-align: top;
+      width: 37px;
+      overflow: hidden;
+      height: 32px;
+
+      .attach-button {
+          width: 100%;
+          height: 100%;
+      }
+
+      .input-file {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+      }
+    }
 }
-.attach-button {
-    width: 26px;
-    margin: 3px 10px 3px 15px;
-    float: right;
-}
+
 .attach-button:hover {
     cursor: pointer;
 }
