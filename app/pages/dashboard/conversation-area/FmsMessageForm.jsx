@@ -8,6 +8,7 @@ const sendImg = require('send.png');
 let FmsMessageForm = React.createClass({
   onFormSubmit: function (e) {
     e.preventDefault();
+
     let v = this.refs.message;
     if (v.value != '') this.props.sendMessage(this.refs.message.value);
     v.value = '';

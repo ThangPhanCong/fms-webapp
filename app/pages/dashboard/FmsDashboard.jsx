@@ -12,8 +12,6 @@ let socket = require('Socket');
 let FmsClientInformation = require('FmsClientInformation');
 let FmsVerticalNav = require('FmsVerticalNav');
 
-let count = 0;
-
 let FmsDashBoard = React.createClass({
 	getInitialState: function () {
 		return {
@@ -66,6 +64,21 @@ let FmsDashBoard = React.createClass({
 			DashboardAPI.postSeenCmt(conversation.fb_id);
 		}
 	},
+	postRepMsg: function (conversation, message) {
+		if (conversation.type == 'inbox') {
+			DashboardAPI.postRepInboxMsg(conversation.fb_id, message)
+				.then(msg => {
+					console.log('postRepMsg', msg);
+				})
+				.catch(err => alert(err.message));
+		} else if (conversation.type == 'comment') {
+			DashboardAPI.postRepCmtMsg(conversation.fb_id, message)
+				.then(msg => {
+					console.log('postRepMsg', msg);
+				})
+				.catch(err => alert(err.message));
+		}
+	},
 	handleClientClick: function (fb_id, type) {
 		let self = this;
 
@@ -98,8 +111,10 @@ let FmsDashBoard = React.createClass({
 		this.setState({ selectedConversation: _selectedConversation });
 	},
 	sendMessage: function (msg) {
-		// TODO: send API send msg, like, rep-cmt, hide-cmt, del-cmt
-		alert(msg);
+		let self = this;
+		let _selectedConversation = this.state.selectedConversation;
+
+		self.postRepMsg(_selectedConversation, msg);
 	},
 	componentWillMount: function () {
 		let self = this;
@@ -173,22 +188,26 @@ let FmsDashBoard = React.createClass({
 			.catch(err => console.log(err));
 	},
 	loadMoreConversations: function () {
-		if (count != 0) return;
-		count++;
 		let newConversations = this.state.conversations.concat(DashboardAPI.getMoreConversations());
+
+		console.log('newConversations', newConversations);
+
 		this.setState({ showSpin: true });
+
 		setTimeout(() => {
 			this.setState({
 				showSpin: false,
 				conversations: newConversations
 			});
-		}, 3000);
+		}, 1000);
 	},
 	componentDidMount: function () {
+		let self = this;
+
 		const list = ReactDOM.findDOMNode(this.refs.list);
 		list.addEventListener('scroll', () => {
 			if ($(list).scrollTop() + $(list).innerHeight() >= $(list)[0].scrollHeight - 32) {
-				this.loadMoreConversations();
+				self.loadMoreConversations();
 			}
 		})
 	},

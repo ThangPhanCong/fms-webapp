@@ -23,6 +23,16 @@ module.exports = {
 		let route = `/api/inbox/${inbox_id}/seen`;
 		return apiSender.post(route);
 	},
+	postRepInboxMsg: function (inbox_id, message) {
+		let route = `/api/inbox/${inbox_id}/sendmsg`;
+		let payload = {message};
+		return apiSender.post(route, payload);
+	},
+	postRepCmtMsg: function (cmt_id, message) {
+		let route = `/api/comment/${cmt_id}/sendmsg`;
+		let payload = {message};
+		return apiSender.post(route, payload);
+	},
 	getMoreConversations: function () {
 		return [
 			{
