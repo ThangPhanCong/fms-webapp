@@ -17,9 +17,10 @@ let FmsAttachmentContent = React.createClass({
     let attachmentTypeClass = '';
     let imgUrl = null;
 
-    if (this.props.conversationType == 'inbox') {
+    if (this.props.conversationType == 'inbox' && this.props.data.image_data) {
       imgUrl = this.props.data.image_data.preview_url;
-    } else if (this.props.conversationType == 'comment') {
+    } else if (this.props.conversationType == 'comment' && this.props.data.media
+        && this.props.data.media.image) {
       imgUrl= this.props.data.media.image.src;
     }
 

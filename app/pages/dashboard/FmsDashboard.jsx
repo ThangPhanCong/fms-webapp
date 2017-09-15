@@ -48,7 +48,12 @@ let FmsDashBoard = React.createClass({
 
 			_convers = _convers.concat(res.inboxes)
 				.concat(res.comments)
-				.sort((a, b) => { return a.updated_time < b.updated_time });
+				.sort((a, b) => {
+					let t1 = new Date(a.updated_time);
+					let t2 = new Date(b.updated_time);
+
+					return t2 - t1;
+				});
 
 			self.setState({ conversations: _convers });
 		}, function (err) {
@@ -60,6 +65,40 @@ let FmsDashBoard = React.createClass({
 			DashboardAPI.postSeenInbox(conversation.fb_id);
 		} else if (conversation.type == 'comment') {
 			DashboardAPI.postSeenCmt(conversation.fb_id);
+		}
+	},
+	postRepMsg: function (conversation, message) {
+		let self = this;
+
+		function createTempMsg (fb_id, msg, conversation) {
+			let itemMsg = {
+				fb_id,
+				message: msg,
+				from: {
+					id: self.state.pageid
+				},
+				parent: conversation
+			}
+
+			return itemMsg;
+		}
+
+		if (conversation.type == 'inbox') {
+			DashboardAPI.postRepInboxMsg(conversation.fb_id, message)
+				.then(data => {
+					let msgInbox = createTempMsg(data.id, message, conversation);
+
+					self.updateMsgInConversation(msgInbox);
+				})
+				.catch(err => alert(err.message));
+		} else if (conversation.type == 'comment') {
+			DashboardAPI.postRepCmtMsg(conversation.fb_id, message)
+				.then(data => {
+					let msgInbox = createTempMsg(data.id, message, conversation);
+
+					self.updateMsgInConversation(msgInbox);
+				})
+				.catch(err => alert(err.message));
 		}
 	},
 	handleClientClick: function (fb_id, type) {
@@ -97,55 +136,90 @@ let FmsDashBoard = React.createClass({
 		this.setState({ conversations: newConversations });
 	},
 	sendMessage: function (msg) {
-		// TODO: send API send msg, like, rep-cmt, hide-cmt, del-cmt
-		alert(msg);
+		let self = this;
+		let _selectedConversation = this.state.selectedConversation;
+
+		self.postRepMsg(_selectedConversation, msg);
+	},
+	updateMsgInConversation: function (msg) {
+		let self = this;
+		console.log('updateMsgInConversation', msg);
+		if (!msg || !msg.parent || !msg.parent.type) return;
+
+		let _conversations = self.state.conversations;
+		let parentConversations = _conversations.filter((c) => { return c.fb_id == msg.parent.fb_id });
+		let parent = null;
+
+		if (parentConversations.length == 0) {
+			// if conversation is not found in current conversations -> create as new conversation and push to first
+			parent = self.parseConversationItem(msg.parent);
+			_conversations.unshift(parent);
+		} else {
+			parent = parentConversations.pop();
+
+			// check if this msg is exists in msg list
+			function isMsgExist (msg, listMsg) {
+				if (!listMsg || !Array.isArray(listMsg) || listMsg.length == 0) {
+					return false;
+				}
+				let filterArr = listMsg.filter((currMsg) => {return currMsg.fb_id == msg.fb_id});
+
+				return (filterArr.length == 0) ? false : filterArr.pop();
+			}
+
+			let tempMsg = isMsgExist(msg, parent.children);
+			if (tempMsg) {
+				// just update msg in list && post seen
+				let updatedMsgList = parent.children.map((item) => {
+						if (item.fb_id == tempMsg.fb_id) {
+							return msg;
+						} else {
+							return item;
+						}
+					});
+
+				parent.children = updatedMsgList;
+
+				// update parent conversation in current conversations
+				_conversations = _conversations.map(parentCv => {
+					if (parentCv.fb_id == parent.fb_id) {
+						return parent;
+					} else {
+						return parentCv;
+					}
+				})
+
+				self.postSeenCv(parent);
+
+			} else {
+				//this msg is not exists -> add to msg list and update parent
+				let _selectedConversation = self.state.selectedConversation;
+				if (_selectedConversation && (_selectedConversation.fb_id == parent.fb_id)) {
+					parent.is_seen = true;
+					self.postSeenCv(parent);
+				} else {
+					parent.is_seen = false;
+				}
+
+				if (Array.isArray(parent.children)) {
+					parent.children.push(msg);
+				}
+
+				parent.snippet = msg.message;
+
+				let filterConversations = _conversations.filter((c) => { return c.fb_id != parent.fb_id });
+				filterConversations.unshift(parent);
+				_conversations = filterConversations;
+			}
+		}
+
+		self.setState({ conversations: _conversations });
 	},
 	componentWillMount: function () {
 		let self = this;
 
 		let subscribePageChanges = (page_fb_id) => {
-
-			let onUpdateChanges = (msg) => {
-				if (!msg || !msg.parent || !msg.parent.type) return;
-				console.log('onUpdateChanges msg', msg);
-
-				let _conversations = self.state.conversations;
-				let updatedConversations = _conversations.filter((c) => { return c.fb_id == msg.parent.fb_id });
-				let parent = null;
-
-				if (updatedConversations.length == 0) {
-					// if conversation is not found in current conversations -> create as new conversation and push to first
-					parent = self.parseConversationItem(msg.parent);
-					_conversations.unshift(parent);
-				} else {
-					// if exists conversation -> update it and push it to first
-					// dont forget to post seen api
-					parent = updatedConversations.pop();
-
-					// todo delete
-					parent.snippet = msg.message;
-
-					let _selectedConversation = self.state.selectedConversation;
-					if (_selectedConversation && (_selectedConversation.fb_id == parent.fb_id)) {
-						parent.is_seen = true;
-						self.postSeenCv(parent);
-					} else {
-						parent.is_seen = false;
-					}
-
-					if (Array.isArray(parent.children)) {
-						parent.children.push(msg);
-					}
-
-					let filterConversations = _conversations.filter((c) => { return c.fb_id != parent.fb_id });
-					filterConversations.unshift(parent);
-
-					_conversations = filterConversations;
-				}
-
-				self.setState({ conversations: _conversations });
-			};
-			socket.subscribePageChanges({ page_fb_id, onUpdateChanges });
+			socket.subscribePageChanges({ page_fb_id, onUpdateChanges: self.updateMsgInConversation });
 		};
 
 		// TODO: refactor

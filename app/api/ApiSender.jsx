@@ -12,14 +12,17 @@ exports.get = (route) => {
   let url = `${BASE_URL}${route}?access_token=${jwt}`;
 
   return axios.get(url)
-      .then(
-        res => {
+    .then(res => {
+      if (!res.data) {
+        throw new Error('Something went wrong');
+      } else {
+        if (res.data.err) {
+          throw new Error(res.data.msg);
+        } else {
           return Promise.resolve(res.data.data);
-        },
-        err => {
-          alert(err);
         }
-      );
+      }
+    });
 };
 
 exports.post = (route, payload) => {
@@ -28,14 +31,17 @@ exports.post = (route, payload) => {
   let url = `${BASE_URL}${route}?access_token=${jwt}`;
 
   return axios.post(url, payload)
-    .then(
-      res => {
-        return Promise.resolve(res.data.data);
-      },
-      err => {
-        alert(err);
+    .then(res => {
+      if (!res.data) {
+        throw new Error('Something went wrong');
+      } else {
+        if (res.data.err) {
+          throw new Error(res.data.msg);
+        } else {
+          return Promise.resolve(res.data.data);
+        }
       }
-    );
+    });
 };
 
 exports.getWithoutAuth = (route) => {

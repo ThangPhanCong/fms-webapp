@@ -16,8 +16,6 @@ let FmsClientItem = React.createClass({
 
 		let seenClass = this.props.data.is_seen ? '' : ' not-seen';
 
-		// TODO: use query param to set image size
-		// eg: https://graph.facebook.com/v2.10/${clientid}/picture?width=50&height=50
 		let avaUrl = `https://graph.facebook.com/v2.10/${clientid}/picture`;
 		return (
 			<div className={"client-item" + isSelected} onClick={this.handleClientClick}>

@@ -16,6 +16,12 @@ let FmsClientList = React.createClass({
 			showSpin: false
 		}
 	},
+	getDefaultProps: function () {
+		return {
+			conversations: [],
+			currentConversation: null
+		}
+	},
 	handleClientClick: function(fb_id, type) {
 		this.props.handleClientClick(fb_id, type);
 	},
@@ -41,9 +47,11 @@ let FmsClientList = React.createClass({
 	},
 	render: function () {
 		let self = this;
+
 		let renderClients = function () {
 			let conversations = self.props.conversations;
 			if (!conversations) return;
+
 			return conversations.map(conversation => {
 				let isSelected = (self.props.currentConversation && self.props.currentConversation.fb_id == conversation.fb_id);
 				return <FmsClientItem data={conversation} key={conversation.fb_id} handleClientClick={self.handleClientClick} isSelected={isSelected}/>

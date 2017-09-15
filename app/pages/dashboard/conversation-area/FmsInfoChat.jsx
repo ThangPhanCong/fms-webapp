@@ -8,6 +8,8 @@ const fbImg = require('facebook.png');
 
 let FmsInfoChat = React.createClass({
   render: function () {
+    let customerFbUrl = `https://fb.com/${this.props.currentConversation.customer.id}`;
+    
     return (
       <div>
         <div className="info-client">
@@ -17,7 +19,7 @@ let FmsInfoChat = React.createClass({
         <div className="option">
           <img src={blockImg} className="icon-option block-icon"/>
           <img src={spamImg} className="icon-option"/>
-          <img src={fbImg} className="icon-option"/>
+          <a href={customerFbUrl} target="_blank"><img src={fbImg} className="icon-option"/></a>
         </div>
       </div>
     );
