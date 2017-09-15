@@ -1,15 +1,43 @@
 'use strict';
 
 const React = require('react');
+const ReactDOM = require('react-dom');
 
 const searchImg = require('search.png');
 let FmsClientItem = require('FmsClientItem');
 let DashboardAPI = require('DashboardAPI');
 let FmsSpin = require('FmsSpin');
 
+let count = 0;
+
 let FmsClientList = React.createClass({
+	getInitialState: function() {
+		return {
+			showSpin: false
+		}
+	},
 	handleClientClick: function(fb_id, type) {
 		this.props.handleClientClick(fb_id, type);
+	},
+	loadMoreConversations: function () {
+		if (count != 0) return;
+		count++;
+		let newConversations = this.props.conversations.concat(DashboardAPI.getMoreConversations());
+		this.setState({ showSpin: true });
+		setTimeout(() => {
+			this.setState({
+				showSpin: false
+			});
+			this.props.displayMoreConversations(newConversations);
+		}, 3000);
+	},
+	componentDidMount: function () {
+		const list = ReactDOM.findDOMNode(this.refs.list);
+		list.addEventListener('scroll', () => {
+			if ($(list).scrollTop() + $(list).innerHeight() >= $(list)[0].scrollHeight - 32) {
+				this.loadMoreConversations();
+			}
+		})
 	},
 	render: function () {
 		let self = this;
@@ -21,9 +49,9 @@ let FmsClientList = React.createClass({
 				return <FmsClientItem data={conversation} key={conversation.fb_id} handleClientClick={self.handleClientClick} isSelected={isSelected}/>
 			});
 		};
-		let showSpin = (this.props.showSpin == true) ? "" : " hide";
+		let showSpin = (this.state.showSpin == true) ? "" : " hide";
 		return (
-			<div>
+			<div ref="list" className="scroll-list">
 				<div className="search-client">
 					<img src={searchImg} className="search-icon"/>
 					<input type="text" className="input-search-client" />

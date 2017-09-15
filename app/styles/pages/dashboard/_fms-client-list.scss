@@ -84,6 +84,13 @@
     margin: auto;
     margin-bottom: 12px;
 }
+.scroll-list {
+    height: 100%;
+    overflow: scroll;
+}
+.scroll-list::-webkit-scrollbar {
+    display: none;
+}
 
 @media only screen and (min-width: 1000px) {
     .client-list {

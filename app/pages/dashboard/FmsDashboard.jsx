@@ -1,7 +1,6 @@
 'use strict';
 
 const React = require('react');
-const ReactDOM = require('react-dom');
 const { browserHistory } = require('react-router');
 
 let DashboardAPI = require('DashboardAPI');
@@ -12,13 +11,10 @@ let socket = require('Socket');
 let FmsClientInformation = require('FmsClientInformation');
 let FmsVerticalNav = require('FmsVerticalNav');
 
-let count = 0;
-
 let FmsDashBoard = React.createClass({
 	getInitialState: function () {
 		return {
 			conversations: [],
-			showSpin: false,
 			selectedConversation: null,
 			pageid: null
 		}
@@ -97,6 +93,9 @@ let FmsDashBoard = React.createClass({
 
 		this.setState({ selectedConversation: _selectedConversation });
 	},
+	displayMoreConversations: function(newConversations) {
+		this.setState({ conversations: newConversations });
+	},
 	sendMessage: function (msg) {
 		// TODO: send API send msg, like, rep-cmt, hide-cmt, del-cmt
 		alert(msg);
@@ -172,26 +171,6 @@ let FmsDashBoard = React.createClass({
 			})
 			.catch(err => console.log(err));
 	},
-	loadMoreConversations: function () {
-		if (count != 0) return;
-		count++;
-		let newConversations = this.state.conversations.concat(DashboardAPI.getMoreConversations());
-		this.setState({ showSpin: true });
-		setTimeout(() => {
-			this.setState({
-				showSpin: false,
-				conversations: newConversations
-			});
-		}, 3000);
-	},
-	componentDidMount: function () {
-		const list = ReactDOM.findDOMNode(this.refs.list);
-		list.addEventListener('scroll', () => {
-			if ($(list).scrollTop() + $(list).innerHeight() >= $(list)[0].scrollHeight - 32) {
-				this.loadMoreConversations();
-			}
-		})
-	},
 	render: function () {
 		let self = this;
 
@@ -208,9 +187,9 @@ let FmsDashBoard = React.createClass({
 				<div className="vertical-nav">
 					<FmsVerticalNav />
 				</div>
-				<div className="client-list" ref="list">
+				<div className="client-list">
 					<FmsClientList handleClientClick={this.handleClientClick} conversations={this.state.conversations}
-						currentConversation={this.state.selectedConversation} showSpin={this.state.showSpin} />
+						currentConversation={this.state.selectedConversation} displayMoreConversations={this.displayMoreConversations}/>
 				</div>
 				<div className="conversation-area">
 					{renderConversation()}
