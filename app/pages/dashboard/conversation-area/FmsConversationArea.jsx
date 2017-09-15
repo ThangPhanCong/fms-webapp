@@ -19,10 +19,10 @@ let FmsConversationArea = React.createClass({
 	render: function () {
 		let self = this;
 
-		let renderConversation = function () {
-
+		let renderConversation = () => {
 			if (self.props.currentConversation && Array.isArray(self.props.currentConversation.children)) {
 				let lastItem = self.props.currentConversation.children[self.props.currentConversation.children.length - 1];
+
 				return self.props.currentConversation.children.map(message => {
 					let isSelf = message.from.id == self.props.pageid;
 					let isLast = lastItem === message;
@@ -32,6 +32,7 @@ let FmsConversationArea = React.createClass({
 				});
 			}
 		};
+
 		return (
 			<div className="inner-conversation-area">
 				<div className="info-chat">

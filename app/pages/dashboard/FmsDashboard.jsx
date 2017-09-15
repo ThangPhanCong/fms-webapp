@@ -69,9 +69,6 @@ let FmsDashBoard = React.createClass({
 			DashboardAPI.postSeenCmt(conversation.fb_id);
 		}
 	},
-	addTempItemMsg: function (msg, _conversation) {
-
-	},
 	postRepMsg: function (conversation, message) {
 		let self = this;
 
@@ -80,7 +77,6 @@ let FmsDashBoard = React.createClass({
 				fb_id,
 				message: msg,
 				from: {
-					// todo: delete test, update page id
 					id: self.state.pageid
 				},
 				parent: conversation
@@ -208,15 +204,12 @@ let FmsDashBoard = React.createClass({
 					parent.children.push(msg);
 				}
 
-				// parent.children.push(msg);
 				parent.snippet = msg.message;
 
 				let filterConversations = _conversations.filter((c) => { return c.fb_id != parent.fb_id });
 				filterConversations.unshift(parent);
 				_conversations = filterConversations;
 			}
-
-			// _conversations = filterConversations;
 		}
 
 		self.setState({ conversations: _conversations });
