@@ -2,7 +2,7 @@
 
 const React = require('react');
 
-const attachImg = require('attach.png');
+const attachImg = require('attachment.png');
 const sendImg = require('send.png');
 
 let FmsMessageForm = React.createClass({
