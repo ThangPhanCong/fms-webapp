@@ -39,7 +39,6 @@ ReactDOM.render(
 			<Route path="/posts" component={FmsPosts} onEnter={requireLogin}/>
 
 			<Route path="/projects" component={FmsProject} onEnter={requireLogin}/>
-
 			<Route path="/projects/:alias" component={FmsDashboard} onEnter={requireLogin}/>
 
 			<IndexRoute component={FmsHome}/>

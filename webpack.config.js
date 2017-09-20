@@ -78,7 +78,7 @@ module.exports = {
         }
       }, {
         test: /\.(png|jpg)$/,
-        loader: 'file-loader?name=[name].[ext]'
+        loader: 'url-loader?name=[name].[ext]'
       }, {
         test: /\.json$/,
         loader: 'json-loader'

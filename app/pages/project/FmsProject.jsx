@@ -21,7 +21,6 @@ let FmsProject = React.createClass({
 
     projectApi.getAllProject()
       .then(projects => {
-        console.log('projects', projects);
         self.setState({projects});
       })
       .catch(err => {
@@ -29,8 +28,7 @@ let FmsProject = React.createClass({
       })
   },
   handleProjectItemClick: function (project) {
-    console.log('handleProjectItemClick', project);
-
+    // console.log('handleProjectItemClick', project);
     browserHistory.push('/projects/' + project.alias);
   },
   renderPageItems: function () {

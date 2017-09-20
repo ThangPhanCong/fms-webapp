@@ -11,7 +11,7 @@ let FmsHome = React.createClass({
     let cookie = new Cookie();
     let jwt = cookie.get('jwt');
     if (jwt) {
-      browserHistory.push('/pages');
+      browserHistory.push('/projects');
     } else {
       FmsAuthen.onLogin();
     }

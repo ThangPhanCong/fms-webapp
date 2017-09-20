@@ -19,7 +19,8 @@ let FmsClientList = React.createClass({
 	getDefaultProps: function () {
 		return {
 			conversations: [],
-			currentConversation: null
+			currentConversation: null,
+			allConversations: []
 		}
 	},
 	handleClientClick: function(fb_id, type) {
@@ -28,7 +29,7 @@ let FmsClientList = React.createClass({
 	loadMoreConversations: function () {
 		if (count != 0) return;
 		count++;
-		let newConversations = this.props.conversations.concat(DashboardAPI.getMoreConversations());
+		let newConversations = this.props.allConversations.concat(DashboardAPI.getMoreConversations());
 		this.setState({ showSpin: true });
 		setTimeout(() => {
 			this.setState({
@@ -40,10 +41,16 @@ let FmsClientList = React.createClass({
 	componentDidMount: function () {
 		const list = ReactDOM.findDOMNode(this.refs.list);
 		list.addEventListener('scroll', () => {
-			if ($(list).scrollTop() + $(list).innerHeight() >= $(list)[0].scrollHeight - 32) {
+			if ($(list).scrollTop() + $(list).innerHeight() >= $(list)[0].scrollHeight) {
 				this.loadMoreConversations();
 			}
 		})
+	},
+	componentDidUpdate: function () {
+		if (this.state.showSpin == true) {
+			var list = this.refs.list;
+			list.scrollTop = list.scrollHeight;
+		}
 	},
 	render: function () {
 		let self = this;
