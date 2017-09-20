@@ -16,6 +16,7 @@ let FmsDashBoard = React.createClass({
 		return {
 			conversations: [],
 			selectedConversation: null,
+			pages: [],
 			pageid: null
 		}
 	},
@@ -33,21 +34,21 @@ let FmsDashBoard = React.createClass({
 	updateConversation: function () {
 		let self = this;
 
-		DashboardAPI.getConversations(this.state.pageid).then(function (res) {
+		DashboardAPI.getConversations(this.state.pageid).then((data) => {
 			let _convers = [];
 
-			for (let inbox of res.inboxes) {
+			for (let inbox of data.inboxes) {
 				inbox.type = "inbox";
 				inbox = self.parseConversationItem(inbox);
 			}
 
-			for (let comment of res.comments) {
+			for (let comment of data.comments) {
 				comment.type = "comment";
 				comment = self.parseConversationItem(comment);
 			}
 
-			_convers = _convers.concat(res.inboxes)
-				.concat(res.comments)
+			_convers = _convers.concat(data.inboxes)
+				.concat(data.comments)
 				.sort((a, b) => {
 					let t1 = new Date(a.updated_time);
 					let t2 = new Date(b.updated_time);
@@ -123,10 +124,10 @@ let FmsDashBoard = React.createClass({
 
 			if (type == "inbox") {
 				DashboardAPI.getMessageInbox(fb_id)
-					.then(updateChildren)
+					.then(data => updateChildren(data.data))
 			} else if (type == "comment") {
 				DashboardAPI.getReplyComment(fb_id)
-					.then(updateChildren)
+					.then(data => updateChildren(data.data))
 			}
 		}
 
@@ -215,8 +216,10 @@ let FmsDashBoard = React.createClass({
 
 		self.setState({ conversations: _conversations });
 	},
-	componentWillMount: function () {
+	componentDidMount: function () {
 		let self = this;
+
+		console.log('params', this.props.params);
 
 		let subscribePageChanges = (page_fb_id) => {
 			socket.subscribePageChanges({ page_fb_id, onUpdateChanges: self.updateMsgInConversation });
@@ -224,8 +227,8 @@ let FmsDashBoard = React.createClass({
 
 		// TODO: refactor
 		PagesAPI.getPages()
-			.then(function (pages) {
-				if (!pages.active) browserHistory.replace('/');
+			.then((pages) => {
+				if (!pages.active) {}
 
 				else {
 					let linkIsOK = false;
@@ -246,6 +249,7 @@ let FmsDashBoard = React.createClass({
 			.catch(err => console.log(err));
 	},
 	render: function () {
+		console.log(this.props);
 		let self = this;
 
 		function renderConversation() {

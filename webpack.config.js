@@ -24,6 +24,7 @@ module.exports = {
       'app/components',
       'app/pages/pages',
       'app/pages/posts',
+      'app/pages/project',
       'app/pages/dashboard',
       'app/pages/dashboard/client-info',
       'app/pages/dashboard/client-list',

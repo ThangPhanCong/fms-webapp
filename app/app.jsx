@@ -11,6 +11,7 @@ let FmsNavigation = require('FmsNavigation');
 let FmsHome = require('FmsHome');
 let FmsDashboard = require('FmsDashboard');
 let FmsPosts = require('FmsPosts');
+let FmsProject = require('FmsProject');
 
 let config = require('config');
 let socket = require('Socket');
@@ -34,9 +35,13 @@ function requireLogin(nextState, replace) {
 ReactDOM.render(
 	<Router history={browserHistory}>
 		<Route path="/" component={FmsApp}>
-			<Route path="pages" component={FmsPageList} onEnter={requireLogin}/>
-			<Route path="posts" component={FmsPosts} onEnter={requireLogin}/>
-			<Route path="*" component={FmsDashboard} onEnter={requireLogin}/>
+			<Route path="/pages" component={FmsPageList} onEnter={requireLogin}/>
+			<Route path="/posts" component={FmsPosts} onEnter={requireLogin}/>
+
+			<Route path="/projects" component={FmsProject} onEnter={requireLogin}/>
+
+			<Route path="/projects/:alias" component={FmsDashboard} onEnter={requireLogin}/>
+
 			<IndexRoute component={FmsHome}/>
 		</Route>
 	</Router>,

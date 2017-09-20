@@ -57,7 +57,9 @@ let FmsClientList = React.createClass({
 				return <FmsClientItem data={conversation} key={conversation.fb_id} handleClientClick={self.handleClientClick} isSelected={isSelected}/>
 			});
 		};
+
 		let showSpin = (this.state.showSpin == true) ? "" : " hide";
+		
 		return (
 			<div ref="list" className="scroll-list">
 				<div className="search-client">
