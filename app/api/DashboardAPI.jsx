@@ -47,6 +47,7 @@ module.exports = {
 				"updated_time": "2017-09-13T03:48:57.000Z",
 				"can_reply": true,
 				"is_seen": false,
+				"type": 'inbox',
 				"snippet": ""
 			},
 			{
@@ -61,6 +62,7 @@ module.exports = {
 				"updated_time": "2017-09-13T03:43:32.000Z",
 				"can_reply": true,
 				"is_seen": false,
+				"type": "comment",
 				"snippet": "ok men"
 			},
 			{
@@ -74,6 +76,7 @@ module.exports = {
 				"link": "/Thính-Thơm-1266831106759701/manager/messages/?threadid=2403815593176302&folder=inbox",
 				"updated_time": "2017-09-13T02:38:35.000Z",
 				"can_reply": true,
+				"type": 'inbox',
 				"is_seen": false,
 				"snippet": "The Default Answer block is your bot's default response to any input from a user.\n\nTo change it, just open your bot’s dashboard on https://chatfuel.com.\n\nCreate messages in this block that will guide your users.\n\nMake sure to avoid creating conversation dead-ends. You can add buttons that lead users to other blocks.\n\nRemember to use “Set Up AI” to choose what blocks to show based on users' specific inputs."
 			},
@@ -89,6 +92,7 @@ module.exports = {
 				"updated_time": "2017-09-12T18:13:50.000Z",
 				"can_reply": true,
 				"is_seen": false,
+				"type": "comment",
 				"snippet": "Hi, Phương! Nice to meet you.\n\nYou successfully connected your bot created on https://chatfuel.com to your page.\n\nMessages from this block are shown to your users when they first start to chat with your bot.\n\nMake sure to never leave this block empty.\n\nIntroduce your new users to what your bot does and write something helpful to onboard them for the first time."
 			},
 			{
@@ -103,6 +107,7 @@ module.exports = {
 				"updated_time": "2017-09-12T16:23:37.000Z",
 				"can_reply": true,
 				"is_seen": false,
+				"type": "comment",
 				"snippet": "Hi, Thuy Anh! Nice to meet you.\n\nYou successfully connected your bot created on https://chatfuel.com to your page.\n\nMessages from this block are shown to your users when they first start to chat with your bot.\n\nMake sure to never leave this block empty.\n\nIntroduce your new users to what your bot does and write something helpful to onboard them for the first time."
 			}
 		]

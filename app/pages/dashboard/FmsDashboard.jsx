@@ -10,14 +10,31 @@ let PagesAPI = require('PagesAPI');
 let socket = require('Socket');
 let FmsClientInformation = require('FmsClientInformation');
 let FmsVerticalNav = require('FmsVerticalNav');
+let filters = require('FmsFilterConversation').filters;
 
 let FmsDashBoard = React.createClass({
 	getInitialState: function () {
 		return {
 			conversations: [],
+			filteredConversations: [],
 			selectedConversation: null,
+			filters: filters,
 			pageid: null
 		}
+	},
+	handleFilter: function (newFilters) {
+		this.setState({ filters: newFilters });
+		this.filterConversations();
+	},
+	filterConversations: function () {
+		let newConversations = this.state.conversations;
+		this.state.filters.map((filter) => {
+			if (filter.isActive == true) {
+				newConversations = newConversations.filter(filter.filterFunc);
+			}
+		});
+		this.setState({ filteredConversations: newConversations });
+		if (newConversations.length < 10) this._child.loadMoreConversations();
 	},
 	parseConversationItem: function (item) {
 		switch (item.type) {
@@ -55,7 +72,10 @@ let FmsDashBoard = React.createClass({
 					return t2 - t1;
 				});
 
-			self.setState({ conversations: _convers });
+			self.setState({
+				conversations: _convers,
+				filteredConversations: _convers
+			});
 		}, function (err) {
 			throw new Error(err);
 		})
@@ -70,7 +90,7 @@ let FmsDashBoard = React.createClass({
 	postRepMsg: function (conversation, message) {
 		let self = this;
 
-		function createTempMsg (fb_id, msg, conversation) {
+		function createTempMsg(fb_id, msg, conversation) {
 			let itemMsg = {
 				fb_id,
 				message: msg,
@@ -132,8 +152,9 @@ let FmsDashBoard = React.createClass({
 
 		this.setState({ selectedConversation: _selectedConversation });
 	},
-	displayMoreConversations: function(newConversations) {
+	displayMoreConversations: function (newConversations) {
 		this.setState({ conversations: newConversations });
+		this.filterConversations();
 	},
 	sendMessage: function (msg) {
 		let self = this;
@@ -158,11 +179,11 @@ let FmsDashBoard = React.createClass({
 			parent = parentConversations.pop();
 
 			// check if this msg is exists in msg list
-			function isMsgExist (msg, listMsg) {
+			function isMsgExist(msg, listMsg) {
 				if (!listMsg || !Array.isArray(listMsg) || listMsg.length == 0) {
 					return false;
 				}
-				let filterArr = listMsg.filter((currMsg) => {return currMsg.fb_id == msg.fb_id});
+				let filterArr = listMsg.filter((currMsg) => { return currMsg.fb_id == msg.fb_id });
 
 				return (filterArr.length == 0) ? false : filterArr.pop();
 			}
@@ -171,12 +192,12 @@ let FmsDashBoard = React.createClass({
 			if (tempMsg) {
 				// just update msg in list && post seen
 				let updatedMsgList = parent.children.map((item) => {
-						if (item.fb_id == tempMsg.fb_id) {
-							return msg;
-						} else {
-							return item;
-						}
-					});
+					if (item.fb_id == tempMsg.fb_id) {
+						return msg;
+					} else {
+						return item;
+					}
+				});
 
 				parent.children = updatedMsgList;
 
@@ -259,11 +280,14 @@ let FmsDashBoard = React.createClass({
 		return (
 			<div className="dashboard page">
 				<div className="vertical-nav">
-					<FmsVerticalNav />
+					<FmsVerticalNav state={this.state.filters} handleFilter={this.handleFilter} />
 				</div>
 				<div className="client-list">
-					<FmsClientList handleClientClick={this.handleClientClick} conversations={this.state.conversations}
-						currentConversation={this.state.selectedConversation} displayMoreConversations={this.displayMoreConversations}/>
+					<FmsClientList ref={(child) => {
+						this._child = child;
+					}} handleClientClick={this.handleClientClick} conversations={this.state.filteredConversations}
+						currentConversation={this.state.selectedConversation} displayMoreConversations={this.displayMoreConversations}
+						allConversations={this.state.conversations} />
 				</div>
 				<div className="conversation-area">
 					{renderConversation()}
