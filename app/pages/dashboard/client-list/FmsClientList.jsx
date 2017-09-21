@@ -66,7 +66,7 @@ let FmsClientList = React.createClass({
 		};
 
 		let showSpin = (this.state.showSpin == true) ? "" : " hide";
-		
+
 		return (
 			<div ref="list" className="scroll-list">
 				<div className="search-client">
