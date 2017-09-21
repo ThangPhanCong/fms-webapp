@@ -58,10 +58,10 @@ module.exports = {
         ],
       }, {
         test: /\.scss$/,
-        loaders: ['file-loader?name=[name].css', 'extract-loader', 'css-loader', 'sass-loader'],
+        loaders: ['file-loader?name=\/[name].css', 'extract-loader', 'css-loader', 'sass-loader'],
       }, {
         test: /\.css$/,
-        loaders: ['file-loader?name=[name].[ext]', 'extract-loader', 'css-loader'],
+        loaders: ['file-loader?name=\/[name].[ext]', 'extract-loader', 'css-loader'],
       }, {
         test: /\.jsx?$/,
         loader: 'babel-loader',
