@@ -238,12 +238,18 @@ let FmsDashBoard = React.createClass({
 		}
 
 		self.setState({ conversations: _conversations });
+		self.filterConversations();
 	},
 	subscribePageChanges: function (pages) {
 		let self = this;
-		let page = pages.pop();
 
+		// for test only
+		let page = pages.pop();
 		socket.subscribePageChanges({ page_fb_id: page.fb_id, onUpdateChanges: self.updateMsgInConversation });
+
+		// pages.forEach(page => {
+		// 	socket.subscribePageChanges({ page_fb_id: page.fb_id, onUpdateChanges: self.updateMsgInConversation });
+		// });
 	},
 	componentDidMount: function () {
 		let self = this;
