@@ -24,17 +24,6 @@ let FmsAttachmentContent = React.createClass({
     let attachmentTypeClass = '';
     let imgUrl = null;
 
-    if (this.props.stickerSrc) {
-      imgUrl = this.props.stickerSrc;
-    } else {
-      if (this.props.conversationType == 'inbox' && this.props.data.image_data) {
-        imgUrl = this.props.data.image_data.preview_url;
-      } else if (this.props.conversationType == 'comment' && this.props.data.media
-        && this.props.data.media.image) {
-        imgUrl = this.props.data.media.image.src;
-      }
-    }
-    
     switch (this.props.data && this.props.data.type) {
       case 'sticker':
         attachmentTypeClass = ' sticker';
@@ -42,6 +31,18 @@ let FmsAttachmentContent = React.createClass({
       default:
         attachmentTypeClass = ' image_type';
         break;
+    }
+
+    if (this.props.stickerSrc) {
+      imgUrl = this.props.stickerSrc;
+      attachmentTypeClass = ' sticker'
+    } else {
+      if (this.props.conversationType == 'inbox' && this.props.data.image_data) {
+        imgUrl = this.props.data.image_data.preview_url;
+      } else if (this.props.conversationType == 'comment' && this.props.data.media
+        && this.props.data.media.image) {
+        imgUrl = this.props.data.media.image.src;
+      }
     }
 
     return (

@@ -30,8 +30,7 @@ let FmsMessageItem = React.createClass({
 			let attachmentData = null;
 
 			if (msg.shares && msg.shares.data.length > 0) {
-				let stickerSrc = "https://www.facebook.com/stickers/asset/?sticker_id=" + msg.shares.data[0].id;
-				return <FmsAttachmentContent key={uuid()} stickerSrc={stickerSrc} isSelf={isSelf}/>
+				return <FmsAttachmentContent key={uuid()} stickerSrc={msg.shares.data[0].link} isSelf={isSelf}/>
 			}
 
 			if (conversationType == 'inbox' && msg.attachments
