@@ -16,6 +16,8 @@ let FmsLoginCallback =  React.createClass({
     tokenApi.verifyAccessToken(access_token)
       .then(userData => {
         store.set('jwt', access_token);
+        store.set('user', userData);
+
         browserHistory.push('/projects');
       })
       .catch(err => {

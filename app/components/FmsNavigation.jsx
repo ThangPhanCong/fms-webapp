@@ -26,15 +26,14 @@ let FmsNavigation = React.createClass({
         </ul>
       )
     } else {
-      let user_fb_id = store.get('user_fb_id');
-      let user_name = store.get('user_name');
-      let avaUser = `https://graph.facebook.com/v2.10/${user_fb_id}/picture`;
+      let user = store.get('user');
+      let avaUser = `https://graph.facebook.com/v2.10/${user.fb_id}/picture`;
 
       return (
         <ul className="nav navbar-nav navbar-right">
           <li className="user-info">
             <img className="user-ava" src={avaUser} />
-            <span className="white-color"> {user_name}  </span>
+            <span className="white-color"> {user.name}  </span>
           </li>
           <li><a onClick={this.onLogout} className="login-button">
             <span className="glyphicon glyphicon-log-out"></span> Log out</a>
