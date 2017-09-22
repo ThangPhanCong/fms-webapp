@@ -4,27 +4,38 @@ let FmsAttachmentContent = React.createClass({
   getDefaultProps: function () {
     return {
       isSelf: false,
-      hasMessage: false,
+      hasMessage: -1,
       conversationType: null,
-      data: null
+      data: null,
+      stickerSrc: null
     };
   },
-  render: function() {
+  render: function () {
     let self = this;
     let messageAttachment = (this.props.isSelf) ? "right-message-attachment" : "left-message-attachment";
-    // let tempImg = "https://scontent.fhan5-1.fna.fbcdn.net/v/t35.0-12/21618444_899654440192216_2099106233_o.png?oh=4ddbd8c29a710227aa8c2371440ce446&oe=59B8F623";
-    let hasMessage = (this.props.hasMessage == true) ? " has-message" : " no-message";
+    let hasMessage;
+    if (this.props.hasMessage == 1) {
+      hasMessage = " has-message";
+    } else if (this.props.hasMessage == 0) {
+      hasMessage = " in-the-middle";
+    } else {
+      hasMessage = " no-message";
+    }
     let attachmentTypeClass = '';
     let imgUrl = null;
 
-    if (this.props.conversationType == 'inbox' && this.props.data.image_data) {
-      imgUrl = this.props.data.image_data.preview_url;
-    } else if (this.props.conversationType == 'comment' && this.props.data.media
+    if (this.props.stickerSrc) {
+      imgUrl = this.props.stickerSrc;
+    } else {
+      if (this.props.conversationType == 'inbox' && this.props.data.image_data) {
+        imgUrl = this.props.data.image_data.preview_url;
+      } else if (this.props.conversationType == 'comment' && this.props.data.media
         && this.props.data.media.image) {
-      imgUrl= this.props.data.media.image.src;
+        imgUrl = this.props.data.media.image.src;
+      }
     }
-
-    switch (this.props.data.type) {
+    
+    switch (this.props.data && this.props.data.type) {
       case 'sticker':
         attachmentTypeClass = ' sticker';
         break;
@@ -35,7 +46,7 @@ let FmsAttachmentContent = React.createClass({
 
     return (
       <div className={"message-attachment-wrapper" + hasMessage}>
-        <a href={imgUrl} target="_blank"><img className={messageAttachment + ' ' +attachmentTypeClass} src={imgUrl}/></a>
+        <a href={imgUrl} target="_blank"><img className={messageAttachment + ' ' + attachmentTypeClass} src={imgUrl} /></a>
       </div>
     )
   }

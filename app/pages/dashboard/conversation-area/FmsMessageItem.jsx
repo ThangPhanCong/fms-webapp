@@ -25,9 +25,14 @@ let FmsMessageItem = React.createClass({
 
 		function renderAttachment() {
 			let msg = self.props.message;
-			let hasMessage = (self.props.message.message == "") ? false : true;
+			let hasMessage = (self.props.message.message == "") ? -1 : 1;
 			let conversationType = self.props.type;
 			let attachmentData = null;
+
+			if (msg.shares && msg.shares.data.length > 0) {
+				let stickerSrc = "https://www.facebook.com/stickers/asset/?sticker_id=" + msg.shares.data[0].id;
+				return <FmsAttachmentContent key={uuid()} stickerSrc={stickerSrc} isSelf={isSelf}/>
+			}
 
 			if (conversationType == 'inbox' && msg.attachments
 					&& Array.isArray(msg.attachments.data)
@@ -39,8 +44,12 @@ let FmsMessageItem = React.createClass({
 			}
 
 			if (attachmentData) {
+				let index = 0;
 				return attachmentData.map(attachment => {
-					return <FmsAttachmentContent key={uuid()} hasMessage={hasMessage} conversationType={conversationType} data={attachment} isSelf={isSelf}/>
+					index++;
+					if (index > 1) hasMessage = 0;
+					return <FmsAttachmentContent key={uuid()} index={index} hasMessage={hasMessage} 
+									conversationType={conversationType} data={attachment} isSelf={isSelf}/>
 				})
 			}
 		}

@@ -25,22 +25,12 @@
     max-width: 80%;
   }
 }
-
 .has-message {
-  margin-top: -3px;
+  margin-top: -2px;
 }
 .no-message {
   margin-top: -48px;
 }
-
-// .left-message-content {
-//     float: left;
-//     order: 3;
-//     background-color: white;
-// }
-// .right-message-content {
-//     float: right;
-//     order: 1;
-//     background-color: #3598DB;
-//     color: white;
-// }
+.in-the-middle {
+  margin-top: -7px;
+}

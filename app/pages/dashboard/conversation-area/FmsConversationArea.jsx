@@ -1,27 +1,46 @@
 'use strict';
 
 const React = require('react');
+const ReactDOM = require('react-dom');
 const Cookie = require('universal-cookie');
 
 let FmsMessageItem = require('FmsMessageItem');
 let FmsMessageForm = require('FmsMessageForm');
 let FmsInfoChat = require('FmsInfoChat');
 
+let count = 0;
+
 let FmsConversationArea = React.createClass({
 	componentDidMount: function () {
-		var obj = this.refs.chat_area;
-		obj.scrollTop = obj.scrollHeight;
+		const list = ReactDOM.findDOMNode(this.refs.chat_area);
+		list.scrollTop = list.scrollHeight;
+		list.addEventListener('scroll', () => {
+			if ($(list).scrollTop() == 0) {
+				this.loadMoreMessages();
+			}
+		});
+	},
+	loadMoreMessages: function () {
+		if (count != 0) return;
+		count++;
+		alert("Vwnvwiovuwoeuw");
 	},
 	componentDidUpdate: function () {
-		var obj = this.refs.chat_area;
-		obj.scrollTop = obj.scrollHeight;
+		var list = this.refs.chat_area;
+		list.scrollTop = list.scrollHeight;
 	},
 	render: function () {
 		let self = this;
 
 		let renderConversation = () => {
 			if (self.props.currentConversation && Array.isArray(self.props.currentConversation.children)) {
-				let lastItem = self.props.currentConversation.children[self.props.currentConversation.children.length - 1];
+				let messages = self.props.currentConversation.children;
+				messages = messages.sort((msg1, msg2) => { 
+					let t1 = new Date(msg1.updated_time);
+					let t2 = new Date(msg2.updated_time);
+					return t1 - t2;
+				})
+				let lastItem = messages[messages.length - 1];
 
 				return self.props.currentConversation.children.map(message => {
 					let isSelf = message.from.id == self.props.pageid;
