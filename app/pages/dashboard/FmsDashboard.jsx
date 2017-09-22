@@ -100,6 +100,7 @@ let FmsDashBoard = React.createClass({
 				from: {
 					id: self.state.pageid
 				},
+				updated_time: Date.now(),
 				parent: conversation
 			}
 
