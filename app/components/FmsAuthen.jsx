@@ -23,11 +23,9 @@ module.exports = {
 	onLogout: function () {
 		let cookie = new Cookie();
 		cookie.remove('jwt');
-		cookie.remove('user_fb_id');
-		cookie.remove('user_name');
 
 		socket.disconnect();
 
-		browserHistory.push('/');
+		window.location = '/'
 	}
 }
