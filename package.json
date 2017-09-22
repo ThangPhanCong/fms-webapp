@@ -16,6 +16,7 @@
     "react-dom": "^0.14.7",
     "react-router": "^2.8.1",
     "socket.io-client": "^2.0.3",
+    "store": "^2.0.12",
     "universal-cookie": "^2.0.8",
     "uuid": "^3.1.0"
   },

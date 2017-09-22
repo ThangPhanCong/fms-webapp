@@ -3,7 +3,7 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 const { Route, Router, IndexRoute, hashHistory, browserHistory } = require('react-router');
-const Cookie = require('universal-cookie');
+import store from 'store';
 
 let FmsApp = require('FmsApp');
 let FmsLoginCallback = require('FmsLoginCallback');
@@ -23,8 +23,7 @@ let socket = require('Socket');
 require("bootstrapJs");
 
 function requireLogin(nextState, replace) {
-	let cookie = new Cookie();
-	let jwt = cookie.get('jwt');
+	let jwt = store.get('jwt');
 
 	if (jwt) {
 		tokenApi.verifyAccessToken(jwt)

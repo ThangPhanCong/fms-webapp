@@ -2,7 +2,6 @@
 
 const React = require('react');
 const ReactDOM = require('react-dom');
-const Cookie = require('universal-cookie');
 
 let FmsMessageItem = require('FmsMessageItem');
 let FmsMessageForm = require('FmsMessageForm');
@@ -23,7 +22,7 @@ let FmsConversationArea = React.createClass({
 	loadMoreMessages: function () {
 		if (count != 0) return;
 		count++;
-		alert("Vwnvwiovuwoeuw");
+		//alert("Vwnvwiovuwoeuw");
 	},
 	componentDidUpdate: function () {
 		var list = this.refs.chat_area;

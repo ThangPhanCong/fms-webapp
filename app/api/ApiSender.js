@@ -1,14 +1,13 @@
 'use strict';
 
-const Cookie = require('universal-cookie');
+import store from 'store';
 const axios = require('axios');
 const config = require('config');
 
 const BASE_URL = config.BASE_URL;
 
 exports.get = (route, access_token) => {
-  let cookie = new Cookie();
-  let jwt = cookie.get('jwt');
+  let jwt = store.get('jwt');
   let url = `${BASE_URL}${route}`;
   let headers = {
     'authorization': access_token || jwt
@@ -29,8 +28,7 @@ exports.get = (route, access_token) => {
 };
 
 exports.post = (route, payload) => {
-  let cookie = new Cookie();
-  let jwt = cookie.get('jwt');
+  let jwt = store.get('jwt');
   let url = `${BASE_URL}${route}`;
   let headers = {
     'authorization': jwt

@@ -1,6 +1,5 @@
 'use strict';
 
-const Cookie = require('universal-cookie');
 let apiSender = require('ApiSender');
 
 module.exports = {
