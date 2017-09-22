@@ -16,6 +16,13 @@ let FmsHome = React.createClass({
       FmsAuthen.onLogin();
     }
   },
+  componentDidMount: function () {
+    let cookie = new Cookie();
+    let jwt = cookie.get('jwt');
+    if (jwt) {
+      browserHistory.push('/projects');
+    }
+  },
   render: function() {
     return (
       <div className="container-fluid homepage page">
