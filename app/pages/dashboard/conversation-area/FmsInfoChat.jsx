@@ -4,8 +4,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 
 const blockImg = require('block.png');
-const spamImg = require('spam.png');
-const fbImg = require('facebook.png');
+const fbImgActive = require('facebook_active.png');
 
 let FmsToolTip = require('FmsToolTip');
 
@@ -23,11 +22,8 @@ let FmsInfoChat = React.createClass({
           <FmsToolTip message="Block this person" direction="bottom">
             <img src={blockImg} className="icon-option"/>
           </FmsToolTip>
-          <FmsToolTip message="Stop receiving messages" direction="bottom">
-            <img src={spamImg} className="icon-option"/>
-          </FmsToolTip>
           <FmsToolTip message="Go to client's facebook" direction="bottom" link={customerFbUrl} target="_blank">
-            <img src={fbImg} className="icon-option"/>
+            <img src={fbImgActive} className="icon-option"/>
           </FmsToolTip>
         </div>
       </div>

@@ -46,12 +46,6 @@ let FmsClientList = React.createClass({
 			}
 		})
 	},
-	componentDidUpdate: function () {
-		if (this.state.showSpin == true) {
-			var list = this.refs.list;
-			list.scrollTop = list.scrollHeight;
-		}
-	},
 	render: function () {
 		let self = this;
 
@@ -68,16 +62,18 @@ let FmsClientList = React.createClass({
 		let showSpin = (this.state.showSpin == true) ? "" : " hide";
 
 		return (
-			<div ref="list" className="scroll-list">
+			<div className="client-list-wrapper">
 				<div className="search-client">
 					<img src={searchImg} className="search-icon"/>
 					<input type="text" className="input-search-client" />
 				</div>
-				<div>
-					{renderClients()}
-				</div>
-				<div className={"client-list-spin" + showSpin}>
-					<FmsSpin size={27}/>
+				<div ref="list" className="scroll-list">
+					<div>
+						{renderClients()}
+					</div>
+					<div className={"client-list-spin" + showSpin}>
+						<FmsSpin size={27}/>
+					</div>
 				</div>
 			</div>
 		);

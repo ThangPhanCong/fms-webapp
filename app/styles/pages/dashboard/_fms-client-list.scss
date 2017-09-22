@@ -4,12 +4,8 @@
     width: 75px;
     height: 100%;
     margin: 0px 0px 0px 0px;
-    overflow-y: scroll;
     box-shadow: 0;
     border-left: 1px solid #dedede;
-}
-.client-list::-webkit-scrollbar {
-    display: none;
 }
 
 .search-client {
@@ -85,10 +81,15 @@
     margin-bottom: 12px;
     margin-top: 12px;
 }
-.scroll-list {
+.client-list-wrapper {
     height: 100%;
+}
+.scroll-list {
+    height: calc(100% - 48px);
+    overflow: scroll;
     overflow-y: scroll;
     overflow-x: hidden;
+    border-radius:0 0 5px 5px;
 }
 .scroll-list::-webkit-scrollbar {
     display: none;
