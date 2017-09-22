@@ -1,8 +1,8 @@
 'use strict';
 
 const React = require('react');
-const Cookie = require('universal-cookie');
 const { browserHistory } = require('react-router');
+import store from 'store';
 
 let FmsAuthen = require('FmsAuthen');
 
@@ -14,8 +14,7 @@ let FmsNavigation = React.createClass({
     FmsAuthen.onLogout();
   },
   renderItemRight: function () {
-    let cookie = new Cookie();
-    let jwt = cookie.get('jwt');
+    let jwt = store.get('jwt');
 
     if (!jwt) {
       return (
@@ -27,8 +26,8 @@ let FmsNavigation = React.createClass({
         </ul>
       )
     } else {
-      let user_fb_id = cookie.get('user_fb_id');
-      let user_name = cookie.get('user_name');
+      let user_fb_id = store.get('user_fb_id');
+      let user_name = store.get('user_name');
       let avaUser = `https://graph.facebook.com/v2.10/${user_fb_id}/picture`;
 
       return (

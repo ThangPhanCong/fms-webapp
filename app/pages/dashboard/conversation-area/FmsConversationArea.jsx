@@ -1,7 +1,6 @@
 'use strict';
 
 const React = require('react');
-const Cookie = require('universal-cookie');
 
 let FmsMessageItem = require('FmsMessageItem');
 let FmsMessageForm = require('FmsMessageForm');

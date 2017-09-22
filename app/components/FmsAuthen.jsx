@@ -1,8 +1,8 @@
 'use strict';
 
 const React = require('react');
-const Cookie = require('universal-cookie');
 const { browserHistory } = require('react-router');
+import store from 'store';
 
 let config = require('config');
 let socket = require('Socket');
@@ -21,9 +21,9 @@ module.exports = {
 		window.location = fbLoginLink;
 	},
 	onLogout: function () {
-		let cookie = new Cookie();
-		cookie.remove('jwt');
-
+		store.clearAll('jwt');
+		console.log('remove store');
+		console.log(store.get('jwt'));
 		socket.disconnect();
 
 		window.location = '/'

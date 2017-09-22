@@ -2,14 +2,13 @@
 
 const React = require('react');
 const {browserHistory} = require('react-router');
-const Cookie = require('universal-cookie');
+import store from 'store';
 
 let FmsAuthen = require('FmsAuthen');
 
 let FmsHome = React.createClass({
   enterPages: function() {
-    let cookie = new Cookie();
-    let jwt = cookie.get('jwt');
+    let jwt = store.get('jwt');
     if (jwt) {
       browserHistory.push('/projects');
     } else {
@@ -17,8 +16,7 @@ let FmsHome = React.createClass({
     }
   },
   componentDidMount: function () {
-    let cookie = new Cookie();
-    let jwt = cookie.get('jwt');
+    let jwt = store.get('jwt');
     if (jwt) {
       browserHistory.push('/projects');
     }
