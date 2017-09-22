@@ -27,6 +27,7 @@ module.exports = {
       'app/pages/project',
       'app/pages/welcome',
       'app/pages/dashboard',
+      'app/pages/login-callback',
       'app/pages/dashboard/client-info',
       'app/pages/dashboard/client-list',
       'app/pages/dashboard/conversation-area'

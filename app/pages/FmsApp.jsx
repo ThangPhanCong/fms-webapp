@@ -1,13 +1,16 @@
+'use strict';
+
 const React = require('react');
-let FmsNavigation = require('FmsNavigation');
+
+const FmsNavigation = require('FmsNavigation');
 
 let FmsApp = (props) => {
-    return (
-        <div>
-            <FmsNavigation/>
-            {props.children}
-        </div>
-    );
+  return (
+    <div>
+      <FmsNavigation/>
+      {props.children}
+    </div>
+  );
 };
 
 module.exports = FmsApp;
