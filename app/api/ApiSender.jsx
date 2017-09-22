@@ -9,9 +9,12 @@ const BASE_URL = config.BASE_URL;
 exports.get = (route) => {
   let cookie = new Cookie();
   let jwt = cookie.get('jwt');
-  let url = `${BASE_URL}${route}?access_token=${jwt}`;
+  let url = `${BASE_URL}${route}`;
+  let headers = {
+    'authorization': jwt
+  }
 
-  return axios.get(url)
+  return axios.get(url, {headers})
     .then(res => {
       if (!res.data) {
         throw new Error('Something went wrong');
@@ -28,9 +31,12 @@ exports.get = (route) => {
 exports.post = (route, payload) => {
   let cookie = new Cookie();
   let jwt = cookie.get('jwt');
-  let url = `${BASE_URL}${route}?access_token=${jwt}`;
+  let url = `${BASE_URL}${route}`;
+  let headers = {
+    'authorization': jwt
+  }
 
-  return axios.post(url, payload)
+  return axios.post(url, payload, {headers})
     .then(res => {
       if (!res.data) {
         throw new Error('Something went wrong');
