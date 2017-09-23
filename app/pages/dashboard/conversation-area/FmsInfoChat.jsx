@@ -22,9 +22,6 @@ let FmsInfoChat = React.createClass({
           <FmsToolTip message="Block this person" direction="bottom">
             <img src={blockImg} className="icon-option"/>
           </FmsToolTip>
-          <FmsToolTip message="Go to client's facebook" direction="bottom" link={customerFbUrl} target="_blank">
-            <img src={fbImgActive} className="icon-option"/>
-          </FmsToolTip>
         </div>
       </div>
     );
