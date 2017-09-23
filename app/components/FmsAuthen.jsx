@@ -9,16 +9,9 @@ let socket = require('Socket');
 
 module.exports = {
 	onLogin: function () {
-		let clientId = config.FB_CLIENT_ID;
-		let redirectUri = config.REDIRECT_URI;
-		let scope = config.FB_SCOPE;
-		let fbLoginLink = `https://www.facebook.com/v2.8/dialog/oauth` +
-			`?auth_type=rerequest` +
-			`&client_id=${clientId}` +
-			`&redirect_uri=${redirectUri}` +
-			`&scope=${scope}`;
+		let oauthLink = `${config.BASE_URL}/api/fb/oauth?redirect_to=${config.REDIRECT_TO}`;
 
-		window.location = fbLoginLink;
+		window.location = oauthLink;
 	},
 	onLogout: function () {
 		store.clearAll('jwt');

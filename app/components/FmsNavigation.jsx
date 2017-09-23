@@ -1,8 +1,9 @@
 'use strict';
 
 const React = require('react');
-const { browserHistory } = require('react-router');
+const { browserHistory, Link } = require('react-router');
 import store from 'store';
+import uuid from 'uuid';
 
 let FmsAuthen = require('FmsAuthen');
 
@@ -43,6 +44,43 @@ let FmsNavigation = React.createClass({
       )
     }
   },
+  renderProjectItems: function (projects) {
+    return projects.map(project => {
+      return (
+        <li key={uuid()}><a href={'/projects/' + project.alias}>{project.name}</a></li>
+      )
+    })
+  },
+  renderSelectProjects: function () {
+    let self = this;
+    console.log('location');
+
+    let projects = [
+      {
+        alias : "2pages",
+        name : "2 pages"
+      },
+      {
+        alias : "myproject",
+        name : "myproject sdf"
+      },
+      {
+        alias : "2pages",
+        name : "sdfsd fsdfs df"
+      }
+    ]
+
+    return (
+      <ul className="nav navbar-nav">
+        <li className="dropdown">
+          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span className="caret"></span></a>
+          <ul className="dropdown-menu">
+            {self.renderProjectItems(projects)}
+          </ul>
+        </li>
+      </ul>
+    )
+  },
   render: function () {
     return (
       <nav className="navbar navbar-default navbar-fixed-top">
@@ -55,8 +93,9 @@ let FmsNavigation = React.createClass({
             </button>
             <a className="navbar-brand" href="/">FMS</a>
           </div>
+
           <div className="collapse navbar-collapse" id="myNavbar">
-            <ul className="nav navbar-nav"></ul>
+            {this.renderSelectProjects()}
             {this.renderItemRight()}
           </div>
         </div>
