@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label 'master-client'
-    }
+    agent any
 
     stages {
 
@@ -21,7 +19,7 @@ pipeline {
       //    steps {
       //        sh 'sudo npm test'
       //    }
-      //} 
+      //}
 
       stage('Build') {
           steps {
