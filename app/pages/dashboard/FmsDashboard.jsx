@@ -159,6 +159,9 @@ let FmsDashBoard = React.createClass({
 		this.setState({ conversations: newConversations });
 		this.filterConversations();
 	},
+	displayMoreMessages: function (newConversation) {
+		this.setState({ selectedConversation: newConversation });
+	},
 	sendMessage: function (msg) {
 		let self = this;
 		let _selectedConversation = this.state.selectedConversation;
@@ -273,7 +276,8 @@ let FmsDashBoard = React.createClass({
 
 		function renderConversation() {
 			if (self.state.selectedConversation) {
-				return <FmsConversationArea currentConversation={self.state.selectedConversation} pageid={self.state.pageid} sendMessage={self.sendMessage} />
+				return <FmsConversationArea currentConversation={self.state.selectedConversation} pageid={self.state.pageid} 
+				sendMessage={self.sendMessage} displayMoreMessages={self.displayMoreMessages}/>
 			} else {
 				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
 			}

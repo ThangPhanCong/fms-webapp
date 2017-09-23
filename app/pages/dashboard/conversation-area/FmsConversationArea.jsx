@@ -6,10 +6,17 @@ const ReactDOM = require('react-dom');
 let FmsMessageItem = require('FmsMessageItem');
 let FmsMessageForm = require('FmsMessageForm');
 let FmsInfoChat = require('FmsInfoChat');
+let FmsSpin = require('FmsSpin');
+let DashboardAPI = require('DashboardAPI');
 
 let count = 0;
 
 let FmsConversationArea = React.createClass({
+	getInitialState: function () {
+		return {
+			showSpin: false
+		}
+	},
 	componentDidMount: function () {
 		const list = ReactDOM.findDOMNode(this.refs.chat_area);
 		list.scrollTop = list.scrollHeight;
@@ -22,7 +29,18 @@ let FmsConversationArea = React.createClass({
 	loadMoreMessages: function () {
 		if (count != 0) return;
 		count++;
-		//alert("Vwnvwiovuwoeuw");
+		let newConversation = this.props.currentConversation;
+		let newMessages = [].concat(this.props.currentConversation.children);
+		let more = DashboardAPI.getMoreMessages();
+		newMessages = newMessages.concat(more);
+		newConversation.children = newMessages;
+		this.setState({ showSpin: true });
+		setTimeout(() => {
+			this.setState({
+				showSpin: false
+			});
+			this.props.displayMoreMessages(newConversation);
+		}, 3000);
 	},
 	componentDidUpdate: function () {
 		var list = this.refs.chat_area;
@@ -50,6 +68,7 @@ let FmsConversationArea = React.createClass({
 				});
 			}
 		};
+		let showSpin = (this.state.showSpin == true) ? "" : " hide";
 
 		return (
 			<div className="inner-conversation-area">
@@ -57,6 +76,9 @@ let FmsConversationArea = React.createClass({
 					<FmsInfoChat currentConversation={this.props.currentConversation}/>
 				</div>
 				<div className="chat-area" ref="chat_area">
+					<div className={"client-list-spin" + showSpin}>
+						<FmsSpin size={27}/>
+					</div>
 					{renderConversation()}
 				</div>
 				<div className="input-message-area">
