@@ -23,7 +23,7 @@ pipeline {
 
       stage('Build') {
           steps {
-              sh 'sudo NODE_ENV=production CONFIG=/home/jenkins/env/config-client.json webpack'
+              sh 'sudo NODE_ENV=production CONFIG=/home/jenkins/env/config-client.json npm run build'
           }
       }
     }
