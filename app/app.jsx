@@ -16,7 +16,7 @@ let FmsProject = require('FmsProject');
 
 import tokenApi from 'TokenApi';
 
-let config = require('config');
+let config = require('CONFIG');
 let socket = require('Socket');
 
 // Load Bootstrap js

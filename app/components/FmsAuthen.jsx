@@ -4,7 +4,7 @@ const React = require('react');
 const { browserHistory } = require('react-router');
 import store from 'store';
 
-let config = require('config');
+let config = require('CONFIG');
 let socket = require('Socket');
 
 module.exports = {
