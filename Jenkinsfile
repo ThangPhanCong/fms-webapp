@@ -21,7 +21,7 @@ pipeline {
       //    steps {
       //        sh 'sudo npm test'
       //    }
-      //}
+      //} 
 
       stage('Build') {
           steps {
