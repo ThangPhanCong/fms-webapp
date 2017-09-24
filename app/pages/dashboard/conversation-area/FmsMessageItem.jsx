@@ -9,6 +9,9 @@ let FmsAttachmentContent = require('FmsAttachmentContent');
 let FmsTextMessageContent = require('FmsTextMessageContent');
 
 let FmsMessageItem = React.createClass({
+	attachmentLoadDone: function () {
+		this.props.attachmentLoadDone();
+	},
 	render: function () {
 		let self = this;
 
@@ -31,7 +34,8 @@ let FmsMessageItem = React.createClass({
 			let attachmentData = null;
 
 			if (msg.shares && msg.shares.data.length > 0) {
-				return <FmsAttachmentContent key={uuid()} stickerSrc={msg.shares.data[0].link} isSelf={isSelf}/>
+				return <FmsAttachmentContent key={uuid()} stickerSrc={msg.shares.data[0].link} isSelf={isSelf}
+								attachmentLoadDone={self.attachmentLoadDone}/>
 			}
 
 			if (conversationType == 'inbox' && msg.attachments
@@ -49,7 +53,7 @@ let FmsMessageItem = React.createClass({
 					index++;
 					if (index > 1) hasMessage = 0;
 					return <FmsAttachmentContent key={uuid()} index={index} hasMessage={hasMessage} 
-									conversationType={conversationType} data={attachment} isSelf={isSelf}/>
+									conversationType={conversationType} data={attachment} isSelf={isSelf} attachmentLoadDone={self.attachmentLoadDone}/>
 				})
 			}
 		}

@@ -47,7 +47,9 @@ let FmsAttachmentContent = React.createClass({
 
     return (
       <div className={"message-attachment-wrapper" + hasMessage}>
-        <a href={imgUrl} target="_blank"><img className={messageAttachment + ' ' + attachmentTypeClass} src={imgUrl} /></a>
+        <a href={imgUrl} target="_blank">
+          <img className={messageAttachment + ' ' + attachmentTypeClass} src={imgUrl} onLoad={this.props.attachmentLoadDone}/>
+        </a>
       </div>
     )
   }
