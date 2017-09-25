@@ -17,8 +17,8 @@ let FmsToolTip = React.createClass({
   },
   render: function () {
     return (
-      <a ref="tooltip" data-toggle="tooltip" title={this.props.message} data-placement={this.props.direction}
-        href={this.props.link} target={this.props.target}>
+      <a ref="tooltip" data-toggle="tooltip" title={this.props.message} 
+        data-placement={this.props.direction} href={this.props.link} target={this.props.target}>
         {this.props.children}
       </a>
     )

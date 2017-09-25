@@ -2,6 +2,8 @@
 
 const React = require('react');
 
+let FmsToolTip = require('FmsToolTip');
+
 let FmsTextMessageContent = React.createClass({
   render: function () {
     return (
