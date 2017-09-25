@@ -4,13 +4,15 @@ const React = require('react');
 
 const FmsNavigation = require('FmsNavigation');
 
-let FmsApp = (props) => {
-  return (
-    <div>
-      <FmsNavigation/>
-      {props.children}
-    </div>
-  );
-};
+let FmsApp = React.createClass({
+  render: function () {
+    return (
+      <div>
+        <FmsNavigation location={this.props.location} params={this.props.params}/>
+        {this.props.children}
+      </div>
+    );
+  }
+});
 
 module.exports = FmsApp;

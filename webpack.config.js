@@ -34,6 +34,7 @@ module.exports = {
       'app/pages/posts',
       'app/pages/project',
       'app/pages/welcome',
+      'app/pages/settings',
       'app/pages/dashboard',
       'app/pages/login-callback',
       'app/pages/dashboard/client-info',
