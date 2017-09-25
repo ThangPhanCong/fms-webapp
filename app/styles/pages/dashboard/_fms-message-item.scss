@@ -5,6 +5,8 @@
 }
 .message-wrapper {
     display: flex;
+    position: relative;
+    z-index: 1;
 }
 .profile-wrapper {
     width: 32px;

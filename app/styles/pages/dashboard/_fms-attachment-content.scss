@@ -1,6 +1,8 @@
 .message-attachment-wrapper {
   display: inline-block;
   width: 100%;
+  position: relative;
+  z-index: 0;
 
   @mixin message-attachment {
     // max-width: 80%;

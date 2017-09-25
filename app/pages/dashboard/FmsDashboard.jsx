@@ -22,8 +22,13 @@ let FmsDashBoard = React.createClass({
 			selectedConversation: null,
 			project: null,
 			filters: filters,
+			conversationsIsLoading: false,
 			pageid: null
 		}
+	},
+	conversationLoaded: function () {
+		if (this.state.conversationsIsLoading == false) return;
+		this.setState({ conversationsIsLoading: false });
 	},
 	handleFilter: function (newFilters) {
 		this.setState({ filters: newFilters });
@@ -127,6 +132,7 @@ let FmsDashBoard = React.createClass({
 	},
 	handleClientClick: function (fb_id, type) {
 		let self = this;
+		this.setState({ conversationsIsLoading: true });
 
 		let _conversations = this.state.conversations;
 		let _selectedConversation = _conversations
@@ -138,11 +144,27 @@ let FmsDashBoard = React.createClass({
 			self.postSeenCv(_selectedConversation);
 		}
 
+		var countAttachment = (msgs) => {
+			let count = 0;
+			msgs.forEach((msg) => {
+				if (msg.shares) count += msg.shares.data.length;
+				else if (msg.attachment) count += 1;
+				else if (msg.attachments) count += msg.attachments.data.length;
+			});
+			return count;
+		};
+
+		this.setState({ selectedConversation: _selectedConversation });
+
 		if (!_selectedConversation.children) {
 			let updateChildren = (msgs) => {
 				let _selectedConversation = this.state.selectedConversation;
 				_selectedConversation.children = msgs;
-				this.setState({ selectedConversation: _selectedConversation });
+				let count = countAttachment(msgs);
+				this.setState({
+					selectedConversation: _selectedConversation,
+					conversationsIsLoading: count > 0
+				});
 			}
 
 			if (type == "inbox") {
@@ -152,13 +174,20 @@ let FmsDashBoard = React.createClass({
 				DashboardAPI.getReplyComment(fb_id)
 					.then(data => updateChildren(data.data))
 			}
+		} else {
+			let count = countAttachment(_selectedConversation.children);
+			this.setState({ 
+				selectedConversation: _selectedConversation,
+				conversationsIsLoading: count > 0
+			});
 		}
-
-		this.setState({ selectedConversation: _selectedConversation });
 	},
 	displayMoreConversations: function (newConversations) {
 		this.setState({ conversations: newConversations });
 		this.filterConversations();
+	},
+	displayMoreMessages: function (newConversation) {
+		this.setState({ selectedConversation: newConversation });
 	},
 	sendMessage: function (msg) {
 		let self = this;
@@ -255,7 +284,6 @@ let FmsDashBoard = React.createClass({
 	componentDidMount: function () {
 		let self = this;
 
-		console.log('params', this.props.params);
 		let projectAlias = this.props.params.alias;
 
 		projectApi.getProject(projectAlias)
@@ -274,7 +302,9 @@ let FmsDashBoard = React.createClass({
 
 		function renderConversation() {
 			if (self.state.selectedConversation) {
-				return <FmsConversationArea currentConversation={self.state.selectedConversation} pageid={self.state.pageid} sendMessage={self.sendMessage} />
+				return <FmsConversationArea currentConversation={self.state.selectedConversation} pageid={self.state.pageid}
+					sendMessage={self.sendMessage} displayMoreMessages={self.displayMoreMessages}
+					isLoading={self.state.conversationsIsLoading} conversationLoaded={self.conversationLoaded} />
 			} else {
 				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
 			}

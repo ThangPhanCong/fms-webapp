@@ -15,20 +15,26 @@
     overflow-x: hidden;
 
     &::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+        display: none;
+    //   width: 6px;
+    //   height: 6px;
     }
 
-    &::-webkit-scrollbar-track {
-      // background-color: rgba(0, 0, 0, 0.1);
-      // background-color: rgba(0, 0, 0, 0.3);
-      border-radius: 5px;
-    }
+    // &::-webkit-scrollbar-track {
+    //   // background-color: rgba(0, 0, 0, 0.1);
+    //   // background-color: rgba(0, 0, 0, 0.3);
+    //   border-radius: 5px;
+    // }
 
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(0, 0, 0, 0.3);
-      border-radius: 5px;
-    }
+    // &::-webkit-scrollbar-thumb {
+    //   background-color: rgba(0, 0, 0, 0.3);
+    //   border-radius: 5px;
+    // }
+}
+.conversation-spin {
+    width: 28px;
+    margin: auto;
+    margin-top: 120px;
 }
 
 @media only screen and (min-width: 1000px) {
