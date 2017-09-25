@@ -27,12 +27,12 @@ let FmsConversationArea = React.createClass({
 		}
 	},
 	componentDidMount: function () {
-		var list = this.refs.chat_area;
-		list.addEventListener('scroll', () => {
-			if ($(list).scrollTop() == 0) {
-				this.loadMoreMessages();
-			}
-		});
+		// var list = this.refs.chat_area;
+		// list.addEventListener('scroll', () => {
+		// 	if ($(list).scrollTop() == 0) {
+		// 		this.loadMoreMessages();
+		// 	}
+		// });
 	},
 	loadMoreMessages: function () {
 		if (count != 0) return;

@@ -39,12 +39,12 @@ let FmsClientList = React.createClass({
 		}, 3000);
 	},
 	componentDidMount: function () {
-		const list = ReactDOM.findDOMNode(this.refs.list);
-		list.addEventListener('scroll', () => {
-			if ($(list).scrollTop() + $(list).innerHeight() >= $(list)[0].scrollHeight) {
-				this.loadMoreConversations();
-			}
-		})
+		// const list = ReactDOM.findDOMNode(this.refs.list);
+		// list.addEventListener('scroll', () => {
+		// 	if ($(list).scrollTop() + $(list).innerHeight() >= $(list)[0].scrollHeight) {
+		// 		this.loadMoreConversations();
+		// 	}
+		// })
 	},
 	render: function () {
 		let self = this;
