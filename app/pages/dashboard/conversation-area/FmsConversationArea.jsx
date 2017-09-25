@@ -46,11 +46,11 @@ let FmsConversationArea = React.createClass({
 	},
 	componentWillUpdate: function () {
 		var list = this.refs.chat_area;
-		lastPosition = list.scrollHeight;
+		list.scrollTop = list.scrollHeight;
 	},
 	componentDidUpdate: function () {
 		var list = this.refs.chat_area;
-		list.scrollTop = list.scrollHeight - lastPosition;
+		list.scrollTop = list.scrollHeight;
 	},
 	render: function () {
 		let self = this;
@@ -58,24 +58,21 @@ let FmsConversationArea = React.createClass({
 		let renderConversation = () => {
 			if (self.props.currentConversation && Array.isArray(self.props.currentConversation.children)) {
 				let messages = self.props.currentConversation.children;
-				messages = messages.sort((msg1, msg2) => { 
+				messages = messages.sort((msg1, msg2) => {
 					let t1 = new Date(msg1.updated_time);
 					let t2 = new Date(msg2.updated_time);
 					return t1 - t2;
 				})
 				let lastItem = messages[messages.length - 1];
 
-				messageHasAttachment = 0;
+				messageHasAttachment = self.props.countAttachment(messages);
 				return messages.map(message => {
 					let isSelf = message.from.id == self.props.pageid;
 					let isLast = lastItem === message;
 					let type = (self.props.currentConversation.type == "comment") ? "comment" : "inbox";
-					if (message.shares) messageHasAttachment += message.shares.data.length;
-					else if (message.attachment) messageHasAttachment += 1;
-					else if (message.attachments) messageHasAttachment += message.attachments.data.length;
 
-					return <FmsMessageItem message={message} key={message.fb_id} isSelf={isSelf} 
-									isLast={isLast} type={type} attachmentLoadDone={self.attachmentLoadDone}/>;
+					return <FmsMessageItem message={message} key={message.fb_id} isSelf={isSelf}
+						isLast={isLast} type={type} attachmentLoadDone={self.attachmentLoadDone} />;
 				});
 			}
 		};
@@ -87,19 +84,19 @@ let FmsConversationArea = React.createClass({
 		return (
 			<div className="inner-conversation-area">
 				<div className="info-chat">
-					<FmsInfoChat currentConversation={this.props.currentConversation}/>
+					<FmsInfoChat currentConversation={this.props.currentConversation} />
 				</div>
 				<div className={"conversation-spin" + spin}>
-					<FmsSpin size={27}/>
+					<FmsSpin size={27} />
 				</div>
 				<div className={"chat-area" + chatArea} ref="chat_area">
 					<div className={"client-list-spin" + showSpin}>
-						<FmsSpin size={27}/>
+						<FmsSpin size={27} />
 					</div>
 					{renderConversation()}
 				</div>
 				<div className={"input-message-area" + input}>
-					<FmsMessageForm sendMessage={this.props.sendMessage}/>
+					<FmsMessageForm sendMessage={this.props.sendMessage} />
 				</div>
 			</div>
 		);

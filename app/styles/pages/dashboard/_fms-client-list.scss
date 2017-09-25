@@ -85,7 +85,7 @@
     height: 100%;
 }
 .scroll-list {
-    height: calc(100% - 48px);
+    height: 100%;
     overflow: scroll;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -96,6 +96,9 @@
 }
 
 @media only screen and (min-width: 1000px) {
+    .scroll-list {
+        height: calc(100% - 48px);
+    }
     .client-list {
         min-width: 250px;
         width: 22%;
