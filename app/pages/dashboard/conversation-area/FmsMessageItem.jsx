@@ -86,8 +86,9 @@ let FmsMessageItem = React.createClass({
 					  <a href={userFb} target="_blank"><img src={avaUrl} className="profile-message" /></a>
           </div>
 					<img src={srcArrow} className={arrow}/>
-          <div className={"message-content" + messageContent}>
+          <div className={"message-content fms-tooltip" + messageContent}>
 					  <FmsTextMessageContent content={this.props.message.message}/>
+						<span className="fms-tooltiptext">Tooltip text</span>
           </div>
 				</div>
 				{renderAttachment()}

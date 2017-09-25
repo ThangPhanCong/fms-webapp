@@ -10,8 +10,6 @@ let FmsToolTip = require('FmsToolTip');
 
 let FmsInfoChat = React.createClass({
   render: function () {
-    let customerFbUrl = `https://fb.com/${this.props.currentConversation.customer.id}`;
-    
     return (
       <div ref="info_chat">
         <div className="info-client">
