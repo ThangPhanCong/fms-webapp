@@ -11,6 +11,7 @@ let DashboardAPI = require('DashboardAPI');
 
 let count = 0;
 let messageHasAttachment = 0;
+let lastPosition = 0;
 
 let FmsConversationArea = React.createClass({
 	getInitialState: function () {
@@ -22,18 +23,16 @@ let FmsConversationArea = React.createClass({
 		messageHasAttachment--;
 		if (messageHasAttachment == 0) {
 			this.props.conversationLoaded();
-			// var list = this.refs.chat_area;
-			// list.scrollTop = list.scrollHeight;
-			// messageHasAttachment--;
+			messageHasAttachment--;
 		}
 	},
 	componentDidMount: function () {
-		// var list = this.refs.chat_area;
-		// list.addEventListener('scroll', () => {
-		// 	if ($(list).scrollTop() == 0) {
-		// 		this.loadMoreMessages();
-		// 	}
-		// });
+		var list = this.refs.chat_area;
+		list.addEventListener('scroll', () => {
+			if ($(list).scrollTop() == 0) {
+				this.loadMoreMessages();
+			}
+		});
 	},
 	loadMoreMessages: function () {
 		if (count != 0) return;
@@ -43,17 +42,15 @@ let FmsConversationArea = React.createClass({
 		let more = DashboardAPI.getMoreMessages();
 		newMessages = newMessages.concat(more);
 		newConversation.children = newMessages;
-		this.setState({ showSpin: true });
-		setTimeout(() => {
-			this.setState({
-				showSpin: false
-			});
-			this.props.displayMoreMessages(newConversation);
-		}, 0);
+		this.props.displayMoreMessages(newConversation);
+	},
+	componentWillUpdate: function () {
+		var list = this.refs.chat_area;
+		lastPosition = list.scrollHeight;
 	},
 	componentDidUpdate: function () {
 		var list = this.refs.chat_area;
-		list.scrollTop = list.scrollHeight;
+		list.scrollTop = list.scrollHeight - lastPosition;
 	},
 	render: function () {
 		let self = this;
