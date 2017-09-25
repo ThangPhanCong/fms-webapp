@@ -1,5 +1,13 @@
-let webpack = require('webpack');
-let path = require('path');
+const webpack = require('webpack');
+const path = require('path');
+
+let configPath;
+
+if (process.env.NODE_ENV === 'production') {
+  configPath = process.env.CONFIG;
+} else {
+  configPath = 'app/config.json';
+}
 
 const indexHtml = path.join(__dirname, 'app', 'index.html');
 
@@ -33,7 +41,8 @@ module.exports = {
       'app/pages/dashboard/conversation-area'
     ],
     alias: {
-      bootstrapJs: 'bootstrap/dist/js/bootstrap.min.js'
+      bootstrapJs: 'bootstrap/dist/js/bootstrap.min.js',
+      'CONFIG': configPath
     },
     extensions: ['', '.json', '.js', '.jsx']
   },

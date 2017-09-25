@@ -2,7 +2,7 @@
 
 import store from 'store';
 const axios = require('axios');
-const config = require('config');
+const config = require('CONFIG');
 
 const BASE_URL = config.BASE_URL;
 

@@ -33,7 +33,11 @@ module.exports = {
 		let payload = { message };
 		return apiSender.post(route, payload);
 	},
-	getMoreConversations: function () {
+	getMoreConversations: (page_id, next) => {
+		let route = `/api/pages/${page_id}/conversations?next=${next}`;
+		return apiSender.get(route);
+	},
+	getMoreConversationsTest: function () {
 		return [
 			{
 				"fb_id": "t_mid.$cAATa2eGB2fxkoPXIWFeb7B8WBlWZc",
