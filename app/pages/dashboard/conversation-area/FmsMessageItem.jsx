@@ -34,15 +34,15 @@ let FmsMessageItem = React.createClass({
 			let attachmentData = null;
 
 			if (msg.shares && msg.shares.data.length > 0) {
-				return <FmsAttachmentContent key={uuid()} stickerSrc={msg.shares.data[0].link} isSelf={isSelf}
+				return msg.shares.data.map((share) => {
+					let imgSrc = (share.link) ? share.link : "";
+					return <FmsAttachmentContent key={uuid()} stickerSrc={imgSrc} isSelf={isSelf}
 								attachmentLoadDone={self.attachmentLoadDone}/>
+				});
 			}
 
-			if (conversationType == 'inbox' && msg.attachments
-					&& Array.isArray(msg.attachments.data)
-					&& msg.attachments.data.length > 0) {
+			if (conversationType == 'inbox' && msg.attachments && msg.attachments.data.length > 0) {
 				attachmentData = msg.attachments.data;
-
 			} else if (conversationType == 'comment' && msg.attachment) {
 				attachmentData = [msg.attachment];
 			}

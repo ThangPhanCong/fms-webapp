@@ -130,6 +130,24 @@ let FmsDashBoard = React.createClass({
 				.catch(err => alert(err.message));
 		}
 	},
+	countAttachment: function (msgs) {
+		let count = 0;
+		msgs.forEach((msg) => {
+			if (msg.shares) {
+				msg.shares.data.forEach((share) => {
+					if (share.link) count++;
+				});
+			}
+			else if (msg.attachment) count += 1;
+			else if (msg.attachments) {
+				msg.attachments.data.forEach((attach) => {
+					if (attach.mime_type == "image/jpeg") count++;
+				});
+			}
+		});
+		console.log('sum' + count);
+		return count;
+	},
 	handleClientClick: function (fb_id, type) {
 		let self = this;
 		this.setState({ conversationsIsLoading: true });
@@ -144,23 +162,13 @@ let FmsDashBoard = React.createClass({
 			self.postSeenCv(_selectedConversation);
 		}
 
-		var countAttachment = (msgs) => {
-			let count = 0;
-			msgs.forEach((msg) => {
-				if (msg.shares) count += msg.shares.data.length;
-				else if (msg.attachment) count += 1;
-				else if (msg.attachments) count += msg.attachments.data.length;
-			});
-			return count;
-		};
-
 		this.setState({ selectedConversation: _selectedConversation });
 
 		if (!_selectedConversation.children) {
 			let updateChildren = (msgs) => {
 				let _selectedConversation = this.state.selectedConversation;
 				_selectedConversation.children = msgs;
-				let count = countAttachment(msgs);
+				let count = this.countAttachment(msgs);
 				this.setState({
 					selectedConversation: _selectedConversation,
 					conversationsIsLoading: count > 0
@@ -175,8 +183,8 @@ let FmsDashBoard = React.createClass({
 					.then(data => updateChildren(data.data))
 			}
 		} else {
-			let count = countAttachment(_selectedConversation.children);
-			this.setState({ 
+			let count = this.countAttachment(_selectedConversation.children);
+			this.setState({
 				selectedConversation: _selectedConversation,
 				conversationsIsLoading: count > 0
 			});
@@ -304,7 +312,8 @@ let FmsDashBoard = React.createClass({
 			if (self.state.selectedConversation) {
 				return <FmsConversationArea currentConversation={self.state.selectedConversation} pageid={self.state.pageid}
 					sendMessage={self.sendMessage} displayMoreMessages={self.displayMoreMessages}
-					isLoading={self.state.conversationsIsLoading} conversationLoaded={self.conversationLoaded} />
+					isLoading={self.state.conversationsIsLoading} conversationLoaded={self.conversationLoaded} 
+					countAttachment={self.countAttachment}/>
 			} else {
 				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
 			}
