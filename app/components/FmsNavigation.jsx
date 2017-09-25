@@ -1,9 +1,11 @@
 'use strict';
 
-const React = require('react');
-const { browserHistory, Link } = require('react-router');
+import React from 'react';
+import {Link} from 'react-router';
 import store from 'store';
 import uuid from 'uuid';
+
+import projectApi from 'ProjectApi';
 
 let FmsAuthen = require('FmsAuthen');
 
@@ -14,7 +16,35 @@ let FmsNavigation = React.createClass({
   onLogout: function () {
     FmsAuthen.onLogout();
   },
+  getInitialState: function () {
+    return {
+      projects: []
+    }
+  },
+  componentDidMount: function () {
+    let self = this;
+    let jwt = store.get('jwt');
+
+    if (jwt) {
+      projectApi.getAllProject()
+        .then(projects => self.setState({ projects }))
+    }
+  },
+  renderNavigationInProject: function () {
+    if (/\/projects\/.*/.test(this.props.location.pathname) === false) return;
+
+    let conversationItem = <li key="conversation-item"><Link activeClassName="active" to={"/projects/" + this.props.params.alias}>Conversation</Link></li>
+    let postItem = <li key="post-item"><Link activeClassName="active" to={"/projects/" + this.props.params.alias + '/posts'}>Posts</Link></li>
+    let settingItem = <li key="settings-item"><Link activeClassName="active" to={"/projects/" + this.props.params.alias + '/settings'}>Settings</Link></li>
+
+    return [
+      conversationItem,
+      postItem,
+      settingItem
+    ]
+  },
   renderItemRight: function () {
+    let self = this;
     let jwt = store.get('jwt');
 
     if (!jwt) {
@@ -28,13 +58,20 @@ let FmsNavigation = React.createClass({
       )
     } else {
       let user = store.get('user');
-      let avaUser = `https://graph.facebook.com/v2.10/${user.fb_id}/picture`;
+      let userId = user ? user.fb_id : '';
+      let username = user ? user.name : '';
+
+      let words_username = username.split(' ');
+      let lastname = words_username[words_username.length - 1];
+
+      let avaUser = `https://graph.facebook.com/v2.10/${userId}/picture`;
 
       return (
         <ul className="nav navbar-nav navbar-right">
+          {self.renderNavigationInProject()}
           <li className="user-info">
             <img className="user-ava" src={avaUser} />
-            <span className="white-color"> {user.name}  </span>
+            <span className="white-color"> {lastname}  </span>
           </li>
           <li><a onClick={this.onLogout} className="login-button">
             <span className="glyphicon glyphicon-log-out"></span> Log out</a>
@@ -53,27 +90,18 @@ let FmsNavigation = React.createClass({
   },
   renderSelectProjects: function () {
     let self = this;
-    console.log('location');
+    let projects = this.state.projects;
 
-    let projects = [
-      {
-        alias : "2pages",
-        name : "2 pages"
-      },
-      {
-        alias : "myproject",
-        name : "myproject sdf"
-      },
-      {
-        alias : "2pages",
-        name : "sdfsd fsdfs df"
-      }
-    ]
+    if (!this.props.location.pathname.includes('/projects') || !projects || projects.length == 0) return;
+
+    let alias = this.props.params ? this.props.params.alias : '';
+    let projectSelected = projects.find(p => p.alias == alias)
+    let projectNameSelected = projectSelected ? projectSelected.name : '';
 
     return (
       <ul className="nav navbar-nav">
         <li className="dropdown">
-          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span className="caret"></span></a>
+          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{projectNameSelected || 'Projects'} <span className="caret"></span></a>
           <ul className="dropdown-menu">
             {self.renderProjectItems(projects)}
           </ul>
@@ -82,24 +110,28 @@ let FmsNavigation = React.createClass({
     )
   },
   render: function () {
-    return (
-      <nav className="navbar navbar-default navbar-fixed-top">
-        <div className="container">
-          <div className="navbar-header">
-            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-            </button>
-            <a className="navbar-brand" href="/">FMS</a>
-          </div>
+    let self = this;
 
-          <div className="collapse navbar-collapse" id="myNavbar">
-            {this.renderSelectProjects()}
-            {this.renderItemRight()}
+    return (
+      <div className="fms-nav">
+        <nav className="navbar navbar-default navbar-fixed-top">
+          <div className="container">
+            <div className="navbar-header">
+              <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+              </button>
+              <a className="navbar-brand" href="/">FMS</a>
+            </div>
+
+            <div className="collapse navbar-collapse" id="myNavbar">
+              {this.renderSelectProjects()}
+              {this.renderItemRight()}
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
     );
   }
 });

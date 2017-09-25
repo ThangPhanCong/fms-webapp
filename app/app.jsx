@@ -2,7 +2,7 @@
 
 const React = require('react');
 const ReactDOM = require('react-dom');
-const { Route, Router, IndexRoute, hashHistory, browserHistory } = require('react-router');
+const { Route, Router, IndexRoute, browserHistory } = require('react-router');
 import store from 'store';
 
 let FmsApp = require('FmsApp');
@@ -13,6 +13,7 @@ let FmsHome = require('FmsHome');
 let FmsDashboard = require('FmsDashboard');
 let FmsPosts = require('FmsPosts');
 let FmsProject = require('FmsProject');
+let FmsSettings = require('FmsSettings');
 
 import tokenApi from 'TokenApi';
 
@@ -50,6 +51,8 @@ ReactDOM.render(
 
 			<Route path="/projects" component={FmsProject} onEnter={requireLogin}/>
 			<Route path="/projects/:alias" component={FmsDashboard} onEnter={requireLogin}/>
+			<Route path="/projects/:alias/posts" component={FmsPosts} onEnter={requireLogin}/>
+			<Route path="/projects/:alias/settings" component={FmsSettings} onEnter={requireLogin}/>
 
 			<IndexRoute component={FmsHome}/>
 		</Route>

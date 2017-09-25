@@ -56,9 +56,12 @@ let FmsPosts = React.createClass({
   },
   render: function() {
     return (
-      <div className="posts-wrapper page">
-        <div className="row">
-          {this.renderPosts()}
+      <div className="container page">
+        <div className="posts-wrapper">
+          <p>List posts here</p>
+          <div className="row">
+            {this.renderPosts()}
+          </div>
         </div>
       </div>
     );
