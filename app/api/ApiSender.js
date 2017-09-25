@@ -48,6 +48,27 @@ exports.post = (route, payload) => {
     });
 };
 
+exports.delete = (route, access_token) => {
+  let jwt = store.get('jwt');
+  let url = `${BASE_URL}${route}`;
+  let headers = {
+    'authorization': access_token || jwt
+  }
+
+  return axios.delete(url, {headers})
+    .then(res => {
+      if (!res.data) {
+        throw new Error('Something went wrong');
+      } else {
+        if (res.data.err) {
+          throw new Error(res.data.msg);
+        } else {
+          return Promise.resolve(res.data.data);
+        }
+      }
+    });
+};
+
 exports.getWithoutAuth = (route) => {
   let url = BASE_URL + route;
   return axios.get(url);

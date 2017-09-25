@@ -1,7 +1,10 @@
+'use strict';
+
 const React = require('react');
 const {browserHistory} = require('react-router');
-
 const uuid = require('uuid');
+
+import projectApi from 'ProjectApi';
 
 let FmsProjectItem = React.createClass({
   renderPageItem: function () {
@@ -35,6 +38,13 @@ let FmsProjectItem = React.createClass({
   handleItemClick: function () {
     this.props.onItemClick(this.props.data);
   },
+  deleteProjectClick: function (e) {
+    e.stopPropagation();
+    let self = this;
+    let projectAlias = this.props.data.alias;
+
+    self.props.handleDeleteProject(projectAlias);
+  },
   render: function() {
     let self = this;
     let project = this.props.data;
@@ -45,9 +55,11 @@ let FmsProjectItem = React.createClass({
         <div className="project-item panel panel-default" onClick={self.handleItemClick}>
           <div className="panel-heading">
             <h3 className="panel-title">{projectName}</h3>
+            <span className="glyphicons glyphicons-bin"></span>
           </div>
           <div className="panel-body">
-            {self.renderPageItem()}
+            <div className="page-wrapper">{self.renderPageItem()}</div>
+            <button className="btn btn-danger" onClick={self.deleteProjectClick}>Delete</button>
           </div>
         </div>
       </div>
