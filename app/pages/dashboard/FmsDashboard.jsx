@@ -42,7 +42,7 @@ let FmsDashBoard = React.createClass({
 			}
 		});
 		this.setState({ filteredConversations: newConversations });
-		if (newConversations.length < 10) this._child.loadMoreConversations();
+		//if (newConversations.length < 10) this._child.loadMoreConversations();
 	},
 	parseConversationItem: function (item) {
 		switch (item.type) {
@@ -135,17 +135,18 @@ let FmsDashBoard = React.createClass({
 		msgs.forEach((msg) => {
 			if (msg.shares) {
 				msg.shares.data.forEach((share) => {
-					if (share.link) count++;
+					if (share.link && share.link.indexOf("scontent") != -1) count++;
 				});
 			}
-			else if (msg.attachment) count += 1;
+			else if (msg.attachment && (msg.attachment.type == 'sticker' || msg.attachment.type == 'photo' ||
+							 msg.attachment.type == 'video_inline' || msg.attachment.type == 'share')) count += 1;
 			else if (msg.attachments) {
 				msg.attachments.data.forEach((attach) => {
-					if (attach.mime_type == "image/jpeg") count++;
+					if (attach.mime_type == "image/jpeg" || attach.mime_type == "image/gif" || 
+							attach.mime_type == "video/mp4") count++;
 				});
 			}
 		});
-		console.log('sum' + count);
 		return count;
 	},
 	handleClientClick: function (fb_id, type) {

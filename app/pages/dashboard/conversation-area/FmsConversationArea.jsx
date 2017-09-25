@@ -46,11 +46,11 @@ let FmsConversationArea = React.createClass({
 	},
 	componentWillUpdate: function () {
 		var list = this.refs.chat_area;
-		lastPosition = list.scrollHeight;
+		list.scrollTop = list.scrollHeight;
 	},
 	componentDidUpdate: function () {
 		var list = this.refs.chat_area;
-		list.scrollTop = list.scrollHeight - lastPosition;
+		list.scrollTop = list.scrollHeight;
 	},
 	render: function () {
 		let self = this;
@@ -66,7 +66,6 @@ let FmsConversationArea = React.createClass({
 				let lastItem = messages[messages.length - 1];
 
 				messageHasAttachment = self.props.countAttachment(messages);
-				console.log('sum' + messageHasAttachment);
 				return messages.map(message => {
 					let isSelf = message.from.id == self.props.pageid;
 					let isLast = lastItem === message;

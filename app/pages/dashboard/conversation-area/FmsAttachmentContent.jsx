@@ -4,10 +4,7 @@ let FmsAttachmentContent = React.createClass({
   getDefaultProps: function () {
     return {
       isSelf: false,
-      hasMessage: -1,
-      conversationType: null,
-      data: null,
-      stickerSrc: null
+      hasMessage: -1
     };
   },
   render: function () {
@@ -21,34 +18,14 @@ let FmsAttachmentContent = React.createClass({
     } else {
       hasMessage = " no-message";
     }
-    let attachmentTypeClass = '';
-    let imgUrl = null;
-
-    switch (this.props.data && this.props.data.type) {
-      case 'sticker':
-        attachmentTypeClass = ' sticker';
-        break;
-      default:
-        attachmentTypeClass = ' image_type';
-        break;
-    }
-
-    if (this.props.stickerSrc) {
-      imgUrl = this.props.stickerSrc;
-      attachmentTypeClass = ' sticker'
-    } else {
-      if (this.props.conversationType == 'inbox' && this.props.data.image_data) {
-        imgUrl = this.props.data.image_data.preview_url;
-      } else if (this.props.conversationType == 'comment' && this.props.data.media
-        && this.props.data.media.image) {
-        imgUrl = this.props.data.media.image.src;
-      }
-    }
+    let preview = self.props.preview;
+    let msgAttachWrapper = (preview == "" || preview == null || preview == undefined) ? " hide" : "";
 
     return (
-      <div className={"message-attachment-wrapper" + hasMessage}>
-        <a href={imgUrl} target="_blank">
-          <img className={messageAttachment + ' ' + attachmentTypeClass} src={imgUrl} onLoad={this.props.attachmentLoadDone}/>
+      <div className={"message-attachment-wrapper" + hasMessage + msgAttachWrapper}>
+        <a href={self.props.origin} target="_blank">
+          <img className={messageAttachment + ' ' + self.props.type} src={self.props.preview} 
+          onLoad={this.props.attachmentLoadDone}/>
         </a>
       </div>
     )
