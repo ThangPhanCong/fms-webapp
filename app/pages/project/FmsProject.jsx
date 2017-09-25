@@ -31,6 +31,17 @@ let FmsProject = React.createClass({
     // console.log('handleProjectItemClick', project);
     browserHistory.push('/projects/' + project.alias);
   },
+  handleDeleteProject: function (alias) {
+    let self = this;
+
+    projectApi.deleteProject(alias)
+      .then(() => {
+        self.updateProjects();
+      })
+      .catch(err => {
+        alert(err);
+      })
+  },
   renderPageItems: function () {
     let self = this;
     let projects = this.state.projects;
@@ -38,7 +49,7 @@ let FmsProject = React.createClass({
     if (projects && Array.isArray(projects) && projects.length > 0) {
       return projects.map(project => {
         return (
-          <FmsProjectItem key={project.alias} data={project} onItemClick={self.handleProjectItemClick}></FmsProjectItem>
+          <FmsProjectItem key={project.alias} data={project} onItemClick={self.handleProjectItemClick} handleDeleteProject={self.handleDeleteProject}></FmsProjectItem>
         )
       })
     } else {
