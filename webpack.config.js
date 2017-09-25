@@ -6,7 +6,7 @@ let configPath;
 if (process.env.NODE_ENV === 'production') {
   configPath = process.env.CONFIG;
 } else {
-  configPath = 'app/config.json';
+  configPath = 'config.json';
 }
 
 const indexHtml = path.join(__dirname, 'app', 'index.html');
