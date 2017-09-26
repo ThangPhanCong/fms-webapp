@@ -1,6 +1,7 @@
 'use strict';
 
 const React = require('react');
+const ReactDOM = require('react-dom');
 const uuid = require('uuid');
 const rightArrowImg = require('right_arrow.png');
 const leftArrowImg = require('left_arrow.png');
@@ -12,6 +13,28 @@ let FmsMessageItem = React.createClass({
 	attachmentLoadDone: function () {
 		this.props.attachmentLoadDone();
 	},
+
+	convertTime: function (time) {
+		let date = new Date(time);
+		let hour = (date.getHours() > 9) ? date.getHours() : "0" + date.getHours();
+		let minute= (date.getMinutes() > 9) ? date.getMinutes() : "0" + date.getMinutes();
+		let day;
+		switch (date.getDay()) {
+			case 0: day = "Sunday"; break;
+			case 1: day = "Monday"; break;
+			case 2: day = "Tuesday"; break;
+			case 3: day = "Wednesday"; break;
+			case 4: day = "Thurday"; break;
+			case 5: day = "Friday"; break;
+			case 6: day = "Saturday"; break;
+		};
+		return day + " " + hour + ":" + minute;
+	},
+	componentDidMount: function () {
+    $(ReactDOM.findDOMNode(this.refs.tooltip)).ready(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  },
 	render: function () {
 		let self = this;
 
@@ -26,6 +49,8 @@ let FmsMessageItem = React.createClass({
 		let isLast = (this.props.isLast) ? " last-message" : "";
 		messageContent += (this.props.message.message == "" ? " hide" : "");
 		arrow += (this.props.message.message == "") ? " hide" : "";
+		let sent_time = this.convertTime(this.props.message.updated_time);
+		let direction = (isSelf) ? "right" : "left";
 
 		function renderAttachment() {
 			let msg = self.props.message;
@@ -81,14 +106,14 @@ let FmsMessageItem = React.createClass({
 
 		return (
 			<div className={"message-item" + isLast}>
-				<div className={"message-wrapper" + messageWrapper}>
+				<div className={"message-wrapper" + messageWrapper} ref="tooltip" data-toggle="tooltip" 
+						 title={sent_time} data-placement={direction}>
           <div className={"profile-wrapper" + profileWrapper}>
 					  <a href={userFb} target="_blank"><img src={avaUrl} className="profile-message" /></a>
           </div>
 					<img src={srcArrow} className={arrow}/>
-          <div className={"message-content fms-tooltip" + messageContent}>
+          <div className={"message-content" + messageContent}>
 					  <FmsTextMessageContent content={this.props.message.message}/>
-						<span className="fms-tooltiptext">Tooltip text</span>
           </div>
 				</div>
 				{renderAttachment()}
