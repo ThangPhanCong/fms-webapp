@@ -29,8 +29,8 @@ pipeline {
 
       stage('Deploy') {
           steps {
-              sh 'sudo chmod +x script/deploy'
-			        sh 'sudo ./script/deploy'
+              sh 'chmod +x script/deploy'
+			        sh './script/deploy'
           }
       }
     }
