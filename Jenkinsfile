@@ -3,15 +3,15 @@ pipeline {
 
     stages {
 
-      stage('Login root user') {
-          steps {
-              sh 'sudo -i'
-          }
-      }
+      //stage('Login root user') {
+      //    steps {
+      //        sh 'sudo -i'
+      //    }
+      //}
 
       stage('Install Dependencies') {
           steps {
-              sh 'sudo npm i'
+              sh 'npm i'
           }
       }
 
@@ -23,7 +23,7 @@ pipeline {
 
       stage('Build') {
           steps {
-              sh 'sudo NODE_ENV=production CONFIG=/home/jenkins/env/config-client.json npm run build'
+              sh 'NODE_ENV=production CONFIG=/home/jenkins/env/config-client.json npm run build'
           }
       }
 
