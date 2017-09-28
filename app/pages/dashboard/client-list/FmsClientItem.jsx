@@ -10,7 +10,7 @@ let FmsClientItem = React.createClass({
 		let clientid, clientName, message;
 		let isSelected = (this.props.isSelected) ? " selectedItem" : "";
 
-		clientid = this.props.data.customer.id;
+		clientid = this.props.data.customer.fb_id;
 		clientName = this.props.data.customer.name;
 		message = this.props.data.snippet;
 

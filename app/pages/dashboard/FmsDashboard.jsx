@@ -49,7 +49,6 @@ let FmsDashBoard = React.createClass({
 			case "inbox":
 				break;
 			case "comment":
-				item.customer = item.from;
 				break;
 		}
 
@@ -142,7 +141,7 @@ let FmsDashBoard = React.createClass({
 							 msg.attachment.type == 'video_inline' || msg.attachment.type == 'share')) count += 1;
 			else if (msg.attachments) {
 				msg.attachments.data.forEach((attach) => {
-					if (attach.mime_type == "image/jpeg" || attach.mime_type == "image/gif" || 
+					if (attach.mime_type == "image/jpeg" || attach.mime_type == "image/gif" ||
 							attach.mime_type == "video/mp4") count++;
 				});
 			}
@@ -313,7 +312,7 @@ let FmsDashBoard = React.createClass({
 			if (self.state.selectedConversation) {
 				return <FmsConversationArea currentConversation={self.state.selectedConversation} pageid={self.state.pageid}
 					sendMessage={self.sendMessage} displayMoreMessages={self.displayMoreMessages}
-					isLoading={self.state.conversationsIsLoading} conversationLoaded={self.conversationLoaded} 
+					isLoading={self.state.conversationsIsLoading} conversationLoaded={self.conversationLoaded}
 					countAttachment={self.countAttachment}/>
 			} else {
 				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
