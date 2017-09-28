@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Facebook management suite",
   "scripts": {
+    "dev": "webpack -w --progress",
     "build": "webpack --progress",
     "prestart": "npm i",
     "start": "node server.js"
