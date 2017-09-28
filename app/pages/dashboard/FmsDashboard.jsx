@@ -281,13 +281,27 @@ let FmsDashBoard = React.createClass({
 	subscribePageChanges: function (pages) {
 		let self = this;
 
-		// for test only
-		// let page = pages.pop();
-		// socket.subscribePageChanges({ page_fb_id: page.fb_id, onUpdateChanges: self.updateMsgInConversation });
-
 		pages.forEach(page => {
 			socket.subscribePageChanges({ page_fb_id: page.fb_id, onUpdateChanges: self.updateMsgInConversation });
 		});
+	},
+	updateBlockCustomer: function (cv, is_blocked) {
+		let self = this;
+
+		cv.customer.is_blocked = is_blocked;
+
+		let _conversations = self.state.conversations.map(_cv => (cv.fb_id == _cv.fb_id) ? cv : _cv );
+
+		self.setState({
+			conversations: _conversations,
+		})
+
+		let _selectedConversation = this.state.selectedConversation;
+		if (_selectedConversation.fb_id == cv.fb_id) {
+			self.setState({
+				selectedConversation: cv
+			});
+		}
 	},
 	componentDidMount: function () {
 		let self = this;
@@ -313,7 +327,8 @@ let FmsDashBoard = React.createClass({
 				return <FmsConversationArea currentConversation={self.state.selectedConversation} pageid={self.state.pageid}
 					sendMessage={self.sendMessage} displayMoreMessages={self.displayMoreMessages}
 					isLoading={self.state.conversationsIsLoading} conversationLoaded={self.conversationLoaded}
-					countAttachment={self.countAttachment}/>
+					countAttachment={self.countAttachment}
+					updateBlockCustomer={self.updateBlockCustomer}/>
 			} else {
 				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
 			}

@@ -84,7 +84,7 @@ let FmsConversationArea = React.createClass({
 		return (
 			<div className="inner-conversation-area">
 				<div className="info-chat">
-					<FmsInfoChat currentConversation={this.props.currentConversation} />
+					<FmsInfoChat currentConversation={this.props.currentConversation} updateBlockCustomer={self.props.updateBlockCustomer}/>
 				</div>
 				<div className={"conversation-spin" + spin}>
 					<FmsSpin size={27} />
