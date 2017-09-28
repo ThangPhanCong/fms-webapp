@@ -23,14 +23,14 @@ pipeline {
 
       stage('Build') {
           steps {
-              sh 'NODE_ENV=production CONFIG=/home/jenkins/env/config-client.json npm run build'
+              sh 'NODE_ENV=production CONFIG=/home/fms/config-client.json npm run build'
           }
       }
 
       stage('Deploy') {
           steps {
-              sh 'sudo chmod +x script/deploy'
-			        sh 'sudo ./script/deploy'
+              sh 'chmod +x script/deploy'
+			        sh './script/deploy'
           }
       }
     }
