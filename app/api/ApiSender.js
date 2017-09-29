@@ -73,3 +73,8 @@ exports.getWithoutAuth = (route) => {
   let url = BASE_URL + route;
   return axios.get(url);
 };
+
+exports.getGraphApi = (route) => {
+  let url = `https://graph.facebook.com/v2.10` + route;
+  return axios.get(url);
+};
