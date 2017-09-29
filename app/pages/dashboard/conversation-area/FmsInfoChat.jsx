@@ -12,6 +12,7 @@ const blockApi = require('BlockApi');
 
 let FmsInfoChat = React.createClass({
   seen_time: function (time) {
+    if (time == undefined || time == null) return "";
     let date = new Date(time);
     let current = new Date();
 

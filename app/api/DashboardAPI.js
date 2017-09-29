@@ -37,6 +37,14 @@ module.exports = {
 		let route = `/api/pages/${page_id}/conversations?next=${next}`;
 		return apiSender.get(route);
 	},
+	getPostInfo: (post_id) => {
+		let route = `/api/posts/${post_id}`;
+		return apiSender.get(route);
+	},
+	getAccessToken: (page_id) => {
+		let route = `/api/pages/${page_id}/access-token`;
+		return apiSender.get(route);
+	},
 	getMoreConversationsTest: function () {
 		return [
 			{

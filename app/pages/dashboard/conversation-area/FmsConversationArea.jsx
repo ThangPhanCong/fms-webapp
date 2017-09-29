@@ -22,6 +22,7 @@ let FmsConversationArea = React.createClass({
 	attachmentLoadDone: function () {
 		messageHasAttachment--;
 		if (messageHasAttachment == 0) {
+			console.log("attachment load done");
 			this.props.conversationLoaded();
 			messageHasAttachment--;
 		}
