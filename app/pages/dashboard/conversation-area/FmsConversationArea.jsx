@@ -54,6 +54,7 @@ let FmsConversationArea = React.createClass({
 	},
 	render: function () {
 		let self = this;
+		console.log(this.props.currentConversation);
 
 		let renderConversation = () => {
 			if (self.props.currentConversation && Array.isArray(self.props.currentConversation.children)) {
