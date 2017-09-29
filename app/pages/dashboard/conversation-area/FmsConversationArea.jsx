@@ -55,6 +55,11 @@ let FmsConversationArea = React.createClass({
 	render: function () {
 		let self = this;
 		console.log(this.props.currentConversation);
+		DashboardAPI.getPostInfo(this.props.currentConversation.parent_fb_id).then((res) => {
+			console.log(res);
+		}, (err) => {
+			console.log(err);
+		});
 
 		let renderConversation = () => {
 			if (self.props.currentConversation && Array.isArray(self.props.currentConversation.children)) {
