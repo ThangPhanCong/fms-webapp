@@ -8,28 +8,28 @@ module.exports = {
 		return apiSender.get(route);
 	},
 	getMessageInbox: function (inbox_id) {
-		let route = `/api/inbox/${inbox_id}/messages`;
+		let route = `/api/inboxes/${inbox_id}/messages`;
 		return apiSender.get(route);
 	},
 	getReplyComment: function (comment_id) {
-		let route = `/api/comment/${comment_id}/comments`;
+		let route = `/api/comments/${comment_id}/comments`;
 		return apiSender.get(route);
 	},
 	postSeenCmt: function (comment_id) {
-		let route = `/api/comment/${comment_id}/seen`;
+		let route = `/api/comments/${comment_id}/seen`;
 		return apiSender.post(route);
 	},
 	postSeenInbox: function (inbox_id) {
-		let route = `/api/inbox/${inbox_id}/seen`;
+		let route = `/api/inboxes/${inbox_id}/seen`;
 		return apiSender.post(route);
 	},
 	postRepInboxMsg: function (inbox_id, message) {
-		let route = `/api/inbox/${inbox_id}/sendmsg`;
+		let route = `/api/inboxes/${inbox_id}/sendmsg`;
 		let payload = { message };
 		return apiSender.post(route, payload);
 	},
 	postRepCmtMsg: function (cmt_id, message) {
-		let route = `/api/comment/${cmt_id}/sendmsg`;
+		let route = `/api/comments/${cmt_id}/sendmsg`;
 		let payload = { message };
 		return apiSender.post(route, payload);
 	},
