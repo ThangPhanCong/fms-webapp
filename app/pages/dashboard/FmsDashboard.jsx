@@ -20,6 +20,7 @@ let FmsDashBoard = React.createClass({
 			conversations: [],
 			filteredConversations: [],
 			selectedConversation: null,
+			conversationPaging: null,
 			project: null,
 			filters: filters,
 			conversationsIsLoading: false,
@@ -165,22 +166,24 @@ let FmsDashBoard = React.createClass({
 		this.setState({ selectedConversation: _selectedConversation });
 
 		if (!_selectedConversation.children) {
-			let updateChildren = (msgs) => {
+			let updateChildren = (data) => {
 				let _selectedConversation = this.state.selectedConversation;
-				_selectedConversation.children = msgs;
-				let count = this.countAttachment(msgs);
+				_selectedConversation.children = data.data;
+				let count = this.countAttachment(data.data);
+				let paging = (data.paging) ? data.paging.next : null;
 				this.setState({
 					selectedConversation: _selectedConversation,
-					conversationsIsLoading: count > 0
+					conversationsIsLoading: count > 0,
+					conversationPaging: paging
 				});
 			}
 
 			if (type == "inbox") {
 				DashboardAPI.getMessageInbox(fb_id)
-					.then(data => updateChildren(data.data))
+					.then(data => updateChildren(data))
 			} else if (type == "comment") {
 				DashboardAPI.getReplyComment(fb_id)
-					.then(data => updateChildren(data.data))
+					.then(data => updateChildren(data))
 			}
 		} else {
 			let count = this.countAttachment(_selectedConversation.children);
@@ -194,8 +197,22 @@ let FmsDashBoard = React.createClass({
 		this.setState({ conversations: newConversations });
 		this.filterConversations();
 	},
-	displayMoreMessages: function (newConversation) {
-		this.setState({ selectedConversation: newConversation });
+	displayMoreMessages: function (more, paging) {
+		let newConversation = this.state.selectedConversation;
+		let oldChildren = this.state.selectedConversation.children;
+		let children = more.sort((a, b) => {
+			let t1 = new Date(a.updated_time);
+			let t2 = new Date(b.updated_time);
+			return t2 - t1;
+		});
+		oldChildren.forEach((child) => {
+			children.push(child);
+		});
+		newConversation.children = children;
+		this.setState({ 
+			selectedConversation: newConversation,
+			conversationPaging: paging
+		});
 	},
 	sendMessage: function (msg) {
 		let self = this;
@@ -205,7 +222,6 @@ let FmsDashBoard = React.createClass({
 	},
 	updateMsgInConversation: function (msg) {
 		let self = this;
-		console.log('updateMsgInConversation', msg);
 		if (!msg || !msg.parent || !msg.parent.type) return;
 
 		let _conversations = self.state.conversations;
@@ -327,7 +343,7 @@ let FmsDashBoard = React.createClass({
 				return <FmsConversationArea currentConversation={self.state.selectedConversation} pageid={self.state.pageid}
 					sendMessage={self.sendMessage} displayMoreMessages={self.displayMoreMessages}
 					isLoading={self.state.conversationsIsLoading} conversationLoaded={self.conversationLoaded}
-					countAttachment={self.countAttachment}
+					countAttachment={self.countAttachment} paging={self.state.conversationPaging}
 					updateBlockCustomer={self.updateBlockCustomer}/>
 			} else {
 				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>

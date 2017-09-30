@@ -9,9 +9,8 @@ let FmsInfoChat = require('FmsInfoChat');
 let FmsSpin = require('FmsSpin');
 let DashboardAPI = require('DashboardAPI');
 
-let count = 0;
 let messageHasAttachment = 0;
-let lastPosition = 0;
+let lastScrollPosition;
 
 let FmsConversationArea = React.createClass({
 	getInitialState: function () {
@@ -22,36 +21,46 @@ let FmsConversationArea = React.createClass({
 	attachmentLoadDone: function () {
 		messageHasAttachment--;
 		if (messageHasAttachment == 0) {
-			console.log("attachment load done");
 			this.props.conversationLoaded();
 			messageHasAttachment--;
 		}
 	},
 	componentDidMount: function () {
-		// var list = this.refs.chat_area;
-		// list.addEventListener('scroll', () => {
-		// 	if ($(list).scrollTop() == 0) {
-		// 		this.loadMoreMessages();
-		// 	}
-		// });
+		var list = this.refs.chat_area;
+		list.addEventListener('scroll', () => {
+			if ($(list).scrollTop() == 0) {
+				this.loadMoreMessages();
+			}
+		});
 	},
 	loadMoreMessages: function () {
-		if (count != 0) return;
-		count++;
-		let newConversation = this.props.currentConversation;
-		let newMessages = [].concat(this.props.currentConversation.children);
-		let more = DashboardAPI.getMoreMessages();
-		newMessages = newMessages.concat(more);
-		newConversation.children = newMessages;
-		this.props.displayMoreMessages(newConversation);
+		let current = this.props.currentConversation;
+		if (current.type == "comment" && this.props.paging && !this.state.showSpin) {
+			this.setState({ showSpin: true });
+			DashboardAPI.getReplyComment(current.fb_id, this.props.paging).then((res) => {
+				let paging = (res.paging) ? res.paging.next : null
+				this.setState({ showSpin: false });
+				this.props.displayMoreMessages(res.data, paging);
+			});
+		} else if (this.props.paging && !this.state.showSpin) {
+			this.setState({ showSpin: true });
+			DashboardAPI.getMessageInbox(current.fb_id, this.props.paging).then((res) => {
+				let paging = (res.paging) ? res.paging.next : null;
+				this.setState({ showSpin: false });
+				this.props.displayMoreMessages(res.data, paging);
+			});
+		}
 	},
 	componentWillUpdate: function () {
-		var list = this.refs.chat_area;
-		list.scrollTop = list.scrollHeight;
+		var list = ReactDOM.findDOMNode(this.refs.chat_area);
+		lastScrollPosition = list.scrollHeight - list.scrollTop;
 	},
-	componentDidUpdate: function () {
-		var list = this.refs.chat_area;
-		list.scrollTop = list.scrollHeight;
+	componentDidUpdate: function (prevProp, prevState) {
+		var list = ReactDOM.findDOMNode(this.refs.chat_area);
+		list.scrollTop = list.scrollHeight - lastScrollPosition;
+		if (this.props.isLoading == false && prevProp.isLoading == true && list.clientHeight + 12 > list.scrollHeight) {
+			this.loadMoreMessages();
+		}
 	},
 	render: function () {
 		let self = this;
