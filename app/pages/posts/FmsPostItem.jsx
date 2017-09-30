@@ -1,5 +1,9 @@
+'use strict';
+
 const React = require('react');
 const {browserHistory} = require('react-router');
+
+import {Image} from 'react-bootstrap';
 
 let FmsPostItem = React.createClass({
   onToggleChange: function(checked) {
@@ -13,10 +17,19 @@ let FmsPostItem = React.createClass({
     );
   },
   render: function() {
+    let self = this;
+
+    let page_id = '161815640591040';
+    let page_name = 'UET Chatbot';
+    let page_ava = `https://graph.facebook.com/v2.10/${page_id}/picture`;
+
     return (
-      <div className="thumbnail">
-        {this.renderImgs()}
-        <div className="caption">
+      <div className="post-item-wrapper">
+        <div className="post-header">
+          <Image src={page_ava} circle></Image>
+          <span>{page_name}</span>
+        </div>
+        <div className="post-body">
           <p>{this.props.data.message}</p>
           <div><input type="checkbox" checked={this.props.data.isHidedComment} onChange={this.onToggleChange}/> Ẩn bình luận</div>
         </div>
