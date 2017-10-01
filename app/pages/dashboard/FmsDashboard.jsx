@@ -20,7 +20,6 @@ let FmsDashBoard = React.createClass({
 			conversations: [],
 			filteredConversations: [],
 			selectedConversation: null,
-			conversationPaging: null,
 			project: null,
 			filters: filters,
 			conversationsIsLoading: false,
@@ -151,6 +150,7 @@ let FmsDashBoard = React.createClass({
 	},
 	handleClientClick: function (fb_id, type) {
 		let self = this;
+		if(this._child2) this._child2.clientChanged();
 		this.setState({ conversationsIsLoading: true });
 
 		let _conversations = this.state.conversations;
@@ -170,11 +170,10 @@ let FmsDashBoard = React.createClass({
 				let _selectedConversation = this.state.selectedConversation;
 				_selectedConversation.children = data.data;
 				let count = this.countAttachment(data.data);
-				let paging = (data.paging) ? data.paging.next : null;
+				_selectedConversation.paging = (data.paging) ? data.paging.next : null;
 				this.setState({
 					selectedConversation: _selectedConversation,
 					conversationsIsLoading: count > 0,
-					conversationPaging: paging
 				});
 			}
 
@@ -209,10 +208,8 @@ let FmsDashBoard = React.createClass({
 			children.push(child);
 		});
 		newConversation.children = children;
-		this.setState({ 
-			selectedConversation: newConversation,
-			conversationPaging: paging
-		});
+		newConversation.paging = paging;
+		this.setState({ selectedConversation: newConversation });
 	},
 	sendMessage: function (msg) {
 		let self = this;
@@ -340,11 +337,12 @@ let FmsDashBoard = React.createClass({
 
 		function renderConversation() {
 			if (self.state.selectedConversation) {
-				return <FmsConversationArea currentConversation={self.state.selectedConversation} pageid={self.state.pageid}
+				return <FmsConversationArea ref={(child) => {
+						self._child2 = child;
+					}} currentConversation={self.state.selectedConversation} pageid={self.state.pageid}
 					sendMessage={self.sendMessage} displayMoreMessages={self.displayMoreMessages}
 					isLoading={self.state.conversationsIsLoading} conversationLoaded={self.conversationLoaded}
-					countAttachment={self.countAttachment} paging={self.state.conversationPaging}
-					updateBlockCustomer={self.updateBlockCustomer}/>
+					countAttachment={self.countAttachment} updateBlockCustomer={self.updateBlockCustomer}/>
 			} else {
 				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
 			}

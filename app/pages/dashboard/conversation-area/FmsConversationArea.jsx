@@ -8,6 +8,7 @@ let FmsMessageForm = require('FmsMessageForm');
 let FmsInfoChat = require('FmsInfoChat');
 let FmsSpin = require('FmsSpin');
 let DashboardAPI = require('DashboardAPI');
+let FmsPostInfoConversation = require('FmsPostInfoConversation');
 
 let messageHasAttachment = 0;
 let lastScrollPosition;
@@ -15,7 +16,9 @@ let lastScrollPosition;
 let FmsConversationArea = React.createClass({
 	getInitialState: function () {
 		return {
-			showSpin: false
+			showSpin: false,
+			postInfo: null,
+			allMessagesLoad: false
 		}
 	},
 	attachmentLoadDone: function () {
@@ -23,6 +26,18 @@ let FmsConversationArea = React.createClass({
 		if (messageHasAttachment == 0) {
 			this.props.conversationLoaded();
 			messageHasAttachment--;
+		}
+	},
+	clientChanged: function () {
+		this.setState({ postInfo: null, allMessagesLoad: false });
+	},
+	loadPostInfo: function () {
+		let current = this.props.currentConversation;
+		if (!this.state.postInfo && current.type == "comment") {
+			this.setState({ showSpin: true });
+			DashboardAPI.getPostInfo(current.parent_fb_id).then((res) => {
+				this.setState({ postInfo: res, showSpin: false });
+			});
 		}
 	},
 	componentDidMount: function () {
@@ -35,20 +50,24 @@ let FmsConversationArea = React.createClass({
 	},
 	loadMoreMessages: function () {
 		let current = this.props.currentConversation;
-		if (current.type == "comment" && this.props.paging && !this.state.showSpin) {
+		if (this.props.isLoading) return;
+		if (current.type == "comment" && current.paging && !this.state.showSpin) {
 			this.setState({ showSpin: true });
-			DashboardAPI.getReplyComment(current.fb_id, this.props.paging).then((res) => {
+			DashboardAPI.getReplyComment(current.fb_id, current.paging).then((res) => {
 				let paging = (res.paging) ? res.paging.next : null
 				this.setState({ showSpin: false });
 				this.props.displayMoreMessages(res.data, paging);
 			});
-		} else if (this.props.paging && !this.state.showSpin) {
+		} else if (current.paging && !this.state.showSpin) {
 			this.setState({ showSpin: true });
-			DashboardAPI.getMessageInbox(current.fb_id, this.props.paging).then((res) => {
+			DashboardAPI.getMessageInbox(current.fb_id, current.paging).then((res) => {
 				let paging = (res.paging) ? res.paging.next : null;
 				this.setState({ showSpin: false });
 				this.props.displayMoreMessages(res.data, paging);
 			});
+		} else if (current.type == "comment" && current.parent_fb_id) {
+			this.loadPostInfo();
+			this.setState({ allMessagesLoad: true });
 		}
 	},
 	componentWillUpdate: function () {
@@ -58,7 +77,12 @@ let FmsConversationArea = React.createClass({
 	componentDidUpdate: function (prevProp, prevState) {
 		var list = ReactDOM.findDOMNode(this.refs.chat_area);
 		list.scrollTop = list.scrollHeight - lastScrollPosition;
+		let isLoadMore = false;
 		if (this.props.isLoading == false && prevProp.isLoading == true && list.clientHeight + 12 > list.scrollHeight) {
+			isLoadMore = true;
+			this.loadMoreMessages();
+		}
+		if (!isLoadMore && !this.state.postInfo && prevState.postInfo && list.clientHeight + 12 > list.scrollHeight) {
 			this.loadMoreMessages();
 		}
 	},
@@ -86,6 +110,11 @@ let FmsConversationArea = React.createClass({
 				});
 			}
 		};
+		let renderPostInfo = () => {
+			if (this.state.allMessagesLoad == true && this.state.postInfo && this.state.postInfo.message) {
+				return <FmsPostInfoConversation content={this.state.postInfo}/>
+			}
+		};
 		let showSpin = (this.state.showSpin == true) ? "" : " hide";
 		let chatArea = (this.props.isLoading) ? " hide" : "";
 		let spin = (this.props.isLoading) ? "" : " hide";
@@ -103,6 +132,7 @@ let FmsConversationArea = React.createClass({
 					<div className={"client-list-spin" + showSpin}>
 						<FmsSpin size={27} />
 					</div>
+					{renderPostInfo()}
 					{renderConversation()}
 				</div>
 				<div className={"input-message-area" + input}>
