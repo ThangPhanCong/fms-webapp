@@ -3,13 +3,14 @@
 let apiSender = require('ApiSender');
 
 module.exports = {
-	getConversations: function (page_id) {
+	getConversations: function (page_id, paging) {
 		let route = `/api/pages/${page_id}/conversations`;
+		if (paging) route += `?next=${paging}`;
 		return apiSender.get(route);
 	},
 	getMessageInbox: function (inbox_id, paging) {
 		let route = `/api/inboxes/${inbox_id}/messages`;
-		if (paging || paging == "") route += `?next=${paging}`;
+		if (paging) route += `?next=${paging}`;
 		return apiSender.get(route);
 	},
 	getReplyComment: function (comment_id, paging) {

@@ -8,8 +8,6 @@ let FmsClientItem = require('FmsClientItem');
 let DashboardAPI = require('DashboardAPI');
 let FmsSpin = require('FmsSpin');
 
-let count = 0;
-
 let FmsClientList = React.createClass({
 	getInitialState: function() {
 		return {
@@ -27,16 +25,12 @@ let FmsClientList = React.createClass({
 		this.props.handleClientClick(fb_id, type);
 	},
 	loadMoreConversations: function () {
-		if (count != 0) return;
-		count++;
-		let newConversations = this.props.allConversations.concat(DashboardAPI.getMoreConversations());
 		this.setState({ showSpin: true });
-		setTimeout(() => {
-			this.setState({
-				showSpin: false
-			});
-			this.props.displayMoreConversations(newConversations);
-		}, 3000);
+		DashboardAPI.getReplyComment(current.fb_id, this.props.paging).then((res) => {
+			let paging = (res.paging) ? res.paging.next : null
+			this.setState({ showSpin: false });
+			this.props.displayMoreMessages(res.data, paging);
+		});
 	},
 	componentDidMount: function () {
 		// const list = ReactDOM.findDOMNode(this.refs.list);
