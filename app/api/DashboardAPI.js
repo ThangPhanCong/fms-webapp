@@ -3,19 +3,19 @@
 let apiSender = require('ApiSender');
 
 module.exports = {
-	getConversations: function (page_id, paging) {
-		let route = `/api/pages/${page_id}/conversations`;
-		if (paging) route += `?next=${paging}`;
+	getConversations: function (page_id, next) {
+		let route = `/api/pages/${page_id}/conversations/v2`;
+		if (next) route += `?next=${next}`;
 		return apiSender.get(route);
 	},
-	getMessageInbox: function (inbox_id, paging) {
+	getMessageInbox: function (inbox_id, next) {
 		let route = `/api/inboxes/${inbox_id}/messages`;
-		if (paging) route += `?next=${paging}`;
+		if (next) route += `?next=${next}`;
 		return apiSender.get(route);
 	},
-	getReplyComment: function (comment_id, paging) {
+	getReplyComment: function (comment_id, next) {
 		let route = `/api/comments/${comment_id}/comments`;
-		if (paging) route += `?next=${paging}`;
+		if (next) route += `?next=${next}`;
 		return apiSender.get(route);
 	},
 	postSeenCmt: function (comment_id) {
@@ -35,10 +35,6 @@ module.exports = {
 		let route = `/api/comments/${cmt_id}/sendmsg`;
 		let payload = { message };
 		return apiSender.post(route, payload);
-	},
-	getMoreConversations: (page_id, next) => {
-		let route = `/api/pages/${page_id}/conversations?next=${next}`;
-		return apiSender.get(route);
 	},
 	getPostInfo: (post_id) => {
 		let route = `/api/posts/${post_id}`;
