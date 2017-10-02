@@ -37,6 +37,9 @@ let FmsConversationArea = React.createClass({
 			this.setState({ showSpin: true });
 			DashboardAPI.getPostInfo(current.parent_fb_id).then((res) => {
 				this.setState({ postInfo: res, showSpin: false });
+			}, (err) => {
+				console.log(err);
+				this.setState({ showSpin: false });
 			});
 		}
 	},
@@ -57,6 +60,9 @@ let FmsConversationArea = React.createClass({
 				let paging = (res.paging) ? res.paging.next : null
 				this.setState({ showSpin: false });
 				this.props.displayMoreMessages(res.data, paging);
+			}, (err) => {
+				console.log(err);
+				this.setState({ showSpin: false });
 			});
 		} else if (current.paging && !this.state.showSpin) {
 			this.setState({ showSpin: true });
@@ -64,6 +70,9 @@ let FmsConversationArea = React.createClass({
 				let paging = (res.paging) ? res.paging.next : null;
 				this.setState({ showSpin: false });
 				this.props.displayMoreMessages(res.data, paging);
+			}, (err) => {
+				console.log(err);
+				this.setState({ showSpin: false });
 			});
 		} else if (current.type == "comment" && current.parent_fb_id) {
 			this.loadPostInfo();
