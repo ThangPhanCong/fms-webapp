@@ -12,6 +12,7 @@ let FmsPostInfoConversation = require('FmsPostInfoConversation');
 
 let messageHasAttachment = 0;
 let lastScrollPosition;
+let loadmoreCount = 0;
 
 let FmsConversationArea = React.createClass({
 	getInitialState: function () {
@@ -29,6 +30,7 @@ let FmsConversationArea = React.createClass({
 		}
 	},
 	clientChanged: function () {
+		loadmoreCount = 0;
 		this.setState({ postInfo: null, allMessagesLoad: false });
 	},
 	loadPostInfo: function () {
@@ -52,6 +54,7 @@ let FmsConversationArea = React.createClass({
 		});
 	},
 	loadMoreMessages: function () {
+		loadmoreCount++;
 		let current = this.props.currentConversation;
 		if (this.props.isLoading) return;
 		if (current.type == "comment" && current.paging && !this.state.showSpin) {
@@ -86,6 +89,7 @@ let FmsConversationArea = React.createClass({
 	componentDidUpdate: function (prevProp, prevState) {
 		var list = ReactDOM.findDOMNode(this.refs.chat_area);
 		list.scrollTop = list.scrollHeight - lastScrollPosition;
+		if (loadmoreCount > 2) list.scrollTop -= 51;
 		let isLoadMore = false;
 		if (this.props.isLoading == false && prevProp.isLoading == true && list.clientHeight + 12 > list.scrollHeight) {
 			isLoadMore = true;

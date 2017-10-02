@@ -60,11 +60,6 @@ let FmsMessageItem = React.createClass({
 			let attachmentData = null;
 
 			if (msg.shares && msg.shares.data.length > 0) {
-				// DashboardAPI.getMessageShare(msg.fb_id, msg.page_fb_id).then((res) => {
-				// 	console.log(res.data);
-				// }, (err) => {
-				// 	throw new Error(err);
-				// });
 				return msg.shares.data.map((share) => {
 					if (share.link && share.link.indexOf("scontent") != -1) {
 						return <FmsAttachmentContent key={uuid()} preview={share.link} isSelf={isSelf}

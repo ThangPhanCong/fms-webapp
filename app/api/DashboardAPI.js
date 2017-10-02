@@ -53,7 +53,7 @@ module.exports = {
 		return apiSender.getGraphApi(route, page_id);
 	},
 	getMessageShare: (msg_id, page_id) => {
-		let route = `/${msg_id}?fields=shares`;
+		let route = `/${msg_id}?fields=shares{link}`;
 		return apiSender.getGraphApi(route, page_id);
 	}
 }
