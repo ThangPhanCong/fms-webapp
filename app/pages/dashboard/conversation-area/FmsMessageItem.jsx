@@ -83,7 +83,7 @@ let FmsMessageItem = React.createClass({
 					if (attachment.type) {
 						let t = attachment.type;
 						if (t == 'sticker') attachType = 'sticker';
-						else if (t == 'photo' || t == 'video_inline') attachType = 'image';
+						else if (t == 'photo' || t == 'video_inline' || t == 'share') attachType = 'image';
 						preview = attachment.media.image.src;
 						if (t != 'sticker') origin = attachment.url;
 					}

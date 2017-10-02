@@ -56,8 +56,8 @@ let FmsConversationArea = React.createClass({
 	loadMoreMessages: function () {
 		loadmoreCount++;
 		let current = this.props.currentConversation;
-		if (this.props.isLoading) return;
-		if (current.type == "comment" && current.paging && !this.state.showSpin) {
+		if (this.props.isLoading || this.state.showSpin) return;
+		if (current.type == "comment" && current.paging) {
 			this.setState({ showSpin: true });
 			DashboardAPI.getReplyComment(current.fb_id, current.paging).then((res) => {
 				let paging = (res.paging) ? res.paging.next : null
@@ -67,7 +67,7 @@ let FmsConversationArea = React.createClass({
 				console.log(err);
 				this.setState({ showSpin: false });
 			});
-		} else if (current.paging && !this.state.showSpin) {
+		} else if (current.paging) {
 			this.setState({ showSpin: true });
 			DashboardAPI.getMessageInbox(current.fb_id, current.paging).then((res) => {
 				let paging = (res.paging) ? res.paging.next : null;
