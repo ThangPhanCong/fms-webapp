@@ -58,19 +58,21 @@ let FmsDashBoard = React.createClass({
 		let self = this;
 
 		DashboardAPI.getConversations(this.state.pageid).then((data) => {
-			let _convers = data.data;
+			let _convers = [];
 
-			// for (let inbox of data.inboxes) {
-			// 	inbox.type = "inbox";
-			// 	inbox = self.parseConversationItem(inbox);
-			// }
-			//
-			// for (let comment of data.comments) {
-			// 	comment.type = "comment";
-			// 	comment = self.parseConversationItem(comment);
-			// }
+			for (let inbox of data.inboxes) {
+				inbox.type = "inbox";
+				inbox = self.parseConversationItem(inbox);
+			}
 
-			_convers = _convers.sort((a, b) => {
+			for (let comment of data.comments) {
+				comment.type = "comment";
+				comment = self.parseConversationItem(comment);
+			}
+
+			_convers = _convers.concat(data.inboxes)
+				.concat(data.comments)
+				.sort((a, b) => {
 					let t1 = new Date(a.updated_time);
 					let t2 = new Date(b.updated_time);
 

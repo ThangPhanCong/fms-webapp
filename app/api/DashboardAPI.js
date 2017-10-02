@@ -4,7 +4,7 @@ let apiSender = require('ApiSender');
 
 module.exports = {
 	getConversations: function (page_id, next) {
-		let route = `/api/pages/${page_id}/conversations/v2`;
+		let route = `/api/pages/${page_id}/conversations`;
 		if (next) route += `?next=${next}`;
 		return apiSender.get(route);
 	},
