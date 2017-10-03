@@ -7,7 +7,7 @@ let FmsPostItem = require('FmsPostItem');
 let postApi = require('PostsApi');
 
 import uuid from 'uuid';
-import {Grid, Row, Col} from 'react-bootstrap';
+import {Grid, Row, Col, Button} from 'react-bootstrap';
 import { AlertList, Alert, AlertContainer } from "react-bs-notifier";
 import dashboardApi from 'DashboardAPI';
 import projectApi from 'ProjectApi';
@@ -18,7 +18,9 @@ let FmsPosts = React.createClass({
   getInitialState: function() {
     return {
       posts: [],
-      alerts: []
+      next: null,
+      alerts: [],
+      isLoading: false
     }
   },
   componentDidMount: function() {
@@ -29,7 +31,8 @@ let FmsPosts = React.createClass({
       .then(
         data => {
           self.setState({
-            posts: data.data
+            posts: data.data,
+            next: data.paging ? (data.paging.next ? data.paging.next : null) : null
           });
         },
         err => {
@@ -86,6 +89,27 @@ let FmsPosts = React.createClass({
 
     self.setState({alerts: filterAlerts});
   },
+  loadMorePosts: function () {
+    let self = this;
+    let projectAlias = self.props.params.alias;
+
+    self.setState({isLoading: true});
+
+    postApi.getPostsOfProject(projectAlias, self.state.next)
+      .then(
+        data => {
+          let posts = self.state.posts.concat(data.data);
+          self.setState({
+            posts: posts,
+            next: data.paging ? (data.paging.next ? data.paging.next : null) : null
+          });
+        },
+        err => {
+          alert('Can\'t get posts');
+        }
+      )
+
+  },
   renderPosts: function () {
     let self = this;
     let posts = this.state.posts;
@@ -122,6 +146,9 @@ let FmsPosts = React.createClass({
         <Row>
           {this.renderPosts()}
         </Row>
+        {
+          self.state.next ? <Button disabled={self.state.isLoading} onClick={self.loadMorePosts}>Load more</Button> : null
+        }
       </Grid>
     );
   }

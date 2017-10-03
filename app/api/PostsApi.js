@@ -10,8 +10,9 @@ module.exports = {
 
     return apiSender.get(route);
   },
-  getPostsOfProject: (project_alias) => {
+  getPostsOfProject: (project_alias, next) => {
     let route = `/api/projects/${project_alias}/posts`;
+    if (next) route += `?next=${next}`;
 
     return apiSender.get(route);
   },
