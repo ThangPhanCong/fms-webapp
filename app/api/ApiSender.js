@@ -3,6 +3,9 @@
 import store from 'store';
 const axios = require('axios');
 const config = require('CONFIG');
+const Cookie = require('universal-cookie');
+
+let DashboardAPI = require('DashboardAPI');
 
 const BASE_URL = config.BASE_URL;
 
@@ -74,7 +77,19 @@ exports.getWithoutAuth = (route) => {
   return axios.get(url);
 };
 
-exports.getGraphApi = (route) => {
-  let url = `https://graph.facebook.com/v2.10` + route;
-  return axios.get(url);
+exports.getGraphApi = (route, page_id) => {
+  let url = `https://graph.facebook.com/v2.10` + route + `&access_token=`;
+  let cookie = new Cookie();
+  let access_token = cookie.get(page_id);
+  if (!access_token) {
+    return DashboardAPI.getAccessToken(page_id)
+      .then((res) => {
+        url = url + res.access_token;
+        cookie.set(page_id, res.access_token);
+        return axios.get(url);
+      })
+  } else {
+    url += access_token
+    return axios.get(url);
+  }
 };

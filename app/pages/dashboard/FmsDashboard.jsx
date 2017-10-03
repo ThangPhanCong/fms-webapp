@@ -58,19 +58,21 @@ let FmsDashBoard = React.createClass({
 		let self = this;
 
 		DashboardAPI.getConversations(this.state.pageid).then((data) => {
-			let _convers = data.data;
+			let _convers = [];
 
-			// for (let inbox of data.inboxes) {
-			// 	inbox.type = "inbox";
-			// 	inbox = self.parseConversationItem(inbox);
-			// }
-			//
-			// for (let comment of data.comments) {
-			// 	comment.type = "comment";
-			// 	comment = self.parseConversationItem(comment);
-			// }
+			for (let inbox of data.inboxes) {
+				inbox.type = "inbox";
+				inbox = self.parseConversationItem(inbox);
+			}
 
-			_convers = _convers.sort((a, b) => {
+			for (let comment of data.comments) {
+				comment.type = "comment";
+				comment = self.parseConversationItem(comment);
+			}
+
+			_convers = _convers.concat(data.inboxes)
+				.concat(data.comments)
+				.sort((a, b) => {
 					let t1 = new Date(a.updated_time);
 					let t2 = new Date(b.updated_time);
 
@@ -127,6 +129,30 @@ let FmsDashBoard = React.createClass({
 				.catch(err => alert(err.message));
 		}
 	},
+	reloadAttachment: function (msgs) {
+		msgs.forEach((msg) => {
+			if (msg.shares) {
+				DashboardAPI.getMessageShare(msg.fb_id, msg.page_fb_id).then((res) => {
+					msg.shares = res.data.shares;
+				}, (err) => {
+					throw new Error(err);
+				});
+			} else if (msg.attachment && (msg.attachment.type == 'sticker' || msg.attachment.type == 'photo' ||
+							 msg.attachment.type == 'video_inline' || msg.attachment.type == 'share')) {
+				DashboardAPI.getCommentAttachment(msg.fb_id, msg.page_fb_id).then((res) => {
+					msg.attachment = res.data.attachment;
+				}, (err) => {
+					throw new Error(err);
+				});
+			} else if (msg.attachments) {
+				DashboardAPI.getMessageAttachment(msg.fb_id, msg.page_fb_id).then((res) => {
+					msg.attachments = res.data.attachments;
+				}, (err) => {
+					throw new Error(err);
+				});
+			}
+		});
+	},
 	countAttachment: function (msgs) {
 		let count = 0;
 		msgs.forEach((msg) => {
@@ -134,10 +160,10 @@ let FmsDashBoard = React.createClass({
 				msg.shares.data.forEach((share) => {
 					if (share.link && share.link.indexOf("scontent") != -1) count++;
 				});
-			}
-			else if (msg.attachment && (msg.attachment.type == 'sticker' || msg.attachment.type == 'photo' ||
-							 msg.attachment.type == 'video_inline' || msg.attachment.type == 'share')) count += 1;
-			else if (msg.attachments) {
+			} else if (msg.attachment && (msg.attachment.type == 'sticker' || msg.attachment.type == 'photo' ||
+							 msg.attachment.type == 'video_inline' || msg.attachment.type == 'share')) {
+				count += 1;
+			} else if (msg.attachments) {
 				msg.attachments.data.forEach((attach) => {
 					if (attach.mime_type == "image/jpeg" || attach.mime_type == "image/gif" ||
 							attach.mime_type == "video/mp4") count++;
@@ -169,6 +195,7 @@ let FmsDashBoard = React.createClass({
 				_selectedConversation.children = data.data;
 				let count = this.countAttachment(data.data);
 				_selectedConversation.paging = (data.paging) ? data.paging.next : null;
+				this.reloadAttachment(data.data);
 				this.setState({
 					selectedConversation: _selectedConversation,
 					conversationsIsLoading: count > 0,
@@ -202,6 +229,7 @@ let FmsDashBoard = React.createClass({
 			let t2 = new Date(b.updated_time);
 			return t2 - t1;
 		});
+		this.reloadAttachment(children);
 		oldChildren.forEach((child) => {
 			children.push(child);
 		});

@@ -12,6 +12,7 @@ let FmsPostInfoConversation = require('FmsPostInfoConversation');
 
 let messageHasAttachment = 0;
 let lastScrollPosition;
+let loadmoreCount = 0;
 
 let FmsConversationArea = React.createClass({
 	getInitialState: function () {
@@ -29,6 +30,7 @@ let FmsConversationArea = React.createClass({
 		}
 	},
 	clientChanged: function () {
+		loadmoreCount = 0;
 		this.setState({ postInfo: null, allMessagesLoad: false });
 	},
 	loadPostInfo: function () {
@@ -37,6 +39,9 @@ let FmsConversationArea = React.createClass({
 			this.setState({ showSpin: true });
 			DashboardAPI.getPostInfo(current.parent_fb_id).then((res) => {
 				this.setState({ postInfo: res, showSpin: false });
+			}, (err) => {
+				console.log(err);
+				this.setState({ showSpin: false });
 			});
 		}
 	},
@@ -49,21 +54,28 @@ let FmsConversationArea = React.createClass({
 		});
 	},
 	loadMoreMessages: function () {
+		loadmoreCount++;
 		let current = this.props.currentConversation;
-		if (this.props.isLoading) return;
-		if (current.type == "comment" && current.paging && !this.state.showSpin) {
+		if (this.props.isLoading || this.state.showSpin) return;
+		if (current.type == "comment" && current.paging) {
 			this.setState({ showSpin: true });
 			DashboardAPI.getReplyComment(current.fb_id, current.paging).then((res) => {
 				let paging = (res.paging) ? res.paging.next : null
 				this.setState({ showSpin: false });
 				this.props.displayMoreMessages(res.data, paging);
+			}, (err) => {
+				console.log(err);
+				this.setState({ showSpin: false });
 			});
-		} else if (current.paging && !this.state.showSpin) {
+		} else if (current.paging) {
 			this.setState({ showSpin: true });
 			DashboardAPI.getMessageInbox(current.fb_id, current.paging).then((res) => {
 				let paging = (res.paging) ? res.paging.next : null;
 				this.setState({ showSpin: false });
 				this.props.displayMoreMessages(res.data, paging);
+			}, (err) => {
+				console.log(err);
+				this.setState({ showSpin: false });
 			});
 		} else if (current.type == "comment" && current.parent_fb_id) {
 			this.loadPostInfo();
@@ -77,6 +89,7 @@ let FmsConversationArea = React.createClass({
 	componentDidUpdate: function (prevProp, prevState) {
 		var list = ReactDOM.findDOMNode(this.refs.chat_area);
 		list.scrollTop = list.scrollHeight - lastScrollPosition;
+		if (loadmoreCount > 2) list.scrollTop -= 51;
 		let isLoadMore = false;
 		if (this.props.isLoading == false && prevProp.isLoading == true && list.clientHeight + 12 > list.scrollHeight) {
 			isLoadMore = true;

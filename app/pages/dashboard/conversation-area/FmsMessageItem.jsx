@@ -8,6 +8,7 @@ const leftArrowImg = require('left_arrow.png');
 
 let FmsAttachmentContent = require('FmsAttachmentContent');
 let FmsTextMessageContent = require('FmsTextMessageContent');
+let DashboardAPI = require('DashboardAPI');
 
 let FmsMessageItem = React.createClass({
 	attachmentLoadDone: function () {
@@ -17,7 +18,7 @@ let FmsMessageItem = React.createClass({
 	convertTime: function (time) {
 		let date = new Date(time);
 		let hour = (date.getHours() > 9) ? date.getHours() : "0" + date.getHours();
-		let minute= (date.getMinutes() > 9) ? date.getMinutes() : "0" + date.getMinutes();
+		let minute = (date.getMinutes() > 9) ? date.getMinutes() : "0" + date.getMinutes();
 		let day;
 		switch (date.getDay()) {
 			case 0: day = "Sunday"; break;
@@ -31,17 +32,17 @@ let FmsMessageItem = React.createClass({
 		return day + " " + hour + ":" + minute;
 	},
 	componentDidMount: function () {
-    $(ReactDOM.findDOMNode(this.refs.tooltip)).ready(function () {
-      $('[data-toggle="tooltip"]').tooltip();
-    });
-  },
+		$(ReactDOM.findDOMNode(this.refs.tooltip)).ready(function () {
+			$('[data-toggle="tooltip"]').tooltip();
+		});
+	},
 	render: function () {
 		let self = this;
 
 		let avaUrl = `https://graph.facebook.com/v2.10/${this.props.message.from.id}/picture`;
 		let userFb = `https://facebook.com/${this.props.message.from.id}`;
 		let isSelf = this.props.isSelf;
-    let messageWrapper = (isSelf) ? " right-message-wrapper" : " left-message-wrapper";
+		let messageWrapper = (isSelf) ? " right-message-wrapper" : " left-message-wrapper";
 		let profileWrapper = (isSelf) ? " right-profile-wrapper" : " left-profile-wrapper";
 		let messageContent = (isSelf) ? " right-message-content" : " left-message-content";
 		let srcArrow = (isSelf) ? rightArrowImg : leftArrowImg;
@@ -60,9 +61,10 @@ let FmsMessageItem = React.createClass({
 
 			if (msg.shares && msg.shares.data.length > 0) {
 				return msg.shares.data.map((share) => {
-					let imgSrc = (share.link && share.link.indexOf("scontent") != -1) ? share.link : "";
-					return <FmsAttachmentContent key={uuid()} preview={imgSrc} isSelf={isSelf}
-								type={'sticker'} attachmentLoadDone={self.attachmentLoadDone}/>
+					if (share.link && share.link.indexOf("scontent") != -1) {
+						return <FmsAttachmentContent key={uuid()} preview={share.link} isSelf={isSelf}
+							type={'sticker'} attachmentLoadDone={self.attachmentLoadDone} />
+					}
 				});
 			}
 
@@ -81,7 +83,7 @@ let FmsMessageItem = React.createClass({
 					if (attachment.type) {
 						let t = attachment.type;
 						if (t == 'sticker') attachType = 'sticker';
-						else if (t == 'photo' || t == 'video_inline') attachType = 'image';
+						else if (t == 'photo' || t == 'video_inline' || t == 'share') attachType = 'image';
 						preview = attachment.media.image.src;
 						if (t != 'sticker') origin = attachment.url;
 					}
@@ -97,24 +99,24 @@ let FmsMessageItem = React.createClass({
 							origin = attachment.video_data.url;
 						}
 					}
-					
+					if (attachType == 'unknown' || preview == '') return;
 					return <FmsAttachmentContent key={uuid()} hasMessage={hasMessage} type={attachType} origin={origin}
-									isSelf={isSelf} attachmentLoadDone={self.attachmentLoadDone} preview={preview}/>
+						isSelf={isSelf} attachmentLoadDone={self.attachmentLoadDone} preview={preview} />
 				})
 			}
 		}
 
 		return (
 			<div className={"message-item" + isLast}>
-				<div className={"message-wrapper" + messageWrapper} ref="tooltip" data-toggle="tooltip" 
-						 title={sent_time} data-placement={direction}>
-          <div className={"profile-wrapper" + profileWrapper}>
-					  <a href={userFb} target="_blank"><img src={avaUrl} className="profile-message" /></a>
-          </div>
-					<img src={srcArrow} className={arrow}/>
-          <div className={"message-content" + messageContent}>
-					  <FmsTextMessageContent content={this.props.message.message}/>
-          </div>
+				<div className={"message-wrapper" + messageWrapper} ref="tooltip" data-toggle="tooltip"
+					title={sent_time} data-placement={direction}>
+					<div className={"profile-wrapper" + profileWrapper}>
+						<a href={userFb} target="_blank"><img src={avaUrl} className="profile-message" /></a>
+					</div>
+					<img src={srcArrow} className={arrow} />
+					<div className={"message-content" + messageContent}>
+						<FmsTextMessageContent content={this.props.message.message} />
+					</div>
 				</div>
 				{renderAttachment()}
 			</div>

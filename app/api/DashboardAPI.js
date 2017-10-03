@@ -4,7 +4,7 @@ let apiSender = require('ApiSender');
 
 module.exports = {
 	getConversations: function (page_id, next) {
-		let route = `/api/pages/${page_id}/conversations/v2`;
+		let route = `/api/pages/${page_id}/conversations`;
 		if (next) route += `?next=${next}`;
 		return apiSender.get(route);
 	},
@@ -43,5 +43,17 @@ module.exports = {
 	getAccessToken: (page_id) => {
 		let route = `/api/pages/${page_id}/access-token`;
 		return apiSender.get(route);
+	},
+	getMessageAttachment: (msg_id, page_id) => {
+		let route = `/${msg_id}?fields=attachments`;
+		return apiSender.getGraphApi(route, page_id);
+	},
+	getCommentAttachment: (comment_id, page_id) => {
+		let route = `/${comment_id}?fields=attachment`;
+		return apiSender.getGraphApi(route, page_id);
+	},
+	getMessageShare: (msg_id, page_id) => {
+		let route = `/${msg_id}?fields=shares{link}`;
+		return apiSender.getGraphApi(route, page_id);
 	}
 }
