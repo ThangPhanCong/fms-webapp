@@ -59,17 +59,6 @@ let FmsDashBoard = React.createClass({
 
 		DashboardAPI.getConversations(this.state.pageid).then((data) => {
 			let _convers = data.data;
-
-			// for (let inbox of data.inboxes) {
-			// 	inbox.type = "inbox";
-			// 	inbox = self.parseConversationItem(inbox);
-			// }
-			//
-			// for (let comment of data.comments) {
-			// 	comment.type = "comment";
-			// 	comment = self.parseConversationItem(comment);
-			// }
-
 			_convers = _convers.sort((a, b) => {
 				let t1 = new Date(a.updated_time);
 				let t2 = new Date(b.updated_time);
@@ -136,7 +125,7 @@ let FmsDashBoard = React.createClass({
 					throw new Error(err);
 				});
 			} else if (msg.attachment && (msg.attachment.type == 'sticker' || msg.attachment.type == 'photo' ||
-							 msg.attachment.type == 'video_inline' || msg.attachment.type == 'share')) {
+				msg.attachment.type == 'video_inline' || msg.attachment.type == 'share')) {
 				DashboardAPI.getCommentAttachment(msg.fb_id, msg.page_fb_id).then((res) => {
 					msg.attachment = res.data.attachment;
 				}, (err) => {
@@ -159,12 +148,12 @@ let FmsDashBoard = React.createClass({
 					if (share.link && share.link.indexOf("scontent") != -1) count++;
 				});
 			} else if (msg.attachment && (msg.attachment.type == 'sticker' || msg.attachment.type == 'photo' ||
-							 msg.attachment.type == 'video_inline' || msg.attachment.type == 'share')) {
+				msg.attachment.type == 'video_inline' || msg.attachment.type == 'share')) {
 				count += 1;
 			} else if (msg.attachments) {
 				msg.attachments.data.forEach((attach) => {
 					if (attach.mime_type == "image/jpeg" || attach.mime_type == "image/gif" ||
-							attach.mime_type == "video/mp4") count++;
+						attach.mime_type == "video/mp4") count++;
 				});
 			}
 		});
@@ -172,7 +161,7 @@ let FmsDashBoard = React.createClass({
 	},
 	handleClientClick: function (fb_id, type) {
 		let self = this;
-		if(this._child2) this._child2.clientChanged();
+		if (this._child2) this._child2.clientChanged();
 		this.setState({ conversationsIsLoading: true });
 
 		let _conversations = this.state.conversations;
@@ -328,7 +317,7 @@ let FmsDashBoard = React.createClass({
 
 		cv.customer.is_blocked = is_blocked;
 
-		let _conversations = self.state.conversations.map(_cv => (cv.fb_id == _cv.fb_id) ? cv : _cv );
+		let _conversations = self.state.conversations.map(_cv => (cv.fb_id == _cv.fb_id) ? cv : _cv);
 
 		self.setState({
 			conversations: _conversations,
@@ -363,11 +352,11 @@ let FmsDashBoard = React.createClass({
 		function renderConversation() {
 			if (self.state.selectedConversation) {
 				return <FmsConversationArea ref={(child) => {
-						self._child2 = child;
-					}} currentConversation={self.state.selectedConversation} pageid={self.state.pageid}
+					self._child2 = child;
+				}} currentConversation={self.state.selectedConversation} pageid={self.state.pageid}
 					sendMessage={self.sendMessage} displayMoreMessages={self.displayMoreMessages}
 					isLoading={self.state.conversationsIsLoading} conversationLoaded={self.conversationLoaded}
-					countAttachment={self.countAttachment} updateBlockCustomer={self.updateBlockCustomer}/>
+					countAttachment={self.countAttachment} updateBlockCustomer={self.updateBlockCustomer} />
 			} else {
 				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
 			}
