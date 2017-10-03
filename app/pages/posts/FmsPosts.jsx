@@ -85,12 +85,6 @@ let FmsPosts = React.createClass({
 
     self.setState({alerts: filterAlerts});
   },
-  componentDidMount: function () {
-    let self = this;
-
-    let projectAlias = this.props.params.alias;
-    projectAlias.getProject
-  },
   renderPosts: function () {
     let self = this;
     let posts = this.state.posts;
