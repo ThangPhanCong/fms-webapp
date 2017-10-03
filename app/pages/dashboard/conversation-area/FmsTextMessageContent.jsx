@@ -13,6 +13,7 @@ let FmsTextMessageContent = React.createClass({
     }
   },
   handleSendMessage: function () {
+    this.props.message.can_reply_privately = false;
     this.setState({ messaged: true });
   },
   openMessageModal: function () {

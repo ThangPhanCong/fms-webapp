@@ -8,18 +8,22 @@ let DashboardAPI = require('DashboardAPI');
 let FmsPrivateReplyModal = React.createClass({
   getInitialState: function () {
     return {
-      isShown: false
+      isShown: false,
+			isSending: false
     }
   },
 	handleSendButton: function () {
 		let message = this.refs.message_text.value;
 		if (message && message != "") {
+			this.setState({ isSending: true });
 			DashboardAPI.postPrivateReplyMessage(this.props.message.fb_id, message).then((res) => {
 				this.close();
 				this.props.handleSendMessage();
+				this.setState({ isSending: false });
 			}, (err) => {
-				throw new Error(err);
+				this.setState({ isSending: false });
 				alert("Không thể gửi tin nhắn");
+				throw new Error(err);
 			})
 		}
 	},
@@ -32,7 +36,7 @@ let FmsPrivateReplyModal = React.createClass({
   render: function () {
     return (
       <Modal show={this.state.isShown} onHide={this.close} backdrop='static' keyboard={false} >
-				<Modal.Header closeButton={true}>
+				<Modal.Header closeButton={this.state.isSending == false}>
 					<Modal.Title>Nhắn tin đến {this.props.message.from.name}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
@@ -41,7 +45,7 @@ let FmsPrivateReplyModal = React.createClass({
 				<Modal.Footer>
 					<div className="private-rep-modal-footer-wrapper">
 						<button type="button" className={"btn btn-primary private-rep-btn"}
-							disabled={this.state.isDisabled}
+							disabled={this.state.isSending}
 							onClick={this.handleSendButton}>Gửi</button>
 					</div>
 				</Modal.Footer>
