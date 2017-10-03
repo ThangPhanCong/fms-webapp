@@ -26,7 +26,7 @@ let FmsPostItem = React.createClass({
     return (
       <div className="post-item-wrapper">
         <div className="post-header">
-          <Image src={page_ava} circle></Image>
+          <Image src={page_ava} circle width={50}></Image>
           <span>{page_name}</span>
         </div>
         <div className="post-body">
