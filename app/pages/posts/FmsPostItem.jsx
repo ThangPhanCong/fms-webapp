@@ -27,12 +27,12 @@ let FmsPostItem = React.createClass({
     //   <Image src={page_ava} circle width={50}></Image>
     //   <span>{page_name}</span>
     // </div>
-    
+
     return (
       <div className="post-item-wrapper">
         <div className="post-body">
           <p>{this.props.data.message}</p>
-          <div><Checkbox type="checkbox" checked={this.props.data.isHidedComment} onChange={this.onToggleChange}> Ẩn bình luận</Checkbox></div>
+          <div><Checkbox type="checkbox" checked={this.props.data.hide_comment} onChange={this.onToggleChange}> Ẩn bình luận</Checkbox></div>
         </div>
       </div>
     );

@@ -23,12 +23,13 @@ let FmsPosts = React.createClass({
   },
   componentDidMount: function() {
     let self = this;
+    let projectAlias = this.props.params.alias;
 
-    postApi.getMockPostsOfProject()
+    postApi.getPostsOfProject(projectAlias)
       .then(
-        posts => {
+        data => {
           self.setState({
-            posts: posts
+            posts: data.data
           });
         },
         err => {
@@ -40,25 +41,26 @@ let FmsPosts = React.createClass({
     let self = this;
 
     let posts = this.state.posts;
-    let postChange = posts.filter((post) => {
+    let postChange = posts.find((post) => {
       return post.fb_id == fb_post_id;
     });
 
-    for (let post of posts) {
-      if (post.fb_id == fb_post_id) {
-        post.isHidedComment = !post.isHidedComment;
-        // todo: request to hide cmts
-        if (post.isHidedComment) {
-          self.noti('success', 'Ẩn bình luận thành công');
-        } else {
-          self.noti('success', 'Bỏ ẩn bình luận thành công');
-        }
-      }
-    }
+    postApi.hideComment(fb_post_id, !postChange.hide_comment)
+      .then(() => {
+        postChange.hide_comment = !postChange.hide_comment;
 
-    this.setState({
-      posts: posts
-    });
+        for (let post of posts) {
+          if (post.fb_id == fb_post_id) {
+            // todo: request to hide cmts
+            if (!post.hide_comment) {
+              self.noti('success', 'Ẩn bình luận thành công');
+            } else {
+              self.noti('success', 'Bỏ ẩn bình luận thành công');
+            }
+          }
+        }
+      })
+      .catch(err => alert(err.message));
   },
   noti: function (type, message) {
     let self = this;
