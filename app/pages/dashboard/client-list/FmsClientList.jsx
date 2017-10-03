@@ -18,7 +18,8 @@ let FmsClientList = React.createClass({
 		return {
 			conversations: [],
 			currentConversation: null,
-			allConversations: []
+			allConversations: [],
+			paging: null
 		}
 	},
 	handleClientClick: function(fb_id, type) {
@@ -26,10 +27,13 @@ let FmsClientList = React.createClass({
 	},
 	loadMoreConversations: function () {
 		this.setState({ showSpin: true });
-		DashboardAPI.getReplyComment(current.fb_id, this.props.paging).then((res) => {
-			let paging = (res.paging) ? res.paging.next : null
+		DashboardAPI.getConversations(current.fb_id, this.props.paging).then((res) => {
+			let paging = (res.paging) ? res.paging.next : null;
 			this.setState({ showSpin: false });
 			this.props.displayMoreMessages(res.data, paging);
+		}, (err) => {
+			this.setState({ showSpin: false });
+			throw new Error(err);
 		});
 	},
 	componentDidMount: function () {

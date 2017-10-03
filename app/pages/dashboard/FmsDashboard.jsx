@@ -23,6 +23,7 @@ let FmsDashBoard = React.createClass({
 			project: null,
 			filters: filters,
 			conversationsIsLoading: false,
+			conversationsPaging: null,
 			pageid: null
 		}
 	},
@@ -68,7 +69,8 @@ let FmsDashBoard = React.createClass({
 
 			self.setState({
 				conversations: _convers,
-				filteredConversations: _convers
+				filteredConversations: _convers,
+				conversationsPaging: (data.paging && data.paging.next) ? data.paging.next : null
 			});
 		}, function (err) {
 			console.log(err);
@@ -231,7 +233,6 @@ let FmsDashBoard = React.createClass({
 		self.postRepMsg(_selectedConversation, msg);
 	},
 	updateMsgInConversation: function (msg) {
-		console.log('updateMsgInConversation', msg);
 		let self = this;
 		if (!msg || !msg.parent || !msg.parent.type) return;
 
@@ -372,7 +373,7 @@ let FmsDashBoard = React.createClass({
 						this._child = child;
 					}} handleClientClick={this.handleClientClick} conversations={this.state.filteredConversations}
 						currentConversation={this.state.selectedConversation} displayMoreConversations={this.displayMoreConversations}
-						allConversations={this.state.conversations} />
+						allConversations={this.state.conversations} paging={this.state.conversationsPaging}/>
 				</div>
 				<div className="conversation-area">
 					{renderConversation()}
