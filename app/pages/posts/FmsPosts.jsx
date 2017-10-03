@@ -51,8 +51,7 @@ let FmsPosts = React.createClass({
 
         for (let post of posts) {
           if (post.fb_id == fb_post_id) {
-            // todo: request to hide cmts
-            if (!post.hide_comment) {
+            if (post.hide_comment) {
               self.noti('success', 'Ẩn bình luận thành công');
             } else {
               self.noti('success', 'Bỏ ẩn bình luận thành công');

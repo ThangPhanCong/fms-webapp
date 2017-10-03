@@ -4,8 +4,9 @@ let apiSender = require('ApiSender');
 import uuid from 'uuid';
 
 module.exports = {
-  getPostsOfPage: (page_id) => {
+  getPostsOfPage: (page_id, next) => {
     let route = `/api/pages/${page_id}/posts`;
+    if (next) route += `?next=${next}`;
 
     return apiSender.get(route);
   },
