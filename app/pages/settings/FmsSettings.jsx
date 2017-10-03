@@ -1,76 +1,74 @@
 'use strict';
 
 const React = require('react');
-import {Grid, Row, Col, Button} from 'react-bootstrap';
+import {Grid, Row, Col, Button, Checkbox} from 'react-bootstrap';
 import FmsSettingItem from 'FmsSettingItem';
 import FmsTagItem from 'FmsTagItem';
 import uuid from 'uuid';
 
-const MAX_TAG_ITEMS = 12;
+import tagApi from 'TagApi';
+
+const MAX_TAG_ITEMS = 6;
+const TAG_COLORS = ['red', 'black', 'green', 'yellow', 'blue', 'gray'];
 
 let FmsSettings = React.createClass({
   getInitialState: function () {
     return {
-      tags: [{
-        id: uuid(),
-        name: 'Kiểm hàng',
-        color: 'black'
-      },
-      {
-        id: uuid(),
-        name: 'Câu hỏi',
-        color: 'yellow'
-      },
-      {
-        id: uuid(),
-        name: 'Mua hàng',
-        color: 'red'
-      },
-      {
-        id: uuid(),
-        name: 'Đã gửi',
-        color: 'cyan'
-      },
-      {
-        id: uuid(),
-        name: 'Hết hàng',
-        color: 'blue'
-      },
-      {
-        id: uuid(),
-        name: 'Trả hàng',
-        color: 'green'
-      }]
+      tags: []
     }
   },
   updateTag: function (tag) {
-    console.log('update Tag', tag);
     let self = this;
+    let projectAlias = this.props.params.alias;
 
-    let tags = this.state.tags;
-    let filterTags = tags.map(t => (t.id == tag.id) ? tag : t);
+    tagApi.update(projectAlias, tag._id, tag.name, tag.color)
+      .then(updatedTag => {
+        let tags = this.state.tags;
+        let filterTags = tags.map(t => (t._id == tag._id) ? updatedTag : t);
 
-    this.setState({tags: filterTags});
+        self.setState({tags: filterTags});
+      })
   },
   deleteTag: function (tag) {
-    console.log('deleteTag Tag', tag);
     let self = this;
+    let projectAlias = this.props.params.alias;
 
-    let tags = this.state.tags;
-    let filterTags = tags.filter(t => t.id != tag.id);
+    tagApi.remove(projectAlias, tag._id)
+      .then(() => {
+        let tags = self.state.tags;
+        let filterTags = tags.filter(t => t._id != tag._id);
 
-    this.setState({tags: filterTags});
+        self.setState({tags: filterTags});
+      })
   },
   addNewTag: function (color, name) {
-    let newTag = {
-      id: uuid(),
-      name, color
-    }
+    let self = this;
+    let projectAlias = this.props.params.alias;
 
-    let tags = this.state.tags;
-    tags.push(newTag);
+    let remainingColors = TAG_COLORS.filter(c => {
+      let _tag = self.state.tags.find(t => t.color == c)
+      return !_tag;
+    })
 
-    this.setState({tags: tags});
+    color = remainingColors.pop();
+
+    tagApi.create(projectAlias, name, color)
+      .then(newTag => {
+        let tags = self.state.tags;
+        tags.push(newTag);
+
+        self.setState({tags: tags});
+      })
+      .catch(err => alert(err.message));
+  },
+  componentDidMount: function () {
+    let self = this;
+    let projectAlias = this.props.params.alias;
+
+    tagApi.getProjectTags(projectAlias)
+      .then(tags => {
+        self.setState({ tags })
+      })
   },
   renderTags: function () {
     let self = this;
@@ -79,7 +77,7 @@ let FmsSettings = React.createClass({
 
     return tags.map(tag => {
       return (
-        <FmsTagItem key={tag.id} {...tag} updateTag={self.updateTag} deleteTag={self.deleteTag}></FmsTagItem>
+        <FmsTagItem key={tag._id} {...tag} updateTag={self.updateTag} deleteTag={self.deleteTag}></FmsTagItem>
       )
     })
   },
@@ -93,19 +91,25 @@ let FmsSettings = React.createClass({
           <Col xs={12} sm={6}>
             <Row>
               <Col>
-                <FmsSettingItem ></FmsSettingItem>
+                <Checkbox checked={true}>Notification sound</Checkbox>
               </Col>
               <Col>
-                <FmsSettingItem ></FmsSettingItem>
+                <Checkbox checked={true}>Show unread conversation on top</Checkbox>
               </Col>
               <Col>
-                <FmsSettingItem ></FmsSettingItem>
+                <Checkbox checked={true}>Auto like comment when replying</Checkbox>
+              </Col>
+              <Col>
+                <Checkbox>Auto create new order</Checkbox>
+              </Col>
+              <Col>
+                <Checkbox>Auto hide comment</Checkbox>
               </Col>
             </Row>
           </Col>
 
           <Col xs={12} sm={6}>
-            <span>Thẻ hội thoại</span><span className="count-item">{countItem}</span><Button onClick={() => {self.addNewTag('black', "new tag")}}>Thêm</Button>
+            <span>Thẻ hội thoại</span><span className="count-item">{countItem}</span><Button disabled={self.state.tags.length == MAX_TAG_ITEMS} onClick={() => {self.addNewTag('black', "new tag")}}>Thêm</Button>
             {self.renderTags()}
           </Col>
         </Row>
