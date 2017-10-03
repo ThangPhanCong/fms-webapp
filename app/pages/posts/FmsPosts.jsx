@@ -9,6 +9,8 @@ let postApi = require('PostsApi');
 import uuid from 'uuid';
 import {Grid, Row, Col} from 'react-bootstrap';
 import { AlertList, Alert, AlertContainer } from "react-bs-notifier";
+import dashboardApi from 'DashboardAPI';
+import projectApi from 'ProjectApi';
 
 const ALERT_TIME_DISMIS = 2500;
 
@@ -82,6 +84,12 @@ let FmsPosts = React.createClass({
     let filterAlerts = alerts.filter(a => a.id != a_id);
 
     self.setState({alerts: filterAlerts});
+  },
+  componentDidMount: function () {
+    let self = this;
+
+    let projectAlias = this.props.params.alias;
+    projectAlias.getProject
   },
   renderPosts: function () {
     let self = this;

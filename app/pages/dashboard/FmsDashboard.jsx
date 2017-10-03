@@ -231,6 +231,7 @@ let FmsDashBoard = React.createClass({
 		self.postRepMsg(_selectedConversation, msg);
 	},
 	updateMsgInConversation: function (msg) {
+		console.log('updateMsgInConversation', msg);
 		let self = this;
 		if (!msg || !msg.parent || !msg.parent.type) return;
 

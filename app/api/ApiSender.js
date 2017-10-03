@@ -51,6 +51,27 @@ exports.post = (route, payload) => {
     });
 };
 
+exports.put = (route, payload) => {
+  let jwt = store.get('jwt');
+  let url = `${BASE_URL}${route}`;
+  let headers = {
+    'authorization': jwt
+  }
+
+  return axios.put(url, payload, {headers})
+    .then(res => {
+      if (!res.data) {
+        throw new Error('Something went wrong');
+      } else {
+        if (res.data.err) {
+          throw new Error(res.data.msg);
+        } else {
+          return Promise.resolve(res.data.data);
+        }
+      }
+    });
+};
+
 exports.delete = (route, access_token) => {
   let jwt = store.get('jwt');
   let url = `${BASE_URL}${route}`;
