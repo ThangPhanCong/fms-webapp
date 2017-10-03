@@ -105,6 +105,7 @@ let FmsMessageItem = React.createClass({
 				})
 			}
 		}
+		let actionButton = (this.props.isSelf == false && this.props.type == "comment") ? true : false;
 
 		return (
 			<div className={"message-item" + isLast}>
@@ -115,7 +116,7 @@ let FmsMessageItem = React.createClass({
 					</div>
 					<img src={srcArrow} className={arrow} />
 					<div className={"message-content" + messageContent}>
-						<FmsTextMessageContent content={this.props.message.message} />
+						<FmsTextMessageContent message={this.props.message} actionButton={actionButton}/>
 					</div>
 				</div>
 				{renderAttachment()}

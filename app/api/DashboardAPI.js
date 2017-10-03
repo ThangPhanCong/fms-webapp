@@ -55,5 +55,10 @@ module.exports = {
 	getMessageShare: (msg_id, page_id) => {
 		let route = `/${msg_id}?fields=shares{link}`;
 		return apiSender.getGraphApi(route, page_id);
+	},
+	postPrivateReplyMessage: (comment_id, message) => {
+		let route = `/api/comments/${comment_id}/private_replies`;
+		let payload = { message };
+		return apiSender.post(route, payload);
 	}
 }

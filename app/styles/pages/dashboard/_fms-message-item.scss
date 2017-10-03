@@ -19,7 +19,7 @@
 }
 .message-content {
     border-radius: 5px;
-    padding: 12px 18px;
+    padding: 9px 15px;
     flex: 1;
 
     p {
@@ -82,4 +82,34 @@
 //message content
 .hide {
   display: none;
+}
+.group-action-button-message {
+    float: left;
+}
+.action-button-message {
+    color: #3598DB;
+    cursor: pointer;
+    font-size: 12px;
+}
+.disabled-action-button-message {
+    color: #acacac;
+    cursor: default;
+    font-size: 12px;
+}
+.textarea-private-reply {
+    width: 100%;
+    margin: -8px -40px -12px 0px;
+    border: none;
+    resize: none;
+}
+.textarea-private-reply:focus {
+    outline: none;
+}
+.private-rep-btn {
+    float: right;
+    margin-right: 5px;
+}
+.private-rep-modal-footer-wrapper {
+    display: block;
+    width: 100%;
 }
