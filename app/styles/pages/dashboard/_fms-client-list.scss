@@ -54,10 +54,15 @@
     height: 50px;
 }
 .name-and-message {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    overflow: hidden;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+}
+.icon-type {
+  display: flex;
+  flex-direction: row-reverse;
 }
 .client-name {
     overflow: hidden;
