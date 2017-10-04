@@ -3,12 +3,12 @@
 const React = require('react');
 const { browserHistory } = require('react-router');
 
-let DashboardAPI = require('DashboardAPI');
+let DashboardAPI = require('DashboardApi');
 let FmsConversationArea = require('FmsConversationArea');
 let FmsClientList = require('FmsClientList');
 
 let projectApi = require('ProjectApi');
-let PagesAPI = require('PagesAPI');
+let PagesAPI = require('PagesApi');
 let socket = require('Socket');
 let FmsClientInformation = require('FmsClientInformation');
 let FmsVerticalNav = require('FmsVerticalNav');

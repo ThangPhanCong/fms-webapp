@@ -9,7 +9,7 @@ let postApi = require('PostsApi');
 import uuid from 'uuid';
 import {Grid, Row, Col, Button} from 'react-bootstrap';
 import { AlertList, Alert, AlertContainer } from "react-bs-notifier";
-import dashboardApi from 'DashboardAPI';
+import dashboardApi from 'DashboardApi';
 import projectApi from 'ProjectApi';
 
 const ALERT_TIME_DISMIS = 2500;

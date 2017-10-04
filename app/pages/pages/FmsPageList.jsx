@@ -5,7 +5,7 @@ const { browserHistory } = require('react-router');
 
 let FmsActivePageModal = require('FmsActivePageModal');
 let FmsPageItem = require('FmsPageItem');
-let PagesAPI = require('PagesAPI');
+let PagesAPI = require('PagesApi');
 
 let FmsPageList = React.createClass({
   getInitialState: function () {

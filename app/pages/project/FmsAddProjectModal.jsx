@@ -6,7 +6,7 @@ const Modal = require('react-bootstrap').Modal;
 const FmsPageItemInModal = require('FmsPageItemInModal');
 const FmsSpin = require('FmsSpin');
 const projectApi = require('ProjectApi');
-const pagesApi = require('PagesAPI');
+const pagesApi = require('PagesApi');
 
 const socket = require('Socket');
 
