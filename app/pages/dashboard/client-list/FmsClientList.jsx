@@ -26,23 +26,24 @@ let FmsClientList = React.createClass({
 		this.props.handleClientClick(fb_id, type);
 	},
 	loadMoreConversations: function () {
+		if (this.state.showSpin == true || !this.props.paging) return;
 		this.setState({ showSpin: true });
-		DashboardAPI.getConversations(current.fb_id, this.props.paging).then((res) => {
+		DashboardAPI.getConversations(this.props.alias, this.props.paging).then((res) => {
 			let paging = (res.paging) ? res.paging.next : null;
+			this.props.displayMoreConversations(res.data, paging);
 			this.setState({ showSpin: false });
-			this.props.displayMoreMessages(res.data, paging);
 		}, (err) => {
 			this.setState({ showSpin: false });
 			throw new Error(err);
 		});
 	},
 	componentDidMount: function () {
-		// const list = ReactDOM.findDOMNode(this.refs.list);
-		// list.addEventListener('scroll', () => {
-		// 	if ($(list).scrollTop() + $(list).innerHeight() >= $(list)[0].scrollHeight) {
-		// 		this.loadMoreConversations();
-		// 	}
-		// })
+		const list = ReactDOM.findDOMNode(this.refs.list);
+		list.addEventListener('scroll', () => {
+			if ($(list).scrollTop() + $(list).innerHeight() >= $(list)[0].scrollHeight - 64) {
+				this.loadMoreConversations();
+			}
+		})
 	},
 	render: function () {
 		let self = this;

@@ -58,7 +58,7 @@ let FmsDashBoard = React.createClass({
 	updateConversation: function () {
 		let self = this;
 
-		DashboardAPI.getConversations(this.state.pageid).then((data) => {
+		DashboardAPI.getConversations(this.props.params.alias).then((data) => {
 			let _convers = data.data;
 			_convers = _convers.sort((a, b) => {
 				let t1 = new Date(a.updated_time);
@@ -206,8 +206,12 @@ let FmsDashBoard = React.createClass({
 			});
 		}
 	},
-	displayMoreConversations: function (newConversations) {
-		this.setState({ conversations: newConversations });
+	displayMoreConversations: function (moreConversations, paging) {
+		let newConversations = this.state.conversations;
+		moreConversations.forEach((conversation) => {
+			newConversations.push(conversation);
+		});
+		this.setState({ conversations: newConversations, conversationsPaging: paging });
 		this.filterConversations();
 	},
 	displayMoreMessages: function (more, paging) {
@@ -346,6 +350,11 @@ let FmsDashBoard = React.createClass({
 				self.subscribePageChanges(pages);
 			})
 			.catch(err => alert(err));
+			DashboardAPI.getProjectTags(this.props.params.alias).then((res) => {
+				console.log(res);
+			}, (err) => {
+				throw new Error(err);
+			});
 	},
 	render: function () {
 		let self = this;
@@ -373,7 +382,8 @@ let FmsDashBoard = React.createClass({
 						this._child = child;
 					}} handleClientClick={this.handleClientClick} conversations={this.state.filteredConversations}
 						currentConversation={this.state.selectedConversation} displayMoreConversations={this.displayMoreConversations}
-						allConversations={this.state.conversations} paging={this.state.conversationsPaging}/>
+						allConversations={this.state.conversations} paging={this.state.conversationsPaging}
+						alias={this.props.params.alias}/>
 				</div>
 				<div className="conversation-area">
 					{renderConversation()}
