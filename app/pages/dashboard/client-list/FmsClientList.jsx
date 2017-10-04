@@ -29,7 +29,6 @@ let FmsClientList = React.createClass({
 		if (this.state.showSpin == true || !this.props.paging) return;
 		this.setState({ showSpin: true });
 		DashboardAPI.getConversations(this.props.alias, this.props.paging).then((res) => {
-			console.log("load more");
 			let paging = (res.paging) ? res.paging.next : null;
 			this.props.displayMoreConversations(res.data, paging);
 			this.setState({ showSpin: false });
