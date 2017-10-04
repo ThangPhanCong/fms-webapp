@@ -24,6 +24,7 @@ let FmsDashBoard = React.createClass({
 			filters: filters,
 			conversationsIsLoading: false,
 			conversationsPaging: null,
+			tags: null,
 			pageid: null
 		}
 	},
@@ -351,7 +352,7 @@ let FmsDashBoard = React.createClass({
 			})
 			.catch(err => alert(err));
 			DashboardAPI.getProjectTags(this.props.params.alias).then((res) => {
-				console.log(res);
+				this.setState({ tags: res });
 			}, (err) => {
 				throw new Error(err);
 			});
@@ -363,8 +364,8 @@ let FmsDashBoard = React.createClass({
 			if (self.state.selectedConversation) {
 				return <FmsConversationArea ref={(child) => {
 					self._child2 = child;
-				}} currentConversation={self.state.selectedConversation} pageid={self.state.pageid}
-					sendMessage={self.sendMessage} displayMoreMessages={self.displayMoreMessages}
+				}} currentConversation={self.state.selectedConversation} pageid={self.state.pageid} sendMessage={self.sendMessage} 
+					tags={self.state.tags} displayMoreMessages={self.displayMoreMessages} alias={self.props.params.alias}
 					isLoading={self.state.conversationsIsLoading} conversationLoaded={self.conversationLoaded}
 					countAttachment={self.countAttachment} updateBlockCustomer={self.updateBlockCustomer} />
 			} else {

@@ -10,8 +10,8 @@
     width: 100%;
     background-color: #f1f2f3;
     padding-right: 5px;
-    min-height: calc(100% - 101px);
-    max-height: calc(100% - 101px);
+    min-height: calc(100% - 127px);
+    max-height: calc(100% - 127px);
     overflow-y: scroll;
     overflow-x: hidden;
 
@@ -45,4 +45,21 @@
 .post-info-conversation {
     border-bottom: 1px solid #cecece;
     padding: 12px;
+}
+.client-tag {
+    display: inline-block;
+    color: white;
+    padding: 3px;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.client-tags-bar {
+    margin: 0 8px;
+}
+.start-tag {
+    border-radius: 5px 0 0 0;
+}
+.end-tag {
+    border-radius: 0 5px 0 0;
 }

@@ -70,5 +70,14 @@ module.exports = {
 	getProjectTags: (alias) => {
 		let route = `/api/projects/${alias}/tags`;
 		return apiSender.get(route);
+	},
+	createTagConversation: (alias, conversation_id, tag_id) => {
+		let route = `/api/projects/${alias}/conversations/${conversation_id}/tags`;
+		let payload = {tag_id: tag_id};
+		return apiSender.post(route, payload);
+	},
+	deleteTagConversation: (alias, conversation_id, tag_id) => {
+		let route = `/api/projects/${alias}/conversations/${conversation_id}/tags/${tag_id}`;
+		return apiSender.delete(route);
 	}
 }

@@ -1,6 +1,6 @@
 .input-wrapper {
     background-color: white;
-    border-radius: 7px;
+    border-radius: 0 0 7px 7px;
     margin: 0px 8px;
     padding: 10px 20px;
     display: flex;
@@ -8,7 +8,7 @@
 }
 .input-text {
     border: none;
-    border-radius: 7px;
+    border-radius: 0 0 7px 7px;
     min-width: 100px;
     flex: 1;
 }
