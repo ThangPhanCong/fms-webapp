@@ -135,13 +135,12 @@ let FmsConversationArea = React.createClass({
 		};
 		let renderTagsBar = () => {
 			if (this.props.tags && this.props.tags.length > 0 && this.props.isLoading == false)
-					return <FmsTagsBar tags={this.props.tags}/>
+					return <FmsTagsBar tags={this.props.tags} conversation={this.props.currentConversation}/>
 		}
 		let showSpin = (this.state.showSpin == true) ? "" : " hide";
 		let chatArea = (this.props.isLoading) ? " hide" : "";
 		let spin = (this.props.isLoading) ? "" : " hide";
 		let input = (this.props.isLoading) ? " hide" : "";
-		console.log(this.props.currentConversation);
 
 		return (
 			<div className="inner-conversation-area">
