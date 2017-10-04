@@ -8,7 +8,7 @@ const leftArrowImg = require('left_arrow.png');
 
 let FmsAttachmentContent = require('FmsAttachmentContent');
 let FmsTextMessageContent = require('FmsTextMessageContent');
-let DashboardAPI = require('DashboardAPI');
+let DashboardAPI = require('DashboardApi');
 
 let FmsMessageItem = React.createClass({
 	attachmentLoadDone: function () {
@@ -107,7 +107,7 @@ let FmsMessageItem = React.createClass({
 					}
 					if (attachType == 'unknown' || preview == '') return;
 					return <FmsAttachmentContent key={uuid()} hasMessage={hasMessage} type={attachType} origin={origin}
-						isSelf={isSelf} attachmentLoadDone={self.attachmentLoadDone} preview={preview} size={size} 
+						isSelf={isSelf} attachmentLoadDone={self.attachmentLoadDone} preview={preview} size={size}
 						getChatAreaWidth={self.props.getChatAreaWidth}/>
 				})
 			}

@@ -31,9 +31,15 @@ module.exports = {
 		let payload = { message };
 		return apiSender.post(route, payload);
 	},
-	postRepCmtMsg: function (cmt_id, message) {
+	postRepCmtMsg: function (cmt_id, message, attachment_url) {
 		let route = `/api/comments/${cmt_id}/sendmsg`;
-		let payload = { message };
+		let payload = {};
+		if (message) {
+			payload.message = message;
+		}
+		if (attachment_url) {
+			payload.attachment_url = attachment_url;
+		}
 		return apiSender.post(route, payload);
 	},
 	getPostInfo: (post_id) => {

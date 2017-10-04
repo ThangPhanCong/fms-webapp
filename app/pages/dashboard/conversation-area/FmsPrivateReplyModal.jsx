@@ -3,7 +3,7 @@
 const React = require('react');
 const Modal = require('react-bootstrap').Modal;
 
-let DashboardAPI = require('DashboardAPI');
+let DashboardAPI = require('DashboardApi');
 
 let FmsPrivateReplyModal = React.createClass({
   getInitialState: function () {

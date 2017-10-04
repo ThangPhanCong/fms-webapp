@@ -7,7 +7,7 @@ let FmsMessageItem = require('FmsMessageItem');
 let FmsMessageForm = require('FmsMessageForm');
 let FmsInfoChat = require('FmsInfoChat');
 let FmsSpin = require('FmsSpin');
-let DashboardAPI = require('DashboardAPI');
+let DashboardAPI = require('DashboardApi');
 let FmsPostInfoConversation = require('FmsPostInfoConversation');
 
 let messageHasAttachment = 0;
@@ -153,7 +153,7 @@ let FmsConversationArea = React.createClass({
 					{renderConversation()}
 				</div>
 				<div className={"input-message-area" + input}>
-					<FmsMessageForm sendMessage={this.props.sendMessage} />
+					<FmsMessageForm sendMessage={this.props.sendMessage} conversation={this.props.currentConversation}/>
 				</div>
 			</div>
 		);

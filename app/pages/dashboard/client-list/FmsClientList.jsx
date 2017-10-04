@@ -5,7 +5,7 @@ const ReactDOM = require('react-dom');
 
 const searchImg = require('search.png');
 let FmsClientItem = require('FmsClientItem');
-let DashboardAPI = require('DashboardAPI');
+let DashboardAPI = require('DashboardApi');
 let FmsSpin = require('FmsSpin');
 
 let FmsClientList = React.createClass({

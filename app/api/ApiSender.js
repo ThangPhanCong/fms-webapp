@@ -5,7 +5,7 @@ const axios = require('axios');
 const config = require('CONFIG');
 const Cookie = require('universal-cookie');
 
-let DashboardAPI = require('DashboardAPI');
+let DashboardAPI = require('DashboardApi');
 
 const BASE_URL = config.BASE_URL;
 
