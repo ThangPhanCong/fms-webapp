@@ -9,6 +9,7 @@ let FmsInfoChat = require('FmsInfoChat');
 let FmsSpin = require('FmsSpin');
 let DashboardAPI = require('DashboardAPI');
 let FmsPostInfoConversation = require('FmsPostInfoConversation');
+let FmsTagsBar = require('FmsTagsBar');
 
 let messageHasAttachment = 0;
 let lastScrollPosition;
@@ -132,10 +133,15 @@ let FmsConversationArea = React.createClass({
 				return <FmsPostInfoConversation content={this.state.postInfo}/>
 			}
 		};
+		let renderTagsBar = () => {
+			if (this.props.tags && this.props.tags.length > 0 && this.props.isLoading == false)
+					return <FmsTagsBar tags={this.props.tags}/>
+		}
 		let showSpin = (this.state.showSpin == true) ? "" : " hide";
 		let chatArea = (this.props.isLoading) ? " hide" : "";
 		let spin = (this.props.isLoading) ? "" : " hide";
 		let input = (this.props.isLoading) ? " hide" : "";
+		console.log(this.props.currentConversation);
 
 		return (
 			<div className="inner-conversation-area">
@@ -152,6 +158,7 @@ let FmsConversationArea = React.createClass({
 					{renderPostInfo()}
 					{renderConversation()}
 				</div>
+				{renderTagsBar()}
 				<div className={"input-message-area" + input}>
 					<FmsMessageForm sendMessage={this.props.sendMessage} />
 				</div>
