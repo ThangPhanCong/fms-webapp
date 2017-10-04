@@ -1,8 +1,4 @@
 #!/bin/sh
-ssh ubuntu@13.229.58.66 sudo rm -rf /home/ubuntu/fms-webapp
-scp -r /var/lib/jenkins/workspace/fms-webapp/build ubuntu@13.229.58.66:/home/fms/client-build
 
-ssh -tt ubuntu@13.229.58.66 <<EOF
-  cd /home/ubuntu/fms-webapp/
-  exit
-EOF
+ssh -i ./script/server.key ubuntu@13.229.58.66:/home/ubuntu/fms/client/
+scp -i ./script/server.key -r ./build ubuntu@13.229.58.66:/home/ubuntu/fms/client/

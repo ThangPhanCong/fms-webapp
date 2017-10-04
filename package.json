@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "webpack -w --progress",
     "build": "webpack --progress",
+    "deploy": "NODE_ENV=production webpack --progress && ./script/deploy",
     "prestart": "npm i",
     "start": "node server.js"
   },

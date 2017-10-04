@@ -4,7 +4,7 @@ const path = require('path');
 let configPath;
 
 if (process.env.NODE_ENV === 'production') {
-  configPath = process.env.CONFIG;
+  configPath = 'config-prod.json';
 } else {
   configPath = 'config.json';
 }
