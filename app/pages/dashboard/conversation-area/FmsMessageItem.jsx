@@ -14,7 +14,6 @@ let FmsMessageItem = React.createClass({
 	attachmentLoadDone: function () {
 		this.props.attachmentLoadDone();
 	},
-
 	convertTime: function (time) {
 		let date = new Date(time);
 		let hour = (date.getHours() > 9) ? date.getHours() : "0" + date.getHours();
@@ -80,11 +79,14 @@ let FmsMessageItem = React.createClass({
 					index++;
 					if (index > 1) hasMessage = 0;
 					let attachType = 'unknown', preview = '', origin;
+					let size = {width: 0, height: 0};
 					if (attachment.type) {
 						let t = attachment.type;
 						if (t == 'sticker') attachType = 'sticker';
 						else if (t == 'photo' || t == 'video_inline' || t == 'share') attachType = 'image';
 						preview = attachment.media.image.src;
+						size.width = attachment.media.image.width;
+						size.height = attachment.media.image.height;
 						if (t != 'sticker') origin = attachment.url;
 					}
 					else {
@@ -93,15 +95,20 @@ let FmsMessageItem = React.createClass({
 							attachType = 'image';
 							preview = attachment.image_data.preview_url;
 							origin = attachment.image_data.url;
+							size.width = attachment.image_data.width;
+							size.height = attachment.image_data.height;
 						} else if (t == "video/mp4") {
 							attachType = 'image';
 							preview = attachment.video_data.preview_url;
 							origin = attachment.video_data.url;
+							size.width = attachment.video_data.width;
+							size.height = attachment.video_data.height;
 						}
 					}
 					if (attachType == 'unknown' || preview == '') return;
 					return <FmsAttachmentContent key={uuid()} hasMessage={hasMessage} type={attachType} origin={origin}
-						isSelf={isSelf} attachmentLoadDone={self.attachmentLoadDone} preview={preview} />
+						isSelf={isSelf} attachmentLoadDone={self.attachmentLoadDone} preview={preview} size={size} 
+						getChatAreaWidth={self.props.getChatAreaWidth}/>
 				})
 			}
 		}

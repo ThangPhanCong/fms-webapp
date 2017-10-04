@@ -45,6 +45,10 @@ let FmsConversationArea = React.createClass({
 			});
 		}
 	},
+	getChatAreaWidth: function () {
+		var list = this.refs.chat_area;
+		return list.clientWidth;
+	},
 	componentDidMount: function () {
 		var list = this.refs.chat_area;
 		list.addEventListener('scroll', () => {
@@ -118,8 +122,8 @@ let FmsConversationArea = React.createClass({
 					let isLast = lastItem === message;
 					let type = (self.props.currentConversation.type == "comment") ? "comment" : "inbox";
 
-					return <FmsMessageItem message={message} key={message.fb_id} isSelf={isSelf}
-						isLast={isLast} type={type} attachmentLoadDone={self.attachmentLoadDone} />;
+					return <FmsMessageItem message={message} key={message.fb_id} isSelf={isSelf} isLast={isLast} type={type}
+							 getChatAreaWidth={self.getChatAreaWidth} attachmentLoadDone={self.attachmentLoadDone} />;
 				});
 			}
 		};
