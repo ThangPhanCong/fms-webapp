@@ -3,8 +3,8 @@
 let apiSender = require('ApiSender');
 
 module.exports = {
-	getConversations: function (page_id, next) {
-		let route = `/api/pages/${page_id}/conversations`;
+	getConversations: function (alias, next) {
+		let route = `/api/projects/${alias}/conversations`;
 		if (next) route += `?next=${next}`;
 		return apiSender.get(route);
 	},
@@ -60,5 +60,9 @@ module.exports = {
 		let route = `/api/comments/${comment_id}/private_replies`;
 		let payload = { message };
 		return apiSender.post(route, payload);
+	},
+	getProjectTags: (alias) => {
+		let route = `/api/projects/${alias}/tags`;
+		return apiSender.get(route);
 	}
 }
