@@ -56,7 +56,7 @@ let FmsMessageForm = React.createClass({
               { self.props.conversation.type == 'comment' ?
                 <li><a href="#">
                   <img src={attachImg} className="attach-button"/>
-                  <input type="file" className="input-file" onChange={self.onFileChange}></input>
+                  <input type="file" className="input-file" accept="image/*" onChange={self.onFileChange}></input>
                 </a></li>
                 : null
               }
