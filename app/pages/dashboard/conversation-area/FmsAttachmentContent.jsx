@@ -1,5 +1,7 @@
 const React = require('react');
 
+let FmsSpin = require('FmsSpin');
+
 let FmsAttachmentContent = React.createClass({
   getDefaultProps: function () {
     return {
@@ -9,7 +11,8 @@ let FmsAttachmentContent = React.createClass({
   },
   getInitialState: function () {
     return {
-      size: {}
+      size: {},
+      isLoading: true
     }
   },
   getSizeImage: function () {
@@ -37,6 +40,9 @@ let FmsAttachmentContent = React.createClass({
     }
     this.setState({ size: size });
   },
+  attachmentLoadDone: function () {
+    this.setState({ isLoading: false });
+  },
   componentWillMount: function () {
     if (this.props.type != "sticker") window.addEventListener("resize", this.updateChatAreaWidth);
     this.updateChatAreaWidth();
@@ -55,16 +61,21 @@ let FmsAttachmentContent = React.createClass({
     } else {
       hasMessage = " no-message";
     }
+    let spin = (this.state.isLoading) ? "" : " hide";
+    let imgAttach = (this.state.isLoading) ? " hide" : "";
     let isSticker = (self.props.type == "sticker") ? " sticker" : "";
+    let hasBorder = (this.state.isLoading) ? "" : " no-border";
     let preview = self.props.preview;
     let msgAttachWrapper = (self.props.preview == "" || self.props.preview == null || self.props.preview == undefined) ? " hide" : "";
 
     return (
       <div className={"message-attachment-wrapper" + hasMessage + msgAttachWrapper}>
-        <div className={messageAttachment + ' ' + isSticker} style={this.getSizeImage()}>
+        <div className={messageAttachment + ' ' + isSticker + hasBorder} style={this.getSizeImage()}>
+          <div className={"attach-spin" + spin}>
+            <FmsSpin size={27}/>
+          </div>
           <a href={self.props.origin} target="_blank">
-            <img className="image-attachment" src={preview} 
-            onLoad={this.props.attachmentLoadDone} onError={this.props.attachmentLoadDone}/>
+            <img className={"image-attachment" + imgAttach} src={preview} onLoad={this.attachmentLoadDone}/>
           </a>
         </div>
       </div>

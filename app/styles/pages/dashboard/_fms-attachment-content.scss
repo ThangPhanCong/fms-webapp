@@ -34,6 +34,16 @@
   margin-top: -7px;
 }
 .sticker {
-  max-width: 120px;
-  max-height: 120px;
+  width: 120px;
+  height: 120px;
+}
+.no-border {
+  border: none;
+}
+.attach-spin {
+  vertical-align: middle;
+  text-align: center;
+  position: relative;
+  top: 50%;
+  margin-top: -13px;
 }

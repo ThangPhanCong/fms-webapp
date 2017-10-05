@@ -9,7 +9,7 @@ import uuid from 'uuid';
 import tagApi from 'TagApi';
 
 const MAX_TAG_ITEMS = 6;
-const TAG_COLORS = ['#F44336', '#009688', '#4CAF50', '#795548', '#1976D2', '#607D8B'];
+const TAG_COLORS = ['#009688', '#4CAF50', '#795548', '#1976D2', '#607D8B', '#F44336'];
 
 let FmsSettings = React.createClass({
   getInitialState: function () {
