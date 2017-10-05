@@ -12,7 +12,9 @@ let FmsSettingItem = React.createClass({
 
     return (
       <div>
-        <Checkbox checked={self.props.checked} inputRef={ref => { this.input = ref; }} onChange={self.check}>{self.props.name}</Checkbox>
+        <Checkbox checked={self.props.checked}
+          inputRef={ref => { this.input = ref; }}
+          onChange={self.check}>{self.props.name}</Checkbox>
       </div>
     );
   }
