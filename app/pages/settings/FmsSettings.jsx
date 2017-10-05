@@ -91,13 +91,13 @@ let FmsSettings = React.createClass({
           <Col xs={12} sm={6}>
             <Row>
               <Col>
-                <Checkbox checked={true}>Notification sound</Checkbox>
+                <Checkbox >Notification sound</Checkbox>
               </Col>
               <Col>
-                <Checkbox checked={true}>Show unread conversation on top</Checkbox>
+                <Checkbox >Show unread conversation on top</Checkbox>
               </Col>
               <Col>
-                <Checkbox checked={true}>Auto like comment when replying</Checkbox>
+                <Checkbox >Auto like comment when replying</Checkbox>
               </Col>
               <Col>
                 <Checkbox>Auto create new order</Checkbox>
