@@ -69,8 +69,10 @@ let FmsTagItem = React.createClass({
           </form>
           : null
         }
-        <Button onClick={() => {self.props.deleteTag(self.props)}}>Xóa</Button>
-        <Button onClick={() => {self.setState({isEditting: !isEditting}); if (isEditting) self.updateTag(self.props)}}>{isEditting ? "Xong" : "Chỉnh sửa"}</Button>
+        <Button onClick={() => {self.props.deleteTag(self.props)}}
+          disabled={self.props.isLoading}>Xóa</Button>
+        <Button onClick={() => {self.setState({isEditting: !isEditting}); if (isEditting) self.updateTag(self.props)}}
+          disabled={self.props.isLoading}>{isEditting ? "Xong" : "Chỉnh sửa"}</Button>
       </div>
     );
   }

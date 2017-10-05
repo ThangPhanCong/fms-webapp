@@ -14,36 +14,43 @@ const TAG_COLORS = ['red', 'black', 'green', 'yellow', 'blue', 'gray'];
 let FmsSettings = React.createClass({
   getInitialState: function () {
     return {
-      tags: []
+      tags: [],
+      isLoading: false
     }
   },
   updateTag: function (tag) {
     let self = this;
     let projectAlias = this.props.params.alias;
 
+    self.setState({isLoading: true});
+
     tagApi.update(projectAlias, tag._id, tag.name, tag.color)
       .then(updatedTag => {
         let tags = this.state.tags;
         let filterTags = tags.map(t => (t._id == tag._id) ? updatedTag : t);
 
-        self.setState({tags: filterTags});
+        self.setState({tags: filterTags, isLoading: false});
       })
   },
   deleteTag: function (tag) {
     let self = this;
     let projectAlias = this.props.params.alias;
 
+    self.setState({isLoading: true});
+
     tagApi.remove(projectAlias, tag._id)
       .then(() => {
         let tags = self.state.tags;
         let filterTags = tags.filter(t => t._id != tag._id);
 
-        self.setState({tags: filterTags});
+        self.setState({tags: filterTags, isLoading: false});
       })
   },
   addNewTag: function (color, name) {
     let self = this;
     let projectAlias = this.props.params.alias;
+
+    self.setState({isLoading: true});
 
     let remainingColors = TAG_COLORS.filter(c => {
       let _tag = self.state.tags.find(t => t.color == c)
@@ -57,7 +64,7 @@ let FmsSettings = React.createClass({
         let tags = self.state.tags;
         tags.push(newTag);
 
-        self.setState({tags: tags});
+        self.setState({tags: tags, isLoading: false});
       })
       .catch(err => alert(err.message));
   },
@@ -72,12 +79,12 @@ let FmsSettings = React.createClass({
   },
   renderTags: function () {
     let self = this;
-
     let tags = self.state.tags;
 
     return tags.map(tag => {
       return (
-        <FmsTagItem key={tag._id} {...tag} updateTag={self.updateTag} deleteTag={self.deleteTag}></FmsTagItem>
+        <FmsTagItem key={tag._id} {...tag} updateTag={self.updateTag}
+          deleteTag={self.deleteTag} isLoading={self.state.isLoading}></FmsTagItem>
       )
     })
   },
@@ -109,7 +116,9 @@ let FmsSettings = React.createClass({
           </Col>
 
           <Col xs={12} sm={6}>
-            <span>Thẻ hội thoại</span><span className="count-item">{countItem}</span><Button disabled={self.state.tags.length == MAX_TAG_ITEMS} onClick={() => {self.addNewTag('black', "new tag")}}>Thêm</Button>
+            <span>Thẻ hội thoại</span><span className="count-item">{countItem}</span>
+            <Button disabled={self.state.tags.length == MAX_TAG_ITEMS || self.state.isLoading}
+              onClick={() => {self.addNewTag('black', "new tag")}}>Thêm</Button>
             {self.renderTags()}
           </Col>
         </Row>
