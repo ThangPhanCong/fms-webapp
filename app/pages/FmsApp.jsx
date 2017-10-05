@@ -17,6 +17,7 @@ let FmsApp = React.createClass({
   componentDidMount: function () {
     let self = this;
     // self.noti('success', 'Bỏ ẩn bình luận thành công');
+    // info, warning, danger, or success.
   },
   noti: function (type, message) {
     let self = this;

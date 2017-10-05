@@ -4,4 +4,42 @@
 
 .post-item-wrapper {
   padding: 10px;
+
+  .post-body {
+    padding: 10px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+
+    .content {
+      height: 100px;
+      overflow: hidden;
+    }
+
+    .page-info {
+      img {
+        width: 20px;
+      }
+      span {
+        margin-left: 5px;
+        vertical-align: middle;
+      }
+    }
+
+    .image-wrapper {
+      height: 60px;
+
+      img {
+        width: 50px;
+        max-height: 80px;
+        padding-right: 5px;
+        overflow: hidden;
+      }
+    }
+  }
+}
+
+.posts {
+  .loadmore-wrapper {
+    text-align: center;
+  }
 }

@@ -4,35 +4,49 @@ const React = require('react');
 const {browserHistory} = require('react-router');
 
 import {Image, Checkbox} from 'react-bootstrap';
+import uuid from 'uuid';
 
 let FmsPostItem = React.createClass({
   onToggleChange: function(checked) {
     this.props.onToggleChange(this.props.data.fb_id);
   },
   renderImgs: function() {
-    let img = 'https://scontent.xx.fbcdn.net/v/t1.0-9/s720x720/20525302_698424647034142_194183038564561297_n.jpg?oh=8a35af7c300370d90ecba8c179a15799&oe=5A2996A5';
+    let self = this;
+    let attachments = self.props.data.attachments;
+    if (attachments) {
+      let photoAttachment = attachments.find(atm => !!atm.photos);
 
-    return (
-      <img src={img} />
-    );
+      if (photoAttachment) {
+        return photoAttachment.photos.map(imgUrl => {
+          return (
+            <Image key={uuid()} src={imgUrl}></Image>
+          )
+        })
+      }
+    }
   },
   render: function() {
     let self = this;
-
-    let page_id = '161815640591040';
-    let page_name = 'UET Chatbot';
+    let page_id = self.props.data.page_fb_id;
+    let page_name = self.props.data.page_fb_name;
     let page_ava = `https://graph.facebook.com/v2.10/${page_id}/picture`;
-
-    // <div className="post-header">
-    //   <Image src={page_ava} circle width={50}></Image>
-    //   <span>{page_name}</span>
-    // </div>
 
     return (
       <div className="post-item-wrapper">
         <div className="post-body">
-          <p>{this.props.data.message}</p>
-          <div><Checkbox type="checkbox" checked={this.props.data.hide_comment} onChange={this.onToggleChange}> Ẩn bình luận</Checkbox></div>
+          <p className="content">{this.props.data.message}</p>
+          <div className="image-wrapper">
+            {self.renderImgs()}
+          </div>
+          <div className="page-info">
+            <Image src={page_ava} circle></Image>
+            <span>{page_name}</span>
+          </div>
+          <div>
+            <Checkbox type="checkbox"
+            checked={this.props.data.hide_comment}
+            onChange={this.onToggleChange}> Ẩn bình luận</Checkbox>
+          </div>
         </div>
       </div>
     );

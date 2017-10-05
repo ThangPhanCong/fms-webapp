@@ -52,6 +52,8 @@ let FmsPosts = React.createClass({
           if (post.fb_id == fb_post_id) {
             if (post.hide_comment) {
               self.props.noti('success', 'Ẩn bình luận thành công');
+              // self.props.noti('error', 'Ẩn bình luận thành công');
+              // self.props.noti('warning', 'Ẩn bình luận thành công');
             } else {
               self.props.noti('success', 'Bỏ ẩn bình luận thành công');
             }
@@ -91,7 +93,7 @@ let FmsPosts = React.createClass({
     return posts.map((post) => {
       return (
         <Col xs={12} sm={6} md={4} key={post.fb_id}>
-          <FmsPostItem  data={post} onToggleChange={this.onToggleChange}/>
+          <FmsPostItem data={post} onToggleChange={this.onToggleChange}/>
         </Col>
       )
     });
@@ -100,13 +102,13 @@ let FmsPosts = React.createClass({
     let self = this;
 
     return (
-      <Grid bsClass="page">
+      <Grid bsClass="page posts">
         <Row>
           {this.renderPosts()}
         </Row>
-        {
-          self.state.next ? <Button disabled={self.state.isLoading} onClick={self.loadMorePosts}>Load more</Button> : null
-        }
+        <div className="loadmore-wrapper">
+          { self.state.next ? <Button disabled={self.state.isLoading} onClick={self.loadMorePosts}>Load more</Button> : null }
+        </div>
       </Grid>
     );
   }
