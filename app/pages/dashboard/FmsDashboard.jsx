@@ -311,6 +311,15 @@ let FmsDashBoard = React.createClass({
 			});
 		}
 	},
+	updateClientTags: function (tags, conversation_id) {
+		let newConversations = this.state.conversations;
+		newConversations.forEach((convers) => {
+			if (convers.fb_id == conversation_id) {
+				convers.tags = tags;
+			}
+		});
+		this.setState({ conversations: newConversations });
+	},
 	componentDidMount: function () {
 		let self = this;
 
@@ -341,7 +350,8 @@ let FmsDashBoard = React.createClass({
 					self._child2 = child;
 				}} currentConversation={self.state.selectedConversation} pageid={self.state.pageid} sendMessage={self.sendMessage} 
 					tags={self.state.tags} displayMoreMessages={self.displayMoreMessages} alias={self.props.params.alias}
-					isLoading={self.state.conversationsIsLoading} updateBlockCustomer={self.updateBlockCustomer} />
+					isLoading={self.state.conversationsIsLoading} updateBlockCustomer={self.updateBlockCustomer} 
+					noti={self.props.noti} updateClientTags={self.updateClientTags}/>
 			} else {
 				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
 			}
