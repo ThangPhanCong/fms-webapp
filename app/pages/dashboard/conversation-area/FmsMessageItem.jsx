@@ -11,9 +11,6 @@ let FmsTextMessageContent = require('FmsTextMessageContent');
 let DashboardAPI = require('DashboardApi');
 
 let FmsMessageItem = React.createClass({
-	attachmentLoadDone: function () {
-		this.props.attachmentLoadDone();
-	},
 	convertTime: function (time) {
 		let date = new Date(time);
 		let hour = (date.getHours() > 9) ? date.getHours() : "0" + date.getHours();
@@ -61,8 +58,7 @@ let FmsMessageItem = React.createClass({
 			if (msg.shares && msg.shares.data.length > 0) {
 				return msg.shares.data.map((share) => {
 					if (share.link && share.link.indexOf("scontent") != -1) {
-						return <FmsAttachmentContent key={uuid()} preview={share.link} isSelf={isSelf}
-							type={'sticker'} attachmentLoadDone={self.attachmentLoadDone} />
+						return <FmsAttachmentContent key={uuid()} preview={share.link} isSelf={isSelf} type={'sticker'} />
 					}
 				});
 			}
@@ -107,8 +103,7 @@ let FmsMessageItem = React.createClass({
 					}
 					if (attachType == 'unknown' || preview == '') return;
 					return <FmsAttachmentContent key={uuid()} hasMessage={hasMessage} type={attachType} origin={origin}
-						isSelf={isSelf} attachmentLoadDone={self.attachmentLoadDone} preview={preview} size={size}
-						getChatAreaWidth={self.props.getChatAreaWidth}/>
+						isSelf={isSelf} preview={preview} size={size} getChatAreaWidth={self.props.getChatAreaWidth}/>
 				})
 			}
 		}

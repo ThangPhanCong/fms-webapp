@@ -11,7 +11,6 @@ let DashboardAPI = require('DashboardApi');
 let FmsPostInfoConversation = require('FmsPostInfoConversation');
 let FmsTagsBar = require('FmsTagsBar');
 
-let messageHasAttachment = 0;
 let lastScrollPosition;
 let loadmoreCount = 0;
 
@@ -21,13 +20,6 @@ let FmsConversationArea = React.createClass({
 			showSpin: false,
 			postInfo: null,
 			allMessagesLoad: false
-		}
-	},
-	attachmentLoadDone: function () {
-		messageHasAttachment--;
-		if (messageHasAttachment == 0) {
-			this.props.conversationLoaded();
-			messageHasAttachment--;
 		}
 	},
 	clientChanged: function () {
@@ -117,14 +109,13 @@ let FmsConversationArea = React.createClass({
 				})
 				let lastItem = messages[messages.length - 1];
 
-				messageHasAttachment = self.props.countAttachment(messages);
 				return messages.map(message => {
 					let isSelf = message.from.id == self.props.pageid;
 					let isLast = lastItem === message;
 					let type = (self.props.currentConversation.type == "comment") ? "comment" : "inbox";
 
 					return <FmsMessageItem message={message} key={message.fb_id} isSelf={isSelf} isLast={isLast} type={type}
-							 getChatAreaWidth={self.getChatAreaWidth} attachmentLoadDone={self.attachmentLoadDone} />;
+							 getChatAreaWidth={self.getChatAreaWidth} />;
 				});
 			}
 		};

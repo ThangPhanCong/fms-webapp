@@ -26,10 +26,6 @@ let FmsDashBoard = React.createClass({
 			pageid: null
 		}
 	},
-	conversationLoaded: function () {
-		if (this.state.conversationsIsLoading == false) return;
-		this.setState({ conversationsIsLoading: false });
-	},
 	handleFilter: function (newFilters) {
 		this.setState({ filters: newFilters });
 		this.filterConversations();
@@ -141,25 +137,6 @@ let FmsDashBoard = React.createClass({
 			}
 		});
 	},
-	countAttachment: function (msgs) {
-		let count = 0;
-		msgs.forEach((msg) => {
-			if (msg.shares) {
-				msg.shares.data.forEach((share) => {
-					if (share.link && share.link.indexOf("scontent") != -1) count++;
-				});
-			} else if (msg.attachment && (msg.attachment.type == 'sticker' || msg.attachment.type == 'photo' ||
-				msg.attachment.type == 'video_inline' || msg.attachment.type == 'share')) {
-				count += 1;
-			} else if (msg.attachments) {
-				msg.attachments.data.forEach((attach) => {
-					if (attach.mime_type == "image/jpeg" || attach.mime_type == "image/gif" ||
-						attach.mime_type == "video/mp4") count++;
-				});
-			}
-		});
-		return count;
-	},
 	handleClientClick: function (fb_id, type) {
 		let self = this;
 		if (this._child2) this._child2.clientChanged();
@@ -181,12 +158,11 @@ let FmsDashBoard = React.createClass({
 			let updateChildren = (data) => {
 				let _selectedConversation = this.state.selectedConversation;
 				_selectedConversation.children = data.data;
-				let count = this.countAttachment(data.data);
 				_selectedConversation.paging = (data.paging) ? data.paging.next : null;
 				this.reloadAttachment(data.data);
 				this.setState({
 					selectedConversation: _selectedConversation,
-					conversationsIsLoading: count > 0,
+					conversationsIsLoading: false,
 				});
 			}
 
@@ -198,10 +174,9 @@ let FmsDashBoard = React.createClass({
 					.then(data => updateChildren(data))
 			}
 		} else {
-			let count = this.countAttachment(_selectedConversation.children);
 			this.setState({
 				selectedConversation: _selectedConversation,
-				conversationsIsLoading: count > 0
+				conversationsIsLoading: false
 			});
 		}
 	},
@@ -364,8 +339,7 @@ let FmsDashBoard = React.createClass({
 					self._child2 = child;
 				}} currentConversation={self.state.selectedConversation} pageid={self.state.pageid} sendMessage={self.sendMessage}
 					tags={self.state.tags} displayMoreMessages={self.displayMoreMessages} alias={self.props.match.params.project_alias}
-					isLoading={self.state.conversationsIsLoading} conversationLoaded={self.conversationLoaded}
-					countAttachment={self.countAttachment} updateBlockCustomer={self.updateBlockCustomer} />
+					isLoading={self.state.conversationsIsLoading} updateBlockCustomer={self.updateBlockCustomer} />
 			} else {
 				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
 			}
