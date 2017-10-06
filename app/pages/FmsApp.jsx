@@ -1,12 +1,19 @@
 'use strict';
 
-const React = require('react');
+import React from 'react';
 import { AlertList, Alert, AlertContainer } from "react-bs-notifier";
+import {Switch, Route} from 'react-router-dom';
 import uuid from 'uuid';
 
-const FmsNavigation = require('FmsNavigation');
+import FmsHome from 'FmsHome';
+import FmsProject from 'FmsProject';
+import FmsDashboard from 'FmsDashboard';
+import FmsLogin from 'FmsLogin';
+import FmsNavigation from 'FmsNavigation';
+import FmsPosts from 'FmsPosts';
+import FmsSettings from 'FmsSettings';
 
-const ALERT_TIME_DISMIS = 2500;
+import {ALERT_TIME_DISMIS} from 'constant';
 
 let FmsApp = React.createClass({
   getInitialState: function () {
@@ -65,8 +72,15 @@ let FmsApp = React.createClass({
     return (
       <div>
         {self.renderAlerts()}
-        <FmsNavigation location={this.props.location} params={this.props.params}/>
-        {React.cloneElement(this.props.children, {noti: self.noti} )}
+        <FmsNavigation />
+        <Switch>
+          <Route exact path="/" component={FmsHome}/>
+          <Route exact path="/projects" component={FmsProject}/>
+          <Route exact path="/projects/:project_alias" component={FmsDashboard}/>
+          <Route path="/projects/:project_alias/posts" component={FmsPosts}/>
+          <Route path="/projects/:project_alias/settings" component={FmsSettings}/>
+          <Route path="/login" component={FmsLogin}/>
+        </Switch>
       </div>
     );
   }

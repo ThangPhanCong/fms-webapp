@@ -2,11 +2,11 @@
 
 const React = require('react');
 const ReactDOM = require('react-dom');
-const { Route, Router, IndexRoute, browserHistory } = require('react-router');
+// const { Route, Router, IndexRoute, browserHistory } = require('react-router');
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import store from 'store';
 
 let FmsApp = require('FmsApp');
-let FmsLoginCallback = require('FmsLoginCallback');
 let FmsPageList = require('FmsPageList');
 let FmsNavigation = require('FmsNavigation');
 let FmsHome = require('FmsHome');
@@ -23,41 +23,46 @@ let socket = require('Socket');
 // Load Bootstrap js
 require("bootstrapJs");
 
-function requireLogin(nextState, replace) {
-	let jwt = store.get('jwt');
+// function requireLogin(nextState, replace) {
+// 	let jwt = store.get('jwt');
+//
+// 	if (jwt) {
+// 		tokenApi.verifyAccessToken(jwt)
+// 			.then(userData => {
+// 				socket.connect(config.BASE_URL, jwt);
+// 			})
+// 			.catch(err => {
+// 				replace({
+// 					pathname: '/'
+// 				});
+// 			})
+// 	} else {
+// 		replace({
+// 			pathname: '/'
+// 		});
+// 	}
+// };
 
-	if (jwt) {
-		tokenApi.verifyAccessToken(jwt)
-			.then(userData => {
-				socket.connect(config.BASE_URL, jwt);
-			})
-			.catch(err => {
-				replace({
-					pathname: '/'
-				});
-			})
-	} else {
-		replace({
-			pathname: '/'
-		});
-	}
-};
+const NoMatch = () => {
+	return (
+		<div>Not match</div>
+	)
+}
 
 ReactDOM.render(
-	<Router history={browserHistory}>
-		<Route path="/" component={FmsApp}>
-			<Route path="/pages" component={FmsPageList} onEnter={requireLogin}/>
-			<Route path="/posts" component={FmsPosts} onEnter={requireLogin}/>
+	<Router>
+		<Switch>
+			<Route path="/" component={FmsApp}/>
+		</Switch>
 
-			<Route path="/projects" component={FmsProject} onEnter={requireLogin}/>
-			<Route path="/projects/:alias" component={FmsDashboard} onEnter={requireLogin}/>
-			<Route path="/projects/:alias/posts" component={FmsPosts} onEnter={requireLogin}/>
-			<Route path="/projects/:alias/settings" component={FmsSettings} onEnter={requireLogin}/>
-
-			<IndexRoute component={FmsHome}/>
-		</Route>
-
-		<Route path="/callback" component={FmsLoginCallback}/>
+			{
+				// <Route path="/pages" component={FmsPageList} onEnter={requireLogin}/>
+				// <Route path="/posts" component={FmsPosts} onEnter={requireLogin}/>
+				// <Route path="/projects/:alias" component={FmsDashboard} onEnter={requireLogin}/>
+				// <Route path="/projects/:alias/posts" component={FmsPosts} onEnter={requireLogin}/>
+				// <Route path="/projects/:alias/settings" component={FmsSettings} onEnter={requireLogin}/>
+				// <IndexRoute component={FmsHome}/>
+			}
 	</Router>,
 	document.getElementById('app')
 );

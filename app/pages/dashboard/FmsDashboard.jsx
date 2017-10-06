@@ -1,18 +1,16 @@
 'use strict';
 
-const React = require('react');
-const { browserHistory } = require('react-router');
+import React from 'react';
 
-let DashboardAPI = require('DashboardApi');
-let FmsConversationArea = require('FmsConversationArea');
-let FmsClientList = require('FmsClientList');
-
-let projectApi = require('ProjectApi');
-let PagesAPI = require('PagesApi');
-let socket = require('Socket');
-let FmsClientInformation = require('FmsClientInformation');
-let FmsVerticalNav = require('FmsVerticalNav');
-let filters = require('FmsFilterConversation').filters;
+import DashboardApi from 'DashboardApi';
+import FmsConversationArea from 'FmsConversationArea';
+import FmsClientList from 'FmsClientList';
+import projectApi from 'ProjectApi';
+import PagesApi from 'PagesApi';
+import socket from 'Socket';
+import FmsClientInformation from 'FmsClientInformation';
+import FmsVerticalNav from 'FmsVerticalNav';
+import {filters} from 'FmsFilterConversation';
 
 let FmsDashBoard = React.createClass({
 	getInitialState: function () {
@@ -59,7 +57,7 @@ let FmsDashBoard = React.createClass({
 	updateConversation: function () {
 		let self = this;
 
-		DashboardAPI.getConversations(this.props.params.alias).then((data) => {
+		DashboardApi.getConversations(this.props.match.params.project_alias).then((data) => {
 			let _convers = data.data;
 			_convers = _convers.sort((a, b) => {
 				let t1 = new Date(a.updated_time);
@@ -79,9 +77,9 @@ let FmsDashBoard = React.createClass({
 	},
 	postSeenCv: function (conversation) {
 		if (conversation.type == 'inbox') {
-			DashboardAPI.postSeenInbox(conversation.fb_id);
+			DashboardApi.postSeenInbox(conversation.fb_id);
 		} else if (conversation.type == 'comment') {
-			DashboardAPI.postSeenCmt(conversation.fb_id);
+			DashboardApi.postSeenCmt(conversation.fb_id);
 		}
 	},
 	postRepMsg: function (conversation, message) {
@@ -102,7 +100,7 @@ let FmsDashBoard = React.createClass({
 		}
 
 		if (conversation.type == 'inbox') {
-			DashboardAPI.postRepInboxMsg(conversation.fb_id, message)
+			DashboardApi.postRepInboxMsg(conversation.fb_id, message)
 				.then(data => {
 					let msgInbox = createTempMsg(data.id, message, conversation);
 
@@ -110,7 +108,7 @@ let FmsDashBoard = React.createClass({
 				})
 				.catch(err => alert(err.message));
 		} else if (conversation.type == 'comment') {
-			DashboardAPI.postRepCmtMsg(conversation.fb_id, message)
+			DashboardApi.postRepCmtMsg(conversation.fb_id, message)
 				.then(data => {
 					let msgInbox = createTempMsg(data.id, message, conversation);
 
@@ -122,20 +120,20 @@ let FmsDashBoard = React.createClass({
 	reloadAttachment: function (msgs) {
 		msgs.forEach((msg) => {
 			if (msg.shares) {
-				DashboardAPI.getMessageShare(msg.fb_id, msg.page_fb_id).then((res) => {
+				DashboardApi.getMessageShare(msg.fb_id, msg.page_fb_id).then((res) => {
 					msg.shares = res.data.shares;
 				}, (err) => {
 					throw new Error(err);
 				});
 			} else if (msg.attachment && (msg.attachment.type == 'sticker' || msg.attachment.type == 'photo' ||
 				msg.attachment.type == 'video_inline' || msg.attachment.type == 'share')) {
-				DashboardAPI.getCommentAttachment(msg.fb_id, msg.page_fb_id).then((res) => {
+				DashboardApi.getCommentAttachment(msg.fb_id, msg.page_fb_id).then((res) => {
 					msg.attachment = res.data.attachment;
 				}, (err) => {
 					throw new Error(err);
 				});
 			} else if (msg.attachments) {
-				DashboardAPI.getMessageAttachment(msg.fb_id, msg.page_fb_id).then((res) => {
+				DashboardApi.getMessageAttachment(msg.fb_id, msg.page_fb_id).then((res) => {
 					msg.attachments = res.data.attachments;
 				}, (err) => {
 					throw new Error(err);
@@ -193,10 +191,10 @@ let FmsDashBoard = React.createClass({
 			}
 
 			if (type == "inbox") {
-				DashboardAPI.getMessageInbox(fb_id)
+				DashboardApi.getMessageInbox(fb_id)
 					.then(data => updateChildren(data))
 			} else if (type == "comment") {
-				DashboardAPI.getReplyComment(fb_id)
+				DashboardApi.getReplyComment(fb_id)
 					.then(data => updateChildren(data))
 			}
 		} else {
@@ -339,7 +337,7 @@ let FmsDashBoard = React.createClass({
 	componentDidMount: function () {
 		let self = this;
 
-		let projectAlias = this.props.params.alias;
+		let projectAlias = this.props.match.params.project_alias;
 
 		projectApi.getProject(projectAlias)
 			.then(project => {
@@ -351,7 +349,7 @@ let FmsDashBoard = React.createClass({
 				self.subscribePageChanges(pages);
 			})
 			.catch(err => alert(err));
-			DashboardAPI.getProjectTags(this.props.params.alias).then((res) => {
+			DashboardApi.getProjectTags(this.props.match.params.project_alias).then((res) => {
 				this.setState({ tags: res });
 			}, (err) => {
 				throw new Error(err);
@@ -364,8 +362,8 @@ let FmsDashBoard = React.createClass({
 			if (self.state.selectedConversation) {
 				return <FmsConversationArea ref={(child) => {
 					self._child2 = child;
-				}} currentConversation={self.state.selectedConversation} pageid={self.state.pageid} sendMessage={self.sendMessage} 
-					tags={self.state.tags} displayMoreMessages={self.displayMoreMessages} alias={self.props.params.alias}
+				}} currentConversation={self.state.selectedConversation} pageid={self.state.pageid} sendMessage={self.sendMessage}
+					tags={self.state.tags} displayMoreMessages={self.displayMoreMessages} alias={self.props.match.params.project_alias}
 					isLoading={self.state.conversationsIsLoading} conversationLoaded={self.conversationLoaded}
 					countAttachment={self.countAttachment} updateBlockCustomer={self.updateBlockCustomer} />
 			} else {
@@ -384,7 +382,7 @@ let FmsDashBoard = React.createClass({
 					}} handleClientClick={this.handleClientClick} conversations={this.state.filteredConversations}
 						currentConversation={this.state.selectedConversation} displayMoreConversations={this.displayMoreConversations}
 						allConversations={this.state.conversations} paging={this.state.conversationsPaging}
-						alias={this.props.params.alias}/>
+						alias={this.props.match.params.project_alias}/>
 				</div>
 				<div className="conversation-area">
 					{renderConversation()}

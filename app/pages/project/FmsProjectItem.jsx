@@ -35,10 +35,8 @@ let FmsProjectItem = React.createClass({
       return <div></div>
     }
   },
-  handleItemClick: function () {
-    this.props.onItemClick(this.props.data);
-  },
   deleteProjectClick: function (e) {
+    e.preventDefault();
     e.stopPropagation();
     let self = this;
     let projectAlias = this.props.data.alias;
@@ -52,7 +50,7 @@ let FmsProjectItem = React.createClass({
 
     return (
       <div className="col-md-4">
-        <div className="project-item panel panel-default" onClick={self.handleItemClick}>
+        <div className="project-item panel panel-default">
           <div className="panel-heading">
             <h3 className="panel-title">{projectName}</h3>
             <span className="glyphicons glyphicons-bin"></span>
