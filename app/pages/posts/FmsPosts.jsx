@@ -1,13 +1,12 @@
 'use strict';
 
-const React = require('react');
-const {browserHistory} = require('react-router');
-
-let FmsPostItem = require('FmsPostItem');
-let postApi = require('PostsApi');
-
+import React from 'react';
+import {Route} from 'react-router-dom';
 import uuid from 'uuid';
 import {Grid, Row, Col, Button} from 'react-bootstrap';
+
+import FmsPostItem from 'FmsPostItem';
+import postApi from 'PostsApi';
 import dashboardApi from 'DashboardApi';
 import projectApi from 'ProjectApi';
 
@@ -21,7 +20,7 @@ let FmsPosts = React.createClass({
   },
   componentDidMount: function() {
     let self = this;
-    let projectAlias = this.props.params.alias;
+    let projectAlias = this.props.match.params.project_alias;
 
     postApi.getPostsOfProject(projectAlias)
       .then(
@@ -64,7 +63,7 @@ let FmsPosts = React.createClass({
   },
   loadMorePosts: function () {
     let self = this;
-    let projectAlias = self.props.params.alias;
+    let projectAlias = self.props.match.params.project_alias;
 
     self.setState({isLoading: true});
 

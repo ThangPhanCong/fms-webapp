@@ -6,5 +6,8 @@ module.exports = {
   ACTIVE_PAGE_EVENT: 'active_page_event',
   ACTIVE_PAGE_SUCCESSFUL_EVENT: 'active_page_successful_event',
   ACTIVE_PAGE_FAILURE_EVENT: 'active_page_failure_event',
-  ACTIVE_PAGE_UPDATE_EVENT: 'active_page_update_event'
+  ACTIVE_PAGE_UPDATE_EVENT: 'active_page_update_event',
+
+  ALERT_TIME_DISMIS: 2500,
+  MAX_TAG_ITEMS: 6
 };

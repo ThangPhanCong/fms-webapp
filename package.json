@@ -19,9 +19,11 @@
     "react-bs-notifier": "^4.3.2",
     "react-dom": "^0.14.7",
     "react-router": "^2.8.1",
+    "react-router-dom": "^4.2.2",
     "socket.io-client": "^2.0.3",
     "store": "^2.0.12",
     "universal-cookie": "^2.0.8",
+    "url-search-params-polyfill": "^2.0.1",
     "uuid": "^3.1.0"
   },
   "devDependencies": {

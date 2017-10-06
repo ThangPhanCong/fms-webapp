@@ -1,12 +1,13 @@
 'use strict';
 
-const React = require('react');
+import React from 'react';
 import {Grid, Row, Col, Button, Checkbox} from 'react-bootstrap';
-import FmsSettingItem from 'FmsSettingItem';
-import FmsTagItem from 'FmsTagItem';
 import uuid from 'uuid';
 
+import FmsSettingItem from 'FmsSettingItem';
+import FmsTagItem from 'FmsTagItem';
 import tagApi from 'TagApi';
+import {MAX_TAG_ITEMS} from 'constant';
 
 const MAX_TAG_ITEMS = 6;
 const TAG_COLORS = ['#795548', '#30499B', '#844D9E', '#009688', '#88C542', '#F57C00'];
@@ -20,7 +21,7 @@ let FmsSettings = React.createClass({
   },
   updateTag: function (tag) {
     let self = this;
-    let projectAlias = this.props.params.alias;
+    let projectAlias = this.props.match.params.project_alias;
 
     self.setState({isLoading: true});
 
@@ -34,7 +35,7 @@ let FmsSettings = React.createClass({
   },
   deleteTag: function (tag) {
     let self = this;
-    let projectAlias = this.props.params.alias;
+    let projectAlias = this.props.match.params.project_alias;
 
     self.setState({isLoading: true});
 
@@ -48,7 +49,7 @@ let FmsSettings = React.createClass({
   },
   addNewTag: function (color, name) {
     let self = this;
-    let projectAlias = this.props.params.alias;
+    let projectAlias = this.props.match.params.project_alias;
 
     self.setState({isLoading: true});
 
@@ -70,7 +71,7 @@ let FmsSettings = React.createClass({
   },
   componentDidMount: function () {
     let self = this;
-    let projectAlias = this.props.params.alias;
+    let projectAlias = this.props.match.params.project_alias;
 
     tagApi.getProjectTags(projectAlias)
       .then(tags => {

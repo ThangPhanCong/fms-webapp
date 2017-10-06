@@ -1,9 +1,10 @@
-const React = require('react');
-const {browserHistory} = require('react-router');
+'use strict';
 
-const FmsProjectItem = require('FmsProjectItem');
-const FmsAddProjectModal = require('FmsAddProjectModal');
-const projectApi = require('ProjectApi');
+import React from 'react';
+import {Link} from 'react-router-dom';
+import FmsProjectItem from 'FmsProjectItem';
+import FmsAddProjectModal from 'FmsAddProjectModal';
+import projectApi from 'ProjectApi';
 
 let FmsProject = React.createClass({
   getInitialState: function () {
@@ -27,10 +28,6 @@ let FmsProject = React.createClass({
         alert(err.message);
       })
   },
-  handleProjectItemClick: function (project) {
-    // console.log('handleProjectItemClick', project);
-    browserHistory.push('/projects/' + project.alias);
-  },
   handleDeleteProject: function (alias) {
     let self = this;
 
@@ -49,7 +46,10 @@ let FmsProject = React.createClass({
     if (projects && Array.isArray(projects) && projects.length > 0) {
       return projects.map(project => {
         return (
-          <FmsProjectItem key={project.alias} data={project} onItemClick={self.handleProjectItemClick} handleDeleteProject={self.handleDeleteProject}></FmsProjectItem>
+          <Link key={project.alias} to={self.props.match.path + '/' + project.alias}>
+            <FmsProjectItem data={project}
+              handleDeleteProject={self.handleDeleteProject}></FmsProjectItem>
+          </Link>
         )
       })
     } else {
@@ -78,7 +78,7 @@ let FmsProject = React.createClass({
           </div>
 
           <FmsAddProjectModal ref={(child) => {this._child = child;}}
-            updateProjects={self.updateProjects}></FmsAddProjectModal>
+            updateProjects={self.updateProjects} {...self.props}></FmsAddProjectModal>
         </div>
       </div>
     );
