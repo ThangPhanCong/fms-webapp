@@ -18,13 +18,14 @@
     width: 27px;
     height: 27px;
     float: left;
-    margin: 4px 8px 0 0;
+    margin: 4px 4px 0 0;
 }
 .input-search-client {
     border: none;
     font-size: 16px;
     overflow: hidden;
     flex: 2;
+    margin-right: 4px;
 }
 .input-search-client:focus {
     outline: none;
@@ -128,4 +129,17 @@
     .search-client {
         display: flex;
     }
+}
+.filter-tag-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.filter-tag {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+    cursor: pointer;
 }

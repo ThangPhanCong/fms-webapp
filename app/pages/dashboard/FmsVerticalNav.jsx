@@ -27,6 +27,7 @@ let FmsVerticalNav = React.createClass({
   handleVerItemClick: function (position) {
     let newFilters = this.props.state;
     for (let i = 0; i < newFilters.length; i++) {
+      if (newFilters[i].isTag) continue;
       if (i == position) newFilters[i].isActive = !newFilters[i].isActive;
       else {
         if (position == 0) newFilters[i].isActive = false;
