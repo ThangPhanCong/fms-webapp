@@ -346,7 +346,7 @@ let FmsDashBoard = React.createClass({
 				return <FmsConversationArea ref={(child) => {
 					self._child2 = child;
 				}} currentConversation={self.state.selectedConversation} pageid={self.state.pageid} sendMessage={self.sendMessage} 
-					tags={self.state.tags} displayMoreMessages={self.displayMoreMessages} alias={self.props.params.alias}
+					tags={self.state.tags} displayMoreMessages={self.displayMoreMessages} alias={self.props.match.params.project_alias}
 					isLoading={self.state.conversationsIsLoading} updateBlockCustomer={self.updateBlockCustomer} 
 					noti={self.props.noti} updateClientTags={self.updateClientTags}/>
 			} else {

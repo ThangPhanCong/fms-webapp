@@ -9,7 +9,6 @@ import FmsTagItem from 'FmsTagItem';
 import tagApi from 'TagApi';
 import {MAX_TAG_ITEMS} from 'constant';
 
-const MAX_TAG_ITEMS = 6;
 const TAG_COLORS = ['#795548', '#30499B', '#844D9E', '#009688', '#88C542', '#F57C00'];
 
 let FmsSettings = React.createClass({
