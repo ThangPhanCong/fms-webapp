@@ -12,6 +12,7 @@ import FmsLogin from 'FmsLogin';
 import FmsNavigation from 'FmsNavigation';
 import FmsPosts from 'FmsPosts';
 import FmsSettings from 'FmsSettings';
+import FmsRoute from 'FmsRoute';
 
 import {ALERT_TIME_DISMIS} from 'constant';
 
@@ -74,12 +75,12 @@ let FmsApp = React.createClass({
         {self.renderAlerts()}
         <FmsNavigation />
         <Switch>
-          <Route exact path="/" component={FmsHome}/>
-          <Route exact path="/projects" component={FmsProject}/>
-          <Route exact path="/projects/:project_alias" component={FmsDashboard}/>
-          <Route path="/projects/:project_alias/posts" component={FmsPosts}/>
-          <Route path="/projects/:project_alias/settings" component={FmsSettings}/>
-          <Route path="/login" component={FmsLogin}/>
+          <FmsRoute exact path="/" component={FmsHome} noti={self.noti}/>
+          <FmsRoute exact path="/projects" component={FmsProject} noti={self.noti}/>
+          <FmsRoute exact path="/projects/:project_alias" component={FmsDashboard} noti={self.noti}/>
+          <FmsRoute path="/projects/:project_alias/posts" component={FmsPosts} noti={self.noti}/>
+          <FmsRoute path="/projects/:project_alias/settings" component={FmsSettings} noti={self.noti}/>
+          <FmsRoute path="/login" component={FmsLogin} noti={self.noti}/>
         </Switch>
       </div>
     );
