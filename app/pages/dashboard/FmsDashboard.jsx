@@ -7,7 +7,6 @@ import FmsConversationArea from 'FmsConversationArea';
 import FmsClientList from 'FmsClientList';
 import projectApi from 'ProjectApi';
 import PagesApi from 'PagesApi';
-import socket from 'Socket';
 import FmsClientInformation from 'FmsClientInformation';
 import FmsVerticalNav from 'FmsVerticalNav';
 import {filters} from 'FmsFilterConversation';
@@ -288,7 +287,7 @@ let FmsDashBoard = React.createClass({
 		let self = this;
 
 		pages.forEach(page => {
-			socket.subscribePageChanges({ page_fb_id: page.fb_id, onUpdateChanges: self.updateMsgInConversation });
+			self.props.socket.subscribePageChanges({ page_fb_id: page.fb_id, onUpdateChanges: self.updateMsgInConversation });
 		});
 	},
 	updateBlockCustomer: function (cv, is_blocked) {

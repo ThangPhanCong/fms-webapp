@@ -78,7 +78,7 @@ let FmsProject = React.createClass({
           </div>
 
           <FmsAddProjectModal ref={(child) => {this._child = child;}}
-            updateProjects={self.updateProjects}></FmsAddProjectModal>
+            updateProjects={self.updateProjects} {...self.props}></FmsAddProjectModal>
         </div>
       </div>
     );

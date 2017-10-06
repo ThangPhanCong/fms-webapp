@@ -2,7 +2,6 @@
 
 const React = require('react');
 const ReactDOM = require('react-dom');
-// const { Route, Router, IndexRoute, browserHistory } = require('react-router');
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import store from 'store';
 
@@ -43,26 +42,9 @@ require("bootstrapJs");
 // 	}
 // };
 
-const NoMatch = () => {
-	return (
-		<div>Not match</div>
-	)
-}
-
 ReactDOM.render(
 	<Router>
-		<Switch>
-			<Route path="/" component={FmsApp}/>
-		</Switch>
-
-			{
-				// <Route path="/pages" component={FmsPageList} onEnter={requireLogin}/>
-				// <Route path="/posts" component={FmsPosts} onEnter={requireLogin}/>
-				// <Route path="/projects/:alias" component={FmsDashboard} onEnter={requireLogin}/>
-				// <Route path="/projects/:alias/posts" component={FmsPosts} onEnter={requireLogin}/>
-				// <Route path="/projects/:alias/settings" component={FmsSettings} onEnter={requireLogin}/>
-				// <IndexRoute component={FmsHome}/>
-			}
+		<Route path="/" component={FmsApp}/>
 	</Router>,
 	document.getElementById('app')
 );

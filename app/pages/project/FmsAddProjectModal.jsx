@@ -1,5 +1,6 @@
+'use strict';
+
 const React = require('react');
-const {browserHistory} = require('react-router');
 const _ = require('lodash');
 
 const Modal = require('react-bootstrap').Modal;
@@ -7,8 +8,6 @@ const FmsPageItemInModal = require('FmsPageItemInModal');
 const FmsSpin = require('FmsSpin');
 const projectApi = require('ProjectApi');
 const pagesApi = require('PagesApi');
-
-const socket = require('Socket');
 
 const PAGE_STATUS = {
   CREATE_PROJECT: 1,
@@ -234,7 +233,7 @@ let FmsAddProjectModal = React.createClass({
   			// self.close();
   		};
 
-  		socket.activePage({
+  		self.props.socket.activePage({
   			page_fb_id: page.fb_id,
   			onUpdate,
   			onDone
