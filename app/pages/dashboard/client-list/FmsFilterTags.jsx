@@ -26,8 +26,8 @@ let FmsFilterTags = React.createClass({
 				let selected = this.state.filters.filter((filter) => {
 					return filter.isTag && filter.isActive && filter.type == tag._id
 				});
-				opacity = (selected.length != 0) ? "" : " blur";
-			} else opacity = " blur";
+				opacity = (selected.length != 0) ? " selected-filter-tag" : " very-blur";
+			} else opacity = " very-blur";
 			return <div className={"filter-tag" + opacity} style={style} key={uuid()}
 				onClick={() => { this.handleTagClick(tag._id) }}></div>;
 		});

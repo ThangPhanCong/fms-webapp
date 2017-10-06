@@ -137,9 +137,16 @@
 }
 .filter-tag {
     width: 13px;
-    height: 13px;
-    border-radius: 50%;
+    height: 18px;
+    border-radius: 3px;
     display: inline-block;
     margin-right: 6px;
     cursor: pointer;
+}
+.very-blur {
+    opacity: 0.25;
+}
+.selected-filter-tag {
+    width: 16px;
+    height: 20px;
 }
