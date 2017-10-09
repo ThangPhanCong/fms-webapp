@@ -26,8 +26,15 @@ let FmsClientList = React.createClass({
 	handleClientClick: function(fb_id, type) {
 		this.props.handleClientClick(fb_id, type);
 	},
+	isShowAll: function () {
+		let filters = this.props.filters.filter((filter) => {
+			return filter.isActive;
+		});
+		return filters.length == 1 && filters[0].type == 'all';
+	},
 	loadMoreConversations: function () {
 		if (this.state.showSpin == true || !this.props.paging) return;
+		if (!this.isShowAll()) return;
 		this.setState({ showSpin: true });
 		DashboardAPI.getConversations(this.props.alias, this.props.paging).then((res) => {
 			let paging = (res.paging) ? res.paging.next : null;

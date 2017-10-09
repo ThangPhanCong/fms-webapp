@@ -38,7 +38,7 @@ let FmsVerticalNav = React.createClass({
     }
     let isShowAll = true;
     newFilters.forEach((filter) => {
-      if (filter.isActive == true) isShowAll = false;
+      if (filter.isActive == true && !filter.isTag) isShowAll = false;
     });
     if (isShowAll == true) newFilters[0].isActive = true;
     this.props.handleFilter(newFilters);
