@@ -79,5 +79,13 @@ module.exports = {
 	deleteTagConversation: (alias, conversation_id, tag_id) => {
 		let route = `/api/projects/${alias}/conversations/${conversation_id}/tags/${tag_id}`;
 		return apiSender.delete(route);
+	},
+	likeMessage: (comment_id) => {
+		let route = `/api/comments/${comment_id}/like`;
+		return apiSender.post(route);
+	},
+	unlikeMessage: (comment_id) => {
+		let route = `/api/comments/${comment_id}/unlike`;
+		return apiSender.post(route);
 	}
 }
