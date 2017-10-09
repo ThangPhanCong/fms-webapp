@@ -61,10 +61,6 @@
   flex-direction: column;
   overflow: hidden;
 }
-.icon-type {
-  display: flex;
-  flex-direction: row-reverse;
-}
 .client-name {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -149,4 +145,20 @@
 .selected-filter-tag {
     width: 16px;
     height: 20px;
+}
+.client-item-tags {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+.client-item-tag {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 4px;
+    border-radius: 4px;
+}
+.icon-type {
+    display: inline-block;
+    width: 22px;
 }

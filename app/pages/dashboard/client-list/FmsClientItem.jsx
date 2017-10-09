@@ -15,23 +15,16 @@ let FmsClientItem = React.createClass({
 	renderIconType: function () {
 		let self = this;
 		let icons = [];
-
-		// render inbox || comment
-		let conversationIcon = self.props.data.type == 'inbox' ? <Image key={uuid()} src={inboxImg}></Image> : <Image key={uuid()} src={postImg}></Image>;
+		let conversationIcon = self.props.data.type == 'inbox' ? <img className="icon-type" key={uuid()} src={inboxImg}/> : <img className="icon-type" key={uuid()} src={postImg}/>;
 		icons.push(conversationIcon);
 
-		// render tags
-		// let tags = [{_id: '234234', color: 'black'}, {_id: '2342sdf34', color: 'red'}, {_id: '234sdf234', color: 'gray'}]
-		// let tagIcons = tags.map(t => {
-		// 	let tagStyled = {
-		// 		backgroundColor: t.color,
-		// 		width: ICON_HEIGHT + 'px',
-		// 		height: ICON_HEIGHT + 'px',
-		// 		borderRadius: '50%'
-		// 	}
-		// 	return <span key={t._id} style={tagStyled}></span>
-		// })
-		// icons = icons.concat(tagIcons);
+		let tagIcons = self.props.data.tags.map(t => {
+			let tagStyled = {
+				backgroundColor: t.color,
+			}
+			return <span className="client-item-tag" key={uuid()} style={tagStyled}></span>
+		})
+		icons = icons.concat(tagIcons);
 
 		return icons;
 	},
@@ -42,7 +35,7 @@ let FmsClientItem = React.createClass({
 
 		clientid = this.props.data.customer.fb_id;
 		clientName = this.props.data.customer.name;
-		message = this.props.data.snippet;
+		message = (this.props.data.snippet == "") ? "[Attachment]" : this.props.data.snippet;
 
 		let seenClass = this.props.data.is_seen ? '' : ' not-seen';
 
@@ -55,7 +48,7 @@ let FmsClientItem = React.createClass({
 				<div className="name-and-message">
 					<div className={"client-name " + seenClass}>{clientName}</div>
 					<div className={"lastest-message " + seenClass}>{message}</div>
-					<div className="icon-type">
+					<div className="client-item-tags">
 						{self.renderIconType()}
 					</div>
 				</div>
