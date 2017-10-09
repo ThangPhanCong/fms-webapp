@@ -83,7 +83,7 @@ let FmsNavigation = React.createClass({
             <Navbar inverse fixedTop fluid>
               <Navbar.Header>
                 <Navbar.Brand>
-                  <a href="/">Fms</a>
+                  <Link to="/">Fms</Link>
                 </Navbar.Brand>
                 <Navbar.Toggle />
               </Navbar.Header>

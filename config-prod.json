@@ -1,4 +1,4 @@
 {
   "BASE_URL" : "https://fms.uetchatbot.me",
-  "REDIRECT_TO" : "https://fms.uetchatbot.me/callback"
+  "REDIRECT_TO" : "https://fms.uetchatbot.me/login"
 }
