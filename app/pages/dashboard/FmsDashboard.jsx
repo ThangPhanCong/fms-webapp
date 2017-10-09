@@ -30,14 +30,25 @@ let FmsDashBoard = React.createClass({
 		this.filterConversations();
 	},
 	filterConversations: function () {
-		let newConversations = this.state.conversations;
+		let filtered = this.state.conversations;
+		let tagFilters = [];
 		this.state.filters.map((filter) => {
 			if (filter.isActive == true) {
-				newConversations = newConversations.filter(filter.filterFunc);
+				if (!filter.isTag) filtered = filtered.filter(filter.filterFunc);
+				else tagFilters.push(filter);
 			}
 		});
+		let newConversations = filtered.filter((conversation) => {
+			let isOK = conversation.tags.filter(convers_tag => {
+				let isOK2 = tagFilters.filter(tagFilter => {
+					return tagFilter.isActive == true && tagFilter.type == convers_tag._id;
+				});
+				return isOK2.length != 0;
+			});
+			return isOK.length != 0;
+		});
+		if (tagFilters.length == 0) newConversations = filtered;
 		this.setState({ filteredConversations: newConversations });
-		//if (newConversations.length < 10) this._child.loadMoreConversations();
 	},
 	parseConversationItem: function (item) {
 		switch (item.type) {
