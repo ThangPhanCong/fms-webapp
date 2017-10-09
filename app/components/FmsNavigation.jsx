@@ -122,8 +122,8 @@ let FmsNavigation = React.createClass({
                     <NavDropdown id="log-out-dropdown" title="">
                       <MenuItem onClick={self.onLogout}>Đăng xuất</MenuItem>
                     </NavDropdown>
-                    :
-                    <li><Link to='/login'>Đăng nhập</Link></li>
+                    : null
+                    // <li><Link to='/login'>Đăng nhập</Link></li>
                   }
                 </Nav>
 

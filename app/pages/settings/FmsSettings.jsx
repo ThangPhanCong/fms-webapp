@@ -94,33 +94,49 @@ let FmsSettings = React.createClass({
 
     return (
       <Grid bsClass="page">
-        <Row bsClass="settings-wrapper">
-          <Col xs={12} sm={6}>
-            <Row>
-              <Col>
-                <Checkbox >Notification sound</Checkbox>
-              </Col>
-              <Col>
-                <Checkbox >Show unread conversation on top</Checkbox>
-              </Col>
-              <Col>
-                <Checkbox >Auto like comment when replying</Checkbox>
-              </Col>
-              <Col>
-                <Checkbox>Auto create new order</Checkbox>
-              </Col>
-              <Col>
-                <Checkbox>Auto hide comment</Checkbox>
-              </Col>
-            </Row>
+        <Row bsClass="settings-wrapper row">
+          <Col xs={12} sm={4}>
+            <div className="fms-block">
+              <Row className="fms-block-header">
+                <Col>
+                  General settings
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Checkbox className='tag-item-wrapper'>Notification sound</Checkbox>
+                </Col>
+                <Col>
+                  <Checkbox className='tag-item-wrapper'>Show unread conversation on top</Checkbox>
+                </Col>
+                <Col>
+                  <Checkbox className='tag-item-wrapper'>Auto like comment when replying</Checkbox>
+                </Col>
+                <Col>
+                  <Checkbox className='tag-item-wrapper'>Auto create new order</Checkbox>
+                </Col>
+                <Col>
+                  <Checkbox className='tag-item-wrapper'>Auto hide comment</Checkbox>
+                </Col>
+              </Row>
+            </div>
           </Col>
 
-          <Col xs={12} sm={6}>
-            <span>Thẻ hội thoại</span><span className="count-item">{countItem}</span>
-            <Button disabled={self.state.tags.length == MAX_TAG_ITEMS || self.state.isLoading}
-              onClick={() => {self.addNewTag('black', "new tag")}}>Thêm</Button>
-            {self.renderTags()}
+          <Col xs={12} sm={4}>
+            <div className="fms-block">
+              <Row className="fms-block-header">
+                <Col>
+                  <span>Thẻ hội thoại</span><span className="count-item">{countItem}</span>
+                  <a href="#" className="pull-right" disabled={self.state.tags.length == MAX_TAG_ITEMS || self.state.isLoading}
+                    onClick={() => {self.addNewTag('black', "new tag")}}><span className="glyphicon glyphicon-plus"></span></a>
+                </Col>
+              </Row>
+              <Row>
+              {self.renderTags()}
+              </Row>
+            </div>
           </Col>
+
         </Row>
       </Grid>
     );

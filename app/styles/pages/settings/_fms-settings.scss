@@ -7,10 +7,27 @@
     margin-left: 6px;
     margin-right: 28px;
   }
+  .fms-block {
+  //  border: 1px solid black;
+    padding: 0 1em 0.5em;
+    //padding-bottom:0.5em;
+    //background-color: rgba(240,240,240, 1);
+    //background-color:#FBFBFB;
+  }
+  .fms-block-header {
+    //background-color: rgba(240,240,240, 1);
+    color: navy;
+    font-size: 80%;
+    padding: 1em;
+    margin-bottom: 0.5em;
+    text-transform: uppercase;
+    font-weight:bold;
+    border-bottom: 1px solid black;
+  }
 }
 
 .tag-item-wrapper {
-  padding: 5px;
+  padding: 5px 1em;
 
   * {
     display: inline-block;
