@@ -308,6 +308,15 @@ let FmsDashBoard = React.createClass({
 			});
 		}
 	},
+	updateClientTags: function (tags, conversation_id) {
+		let newConversations = this.state.conversations;
+		newConversations.forEach((convers) => {
+			if (convers.fb_id == conversation_id) {
+				convers.tags = tags;
+			}
+		});
+		this.setState({ conversations: newConversations });
+	},
 	componentDidMount: function () {
 		let self = this;
 
@@ -324,7 +333,18 @@ let FmsDashBoard = React.createClass({
 			})
 			.catch(err => alert(err));
 			DashboardApi.getProjectTags(this.props.match.params.project_alias).then((res) => {
-				this.setState({ tags: res });
+				res.forEach((tag) => {
+					filters.push({
+						isTag: true,
+						type: tag._id,
+						isActive: false,
+						filterFunc: (item) => {
+							let isOK = item.tags.filter((_tag) => {return _tag._id == tag._id});
+							return isOK.length != 0;
+						}
+					});
+				});
+				this.setState({ tags: res, filters: filters });
 			}, (err) => {
 				throw new Error(err);
 			});
@@ -336,9 +356,10 @@ let FmsDashBoard = React.createClass({
 			if (self.state.selectedConversation) {
 				return <FmsConversationArea ref={(child) => {
 					self._child2 = child;
-				}} currentConversation={self.state.selectedConversation} pageid={self.state.pageid} sendMessage={self.sendMessage}
+				}} currentConversation={self.state.selectedConversation} pageid={self.state.pageid} sendMessage={self.sendMessage} 
 					tags={self.state.tags} displayMoreMessages={self.displayMoreMessages} alias={self.props.match.params.project_alias}
-					isLoading={self.state.conversationsIsLoading} updateBlockCustomer={self.updateBlockCustomer} />
+					isLoading={self.state.conversationsIsLoading} updateBlockCustomer={self.updateBlockCustomer} 
+					noti={self.props.noti} updateClientTags={self.updateClientTags}/>
 			} else {
 				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
 			}
@@ -355,7 +376,8 @@ let FmsDashBoard = React.createClass({
 					}} handleClientClick={this.handleClientClick} conversations={this.state.filteredConversations}
 						currentConversation={this.state.selectedConversation} displayMoreConversations={this.displayMoreConversations}
 						allConversations={this.state.conversations} paging={this.state.conversationsPaging}
-						alias={this.props.match.params.project_alias}/>
+						alias={this.props.match.params.project_alias} tags={this.state.tags}
+						filters={this.state.filters} handleFilter={this.handleFilter}/>
 				</div>
 				<div className="conversation-area">
 					{renderConversation()}

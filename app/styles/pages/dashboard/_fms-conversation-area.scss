@@ -10,8 +10,8 @@
     width: 100%;
     background-color: #f1f2f3;
     padding-right: 5px;
-    min-height: calc(100% - 127px);
-    max-height: calc(100% - 127px);
+    min-height: calc(100% - 125px);
+    max-height: calc(100% - 125px);
     overflow-y: scroll;
     overflow-x: hidden;
 
@@ -49,7 +49,7 @@
 .client-tag {
     display: inline-block;
     color: white;
-    padding: 3px;
+    padding: 2px;
     text-align: center;
     white-space: nowrap;
     cursor: pointer;
@@ -62,4 +62,7 @@
 }
 .end-tag {
     border-radius: 0 5px 0 0;
+}
+.blur {
+    opacity: 0.3;
 }

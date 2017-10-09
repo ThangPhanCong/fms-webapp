@@ -126,7 +126,9 @@ let FmsConversationArea = React.createClass({
 		};
 		let renderTagsBar = () => {
 			if (this.props.tags && this.props.tags.length > 0 && this.props.isLoading == false)
-					return <FmsTagsBar tags={this.props.tags} conversation={this.props.currentConversation}/>
+					return <FmsTagsBar tags={this.props.tags} conversation={this.props.currentConversation}
+							noti={this.props.noti} updateClientTags={this.props.updateClientTags}
+							alias={this.props.alias}/>
 		}
 		let showSpin = (this.state.showSpin == true) ? "" : " hide";
 		let chatArea = (this.props.isLoading) ? " hide" : "";

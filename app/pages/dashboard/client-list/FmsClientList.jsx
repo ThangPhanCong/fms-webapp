@@ -7,6 +7,7 @@ const searchImg = require('search.png');
 let FmsClientItem = require('FmsClientItem');
 let DashboardAPI = require('DashboardApi');
 let FmsSpin = require('FmsSpin');
+let FmsFilterTags = require('FmsFilterTags');
 
 let FmsClientList = React.createClass({
 	getInitialState: function() {
@@ -65,6 +66,8 @@ let FmsClientList = React.createClass({
 				<div className="search-client">
 					<img src={searchImg} className="search-icon"/>
 					<input type="text" className="input-search-client" />
+					<FmsFilterTags tags={this.props.tags} handleFilter={this.props.handleFilter}
+								filters={this.props.filters}/>
 				</div>
 				<div ref="list" className="scroll-list">
 					<div>

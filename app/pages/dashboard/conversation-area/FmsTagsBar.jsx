@@ -5,36 +5,35 @@ let DashboardAPI = require('DashboardApi');
 let FmsTagsBar = React.createClass({
   getInitialState: function () {
     return {
-      isHandling: false
+      isHandling: false,
     }
   },
   handleTagClick: function (tag_id, tag_name) {
     if (this.state.isHandling == true) return;
     let selectedTag = this.props.conversation.tags.filter((tag) => {
-      console.log(tag._id + " " + tag_id);
       return tag._id == tag_id
     });
     this.setState({ isHandling: true });
     if (selectedTag.length == 0) {
       DashboardAPI.createTagConversation(this.props.alias, this.props.conversation.fb_id, tag_id)
           .then((res) => {
-            this.props.conversation.tags = res.tags;
-            alert("Tạo tag " + tag_name + " thành công");
+            this.props.updateClientTags(res.tags, this.props.conversation.fb_id);
+            this.props.noti('success', 'Tạo tag "' + tag_name + '" thành công');
             this.setState({ isHandling: false });
           }, (err) => {
             this.setState({ isHandling: false });
-            alert("Something went wrong!!!");
+            this.props.noti('danger', 'Xóa tag thất bại');
             throw new Error(err);
           });
     } else {
       DashboardAPI.deleteTagConversation(this.props.alias, this.props.conversation.fb_id, tag_id)
           .then((res) => {
-            this.props.conversation.tags = res.tags;
-            alert("Xóa tag " + tag_name + " thành công");
+            this.props.updateClientTags(res.tags, this.props.conversation.fb_id);
+            this.props.noti('success', 'Xóa tag "' + tag_name + '" thành công');
             this.setState({ isHandling: false });
           }, (err) => {
             this.setState({ isHandling: false });
-            alert("Something went wrong!!!");
+            this.props.noti('danger', 'Xóa tag thất bại');
             throw new Error(err);
           });
     }
@@ -45,8 +44,10 @@ let FmsTagsBar = React.createClass({
       return this.props.tags.map((tag) => {
         let border = (index == 0) ? " start-tag" : ((index == size - 1) ? " end-tag" : "");
         let style = {backgroundColor: tag.color, width: 100 / size + "%"};
+        let activeTag = this.props.conversation.tags.filter((_tag) => {return _tag._id == tag._id});
+        let opacity = (activeTag.length != 0) ? "" : " blur";
         index++;
-        return <div className={"client-tag" + border} onClick= {() => {this.handleTagClick(tag._id, tag.name)}}
+        return <div className={"client-tag" + border + opacity} onClick= {() => {this.handleTagClick(tag._id, tag.name)}}
                 style={style} key={index}>{tag.name}</div>
       });
     };
