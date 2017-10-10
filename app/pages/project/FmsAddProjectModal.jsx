@@ -8,6 +8,7 @@ const FmsPageItemInModal = require('FmsPageItemInModal');
 const FmsSpin = require('FmsSpin');
 const projectApi = require('ProjectApi');
 const pagesApi = require('PagesApi');
+const socket = require('Socket');
 
 const PAGE_STATUS = {
   CREATE_PROJECT: 1,
@@ -233,7 +234,7 @@ let FmsAddProjectModal = React.createClass({
   			// self.close();
   		};
 
-  		self.props.socket.activePage({
+  		socket.activePage({
   			page_fb_id: page.fb_id,
   			onUpdate,
   			onDone

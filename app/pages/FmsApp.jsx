@@ -110,10 +110,10 @@ let FmsApp = React.createClass({
         <FmsNavigation />
         <Switch>
           <FmsRoute exact path="/" component={FmsHome} noti={self.noti}/>
-          <FmsRoute exact path="/projects" component={FmsProject} noti={self.noti} socket={socket}/>
-          <FmsRoute exact path="/projects/:project_alias" component={FmsDashboard} noti={self.noti} socket={socket}/>
-          <FmsRoute path="/projects/:project_alias/posts" component={FmsPosts} noti={self.noti} socket={socket}/>
-          <FmsRoute path="/projects/:project_alias/settings" component={FmsSettings} noti={self.noti} socket={socket}/>
+          <FmsRoute exact path="/projects" component={FmsProject} noti={self.noti} />
+          <FmsRoute exact path="/projects/:project_alias" component={FmsDashboard} noti={self.noti} />
+          <FmsRoute path="/projects/:project_alias/posts" component={FmsPosts} noti={self.noti} />
+          <FmsRoute path="/projects/:project_alias/settings" component={FmsSettings} noti={self.noti} />
           <FmsRoute path="/login" component={FmsLogin} noti={self.noti}/>
         </Switch>
       </div>

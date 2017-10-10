@@ -3,19 +3,16 @@ const uuid = require('uuid');
 
 let FmsPostInfoConversation = React.createClass({
   renderAttachments: (attachments) => {
-    let atts, type;
+    let atts = [], type = 3;
     if (attachments && Array.isArray(attachments) && attachments.length == 1) {
       let short = attachments[0];
       if (short.photos && Array.isArray(short.photos)) {
         atts = short.photos;
         type = 1;
-      } else if (Array.isArray(short.data) && short.data.length == 1 && short.data[0].subattachments 
+      } else if (Array.isArray(short.data) && short.data.length == 1 && short.data[0].subattachments
                  && Array.isArray(short.data[0].subattachments.data)) {
         atts = short.data[0].subattachments.data;
         type = 2;
-      } else {
-        atts = [];
-        type = 3;
       }
     }
     return atts.map(att => {

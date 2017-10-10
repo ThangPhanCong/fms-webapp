@@ -10,6 +10,7 @@ import PagesApi from 'PagesApi';
 import FmsClientInformation from 'FmsClientInformation';
 import FmsVerticalNav from 'FmsVerticalNav';
 import {filters} from 'FmsFilterConversation';
+import socket from 'Socket';
 
 let FmsDashBoard = React.createClass({
 	getInitialState: function () {
@@ -298,7 +299,7 @@ let FmsDashBoard = React.createClass({
 		let self = this;
 
 		pages.forEach(page => {
-			self.props.socket.subscribePageChanges({ page_fb_id: page.fb_id, onUpdateChanges: self.updateMsgInConversation });
+			socket.subscribePageChanges({ page_fb_id: page.fb_id, onUpdateChanges: self.updateMsgInConversation });
 		});
 	},
 	updateBlockCustomer: function (cv, is_blocked) {
@@ -369,7 +370,7 @@ let FmsDashBoard = React.createClass({
 					self._child2 = child;
 				}} currentConversation={self.state.selectedConversation} sendMessage={self.sendMessage} 
 					tags={self.state.tags} displayMoreMessages={self.displayMoreMessages} alias={self.props.match.params.project_alias}
-					isLoading={self.state.conversationsIsLoading} updateBlockCustomer={self.updateBlockCustomer} 
+					isLoading={self.state.conversationsIsLoading} updateBlockCustomer={self.updateBlockCustomer}
 					noti={self.props.noti} updateClientTags={self.updateClientTags}/>
 			} else {
 				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
