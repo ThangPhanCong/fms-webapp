@@ -168,6 +168,7 @@ let FmsAddProjectModal = React.createClass({
         }, err => {
           error = err;
           console.log(err);
+          // TODO: push noti to UI
         })
         .then(() => {
           if (index == arr.length - 1) {
