@@ -72,6 +72,9 @@ let FmsConversationArea = React.createClass({
 			});
 		} else if (current.type == "comment" && current.parent_fb_id) {
 			this.loadPostInfo();
+		} else if (current.type == "inbox") {
+			let pageInfo = {message: " "};
+			this.setState({ postInfo: pageInfo });
 		}
 	},
 	componentWillUpdate: function () {
@@ -110,7 +113,7 @@ let FmsConversationArea = React.createClass({
 		};
 		let renderPostInfo = () => {
 			if (this.state.postInfo && this.state.postInfo.message) {
-				return <FmsPostInfoConversation content={this.state.postInfo}/>
+				return <FmsPostInfoConversation content={this.state.postInfo} pageInfo={this.props.currentConversation.page}/>
 			}
 		};
 		let renderTagsBar = () => {

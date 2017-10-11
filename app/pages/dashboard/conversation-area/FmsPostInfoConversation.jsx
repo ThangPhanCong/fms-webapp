@@ -26,6 +26,7 @@ let FmsPostInfoConversation = React.createClass({
   render: function () {
     return (
       <div className="post-info-conversation">
+        <p className="page-name-conversation">{this.props.pageInfo.name}</p>
         <p>{this.props.content.message}</p>
         {this.renderAttachments(this.props.content.attachments)}
       </div>
