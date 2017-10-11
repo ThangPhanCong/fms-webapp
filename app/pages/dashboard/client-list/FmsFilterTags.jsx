@@ -1,6 +1,7 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
-const uuid = require('uuid');
+
+let FmsToolTip = require('FmsToolTip');
 
 let FmsFilterTags = React.createClass({
 	getInitialState: function () {
@@ -18,11 +19,6 @@ let FmsFilterTags = React.createClass({
 		this.setState({ filters: newFilters });
 		this.props.handleFilter(newFilters);
 	},
-	componentDidMount: function () {
-    $(ReactDOM.findDOMNode(this.refs.tooltip)).ready(function () {
-      $('[data-toggle="tooltip"]').tooltip();
-    });
-  },
 	renderFilterTag: function () {
 		if (!this.props.tags) return;
 		return this.props.tags.map((tag) => {
@@ -34,9 +30,8 @@ let FmsFilterTags = React.createClass({
 				});
 				opacity = (selected.length != 0) ? " selected-filter-tag" : " very-blur";
 			} else opacity = " very-blur";
-			return <div data-toggle="tooltip" title={tag.name} data-placement={"top"} 
-				className={"filter-tag" + opacity} style={style} key={uuid()}
-				onClick={() => { this.handleTagClick(tag._id) }}></div>;
+			return <FmsToolTip message={tag.name} direction="top" key={tag._id}><div className={"filter-tag" + opacity} 
+						 style={style} onClick={() => { this.handleTagClick(tag._id) }}></div></FmsToolTip>;
 		});
 	},
 	render: function () {

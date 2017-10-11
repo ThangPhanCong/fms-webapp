@@ -130,13 +130,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 5px;
 }
 .filter-tag {
     width: 13px;
     height: 18px;
     border-radius: 3px;
     display: inline-block;
-    margin-right: 6px;
+    margin: 0 3px;
     cursor: pointer;
 }
 .very-blur {
