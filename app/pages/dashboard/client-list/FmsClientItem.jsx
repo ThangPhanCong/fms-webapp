@@ -10,7 +10,7 @@ const ICON_HEIGHT = 16;
 
 let FmsClientItem = React.createClass({
 	handleClientClick: function () {
-		this.props.handleClientClick(this.props.data.fb_id, this.props.data.type);
+		this.props.handleClientClick(this.props.data, this.props.data.type);
 	},
 	renderIconType: function () {
 		let self = this;

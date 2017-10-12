@@ -148,14 +148,14 @@ let FmsDashBoard = React.createClass({
 			}
 		});
 	},
-	handleClientClick: function (fb_id, type) {
+	handleClientClick: function (selectCv, type) {
 		let self = this;
 		if (this._child2) this._child2.clientChanged();
 		this.setState({ conversationsIsLoading: true });
 
 		let _conversations = this.state.conversations;
 		let _selectedConversation = _conversations
-			.filter((currConversation) => { return currConversation.fb_id == fb_id })
+			.filter((currConversation) => { return currConversation._id == selectCv._id })
 			.pop();
 
 		if (!_selectedConversation.is_seen) {
@@ -178,10 +178,10 @@ let FmsDashBoard = React.createClass({
 			}
 
 			if (type == "inbox") {
-				DashboardApi.getMessageInbox(fb_id)
+				DashboardApi.getMessageInbox(selectCv._id)
 					.then(data => updateChildren(data))
 			} else if (type == "comment") {
-				DashboardApi.getReplyComment(fb_id)
+				DashboardApi.getReplyComment(selectCv.fb_id)
 					.then(data => updateChildren(data))
 			}
 		} else {
@@ -368,7 +368,7 @@ let FmsDashBoard = React.createClass({
 			if (self.state.selectedConversation) {
 				return <FmsConversationArea ref={(child) => {
 					self._child2 = child;
-				}} currentConversation={self.state.selectedConversation} sendMessage={self.sendMessage} 
+				}} currentConversation={self.state.selectedConversation} sendMessage={self.sendMessage}
 					tags={self.state.tags} displayMoreMessages={self.displayMoreMessages} alias={self.props.match.params.project_alias}
 					isLoading={self.state.conversationsIsLoading} updateBlockCustomer={self.updateBlockCustomer}
 					noti={self.props.noti} updateClientTags={self.updateClientTags}/>

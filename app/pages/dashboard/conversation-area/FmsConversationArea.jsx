@@ -62,7 +62,7 @@ let FmsConversationArea = React.createClass({
 			});
 		} else if (current.paging) {
 			this.setState({ showSpin: true });
-			DashboardAPI.getMessageInbox(current.fb_id, current.paging).then((res) => {
+			DashboardAPI.getMessageInbox(current._id, current.paging).then((res) => {
 				let paging = (res.paging) ? res.paging.next : null;
 				this.setState({ showSpin: false });
 				this.props.displayMoreMessages(res.data, paging);
