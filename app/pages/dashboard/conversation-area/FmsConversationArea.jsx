@@ -12,19 +12,16 @@ let FmsPostInfoConversation = require('FmsPostInfoConversation');
 let FmsTagsBar = require('FmsTagsBar');
 
 let lastScrollPosition;
-let loadmoreCount = 0;
 
 let FmsConversationArea = React.createClass({
 	getInitialState: function () {
 		return {
 			showSpin: false,
-			postInfo: null,
-			allMessagesLoad: false
+			postInfo: null
 		}
 	},
 	clientChanged: function () {
-		loadmoreCount = 0;
-		this.setState({ postInfo: null, allMessagesLoad: false });
+		this.setState({ postInfo: null });
 	},
 	loadPostInfo: function () {
 		let current = this.props.currentConversation;
@@ -34,7 +31,7 @@ let FmsConversationArea = React.createClass({
 				this.setState({ postInfo: res, showSpin: false });
 			}, (err) => {
 				console.log(err);
-				this.setState({ showSpin: false });
+				this.setState({ postInfo: "not found", showSpin: false });
 			});
 		}
 	},
@@ -51,7 +48,6 @@ let FmsConversationArea = React.createClass({
 		});
 	},
 	loadMoreMessages: function () {
-		loadmoreCount++;
 		let current = this.props.currentConversation;
 		if (this.props.isLoading || this.state.showSpin) return;
 		if (current.type == "comment" && current.paging) {
@@ -76,7 +72,9 @@ let FmsConversationArea = React.createClass({
 			});
 		} else if (current.type == "comment" && current.parent_fb_id) {
 			this.loadPostInfo();
-			this.setState({ allMessagesLoad: true });
+		} else if (current.type == "inbox") {
+			let pageInfo = {message: " "};
+			this.setState({ postInfo: pageInfo });
 		}
 	},
 	componentWillUpdate: function () {
@@ -85,14 +83,8 @@ let FmsConversationArea = React.createClass({
 	},
 	componentDidUpdate: function (prevProp, prevState) {
 		var list = ReactDOM.findDOMNode(this.refs.chat_area);
-		list.scrollTop = list.scrollHeight - lastScrollPosition;
-		if (loadmoreCount > 2) list.scrollTop -= 51;
-		let isLoadMore = false;
-		if (this.props.isLoading == false && prevProp.isLoading == true && list.clientHeight + 12 > list.scrollHeight) {
-			isLoadMore = true;
-			this.loadMoreMessages();
-		}
-		if (!isLoadMore && !this.state.postInfo && prevState.postInfo && list.clientHeight + 12 > list.scrollHeight) {
+		list.scrollTop = list.scrollHeight - lastScrollPosition - 51;
+		if (!this.state.postInfo && list.clientHeight + 12 > list.scrollHeight) {
 			this.loadMoreMessages();
 		}
 	},
@@ -110,7 +102,7 @@ let FmsConversationArea = React.createClass({
 				let lastItem = messages[messages.length - 1];
 
 				return messages.map(message => {
-					let isSelf = message.from.id == self.props.pageid;
+					let isSelf = message.from.id == self.props.currentConversation.page_fb_id;
 					let isLast = lastItem === message;
 					let type = (self.props.currentConversation.type == "comment") ? "comment" : "inbox";
 
@@ -120,8 +112,8 @@ let FmsConversationArea = React.createClass({
 			}
 		};
 		let renderPostInfo = () => {
-			if (this.state.allMessagesLoad == true && this.state.postInfo && this.state.postInfo.message) {
-				return <FmsPostInfoConversation content={this.state.postInfo}/>
+			if (this.state.postInfo && this.state.postInfo.message) {
+				return <FmsPostInfoConversation content={this.state.postInfo} pageInfo={this.props.currentConversation.page}/>
 			}
 		};
 		let renderTagsBar = () => {

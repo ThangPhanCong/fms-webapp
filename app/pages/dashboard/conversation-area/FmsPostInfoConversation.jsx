@@ -17,21 +17,16 @@ let FmsPostInfoConversation = React.createClass({
     }
     return atts.map(att => {
       let src;
-      if (type == 1) {
-        src = att;
-      } else if (type == 2) {
-        src = att.media.image.src;
-      }
-      let style = {
-        height: 150 + "px",
-        borderRadius: 5 + "px"
-      }
-      return <a className="attachment-in-conversation" href={src} target="_blank" key={uuid()}><img src={src} style={style}/></a>
+      if (type == 1) src = att;
+      else if (type == 2) src = att.media.image.src;
+      return <a className="attachment-in-conversation" href={src} target="_blank" key={uuid()}>
+             <img className="image-in-conversation" src={src}/></a>
     });
   },
   render: function () {
     return (
       <div className="post-info-conversation">
+        <p className="page-name-conversation">{this.props.pageInfo.name}</p>
         <p>{this.props.content.message}</p>
         {this.renderAttachments(this.props.content.attachments)}
       </div>
