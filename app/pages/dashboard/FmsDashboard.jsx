@@ -84,7 +84,7 @@ let FmsDashBoard = React.createClass({
 	},
 	postSeenCv: function (conversation) {
 		if (conversation.type == 'inbox') {
-			DashboardApi.postSeenInbox(conversation.fb_id);
+			DashboardApi.postSeenInbox(conversation._id);
 		} else if (conversation.type == 'comment') {
 			DashboardApi.postSeenCmt(conversation.fb_id);
 		}
