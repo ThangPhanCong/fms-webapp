@@ -83,7 +83,7 @@ let FmsConversationArea = React.createClass({
 	},
 	componentDidUpdate: function (prevProp, prevState) {
 		var list = ReactDOM.findDOMNode(this.refs.chat_area);
-		list.scrollTop = list.scrollHeight - lastScrollPosition - 51;
+		list.scrollTop = list.scrollHeight - lastScrollPosition;
 		if (!this.state.postInfo && list.clientHeight + 12 > list.scrollHeight) {
 			this.loadMoreMessages();
 		}
