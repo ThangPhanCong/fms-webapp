@@ -19,7 +19,9 @@ let FmsAttachmentContent = React.createClass({
     if (!this.props.size || this.props.type == "sticker") return {};
     return {
       width: this.state.size.width,
-      height: this.state.size.height
+      maxWidth: this.state.size.width,
+      height: this.state.size.height,
+      maxHeight: this.state.size.height
     }
   },
   updateChatAreaWidth: function () {
