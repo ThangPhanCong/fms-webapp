@@ -11,7 +11,7 @@ let FmsTextMessageContent = React.createClass({
   getInitialState: function () {
     return {
       isHandling: false,
-      liked: false,
+      liked: this.props.message.is_like,
       messaged: false
     }
   },
@@ -46,7 +46,7 @@ let FmsTextMessageContent = React.createClass({
     let self = this;
     let actionButton = this.props.actionButton ? "" : " hide";
     function renderLikeButton() {
-      if (self.props.message.can_like == true && self.state.liked == false) {
+      if (self.state.liked == false) {
         return <a className="action-button-message" onClick={self.handleLikeMessage}>  Thích</a>
       } else {
         return <a className="action-button-message" onClick={self.handleUnlikeMessage}>  Bỏ thích</a>

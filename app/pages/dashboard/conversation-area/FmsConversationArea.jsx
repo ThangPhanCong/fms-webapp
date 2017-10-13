@@ -12,6 +12,7 @@ let FmsPostInfoConversation = require('FmsPostInfoConversation');
 let FmsTagsBar = require('FmsTagsBar');
 
 let lastScrollPosition;
+let lastLength = 0;
 
 let FmsConversationArea = React.createClass({
 	getInitialState: function () {
@@ -22,6 +23,7 @@ let FmsConversationArea = React.createClass({
 	},
 	clientChanged: function () {
 		this.setState({ postInfo: null });
+		lastLength = 0;
 	},
 	loadPostInfo: function () {
 		let current = this.props.currentConversation;
@@ -83,9 +85,13 @@ let FmsConversationArea = React.createClass({
 	},
 	componentDidUpdate: function (prevProp, prevState) {
 		var list = ReactDOM.findDOMNode(this.refs.chat_area);
-		list.scrollTop = list.scrollHeight - lastScrollPosition - 51;
+		list.scrollTop = list.scrollHeight - lastScrollPosition;
 		if (!this.state.postInfo && list.clientHeight + 12 > list.scrollHeight) {
 			this.loadMoreMessages();
+		}
+		if (this.props.currentConversation.children && this.props.currentConversation.children.length != lastLength) {
+			if (lastLength != 0)	list.scrollTop = list.scrollHeight - lastScrollPosition - 51;
+			lastLength = this.props.currentConversation.children.length;
 		}
 	},
 	render: function () {
