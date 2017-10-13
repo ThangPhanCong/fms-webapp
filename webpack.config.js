@@ -3,23 +3,57 @@ const path = require('path');
 
 let configPath;
 
+const indexHtml = path.join(__dirname, 'app', 'index.html');
+
+const uglifyJs = new webpack.optimize.UglifyJsPlugin({
+  compress: {
+    warnings: false,
+    // Disabled because of an issue with Uglify breaking seemingly valid code:
+    // https://github.com/facebookincubator/create-react-app/issues/2376
+    // Pending further investigation:
+    // https://github.com/mishoo/UglifyJS2/issues/2011
+    comparisons: false,
+  },
+  output: {
+    comments: false,
+    // Turned on because emoji and regex is not minified properly using default
+    // https://github.com/facebookincubator/create-react-app/issues/2488
+    ascii_only: true,
+  },
+  sourceMap: false
+})
+
+let plugins = [
+  new webpack.ProvidePlugin({
+    '$': 'jquery',
+    'jQuery': 'jquery'
+  }),
+
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor',
+    filename: 'vendor.bundle.js',
+    minChunks: module => module.context && module.context.indexOf('node_modules') !== -1
+  }),
+];
+
 if (process.env.NODE_ENV === 'production') {
   configPath = 'config-prod.json';
+  plugins.push(uglifyJs);
 } else {
   configPath = 'config.json';
 }
-
-const indexHtml = path.join(__dirname, 'app', 'index.html');
 
 module.exports = {
   entry: [
     'app/app.jsx',
     indexHtml
   ],
+
   output: {
     path: path.resolve(__dirname, './build/'),
     filename: 'app.bundle.js'
   },
+
   resolve: {
     root: __dirname,
     modulesDirectories: [
@@ -47,18 +81,9 @@ module.exports = {
     },
     extensions: ['', '.json', '.js', '.jsx']
   },
-  plugins: [
-    new webpack.ProvidePlugin({
-      '$': 'jquery',
-      'jQuery': 'jquery'
-    }),
 
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      filename: 'vendor.bundle.js',
-      minChunks: module => module.context && module.context.indexOf('node_modules') !== -1
-    }),
-  ],
+  plugins: plugins,
+
   module: {
     loaders: [
       {
@@ -97,5 +122,6 @@ module.exports = {
       }
     ]
   },
+
   devtool: 'cheap-module-eval-source-map'
 };

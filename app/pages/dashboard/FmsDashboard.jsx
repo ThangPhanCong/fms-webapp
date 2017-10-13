@@ -107,7 +107,7 @@ let FmsDashBoard = React.createClass({
 		}
 
 		if (conversation.type == 'inbox') {
-			DashboardApi.postRepInboxMsg(conversation.fb_id, message)
+			DashboardApi.postRepInboxMsg(conversation._id, message)
 				.then(data => {
 					let msgInbox = createTempMsg(data.id, message, conversation);
 
