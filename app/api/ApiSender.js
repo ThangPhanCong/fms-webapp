@@ -1,11 +1,9 @@
 'use strict';
 
 import store from 'store';
-const axios = require('axios');
-const config = require('CONFIG');
-const Cookie = require('universal-cookie');
-
-let DashboardAPI = require('DashboardApi');
+import axios from 'axios';
+import config from 'CONFIG';
+import DashboardAPI from 'DashboardApi';
 
 const BASE_URL = config.BASE_URL;
 
