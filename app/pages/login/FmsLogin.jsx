@@ -12,7 +12,7 @@ import tokenApi from 'TokenApi';
 let FmsLogin =  React.createClass({
   getInitialState: function () {
     return {
-      isAuthenticate: false,
+      // isAuthenticated: false,
       isLoading: true
     }
   },
@@ -28,6 +28,8 @@ let FmsLogin =  React.createClass({
         .then(userData => {
           store.set('jwt', access_token);
           store.set('user', userData);
+          // self.setState({isAuthenticated: true});
+          FmsAuthen.isAuthenticated = true;
         })
         .catch(err => {
           alert(err);
@@ -51,12 +53,12 @@ let FmsLogin =  React.createClass({
           </div>
         </div>
       )
-    }
-
-    if (self.state.isAuthenticate) {
-      return <Redirect to='/projects'/>
     } else {
-      return <Redirect to='/'/>
+      if (FmsAuthen.isAuthenticated) {
+        return <Redirect to='/projects'/>
+      } else {
+        return <Redirect to='/'/>
+      }
     }
   }
 });

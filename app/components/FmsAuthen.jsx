@@ -1,9 +1,8 @@
 'use strict';
 
 import store from 'store';
-
-let config = require('CONFIG');
-let socket = require('Socket');
+import config from 'CONFIG';
+import socket from 'Socket';
 
 module.exports = {
 	login: function () {
@@ -16,5 +15,9 @@ module.exports = {
 		socket.disconnect();
 
 		window.location = '/'
-	}
+	},
+	clean: () => {
+		store.clearAll('jwt');
+	},
+	isAuthenticated: false
 }

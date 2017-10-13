@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { AlertList, Alert, AlertContainer } from "react-bs-notifier";
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import store from 'store';
 import uuid from 'uuid';
 
@@ -15,6 +15,7 @@ import FmsPosts from 'FmsPosts';
 import FmsSettings from 'FmsSettings';
 import FmsLoading from 'FmsLoading';
 import FmsRoute from 'FmsRoute';
+import FmsAuthen from 'FmsAuthen';
 import tokenApi from 'TokenApi';
 import socket from 'Socket';
 
@@ -25,39 +26,34 @@ let FmsApp = React.createClass({
   getInitialState: function () {
     return {
       alerts: [],
-      isLoading: true,
-      isAuthenticated: false
+      isLoading: true
     }
   },
   componentDidMount: function () {
     let self = this;
     // self.noti('success', 'Bỏ ẩn bình luận thành công');
     // info, warning, danger, or success.
-    // verify token
-  	let jwt = store.get('jwt');
 
-  	if (jwt) {
-  		tokenApi.verifyAccessToken(jwt)
-  			.then(userData => {
-  				socket.connect(config.BASE_URL, jwt);
-
-          self.setState({
-            isAuthenticated: true,
-            isLoading: false
-          });
-  			})
-  			.catch(err => {
-          self.setState({
-            isAuthenticated: false,
-            isLoading: false
-          });
-  			})
-  	} else {
-      self.setState({
-        isAuthenticated: false,
-        isLoading: false
-      });
-  	}
+    // verify access token
+    let jwt = store.get('jwt');
+    if (jwt) {
+      tokenApi.verifyAccessToken(jwt)
+        .then(userData => {
+          socket.connect(config.BASE_URL, jwt);
+          FmsAuthen.isAuthenticated = true;
+        })
+        .catch(err => {
+          FmsAuthen.clean();
+          FmsAuthen.isAuthenticated = false;
+        })
+        .then(() => {
+          self.setState({ isLoading: false });
+        })
+    } else {
+      FmsAuthen.clean();
+      FmsAuthen.isAuthenticated = false;
+      self.setState({ isLoading: false });
+    }
   },
   noti: function (type, message) {
     let self = this;
@@ -102,21 +98,36 @@ let FmsApp = React.createClass({
   render: function () {
     let self = this;
 
-    return self.state.isLoading ?
-      <FmsLoading/>
-      :
-      <div>
-        {self.renderAlerts()}
-        <FmsNavigation />
-        <Switch>
-          <FmsRoute exact path="/" component={FmsHome} noti={self.noti}/>
-          <FmsRoute exact path="/projects" component={FmsProject} noti={self.noti} />
-          <FmsRoute exact path="/projects/:project_alias" component={FmsDashboard} noti={self.noti} />
-          <FmsRoute path="/projects/:project_alias/posts" component={FmsPosts} noti={self.noti} />
-          <FmsRoute path="/projects/:project_alias/settings" component={FmsSettings} noti={self.noti} />
-          <FmsRoute path="/login" component={FmsLogin} noti={self.noti}/>
-        </Switch>
-      </div>
+    if (self.state.isLoading) {
+      return (
+        <FmsLoading/>
+      )
+    } else {
+      if (FmsAuthen.isAuthenticated) {
+        return (
+          <div>
+            {self.renderAlerts()}
+            <FmsNavigation />
+            <Switch>
+              <FmsRoute exact path="/" component={FmsHome} noti={self.noti}/>
+              <FmsRoute exact path="/projects" component={FmsProject} noti={self.noti} />
+              <FmsRoute exact path="/projects/:project_alias" component={FmsDashboard} noti={self.noti} />
+              <FmsRoute path="/projects/:project_alias/posts" component={FmsPosts} noti={self.noti} />
+              <FmsRoute path="/projects/:project_alias/settings" component={FmsSettings} noti={self.noti} />
+              <FmsRoute path="/login" component={FmsLogin} noti={self.noti}/>
+            </Switch>
+          </div>
+        )
+      } else {
+        return (
+          <Switch>
+            <FmsRoute exact path="/" component={FmsHome} noti={self.noti}/>
+            <FmsRoute path="/login" component={FmsLogin} noti={self.noti}/>
+            <Redirect to="/"/>
+          </Switch>
+        )
+      }
+    }
   }
 });
 
