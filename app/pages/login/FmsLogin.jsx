@@ -8,11 +8,12 @@ import 'url-search-params-polyfill';
 import FmsAuthen from 'FmsAuthen';
 import FmsSpin from 'FmsSpin';
 import tokenApi from 'TokenApi';
+import socket from 'Socket';
+import config from 'CONFIG';
 
 let FmsLogin =  React.createClass({
   getInitialState: function () {
     return {
-      // isAuthenticated: false,
       isLoading: true
     }
   },
@@ -28,7 +29,7 @@ let FmsLogin =  React.createClass({
         .then(userData => {
           store.set('jwt', access_token);
           store.set('user', userData);
-          // self.setState({isAuthenticated: true});
+          socket.connect(config.BASE_URL, access_token);
           FmsAuthen.isAuthenticated = true;
         })
         .catch(err => {
