@@ -4,9 +4,9 @@
 Create `app/config.json` like `app/config.example.json`
 
 ## Build
-`webpack`
+`npm run build`
 
-## Run
+## Run Dev-server
 `npm start`
 
 ## Deploy
