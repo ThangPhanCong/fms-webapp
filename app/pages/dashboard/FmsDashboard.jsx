@@ -337,13 +337,16 @@ let FmsDashBoard = React.createClass({
 		projectApi.getProject(projectAlias)
 			.then(project => {
 				let pages = project.pages;
-				let pageid = pages[0].fb_id;
+				if (pages && Array.isArray(pages) && pages.length > 0){
+					let pageid = pages[0].fb_id;
 
-				self.setState({ pageid: pageid });
-				self.updateConversation();
-				self.subscribePageChanges(pages);
+					self.setState({ pageid: pageid });
+					self.updateConversation();
+					self.subscribePageChanges(pages);
+				}
 			})
 			.catch(err => alert(err));
+
 			DashboardApi.getProjectTags(this.props.match.params.project_alias).then((res) => {
 				res.forEach((tag) => {
 					filters.push({
