@@ -19,7 +19,7 @@ module.exports = {
   ],
 
   output: {
-    path: path.resolve(__dirname, './build/'),
+    path: path.resolve(__dirname, 'build'),
     filename: 'app.bundle.js'
   },
 
@@ -88,7 +88,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: '[name].css'
+              name: '/static/[name].css'
             }
           },
           'extract-loader',
@@ -106,7 +106,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: '[name].css'
+              name: '/static/[name].css'
             }
           },
           'extract-loader', 'css-loader'
@@ -124,13 +124,13 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: '5000',
-          name: '[name].[ext]'
+          name: '/static/[name].[ext]'
         }
       }, {
         test: /\.(png|jpg)$/,
         loader: 'url-loader',
         options: {
-          name : '[name].[ext]'
+          name : '/static/[name].[ext]'
         }
       }, {
         test: /\.json$/,
