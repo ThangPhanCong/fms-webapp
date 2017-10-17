@@ -99,7 +99,6 @@ exports.getWithoutAuth = (route) => {
 exports.getGraphApi = (route, page_id) => {
   let url = `https://graph.facebook.com/v2.10` + route + `&access_token=`;
   let access_token = store.get(page_id);
-  console.log(access_token);
   if (!access_token) {
     return DashboardAPI.getAccessToken(page_id)
       .then((res) => {

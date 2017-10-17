@@ -296,6 +296,7 @@ let FmsDashBoard = React.createClass({
 
 		self.setState({ conversations: _conversations });
 		self.filterConversations();
+		self._child2.scrollToBottom();
 	},
 	subscribePageChanges: function (pages) {
 		let self = this;

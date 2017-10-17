@@ -25,6 +25,10 @@ let FmsConversationArea = React.createClass({
 		this.setState({ postInfo: null });
 		lastLength = 0;
 	},
+	scrollToBottom: function () {
+		let list = this.refs.chat_area;
+		list.scrollTop = list.scrollHeight;
+	},
 	loadPostInfo: function () {
 		let current = this.props.currentConversation;
 		if (!this.state.postInfo && current.type == "comment") {
@@ -38,11 +42,11 @@ let FmsConversationArea = React.createClass({
 		}
 	},
 	getChatAreaWidth: function () {
-		var list = this.refs.chat_area;
+		let list = this.refs.chat_area;
 		return list.clientWidth;
 	},
 	componentDidMount: function () {
-		var list = this.refs.chat_area;
+		let list = this.refs.chat_area;
 		list.addEventListener('scroll', () => {
 			if ($(list).scrollTop() == 0) {
 				this.loadMoreMessages();
@@ -80,11 +84,11 @@ let FmsConversationArea = React.createClass({
 		}
 	},
 	componentWillUpdate: function () {
-		var list = ReactDOM.findDOMNode(this.refs.chat_area);
+		let list = ReactDOM.findDOMNode(this.refs.chat_area);
 		lastScrollPosition = list.scrollHeight - list.scrollTop;
 	},
 	componentDidUpdate: function (prevProp, prevState) {
-		var list = ReactDOM.findDOMNode(this.refs.chat_area);
+		let list = ReactDOM.findDOMNode(this.refs.chat_area);
 		list.scrollTop = list.scrollHeight - lastScrollPosition;
 		if (!this.state.postInfo && list.clientHeight + 12 > list.scrollHeight) {
 			this.loadMoreMessages();
