@@ -208,9 +208,11 @@ let FmsDashBoard = React.createClass({
 			return t2 - t1;
 		});
 		this.reloadAttachment(children);
-		oldChildren.forEach((child) => {
-			children.push(child);
-		});
+		if (oldChildren) {
+			oldChildren.forEach((child) => {
+				children.push(child);
+			});
+		}
 		newConversation.children = children;
 		newConversation.paging = paging;
 		this.setState({ selectedConversation: newConversation });

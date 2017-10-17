@@ -108,7 +108,7 @@ let FmsConversationArea = React.createClass({
 				let lastItem = messages[messages.length - 1];
 
 				return messages.map(message => {
-					let isSelf = message.from.id == self.props.currentConversation.page_fb_id;
+					let isSelf = message.from.id == self.props.currentConversation.page.fb_id;
 					let isLast = lastItem === message;
 					let type = (self.props.currentConversation.type == "comment") ? "comment" : "inbox";
 
