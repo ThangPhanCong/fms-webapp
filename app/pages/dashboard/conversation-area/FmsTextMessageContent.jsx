@@ -25,7 +25,7 @@ let FmsTextMessageContent = React.createClass({
   handleLikeMessage: function () {
     if (this.state.isHandling == true) return;
     this.setState({ isHandling: true });
-    DashboardApi.likeMessage(this.props.message.fb_id).then((res) => {
+    DashboardApi.likeMessage(this.props.message._id).then((res) => {
       this.setState({ isHandling: false, liked: true });
     }, (err) => {
       this.setState({ isHandling: false });
@@ -35,7 +35,7 @@ let FmsTextMessageContent = React.createClass({
   handleUnlikeMessage: function () {
     if (this.state.isHandling == true) return;
     this.setState({ isHandling: true });
-    DashboardApi.unlikeMessage(this.props.message.fb_id).then((res) => {
+    DashboardApi.unlikeMessage(this.props.message._id).then((res) => {
       this.setState({ isHandling: false, liked: false });
     }, (err) => {
       this.setState({ isHandling: false });

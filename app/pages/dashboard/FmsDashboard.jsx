@@ -86,7 +86,7 @@ let FmsDashBoard = React.createClass({
 		if (conversation.type == 'inbox') {
 			DashboardApi.postSeenInbox(conversation._id);
 		} else if (conversation.type == 'comment') {
-			DashboardApi.postSeenCmt(conversation.fb_id);
+			DashboardApi.postSeenCmt(conversation._id);
 		}
 	},
 	postRepMsg: function (conversation, message) {
@@ -115,7 +115,7 @@ let FmsDashBoard = React.createClass({
 				})
 				.catch(err => alert(err.message));
 		} else if (conversation.type == 'comment') {
-			DashboardApi.postRepCmtMsg(conversation.fb_id, message)
+			DashboardApi.postRepCmtMsg(conversation._id, message)
 				.then(data => {
 					let msgInbox = createTempMsg(data.id, message, conversation);
 
@@ -228,7 +228,7 @@ let FmsDashBoard = React.createClass({
 		if (!msg || !msg.parent || !msg.parent.type) return;
 
 		let _conversations = self.state.conversations;
-		let parentConversations = _conversations.filter((c) => { return c.fb_id == msg.parent.fb_id });
+		let parentConversations = _conversations.filter((c) => { return c._id == msg.parent._id });
 		let parent = null;
 
 		if (parentConversations.length == 0) {
@@ -263,7 +263,7 @@ let FmsDashBoard = React.createClass({
 
 				// update parent conversation in current conversations
 				_conversations = _conversations.map(parentCv => {
-					if (parentCv.fb_id == parent.fb_id) {
+					if (parentCv._id == parent._id) {
 						return parent;
 					} else {
 						return parentCv;
@@ -275,7 +275,7 @@ let FmsDashBoard = React.createClass({
 			} else {
 				//this msg is not exists -> add to msg list and update parent
 				let _selectedConversation = self.state.selectedConversation;
-				if (_selectedConversation && (_selectedConversation.fb_id == parent.fb_id)) {
+				if (_selectedConversation && (_selectedConversation._id == parent._id)) {
 					parent.is_seen = true;
 					self.postSeenCv(parent);
 				} else {
@@ -288,7 +288,7 @@ let FmsDashBoard = React.createClass({
 
 				parent.snippet = msg.message;
 
-				let filterConversations = _conversations.filter((c) => { return c.fb_id != parent.fb_id });
+				let filterConversations = _conversations.filter((c) => { return c._id != parent._id });
 				filterConversations.unshift(parent);
 				_conversations = filterConversations;
 			}

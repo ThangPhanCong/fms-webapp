@@ -62,7 +62,7 @@ let FmsClientList = React.createClass({
 
 			return conversations.map(conversation => {
 				let isSelected = (self.props.currentConversation && self.props.currentConversation.fb_id == conversation.fb_id);
-				return <FmsClientItem data={conversation} key={conversation.fb_id} handleClientClick={self.handleClientClick} isSelected={isSelected}/>
+				return <FmsClientItem data={conversation} key={conversation._id} handleClientClick={self.handleClientClick} isSelected={isSelected}/>
 			});
 		};
 

@@ -40,7 +40,7 @@ let FmsInfoChat = React.createClass({
 
     let currentConversation = this.props.currentConversation;
 
-    blockApi.blockCustomer(currentConversation.page_fb_id, currentConversation.customer.fb_id)
+    blockApi.blockCustomer(currentConversation.page_fb_id, currentConversation.customer.id)
       .then(data => {
         self.props.updateBlockCustomer(currentConversation, true);
       })
@@ -53,7 +53,7 @@ let FmsInfoChat = React.createClass({
 
     let currentConversation = this.props.currentConversation;
 
-    blockApi.activeCustomer(currentConversation.page_fb_id, currentConversation.customer.fb_id)
+    blockApi.activeCustomer(currentConversation.page_fb_id, currentConversation.customer.id)
       .then(data => {
         self.props.updateBlockCustomer(currentConversation, false);
       })
@@ -65,14 +65,19 @@ let FmsInfoChat = React.createClass({
   render: function () {
     let self = this;
     let customer = this.props.currentConversation.customer;
+    let option = "";
+    if (!customer) {
+      option = " hide";
+      customer = this.props.currentConversation.from;
+    }
 
     return (
       <div ref="info_chat">
         <div className="info-client">
-          <div className="title-chat">{this.props.currentConversation.customer.name}</div>
+          <div className="title-chat">{customer.name}</div>
           <div className="message-status">{self.seen_time(this.props.currentConversation.last_seen)}</div>
         </div>
-        <div className="option">
+        <div className={"option" + option}>
           {
             customer.is_blocked ?
               <FmsToolTip message="Bỏ chặn" direction="bottom">

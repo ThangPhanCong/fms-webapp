@@ -35,7 +35,7 @@ let FmsMessageForm = React.createClass({
         return fileApi.uploadFileToS3(file, signedRequest);
       })
       .then(() => {
-        return dashboardApi.postRepCmtMsg(self.props.conversation.fb_id, null, s3Url);
+        return dashboardApi.postRepCmtMsg(self.props.conversation._id, null, s3Url);
       })
       .then(data => {
         console.log('data', data);

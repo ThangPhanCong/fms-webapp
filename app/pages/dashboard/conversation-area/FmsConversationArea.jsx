@@ -2,6 +2,7 @@
 
 const React = require('react');
 const ReactDOM = require('react-dom');
+const uuid = require('uuid');
 
 let FmsMessageItem = require('FmsMessageItem');
 let FmsMessageForm = require('FmsMessageForm');
@@ -116,7 +117,7 @@ let FmsConversationArea = React.createClass({
 					let isLast = lastItem === message;
 					let type = (self.props.currentConversation.type == "comment") ? "comment" : "inbox";
 
-					return <FmsMessageItem message={message} key={message.fb_id} isSelf={isSelf} isLast={isLast} type={type}
+					return <FmsMessageItem message={message} key={uuid()} isSelf={isSelf} isLast={isLast} type={type}
 							 getChatAreaWidth={self.getChatAreaWidth} />;
 				});
 			}

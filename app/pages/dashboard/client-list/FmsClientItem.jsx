@@ -33,8 +33,13 @@ let FmsClientItem = React.createClass({
 		let clientid, clientName, message;
 		let isSelected = (this.props.isSelected) ? " selectedItem" : "";
 
-		clientid = this.props.data.customer.fb_id;
-		clientName = this.props.data.customer.name;
+		if (this.props.data.type == "inbox") {
+			clientid = this.props.data.customer.id;
+			clientName = this.props.data.customer.name;
+		} else {
+			clientid = this.props.data.from.id;
+			clientName = this.props.data.from.name;
+		}
 		message = (this.props.data.snippet == "") ? "[Attachment]" : this.props.data.snippet;
 
 		let seenClass = this.props.data.is_seen ? '' : ' not-seen';

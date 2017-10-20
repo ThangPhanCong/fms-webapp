@@ -16,7 +16,7 @@ let FmsPrivateReplyModal = React.createClass({
 		let message = this.refs.message_text.value;
 		if (message && message != "") {
 			this.setState({ isSending: true });
-			DashboardAPI.postPrivateReplyMessage(this.props.message.fb_id, message).then((res) => {
+			DashboardAPI.postPrivateReplyMessage(this.props.message._id, message).then((res) => {
 				this.close();
 				this.props.handleSendMessage();
 				this.setState({ isSending: false });
