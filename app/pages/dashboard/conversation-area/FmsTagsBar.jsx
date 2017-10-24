@@ -15,9 +15,9 @@ let FmsTagsBar = React.createClass({
     });
     this.setState({ isHandling: true });
     if (selectedTag.length == 0) {
-      DashboardAPI.createTagConversation(this.props.alias, this.props.conversation.fb_id, tag_id)
+      DashboardAPI.createTagConversation(this.props.alias, this.props.conversation.id, tag_id)
           .then((res) => {
-            this.props.updateClientTags(res.tags, this.props.conversation.fb_id);
+            this.props.updateClientTags(res.tags, this.props.conversation.id);
             this.props.noti('success', 'Tạo tag "' + tag_name + '" thành công');
             this.setState({ isHandling: false });
           }, (err) => {
@@ -26,9 +26,9 @@ let FmsTagsBar = React.createClass({
             throw new Error(err);
           });
     } else {
-      DashboardAPI.deleteTagConversation(this.props.alias, this.props.conversation.fb_id, tag_id)
+      DashboardAPI.deleteTagConversation(this.props.alias, this.props.conversation.id, tag_id)
           .then((res) => {
-            this.props.updateClientTags(res.tags, this.props.conversation.fb_id);
+            this.props.updateClientTags(res.tags, this.props.conversation.id);
             this.props.noti('success', 'Xóa tag "' + tag_name + '" thành công');
             this.setState({ isHandling: false });
           }, (err) => {

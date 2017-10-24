@@ -97,7 +97,7 @@ let FmsDashBoard = React.createClass({
 				fb_id,
 				message: msg,
 				from: {
-					id: self.state.pageid
+					id: self.state.selectedConversation.page_fb_id
 				},
 				updated_time: Date.now(),
 				parent: conversation
@@ -326,7 +326,7 @@ let FmsDashBoard = React.createClass({
 	updateClientTags: function (tags, conversation_id) {
 		let newConversations = this.state.conversations;
 		newConversations.forEach((convers) => {
-			if (convers.fb_id == conversation_id) {
+			if (convers.id == conversation_id) {
 				convers.tags = tags;
 			}
 		});
