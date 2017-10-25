@@ -21,8 +21,6 @@ let FmsMessageForm = React.createClass({
     let files = e.target.files || e.dataTransfer.files;
     if (!files) return;
 
-    console.log(files);
-    console.log(files[0])
     let file = files[0]
 
     let s3Url;
@@ -36,9 +34,6 @@ let FmsMessageForm = React.createClass({
       })
       .then(() => {
         return dashboardApi.postRepCmtMsg(self.props.conversation._id, null, s3Url);
-      })
-      .then(data => {
-        console.log('data', data);
       })
       .catch(err => console.log(err.message))
     // post file to s3
