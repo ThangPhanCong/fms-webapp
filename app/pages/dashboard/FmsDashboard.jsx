@@ -100,6 +100,7 @@ let FmsDashBoard = React.createClass({
 					id: self.state.selectedConversation.page_fb_id
 				},
 				updated_time: Date.now(),
+				created_time: Date.now(),
 				parent: conversation
 			}
 
@@ -203,8 +204,14 @@ let FmsDashBoard = React.createClass({
 		let newConversation = this.state.selectedConversation;
 		let oldChildren = this.state.selectedConversation.children;
 		let children = more.sort((a, b) => {
-			let t1 = new Date(a.updated_time);
-			let t2 = new Date(b.updated_time);
+			let t1, t2;
+			if (this.state.selectedConversation.type == "comment") {
+				t1 = new Date(a.created_time);
+				t2 = new Date(b.created_time);
+			} else {
+				t1 = new Date(a.updated_time);
+				t2 = new Date(b.updated_time);
+			}
 			return t2 - t1;
 		});
 		this.reloadAttachment(children);

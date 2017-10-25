@@ -106,8 +106,14 @@ let FmsConversationArea = React.createClass({
 			if (self.props.currentConversation && Array.isArray(self.props.currentConversation.children)) {
 				let messages = self.props.currentConversation.children;
 				messages = messages.sort((msg1, msg2) => {
-					let t1 = new Date(msg1.updated_time);
-					let t2 = new Date(msg2.updated_time);
+					let t1, t2;
+					if (self.props.currentConversation.type == "comment") {
+						t1 = new Date(msg1.created_time);
+						t2 = new Date(msg2.created_time);
+					} else {
+						t1 = new Date(msg1.updated_time);
+						t2 = new Date(msg2.updated_time);
+					}
 					return t1 - t2;
 				})
 				let lastItem = messages[messages.length - 1];
