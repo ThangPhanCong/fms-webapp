@@ -1,12 +1,16 @@
 
 
-const React = require('react');
+import React from 'react';
 
-let FmsPageItem = React.createClass({
-	onPageClick: function () {
+class FmsPageItem extends React.Component {
+	constructor(props) {
+		super(props);
+		this.onPageClick = this.onPageClick.bind(this);
+	}
+	onPageClick() {
 		this.props.onPageClick(this.props.data);
-	},
-	render: function () {
+	}
+	render() {
 		let that = this;
 		let avaUrl = `https://graph.facebook.com/v2.10/${this.props.data.fb_id}/picture`;
 		return (
@@ -16,6 +20,6 @@ let FmsPageItem = React.createClass({
 			</div>
 		);
 	}
-});
+}
 
 module.exports = FmsPageItem;

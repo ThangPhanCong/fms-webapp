@@ -17,7 +17,6 @@ class FmsLogin extends Component {
       isLoading: true
     };
   }
-
   componentDidMount() {
     let self = this;
 
@@ -38,7 +37,7 @@ class FmsLogin extends Component {
           store.clearAll();
         })
         .then(() => {
-          self.setState({isLoading: false});
+          self.setState({ isLoading: false });
         })
     } else {
       FmsAuthen.login();
@@ -58,9 +57,9 @@ class FmsLogin extends Component {
       )
     } else {
       if (FmsAuthen.isAuthenticated) {
-        return <Redirect to='/projects'/>
+        return <Redirect to='/projects' />
       } else {
-        return <Redirect to='/'/>
+        return <Redirect to='/' />
       }
     }
   }

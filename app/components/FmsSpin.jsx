@@ -1,29 +1,21 @@
 
 
-const React = require('react');
+import React from 'react';
 
-const spinnerImg = require('spinner.png');
+import spinnerImg from 'spinner.png';
 
-let FmsSpin = React.createClass({
-  // getInitialState: function () {
-	// 	return {
-	// 		loading: true
-	// 	}
-	// },
-	getDefaultProps: function() {
-		return {
-			size: 35
-		};
-	},
-	render: function () {
+class FmsSpin extends React.Component {
+	render() {
 		let size = this.props.size;
-
 		return (
 			<div className="fms-spin">
 				<img className="spinner" src={spinnerImg} height={size + 'px'} width={size + 'px'}></img>
 			</div>
 		);
 	}
-});
+}
+FmsSpin.defaultProps = {
+	size: 35
+}
 
 module.exports = FmsSpin;

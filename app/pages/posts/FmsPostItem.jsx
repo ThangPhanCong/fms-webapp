@@ -1,16 +1,20 @@
 
 
-const React = require('react');
-const {browserHistory} = require('react-router');
+import React from 'react';
+import { browserHistory } from 'react-router';
 
-import {Image, Checkbox} from 'react-bootstrap';
+import { Image, Checkbox } from 'react-bootstrap';
 import uuid from 'uuid';
 
-let FmsPostItem = React.createClass({
-  onToggleChange: function(checked) {
+class FmsPostItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onToggleChange = this.onToggleChange.bind(this);
+  }
+  onToggleChange(checked) {
     this.props.onToggleChange(this.props.data.fb_id);
-  },
-  renderImgs: function() {
+  }
+  renderImgs() {
     let self = this;
     let attachments = self.props.data.attachments;
     if (attachments) {
@@ -24,8 +28,8 @@ let FmsPostItem = React.createClass({
         })
       }
     }
-  },
-  render: function() {
+  }
+  render() {
     let self = this;
     let page_id = self.props.data.page_fb_id;
     let page_name = self.props.data.page_fb_name;
@@ -44,13 +48,13 @@ let FmsPostItem = React.createClass({
           </div>
           <div>
             <Checkbox type="checkbox"
-            checked={this.props.data.hide_comment}
-            onChange={this.onToggleChange}> Ẩn bình luận</Checkbox>
+              checked={this.props.data.hide_comment}
+              onChange={this.onToggleChange}> Ẩn bình luận</Checkbox>
           </div>
         </div>
       </div>
     );
   }
-});
+}
 
 module.exports = FmsPostItem;

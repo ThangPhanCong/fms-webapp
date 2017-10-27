@@ -1,13 +1,8 @@
+import React from 'react';
+import { Grid, Row, Col, Checkbox } from 'react-bootstrap';
 
-
-const React = require('react');
-import {Grid, Row, Col, Checkbox} from 'react-bootstrap';
-
-let FmsSettingItem = React.createClass({
-  check: function () {
-
-  },
-  render: function() {
+class FmsSettingItem extends React.Component {
+  render() {
     let self = this;
 
     return (
@@ -18,6 +13,6 @@ let FmsSettingItem = React.createClass({
       </div>
     );
   }
-});
+}
 
 module.exports = FmsSettingItem;

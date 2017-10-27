@@ -1,26 +1,28 @@
 import React from 'react';
+
 import {Link, Redirect} from 'react-router-dom';
 import * as store from '../../helpers/storage';
 
 import FmsAuthen from 'FmsAuthen';
 
-let FmsHome = React.createClass({
-  getInitialState: function () {
-    return {
+class FmsHome extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       isLogedIn: false
     }
-  },
-  componentDidMount: function () {
+  }
+  componentDidMount() {
     let jwt = store.get('jwt');
     if (jwt) {
-      this.setState({isLogedIn: true});
+      this.setState({ isLogedIn: true });
     }
-  },
-  render: function() {
+  }
+  render() {
     let self = this;
 
     if (self.state.isLogedIn) {
-      return <Redirect to='/projects'/>
+      return <Redirect to='/projects' />
     }
 
     return (
@@ -32,6 +34,6 @@ let FmsHome = React.createClass({
       </div>
     );
   }
-});
+}
 
 module.exports = FmsHome;

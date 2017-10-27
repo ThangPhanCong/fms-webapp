@@ -1,17 +1,17 @@
 
 
-const React = require('react');
-const ReactDOM = require('react-dom');
-const uuid = require('uuid');
-const rightArrowImg = require('right_arrow.png');
-const leftArrowImg = require('left_arrow.png');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import uuid from 'uuid';
+import rightArrowImg from 'right_arrow.png';
+import leftArrowImg from 'left_arrow.png';
 
-let FmsAttachmentContent = require('FmsAttachmentContent');
-let FmsTextMessageContent = require('FmsTextMessageContent');
-let DashboardAPI = require('DashboardApi');
+import FmsAttachmentContent from 'FmsAttachmentContent';
+import FmsTextMessageContent from 'FmsTextMessageContent';
+import DashboardAPI from 'DashboardApi';
 
-let FmsMessageItem = React.createClass({
-	convertTime: function (time) {
+class FmsMessageItem extends React.Component {
+	convertTime(time) {
 		let date = new Date(time);
 		let hour = (date.getHours() > 9) ? date.getHours() : "0" + date.getHours();
 		let minute = (date.getMinutes() > 9) ? date.getMinutes() : "0" + date.getMinutes();
@@ -26,13 +26,13 @@ let FmsMessageItem = React.createClass({
 			case 6: day = "Saturday"; break;
 		};
 		return day + " " + hour + ":" + minute;
-	},
-	componentDidMount: function () {
+	}
+	componentDidMount() {
 		$(ReactDOM.findDOMNode(this.refs.tooltip)).ready(function () {
 			$('[data-toggle="tooltip"]').tooltip();
 		});
-	},
-	render: function () {
+	}
+	render() {
 		let self = this;
 
 		let avaUrl = `https://graph.facebook.com/v2.10/${this.props.message.from.id}/picture`;
@@ -75,7 +75,7 @@ let FmsMessageItem = React.createClass({
 					index++;
 					if (index > 1) hasMessage = 0;
 					let attachType = 'unknown', preview = '', origin;
-					let size = {width: 0, height: 0};
+					let size = { width: 0, height: 0 };
 					if (attachment.type) {
 						let t = attachment.type;
 						if (t == 'sticker') attachType = 'sticker';
@@ -103,7 +103,7 @@ let FmsMessageItem = React.createClass({
 					}
 					if (attachType == 'unknown' || preview == '') return;
 					return <FmsAttachmentContent key={uuid()} hasMessage={hasMessage} type={attachType} origin={origin}
-						isSelf={isSelf} preview={preview} size={size} getChatAreaWidth={self.props.getChatAreaWidth}/>
+						isSelf={isSelf} preview={preview} size={size} getChatAreaWidth={self.props.getChatAreaWidth} />
 				})
 			}
 		}
@@ -118,13 +118,13 @@ let FmsMessageItem = React.createClass({
 					</div>
 					<img src={srcArrow} className={arrow} />
 					<div className={"message-content" + messageContent}>
-						<FmsTextMessageContent message={this.props.message} actionButton={actionButton}/>
+						<FmsTextMessageContent message={this.props.message} actionButton={actionButton} />
 					</div>
 				</div>
 				{renderAttachment()}
 			</div>
 		);
 	}
-});
+}
 
 module.exports = FmsMessageItem;

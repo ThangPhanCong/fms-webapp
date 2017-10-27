@@ -1,42 +1,49 @@
 
 
-const React = require('react');
-const { browserHistory } = require('react-router');
+import React from 'react';
+import { browserHistory } from 'react-router';
 
-let FmsActivePageModal = require('FmsActivePageModal');
-let FmsPageItem = require('FmsPageItem');
-let PagesAPI = require('PagesApi');
+import FmsActivePageModal from 'FmsActivePageModal';
+import FmsPageItem from 'FmsPageItem';
+import PagesAPI from 'PagesApi';
 
-let FmsPageList = React.createClass({
-  getInitialState: function () {
-    return { active: [], inactive: [] }
-  },
-  updatePages: function (pages) {
+class FmsPageList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      active: [],
+      inactive: []
+    }
+    this.updatePages = this.updatePages.bind(this);
+    this.handleClickOnPage = this.handleClickOnPage.bind(this);
+    this.openModal = this.openModal.bind(this);
+  }
+  updatePages(pages) {
     let self = this;
     PagesAPI.getPages().then(function (_pages) {
       self.setState({ active: _pages.active, inactive: _pages.inactive });
     }, function (err) {
       throw new Error(err);
     })
-  },
-  handleClickOnPage: function (data) {
+  }
+  handleClickOnPage(data) {
     let id = data.fb_id;
     browserHistory.push('/' + id);
-  },
+  }
   renderPages() {
     let that = this;
     let pages = this.state.active;
     return pages.map(function (page) {
       return <FmsPageItem data={page} key={page.fb_id} onPageClick={that.handleClickOnPage}></FmsPageItem>
     });
-  },
-  componentDidMount: function () {
+  }
+  componentDidMount() {
     this.updatePages();
-  },
-  openModal: function () {
+  }
+  openModal() {
     this._child.open();
-  },
-  render: function () {
+  }
+  render() {
     return (
       <div className="dashboard-border">
         <div className="div-list-page">
@@ -53,6 +60,6 @@ let FmsPageList = React.createClass({
       </div>
     );
   }
-});
+}
 
 module.exports = FmsPageList;

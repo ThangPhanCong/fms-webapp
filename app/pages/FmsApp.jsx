@@ -32,10 +32,6 @@ class FmsApp extends Component {
 
   componentDidMount() {
     let self = this;
-    // self.noti('success', 'Bỏ ẩn bình luận thành công');
-    // info, warning, danger, or success.
-
-    // verify access token
     let jwt = store.get('jwt');
     if (jwt) {
       tokenApi.verifyAccessToken(jwt)
@@ -68,7 +64,7 @@ class FmsApp extends Component {
 
     let alerts = self.state.alerts;
     alerts.push(alert);
-    self.setState({alerts: alerts});
+    self.setState({ alerts: alerts });
 
     setTimeout(() => {
       self.removeNoti(alert.id);
@@ -89,14 +85,14 @@ class FmsApp extends Component {
     let alerts = self.state.alerts;
     let alertItems = alerts.map(alert => {
       return (
-        <Alert key={alert.id} type={alert.type} onDismiss={() => {self.removeNoti(alert.id)}}>{alert.message}</Alert>
+        <Alert key={alert.id} type={alert.type} onDismiss={() => { self.removeNoti(alert.id) }}>{alert.message}</Alert>
       )
     })
 
     return (
       <AlertContainer>
-    		{ alertItems }
-    	</AlertContainer>
+        {alertItems}
+      </AlertContainer>
     )
   }
 
@@ -105,7 +101,7 @@ class FmsApp extends Component {
 
     if (self.state.isLoading) {
       return (
-        <FmsLoading/>
+        <FmsLoading />
       )
     } else {
       if (FmsAuthen.isAuthenticated) {
