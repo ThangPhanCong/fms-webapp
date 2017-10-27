@@ -1,17 +1,22 @@
 'use strict';
 
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-const blockImg = require('block.png');
-const blockActiveImg = require('block_active.png');
-const fbImgActive = require('facebook_active.png');
+import blockImg from 'block.png';
+import blockActiveImg from 'block_active.png';
+import fbImgActive from 'facebook_active.png';
 
-const FmsToolTip = require('FmsToolTip');
-const blockApi = require('BlockApi');
+import FmsToolTip from 'FmsToolTip';
+import blockApi from 'BlockApi';
 
-let FmsInfoChat = React.createClass({
-  seen_time: function (time) {
+class FmsInfoChat extends React.Component {
+  constructor(props) {
+    super(props);
+    this.blockPerson = this.blockPerson.bind(this);
+    this.activePerson = this.activePerson.bind(this);
+  }
+  seen_time(time) {
     if (time == undefined || time == null) return "";
     let date = new Date(time);
     let current = new Date();
@@ -34,8 +39,8 @@ let FmsInfoChat = React.createClass({
     let minute = (date.getMinutes() > 9) ? date.getMinutes() : "0" + date.getMinutes();
     let moment = " lúc " + hour + ":" + minute;
     return res + whatday + moment;
-  },
-  blockPerson: function () {
+  }
+  blockPerson() {
     let self = this;
 
     let currentConversation = this.props.currentConversation;
@@ -47,8 +52,8 @@ let FmsInfoChat = React.createClass({
       .catch(err => {
         alert(err.message);
       })
-  },
-  activePerson: function () {
+  }
+  activePerson() {
     let self = this;
 
     let currentConversation = this.props.currentConversation;
@@ -60,9 +65,9 @@ let FmsInfoChat = React.createClass({
       .catch(err => {
         alert(err.message);
       })
-  },
+  }
 
-  render: function () {
+  render() {
     let self = this;
     let customer = this.props.currentConversation.customer;
     let option = "";
@@ -81,11 +86,11 @@ let FmsInfoChat = React.createClass({
           {
             customer.is_blocked ?
               <FmsToolTip message="Bỏ chặn" direction="bottom">
-                <img src={blockActiveImg} className="icon-option" onClick={self.activePerson}/>
+                <img src={blockActiveImg} className="icon-option" onClick={self.activePerson} />
               </FmsToolTip>
               :
               <FmsToolTip message="Chặn" direction="bottom">
-                <img src={blockImg} className="icon-option" onClick={self.blockPerson}/>
+                <img src={blockImg} className="icon-option" onClick={self.blockPerson} />
               </FmsToolTip>
           }
 
@@ -93,6 +98,6 @@ let FmsInfoChat = React.createClass({
       </div>
     );
   }
-});
+}
 
 module.exports = FmsInfoChat;

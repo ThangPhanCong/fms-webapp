@@ -1,56 +1,59 @@
 'use strict';
 
 import React from 'react';
-import {Grid, Row, Col, Button, Checkbox} from 'react-bootstrap';
+import { Grid, Row, Col, Button, Checkbox } from 'react-bootstrap';
 import uuid from 'uuid';
 
 import FmsSettingItem from 'FmsSettingItem';
 import FmsTagItem from 'FmsTagItem';
 import tagApi from 'TagApi';
-import {MAX_TAG_ITEMS} from 'constant';
+import { MAX_TAG_ITEMS } from 'constant';
 
 const TAG_COLORS = ['#795548', '#30499B', '#844D9E', '#009688', '#88C542', '#F57C00'];
 
-let FmsSettings = React.createClass({
-  getInitialState: function () {
-    return {
+class FmsSettings extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       tags: [],
       isLoading: false
     }
-  },
-  updateTag: function (tag) {
+    this.updateTag = this.updateTag.bind(this);
+    this.deleteTag = this.deleteTag.bind(this);
+  }
+  updateTag(tag) {
     let self = this;
     let projectAlias = this.props.match.params.project_alias;
 
-    self.setState({isLoading: true});
+    self.setState({ isLoading: true });
 
     tagApi.update(projectAlias, tag._id, tag.name, tag.color)
       .then(updatedTag => {
         let tags = this.state.tags;
         let filterTags = tags.map(t => (t._id == tag._id) ? updatedTag : t);
 
-        self.setState({tags: filterTags, isLoading: false});
+        self.setState({ tags: filterTags, isLoading: false });
       })
-  },
-  deleteTag: function (tag) {
+  }
+  deleteTag(tag) {
     let self = this;
     let projectAlias = this.props.match.params.project_alias;
 
-    self.setState({isLoading: true});
+    self.setState({ isLoading: true });
 
     tagApi.remove(projectAlias, tag._id)
       .then(() => {
         let tags = self.state.tags;
         let filterTags = tags.filter(t => t._id != tag._id);
 
-        self.setState({tags: filterTags, isLoading: false});
+        self.setState({ tags: filterTags, isLoading: false });
       })
-  },
-  addNewTag: function (color, name) {
+  }
+  addNewTag(color, name) {
     let self = this;
     let projectAlias = this.props.match.params.project_alias;
 
-    self.setState({isLoading: true});
+    self.setState({ isLoading: true });
 
     let remainingColors = TAG_COLORS.filter(c => {
       let _tag = self.state.tags.find(t => t.color == c)
@@ -64,11 +67,11 @@ let FmsSettings = React.createClass({
         let tags = self.state.tags;
         tags.push(newTag);
 
-        self.setState({tags: tags, isLoading: false});
+        self.setState({ tags: tags, isLoading: false });
       })
       .catch(err => alert(err.message));
-  },
-  componentDidMount: function () {
+  }
+  componentDidMount() {
     let self = this;
     let projectAlias = this.props.match.params.project_alias;
 
@@ -76,8 +79,8 @@ let FmsSettings = React.createClass({
       .then(tags => {
         self.setState({ tags })
       })
-  },
-  renderTags: function () {
+  }
+  renderTags() {
     let self = this;
     let tags = self.state.tags;
 
@@ -87,8 +90,8 @@ let FmsSettings = React.createClass({
           deleteTag={self.deleteTag} isLoading={self.state.isLoading}></FmsTagItem>
       )
     })
-  },
-  render: function() {
+  }
+  render() {
     let self = this;
     let countItem = `(${self.state.tags.length}/${MAX_TAG_ITEMS})`
 
@@ -128,11 +131,11 @@ let FmsSettings = React.createClass({
                 <Col>
                   <span>Thẻ hội thoại</span><span className="count-item">{countItem}</span>
                   <a href="#" className="pull-right" disabled={self.state.tags.length == MAX_TAG_ITEMS || self.state.isLoading}
-                    onClick={() => {self.addNewTag('black', "new tag")}}><span className="glyphicon glyphicon-plus"></span></a>
+                    onClick={() => { self.addNewTag('black', "new tag") }}><span className="glyphicon glyphicon-plus"></span></a>
                 </Col>
               </Row>
               <Row>
-              {self.renderTags()}
+                {self.renderTags()}
               </Row>
             </div>
           </Col>
@@ -141,6 +144,6 @@ let FmsSettings = React.createClass({
       </Grid>
     );
   }
-});
+}
 
 module.exports = FmsSettings;

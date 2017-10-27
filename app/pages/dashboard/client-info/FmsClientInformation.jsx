@@ -1,24 +1,26 @@
-const React = require('react');
-const FmsInformationTab = require('FmsInformationTab');
-const FmsCreateFormTab = require('FmsCreateFormTab');
+'use strict';
+
+import React from 'react';
+import FmsInformationTab from 'FmsInformationTab';
+import FmsCreateFormTab from 'FmsCreateFormTab';
 import Tabs from 'muicss/lib/react/tabs';
 import Tab from 'muicss/lib/react/tab';
 
-let FmsClientInformation = React.createClass({
-  render: function () {
+class FmsClientInformation extends React.Component {
+  render() {
     return (
       <div>
         <Tabs justified={true}>
           <Tab value="pane-1" label="Thông tin">
-            <FmsInformationTab/>
+            <FmsInformationTab />
           </Tab>
           <Tab value="pane-2" label="Tạo đơn">
-            <FmsCreateFormTab/>
+            <FmsCreateFormTab />
           </Tab>
         </Tabs>
       </div>
     );
   }
-});
+}
 
 module.exports = FmsClientInformation;

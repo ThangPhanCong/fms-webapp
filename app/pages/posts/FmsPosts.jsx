@@ -1,41 +1,44 @@
 'use strict';
 
 import React from 'react';
-import {Route} from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import uuid from 'uuid';
-import {Grid, Row, Col, Button} from 'react-bootstrap';
+import { Grid, Row, Col, Button } from 'react-bootstrap';
 
 import FmsPostItem from 'FmsPostItem';
 import postApi from 'PostsApi';
 import dashboardApi from 'DashboardApi';
 import projectApi from 'ProjectApi';
 
-let FmsPosts = React.createClass({
-  getInitialState: function() {
-    return {
+class FmsPosts extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       posts: [],
       next: null,
       isLoading: false
     }
-  },
-  componentDidMount: function() {
+    this.onToggleChange = this.onToggleChange.bind(this);
+    this.loadMorePosts = this.loadMorePosts.bind(this);
+  }
+  componentDidMount() {
     let self = this;
     let projectAlias = this.props.match.params.project_alias;
 
     postApi.getPostsOfProject(projectAlias)
       .then(
-        data => {
-          self.setState({
-            posts: data.data,
-            next: data.paging ? (data.paging.next ? data.paging.next : null) : null
-          });
-        },
-        err => {
-          alert('Can\'t get posts');
-        }
+      data => {
+        self.setState({
+          posts: data.data,
+          next: data.paging ? (data.paging.next ? data.paging.next : null) : null
+        });
+      },
+      err => {
+        alert('Can\'t get posts');
+      }
       )
-  },
-  onToggleChange: function(fb_post_id) {
+  }
+  onToggleChange(fb_post_id) {
     let self = this;
 
     let posts = this.state.posts;
@@ -60,44 +63,43 @@ let FmsPosts = React.createClass({
         }
       })
       .catch(err => alert(err.message));
-  },
-  loadMorePosts: function () {
+  }
+  loadMorePosts() {
     let self = this;
     let projectAlias = self.props.match.params.project_alias;
 
-    self.setState({isLoading: true});
+    self.setState({ isLoading: true });
 
     postApi.getPostsOfProject(projectAlias, self.state.next)
       .then(
-        data => {
-          let posts = self.state.posts.concat(data.data);
-          self.setState({
-            posts: posts,
-            next: data.paging ? (data.paging.next ? data.paging.next : null) : null,
-          });
-        },
-        err => {
-          alert('Can\'t get posts');
-        }
+      data => {
+        let posts = self.state.posts.concat(data.data);
+        self.setState({
+          posts: posts,
+          next: data.paging ? (data.paging.next ? data.paging.next : null) : null,
+        });
+      },
+      err => {
+        alert('Can\'t get posts');
+      }
       )
       .then(() => {
-        self.setState({isLoading: false});
+        self.setState({ isLoading: false });
       })
-
-  },
-  renderPosts: function () {
+  }
+  renderPosts() {
     let self = this;
     let posts = this.state.posts;
 
     return posts.map((post) => {
       return (
         <Col xs={12} sm={6} md={4} key={post.fb_id}>
-          <FmsPostItem data={post} onToggleChange={this.onToggleChange}/>
+          <FmsPostItem data={post} onToggleChange={this.onToggleChange} />
         </Col>
       )
     });
-  },
-  render: function() {
+  }
+  render() {
     let self = this;
 
     return (
@@ -106,11 +108,11 @@ let FmsPosts = React.createClass({
           {this.renderPosts()}
         </Row>
         <div className="loadmore-wrapper">
-          { self.state.next ? <Button disabled={self.state.isLoading} onClick={self.loadMorePosts}>Load more</Button> : null }
+          {self.state.next ? <Button disabled={self.state.isLoading} onClick={self.loadMorePosts}>Load more</Button> : null}
         </div>
       </Grid>
     );
   }
-});
+}
 
 module.exports = FmsPosts;

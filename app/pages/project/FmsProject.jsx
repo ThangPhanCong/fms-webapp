@@ -1,34 +1,37 @@
 'use strict';
 
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import FmsProjectItem from 'FmsProjectItem';
 import FmsAddProjectModal from 'FmsAddProjectModal';
 import projectApi from 'ProjectApi';
 
-let FmsProject = React.createClass({
-  getInitialState: function () {
-    return {
+class FmsProject extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       projects: null
     }
-  },
-  componentDidMount: function () {
+    this.updateProjects = this.updateProjects.bind(this);
+    this.handleDeleteProject = this.handleDeleteProject.bind(this);
+    this.openModal = this.openModal.bind(this);
+  }
+  componentDidMount() {
     let self = this;
-
     this.updateProjects();
-  },
-  updateProjects: function () {
+  }
+  updateProjects() {
     let self = this;
 
     projectApi.getAllProject()
       .then(projects => {
-        self.setState({projects});
+        self.setState({ projects });
       })
       .catch(err => {
         alert(err.message);
       })
-  },
-  handleDeleteProject: function (alias) {
+  }
+  handleDeleteProject(alias) {
     let self = this;
 
     projectApi.deleteProject(alias)
@@ -38,8 +41,8 @@ let FmsProject = React.createClass({
       .catch(err => {
         alert(err);
       })
-  },
-  renderPageItems: function () {
+  }
+  renderPageItems() {
     let self = this;
     let projects = this.state.projects;
 
@@ -57,11 +60,11 @@ let FmsProject = React.createClass({
         <div>Bạn chưa có project nào</div>
       )
     }
-  },
-  openModal: function () {
+  }
+  openModal() {
     this._child.open();
-  },
-  render: function() {
+  }
+  render() {
     let self = this;
 
     return (
@@ -77,12 +80,12 @@ let FmsProject = React.createClass({
             {self.renderPageItems()}
           </div>
 
-          <FmsAddProjectModal ref={(child) => {this._child = child;}}
+          <FmsAddProjectModal ref={(child) => { this._child = child; }}
             updateProjects={self.updateProjects} {...self.props}></FmsAddProjectModal>
         </div>
       </div>
     );
   }
-});
+}
 
 module.exports = FmsProject;

@@ -1,30 +1,32 @@
 'use strict';
 
-const React = require('react');
+import React from 'react';
 
-const attachImg = require('attachment.png');
-const sendImg = require('send.png');
+import attachImg from 'attachment.png';
+import sendImg from 'send.png';
 
-const fileApi = require('FileApi');
-const dashboardApi = require('DashboardApi');
+import fileApi from 'FileApi';
+import dashboardApi from 'DashboardApi';
 
-let FmsMessageForm = React.createClass({
-  onFormSubmit: function (e) {
+class FmsMessageForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.onFileChange = this.onFileChange.bind(this);
+  }
+  onFormSubmit(e) {
     e.preventDefault();
 
     let v = this.refs.message;
     if (v.value != '') this.props.sendMessage(this.refs.message.value);
     v.value = '';
-  },
-  onFileChange: function (e) {
+  }
+  onFileChange(e) {
     let self = this;
     let files = e.target.files || e.dataTransfer.files;
     if (!files) return;
-
     let file = files[0]
-
     let s3Url;
-    // get signing request
     fileApi.getS3SigningRequest(file.name, file.type)
       .then(data => {
         let signedRequest = data.signedRequest;
@@ -36,31 +38,27 @@ let FmsMessageForm = React.createClass({
         return dashboardApi.postRepCmtMsg(self.props.conversation._id, null, s3Url);
       })
       .catch(err => console.log(err.message))
-    // post file to s3
-
-    // get link and use send file api
-  },
-  render: function () {
+  }
+  render() {
     let self = this;
-
     return (
       <div>
         <form onSubmit={this.onFormSubmit} className="input-wrapper">
-            <input className="input-text" ref="message" rows="3" placeholder="Soạn tin nhắn..."/>
-            <ul className="group-button">
-              { self.props.conversation.type == 'comment' ?
-                <li><a href="#">
-                  <img src={attachImg} className="attach-button"/>
-                  <input type="file" className="input-file" accept="image/*" onChange={self.onFileChange}></input>
-                </a></li>
-                : null
-              }
-              <li><img src={sendImg} className="send-button" onClick={this.onFormSubmit}/></li>
-            </ul>
+          <input className="input-text" ref="message" rows="3" placeholder="Soạn tin nhắn..." />
+          <ul className="group-button">
+            {self.props.conversation.type == 'comment' ?
+              <li><a href="#">
+                <img src={attachImg} className="attach-button" />
+                <input type="file" className="input-file" accept="image/*" onChange={self.onFileChange}></input>
+              </a></li>
+              : null
+            }
+            <li><img src={sendImg} className="send-button" onClick={this.onFormSubmit} /></li>
+          </ul>
         </form>
       </div>
     );
   }
-});
+}
 
 module.exports = FmsMessageForm;

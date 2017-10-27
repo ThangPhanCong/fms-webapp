@@ -1,14 +1,14 @@
 'use strict';
 
-const React = require('react');
-const _ = require('lodash');
+import React, { Component } from 'react';
+import _ from 'lodash';
 
-const Modal = require('react-bootstrap').Modal;
-const FmsPageItemInModal = require('FmsPageItemInModal');
-const FmsSpin = require('FmsSpin');
-const projectApi = require('ProjectApi');
-const pagesApi = require('PagesApi');
-const socket = require('Socket');
+import { Modal } from 'react-bootstrap';
+import FmsPageItemInModal from 'FmsPageItemInModal';
+import FmsSpin from 'FmsSpin';
+import projectApi from 'ProjectApi';
+import pagesApi from 'PagesApi';
+import socket from 'Socket';
 
 const PAGE_STATUS = {
   CREATE_PROJECT: 1,
@@ -25,19 +25,24 @@ let INIT_STATE = {
   loadingStatus: ''
 };
 
-let FmsAddProjectModal = React.createClass({
-  getInitialState: function () {
-		return _.clone(INIT_STATE);
-	},
-  open: function () {
-    this.setState({isShown: true});
-  },
-  close: function () {
+class FmsAddProjectModal extends Component {
+  constructor(props) {
+    super(props);
+    this.state = INIT_STATE;
+    this.close = this.close.bind(this);
+    this.requestNewProject = this.requestNewProject.bind(this);
+    this.handleClickOnPageInModal = this.handleClickOnPageInModal.bind(this);
+    this.activePages = this.activePages.bind(this);
+  }
+  open() {
+    this.setState({ isShown: true });
+  }
+  close() {
     // refresh all state
     this.props.updateProjects();
     this.setState(_.clone(INIT_STATE));
-  },
-  requestNewProject: function () {
+  }
+  requestNewProject() {
     let self = this;
     let projectName = this.refs.projectName.value;
 
@@ -69,22 +74,22 @@ let FmsAddProjectModal = React.createClass({
           isSendingRequest: false
         });
       });
-  },
-  updatePages: function () {
+  }
+  updatePages() {
     let self = this;
 
     pagesApi.getPages()
       .then(pages => {
-        self.setState({pages});
+        self.setState({ pages });
       })
       .catch(err => {
         alert(err.message);
       })
-  },
+  }
   // addPageToProject: function (projectAlias, page_id) {
   //   return projectApi.addPage(projectAlias, page_id);
   // },
-  renderCreateNewProject: function () {
+  renderCreateNewProject() {
     let self = this;
     let disabled = this.state.isSendingRequest;
 
@@ -105,8 +110,8 @@ let FmsAddProjectModal = React.createClass({
         </Modal.Footer>
       </div>
     )
-  },
-  handleClickOnPageInModal: function (isSelected, page_fb_id) {
+  }
+  handleClickOnPageInModal(isSelected, page_fb_id) {
     let selectedPages = this.state.selectedPages;
     let pages = this.state.pages;
     if (isSelected) {
@@ -122,9 +127,9 @@ let FmsAddProjectModal = React.createClass({
       })
     }
 
-    this.setState({selectedPages: selectedPages});
-  },
-  renderPageItems: function () {
+    this.setState({ selectedPages: selectedPages });
+  }
+  renderPageItems() {
     let self = this;
     let pages = this.state.pages;
 
@@ -139,7 +144,7 @@ let FmsAddProjectModal = React.createClass({
 
         return (
           <FmsPageItemInModal data={page} key={page.fb_id}
-            onPageClick={self.handleClickOnPageInModal} isSelected={isSelected} canSelect={canSelect}/>
+            onPageClick={self.handleClickOnPageInModal} isSelected={isSelected} canSelect={canSelect} />
         )
       })
     } else {
@@ -147,15 +152,15 @@ let FmsAddProjectModal = React.createClass({
         <div>Bạn không có page nào!</div>
       )
     }
-  },
-  activePages: function () {
+  }
+  activePages() {
     let self = this;
     let project = this.state.project;
     let selectedPages = this.state.selectedPages;
 
     if (!selectedPages || !Array.isArray(selectedPages) || selectedPages.length == 0) return;
 
-    this.setState({isSendingRequest: true});
+    this.setState({ isSendingRequest: true });
 
     console.log('selectedPages', selectedPages);
     //alert(`Lỗi ${res.code}: ` + res.msg);
@@ -173,7 +178,7 @@ let FmsAddProjectModal = React.createClass({
         .then(() => {
           if (index == arr.length - 1) {
             console.log('index ', index);
-            this.setState({isSendingRequest: false});
+            this.setState({ isSendingRequest: false });
             if (error) alert(error);
 
             self.close();
@@ -181,73 +186,73 @@ let FmsAddProjectModal = React.createClass({
         });
     }, Promise.resolve());
 
-  },
-  activePage: function (page) {
+  }
+  activePage(page) {
     let self = this;
-		if (!page) return;
+    if (!page) return;
 
     return new Promise((resolve, reject) => {
       let onUpdate = (data) => {
-  			console.log('onUpdate', data);
+        console.log('onUpdate', data);
 
-  			let updateStatus = (status, i) => {
-  				const TIME_DELAY = 300; // miliseconds
+        let updateStatus = (status, i) => {
+          const TIME_DELAY = 300; // miliseconds
 
-  				setTimeout(() => {
-  					self.setState({loadingStatus : status});
-  				}, i * TIME_DELAY);
-  			}
+          setTimeout(() => {
+            self.setState({ loadingStatus: status });
+          }, i * TIME_DELAY);
+        }
 
-  			switch(data.type) {
-  				case 'inbox':
-  					let users = data.items;
+        switch (data.type) {
+          case 'inbox':
+            let users = data.items;
 
-  					users.forEach((user, index) => {
-  						let _loadingStatus = 'Lấy hội thoại người dùng: ' + user;
-  						updateStatus(_loadingStatus, index);
-  					});
+            users.forEach((user, index) => {
+              let _loadingStatus = 'Lấy hội thoại người dùng: ' + user;
+              updateStatus(_loadingStatus, index);
+            });
 
-  					break;
-  				case 'post':
-  					let titles = data.items;
+            break;
+          case 'post':
+            let titles = data.items;
 
-  					titles.map(title => {
-  						if (!title) return '';
-  						return (title.length > 39) ? (title.substring(0, 37) + '...') : title;
-  					})
-  					.forEach((title, index) => {
-  						let _loadingStatus = 'Lấy nội dung bài đăng: ' + title;
-  						updateStatus(_loadingStatus, index);
-  					});
-  					break;
-  			}
-  		};
+            titles.map(title => {
+              if (!title) return '';
+              return (title.length > 39) ? (title.substring(0, 37) + '...') : title;
+            })
+              .forEach((title, index) => {
+                let _loadingStatus = 'Lấy nội dung bài đăng: ' + title;
+                updateStatus(_loadingStatus, index);
+              });
+            break;
+        }
+      };
 
-  		let onDone = (err, res) => {
-  			console.log('onDone', res);
-  			if (err) {
+      let onDone = (err, res) => {
+        console.log('onDone', res);
+        if (err) {
           reject(new Error(`Lỗi ${res.code}: ` + res.msg));
-  			} else {
+        } else {
           resolve();
         }
 
-  			// self.props.updatePages();
-  			// self.close();
-  		};
+        // self.props.updatePages();
+        // self.close();
+      };
 
-  		socket.activePage({
-  			page_fb_id: page.fb_id,
-  			onUpdate,
-  			onDone
-  		});
+      socket.activePage({
+        page_fb_id: page.fb_id,
+        onUpdate,
+        onDone
+      });
     });
-  },
-  renderActivePages: function () {
+  }
+  renderActivePages() {
     let self = this;
     let disabled = this.state.isSendingRequest;
     let selectedPages = this.state.selectedPages;
     let loadingStatus = '' + (this.state.loadingStatus || '');
-		let statusHidden = this.state.isSendingRequest ? ' ' : ' fms-hidden';
+    let statusHidden = this.state.isSendingRequest ? ' ' : ' fms-hidden';
 
     return (
       <div className="add-project-modal">
@@ -271,8 +276,8 @@ let FmsAddProjectModal = React.createClass({
         </Modal.Footer>
       </div>
     )
-  },
-  renderBodyModal: function () {
+  }
+  renderBodyModal() {
     let self = this;
     let pageStatus = this.state.pageStatus;
 
@@ -281,8 +286,8 @@ let FmsAddProjectModal = React.createClass({
     } else if (pageStatus == PAGE_STATUS.ACTIVE_PAGE) {
       return self.renderActivePages();
     }
-  },
-  render: function() {
+  }
+  render() {
     let self = this;
 
     return (
@@ -291,6 +296,6 @@ let FmsAddProjectModal = React.createClass({
       </Modal>
     );
   }
-});
+}
 
 module.exports = FmsAddProjectModal;

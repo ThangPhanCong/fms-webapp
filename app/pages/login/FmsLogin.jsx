@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import {Redirect, Route} from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import store from 'store';
 import 'url-search-params-polyfill';
 
@@ -11,13 +11,14 @@ import tokenApi from 'TokenApi';
 import socket from 'Socket';
 import config from 'CONFIG';
 
-let FmsLogin =  React.createClass({
-  getInitialState: function () {
-    return {
+class FmsLogin extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       isLoading: true
     }
-  },
-  componentDidMount: function () {
+  }
+  componentDidMount() {
     let self = this;
 
     const search = self.props.location.search;
@@ -37,13 +38,13 @@ let FmsLogin =  React.createClass({
           store.clearAll('jwt');
         })
         .then(() => {
-          self.setState({isLoading: false});
+          self.setState({ isLoading: false });
         })
     } else {
       FmsAuthen.login();
     }
-  },
-  render: function() {
+  }
+  render() {
     let self = this;
 
     if (self.state.isLoading) {
@@ -56,12 +57,12 @@ let FmsLogin =  React.createClass({
       )
     } else {
       if (FmsAuthen.isAuthenticated) {
-        return <Redirect to='/projects'/>
+        return <Redirect to='/projects' />
       } else {
-        return <Redirect to='/'/>
+        return <Redirect to='/' />
       }
     }
   }
-});
+}
 
 module.exports = FmsLogin;

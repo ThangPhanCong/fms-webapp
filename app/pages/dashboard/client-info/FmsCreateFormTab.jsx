@@ -1,28 +1,28 @@
 'use strict';
 
-const React = require('react');
+import React from 'react';
 
-let FmsCreateFormTab = React.createClass({
-  render: function() {
+class FmsCreateFormTab extends React.Component {
+  render() {
     return (
       <div className="create-form-tab">
         <form>
           <div className="form-in-tab">
             <i className="glyphicon glyphicon-user icon-in-tabform"></i>
-            <input type="text" className="input-in-tab" placeholder="Tên"/>
+            <input type="text" className="input-in-tab" placeholder="Tên" />
           </div>
           <div className="form-in-tab">
             <i className="glyphicon glyphicon-phone icon-in-tabform"></i>
-            <input type="text" className="input-in-tab" placeholder="Số điện thoại"/>
+            <input type="text" className="input-in-tab" placeholder="Số điện thoại" />
           </div>
           <div className="form-in-tab">
             <i className="glyphicon glyphicon-home icon-in-tabform"></i>
-            <input type="text" className="input-in-tab" placeholder="Địa chỉ"/>
+            <input type="text" className="input-in-tab" placeholder="Địa chỉ" />
           </div>
         </form>
       </div>
     )
   }
-});
+}
 
 module.exports = FmsCreateFormTab;

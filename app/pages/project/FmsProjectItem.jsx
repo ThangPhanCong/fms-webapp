@@ -1,13 +1,17 @@
 'use strict';
 
-const React = require('react');
-const {browserHistory} = require('react-router');
-const uuid = require('uuid');
+import React from 'react';
+import { browserHistory } from 'react-router';
+import uuid from 'uuid';
 
 import projectApi from 'ProjectApi';
 
-let FmsProjectItem = React.createClass({
-  renderPageItem: function () {
+class FmsProjectItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.deleteProjectClick = this.deleteProjectClick.bind(this);
+  }
+  renderPageItem() {
     let self = this;
     let project = this.props.data;
     let pages = project.pages;
@@ -17,13 +21,13 @@ let FmsProjectItem = React.createClass({
       let pageComponents = pages.filter((item, index) => {
         return index <= MAX_ITEM;
       })
-      .map(page => {
-        let pageAva = `https://graph.facebook.com/v2.10/${page.fb_id}/picture`;
+        .map(page => {
+          let pageAva = `https://graph.facebook.com/v2.10/${page.fb_id}/picture`;
 
-        return (
-          <img key={page.fb_id} src={pageAva}></img>
-        )
-      });
+          return (
+            <img key={page.fb_id} src={pageAva}></img>
+          )
+        });
 
       if (pages.length > MAX_ITEM) {
         let moreText = '+' + (pages.length - MAX_ITEM);
@@ -34,16 +38,16 @@ let FmsProjectItem = React.createClass({
     } else {
       return <div></div>
     }
-  },
-  deleteProjectClick: function (e) {
+  }
+  deleteProjectClick(e) {
     e.preventDefault();
     e.stopPropagation();
     let self = this;
     let projectAlias = this.props.data.alias;
 
     self.props.handleDeleteProject(projectAlias);
-  },
-  render: function() {
+  }
+  render() {
     let self = this;
     let project = this.props.data;
     let projectName = project.name;
@@ -63,6 +67,6 @@ let FmsProjectItem = React.createClass({
       </div>
     );
   }
-});
+}
 
 module.exports = FmsProjectItem;
