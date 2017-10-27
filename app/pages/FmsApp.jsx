@@ -136,4 +136,4 @@ class FmsApp extends Component {
   }
 }
 
-export default FmsApp;
+export default connect()(FmsApp);
