@@ -21,11 +21,8 @@ export const verifyAccessToken = (access_token) => (dispatch, getState) => {
   if (!access_token) {
     access_token = store.get('jwt');
   } else {
-    console.log('access_token', access_token);
-    // store.set('jwt', access_token);
+    store.set('jwt', access_token);
   }
-
-  debugger;
 
   dispatch({type: VERIFY_ACCESS_TOKEN_LOADING});
 

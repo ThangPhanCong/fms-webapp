@@ -1,34 +1,21 @@
 import React from 'react';
-import {Link, NavLink, Redirect, Route, Switch} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {Link, NavLink, Redirect, Route, Switch, withRouter} from 'react-router-dom';
 import * as store from '../helpers/storage';
 import uuid from 'uuid';
 import { Image, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
 import projectApi from '../api/ProjectApi';
+import {logOut} from '../actions/auth';
 import cvImg from '../images/ic_conversation.png';
 import settingsImg from '../images/ic_settings.png';
 import postsImg from '../images/ic_posts.png';
 
 class FmsNavigation extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      projects: []
-    }
-    this.onLogin = this.onLogin.bind(this);
-    this.onLogout = this.onLogout.bind(this);
-    this.renderProjectItems = this.renderProjectItems.bind(this);
-    this.renderSelectProjects = this.renderSelectProjects.bind(this);
-  }
 
-  componentDidMount() {
-    let self = this;
-    let jwt = store.get('jwt');
-
-    if (jwt) {
-      projectApi.getAllProject()
-        .then(projects => self.setState({ projects }))
-    }
+  onLogoutBtnClick() {
+    const {dispatch} = this.props;
+    dispatch(logOut());
   }
 
   renderProjectItems(projects) {
@@ -49,12 +36,12 @@ class FmsNavigation extends React.Component {
     let projectSelected = projects.find(p => p.alias == alias)
     let nameProjectSelected = projectSelected ? projectSelected.name : '';
   }
-  
+
   render() {
     let self = this;
-    let jwt = store.get('jwt');
 
-    let user = store.get('user');
+    const {isAuthenticated, user} = this.props;
+
     let userId = user ? user.fb_id : '';
     let username = user ? user.name : '';
 
@@ -64,10 +51,6 @@ class FmsNavigation extends React.Component {
 
     return (
       <Switch>
-        <Route path='/login' children={({ match }) => (
-          <div></div>
-        )} />
-
         <Route children={({ match }) => (
           <div id="fms-nav">
             <Navbar inverse fixedTop fluid>
@@ -103,14 +86,14 @@ class FmsNavigation extends React.Component {
 
                 <Nav pullRight className="nav-user">
                   {
-                    jwt ?
+                    isAuthenticated ?
                       <NavItem>
                         <Image src={avaUser} circle></Image>
                       </NavItem> : null
                   }
-                  {jwt ?
+                  { isAuthenticated ?
                     <NavDropdown id="log-out-dropdown" title="">
-                      <MenuItem onClick={self.onLogout}>Đăng xuất</MenuItem>
+                      <MenuItem onClick={self.onLogoutBtnClick.bind(this)}>Đăng xuất</MenuItem>
                     </NavDropdown>
                     : null
                     // <li><Link to='/login'>Đăng nhập</Link></li>
@@ -137,4 +120,12 @@ class FmsNavigation extends React.Component {
   }
 }
 
-module.exports = FmsNavigation;
+const mapStateToProps = state => {
+  return {
+    projects: state.projects,
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(FmsNavigation));
