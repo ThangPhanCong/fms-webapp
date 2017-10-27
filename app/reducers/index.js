@@ -1,11 +1,8 @@
 import * as redux from 'redux';
 import auth from './auth';
 
-const testReducer = (state = {}, action) => {
-  return state;
-}
-
-const reducer = redux.combineReducers({
-  testReducer
+const reducers = redux.combineReducers({
+  auth
 });
-export default reducer;
+
+export default reducers;

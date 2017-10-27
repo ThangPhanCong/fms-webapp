@@ -8,17 +8,16 @@ import uuid from 'uuid';
 import FmsHome from 'FmsHome';
 import FmsProject from 'FmsProject';
 import FmsDashboard from 'FmsDashboard';
-import FmsLogin from 'FmsLogin';
 import FmsNavigation from 'FmsNavigation';
 import FmsPosts from 'FmsPosts';
 import FmsSettings from 'FmsSettings';
 import FmsLoading from 'FmsLoading';
 import FmsRoute from 'FmsRoute';
-import FmsAuthen from 'FmsAuthen';
 import tokenApi from 'TokenApi';
 import * as socket from '../socket';
 import {ALERT_TIME_DISMIS} from '../constants/utils';
 import config from 'CONFIG';
+import {logIn, verifyAccessToken} from '../actions/auth';
 
 class FmsApp extends Component {
   constructor(props) {
@@ -31,26 +30,14 @@ class FmsApp extends Component {
   }
 
   componentDidMount() {
-    let self = this;
-    let jwt = store.get('jwt');
-    if (jwt) {
-      tokenApi.verifyAccessToken(jwt)
-        .then(userData => {
-          socket.connect(config.BASE_URL, jwt);
-          FmsAuthen.isAuthenticated = true;
-        })
-        .catch(err => {
-          FmsAuthen.clean();
-          FmsAuthen.isAuthenticated = false;
-        })
-        .then(() => {
-          self.setState({ isLoading: false });
-        })
-    } else {
-      FmsAuthen.clean();
-      FmsAuthen.isAuthenticated = false;
-      self.setState({ isLoading: false });
-    }
+    const {dispatch} = this.props;
+
+    const search = this.props.location.search;
+    const params = new URLSearchParams(search);
+    const access_token = params.get('access_token');
+
+    debugger;
+    dispatch(verifyAccessToken(access_token));
   }
 
   noti(type, message) {
@@ -99,23 +86,24 @@ class FmsApp extends Component {
   render() {
     let self = this;
 
-    if (self.state.isLoading) {
+    const {isLoading, isAuthenticated} = this.props;
+
+    if (isLoading) {
       return (
         <FmsLoading />
       )
     } else {
-      if (FmsAuthen.isAuthenticated) {
+      if (isAuthenticated) {
         return (
           <div>
             {self.renderAlerts()}
             <FmsNavigation />
             <Switch>
-              <FmsRoute exact path="/" component={FmsHome} noti={self.noti.bind(this)}/>
               <FmsRoute exact path="/projects" component={FmsProject} noti={self.noti.bind(this)} />
               <FmsRoute exact path="/projects/:project_alias" component={FmsDashboard} noti={self.noti.bind(this)} />
               <FmsRoute path="/projects/:project_alias/posts" component={FmsPosts} noti={self.noti.bind(this)} />
               <FmsRoute path="/projects/:project_alias/settings" component={FmsSettings} noti={self.noti.bind(this)} />
-              <FmsRoute path="/login" component={FmsLogin} noti={self.noti.bind(this)}/>
+              <Redirect to="/projects"/>
             </Switch>
           </div>
         )
@@ -123,7 +111,6 @@ class FmsApp extends Component {
         return (
           <Switch>
             <FmsRoute exact path="/" component={FmsHome} noti={self.noti.bind(this)}/>
-            <FmsRoute path="/login" component={FmsLogin} noti={self.noti.bind(this)}/>
             <Redirect to="/"/>
           </Switch>
         )
@@ -132,4 +119,12 @@ class FmsApp extends Component {
   }
 }
 
-export default connect()(FmsApp);
+const mapStateToProps = (state) => {
+  return {
+    isLoading: state.auth.isLoading,
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(FmsApp));

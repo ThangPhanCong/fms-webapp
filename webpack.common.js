@@ -4,7 +4,7 @@ const path = require('path');
 let configPath;
 
 const indexHtml = path.join(__dirname, 'app', 'index.html');
-const appJs = path.join(__dirname, 'app', 'app.jsx');
+const appJs = path.join(__dirname, 'app', 'index.js');
 
 if (process.env.NODE_ENV === 'production') {
   configPath = path.resolve(__dirname, 'config-prod.json');
