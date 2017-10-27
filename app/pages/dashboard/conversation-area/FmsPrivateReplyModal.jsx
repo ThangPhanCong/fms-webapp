@@ -3,7 +3,7 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 
-import DashboardAPI from 'DashboardApi';
+import DashboardAPI from '../../../api/DashboardApi';
 
 class FmsPrivateReplyModal extends React.Component {
 	constructor(props) {

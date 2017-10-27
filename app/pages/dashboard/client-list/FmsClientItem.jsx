@@ -1,8 +1,8 @@
 
 
 import React from 'react';
-import inboxImg from 'inbox.png';
-import postImg from 'post.png';
+import inboxImg from '../../../images/inbox.png';
+import postImg from '../../../images/post.png';
 import { Image } from 'react-bootstrap';
 import uuid from 'uuid';
 

@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import FmsToolTip from 'FmsToolTip';
+import FmsToolTip from '../../../components/FmsToolTip';
 
 class FmsFilterTags extends React.Component {
 	constructor(props) {

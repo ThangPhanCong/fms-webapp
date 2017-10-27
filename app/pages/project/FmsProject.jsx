@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import FmsProjectItem from 'FmsProjectItem';
-import FmsAddProjectModal from 'FmsAddProjectModal';
-import projectApi from 'ProjectApi';
+import FmsProjectItem from './FmsProjectItem';
+import FmsAddProjectModal from './FmsAddProjectModal';
+import projectApi from '../../api/ProjectApi';
 
 class FmsProject extends React.Component {
   constructor(props) {

@@ -3,9 +3,9 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
-import FmsActivePageModal from 'FmsActivePageModal';
-import FmsPageItem from 'FmsPageItem';
-import PagesAPI from 'PagesApi';
+import FmsActivePageModal from './FmsActivePageModal';
+import FmsPageItem from './FmsPageItem';
+import PagesAPI from '../../api/PagesApi';
 
 class FmsPageList extends React.Component {
   constructor(props) {

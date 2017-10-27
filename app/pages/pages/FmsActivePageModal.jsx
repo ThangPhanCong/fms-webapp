@@ -1,9 +1,9 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 
-import FmsPageItemInModal from 'FmsPageItemInModal';
-import PagesAPI from 'PagesApi';
-import FmsSpin from 'FmsSpin';
+import FmsPageItemInModal from '../project/FmsPageItemInModal';
+import PagesAPI from '../../api/PagesApi';
+import FmsSpin from '../components/FmsSpin';
 import * as socket from '../../socket';
 
 class FmsActivePageModal extends React.Component {

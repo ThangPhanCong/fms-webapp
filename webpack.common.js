@@ -24,25 +24,6 @@ module.exports = {
   },
 
   resolve: {
-    modules: [
-      'node_modules',
-      'app',
-      'app/api',
-      'app/pages',
-      'app/images',
-      'app/socket',
-      'app/pages/home',
-      'app/components',
-      'app/pages/pages',
-      'app/pages/login',
-      'app/pages/posts',
-      'app/pages/project',
-      'app/pages/settings',
-      'app/pages/dashboard',
-      'app/pages/dashboard/client-info',
-      'app/pages/dashboard/client-list',
-      'app/pages/dashboard/conversation-area'
-    ],
     alias: {
       bootstrapJs: path.resolve(__dirname, 'node_modules/bootstrap/dist/js/bootstrap.min.js'),
       CONFIG: configPath

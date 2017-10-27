@@ -1,7 +1,7 @@
 import * as redux from 'redux';
 import thunk from 'redux-thunk';
 
-import reducers from 'reducers';
+import reducers from '../reducers/index';
 
 export const configure = (initialState = {}) => {
   const store = redux.createStore(reducers, initialState, redux.compose(

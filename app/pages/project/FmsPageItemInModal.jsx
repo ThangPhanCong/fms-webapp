@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import tickImg from 'tick.png';
+import tickImg from '../../images/tick.png';
 
 class FmsPageItemInModal extends React.Component {
   constructor(props) {

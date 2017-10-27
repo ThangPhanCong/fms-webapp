@@ -5,10 +5,10 @@ import { Route } from 'react-router-dom';
 import uuid from 'uuid';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 
-import FmsPostItem from 'FmsPostItem';
-import postApi from 'PostsApi';
-import dashboardApi from 'DashboardApi';
-import projectApi from 'ProjectApi';
+import FmsPostItem from './FmsPostItem';
+import postApi from '../../api/PostsApi';
+import dashboardApi from '../../api/DashboardApi';
+import projectApi from '../../api/ProjectApi';
 
 class FmsPosts extends React.Component {
   constructor(props) {

@@ -4,13 +4,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import uuid from 'uuid';
 
-import FmsMessageItem from 'FmsMessageItem';
-import FmsMessageForm from 'FmsMessageForm';
-import FmsInfoChat from 'FmsInfoChat';
-import FmsSpin from 'FmsSpin';
-import DashboardAPI from 'DashboardApi';
-import FmsPostInfoConversation from 'FmsPostInfoConversation';
-import FmsTagsBar from 'FmsTagsBar';
+import FmsMessageItem from './FmsMessageItem';
+import FmsMessageForm from './FmsMessageForm';
+import FmsInfoChat from './FmsInfoChat';
+import FmsSpin from '../../../components/FmsSpin';
+import DashboardAPI from '../../../api/DashboardApi';
+import FmsPostInfoConversation from './FmsPostInfoConversation';
+import FmsTagsBar from './FmsTagsBar';
 
 let lastScrollPosition;
 let lastLength = 0;

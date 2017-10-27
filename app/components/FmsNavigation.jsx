@@ -4,10 +4,10 @@ import * as store from '../helpers/storage';
 import uuid from 'uuid';
 import { Image, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
-import projectApi from 'ProjectApi';
-import cvImg from 'ic_conversation.png';
-import settingsImg from 'ic_settings.png';
-import postsImg from 'ic_posts.png';
+import projectApi from '../api/ProjectApi';
+import cvImg from '../images/ic_conversation.png';
+import settingsImg from '../images/ic_settings.png';
+import postsImg from '../images/ic_posts.png';
 
 class FmsNavigation extends React.Component {
   constructor(props) {

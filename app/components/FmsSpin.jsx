@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import spinnerImg from 'spinner.png';
+import spinnerImg from '../images/spinner.png';
 
 class FmsSpin extends React.Component {
 	render() {

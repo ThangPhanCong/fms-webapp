@@ -2,11 +2,11 @@
 
 import React from 'react';
 
-import attachImg from 'attachment.png';
-import sendImg from 'send.png';
+import attachImg from '../../../images/attachment.png';
+import sendImg from '../../../images/send.png';
 
-import fileApi from 'FileApi';
-import dashboardApi from 'DashboardApi';
+import fileApi from '../../../api/FileApi';
+import dashboardApi from '../../../api/DashboardApi';
 
 class FmsMessageForm extends React.Component {
   constructor(props) {

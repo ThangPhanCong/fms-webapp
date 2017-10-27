@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 
 import { Modal } from 'react-bootstrap';
-import FmsPageItemInModal from 'FmsPageItemInModal';
-import FmsSpin from 'FmsSpin';
-import projectApi from 'ProjectApi';
-import pagesApi from 'PagesApi';
+import FmsPageItemInModal from './FmsPageItemInModal';
+import FmsSpin from '../../components/FmsSpin';
+import projectApi from '../../api/ProjectApi';
+import pagesApi from '../../api/PagesApi';
 import * as socket from '../../socket';
 
 const PAGE_STATUS = {

@@ -1,13 +1,13 @@
 import React from 'react';
 
-import DashboardApi from 'DashboardApi';
-import FmsConversationArea from 'FmsConversationArea';
-import FmsClientList from 'FmsClientList';
-import projectApi from 'ProjectApi';
-import PagesApi from 'PagesApi';
-import FmsClientInformation from 'FmsClientInformation';
-import FmsVerticalNav from 'FmsVerticalNav';
-import {filters} from 'FmsFilterConversation';
+import DashboardApi from '../../api/DashboardApi';
+import FmsConversationArea from './conversation-area/FmsConversationArea';
+import FmsClientList from './client-list/FmsClientList';
+import projectApi from '../../api/ProjectApi';
+import PagesApi from '../../api/PagesApi';
+import FmsClientInformation from './client-info/FmsClientInformation';
+import FmsVerticalNav from './FmsVerticalNav';
+import {filters} from './FmsFilterConversation';
 import * as socket from '../../socket';
 
 class FmsDashBoard extends React.Component {

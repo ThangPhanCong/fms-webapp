@@ -4,7 +4,7 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import uuid from 'uuid';
 
-import projectApi from 'ProjectApi';
+import projectApi from '../../api/ProjectApi';
 
 class FmsProjectItem extends React.Component {
   constructor(props) {

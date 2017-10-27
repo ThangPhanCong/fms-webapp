@@ -2,10 +2,10 @@
 
 import React from 'react';
 
-import FmsToolTip from 'FmsToolTip';
-import FmsPrivateReplyModal from 'FmsPrivateReplyModal';
-import DashboardApi from 'DashboardApi';
-import FmsSpin from 'FmsSpin';
+import FmsToolTip from '../../../components/FmsToolTip';
+import FmsPrivateReplyModal from './FmsPrivateReplyModal';
+import DashboardApi from '../../../api/DashboardApi';
+import FmsSpin from '../../../components/FmsSpin';
 
 class FmsTextMessageContent extends React.Component {
   constructor(props) {

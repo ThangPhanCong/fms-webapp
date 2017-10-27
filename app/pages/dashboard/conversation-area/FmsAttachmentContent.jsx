@@ -1,5 +1,5 @@
 import React from 'react';
-import FmsSpin from 'FmsSpin';
+import FmsSpin from '../../../components/FmsSpin';
 
 class FmsAttachmentContent extends React.Component {
   constructor(props) {

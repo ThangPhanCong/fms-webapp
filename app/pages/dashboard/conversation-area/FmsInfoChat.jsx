@@ -3,12 +3,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import blockImg from 'block.png';
-import blockActiveImg from 'block_active.png';
-import fbImgActive from 'facebook_active.png';
+import blockImg from '../../../images/block.png';
+import blockActiveImg from '../../../images/block_active.png';
+import fbImgActive from '../../../images/facebook_active.png';
 
-import FmsToolTip from 'FmsToolTip';
-import blockApi from 'BlockApi';
+import FmsToolTip from '../../../components/FmsToolTip';
+import blockApi from '../../../api/BlockApi';
 
 class FmsInfoChat extends React.Component {
   constructor(props) {

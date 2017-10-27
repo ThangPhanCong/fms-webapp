@@ -1,8 +1,8 @@
 'use strict';
 
 import React from 'react';
-import FmsInformationTab from 'FmsInformationTab';
-import FmsCreateFormTab from 'FmsCreateFormTab';
+import FmsInformationTab from './FmsInformationTab';
+import FmsCreateFormTab from './FmsCreateFormTab';
 import Tabs from 'muicss/lib/react/tabs';
 import Tab from 'muicss/lib/react/tab';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DashboardAPI from 'DashboardApi';
+import DashboardAPI from '../../../api/DashboardApi';
 
 class FmsTagsBar extends React.Component {
   constructor(props) {

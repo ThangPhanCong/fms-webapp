@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import notepadImg from 'notepad.png';
+import notepadImg from '../../../images/notepad.png';
 
 class FmsInformationTab extends React.Component {
   render() {

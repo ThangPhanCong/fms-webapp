@@ -3,12 +3,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import uuid from 'uuid';
-import rightArrowImg from 'right_arrow.png';
-import leftArrowImg from 'left_arrow.png';
+import rightArrowImg from '../../../images/right_arrow.png';
+import leftArrowImg from '../../../images/left_arrow.png';
 
-import FmsAttachmentContent from 'FmsAttachmentContent';
-import FmsTextMessageContent from 'FmsTextMessageContent';
-import DashboardAPI from 'DashboardApi';
+import FmsAttachmentContent from './FmsAttachmentContent';
+import FmsTextMessageContent from './FmsTextMessageContent';
+import DashboardAPI from '../../../api/DashboardApi';
 
 class FmsMessageItem extends React.Component {
 	convertTime(time) {

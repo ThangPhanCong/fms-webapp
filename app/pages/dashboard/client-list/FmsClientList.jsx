@@ -3,11 +3,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import searchImg from 'search.png';
-import FmsClientItem from 'FmsClientItem';
-import DashboardAPI from 'DashboardApi';
-import FmsSpin from 'FmsSpin';
-import FmsFilterTags from 'FmsFilterTags';
+import searchImg from '../../../images/search.png';
+import FmsClientItem from './FmsClientItem';
+import DashboardAPI from '../../../api/DashboardApi';
+import FmsSpin from '../../../components/FmsSpin';
+import FmsFilterTags from './FmsFilterTags';
 
 class FmsClientList extends React.Component {
 	constructor(props) {
