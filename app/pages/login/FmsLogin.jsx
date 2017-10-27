@@ -1,9 +1,7 @@
-'use strict';
-
-import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
-import store from 'store';
-import 'url-search-params-polyfill';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Redirect, Route} from 'react-router-dom';
+import * as store from '../../helpers/storage';
 
 import FmsAuthen from 'FmsAuthen';
 import FmsSpin from 'FmsSpin';
@@ -11,12 +9,13 @@ import tokenApi from 'TokenApi';
 import socket from 'Socket';
 import config from 'CONFIG';
 
-class FmsLogin extends React.Component {
+class FmsLogin extends Component {
   constructor(props) {
-    super(props);
+    super(props)
+
     this.state = {
       isLoading: true
-    }
+    };
   }
   componentDidMount() {
     let self = this;
@@ -35,7 +34,7 @@ class FmsLogin extends React.Component {
         })
         .catch(err => {
           alert(err);
-          store.clearAll('jwt');
+          store.clearAll();
         })
         .then(() => {
           self.setState({ isLoading: false });
@@ -44,6 +43,7 @@ class FmsLogin extends React.Component {
       FmsAuthen.login();
     }
   }
+
   render() {
     let self = this;
 
@@ -65,4 +65,4 @@ class FmsLogin extends React.Component {
   }
 }
 
-module.exports = FmsLogin;
+export default connect()(FmsLogin);

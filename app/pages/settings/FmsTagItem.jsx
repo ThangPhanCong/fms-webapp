@@ -1,4 +1,4 @@
-'use strict';
+
 
 import React from 'react';
 import { Grid, Row, Col, Button, FormGroup, FormControl } from 'react-bootstrap';

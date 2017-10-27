@@ -1,8 +1,9 @@
-'use strict';
+
 
 import React from 'react';
-import { Link, NavLink, Redirect, Route, Switch } from 'react-router-dom';
-import store from 'store';
+
+import {Link, NavLink, Redirect, Route, Switch} from 'react-router-dom';
+import * as store from '../helpers/storage';
 import uuid from 'uuid';
 import { Image, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 

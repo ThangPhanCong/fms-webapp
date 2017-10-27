@@ -1,6 +1,4 @@
-'use strict';
-
-let apiSender = require('ApiSender');
+let apiSender = require('./ApiSender');
 
 module.exports = {
   getS3SigningRequest: (fileName, fileType) => {

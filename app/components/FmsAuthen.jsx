@@ -1,6 +1,6 @@
-'use strict';
 
-import store from 'store';
+
+import * as store from '../helpers/storage';
 import config from 'CONFIG';
 import socket from 'Socket';
 

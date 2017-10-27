@@ -1,8 +1,7 @@
-'use strict';
-
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import store from 'store';
+
+import {Link, Redirect} from 'react-router-dom';
+import * as store from '../../helpers/storage';
 
 import FmsAuthen from 'FmsAuthen';
 

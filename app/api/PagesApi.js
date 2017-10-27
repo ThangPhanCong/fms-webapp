@@ -1,6 +1,4 @@
-'use strict';
-
-let APISender = require('ApiSender');
+let APISender = require('./ApiSender');
 
 module.exports = {
 	getPages: function () {

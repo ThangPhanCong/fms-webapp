@@ -1,6 +1,4 @@
-'use strict';
-
-let apiSender = require('ApiSender');
+let apiSender = require('./ApiSender');
 import uuid from 'uuid';
 
 module.exports = {

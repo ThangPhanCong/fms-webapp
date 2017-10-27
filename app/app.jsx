@@ -1,9 +1,10 @@
-'use strict';
+
 
 import React from 'react';
 import {Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import 'url-search-params-polyfill';
 
 import {configure} from './store/configureStore';
 
