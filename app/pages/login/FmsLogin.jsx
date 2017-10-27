@@ -1,5 +1,3 @@
-
-
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Redirect, Route} from 'react-router-dom';
@@ -8,7 +6,7 @@ import * as store from '../../helpers/storage';
 import FmsAuthen from 'FmsAuthen';
 import FmsSpin from 'FmsSpin';
 import tokenApi from 'TokenApi';
-import socket from 'Socket';
+import * as socket from '../../socket';
 import config from 'CONFIG';
 
 class FmsLogin extends Component {
@@ -68,4 +66,4 @@ class FmsLogin extends Component {
   }
 }
 
-export default connect()(FmsLogin);
+export default FmsLogin;

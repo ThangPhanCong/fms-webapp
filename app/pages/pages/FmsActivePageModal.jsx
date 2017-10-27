@@ -1,12 +1,10 @@
-
-
 const React = require('react');
 const Modal = require('react-bootstrap').Modal;
 
 let FmsPageItemInModal = require('FmsPageItemInModal');
 let PagesAPI = require('PagesApi');
 let FmsSpin = require('FmsSpin');
-let socket = require('Socket');
+import * as socket from '../../socket';
 
 let FmsActivePageModal = React.createClass({
 	getInitialState: function () {

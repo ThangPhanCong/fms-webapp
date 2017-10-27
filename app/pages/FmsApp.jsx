@@ -1,9 +1,7 @@
-
-
-import React from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { AlertList, Alert, AlertContainer } from "react-bs-notifier";
-import {Switch, Route, Redirect} from 'react-router-dom';
+import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
 import * as store from '../helpers/storage';
 import uuid from 'uuid';
 
@@ -18,19 +16,21 @@ import FmsLoading from 'FmsLoading';
 import FmsRoute from 'FmsRoute';
 import FmsAuthen from 'FmsAuthen';
 import tokenApi from 'TokenApi';
-import socket from 'Socket';
-
-import {ALERT_TIME_DISMIS} from 'constant';
+import * as socket from '../socket';
+import {ALERT_TIME_DISMIS} from '../constants/utils';
 import config from 'CONFIG';
 
-let FmsApp = React.createClass({
-  getInitialState: function () {
-    return {
+class FmsApp extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
       alerts: [],
       isLoading: true
-    }
-  },
-  componentDidMount: function () {
+    };
+  }
+
+  componentDidMount() {
     let self = this;
     // self.noti('success', 'Bỏ ẩn bình luận thành công');
     // info, warning, danger, or success.
@@ -55,8 +55,9 @@ let FmsApp = React.createClass({
       FmsAuthen.isAuthenticated = false;
       self.setState({ isLoading: false });
     }
-  },
-  noti: function (type, message) {
+  }
+
+  noti(type, message) {
     let self = this;
 
     let alert = {
@@ -72,16 +73,18 @@ let FmsApp = React.createClass({
     setTimeout(() => {
       self.removeNoti(alert.id);
     }, ALERT_TIME_DISMIS);
-  },
-  removeNoti: function (a_id) {
+  }
+
+  removeNoti(a_id) {
     let self = this;
 
     let alerts = self.state.alerts;
     let filterAlerts = alerts.filter(a => a.id != a_id);
 
     self.setState({alerts: filterAlerts});
-  },
-  renderAlerts: function () {
+  }
+
+  renderAlerts() {
     let self = this;
     let alerts = self.state.alerts;
     let alertItems = alerts.map(alert => {
@@ -95,8 +98,9 @@ let FmsApp = React.createClass({
     		{ alertItems }
     	</AlertContainer>
     )
-  },
-  render: function () {
+  }
+
+  render() {
     let self = this;
 
     if (self.state.isLoading) {
@@ -110,26 +114,26 @@ let FmsApp = React.createClass({
             {self.renderAlerts()}
             <FmsNavigation />
             <Switch>
-              <FmsRoute exact path="/" component={FmsHome} noti={self.noti}/>
-              <FmsRoute exact path="/projects" component={FmsProject} noti={self.noti} />
-              <FmsRoute exact path="/projects/:project_alias" component={FmsDashboard} noti={self.noti} />
-              <FmsRoute path="/projects/:project_alias/posts" component={FmsPosts} noti={self.noti} />
-              <FmsRoute path="/projects/:project_alias/settings" component={FmsSettings} noti={self.noti} />
-              <FmsRoute path="/login" component={FmsLogin} noti={self.noti}/>
+              <FmsRoute exact path="/" component={FmsHome} noti={self.noti.bind(this)}/>
+              <FmsRoute exact path="/projects" component={FmsProject} noti={self.noti.bind(this)} />
+              <FmsRoute exact path="/projects/:project_alias" component={FmsDashboard} noti={self.noti.bind(this)} />
+              <FmsRoute path="/projects/:project_alias/posts" component={FmsPosts} noti={self.noti.bind(this)} />
+              <FmsRoute path="/projects/:project_alias/settings" component={FmsSettings} noti={self.noti.bind(this)} />
+              <FmsRoute path="/login" component={FmsLogin} noti={self.noti.bind(this)}/>
             </Switch>
           </div>
         )
       } else {
         return (
           <Switch>
-            <FmsRoute exact path="/" component={FmsHome} noti={self.noti}/>
-            <FmsRoute path="/login" component={FmsLogin} noti={self.noti}/>
+            <FmsRoute exact path="/" component={FmsHome} noti={self.noti.bind(this)}/>
+            <FmsRoute path="/login" component={FmsLogin} noti={self.noti.bind(this)}/>
             <Redirect to="/"/>
           </Switch>
         )
       }
     }
   }
-});
+}
 
-module.exports = FmsApp;
+export default FmsApp;

@@ -1,8 +1,6 @@
-
-
 import * as store from '../helpers/storage';
 import config from 'CONFIG';
-import socket from 'Socket';
+import * as socket from '../socket';
 
 module.exports = {
 	login: function () {
@@ -11,13 +9,13 @@ module.exports = {
 		window.location = oauthLink;
 	},
 	logout: function () {
-		store.clearAll('jwt');
+		store.clearAll();
 		socket.disconnect();
 
 		window.location = '/'
 	},
 	clean: () => {
-		store.clearAll('jwt');
+		store.clearAll();
 	},
 	isAuthenticated: false
 }

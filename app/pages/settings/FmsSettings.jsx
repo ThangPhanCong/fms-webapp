@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import {Grid, Row, Col, Button, Checkbox} from 'react-bootstrap';
 import uuid from 'uuid';
@@ -7,7 +5,7 @@ import uuid from 'uuid';
 import FmsSettingItem from 'FmsSettingItem';
 import FmsTagItem from 'FmsTagItem';
 import tagApi from 'TagApi';
-import {MAX_TAG_ITEMS} from 'constant';
+import {MAX_TAG_ITEMS} from '../../constants/utils';
 
 const TAG_COLORS = ['#795548', '#30499B', '#844D9E', '#009688', '#88C542', '#F57C00'];
 

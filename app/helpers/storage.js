@@ -1,6 +1,6 @@
 import store from 'store';
 
-const NAME_SPACE = 'com.adsbold';
+const NAME_SPACE = 'com.adsbold.';
 
 export const get = (key) => {
   const realKey = NAME_SPACE + key;

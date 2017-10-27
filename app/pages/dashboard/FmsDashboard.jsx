@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 
 import DashboardApi from 'DashboardApi';
@@ -10,7 +8,7 @@ import PagesApi from 'PagesApi';
 import FmsClientInformation from 'FmsClientInformation';
 import FmsVerticalNav from 'FmsVerticalNav';
 import {filters} from 'FmsFilterConversation';
-import socket from 'Socket';
+import * as socket from '../../socket';
 
 let FmsDashBoard = React.createClass({
 	getInitialState: function () {

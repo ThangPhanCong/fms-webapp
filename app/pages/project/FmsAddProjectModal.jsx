@@ -1,5 +1,3 @@
-
-
 const React = require('react');
 const _ = require('lodash');
 
@@ -8,7 +6,7 @@ const FmsPageItemInModal = require('FmsPageItemInModal');
 const FmsSpin = require('FmsSpin');
 const projectApi = require('ProjectApi');
 const pagesApi = require('PagesApi');
-const socket = require('Socket');
+import * as socket from '../../socket';
 
 const PAGE_STATUS = {
   CREATE_PROJECT: 1,
