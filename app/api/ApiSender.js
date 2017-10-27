@@ -1,9 +1,7 @@
-'use strict';
-
-import store from 'store';
+import * as store from '../helpers/storage';
 import axios from 'axios';
 import config from 'CONFIG';
-import DashboardAPI from 'DashboardApi';
+import DashboardAPI from './DashboardApi';
 
 const BASE_URL = config.BASE_URL;
 

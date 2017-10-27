@@ -1,4 +1,4 @@
-'use strict';
+
 
 const React = require('react');
 import {Grid, Row, Col, Checkbox} from 'react-bootstrap';

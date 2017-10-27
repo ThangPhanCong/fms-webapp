@@ -1,6 +1,4 @@
-'use strict';
-
-const apiSender = require('ApiSender');
+const apiSender = require('./ApiSender');
 
 module.exports = {
   blockCustomer: (page_fb_id, user_fb_id) => {

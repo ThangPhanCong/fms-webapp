@@ -1,10 +1,10 @@
-'use strict';
+
 
 import React from 'react';
 import {connect} from 'react-redux';
 import { AlertList, Alert, AlertContainer } from "react-bs-notifier";
 import {Switch, Route, Redirect} from 'react-router-dom';
-import store from 'store';
+import * as store from '../helpers/storage';
 import uuid from 'uuid';
 
 import FmsHome from 'FmsHome';

@@ -1,9 +1,9 @@
-'use strict';
 
-import React from 'react';
+
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {Redirect, Route} from 'react-router-dom';
-import store from 'store';
-import 'url-search-params-polyfill';
+import * as store from '../../helpers/storage';
 
 import FmsAuthen from 'FmsAuthen';
 import FmsSpin from 'FmsSpin';
@@ -11,13 +11,16 @@ import tokenApi from 'TokenApi';
 import socket from 'Socket';
 import config from 'CONFIG';
 
-let FmsLogin =  React.createClass({
-  getInitialState: function () {
-    return {
+class FmsLogin extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
       isLoading: true
-    }
-  },
-  componentDidMount: function () {
+    };
+  }
+
+  componentDidMount() {
     let self = this;
 
     const search = self.props.location.search;
@@ -34,7 +37,7 @@ let FmsLogin =  React.createClass({
         })
         .catch(err => {
           alert(err);
-          store.clearAll('jwt');
+          store.clearAll();
         })
         .then(() => {
           self.setState({isLoading: false});
@@ -42,8 +45,9 @@ let FmsLogin =  React.createClass({
     } else {
       FmsAuthen.login();
     }
-  },
-  render: function() {
+  }
+
+  render() {
     let self = this;
 
     if (self.state.isLoading) {
@@ -62,6 +66,6 @@ let FmsLogin =  React.createClass({
       }
     }
   }
-});
+}
 
-module.exports = FmsLogin;
+export default connect()(FmsLogin);

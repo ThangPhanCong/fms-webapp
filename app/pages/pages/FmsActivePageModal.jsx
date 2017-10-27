@@ -1,4 +1,4 @@
-'use strict';
+
 
 const React = require('react');
 const Modal = require('react-bootstrap').Modal;
