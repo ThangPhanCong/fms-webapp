@@ -16,7 +16,6 @@ import FmsRoute from '../components/FmsRoute';
 import tokenApi from '../api/TokenApi';
 import * as socket from '../socket';
 import {ALERT_TIME_DISMIS} from '../constants/utils';
-import config from 'CONFIG';
 import {logIn, verifyAccessToken} from '../actions/auth';
 
 class FmsApp extends Component {

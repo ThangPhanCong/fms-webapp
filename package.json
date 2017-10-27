@@ -1,10 +1,10 @@
 {
-  "name": "Fms",
+  "name": "Adsbold",
   "version": "1.0.0",
   "description": "Facebook management suite",
   "scripts": {
-    "dev": "webpack -w --progress --config webpack.dev.js",
-    "build": "webpack --progress --config webpack.dev.js",
+    "dev": "NODE_ENV=dev webpack -w --progress --config webpack.dev.js",
+    "build": "NODE_ENV=dev webpack --progress --config webpack.dev.js",
     "build-prod": "NODE_ENV=production webpack --progress --config webpack.prod.js",
     "deploy": "NODE_ENV=production webpack --progress --config webpack.prod.js && ./script/deploy",
     "prestart": "npm i",
@@ -23,7 +23,6 @@
     "react-bs-notifier": "^4.3.2",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
-    "react-router": "^2.8.1",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",

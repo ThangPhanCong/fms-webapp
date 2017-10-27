@@ -1,9 +1,7 @@
 import * as store from '../helpers/storage';
 import axios from 'axios';
-import config from 'CONFIG';
+import {BASE_URL} from 'CONFIG';
 import DashboardAPI from './DashboardApi';
-
-const BASE_URL = config.BASE_URL;
 
 exports.get = (route, access_token) => {
   let jwt = store.get('jwt');

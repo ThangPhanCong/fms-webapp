@@ -1,4 +1,4 @@
-import config from 'CONFIG';
+import {BASE_URL, REDIRECT_TO} from 'CONFIG';
 import * as store from '../helpers/storage';
 import tokenApi from '../api/TokenApi';
 
@@ -7,7 +7,7 @@ export const VERIFY_ACCESS_TOKEN_LOADED = 'VERIFY_ACCESS_TOKEN_LOADED';
 export const LOG_OUT = 'LOG_OUT';
 
 export const logIn = () => dispatch => {
-  let oauthLink = `${config.BASE_URL}/api/fb/oauth?redirect_to=${config.REDIRECT_TO}`;
+  let oauthLink = `${BASE_URL}/api/fb/oauth?redirect_to=${REDIRECT_TO}`;
 
   window.location = oauthLink;
 }
