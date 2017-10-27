@@ -15,8 +15,7 @@ class FmsNavigation extends React.Component {
     this.state = {
       projects: []
     }
-    this.onLogin = this.onLogin.bind(this);
-    this.onLogout = this.onLogout.bind(this);
+
     this.renderProjectItems = this.renderProjectItems.bind(this);
     this.renderSelectProjects = this.renderSelectProjects.bind(this);
   }
@@ -49,7 +48,7 @@ class FmsNavigation extends React.Component {
     let projectSelected = projects.find(p => p.alias == alias)
     let nameProjectSelected = projectSelected ? projectSelected.name : '';
   }
-  
+
   render() {
     let self = this;
     let jwt = store.get('jwt');

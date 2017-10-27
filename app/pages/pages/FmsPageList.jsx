@@ -1,7 +1,4 @@
-
-
 import React from 'react';
-import { browserHistory } from 'react-router';
 
 import FmsActivePageModal from 'FmsActivePageModal';
 import FmsPageItem from 'FmsPageItem';
@@ -28,7 +25,7 @@ class FmsPageList extends React.Component {
   }
   handleClickOnPage(data) {
     let id = data.fb_id;
-    browserHistory.push('/' + id);
+    // browserHistory.push('/' + id);
   }
   renderPages() {
     let that = this;

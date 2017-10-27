@@ -36,7 +36,6 @@ class FmsApp extends Component {
     const params = new URLSearchParams(search);
     const access_token = params.get('access_token');
 
-    debugger;
     dispatch(verifyAccessToken(access_token));
   }
 
