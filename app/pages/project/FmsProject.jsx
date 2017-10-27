@@ -1,50 +1,23 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
+
 import FmsProjectItem from './FmsProjectItem';
 import FmsAddProjectModal from './FmsAddProjectModal';
-import projectApi from '../../api/ProjectApi';
+import {getProjects} from '../../actions/project';
 
-class FmsProject extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      projects: null
-    }
-    this.updateProjects = this.updateProjects.bind(this);
-    this.handleDeleteProject = this.handleDeleteProject.bind(this);
-    this.openModal = this.openModal.bind(this);
-  }
+class FmsProject extends Component {
+
   componentDidMount() {
-    let self = this;
-    this.updateProjects();
+    const {dispatch} = this.props;
+    dispatch(getProjects());
   }
-  updateProjects() {
-    let self = this;
 
-    projectApi.getAllProject()
-      .then(projects => {
-        self.setState({ projects });
-      })
-      .catch(err => {
-        alert(err.message);
-      })
-  }
-  handleDeleteProject(alias) {
-    let self = this;
-
-    projectApi.deleteProject(alias)
-      .then(() => {
-        self.updateProjects();
-      })
-      .catch(err => {
-        alert(err);
-      })
-  }
   renderPageItems() {
     let self = this;
-    let projects = this.state.projects;
+    let {projects} = this.props;
 
-    if (projects && Array.isArray(projects) && projects.length > 0) {
+    if (projects.length > 0) {
       return projects.map(project => {
         return (
           <Link key={project.alias} to={self.props.match.path + '/' + project.alias}>
@@ -59,9 +32,11 @@ class FmsProject extends React.Component {
       )
     }
   }
+
   openModal() {
     this._child.open();
   }
+
   render() {
     let self = this;
 
@@ -75,7 +50,9 @@ class FmsProject extends React.Component {
           </div>
 
           <div className="row">
-            {self.renderPageItems()}
+            {
+              self.renderPageItems()
+            }
           </div>
 
           <FmsAddProjectModal ref={(child) => { this._child = child; }}
@@ -86,4 +63,10 @@ class FmsProject extends React.Component {
   }
 }
 
-module.exports = FmsProject;
+const mapStateToProps = state => {
+  return {
+    projects: state.project.projects
+  }
+}
+
+export default connect(mapStateToProps)(FmsProject);

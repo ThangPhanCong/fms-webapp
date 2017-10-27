@@ -19,9 +19,9 @@ export const logOut = () => dispatch => {
 
 export const verifyAccessToken = (access_token) => (dispatch, getState) => {
   if (!access_token) {
-    access_token = store.get('jwt');
+    access_token = store.get('access_token');
   } else {
-    store.set('jwt', access_token);
+    store.set('access_token', access_token);
   }
 
   dispatch({type: VERIFY_ACCESS_TOKEN_LOADING});

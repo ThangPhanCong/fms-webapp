@@ -1,6 +1,8 @@
-import {VERIFY_ACCESS_TOKEN_LOADING,
+import {
+  VERIFY_ACCESS_TOKEN_LOADING,
   VERIFY_ACCESS_TOKEN_LOADED,
-  LOG_OUT} from '../actions/auth';
+  LOG_OUT
+} from '../actions/auth';
 
 const initState = {
   isLoading: true,

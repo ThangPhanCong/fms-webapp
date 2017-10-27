@@ -1,7 +1,7 @@
 let apiSender = require('./ApiSender');
 
 module.exports = {
-	getAllProject: (name) => {
+	getAllProjects: () => {
 		let route = `/api/projects`;
 		return apiSender.get(route);
 	},
