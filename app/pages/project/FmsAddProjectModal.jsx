@@ -45,7 +45,7 @@ class FmsAddProjectModal extends Component {
     let projectName = this.refs.projectName.value;
 
     if (!projectName) {
-      alert('Project name is not allow to empty');
+      alert('Project name is not allow to be empty');
       return;
     }
 
