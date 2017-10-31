@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Facebook management suite",
   "scripts": {
-    "dev": "NODE_ENV=dev webpack -w --progress --config webpack.dev.js",
+    "dev": "webpack -w --progress --config webpack.dev.js",
     "build": "NODE_ENV=dev webpack --progress --config webpack.dev.js",
     "build-prod": "NODE_ENV=production webpack --progress --config webpack.prod.js",
     "deploy": "NODE_ENV=production webpack --progress --config webpack.prod.js && ./script/deploy",
