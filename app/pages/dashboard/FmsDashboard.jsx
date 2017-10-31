@@ -237,7 +237,9 @@ class FmsDashBoard extends React.Component {
 
 		self.postRepMsg(_selectedConversation, msg);
 	}
+
 	updateMsgInConversation(msg) {
+		console.log('updateMsgInConversation', msg);
 		let self = this;
 		if (!msg || !msg.parent || !msg.parent.type) return;
 
@@ -312,13 +314,15 @@ class FmsDashBoard extends React.Component {
 		self.filterConversations();
 		self._child2.scrollToBottom();
 	}
+
 	subscribePageChanges(pages) {
 		let self = this;
 
 		pages.forEach(page => {
-			socket.subscribePageChanges({ page_fb_id: page.fb_id, onUpdateChanges: self.updateMsgInConversation });
+			socket.subscribePageChanges({ page_fb_id: page.fb_id, onUpdateChanges: self.updateMsgInConversation.bind(this) });
 		});
 	}
+
 	updateBlockCustomer(cv, is_blocked) {
 		let self = this;
 
@@ -337,6 +341,7 @@ class FmsDashBoard extends React.Component {
 			});
 		}
 	}
+
 	updateClientTags(tags, conversation_id) {
 		let newConversations = this.state.conversations;
 		newConversations.forEach((convers) => {
@@ -381,21 +386,24 @@ class FmsDashBoard extends React.Component {
 			throw new Error(err);
 		});
 	}
-	render() {
+
+	renderConversation() {
 		let self = this;
 
-		function renderConversation() {
-			if (self.state.selectedConversation) {
-				return <FmsConversationArea ref={(child) => {
-					self._child2 = child;
-				}} currentConversation={self.state.selectedConversation} sendMessage={self.sendMessage}
-					tags={self.state.tags} displayMoreMessages={self.displayMoreMessages} alias={self.props.match.params.project_alias}
-					isLoading={self.state.conversationsIsLoading} updateBlockCustomer={self.updateBlockCustomer}
-					noti={self.props.noti} updateClientTags={self.updateClientTags} />
-			} else {
-				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
-			}
-		};
+		if (self.state.selectedConversation) {
+			return <FmsConversationArea ref={(child) => {
+				self._child2 = child;
+			}} currentConversation={self.state.selectedConversation} sendMessage={self.sendMessage}
+				tags={self.state.tags} displayMoreMessages={self.displayMoreMessages} alias={self.props.match.params.project_alias}
+				isLoading={self.state.conversationsIsLoading} updateBlockCustomer={self.updateBlockCustomer}
+				noti={self.props.noti} updateClientTags={self.updateClientTags} />
+		} else {
+			return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
+		}
+	}
+
+	render() {
+		let self = this;
 
 		return (
 			<div className="dashboard page">
@@ -412,7 +420,7 @@ class FmsDashBoard extends React.Component {
 						filters={this.state.filters} handleFilter={this.handleFilter} />
 				</div>
 				<div className="conversation-area">
-					{renderConversation()}
+					{this.renderConversation()}
 				</div>
 				<div className="client-information-area">
 					<FmsClientInformation />

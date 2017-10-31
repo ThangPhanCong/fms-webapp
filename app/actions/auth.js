@@ -1,5 +1,6 @@
 import {BASE_URL, REDIRECT_TO} from 'CONFIG';
 import * as store from '../helpers/storage';
+import * as socket from '../socket';
 import tokenApi from '../api/TokenApi';
 
 export const VERIFY_ACCESS_TOKEN_LOADING = 'VERIFY_ACCESS_TOKEN_LOADING';
@@ -33,6 +34,8 @@ export const verifyAccessToken = (access_token) => (dispatch, getState) => {
         isAuthenticated: true,
         user: userData
       });
+
+      socket.connect(access_token);
     })
     .catch(err => {
       store.clearAll();

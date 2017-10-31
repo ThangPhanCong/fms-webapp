@@ -1,9 +1,11 @@
 import io from 'socket.io-client';
 import * as event from '../constants/event';
+import {BASE_URL} from 'CONFIG';
 
 let socket = null;
 
 export const subscribePageChanges = ({page_fb_id, onUpdateChanges}) => {
+  console.log('subscribePageChanges', page_fb_id);
   if (socket) {
     socket.emit(event.SUBSCRIBE_PAGE_CHANGES_EVENT, page_fb_id);
     socket.on(event.PAGE_CHANGES_EVENT, onUpdateChanges);
@@ -40,12 +42,12 @@ export const activePage = ({page_fb_id, onUpdate, onDone}) => {
   }
 };
 
-export const connect = (serverUrl, jwt) => {
+export const connect = (access_token) => {
   if (socket) {
     return;
   }
-
-  let query = {access_token: jwt};
+  const serverUrl = BASE_URL;
+  let query = {access_token: access_token};
 	let _socket = io.connect(serverUrl, {query});
 
   _socket.on('connect', () => {
