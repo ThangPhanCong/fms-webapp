@@ -21,6 +21,7 @@ class FmsPosts extends React.Component {
     this.onToggleChange = this.onToggleChange.bind(this);
     this.loadMorePosts = this.loadMorePosts.bind(this);
   }
+
   componentDidMount() {
     let self = this;
     let projectAlias = this.props.match.params.project_alias;
@@ -38,6 +39,7 @@ class FmsPosts extends React.Component {
       }
       )
   }
+
   onToggleChange(fb_post_id) {
     let self = this;
 
@@ -87,6 +89,7 @@ class FmsPosts extends React.Component {
         self.setState({ isLoading: false });
       })
   }
+
   renderPosts() {
     let self = this;
     let posts = this.state.posts;
@@ -99,6 +102,7 @@ class FmsPosts extends React.Component {
       )
     });
   }
+
   render() {
     let self = this;
 
