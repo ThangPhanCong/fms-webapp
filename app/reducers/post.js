@@ -1,26 +1,43 @@
 import {
   POSTS_LOADING,
-  POSTS_LOAD_MORE
+  POSTS_LOADED,
+  MORE_POSTS_LOADING,
+  MORE_POSTS_LOADED
 } from '../actions/post';
 
 const initState = {
   isPostsLoading: true,
   posts: [],
-  next: null
+  paging: {
+    next: null
+  }
 }
 
 const postReducer = (state = initState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case POSTS_LOADING:
       return {
         ...state,
         isPostsLoading: true
       }
-    case POSTS_LOAD_MORE:
+    case POSTS_LOADED:
       return {
         ...state,
+        isPostsLoading: false,
+        posts: action.posts,
+        paging: action.paging
+      }
+    case MORE_POSTS_LOADING:
+      return {
+        ...state,
+        isPostsLoading: true
+      }
+    case MORE_POSTS_LOADED:
+      return {
+        ...state,
+        isPostsLoading: false,
         posts: state.posts.concat(action.posts),
-        next: action.next
+        paging: action.paging
       }
     default:
       return state;

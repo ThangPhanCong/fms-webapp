@@ -15,15 +15,14 @@ class FmsPosts extends React.Component {
   }
 
   onToggleChange(fb_post_id) {
-    let {posts, dispatch, noti} = this.props;
+    const {posts, dispatch, noti} = this.props;
     dispatch(toggleChange(posts, fb_post_id, noti));
   }
 
   loadMorePosts() {
     const {project_alias} = this.props.match.params;
-    const {dispatch} = this.props;
-    const {next} = this.props;
-    dispatch(getPosts(project_alias, next));
+    const {dispatch, paging} = this.props;
+    dispatch(getPosts(project_alias, paging.next));
   }
 
   renderPosts() {
@@ -32,14 +31,14 @@ class FmsPosts extends React.Component {
     return posts.map((post) => {
       return (
         <Col xs={12} sm={6} md={4} key={post.fb_id}>
-          <FmsPostItem data={post} onToggleChange={this.onToggleChange} />
+          <FmsPostItem data={post} onToggleChange={this.onToggleChange.bind(this)} />
         </Col>
       )
     });
   }
 
   render() {
-    const {next, isPostsLoading} = this.props;
+    const {paging, isPostsLoading} = this.props;
 
     return (
       <Grid bsClass="page posts">
@@ -47,7 +46,7 @@ class FmsPosts extends React.Component {
           {this.renderPosts()}
         </Row>
         <div className="loadmore-wrapper">
-          {(next) ? <Button onClick={this.loadMorePosts}>Load more</Button> : null}
+          {(paging) ? <Button onClick={this.loadMorePosts.bind(this)}>Load more</Button> : null}
         </div>
       </Grid>
     );
@@ -57,7 +56,7 @@ const mapStateToProps = state => {
   return {
     isPostsLoading: state.post.isPostsLoading,
     posts: state.post.posts,
-    next: state.post.next
+    paging: state.post.paging
   }
 }
 
