@@ -6,7 +6,8 @@
     "dev": "webpack -w --progress --config webpack.dev.js",
     "build": "NODE_ENV=dev webpack --progress --config webpack.dev.js",
     "build-prod": "NODE_ENV=production webpack --progress --config webpack.prod.js",
-    "deploy": "NODE_ENV=production webpack --progress --config webpack.prod.js && ./script/deploy",
+    "deploy-prod": "NODE_ENV=production webpack --progress --config webpack.prod.js && ./script/deploy-production",
+    "deploy-staging": "NODE_ENV=staging webpack --progress --config webpack.dev.js && ./script/deploy-staging",
     "prestart": "npm i",
     "start": "node server.js"
   },

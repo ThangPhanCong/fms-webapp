@@ -8,6 +8,8 @@ const appJs = path.join(__dirname, 'app', 'index.js');
 
 if (process.env.NODE_ENV === 'production') {
   configPath = path.resolve(__dirname, 'config-prod.json');
+} else if (process.env.NODE_ENV === 'staging') {
+  configPath = path.resolve(__dirname, 'config-staging.json');
 } else {
   configPath = path.resolve(__dirname, 'config.json');
 }
