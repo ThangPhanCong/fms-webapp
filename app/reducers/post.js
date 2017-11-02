@@ -14,7 +14,7 @@ const postReducer = (state = initState, action) => {
     case POSTS_LOADING:
       return {
         ...state,
-        isPostsLoading: !state.isPostsLoading
+        isPostsLoading: true
       }
     case POSTS_LOAD_MORE:
       return {

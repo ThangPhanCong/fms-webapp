@@ -4,6 +4,9 @@ import PostsApi from '../api/PostsApi';
 export const POSTS_LOADING = 'POSTS_LOADIND';
 export const POSTS_LOAD_MORE = 'POSTS_LOAD_MORE';
 
+export const MORE_POSTS_LOADING = 'MORE_POSTS_LOADING';
+export const MORE_POSTS_LOADED = 'MORE_POSTS_LOADED';
+
 export const getPosts = (project_alias, nextPosts) => dispatch => {
   dispatch({type: POSTS_LOADING});
 

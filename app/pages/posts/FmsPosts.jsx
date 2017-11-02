@@ -8,35 +8,26 @@ import FmsPostItem from './FmsPostItem';
 import {getPosts, toggleChange} from '../../actions/post';
 
 class FmsPosts extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.onToggleChange = this.onToggleChange.bind(this);
-    this.loadMorePosts = this.loadMorePosts.bind(this);
-  }
-
   componentDidMount() {
-    let self = this;
-    let projectAlias = this.props.match.params.project_alias;
+    const {project_alias} = this.props.match.params;
     const {dispatch} = this.props;
-    dispatch(getPosts(projectAlias));
+    dispatch(getPosts(project_alias));
   }
 
   onToggleChange(fb_post_id) {
-    let self = this;
-
     let {posts, dispatch, noti} = this.props;
     dispatch(toggleChange(posts, fb_post_id, noti));
   }
+
   loadMorePosts() {
-    let projectAlias = this.props.match.params.project_alias;
+    const {project_alias} = this.props.match.params;
     const {dispatch} = this.props;
     const {next} = this.props;
-    dispatch(getPosts(projectAlias, next));
+    dispatch(getPosts(project_alias, next));
   }
 
   renderPosts() {
-    let {posts} = this.props;
+    const {posts} = this.props;
 
     return posts.map((post) => {
       return (
@@ -48,7 +39,8 @@ class FmsPosts extends React.Component {
   }
 
   render() {
-    let {next,isPostsLoading} = this.props;
+    const {next, isPostsLoading} = this.props;
+
     return (
       <Grid bsClass="page posts">
         <Row>
