@@ -21,7 +21,7 @@ export const projectsLoading = () => dispatch => {
   dispatch({ type: PROJECTS_LOADIND});
 }
 export const projectsLoaded = (projects) => dispatch => {
-  dispatch({ type: PROJECTS_LOADED, projects });
+  dispatch({ type: PROJECTS_LOADED, projects: projects });
 }
 export const openModal = () => dispatch => {
   dispatch({type: OPEN_MODAL});
@@ -60,7 +60,8 @@ export const getProjects = () => dispatch => {
 
   projectApi.getAllProjects()
     .then(projects => {
-      dispatch(projectsLoaded());
+      if (!projects) projects = [];
+      dispatch(projectsLoaded(projects));
     })
 }
 

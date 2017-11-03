@@ -95,9 +95,9 @@ class FmsAddProjectModal extends Component {
   renderBodyModal() {
     let showListPages = this.props.showListPages;
     if (showListPages == true) {
-      return this.renderCreateNewProject();
-    } else {
       return this.renderActivePages();
+    } else {
+      return this.renderCreateNewProject();
     }
   }
   render() {
