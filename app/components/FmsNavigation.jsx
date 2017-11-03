@@ -56,7 +56,7 @@ class FmsNavigation extends React.Component {
             <Navbar inverse fixedTop fluid>
               <Navbar.Header>
                 <Navbar.Brand>
-                  <Link to="/">Fms</Link>
+                  <Link to="/">Adsbold</Link>
                 </Navbar.Brand>
                 <Navbar.Toggle />
               </Navbar.Header>
