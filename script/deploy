@@ -1,9 +1,0 @@
-#!/bin/sh
-
-set -o errexit # Exit on error
-
-ssh -i ./script/server.key ubuntu@54.169.200.71 rm -rf /home/ubuntu/fms/client/
-scp -i ./script/server.key -r ./build ubuntu@54.169.200.71:/home/ubuntu/fms/client/
-
-echo "-----------------------"
-echo "\x1B[32m Deploy success! \x1B[0m"

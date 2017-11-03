@@ -4,6 +4,7 @@ import { AlertList, Alert, AlertContainer } from "react-bs-notifier";
 import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
 import * as store from '../helpers/storage';
 import uuid from 'uuid';
+import propTypes from 'prop-types';
 
 import FmsHome from './home/FmsHome';
 import FmsProject from './project/FmsProject';
@@ -82,8 +83,6 @@ class FmsApp extends Component {
   }
 
   render() {
-    let self = this;
-
     const {isLoading, isAuthenticated} = this.props;
 
     if (isLoading) {
@@ -94,13 +93,13 @@ class FmsApp extends Component {
       if (isAuthenticated) {
         return (
           <div>
-            {self.renderAlerts()}
+            {this.renderAlerts()}
             <FmsNavigation />
             <Switch>
-              <FmsRoute exact path="/projects" component={FmsProject} noti={self.noti.bind(this)} />
-              <FmsRoute exact path="/projects/:project_alias" component={FmsDashboard} noti={self.noti.bind(this)} />
-              <FmsRoute path="/projects/:project_alias/posts" component={FmsPosts} noti={self.noti.bind(this)} />
-              <FmsRoute path="/projects/:project_alias/settings" component={FmsSettings} noti={self.noti.bind(this)} />
+              <FmsRoute exact path="/projects" component={FmsProject} noti={this.noti.bind(this)} />
+              <FmsRoute exact path="/projects/:project_alias" component={FmsDashboard} noti={this.noti.bind(this)} />
+              <FmsRoute path="/projects/:project_alias/posts" component={FmsPosts} noti={this.noti.bind(this)} />
+              <FmsRoute path="/projects/:project_alias/settings" component={FmsSettings} noti={this.noti.bind(this)} />
               <Redirect to="/projects"/>
             </Switch>
           </div>
@@ -108,13 +107,19 @@ class FmsApp extends Component {
       } else {
         return (
           <Switch>
-            <FmsRoute exact path="/" component={FmsHome} noti={self.noti.bind(this)}/>
+            <FmsRoute exact path="/" component={FmsHome} noti={this.noti.bind(this)}/>
             <Redirect to="/"/>
           </Switch>
         )
       }
     }
   }
+}
+
+FmsApp.propTypes = {
+  isLoading: propTypes.bool.isRequired,
+  isAuthenticated: propTypes.bool.isRequired,
+  user: propTypes.object
 }
 
 const mapStateToProps = (state) => {
