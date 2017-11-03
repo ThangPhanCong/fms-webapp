@@ -5,7 +5,6 @@ import {BASE_URL} from 'CONFIG';
 let socket = null;
 
 export const subscribePageChanges = ({page_fb_id, onUpdateChanges}) => {
-  console.log('subscribePageChanges', page_fb_id);
   if (socket) {
     socket.emit(event.SUBSCRIBE_PAGE_CHANGES_EVENT, page_fb_id);
     socket.on(event.PAGE_CHANGES_EVENT, onUpdateChanges);

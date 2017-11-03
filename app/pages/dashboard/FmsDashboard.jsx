@@ -239,7 +239,6 @@ class FmsDashBoard extends React.Component {
 	}
 
 	updateMsgInConversation(msg) {
-		console.log('updateMsgInConversation', msg);
 		let self = this;
 		if (!msg || !msg.parent || !msg.parent.type) return;
 
@@ -312,7 +311,7 @@ class FmsDashBoard extends React.Component {
 
 		self.setState({ conversations: _conversations });
 		self.filterConversations();
-		self._child2.scrollToBottom();
+		if (self._child2) self._child2.scrollToBottom();
 	}
 
 	subscribePageChanges(pages) {
