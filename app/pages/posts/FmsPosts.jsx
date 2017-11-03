@@ -27,14 +27,22 @@ class FmsPosts extends React.Component {
 
   renderPosts() {
     const {posts} = this.props;
-
-    return posts.map((post) => {
+    if(posts.length == 0 ) {
       return (
-        <Col xs={12} sm={6} md={4} key={post.fb_id}>
-          <FmsPostItem data={post} onToggleChange={this.onToggleChange.bind(this)} />
-        </Col>
+        <div className="no-post">
+          <p>Chưa có bài đăng nào</p>
+        </div>
       )
-    });
+    } else {
+      return posts.map((post) => {
+        return (
+          <Col xs={12} sm={6} md={4} key={post.fb_id}>
+            <FmsPostItem data={post} onToggleChange={this.onToggleChange.bind(this)} />
+          </Col>
+        )
+      });
+    }
+
   }
 
   render() {

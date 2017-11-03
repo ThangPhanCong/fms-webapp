@@ -1,5 +1,4 @@
 .posts-wrapper {
-
 }
 
 .post-item-wrapper {
@@ -7,8 +6,10 @@
 
   .post-body {
     padding: 10px;
-    border: 1px solid lightgray;
+    background-color: white;
+    // border: 1px solid lightgray;
     border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
 
     .content {
       height: 100px;
@@ -26,20 +27,49 @@
     }
 
     .image-wrapper {
-      height: 60px;
+      height: 80px;
+      max-height: 80px;
+      overflow-y: auto;
+
+          &::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+          }
+
+          &::-webkit-scrollbar-track {
+          //   background-color: rgba(0, 0, 0, 0.1);
+          //   background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+          }
 
       img {
-        width: 50px;
+        // width: 58px;
         max-height: 80px;
+        max-width: 59px;
         padding-right: 5px;
+        padding-bottom: 5px;
         overflow: hidden;
+        height: 50px;
       }
     }
   }
 }
 
 .posts {
+  background-color: #f1f2f3;
+  padding: 0px 32px;
   .loadmore-wrapper {
     text-align: center;
   }
+}
+
+.no-post {
+  margin: auto;
+  margin-top: 10px;
+  text-align: center;
 }
