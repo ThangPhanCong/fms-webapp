@@ -1,96 +1,29 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
+import { connect } from 'react-redux';
 
 import { Modal } from 'react-bootstrap';
 import FmsPageItemInModal from './FmsPageItemInModal';
 import FmsSpin from '../../components/FmsSpin';
 import projectApi from '../../api/ProjectApi';
 import pagesApi from '../../api/PagesApi';
-import * as socket from '../../socket';
-
-const PAGE_STATUS = {
-  CREATE_PROJECT: 1,
-  ACTIVE_PAGE: 2
-}
-
-let INIT_STATE = {
-  isShown: false,
-  pageStatus: PAGE_STATUS.CREATE_PROJECT,
-  isSendingRequest: false,
-  project: null,
-  pages: null,
-  selectedPages: null,
-  loadingStatus: ''
-};
+import { closeModal, createNewProject, activePages } from '../../actions/project';
 
 class FmsAddProjectModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = INIT_STATE;
-    this.close = this.close.bind(this);
-    this.requestNewProject = this.requestNewProject.bind(this);
-    this.handleClickOnPageInModal = this.handleClickOnPageInModal.bind(this);
-    this.activePages = this.activePages.bind(this);
-  }
-  open() {
-    this.setState({ isShown: true });
-  }
-  close() {
-    // refresh all state
-    this.props.updateProjects();
-    this.setState(_.clone(INIT_STATE));
-  }
   requestNewProject() {
-    let self = this;
-    let projectName = this.refs.projectName.value;
-
-    if (!projectName) {
-      alert('Project name is not allow to be empty');
-      return;
-    }
-
-    this.setState({
-      isSendingRequest: true
-    });
-
-    projectApi.createNewProject(projectName)
-      .then(newProject => {
-        console.log('newProject', newProject);
-
-        self.setState({
-          isSendingRequest: false,
-          pageStatus: PAGE_STATUS.ACTIVE_PAGE,
-          project: newProject
-        });
-
-        self.updatePages();
-      })
-      .catch(err => {
-        alert(err.message);
-
-        self.setState({
-          isSendingRequest: false
-        });
-      });
+    let name = this.refs.projectName.value;
+    const { dispatch } = this.props;
+    dispatch(createNewProject(name));
   }
-  updatePages() {
-    let self = this;
-
-    pagesApi.getPages()
-      .then(pages => {
-        self.setState({ pages });
-      })
-      .catch(err => {
-        alert(err.message);
-      })
+  closeModal() {
+    let { dispatch } = this.props;
+    dispatch(closeModal());
   }
-  // addPageToProject: function (projectAlias, page_id) {
-  //   return projectApi.addPage(projectAlias, page_id);
-  // },
+  activePages() {
+    let { dispatch } = this.props;
+    dispatch(activePages());
+  }
   renderCreateNewProject() {
-    let self = this;
-    let disabled = this.state.isSendingRequest;
-
+    let disabled = this.props.isSendingRequest;
     return (
       <div className="add-project-modal">
         <Modal.Header closeButton={!disabled}>
@@ -104,45 +37,24 @@ class FmsAddProjectModal extends Component {
 
         </Modal.Body>
         <Modal.Footer>
-          <button type="button" className={"btn btn-primary active-btn"} onClick={self.requestNewProject} disabled={disabled}>Create new Project</button>
+          <button type="button" className={"btn btn-primary active-btn"} onClick={this.requestNewProject.bind(this)} disabled={disabled}>Create new Project</button>
         </Modal.Footer>
       </div>
     )
   }
-  handleClickOnPageInModal(isSelected, page_fb_id) {
-    let selectedPages = this.state.selectedPages;
-    let pages = this.state.pages;
-    if (isSelected) {
-      let selectedPage = pages.filter((page) => {
-        return page.fb_id == page_fb_id;
-      }).pop();
-
-      if (!selectedPages) selectedPages = [];
-      selectedPages.push(selectedPage);
-    } else {
-      selectedPages = selectedPages.filter(page => {
-        return page.fb_id != page_fb_id;
-      })
-    }
-
-    this.setState({ selectedPages: selectedPages });
-  }
   renderPageItems() {
     let self = this;
-    let pages = this.state.pages;
+    let { pages, selectedPages, isSendingRequest } = this.props;
 
     if (Array.isArray(pages) && pages.length > 0) {
       return pages.map(page => {
-        // let isSelected = self.state.selectedPage && self.state.selectedPage.fb_id == page.fb_id
-        //   && !self.state.selectedPage;
-        let isSelected = self.state.selectedPages && (self.state.selectedPages.filter(_page => {
+        let isSelected = selectedPages && (selectedPages.filter(_page => {
           return _page.fb_id == page.fb_id;
         }).length > 0);
-        let canSelect = !self.state.isSendingRequest;
+        let canSelect = !isSendingRequest;
 
         return (
-          <FmsPageItemInModal data={page} key={page.fb_id}
-            onPageClick={self.handleClickOnPageInModal} isSelected={isSelected} canSelect={canSelect} />
+          <FmsPageItemInModal data={page} key={page.fb_id} isSelected={isSelected} canSelect={canSelect} />
         )
       })
     } else {
@@ -151,106 +63,12 @@ class FmsAddProjectModal extends Component {
       )
     }
   }
-  activePages() {
-    let self = this;
-    let project = this.state.project;
-    let selectedPages = this.state.selectedPages;
-
-    if (!selectedPages || !Array.isArray(selectedPages) || selectedPages.length == 0) return;
-
-    this.setState({ isSendingRequest: true });
-
-    console.log('selectedPages', selectedPages);
-    //alert(`Lỗi ${res.code}: ` + res.msg);
-    let error;
-    selectedPages.reduce((total, page, index, arr) => {
-      return total.then(() => self.activePage(page))
-        .then(() => {
-          // add page active to project
-          return projectApi.addPage(project.alias, page.fb_id);
-        }, err => {
-          error = err;
-          console.log(err);
-          // TODO: push noti to UI
-        })
-        .then(() => {
-          if (index == arr.length - 1) {
-            console.log('index ', index);
-            this.setState({ isSendingRequest: false });
-            if (error) alert(error);
-
-            self.close();
-          }
-        });
-    }, Promise.resolve());
-
-  }
-  activePage(page) {
-    let self = this;
-    if (!page) return;
-
-    return new Promise((resolve, reject) => {
-      let onUpdate = (data) => {
-        console.log('onUpdate', data);
-
-        let updateStatus = (status, i) => {
-          const TIME_DELAY = 300; // miliseconds
-
-          setTimeout(() => {
-            self.setState({ loadingStatus: status });
-          }, i * TIME_DELAY);
-        }
-
-        switch (data.type) {
-          case 'inbox':
-            let users = data.items;
-
-            users.forEach((user, index) => {
-              let _loadingStatus = 'Lấy hội thoại người dùng: ' + user;
-              updateStatus(_loadingStatus, index);
-            });
-
-            break;
-          case 'post':
-            let titles = data.items;
-
-            titles.map(title => {
-              if (!title) return '';
-              return (title.length > 39) ? (title.substring(0, 37) + '...') : title;
-            })
-              .forEach((title, index) => {
-                let _loadingStatus = 'Lấy nội dung bài đăng: ' + title;
-                updateStatus(_loadingStatus, index);
-              });
-            break;
-        }
-      };
-
-      let onDone = (err, res) => {
-        console.log('onDone', res);
-        if (err) {
-          reject(new Error(`Lỗi ${res.code}: ` + res.msg));
-        } else {
-          resolve();
-        }
-
-        // self.props.updatePages();
-        // self.close();
-      };
-
-      socket.activePage({
-        page_fb_id: page.fb_id,
-        onUpdate,
-        onDone
-      });
-    });
-  }
   renderActivePages() {
-    let self = this;
-    let disabled = this.state.isSendingRequest;
-    let selectedPages = this.state.selectedPages;
-    let loadingStatus = '' + (this.state.loadingStatus || '');
-    let statusHidden = this.state.isSendingRequest ? ' ' : ' fms-hidden';
+    const { dispatch } = this.props;
+    let disabled = this.props.isSendingRequest;
+    let selectedPages = this.props.selectedPages;
+    let loadingStatus = '' + (this.props.loadingStatus || '');
+    let statusHidden = this.props.isSendingRequest ? ' ' : ' fms-hidden';
 
     return (
       <div className="add-project-modal">
@@ -258,7 +76,7 @@ class FmsAddProjectModal extends Component {
           <Modal.Title>Chọn page thêm vào project</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {self.renderPageItems()}
+          {this.renderPageItems()}
         </Modal.Body>
         <Modal.Footer>
           <div className="pagemodal-footer-wrapper">
@@ -267,33 +85,39 @@ class FmsAddProjectModal extends Component {
               <p className="text-status">{loadingStatus}</p>
             </div>
             <button type="button" className={"btn btn-primary active-btn"}
-              disabled={this.state.isDisabled}
               disabled={disabled || !selectedPages || !Array.isArray(selectedPages) || selectedPages.length == 0}
-              onClick={self.activePages}>Active</button>
+              onClick={this.activePages.bind(this)}>Active</button>
           </div>
         </Modal.Footer>
       </div>
     )
   }
   renderBodyModal() {
-    let self = this;
-    let pageStatus = this.state.pageStatus;
-
-    if (pageStatus == PAGE_STATUS.CREATE_PROJECT) {
-      return self.renderCreateNewProject();
-    } else if (pageStatus == PAGE_STATUS.ACTIVE_PAGE) {
-      return self.renderActivePages();
+    let showListPages = this.props.showListPages;
+    if (showListPages == true) {
+      return this.renderCreateNewProject();
+    } else {
+      return this.renderActivePages();
     }
   }
   render() {
-    let self = this;
-
     return (
-      <Modal show={this.state.isShown} onHide={this.close} backdrop='static' keyboard={false} >
-        {self.renderBodyModal()}
+      <Modal show={this.props.modalIsShown} onHide={this.closeModal.bind(this)} backdrop='static' keyboard={false} >
+        {this.renderBodyModal()}
       </Modal>
     );
   }
 }
 
-module.exports = FmsAddProjectModal;
+const mapStateToProps = state => {
+  return {
+    modalIsShown: state.project.modalIsShown,
+    showListPages: state.project.showListPages,
+    isSendingRequest: state.project.isSendingRequest,
+    project: state.project.project,
+    pages: state.project.pages,
+    selectedPages: state.project.selectedPages,
+    loadingStatus: state.project.loadingStatus
+  }
+}
+export default connect(mapStateToProps)(FmsAddProjectModal);
