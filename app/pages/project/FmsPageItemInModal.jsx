@@ -1,15 +1,14 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
 import tickImg from '../../images/tick.png';
+import { clickOnPageInModal } from '../../actions/project';
 
 class FmsPageItemInModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onPageClick = this.onPageClick.bind(this);
-  }
   onPageClick() {
-    if (this.props.canSelect) {
-      this.props.onPageClick(!this.props.isSelected, this.props.data.fb_id);
+    let { canSelect, dispatch, isSelected, data } = this.props;
+    if (canSelect) {
+      dispatch(clickOnPageInModal(!isSelected, data.fb_id));
     }
   }
   renderActiveImg() {
@@ -23,7 +22,7 @@ class FmsPageItemInModal extends React.Component {
     let disabled = (this.props.canSelect) ? "" : " disabled";
 
     return (
-      <div className={"page-item" + disabled} onClick={this.onPageClick}>
+      <div className={"page-item" + disabled} onClick={this.onPageClick.bind(this)}>
         <img src={avaUrl} className="page-profile" />
         <span className="fanpage-title">{this.props.data.name}</span>
         {this.renderActiveImg()}
@@ -32,4 +31,7 @@ class FmsPageItemInModal extends React.Component {
   }
 }
 
-module.exports = FmsPageItemInModal;
+const mapStateToProps = state => {
+  return {}
+}
+export default connect(mapStateToProps)(FmsPageItemInModal);

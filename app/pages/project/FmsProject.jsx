@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import FmsProjectItem from './FmsProjectItem';
 import FmsAddProjectModal from './FmsAddProjectModal';
-import {getProjects} from '../../actions/project';
+import {getProjects, openModal} from '../../actions/project';
 
 class FmsProject extends Component {
 
@@ -15,14 +15,13 @@ class FmsProject extends Component {
 
   renderPageItems() {
     let self = this;
-    let {projects} = this.props;
+    let {projects, dispatch} = this.props;
 
     if (projects.length > 0) {
       return projects.map(project => {
         return (
           <Link key={project.alias} to={self.props.match.path + '/' + project.alias}>
-            <FmsProjectItem data={project}
-              handleDeleteProject={self.handleDeleteProject}></FmsProjectItem>
+            <FmsProjectItem data={project}/>
           </Link>
         )
       })
@@ -34,29 +33,23 @@ class FmsProject extends Component {
   }
 
   openModal() {
-    this._child.open();
+    let { dispatch } = this.props;
+    dispatch(openModal());
   }
 
   render() {
-    let self = this;
-
     return (
       <div className="page container">
         <div className="project-wrapper">
           <div className="row button-project-wrapper">
             <div className="col-md-2">
-              <button className="btn btn-primary" onClick={self.openModal}>Add new project</button>
+              <button className="btn btn-primary" onClick={this.openModal.bind(this)}>Add new project</button>
             </div>
           </div>
-
           <div className="row">
-            {
-              self.renderPageItems()
-            }
+            { this.renderPageItems() }
           </div>
-
-          <FmsAddProjectModal ref={(child) => { this._child = child; }}
-            updateProjects={self.updateProjects} {...self.props}></FmsAddProjectModal>
+          <FmsAddProjectModal />
         </div>
       </div>
     );

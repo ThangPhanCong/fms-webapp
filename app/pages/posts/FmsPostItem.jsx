@@ -4,16 +4,11 @@ import { Image, Checkbox } from 'react-bootstrap';
 import uuid from 'uuid';
 
 class FmsPostItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onToggleChange = this.onToggleChange.bind(this);
-  }
   onToggleChange(checked) {
     this.props.onToggleChange(this.props.data.fb_id);
   }
   renderImgs() {
-    let self = this;
-    let attachments = self.props.data.attachments;
+    let {attachments} = this.props.data;
     if (attachments) {
       let photoAttachment = attachments.find(atm => !!atm.photos);
 
@@ -27,26 +22,24 @@ class FmsPostItem extends React.Component {
     }
   }
   render() {
-    let self = this;
-    let page_id = self.props.data.page_fb_id;
-    let page_name = self.props.data.page_fb_name;
-    let page_ava = `https://graph.facebook.com/v2.10/${page_id}/picture`;
+    let {page_fb_id, page_fb_name, message, hide_comment} = this.props.data;
+    let page_ava = `https://graph.facebook.com/v2.10/${page_fb_id}/picture`;
 
     return (
       <div className="post-item-wrapper">
         <div className="post-body">
-          <p className="content">{this.props.data.message}</p>
+          <p className="content">{message}</p>
           <div className="image-wrapper">
-            {self.renderImgs()}
+            {this.renderImgs()}
           </div>
           <div className="page-info">
             <Image src={page_ava} circle></Image>
-            <span>{page_name}</span>
+            <span>{page_fb_name}</span>
           </div>
           <div>
             <Checkbox type="checkbox"
-              checked={this.props.data.hide_comment}
-              onChange={this.onToggleChange}> Ẩn bình luận</Checkbox>
+              checked={hide_comment}
+              onChange={this.onToggleChange.bind(this)}> Ẩn bình luận</Checkbox>
           </div>
         </div>
       </div>
