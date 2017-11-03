@@ -1,13 +1,14 @@
 import React from 'react';
 
 import DashboardApi from '../../api/DashboardApi';
+import FmsSpin from '../../components/FmsSpin';
 import FmsConversationArea from './conversation-area/FmsConversationArea';
 import FmsClientList from './client-list/FmsClientList';
 import projectApi from '../../api/ProjectApi';
 import PagesApi from '../../api/PagesApi';
 import FmsClientInformation from './client-info/FmsClientInformation';
 import FmsVerticalNav from './FmsVerticalNav';
-import {filters} from './FmsFilterConversation';
+import { filters } from './FmsFilterConversation';
 import * as socket from '../../socket';
 
 class FmsDashBoard extends React.Component {
@@ -20,6 +21,7 @@ class FmsDashBoard extends React.Component {
 			project: null,
 			filters: filters,
 			conversationsIsLoading: false,
+			clientListIsLoading: true,
 			conversationsPaging: null,
 			tags: null,
 			pageid: null
@@ -68,7 +70,7 @@ class FmsDashBoard extends React.Component {
 
 		return item;
 	}
-	updateConversation() {
+	getConversations() {
 		let self = this;
 
 		DashboardApi.getConversations(this.props.match.params.project_alias).then((data) => {
@@ -83,6 +85,7 @@ class FmsDashBoard extends React.Component {
 			self.setState({
 				conversations: _convers,
 				filteredConversations: _convers,
+				clientListIsLoading: false,
 				conversationsPaging: (data.paging && data.paging.next) ? data.paging.next : null
 			});
 		}, function (err) {
@@ -239,7 +242,6 @@ class FmsDashBoard extends React.Component {
 	}
 
 	updateMsgInConversation(msg) {
-		console.log('updateMsgInConversation', msg);
 		let self = this;
 		if (!msg || !msg.parent || !msg.parent.type) return;
 
@@ -312,7 +314,7 @@ class FmsDashBoard extends React.Component {
 
 		self.setState({ conversations: _conversations });
 		self.filterConversations();
-		self._child2.scrollToBottom();
+		if (self._child2) self._child2.scrollToBottom();
 	}
 
 	subscribePageChanges(pages) {
@@ -363,7 +365,7 @@ class FmsDashBoard extends React.Component {
 					let pageid = pages[0].fb_id;
 
 					self.setState({ pageid: pageid });
-					self.updateConversation();
+					self.getConversations();
 					self.subscribePageChanges(pages);
 				}
 			})
@@ -402,6 +404,20 @@ class FmsDashBoard extends React.Component {
 		}
 	}
 
+	renderClientList() {
+		if (this.state.clientListIsLoading == false) {
+			return <FmsClientList ref={(child) => {
+				this._child = child;
+			}} handleClientClick={this.handleClientClick} conversations={this.state.filteredConversations}
+				currentConversation={this.state.selectedConversation} displayMoreConversations={this.displayMoreConversations}
+				allConversations={this.state.conversations} paging={this.state.conversationsPaging}
+				alias={this.props.match.params.project_alias} tags={this.state.tags}
+				filters={this.state.filters} handleFilter={this.handleFilter} />
+		} else {
+			return <div className="client-list-spin" style={{marginTop: 32 + 'px'}}><FmsSpin size={27} /></div>
+		}
+	}
+
 	render() {
 		let self = this;
 
@@ -411,13 +427,7 @@ class FmsDashBoard extends React.Component {
 					<FmsVerticalNav state={this.state.filters} handleFilter={this.handleFilter} />
 				</div>
 				<div className="client-list">
-					<FmsClientList ref={(child) => {
-						this._child = child;
-					}} handleClientClick={this.handleClientClick} conversations={this.state.filteredConversations}
-						currentConversation={this.state.selectedConversation} displayMoreConversations={this.displayMoreConversations}
-						allConversations={this.state.conversations} paging={this.state.conversationsPaging}
-						alias={this.props.match.params.project_alias} tags={this.state.tags}
-						filters={this.state.filters} handleFilter={this.handleFilter} />
+					{this.renderClientList()}
 				</div>
 				<div className="conversation-area">
 					{this.renderConversation()}
