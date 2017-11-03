@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import FmsProjectItem from './FmsProjectItem';
 import FmsAddProjectModal from './FmsAddProjectModal';
-import {getProjects} from '../../actions/project';
+import {getProjects, openModal} from '../../actions/project';
 
 class FmsProject extends Component {
 
