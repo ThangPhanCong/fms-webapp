@@ -16,7 +16,7 @@ pipeline {
           }
       }
 
-      stage('Deploy to staging') {
+      stage('Deploy to production') {
           steps {
 			        sh 'sudo rm -rf /var/www/adsbold/production'
               sh 'sudo cp -R ./build/ /var/www/adsbold/production/'
