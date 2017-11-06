@@ -1,0 +1,26 @@
+pipeline {
+    agent {
+        label 'master'
+    }
+
+    stages {
+      stage('Install Dependencies') {
+          steps {
+              sh 'npm i'
+          }
+      }
+
+      stage('Build') {
+          steps {
+              sh 'npm run build-prod'
+          }
+      }
+
+      stage('Deploy to staging') {
+          steps {
+			        sh 'sudo rm -rf /var/www/adsbold/production'
+              sh 'sudo cp -R ./build/ /var/www/adsbold/production/'
+          }
+      }
+    }
+}
