@@ -50,7 +50,7 @@ class FmsProjectItem extends React.Component {
           </div>
           <div className="panel-body">
             <div className="page-wrapper">{this.renderPageItem()}</div>
-            <button className="btn btn-danger" onClick={this.deleteProjectClick.bind(this)}>Delete</button>
+            <button className="btn btn-danger" onClick={this.deleteProjectClick.bind(this)}>Xóa</button>
           </div>
         </div>
       </div>

@@ -37,7 +37,8 @@ export const completeSendingRequest = () => dispatch => {
   dispatch({ type: COMPLETE_SENDING_REQUEST });
 }
 export const setPages = (pages) => dispatch => {
-  dispatch({ type: SET_PAGES, pages: pages });
+  const sortedPages = pages.sort((page1, page2) => page1.name > page2.name);
+  dispatch({ type: SET_PAGES, pages: sortedPages });
 }
 export const setSelectedPages = (pages) => dispatch => {
   dispatch({ type: SET_SELECTED_PAGES, selectedPages: pages });
@@ -77,7 +78,7 @@ export const updatePages = () => dispatch => {
 
 export const createNewProject = (projectName) => dispatch => {
   if (!projectName) {
-    alert('Project name is not allow to be empty');
+    alert('Tên dự án không được để trống');
     return;
   }
   dispatch(startSendingRequest());

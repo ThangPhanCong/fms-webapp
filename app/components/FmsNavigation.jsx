@@ -93,6 +93,9 @@ class FmsNavigation extends React.Component {
                   }
                   { isAuthenticated ?
                     <NavDropdown id="log-out-dropdown" title="">
+                      <MenuItem header>Đăng nhập:</MenuItem>
+                      <MenuItem header>Nguyễn Tiến Minh</MenuItem>
+                      <MenuItem divider />
                       <MenuItem onClick={self.onLogoutBtnClick.bind(this)}>Đăng xuất</MenuItem>
                     </NavDropdown>
                     : null

@@ -27,7 +27,7 @@ class FmsProject extends Component {
       })
     } else {
       return (
-        <div>Bạn chưa có project nào</div>
+        <div>Bạn chưa có dự án nào</div>
       )
     }
   }
@@ -43,7 +43,7 @@ class FmsProject extends Component {
         <div className="project-wrapper">
           <div className="row button-project-wrapper">
             <div className="col-md-2">
-              <button className="btn btn-primary" onClick={this.openModal.bind(this)}>Add new project</button>
+              <button className="btn btn-primary" onClick={this.openModal.bind(this)}>Tạo dự án mới</button>
             </div>
           </div>
           <div className="row">
