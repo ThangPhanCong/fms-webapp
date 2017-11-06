@@ -7,8 +7,8 @@
     "start": "node server.js",
     "dev": "webpack -w --progress --config config/webpack/webpack.dev.js",
     "build": "webpack --progress --config config/webpack/webpack.dev.js",
-    "build-prod": "webpack --config config/webpack/webpack.prod.js",
-    "build-staging": "webpack --config config/webpack/webpack.staging.js"
+    "build-prod": "NODE_ENV=production webpack --config config/webpack/webpack.prod.js",
+    "build-staging": "NODE_ENV=staging webpack --config config/webpack/webpack.staging.js"
   },
   "author": "Adsbold team",
   "license": "MIT",
