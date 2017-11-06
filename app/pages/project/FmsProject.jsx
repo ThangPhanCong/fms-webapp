@@ -1,27 +1,28 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import FmsProjectItem from './FmsProjectItem';
 import FmsAddProjectModal from './FmsAddProjectModal';
-import {getProjects, openModal} from '../../actions/project';
+import { getProjects } from '../../actions/project/project';
+import { openModal } from '../../actions/project/projectModal';
 
 class FmsProject extends Component {
 
   componentDidMount() {
-    const {dispatch} = this.props;
+    const { dispatch } = this.props;
     dispatch(getProjects());
   }
 
   renderPageItems() {
     let self = this;
-    let {projects, dispatch} = this.props;
+    let { projects, dispatch } = this.props;
 
     if (projects.length > 0) {
       return projects.map(project => {
         return (
           <Link key={project.alias} to={self.props.match.path + '/' + project.alias}>
-            <FmsProjectItem data={project}/>
+            <FmsProjectItem data={project} />
           </Link>
         )
       })
@@ -47,7 +48,7 @@ class FmsProject extends Component {
             </div>
           </div>
           <div className="row">
-            { this.renderPageItems() }
+            {this.renderPageItems()}
           </div>
           <FmsAddProjectModal />
         </div>
@@ -58,7 +59,7 @@ class FmsProject extends Component {
 
 const mapStateToProps = state => {
   return {
-    projects: state.project.projects
+    projects: state.project._project.projects
   }
 }
 
