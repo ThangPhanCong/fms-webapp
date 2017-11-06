@@ -1,17 +1,18 @@
 {
   "name": "Adsbold",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Facebook management suite",
   "scripts": {
     "dev": "webpack -w --progress --config webpack.dev.js",
     "build": "NODE_ENV=dev webpack --progress --config webpack.dev.js",
     "build-prod": "NODE_ENV=production webpack --progress --config webpack.prod.js",
+    "build-staging": "NODE_ENV=staging webpack --config webpack.dev.js",
     "deploy-prod": "NODE_ENV=production webpack --progress --config webpack.prod.js && ./script/deploy-production",
     "deploy-staging": "NODE_ENV=staging webpack --progress --config webpack.dev.js && ./script/deploy-staging",
     "prestart": "npm i",
     "start": "node server.js"
   },
-  "author": "Fms team",
+  "author": "Adsbold team",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.9.1",
