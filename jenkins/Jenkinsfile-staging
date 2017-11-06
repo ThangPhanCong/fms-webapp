@@ -18,7 +18,8 @@ pipeline {
 
       stage('Deploy to staging') {
           steps {
-			        sh 'echo "deploy ok"'
+			        sh 'sudo rm -rf /var/www/adsbold/staging'
+              sh 'sudo cp ./build /var/www/adsbold/staging/'
           }
       }
     }
