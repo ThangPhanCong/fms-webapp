@@ -1,9 +1,0 @@
-#!/bin/sh
-
-set -o errexit # Exit on error
-
-#ssh -i ./script/server.key ubuntu@13.229.135.246 rm -rf /home/ubuntu/fms/dev-client/
-rsync -Pav -e "ssh -i ./script/server.key" ./build/* ubuntu@13.229.135.246:/home/ubuntu/fms/dev-client/
-
-echo "-----------------------"
-echo "\x1B[32m Deploy staging success! \x1B[0m"
