@@ -3,14 +3,12 @@
   "version": "2.0.0",
   "description": "Facebook management suite",
   "scripts": {
-    "dev": "webpack -w --progress --config webpack.dev.js",
-    "build": "NODE_ENV=dev webpack --progress --config webpack.dev.js",
-    "build-prod": "NODE_ENV=production webpack --progress --config webpack.prod.js",
-    "build-staging": "NODE_ENV=staging webpack --config webpack.dev.js",
-    "deploy-prod": "NODE_ENV=production webpack --progress --config webpack.prod.js && ./script/deploy-production",
-    "deploy-staging": "NODE_ENV=staging webpack --progress --config webpack.dev.js && ./script/deploy-staging",
     "prestart": "npm i",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "webpack -w --progress --config config/webpack/webpack.dev.js",
+    "build": "webpack --progress --config config/webpack/webpack.dev.js",
+    "build-prod": "webpack --config config/webpack/webpack.prod.js",
+    "build-staging": "webpack --config config/webpack/webpack.staging.js"
   },
   "author": "Adsbold team",
   "license": "MIT",
