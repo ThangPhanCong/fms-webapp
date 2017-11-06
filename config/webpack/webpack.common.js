@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 
-const __rootdir = __dirname + '/../..';
+const __rootdir = path.join(__dirname, '/../..');
 let configPath;
 
 const indexHtml = path.join(__rootdir, 'app', 'index.html');
