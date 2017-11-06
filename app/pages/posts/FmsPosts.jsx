@@ -1,104 +1,52 @@
-'use strict';
+"use strict";
 
 import React from 'react';
-import {Route} from 'react-router-dom';
-import uuid from 'uuid';
-import {Grid, Row, Col, Button} from 'react-bootstrap';
+import { Route } from 'react-router-dom';
+import {connect} from 'react-redux';
+import { Grid, Row, Col, Button } from 'react-bootstrap';
+import FmsPostItem from './FmsPostItem';
+import {getPosts, toggleChange} from '../../actions/post';
 
-import FmsPostItem from 'FmsPostItem';
-import postApi from 'PostsApi';
-import dashboardApi from 'DashboardApi';
-import projectApi from 'ProjectApi';
+class FmsPosts extends React.Component {
+  componentDidMount() {
+    const {project_alias} = this.props.match.params;
+    const {dispatch} = this.props;
+    dispatch(getPosts(project_alias));
+  }
 
-let FmsPosts = React.createClass({
-  getInitialState: function() {
-    return {
-      posts: [],
-      next: null,
-      isLoading: false
-    }
-  },
-  componentDidMount: function() {
-    let self = this;
-    let projectAlias = this.props.match.params.project_alias;
+  onToggleChange(fb_post_id) {
+    const {posts, dispatch, noti} = this.props;
+    dispatch(toggleChange(posts, fb_post_id, noti));
+  }
 
-    postApi.getPostsOfProject(projectAlias)
-      .then(
-        data => {
-          self.setState({
-            posts: data.data,
-            next: data.paging ? (data.paging.next ? data.paging.next : null) : null
-          });
-        },
-        err => {
-          alert('Can\'t get posts');
-        }
-      )
-  },
-  onToggleChange: function(fb_post_id) {
-    let self = this;
+  loadMorePosts() {
+    const {project_alias} = this.props.match.params;
+    const {dispatch, paging} = this.props;
+    dispatch(getPosts(project_alias, paging.next));
+  }
 
-    let posts = this.state.posts;
-    let postChange = posts.find((post) => {
-      return post.fb_id == fb_post_id;
-    });
-
-    postApi.hideComment(fb_post_id, !postChange.hide_comment)
-      .then(() => {
-        postChange.hide_comment = !postChange.hide_comment;
-
-        for (let post of posts) {
-          if (post.fb_id == fb_post_id) {
-            if (post.hide_comment) {
-              self.props.noti('success', 'Ẩn bình luận thành công');
-              // self.props.noti('error', 'Ẩn bình luận thành công');
-              // self.props.noti('warning', 'Ẩn bình luận thành công');
-            } else {
-              self.props.noti('success', 'Bỏ ẩn bình luận thành công');
-            }
-          }
-        }
-      })
-      .catch(err => alert(err.message));
-  },
-  loadMorePosts: function () {
-    let self = this;
-    let projectAlias = self.props.match.params.project_alias;
-
-    self.setState({isLoading: true});
-
-    postApi.getPostsOfProject(projectAlias, self.state.next)
-      .then(
-        data => {
-          let posts = self.state.posts.concat(data.data);
-          self.setState({
-            posts: posts,
-            next: data.paging ? (data.paging.next ? data.paging.next : null) : null,
-          });
-        },
-        err => {
-          alert('Can\'t get posts');
-        }
-      )
-      .then(() => {
-        self.setState({isLoading: false});
-      })
-
-  },
-  renderPosts: function () {
-    let self = this;
-    let posts = this.state.posts;
-
-    return posts.map((post) => {
+  renderPosts() {
+    const {posts} = this.props;
+    if(posts.length == 0 ) {
       return (
-        <Col xs={12} sm={6} md={4} key={post.fb_id}>
-          <FmsPostItem data={post} onToggleChange={this.onToggleChange}/>
-        </Col>
+        <div className="no-post">
+          <p>Chưa có bài đăng nào</p>
+        </div>
       )
-    });
-  },
-  render: function() {
-    let self = this;
+    } else {
+      return posts.map((post) => {
+        return (
+          <Col xs={12} sm={6} md={4} key={post.fb_id}>
+            <FmsPostItem data={post} onToggleChange={this.onToggleChange.bind(this)} />
+          </Col>
+        )
+      });
+    }
+
+  }
+
+  render() {
+    const {paging, isPostsLoading} = this.props;
 
     return (
       <Grid bsClass="page posts">
@@ -106,11 +54,18 @@ let FmsPosts = React.createClass({
           {this.renderPosts()}
         </Row>
         <div className="loadmore-wrapper">
-          { self.state.next ? <Button disabled={self.state.isLoading} onClick={self.loadMorePosts}>Load more</Button> : null }
+          {(paging) ? <Button onClick={this.loadMorePosts.bind(this)}>Load more</Button> : null}
         </div>
       </Grid>
     );
   }
-});
+}
+const mapStateToProps = state => {
+  return {
+    isPostsLoading: state.post.isPostsLoading,
+    posts: state.post.posts,
+    paging: state.post.paging
+  }
+}
 
-module.exports = FmsPosts;
+export default connect(mapStateToProps)(FmsPosts);

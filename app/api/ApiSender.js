@@ -1,17 +1,15 @@
-'use strict';
-
-import store from 'store';
+import * as store from '../helpers/storage';
 import axios from 'axios';
-import config from 'CONFIG';
-import DashboardAPI from 'DashboardApi';
-
-const BASE_URL = config.BASE_URL;
+import {BASE_URL} from 'CONFIG';
+import DashboardAPI from './DashboardApi';
 
 exports.get = (route, access_token) => {
-  let jwt = store.get('jwt');
+  if (!access_token) {
+    access_token = store.get('access_token');
+  }
   let url = `${BASE_URL}${route}`;
   let headers = {
-    'authorization': access_token || jwt
+    'authorization': access_token
   }
 
   return axios.get(url, {headers})
@@ -29,10 +27,10 @@ exports.get = (route, access_token) => {
 };
 
 exports.post = (route, payload) => {
-  let jwt = store.get('jwt');
+  let access_token = store.get('access_token');
   let url = `${BASE_URL}${route}`;
   let headers = {
-    'authorization': jwt
+    'authorization': access_token
   }
 
   return axios.post(url, payload, {headers})
@@ -50,10 +48,10 @@ exports.post = (route, payload) => {
 };
 
 exports.put = (route, payload) => {
-  let jwt = store.get('jwt');
+  let access_token = store.get('access_token');
   let url = `${BASE_URL}${route}`;
   let headers = {
-    'authorization': jwt
+    'authorization': access_token
   }
 
   return axios.put(url, payload, {headers})
@@ -71,10 +69,12 @@ exports.put = (route, payload) => {
 };
 
 exports.delete = (route, access_token) => {
-  let jwt = store.get('jwt');
+  if (!access_token) {
+    access_token = store.get('access_token');
+  }
   let url = `${BASE_URL}${route}`;
   let headers = {
-    'authorization': access_token || jwt
+    'authorization': access_token || access_token
   }
 
   return axios.delete(url, {headers})

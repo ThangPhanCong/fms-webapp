@@ -1,18 +1,21 @@
 'use strict'
 
-const React = require('react');
-const Modal = require('react-bootstrap').Modal;
+import React from 'react';
+import { Modal } from 'react-bootstrap';
 
-let DashboardAPI = require('DashboardApi');
+import DashboardAPI from '../../../api/DashboardApi';
 
-let FmsPrivateReplyModal = React.createClass({
-  getInitialState: function () {
-    return {
-      isShown: false,
+class FmsPrivateReplyModal extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isShown: false,
 			isSending: false
-    }
-  },
-	handleSendButton: function () {
+		}
+		this.handleSendButton = this.handleSendButton.bind(this);
+		this.close = this.close.bind(this);
+	}
+	handleSendButton() {
 		let message = this.refs.message_text.value;
 		if (message && message != "") {
 			this.setState({ isSending: true });
@@ -26,21 +29,21 @@ let FmsPrivateReplyModal = React.createClass({
 				throw new Error(err);
 			})
 		}
-	},
-  open: function () {
+	}
+	open() {
 		this.setState({ isShown: true });
-	},
-	close: function () {
+	}
+	close() {
 		this.setState({ isShown: false });
-	},
-  render: function () {
-    return (
-      <Modal show={this.state.isShown} onHide={this.close} backdrop='static' keyboard={false} >
+	}
+	render() {
+		return (
+			<Modal show={this.state.isShown} onHide={this.close} backdrop='static' keyboard={false} >
 				<Modal.Header closeButton={this.state.isSending == false}>
 					<Modal.Title>Nhắn tin đến {this.props.message.from.name}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<textarea className="textarea-private-reply" placeholder="Nhập tin nhắn" ref="message_text" rows={5}/>
+					<textarea className="textarea-private-reply" placeholder="Nhập tin nhắn" ref="message_text" rows={5} />
 				</Modal.Body>
 				<Modal.Footer>
 					<div className="private-rep-modal-footer-wrapper">
@@ -50,8 +53,8 @@ let FmsPrivateReplyModal = React.createClass({
 					</div>
 				</Modal.Footer>
 			</Modal>
-    )
-  }
-});
+		)
+	}
+}
 
 module.exports = FmsPrivateReplyModal;

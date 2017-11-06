@@ -1,11 +1,9 @@
-'use strict';
-
 import React from 'react';
 
-import FmsSpin from 'FmsSpin';
+import FmsSpin from './FmsSpin';
 
-let FmsLoading =  React.createClass({
-  render: function() {
+class FmsLoading extends React.Component {
+  render () {
     return (
       <div className="loading-wrapper">
         <div className="center">
@@ -14,6 +12,6 @@ let FmsLoading =  React.createClass({
       </div>
     )
   }
-});
+}
 
 module.exports = FmsLoading;

@@ -1,6 +1,4 @@
-'use strict';
-
-import apiSender from 'ApiSender';
+import apiSender from './ApiSender';
 
 exports.verifyAccessToken = (access_token) => {
   const route = `/api/tokens`;

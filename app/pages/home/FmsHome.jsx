@@ -1,39 +1,48 @@
-'use strict';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Link, Redirect, withRouter} from 'react-router-dom';
+import * as store from '../../helpers/storage';
+import {logIn} from '../../actions/auth';
 
-import React from 'react';
-import {Link, Redirect} from 'react-router-dom';
-import store from 'store';
+class FmsHome extends Component {
 
-import FmsAuthen from 'FmsAuthen';
+  constructor(props) {
+    super(props);
+  }
 
-let FmsHome = React.createClass({
-  getInitialState: function () {
-    return {
-      isLogedIn: false
-    }
-  },
-  componentDidMount: function () {
-    let jwt = store.get('jwt');
-    if (jwt) {
-      this.setState({isLogedIn: true});
-    }
-  },
-  render: function() {
+  componentDidMount() {
+
+  }
+
+  onClickLoginBtn() {
+    const {dispatch} = this.props;
+    dispatch(logIn());
+  }
+
+  render() {
     let self = this;
 
-    if (self.state.isLogedIn) {
-      return <Redirect to='/projects'/>
-    }
+    // const {isAuthenticated} = this.props;
+
+    // if (isAuthenticated) {
+    //   return <Redirect to='/projects' />
+    // }
 
     return (
       <div className="container-fluid homepage page">
         <h1 className="page-title">Facebook Management Suite</h1>
         <p className="page-description">Tools for conversation management, customers, selling at stall, integrated transportation and supporting utilities</p>
 
-        <Link to='/login' className="button" onClick={this.enterPages}>ENTER DASHBOARD</Link>
+        <a to='/login' className="button" onClick={this.onClickLoginBtn.bind(this)}>ENTER DASHBOARD</a>
       </div>
     );
   }
-});
+}
 
-module.exports = FmsHome;
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(FmsHome));

@@ -1,6 +1,4 @@
-'use strict';
-
-const apiSender = require('ApiSender');
+const apiSender = require('./ApiSender');
 
 module.exports = {
   getProjectTags: (project_alias) => {

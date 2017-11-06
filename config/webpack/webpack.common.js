@@ -1,15 +1,18 @@
 const webpack = require('webpack');
 const path = require('path');
 
+const __rootdir = path.join(__dirname, '/../..');
 let configPath;
 
-const indexHtml = path.join(__dirname, 'app', 'index.html');
-const appJs = path.join(__dirname, 'app', 'app.jsx');
+const indexHtml = path.join(__rootdir, 'app', 'index.html');
+const appJs = path.join(__rootdir, 'app', 'index.js');
 
 if (process.env.NODE_ENV === 'production') {
-  configPath = path.resolve(__dirname, 'config-prod.json');
+  configPath = path.resolve(__rootdir, 'config/env/config-prod.json');
+} else if (process.env.NODE_ENV === 'staging') {
+  configPath = path.resolve(__rootdir, 'config/env/config-staging.json');
 } else {
-  configPath = path.resolve(__dirname, 'config.json');
+  configPath = path.resolve(__rootdir, 'config.json');
 }
 
 module.exports = {
@@ -19,32 +22,13 @@ module.exports = {
   ],
 
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__rootdir, 'build'),
     filename: 'app.bundle.js'
   },
 
   resolve: {
-    modules: [
-      'node_modules',
-      'app',
-      'app/api',
-      'app/pages',
-      'app/images',
-      'app/socket',
-      'app/pages/home',
-      'app/components',
-      'app/pages/pages',
-      'app/pages/login',
-      'app/pages/posts',
-      'app/pages/project',
-      'app/pages/settings',
-      'app/pages/dashboard',
-      'app/pages/dashboard/client-info',
-      'app/pages/dashboard/client-list',
-      'app/pages/dashboard/conversation-area'
-    ],
     alias: {
-      bootstrapJs: path.resolve(__dirname, 'node_modules/bootstrap/dist/js/bootstrap.min.js'),
+      bootstrapJs: path.resolve(__rootdir, 'node_modules/bootstrap/dist/js/bootstrap.min.js'),
       CONFIG: configPath
     },
     extensions: ['.json', '.js', '.jsx']

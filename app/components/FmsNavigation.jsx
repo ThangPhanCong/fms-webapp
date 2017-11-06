@@ -1,39 +1,24 @@
-'use strict';
-
 import React from 'react';
-import {Link, NavLink, Redirect, Route, Switch} from 'react-router-dom';
-import store from 'store';
+import {connect} from 'react-redux';
+import {Link, NavLink, Redirect, Route, Switch, withRouter} from 'react-router-dom';
+import * as store from '../helpers/storage';
 import uuid from 'uuid';
-import {Image, Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
+import { Image, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
-import projectApi from 'ProjectApi';
-import FmsAuthen from 'FmsAuthen';
-import cvImg from 'ic_conversation.png';
-import settingsImg from 'ic_settings.png';
-import postsImg from 'ic_posts.png';
+import projectApi from '../api/ProjectApi';
+import {logOut} from '../actions/auth';
+import cvImg from '../images/ic_conversation.png';
+import settingsImg from '../images/ic_settings.png';
+import postsImg from '../images/ic_posts.png';
 
-let FmsNavigation = React.createClass({
-  getInitialState: function () {
-    return {
-      projects: []
-    }
-  },
-  onLogin: function () {
-    FmsAuthen.login();
-  },
-  onLogout: function () {
-    FmsAuthen.logout();
-  },
-  componentDidMount: function () {
-    let self = this;
-    let jwt = store.get('jwt');
+class FmsNavigation extends React.Component {
 
-    if (jwt) {
-      projectApi.getAllProject()
-        .then(projects => self.setState({ projects }))
-    }
-  },
-  renderProjectItems: function (projects) {
+  onLogoutBtnClick() {
+    const {dispatch} = this.props;
+    dispatch(logOut());
+  }
+
+  renderProjectItems(projects) {
     return projects.map(project => {
       return (
         <MenuItem key={uuid()}
@@ -41,30 +26,22 @@ let FmsNavigation = React.createClass({
         </MenuItem>
       )
     })
-  },
-  renderSelectProjects: function () {
+  }
+
+  renderSelectProjects() {
     let self = this;
     let projects = this.state.projects;
 
     let alias = this.props.match && this.props.match.params ? this.props.match.params.project_alias : '';
     let projectSelected = projects.find(p => p.alias == alias)
     let nameProjectSelected = projectSelected ? projectSelected.name : '';
+  }
 
-    console.log('alias', alias);
-    console.log('projectSelected', projectSelected);
-    console.log('nameProjectSelected', nameProjectSelected);
-
-    // return (
-    //   <NavDropdown id="log-out-dropdown" title={nameProjectSelected}>
-    //     {self.renderProjectItems(projects)}
-    //   </NavDropdown>
-    // )
-  },
-  render: function () {
+  render() {
     let self = this;
-    let jwt = store.get('jwt');
 
-    let user = store.get('user');
+    const {isAuthenticated, user} = this.props;
+
     let userId = user ? user.fb_id : '';
     let username = user ? user.name : '';
 
@@ -74,16 +51,12 @@ let FmsNavigation = React.createClass({
 
     return (
       <Switch>
-        <Route path='/login' children={({match}) => (
-            <div></div>
-          )}/>
-
-        <Route children={({match}) => (
+        <Route children={({ match }) => (
           <div id="fms-nav">
             <Navbar inverse fixedTop fluid>
               <Navbar.Header>
                 <Navbar.Brand>
-                  <Link to="/">Fms</Link>
+                  <Link to="/">Adsbold</Link>
                 </Navbar.Brand>
                 <Navbar.Toggle />
               </Navbar.Header>
@@ -113,32 +86,29 @@ let FmsNavigation = React.createClass({
 
                 <Nav pullRight className="nav-user">
                   {
-                    jwt ?
-                    <NavItem>
-                      <Image src={avaUser} circle></Image>
-                    </NavItem> : null
+                    isAuthenticated ?
+                      <NavItem>
+                        <Image src={avaUser} circle></Image>
+                      </NavItem> : null
                   }
-                  { jwt ?
+                  { isAuthenticated ?
                     <NavDropdown id="log-out-dropdown" title="">
-                      <MenuItem onClick={self.onLogout}>Đăng xuất</MenuItem>
+                      <MenuItem onClick={self.onLogoutBtnClick.bind(this)}>Đăng xuất</MenuItem>
                     </NavDropdown>
                     : null
-                    // <li><Link to='/login'>Đăng nhập</Link></li>
                   }
                 </Nav>
 
-
-
-                <Route path='/projects/:project_alias' children={({match}) => (
+                <Route path='/projects/:project_alias' children={({ match }) => (
                   match && match.params ?
-                  <Nav pullRight>
-                    <li><NavLink exact to={'/projects/' + match.params.project_alias} className="project-nav-item"><Image className="ic-conversation" src={cvImg}/>HỘI THOẠI</NavLink></li>
-                    <li><NavLink to={'/projects/' + match.params.project_alias + '/posts'} className="project-nav-item"><Image src={postsImg}/>BÀI VIẾT</NavLink></li>
-                    <li><NavLink to={'/projects/' + match.params.project_alias + '/settings'} className="project-nav-item"><Image src={settingsImg}/>CÀI ĐẶT</NavLink></li>
-                    <NavItem className="devider"/>
-                  </Nav>
-                  : null
-                  )}/>
+                    <ul className="nav navbar-nav navbar-right">
+                      <li><NavLink exact to={'/projects/' + match.params.project_alias} className="project-nav-item"><Image className="ic-conversation" src={cvImg} />HỘI THOẠI</NavLink></li>
+                      <li><NavLink to={'/projects/' + match.params.project_alias + '/posts'} className="project-nav-item"><Image src={postsImg} />BÀI VIẾT</NavLink></li>
+                      <li><NavLink to={'/projects/' + match.params.project_alias + '/settings'} className="project-nav-item"><Image src={settingsImg} />CÀI ĐẶT</NavLink></li>
+                      <NavItem className="devider" />
+                    </ul>
+                    : null
+                )} />
 
               </Navbar.Collapse>
             </Navbar>
@@ -147,6 +117,14 @@ let FmsNavigation = React.createClass({
       </Switch>
     )
   }
-});
+}
 
-module.exports = FmsNavigation;
+const mapStateToProps = state => {
+  return {
+    projects: state.projects,
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(FmsNavigation));

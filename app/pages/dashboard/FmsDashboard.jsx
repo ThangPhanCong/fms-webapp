@@ -1,36 +1,45 @@
-'use strict';
-
 import React from 'react';
 
-import DashboardApi from 'DashboardApi';
-import FmsConversationArea from 'FmsConversationArea';
-import FmsClientList from 'FmsClientList';
-import projectApi from 'ProjectApi';
-import PagesApi from 'PagesApi';
-import FmsClientInformation from 'FmsClientInformation';
-import FmsVerticalNav from 'FmsVerticalNav';
-import {filters} from 'FmsFilterConversation';
-import socket from 'Socket';
+import DashboardApi from '../../api/DashboardApi';
+import FmsSpin from '../../components/FmsSpin';
+import FmsConversationArea from './conversation-area/FmsConversationArea';
+import FmsClientList from './client-list/FmsClientList';
+import projectApi from '../../api/ProjectApi';
+import PagesApi from '../../api/PagesApi';
+import FmsClientInformation from './client-info/FmsClientInformation';
+import FmsVerticalNav from './FmsVerticalNav';
+import { filters } from './FmsFilterConversation';
+import * as socket from '../../socket';
 
-let FmsDashBoard = React.createClass({
-	getInitialState: function () {
-		return {
+class FmsDashBoard extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
 			conversations: [],
 			filteredConversations: [],
 			selectedConversation: null,
 			project: null,
 			filters: filters,
 			conversationsIsLoading: false,
+			clientListIsLoading: true,
 			conversationsPaging: null,
 			tags: null,
 			pageid: null
 		}
-	},
-	handleFilter: function (newFilters) {
+		this.handleFilter = this.handleFilter.bind(this);
+		this.handleClientClick = this.handleClientClick.bind(this);
+		this.displayMoreConversations = this.displayMoreConversations.bind(this);
+		this.displayMoreMessages = this.displayMoreMessages.bind(this);
+		this.sendMessage = this.sendMessage.bind(this);
+		this.updateMsgInConversation = this.updateMsgInConversation.bind(this);
+		this.updateBlockCustomer = this.updateBlockCustomer.bind(this);
+		this.updateClientTags = this.updateClientTags.bind(this);
+	}
+	handleFilter(newFilters) {
 		this.setState({ filters: newFilters });
 		this.filterConversations();
-	},
-	filterConversations: function () {
+	}
+	filterConversations() {
 		let filtered = this.state.conversations;
 		let tagFilters = [];
 		this.state.filters.map((filter) => {
@@ -50,8 +59,8 @@ let FmsDashBoard = React.createClass({
 		});
 		if (tagFilters.length == 0) newConversations = filtered;
 		this.setState({ filteredConversations: newConversations });
-	},
-	parseConversationItem: function (item) {
+	}
+	parseConversationItem(item) {
 		switch (item.type) {
 			case "inbox":
 				break;
@@ -60,8 +69,8 @@ let FmsDashBoard = React.createClass({
 		}
 
 		return item;
-	},
-	updateConversation: function () {
+	}
+	getConversations() {
 		let self = this;
 
 		DashboardApi.getConversations(this.props.match.params.project_alias).then((data) => {
@@ -76,20 +85,21 @@ let FmsDashBoard = React.createClass({
 			self.setState({
 				conversations: _convers,
 				filteredConversations: _convers,
+				clientListIsLoading: false,
 				conversationsPaging: (data.paging && data.paging.next) ? data.paging.next : null
 			});
 		}, function (err) {
 			console.log(err);
 		})
-	},
-	postSeenCv: function (conversation) {
+	}
+	postSeenCv(conversation) {
 		if (conversation.type == 'inbox') {
 			DashboardApi.postSeenInbox(conversation._id);
 		} else if (conversation.type == 'comment') {
 			DashboardApi.postSeenCmt(conversation._id);
 		}
-	},
-	postRepMsg: function (conversation, message) {
+	}
+	postRepMsg(conversation, message) {
 		let self = this;
 
 		function createTempMsg(fb_id, msg, conversation) {
@@ -124,8 +134,8 @@ let FmsDashBoard = React.createClass({
 				})
 				.catch(err => alert(err.message));
 		}
-	},
-	reloadAttachment: function (msgs) {
+	}
+	reloadAttachment(msgs) {
 		msgs.forEach((msg) => {
 			if (msg.shares) {
 				DashboardApi.getMessageShare(msg.fb_id, msg.page_fb_id).then((res) => {
@@ -148,8 +158,8 @@ let FmsDashBoard = React.createClass({
 				});
 			}
 		});
-	},
-	handleClientClick: function (selectCv, type) {
+	}
+	handleClientClick(selectCv, type) {
 		let self = this;
 		if (this._child2) this._child2.clientChanged();
 		this.setState({ conversationsIsLoading: true });
@@ -191,16 +201,16 @@ let FmsDashBoard = React.createClass({
 				conversationsIsLoading: false
 			});
 		}
-	},
-	displayMoreConversations: function (moreConversations, paging) {
+	}
+	displayMoreConversations(moreConversations, paging) {
 		let newConversations = this.state.conversations;
 		moreConversations.forEach((conversation) => {
 			newConversations.push(conversation);
 		});
 		this.setState({ conversations: newConversations, conversationsPaging: paging });
 		this.filterConversations();
-	},
-	displayMoreMessages: function (more, paging) {
+	}
+	displayMoreMessages(more, paging) {
 		let newConversation = this.state.selectedConversation;
 		let oldChildren = this.state.selectedConversation.children;
 		let children = more.sort((a, b) => {
@@ -223,14 +233,15 @@ let FmsDashBoard = React.createClass({
 		newConversation.children = children;
 		newConversation.paging = paging;
 		this.setState({ selectedConversation: newConversation });
-	},
-	sendMessage: function (msg) {
+	}
+	sendMessage(msg) {
 		let self = this;
 		let _selectedConversation = this.state.selectedConversation;
 
 		self.postRepMsg(_selectedConversation, msg);
-	},
-	updateMsgInConversation: function (msg) {
+	}
+
+	updateMsgInConversation(msg) {
 		let self = this;
 		if (!msg || !msg.parent || !msg.parent.type) return;
 
@@ -304,15 +315,17 @@ let FmsDashBoard = React.createClass({
 		self.setState({ conversations: _conversations });
 		self.filterConversations();
 		if (self._child2) self._child2.scrollToBottom();
-	},
-	subscribePageChanges: function (pages) {
+	}
+
+	subscribePageChanges(pages) {
 		let self = this;
 
 		pages.forEach(page => {
-			socket.subscribePageChanges({ page_fb_id: page.fb_id, onUpdateChanges: self.updateMsgInConversation });
+			socket.subscribePageChanges({ page_fb_id: page.fb_id, onUpdateChanges: self.updateMsgInConversation.bind(this) });
 		});
-	},
-	updateBlockCustomer: function (cv, is_blocked) {
+	}
+
+	updateBlockCustomer(cv, is_blocked) {
 		let self = this;
 
 		cv.customer.is_blocked = is_blocked;
@@ -329,8 +342,9 @@ let FmsDashBoard = React.createClass({
 				selectedConversation: cv
 			});
 		}
-	},
-	updateClientTags: function (tags, conversation_id) {
+	}
+
+	updateClientTags(tags, conversation_id) {
 		let newConversations = this.state.conversations;
 		newConversations.forEach((convers) => {
 			if (convers.id == conversation_id) {
@@ -338,8 +352,8 @@ let FmsDashBoard = React.createClass({
 			}
 		});
 		this.setState({ conversations: newConversations });
-	},
-	componentDidMount: function () {
+	}
+	componentDidMount() {
 		let self = this;
 
 		let projectAlias = this.props.match.params.project_alias;
@@ -347,48 +361,65 @@ let FmsDashBoard = React.createClass({
 		projectApi.getProject(projectAlias)
 			.then(project => {
 				let pages = project.pages;
-				if (pages && Array.isArray(pages) && pages.length > 0){
+				if (pages && Array.isArray(pages) && pages.length > 0) {
 					let pageid = pages[0].fb_id;
 
 					self.setState({ pageid: pageid });
-					self.updateConversation();
+					self.getConversations();
 					self.subscribePageChanges(pages);
 				}
 			})
 			.catch(err => alert(err));
 
-			DashboardApi.getProjectTags(this.props.match.params.project_alias).then((res) => {
-				res.forEach((tag) => {
-					filters.push({
-						isTag: true,
-						type: tag._id,
-						isActive: false,
-						filterFunc: (item) => {
-							let isOK = item.tags.filter((_tag) => {return _tag._id == tag._id});
-							return isOK.length != 0;
-						}
-					});
+		DashboardApi.getProjectTags(this.props.match.params.project_alias).then((res) => {
+			res.forEach((tag) => {
+				filters.push({
+					isTag: true,
+					type: tag._id,
+					isActive: false,
+					filterFunc: (item) => {
+						let isOK = item.tags.filter((_tag) => { return _tag._id == tag._id });
+						return isOK.length != 0;
+					}
 				});
-				this.setState({ tags: res, filters: filters });
-			}, (err) => {
-				throw new Error(err);
 			});
-	},
-	render: function () {
+			this.setState({ tags: res, filters: filters });
+		}, (err) => {
+			throw new Error(err);
+		});
+	}
+
+	renderConversation() {
 		let self = this;
 
-		function renderConversation() {
-			if (self.state.selectedConversation) {
-				return <FmsConversationArea ref={(child) => {
-					self._child2 = child;
-				}} currentConversation={self.state.selectedConversation} sendMessage={self.sendMessage}
-					tags={self.state.tags} displayMoreMessages={self.displayMoreMessages} alias={self.props.match.params.project_alias}
-					isLoading={self.state.conversationsIsLoading} updateBlockCustomer={self.updateBlockCustomer}
-					noti={self.props.noti} updateClientTags={self.updateClientTags}/>
-			} else {
-				return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
-			}
-		};
+		if (self.state.selectedConversation) {
+			return <FmsConversationArea ref={(child) => {
+				self._child2 = child;
+			}} currentConversation={self.state.selectedConversation} sendMessage={self.sendMessage}
+				tags={self.state.tags} displayMoreMessages={self.displayMoreMessages} alias={self.props.match.params.project_alias}
+				isLoading={self.state.conversationsIsLoading} updateBlockCustomer={self.updateBlockCustomer}
+				noti={self.props.noti} updateClientTags={self.updateClientTags} />
+		} else {
+			return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
+		}
+	}
+
+	renderClientList() {
+		if (this.state.clientListIsLoading == false) {
+			return <FmsClientList ref={(child) => {
+				this._child = child;
+			}} handleClientClick={this.handleClientClick} conversations={this.state.filteredConversations}
+				currentConversation={this.state.selectedConversation} displayMoreConversations={this.displayMoreConversations}
+				allConversations={this.state.conversations} paging={this.state.conversationsPaging}
+				alias={this.props.match.params.project_alias} tags={this.state.tags}
+				filters={this.state.filters} handleFilter={this.handleFilter} />
+		} else {
+			return <div className="client-list-spin" style={{marginTop: 32 + 'px'}}><FmsSpin size={27} /></div>
+		}
+	}
+
+	render() {
+		let self = this;
 
 		return (
 			<div className="dashboard page">
@@ -396,16 +427,10 @@ let FmsDashBoard = React.createClass({
 					<FmsVerticalNav state={this.state.filters} handleFilter={this.handleFilter} />
 				</div>
 				<div className="client-list">
-					<FmsClientList ref={(child) => {
-						this._child = child;
-					}} handleClientClick={this.handleClientClick} conversations={this.state.filteredConversations}
-						currentConversation={this.state.selectedConversation} displayMoreConversations={this.displayMoreConversations}
-						allConversations={this.state.conversations} paging={this.state.conversationsPaging}
-						alias={this.props.match.params.project_alias} tags={this.state.tags}
-						filters={this.state.filters} handleFilter={this.handleFilter}/>
+					{this.renderClientList()}
 				</div>
 				<div className="conversation-area">
-					{renderConversation()}
+					{this.renderConversation()}
 				</div>
 				<div className="client-information-area">
 					<FmsClientInformation />
@@ -413,6 +438,6 @@ let FmsDashBoard = React.createClass({
 			</div>
 		);
 	}
-});
+}
 
 module.exports = FmsDashBoard;

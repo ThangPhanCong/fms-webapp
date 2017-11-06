@@ -1,21 +1,25 @@
-'use strict';
 
-const React = require('react');
-const inboxImg = require('inbox.png');
-const postImg = require('post.png');
-import {Image} from 'react-bootstrap';
+
+import React from 'react';
+import inboxImg from '../../../images/inbox.png';
+import postImg from '../../../images/post.png';
+import { Image } from 'react-bootstrap';
 import uuid from 'uuid';
 
 const ICON_HEIGHT = 16;
 
-let FmsClientItem = React.createClass({
-	handleClientClick: function () {
+class FmsClientItem extends React.Component {
+	constructor(props) {
+		super(props);
+		this.handleClientClick = this.handleClientClick.bind(this);
+	}
+	handleClientClick() {
 		this.props.handleClientClick(this.props.data, this.props.data.type);
-	},
-	renderIconType: function () {
+	}
+	renderIconType() {
 		let self = this;
 		let icons = [];
-		let conversationIcon = self.props.data.type == 'inbox' ? <img className="icon-type" key={uuid()} src={inboxImg}/> : <img className="icon-type" key={uuid()} src={postImg}/>;
+		let conversationIcon = self.props.data.type == 'inbox' ? <img className="icon-type" key={uuid()} src={inboxImg} /> : <img className="icon-type" key={uuid()} src={postImg} />;
 		icons.push(conversationIcon);
 
 		let tagIcons = self.props.data.tags.map(t => {
@@ -27,8 +31,8 @@ let FmsClientItem = React.createClass({
 		icons = icons.concat(tagIcons);
 
 		return icons;
-	},
-	render: function () {
+	}
+	render() {
 		let self = this;
 		let clientid, clientName, message;
 		let isSelected = (this.props.isSelected) ? " selectedItem" : "";
@@ -60,6 +64,6 @@ let FmsClientItem = React.createClass({
 			</div>
 		);
 	}
-});
+}
 
 module.exports = FmsClientItem;

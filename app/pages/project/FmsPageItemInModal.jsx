@@ -1,32 +1,37 @@
-'use strict';
+import React from 'react';
+import {connect} from 'react-redux';
 
-const React = require('react');
-const tickImg = require('tick.png');
+import tickImg from '../../images/tick.png';
+import { clickOnPageInModal } from '../../actions/project';
 
-let FmsPageItemInModal = React.createClass({
-  onPageClick: function() {
-    if (this.props.canSelect) {
-      this.props.onPageClick(!this.props.isSelected, this.props.data.fb_id);
+class FmsPageItemInModal extends React.Component {
+  onPageClick() {
+    let { canSelect, dispatch, isSelected, data } = this.props;
+    if (canSelect) {
+      dispatch(clickOnPageInModal(!isSelected, data.fb_id));
     }
-  },
-  renderActiveImg: function() {
+  }
+  renderActiveImg() {
     if (this.props.isSelected) {
-      return <img src={tickImg} className="tick"/>
+      return <img src={tickImg} className="tick" />
     }
-  },
-  render: function() {
+  }
+  render() {
     let self = this;
     let avaUrl = `https://graph.facebook.com/v2.10/${this.props.data.fb_id}/picture`;
     let disabled = (this.props.canSelect) ? "" : " disabled";
 
     return (
-      <div className={"page-item" + disabled} onClick={this.onPageClick}>
-        <img src={avaUrl} className="page-profile"/>
+      <div className={"page-item" + disabled} onClick={this.onPageClick.bind(this)}>
+        <img src={avaUrl} className="page-profile" />
         <span className="fanpage-title">{this.props.data.name}</span>
         {this.renderActiveImg()}
       </div>
     );
   }
-});
+}
 
-module.exports = FmsPageItemInModal;
+const mapStateToProps = state => {
+  return {}
+}
+export default connect(mapStateToProps)(FmsPageItemInModal);

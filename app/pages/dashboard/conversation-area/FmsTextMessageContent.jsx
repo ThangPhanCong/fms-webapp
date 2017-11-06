@@ -1,28 +1,33 @@
-'use strict';
 
-const React = require('react');
 
-let FmsToolTip = require('FmsToolTip');
-let FmsPrivateReplyModal = require('FmsPrivateReplyModal');
-let DashboardApi = require('DashboardApi');
-let FmsSpin = require('FmsSpin');
+import React from 'react';
 
-let FmsTextMessageContent = React.createClass({
-  getInitialState: function () {
-    return {
+import FmsToolTip from '../../../components/FmsToolTip';
+import FmsPrivateReplyModal from './FmsPrivateReplyModal';
+import DashboardApi from '../../../api/DashboardApi';
+import FmsSpin from '../../../components/FmsSpin';
+
+class FmsTextMessageContent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       isHandling: false,
       liked: this.props.message.is_like,
       messaged: false
     }
-  },
-  handleSendMessage: function () {
+    this.handleSendMessage = this.handleSendMessage.bind(this);
+    this.openMessageModal = this.openMessageModal.bind(this);
+    this.handleLikeMessage = this.handleLikeMessage.bind(this);
+    this.handleUnlikeMessage = this.handleUnlikeMessage.bind(this);
+  }
+  handleSendMessage() {
     this.props.message.can_reply_privately = false;
     this.setState({ messaged: true });
-  },
-  openMessageModal: function () {
+  }
+  openMessageModal() {
     this._child.open();
-  },
-  handleLikeMessage: function () {
+  }
+  handleLikeMessage() {
     if (this.state.isHandling == true) return;
     this.setState({ isHandling: true });
     DashboardApi.likeMessage(this.props.message._id).then((res) => {
@@ -31,8 +36,8 @@ let FmsTextMessageContent = React.createClass({
       this.setState({ isHandling: false });
       alert('Something went wrong!');
     });
-  },
-  handleUnlikeMessage: function () {
+  }
+  handleUnlikeMessage() {
     if (this.state.isHandling == true) return;
     this.setState({ isHandling: true });
     DashboardApi.unlikeMessage(this.props.message._id).then((res) => {
@@ -41,8 +46,8 @@ let FmsTextMessageContent = React.createClass({
       this.setState({ isHandling: false });
       alert('Something went wrong!');
     });
-  },
-  render: function () {
+  }
+  render() {
     let self = this;
     let actionButton = this.props.actionButton ? "" : " hide";
     function renderLikeButton() {
@@ -61,7 +66,7 @@ let FmsTextMessageContent = React.createClass({
     };
     function renderSpinner() {
       if (self.state.isHandling == true) {
-        return <div className="spinner-message-item"><FmsSpin size={12}/></div>
+        return <div className="spinner-message-item"><FmsSpin size={12} /></div>
       }
     }
     return (
@@ -74,10 +79,10 @@ let FmsTextMessageContent = React.createClass({
         </div>
         <FmsPrivateReplyModal ref={(child) => {
           this._child = child;
-        }} message={this.props.message} handleSendMessage={this.handleSendMessage}/>
+        }} message={this.props.message} handleSendMessage={this.handleSendMessage} />
       </div>
     );
   }
-});
+}
 
 module.exports = FmsTextMessageContent;

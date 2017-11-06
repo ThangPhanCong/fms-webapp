@@ -1,18 +1,14 @@
-'use strict';
+import React from 'react';
 
-const React = require('react');
-const {browserHistory} = require('react-router');
-
-import {Image, Checkbox} from 'react-bootstrap';
+import { Image, Checkbox } from 'react-bootstrap';
 import uuid from 'uuid';
 
-let FmsPostItem = React.createClass({
-  onToggleChange: function(checked) {
+class FmsPostItem extends React.Component {
+  onToggleChange(checked) {
     this.props.onToggleChange(this.props.data.fb_id);
-  },
-  renderImgs: function() {
-    let self = this;
-    let attachments = self.props.data.attachments;
+  }
+  renderImgs() {
+    let {attachments} = this.props.data;
     if (attachments) {
       let photoAttachment = attachments.find(atm => !!atm.photos);
 
@@ -24,33 +20,31 @@ let FmsPostItem = React.createClass({
         })
       }
     }
-  },
-  render: function() {
-    let self = this;
-    let page_id = self.props.data.page_fb_id;
-    let page_name = self.props.data.page_fb_name;
-    let page_ava = `https://graph.facebook.com/v2.10/${page_id}/picture`;
+  }
+  render() {
+    let {page_fb_id, page_fb_name, message, hide_comment} = this.props.data;
+    let page_ava = `https://graph.facebook.com/v2.10/${page_fb_id}/picture`;
 
     return (
       <div className="post-item-wrapper">
         <div className="post-body">
-          <p className="content">{this.props.data.message}</p>
+          <p className="content">{message}</p>
           <div className="image-wrapper">
-            {self.renderImgs()}
+            {this.renderImgs()}
           </div>
           <div className="page-info">
             <Image src={page_ava} circle></Image>
-            <span>{page_name}</span>
+            <span>{page_fb_name}</span>
           </div>
           <div>
             <Checkbox type="checkbox"
-            checked={this.props.data.hide_comment}
-            onChange={this.onToggleChange}> Ẩn bình luận</Checkbox>
+              checked={hide_comment}
+              onChange={this.onToggleChange.bind(this)}> Ẩn bình luận</Checkbox>
           </div>
         </div>
       </div>
     );
   }
-});
+}
 
 module.exports = FmsPostItem;

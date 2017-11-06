@@ -1,30 +1,30 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-const allImg = require('all.png');
-const unreadImg = require('unread.png');
-const postImg = require('post.png');
-const inboxImg = require('inbox.png');
-const starImg = require('star.png');
-const phoneImg = require('phone.png');
-const unreadPostImg = require('unread_post.png');
-const calendarImg = require('calendar.png');
-const noteImg = require('note.png');
+import allImg from '../../images/all.png';
+import unreadImg from '../../images/unread.png';
+import postImg from '../../images/post.png';
+import inboxImg from '../../images/inbox.png';
+import starImg from '../../images/star.png';
+import phoneImg from '../../images/phone.png';
+import unreadPostImg from '../../images/unread_post.png';
+import calendarImg from '../../images/calendar.png';
+import noteImg from '../../images/note.png';
 
-const allImgActive = require('all_active.png');
-const unreadImgActive = require('unread_active.png');
-const postImgActive = require('post_active.png');
-const inboxImgActive = require('inbox_active.png');
-const starImgActive = require('star_active.png');
-const phoneImgActive = require('phone_active.png');
-const unreadPostImgActive = require('unread_post_active.png');
-const calendarImgActive = require('calendar_active.png');
-const noteImgActive = require('note_active.png');
+import allImgActive from '../../images/all_active.png';
+import unreadImgActive from '../../images/unread_active.png';
+import postImgActive from '../../images/post_active.png';
+import inboxImgActive from '../../images/inbox_active.png';
+import starImgActive from '../../images/star_active.png';
+import phoneImgActive from '../../images/phone_active.png';
+import unreadPostImgActive from '../../images/unread_post_active.png';
+import calendarImgActive from '../../images/calendar_active.png';
+import noteImgActive from '../../images/note_active.png';
 
-let FmsToolTip = require('FmsToolTip');
+import FmsToolTip from '../../components/FmsToolTip';
 
-let FmsVerticalNav = React.createClass({
-  handleVerItemClick: function (position) {
+class FmsVerticalNav extends React.Component {
+  handleVerItemClick(position) {
     let newFilters = this.props.state;
     for (let i = 0; i < newFilters.length; i++) {
       if (newFilters[i].isTag) continue;
@@ -42,8 +42,8 @@ let FmsVerticalNav = React.createClass({
     });
     if (isShowAll == true) newFilters[0].isActive = true;
     this.props.handleFilter(newFilters);
-  },
-  render: function () {
+  }
+  render() {
     let inactive = [allImg, unreadImg, postImg, inboxImg];
     let active = [allImgActive, unreadImgActive, postImgActive, inboxImgActive];
     let className = [];
@@ -60,28 +60,28 @@ let FmsVerticalNav = React.createClass({
     return (
       <div ref="vertical_nav">
         <FmsToolTip message="Show all" direction="right">
-          <div onClick={() => {this.handleVerItemClick(0)}}>
+          <div onClick={() => { this.handleVerItemClick(0) }}>
             <img src={src[0]} className={"vertical-nav-item" + className[0]} />
           </div>
         </FmsToolTip>
         <FmsToolTip message="Filter by unread" direction="right">
-          <div onClick={() => {this.handleVerItemClick(1)}}>
+          <div onClick={() => { this.handleVerItemClick(1) }}>
             <img src={src[1]} className={"vertical-nav-item" + className[1]} />
           </div>
         </FmsToolTip>
         <FmsToolTip message="Filter by comment" direction="right">
-          <div onClick={() => {this.handleVerItemClick(2)}}>
+          <div onClick={() => { this.handleVerItemClick(2) }}>
             <img src={src[2]} className={"vertical-nav-item" + className[2]} />
           </div>
         </FmsToolTip>
         <FmsToolTip message="Filter by inbox" direction="right">
-          <div onClick={() => {this.handleVerItemClick(3)}}>
+          <div onClick={() => { this.handleVerItemClick(3) }}>
             <img src={src[3]} className={"vertical-nav-item" + className[3]} />
           </div>
         </FmsToolTip>
       </div>
     );
   }
-});
+}
 
 module.exports = FmsVerticalNav;
