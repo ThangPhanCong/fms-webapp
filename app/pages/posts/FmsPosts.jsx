@@ -52,7 +52,7 @@ class FmsPosts extends React.Component {
           {this.renderPosts()}
         </Row>
         <div className="loadmore-wrapper">
-          {(paging) ? <Button onClick={this.loadMorePosts.bind(this)}>Lấy thêm</Button> : null}
+          {(paging && !isPostsLoading) ? <Button onClick={this.loadMorePosts.bind(this)}>Lấy thêm</Button> : null}
         </div>
       </Grid>
     );
