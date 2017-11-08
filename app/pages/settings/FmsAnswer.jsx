@@ -9,7 +9,7 @@ class FmsAnswer extends React.Component {
         <div className="fms-block">
           <Row className="fms-block-header">
             <Col>
-              Fms Answer
+              Mẫu câu trả lời khách hàng
             </Col>
           </Row>
         </div>

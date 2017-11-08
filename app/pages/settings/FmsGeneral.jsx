@@ -9,7 +9,7 @@ class FmsGeneral extends React.Component {
         <div className="fms-block">
           <Row className="fms-block-header">
             <Col>
-              FmsGeneral
+              Thông tin chung
             </Col>
           </Row>
         </div>

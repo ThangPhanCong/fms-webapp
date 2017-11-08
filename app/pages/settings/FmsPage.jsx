@@ -1,20 +1,22 @@
 import React from 'react';
 import { Grid, Row, Col, Checkbox } from 'react-bootstrap';
+import uuid from 'uuid';
+import {connect} from 'react-redux';
 
 class FmsPage extends React.Component {
   render() {
-    let self = this;
-
     return (
         <div className="fms-block">
           <Row className="fms-block-header">
             <Col>
-              FmsPage
+              Danh sách trang của dự án
             </Col>
           </Row>
         </div>
     );
   }
 }
-
-module.exports = FmsPage;
+const mapStateToProps = state => {
+  return {}
+}
+export default connect(mapStateToProps)(FmsPage);

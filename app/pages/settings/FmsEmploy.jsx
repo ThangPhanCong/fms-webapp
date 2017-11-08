@@ -9,7 +9,7 @@ class FmsEmploy extends React.Component {
         <div className="fms-block">
           <Row className="fms-block-header">
             <Col>
-              FmsEmploy
+              Danh sách nhân viên
             </Col>
           </Row>
         </div>

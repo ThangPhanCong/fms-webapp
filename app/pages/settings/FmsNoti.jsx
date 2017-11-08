@@ -9,7 +9,7 @@ class FmsNoti extends React.Component {
         <div className="fms-block">
           <Row className="fms-block-header">
             <Col>
-              General settings
+              Cài đặt thông báo
             </Col>
           </Row>
           <Row>

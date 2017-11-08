@@ -9,7 +9,7 @@ class FmsPost extends React.Component {
         <div className="fms-block">
           <Row className="fms-block-header">
             <Col>
-              FmsPost
+              Danh sách bài đăng
             </Col>
           </Row>
         </div>
