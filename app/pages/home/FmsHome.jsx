@@ -20,17 +20,9 @@ class FmsHome extends Component {
   }
 
   render() {
-    let self = this;
-
-    // const {isAuthenticated} = this.props;
-
-    // if (isAuthenticated) {
-    //   return <Redirect to='/projects' />
-    // }
-
     return (
       <div className="container-fluid homepage page">
-        <h1 className="page-title">Facebook Management Suite</h1>
+        <h1 className="page-title">Facebook Marketing Suite</h1>
         <p className="page-description">Tools for conversation management, customers, selling at stall, integrated transportation and supporting utilities</p>
 
         <a to='/login' className="button" onClick={this.onClickLoginBtn.bind(this)}>ENTER DASHBOARD</a>

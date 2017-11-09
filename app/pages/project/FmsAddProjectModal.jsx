@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import { Modal } from 'react-bootstrap';
+
 import FmsPageItemInModal from './FmsPageItemInModal';
 import FmsSpin from '../../components/FmsSpin';
 import projectApi from '../../api/ProjectApi';
@@ -14,34 +14,39 @@ class FmsAddProjectModal extends Component {
     const { dispatch } = this.props;
     dispatch(createNewProject(name));
   }
+
   closeModal() {
     let { dispatch } = this.props;
     dispatch(closeModal());
   }
+
   activePages() {
     let { dispatch } = this.props;
     dispatch(activePages());
   }
+
   renderCreateNewProject() {
-    let disabled = this.props.isSendingRequest;
+    const disabled = this.props.isSendingRequest;
+
     return (
       <div className="add-project-modal">
         <Modal.Header closeButton={!disabled}>
-          <Modal.Title>Choose pages to active</Modal.Title>
+          <Modal.Title>Tạo dự án mới</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="form-group">
-            <label htmlFor="project-name">Project name:</label>
+            <label htmlFor="project-name">Tên dự án:</label>
             <input type="project-name" className="form-control" ref="projectName" id="project-name"></input>
           </div>
 
         </Modal.Body>
         <Modal.Footer>
-          <button type="button" className={"btn btn-primary active-btn"} onClick={this.requestNewProject.bind(this)} disabled={disabled}>Create new Project</button>
+          <button type="button" className={"btn btn-primary active-btn"} onClick={this.requestNewProject.bind(this)} disabled={disabled}>Tiếp tục</button>
         </Modal.Footer>
       </div>
     )
   }
+
   renderPageItems() {
     let self = this;
     let { pages, selectedPages, isSendingRequest } = this.props;
@@ -59,10 +64,11 @@ class FmsAddProjectModal extends Component {
       })
     } else {
       return (
-        <div>Bạn không có page nào!</div>
+        <div>Bạn không có trang nào!</div>
       )
     }
   }
+
   renderActivePages() {
     const { dispatch } = this.props;
     let disabled = this.props.isSendingRequest;
@@ -73,7 +79,7 @@ class FmsAddProjectModal extends Component {
     return (
       <div className="add-project-modal">
         <Modal.Header closeButton={!disabled}>
-          <Modal.Title>Chọn page thêm vào project</Modal.Title>
+          <Modal.Title>Thêm trang</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {this.renderPageItems()}
@@ -86,12 +92,13 @@ class FmsAddProjectModal extends Component {
             </div>
             <button type="button" className={"btn btn-primary active-btn"}
               disabled={disabled || !selectedPages || !Array.isArray(selectedPages) || selectedPages.length == 0}
-              onClick={this.activePages.bind(this)}>Active</button>
+              onClick={this.activePages.bind(this)}>Thêm</button>
           </div>
         </Modal.Footer>
       </div>
     )
   }
+
   renderBodyModal() {
     let showListPages = this.props.showListPages;
     if (showListPages == true) {
@@ -100,6 +107,7 @@ class FmsAddProjectModal extends Component {
       return this.renderCreateNewProject();
     }
   }
+
   render() {
     return (
       <Modal show={this.props.modalIsShown} onHide={this.closeModal.bind(this)} backdrop='static' keyboard={false} >
@@ -120,4 +128,5 @@ const mapStateToProps = state => {
     loadingStatus: state.project.projectModal.loadingStatus
   }
 }
+
 export default connect(mapStateToProps)(FmsAddProjectModal);

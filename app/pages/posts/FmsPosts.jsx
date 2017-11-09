@@ -1,5 +1,3 @@
-"use strict";
-
 import React from 'react';
 import { Route } from 'react-router-dom';
 import {connect} from 'react-redux';
@@ -54,12 +52,13 @@ class FmsPosts extends React.Component {
           {this.renderPosts()}
         </Row>
         <div className="loadmore-wrapper">
-          {(paging) ? <Button onClick={this.loadMorePosts.bind(this)}>Load more</Button> : null}
+          {(paging && !isPostsLoading) ? <Button onClick={this.loadMorePosts.bind(this)}>Lấy thêm</Button> : null}
         </div>
       </Grid>
     );
   }
 }
+
 const mapStateToProps = state => {
   return {
     isPostsLoading: state.post.isPostsLoading,
