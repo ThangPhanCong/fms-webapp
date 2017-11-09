@@ -25,20 +25,22 @@ class FmsSettings extends React.Component {
   render() {
     return (<Grid bsClass="page">
       <Row bsClass="settings-wrapper row">
-        <Col xs={12} sm={4}>
+        <Col xs={12} sm={1}>
+        </Col>
+        <Col xs={12} sm={2}>
           <FmsSidebar/>
         </Col>
         <Col xs={12} sm={4}>
           <Switch>
-            <Route exact="exact" path="/projects/:project_alias/settings/general" component={FmsGeneral}/>
-            <Route exact="exact" path="/projects/:project_alias/settings/tag" component={FmsTag}/>
-            <Route exact="exact" path="/projects/:project_alias/settings/page" component={FmsPage}/>
-            <Route exact="exact" path="/projects/:project_alias/settings/post" component={FmsPost}/>
-            <Route exact="exact" path="/projects/:project_alias/settings/customer" component={FmsCustomer}/>
-            <Route exact="exact" path="/projects/:project_alias/settings/answer" component={FmsAnswer}/>
-            <Route exact="exact" path="/projects/:project_alias/settings/employ" component={FmsEmploy}/>
-            <Route exact="exact" path="/projects/:project_alias/settings/noti" component={FmsNoti}/>
-            <Route exact="exact" path="/projects/:project_alias/settings/pay" component={FmsPay}/>
+            <Route path="/projects/:project_alias/settings/general" component={FmsGeneral}/>
+            <Route path="/projects/:project_alias/settings/tag" component={FmsTag}/>
+            <Route path="/projects/:project_alias/settings/page" component={FmsPage}/>
+            <Route path="/projects/:project_alias/settings/post" component={FmsPost}/>
+            <Route path="/projects/:project_alias/settings/customer" component={FmsCustomer}/>
+            <Route path="/projects/:project_alias/settings/answer" component={FmsAnswer}/>
+            <Route path="/projects/:project_alias/settings/employ" component={FmsEmploy}/>
+            <Route path="/projects/:project_alias/settings/noti" component={FmsNoti}/>
+            <Route path="/projects/:project_alias/settings/pay" component={FmsPay}/>
           </Switch>
         </Col>
       </Row>

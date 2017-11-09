@@ -55,7 +55,7 @@ class FmsTag extends React.Component {
     let countItem = `(${tags.length}/${MAX_TAG_ITEMS})`
     return (
         <div className="fms-block">
-          <Row className="fms-block-header">
+          <Row className="setting-header">
             <Col>
               <span>Thẻ hội thoại</span>
               <span>{countItem}</span>

@@ -7,7 +7,7 @@ class FmsPay extends React.Component {
 
     return (
         <div className="fms-block">
-          <Row className="fms-block-header">
+          <Row className="setting-header">
             <Col>
               Thông tin thanh toán
             </Col>

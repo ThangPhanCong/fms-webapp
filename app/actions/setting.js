@@ -1,5 +1,6 @@
 import * as store from '../helpers/storage';
 import TagApi from '../api/TagApi';
+import ProjectApi from '../api/ProjectApi';
 import {MAX_TAG_ITEMS, TAG_COLORS} from '../constants/utils';
 export const SETTING_LOADING = 'SETTING_LOADING';
 export const SETTING_LOADED = 'SETTING_LOADED';
@@ -8,6 +9,10 @@ export const UPDATE_TAG = 'UPDATE_TAG';
 export const DELETE_TAG = 'DELETE_TAG';
 export const CHANGE_VALUE_TAG = 'CHANGE_VALUE_TAG';
 export const IS_EDITTING = 'IS_EDITTING';
+export const PROJECT_LOADED = 'PROJECT_LOADED';
+export const UPDATE_PROJECT = 'UPDATE_PROJECT';
+export const DELETE_PROJECT = 'DELETE_PROJECT';
+export const PAGES_LOADED = 'PAGES_LOADED';
 
 export const settingLoading = () => dispatch => {
   dispatch({ type: SETTING_LOADING});
@@ -29,6 +34,12 @@ export const changeValueTag = (value) => dispatch => {
 }
 export const isEditting = () => dispatch => {
   dispatch({type: IS_EDITTING})
+}
+export const projectLoaded = (project) => dispatch => {
+  dispatch({type: PROJECT_LOADED, project})
+}
+export const pagesLoaded = (pages) => dispatch => {
+  dispatch({type: PAGES_LOADED, pages})
 }
 export const getTags = (project_alias) => dispatch => {
     dispatch(settingLoading());
@@ -74,4 +85,38 @@ export const deleteTag = (project_alias, tag) => dispatch => {
     .catch(err => {
       alert(err.message);
     });
+}
+
+export const getProjectInfo = (project_alias) => dispatch => {
+  dispatch(settingLoading());
+  ProjectApi.getProject(project_alias)
+    .then(data => {
+      if(data) {
+        dispatch(projectLoaded(data));
+      }
+    })
+}
+
+export const updateProject = (project_alias, project) => dispatch => {
+  dispatch(settingLoading());
+}
+
+export const deleteProject = (project_alias) => dispatch => {
+  dispatch(settingLoading());
+  ProjectApi.deleteProject(project_alias)
+    .then(() => {
+    })
+    .catch(err => {
+      alert(err);
+    })
+}
+
+export const getPages = (project_alias) => dispatch => {
+  dispatch(settingLoading());
+  ProjectApi.getProject(project_alias)
+  .then(data => {
+    if(data) {
+      dispatch(pagesLoaded(data.pages));
+    }
+  })
 }

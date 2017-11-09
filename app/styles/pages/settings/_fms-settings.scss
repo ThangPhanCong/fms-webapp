@@ -14,15 +14,15 @@
     //background-color: rgba(240,240,240, 1);
     //background-color:#FBFBFB;
   }
-  .fms-block-header {
+  .setting-header {
     //background-color: rgba(240,240,240, 1);
-    color: navy;
-    font-size: 80%;
+    color: black;
+    font-size: 120%;
     padding: 1em;
     margin-bottom: 0.5em;
     text-transform: uppercase;
-    font-weight:bold;
-    border-bottom: 1px solid black;
+    font-weight:normal;
+    border-bottom: 1px solid gray;
   }
 }
 
@@ -56,4 +56,16 @@
       margin: 0;
     }
   }
+}
+
+.setting-sidebar {
+  border: 1px solid gray;
+}
+.nav-link:hover {
+    text-decoration: none;
+}
+
+.nav-item {
+  border-bottom: 1px solid gray;
+      text-decoration: none;
 }

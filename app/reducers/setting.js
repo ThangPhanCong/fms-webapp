@@ -5,7 +5,9 @@ import {
   UPDATE_TAG,
   DELETE_TAG,
   CHANGE_VALUE_TAG,
-  IS_EDITTING
+  IS_EDITTING,
+  PROJECT_LOADED,
+  PAGES_LOADED
 } from '../actions/setting';
 
 
@@ -13,7 +15,9 @@ const initState = {
   isSettingLoading: true,
   isEditting: false,
   value: "",
-  tags: []
+  tags: [],
+  project: "",
+  pages: []
 }
 
 const settingReducer = (state = initState, action) => {
@@ -53,10 +57,21 @@ const settingReducer = (state = initState, action) => {
         isSettingLoading: false,
         value: action.value
       }
-      case IS_EDITTING:
+    case IS_EDITTING:
+      return {
+        ...state,
+        isEditting: true
+      }
+    case PROJECT_LOADED:
+      return {
+        ...state,
+        isSettingLoading: false,
+        project: action.project
+      }
+      case PAGES_LOADED:
         return {
           ...state,
-          isEditting: true
+          pages: action.pages
         }
     default:
       return state;

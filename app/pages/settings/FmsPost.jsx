@@ -7,7 +7,7 @@ class FmsPost extends React.Component {
 
     return (
         <div className="fms-block">
-          <Row className="fms-block-header">
+          <Row className="setting-header">
             <Col>
               Danh sách bài đăng
             </Col>

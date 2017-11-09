@@ -7,26 +7,26 @@ class FmsNoti extends React.Component {
 
     return (
         <div className="fms-block">
-          <Row className="fms-block-header">
+          <Row className="setting-header">
             <Col>
               Cài đặt thông báo
             </Col>
           </Row>
           <Row>
             <Col>
-              <Checkbox className='tag-item-wrapper'>Notification sound</Checkbox>
+              <Checkbox className='tag-item-wrapper'>Âm thanh thông báo</Checkbox>
             </Col>
             <Col>
-              <Checkbox className='tag-item-wrapper'>Show unread conversation on top</Checkbox>
+              <Checkbox className='tag-item-wrapper'>Hiện thị cuộc hội thoại chưa đọc lên trên đầu</Checkbox>
             </Col>
             <Col>
-              <Checkbox className='tag-item-wrapper'>Auto like comment when replying</Checkbox>
+              <Checkbox className='tag-item-wrapper'>Tự động thích bình luận khi đang trả lời bình luận</Checkbox>
             </Col>
             <Col>
-              <Checkbox className='tag-item-wrapper'>Auto create new order</Checkbox>
+              <Checkbox className='tag-item-wrapper'>Tự động tạo đơn đặt hàng</Checkbox>
             </Col>
             <Col>
-              <Checkbox className='tag-item-wrapper'>Auto hide comment</Checkbox>
+              <Checkbox className='tag-item-wrapper'>Tự động ẩn bình luận</Checkbox>
             </Col>
           </Row>
         </div>
