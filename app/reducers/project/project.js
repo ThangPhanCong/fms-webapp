@@ -1,3 +1,5 @@
+import * as redux from 'redux';
+import projectModal from './projectModal';
 import { PROJECTS_LOADIND, PROJECTS_LOADED } from '../../actions/project/project';
 
 const initState = {
@@ -23,4 +25,9 @@ const _project = (state = initState, action) => {
   }
 }
 
-export default _project;
+const project = redux.combineReducers({
+  projectModal,
+  _project
+});
+
+export default project;

@@ -1,5 +1,6 @@
 import React from 'react';
 import uuid from 'uuid';
+import { connect } from 'react-redux';
 
 class FmsPostInfoConversation extends React.Component {
   renderAttachments(attachments) {
@@ -27,11 +28,18 @@ class FmsPostInfoConversation extends React.Component {
     return (
       <div className="post-info-conversation">
         <p className="page-name-conversation">{this.props.pageInfo.name}</p>
-        <p>{this.props.content.message}</p>
-        {this.renderAttachments(this.props.content.attachments)}
+        <p>{this.props.postInfo.message}</p>
+        {this.renderAttachments(this.props.postInfo.attachments)}
       </div>
     )
   }
 }
 
-module.exports = FmsPostInfoConversation;
+const mapStateToProps = state => {
+  return {
+		pageInfo: state.dashboard.selectedConversation.chatArea.conversation.page,
+		postInfo: state.dashboard.selectedConversation.chatArea.postInfo
+  }
+}
+
+export default connect(mapStateToProps)(FmsPostInfoConversation);
