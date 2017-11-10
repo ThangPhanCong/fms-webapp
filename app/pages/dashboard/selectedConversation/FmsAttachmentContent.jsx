@@ -71,7 +71,7 @@ class FmsAttachmentContent extends React.Component {
             <FmsSpin size={27} />
           </div>
           <a href={self.props.origin} target="_blank">
-            <img className={"image-attachment" + imgAttach} src={preview} onLoad={this.attachmentLoadDone} />
+            <img className={"image-attachment" + imgAttach} src={preview} onLoad={this.attachmentLoadDone.bind(this)} />
           </a>
         </div>
       </div>

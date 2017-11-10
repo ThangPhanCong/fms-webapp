@@ -40,8 +40,8 @@ export const getTagsProject = (alias) => (dispatch, getState) => {
 }
 
 export const handleFilter = (newFilters) => dispatch => {
-  dispatch(setFilters(newFilters));
-  //this.filterConversations();
+  dispatch(setFilters(_.clone(newFilters)));
+  dispatch(filterConversations());
 }
 
 export const handleTagFilterClick = (_id) => (dispatch, getState) => {
@@ -51,9 +51,7 @@ export const handleTagFilterClick = (_id) => (dispatch, getState) => {
       filter.isActive = !filter.isActive;
     }
   });
-  dispatch(setFilters(_.clone(newFilters)));
-  dispatch(filterConversations());
-  //dispatch(handleFilter(newFilters));
+  dispatch(handleFilter(newFilters));
 }
 
 export const handleTypeFilterClick = (position) => (dispatch, getState) => {
