@@ -3,7 +3,6 @@ import uuid from 'uuid';
 import {connect} from 'react-redux';
 
 import projectApi from '../../api/ProjectApi';
-import { deleteProject } from '../../actions/project/project';
 
 class FmsProjectItem extends React.Component {
   renderPageItem() {
@@ -30,13 +29,6 @@ class FmsProjectItem extends React.Component {
       return <div></div>
     }
   }
-  deleteProjectClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    let { data, dispatch } = this.props;
-    let projectAlias = data.alias;
-    dispatch(deleteProject(projectAlias));
-  }
   render() {
     let project = this.props.data;
     let projectName = project.name;
@@ -50,7 +42,6 @@ class FmsProjectItem extends React.Component {
           </div>
           <div className="panel-body">
             <div className="page-wrapper">{this.renderPageItem()}</div>
-            <button className="btn btn-danger" onClick={this.deleteProjectClick.bind(this)}>Xóa</button>
           </div>
         </div>
       </div>

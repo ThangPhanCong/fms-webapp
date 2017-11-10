@@ -4,12 +4,15 @@ import {
   DELETE_TAG,
   CHANGE_VALUE_TAG,
   SETTING_LOADED,
-  TAG_LOADED
+  TAG_LOADED,
+  SET_VALUE_TAG,
+  IS_EDITTING
 } from '../../actions/setting/setting-tag';
 
 const initState = {
   value: "",
-  tags: []
+  tags: [],
+  is_editting: false
 }
 
 const settingTag = (state = initState, action) => {
@@ -38,6 +41,16 @@ const settingTag = (state = initState, action) => {
       return {
         ...state,
         value: action.value
+      }
+    case SET_VALUE_TAG:
+      return {
+        ...state,
+        value: action.value
+      }
+    case IS_EDITTING:
+      return {
+        ...state,
+        is_editting: !state.is_editting
       }
     default:
       return state;
