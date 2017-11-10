@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
+import uuid from 'uuid';
 
 import searchImg from '../../../images/search.png';
 import FmsClientItem from './FmsClientItem';
@@ -26,7 +27,7 @@ class FmsClientList extends React.Component {
 		if (!conversations) return;
 		return conversations.map(conversation => {
 			let isSelected = (self.props.selectedConversation && self.props.selectedConversation._id == conversation._id);
-			return <FmsClientItem key={conversation._id} data={conversation} isSelected={isSelected} />
+			return <FmsClientItem key={uuid()} data={conversation} isSelected={isSelected} />
 		});
 	}
 

@@ -3,6 +3,7 @@ import projectApi from '../../api/ProjectApi';
 import * as socket from '../../socket';
 import * as scActions from './selectedConversation/chatArea';
 import _ from 'lodash';
+import { setSelectedConversation } from './selectedConversation/chatArea';
 
 export const START_LOAD_MORE_CONVERS = 'START_LOAD_MORE_CONVERS';
 export const COMPLETE_LOAD_MORE_CONVERS = 'COMPLETE_LOAD_MORE_CONVERS';
@@ -98,6 +99,12 @@ export const handleConversationClick = (selectedConv, type) => (dispatch, getSta
     let updateChildren = (_selectedConv, data) => {
       _selectedConv.children = data.data;
       _selectedConv.paging = (data.paging) ? data.paging.next : null;
+      _conversations.forEach(c => {
+        if (c._id == _selectedConv._id) {
+          c.children = data.data;
+          c.paging = _selectedConv.paging;
+        }
+      });
       //this.reloadAttachment(data.data);
       dispatch(scActions.setSelectedConversation(_.clone(_selectedConv)));
       dispatch(scActions.completeLoadingMsgs());
@@ -143,7 +150,7 @@ export const loadMoreConversations = (alias) => (dispatch, getState) => {
 
 export const updateMsgInConversation = (msg) => (dispatch, getState) => {
   if (!msg || !msg.parent || !msg.parent.type) return;
-  let _conversations = _.clone(getState().dashboard.conversations.conversations);
+  let _conversations = getState().dashboard.conversations.conversations;
   let parentConversations = _conversations.filter((c) => { 
     //if (!c) return false;
     return c._id == msg.parent._id;
@@ -181,7 +188,7 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
         } else {
           return parentCv;
         }
-      })
+      });
       postSeenCv(parent);
     } else {
       //this msg is not exists -> add to msg list and update parent
@@ -199,9 +206,10 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
       let filterConversations = _conversations.filter((c) => { return c._id != parent._id });
       filterConversations.unshift(parent);
       _conversations = filterConversations;
+      dispatch(setSelectedConversation(_.clone(parent)));
     }
   }
-  dispatch(setConversations(_conversations));
+  dispatch(setConversations(_.clone(_conversations)));
   //self.filterConversations();
   //if (self._child2) self._child2.scrollToBottom();
 }
