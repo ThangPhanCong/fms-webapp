@@ -1,11 +1,9 @@
-import { PROJECTS_LOADIND, PROJECTS_LOADED, OPEN_MODAL, CLOSE_MODAL, 
-START_SENDING_REQUEST, COMPLETE_SENDING_REQUEST, SET_PAGES, SET_SELECTED_PAGES, 
-SET_LOADING_STATUS, CREATE_PROJECT_SUCCESS, RESET_MODAL_STATE} from '../actions/project';
-
+import {
+  OPEN_MODAL, CLOSE_MODAL, START_SENDING_REQUEST, COMPLETE_SENDING_REQUEST, SET_LIST_PAGES,
+  SET_SELECTED_PAGES, SET_LOADING_STATUS, CREATE_PROJECT_SUCCESS, RESET_MODAL_STATE
+} from '../../actions/project/projectModal';
 
 const initState = {
-  isProjectLoading: true,
-  projects: [],
   modalIsShown: false,
   showListPages: false,
   isSendingRequest: false,
@@ -15,19 +13,8 @@ const initState = {
   loadingStatus: ''
 }
 
-const projectReducer = (state = initState, action) => {
-  switch(action.type) {
-    case PROJECTS_LOADIND:
-      return {
-        ...state,
-        isProjectLoading: true
-      }
-    case PROJECTS_LOADED:
-      return {
-        ...state,
-        isProjectLoading: false,
-        projects: action.projects
-      }
+const projectModal = (state = initState, action) => {
+  switch (action.type) {
     case OPEN_MODAL:
       return {
         ...state,
@@ -55,7 +42,7 @@ const projectReducer = (state = initState, action) => {
         showListPages: true,
         project: action.newProject
       }
-    case SET_PAGES:
+    case SET_LIST_PAGES:
       return {
         ...state,
         pages: action.pages
@@ -86,4 +73,4 @@ const projectReducer = (state = initState, action) => {
   }
 }
 
-export default projectReducer;
+export default projectModal;

@@ -8,8 +8,6 @@ class FmsAttachmentContent extends React.Component {
       size: {},
       isLoading: true
     }
-    this.updateChatAreaWidth = this.updateChatAreaWidth.bind(this);
-    this.attachmentLoadDone = this.attachmentLoadDone.bind(this);
   }
   getSizeImage() {
     if (!this.props.size || this.props.type == "sticker") return {};

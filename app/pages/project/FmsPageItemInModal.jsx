@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import tickImg from '../../images/tick.png';
-import { clickOnPageInModal } from '../../actions/project';
+import { clickOnPageInModal } from '../../actions/project/projectModal';
 
 class FmsPageItemInModal extends React.Component {
   onPageClick() {

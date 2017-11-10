@@ -1,21 +1,23 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 
 import FmsProjectItem from './FmsProjectItem';
 import FmsAddProjectModal from './FmsAddProjectModal';
+import { getProjects } from '../../actions/project/project';
+import { openModal } from '../../actions/project/projectModal';
 import FmsSpin from '../../components/FmsSpin';
-import {getProjects, openModal} from '../../actions/project';
 
 class FmsProject extends Component {
 
   componentDidMount() {
-    const {dispatch} = this.props;
+    const { dispatch } = this.props;
     dispatch(getProjects());
   }
 
   renderPageItems() {
+    let self = this;
     const {projects, dispatch, match, isProjectLoading} = this.props;
 
     if (projects.length > 0) {
@@ -50,7 +52,7 @@ class FmsProject extends Component {
             </div>
           </div>
           <div className="row">
-            { this.renderPageItems() }
+            {this.renderPageItems()}
           </div>
           <FmsAddProjectModal />
         </div>
@@ -66,8 +68,8 @@ FmsProject.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    projects: state.project.projects,
-    isProjectLoading: state.project.isProjectLoading
+    projects: state.project._project.projects,
+    isProjectLoading: state.project._project.isProjectLoading
   }
 }
 

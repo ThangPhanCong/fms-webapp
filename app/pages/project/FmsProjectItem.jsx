@@ -3,7 +3,7 @@ import uuid from 'uuid';
 import {connect} from 'react-redux';
 
 import projectApi from '../../api/ProjectApi';
-import { deleteProject } from '../../actions/project';
+import { deleteProject } from '../../actions/project/project';
 
 class FmsProjectItem extends React.Component {
   renderPageItem() {

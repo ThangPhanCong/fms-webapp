@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import uuid from 'uuid';
@@ -34,7 +32,6 @@ class FmsMessageItem extends React.Component {
 	}
 	render() {
 		let self = this;
-
 		let avaUrl = `https://graph.facebook.com/v2.10/${this.props.message.from.id}/picture`;
 		let userFb = `https://facebook.com/${this.props.message.from.id}`;
 		let isSelf = this.props.isSelf;
@@ -62,13 +59,11 @@ class FmsMessageItem extends React.Component {
 					}
 				});
 			}
-
 			if (msgType == 'inbox' && msg.attachments && msg.attachments.data.length > 0) {
 				attachmentData = msg.attachments.data;
 			} else if (msgType == 'comment' && msg.attachment) {
 				attachmentData = [msg.attachment];
 			}
-
 			if (attachmentData) {
 				let index = 0;
 				return attachmentData.map(attachment => {
