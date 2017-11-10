@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
 
 import allImg from '../../images/all.png';
 import unreadImg from '../../images/unread.png';
@@ -22,34 +23,19 @@ import calendarImgActive from '../../images/calendar_active.png';
 import noteImgActive from '../../images/note_active.png';
 
 import FmsToolTip from '../../components/FmsToolTip';
+import { handleTypeFilterClick } from '../../actions/dashboard/filters';
 
 class FmsVerticalNav extends React.Component {
-  handleVerItemClick(position) {
-    let newFilters = this.props.state;
-    for (let i = 0; i < newFilters.length; i++) {
-      if (newFilters[i].isTag) continue;
-      if (i == position) newFilters[i].isActive = !newFilters[i].isActive;
-      else {
-        if (position == 0) newFilters[i].isActive = false;
-        else newFilters[0].isActive = false
-        if (position == 2 && i == 3) newFilters[i].isActive = false;
-        else if (position == 3 && i == 2) newFilters[i].isActive = false;
-      }
-    }
-    let isShowAll = true;
-    newFilters.forEach((filter) => {
-      if (filter.isActive == true && !filter.isTag) isShowAll = false;
-    });
-    if (isShowAll == true) newFilters[0].isActive = true;
-    this.props.handleFilter(newFilters);
+  handleTypeFilterClick(position) {
+    this.props.dispatch(handleTypeFilterClick(position));
   }
   render() {
     let inactive = [allImg, unreadImg, postImg, inboxImg];
     let active = [allImgActive, unreadImgActive, postImgActive, inboxImgActive];
     let className = [];
     let src = [];
-    for (let i = 0; i < this.props.state.length; i++) {
-      if (this.props.state[i].isActive == true) {
+    for (let i = 0; i < this.props.filters.length; i++) {
+      if (this.props.filters[i].isActive == true) {
         src.push(active[i]);
         className.push(" vertical-item-active");
       } else {
@@ -60,22 +46,22 @@ class FmsVerticalNav extends React.Component {
     return (
       <div ref="vertical_nav">
         <FmsToolTip message="Show all" direction="right">
-          <div onClick={() => { this.handleVerItemClick(0) }}>
+          <div onClick={() => { this.handleTypeFilterClick(0) }}>
             <img src={src[0]} className={"vertical-nav-item" + className[0]} />
           </div>
         </FmsToolTip>
         <FmsToolTip message="Filter by unread" direction="right">
-          <div onClick={() => { this.handleVerItemClick(1) }}>
+          <div onClick={() => { this.handleTypeFilterClick(1) }}>
             <img src={src[1]} className={"vertical-nav-item" + className[1]} />
           </div>
         </FmsToolTip>
         <FmsToolTip message="Filter by comment" direction="right">
-          <div onClick={() => { this.handleVerItemClick(2) }}>
+          <div onClick={() => { this.handleTypeFilterClick(2) }}>
             <img src={src[2]} className={"vertical-nav-item" + className[2]} />
           </div>
         </FmsToolTip>
         <FmsToolTip message="Filter by inbox" direction="right">
-          <div onClick={() => { this.handleVerItemClick(3) }}>
+          <div onClick={() => { this.handleTypeFilterClick(3) }}>
             <img src={src[3]} className={"vertical-nav-item" + className[3]} />
           </div>
         </FmsToolTip>
@@ -84,4 +70,10 @@ class FmsVerticalNav extends React.Component {
   }
 }
 
-module.exports = FmsVerticalNav;
+const mapStateToProps = state => {
+  return {
+    filters: state.dashboard.filters.filters
+  }
+}
+
+export default connect(mapStateToProps)(FmsVerticalNav);

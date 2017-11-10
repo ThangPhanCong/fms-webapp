@@ -8,8 +8,6 @@ class FmsAttachmentContent extends React.Component {
       size: {},
       isLoading: true
     }
-    this.updateChatAreaWidth = this.updateChatAreaWidth.bind(this);
-    this.attachmentLoadDone = this.attachmentLoadDone.bind(this);
   }
   getSizeImage() {
     if (!this.props.size || this.props.type == "sticker") return {};
@@ -73,7 +71,7 @@ class FmsAttachmentContent extends React.Component {
             <FmsSpin size={27} />
           </div>
           <a href={self.props.origin} target="_blank">
-            <img className={"image-attachment" + imgAttach} src={preview} onLoad={this.attachmentLoadDone} />
+            <img className={"image-attachment" + imgAttach} src={preview} onLoad={this.attachmentLoadDone.bind(this)} />
           </a>
         </div>
       </div>

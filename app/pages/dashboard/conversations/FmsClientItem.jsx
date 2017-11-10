@@ -1,20 +1,18 @@
-
-
 import React from 'react';
+import { connect } from 'react-redux';
 import inboxImg from '../../../images/inbox.png';
 import postImg from '../../../images/post.png';
 import { Image } from 'react-bootstrap';
 import uuid from 'uuid';
 
+import { handleConversationClick } from '../../../actions/dashboard/conversations';
+
 const ICON_HEIGHT = 16;
 
 class FmsClientItem extends React.Component {
-	constructor(props) {
-		super(props);
-		this.handleClientClick = this.handleClientClick.bind(this);
-	}
-	handleClientClick() {
-		this.props.handleClientClick(this.props.data, this.props.data.type);
+	handleConversationClick() {
+		let { dispatch, data } = this.props;
+		dispatch(handleConversationClick(data, data.type));
 	}
 	renderIconType() {
 		let self = this;
@@ -33,24 +31,24 @@ class FmsClientItem extends React.Component {
 		return icons;
 	}
 	render() {
-		let self = this;
+		let data = this.props.data;
 		let clientid, clientName, message;
 		let isSelected = (this.props.isSelected) ? " selectedItem" : "";
 
-		if (this.props.data.type == "inbox") {
-			clientid = this.props.data.customer.id;
-			clientName = this.props.data.customer.name;
+		if (data.type == "inbox") {
+			clientid = data.customer.id;
+			clientName = data.customer.name;
 		} else {
-			clientid = this.props.data.from.id;
-			clientName = this.props.data.from.name;
+			clientid = data.from.id;
+			clientName = data.from.name;
 		}
-		message = (this.props.data.snippet == "") ? "[Attachment]" : this.props.data.snippet;
+		message = (data.snippet == "") ? "[Attachment]" : data.snippet;
 
-		let seenClass = this.props.data.is_seen ? '' : ' not-seen';
+		let seenClass = data.is_seen ? '' : ' not-seen';
 
 		let avaUrl = `https://graph.facebook.com/v2.10/${clientid}/picture`;
 		return (
-			<div className={"client-item" + isSelected} onClick={this.handleClientClick}>
+			<div className={"client-item" + isSelected} onClick={this.handleConversationClick.bind(this)}>
 				<div className="client-profile-wrapper">
 					<img src={avaUrl} className="client-profile" />
 				</div>
@@ -58,7 +56,7 @@ class FmsClientItem extends React.Component {
 					<div className={"client-name " + seenClass}>{clientName}</div>
 					<div className={"lastest-message " + seenClass}>{message}</div>
 					<div className="client-item-tags">
-						{self.renderIconType()}
+						{this.renderIconType()}
 					</div>
 				</div>
 			</div>
@@ -66,4 +64,8 @@ class FmsClientItem extends React.Component {
 	}
 }
 
-module.exports = FmsClientItem;
+const mapStateToProps = state => {
+  return {}
+}
+
+export default connect(mapStateToProps)(FmsClientItem);

@@ -1,7 +1,6 @@
-
-
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
 
 import blockImg from '../../../images/block.png';
 import blockActiveImg from '../../../images/block_active.png';
@@ -10,11 +9,14 @@ import fbImgActive from '../../../images/facebook_active.png';
 import FmsToolTip from '../../../components/FmsToolTip';
 import blockApi from '../../../api/BlockApi';
 
+import { activePerson, blockPerson } from '../../../actions/dashboard/selectedConversation/chatArea';
+
 class FmsInfoChat extends React.Component {
-  constructor(props) {
-    super(props);
-    this.blockPerson = this.blockPerson.bind(this);
-    this.activePerson = this.activePerson.bind(this);
+  activePerson() {
+    this.props.dispatch(activePerson());
+  }
+  blockPerson() {
+    this.props.dispatch(blockPerson());
   }
   seen_time(time) {
     if (time == undefined || time == null) return "";
@@ -40,64 +42,44 @@ class FmsInfoChat extends React.Component {
     let moment = " lúc " + hour + ":" + minute;
     return res + whatday + moment;
   }
-  blockPerson() {
-    let self = this;
-
-    let currentConversation = this.props.currentConversation;
-
-    blockApi.blockCustomer(currentConversation.page_fb_id, currentConversation.customer.id)
-      .then(data => {
-        self.props.updateBlockCustomer(currentConversation, true);
-      })
-      .catch(err => {
-        alert(err.message);
-      })
-  }
-  activePerson() {
-    let self = this;
-
-    let currentConversation = this.props.currentConversation;
-
-    blockApi.activeCustomer(currentConversation.page_fb_id, currentConversation.customer.id)
-      .then(data => {
-        self.props.updateBlockCustomer(currentConversation, false);
-      })
-      .catch(err => {
-        alert(err.message);
-      })
-  }
 
   render() {
-    let self = this;
-    let customer = this.props.currentConversation.customer;
+    let sc = this.props.selectedConversation;
+    //console.log(this.props);
+    let customer = sc.customer;
     let option = "";
     if (!customer) {
       option = " hide";
-      customer = this.props.currentConversation.from;
+      customer = sc.from;
     }
 
     return (
       <div ref="info_chat">
         <div className="info-client">
           <div className="title-chat">{customer.name}</div>
-          <div className="message-status">{self.seen_time(this.props.currentConversation.last_seen)}</div>
+          <div className="message-status">{this.seen_time(sc.last_seen)}</div>
         </div>
         <div className={"option" + option}>
           {
             customer.is_blocked ?
               <FmsToolTip message="Bỏ chặn" direction="bottom">
-                <img src={blockActiveImg} className="icon-option" onClick={self.activePerson} />
+                <img src={blockActiveImg} className="icon-option" onClick={this.activePerson.bind(this)} />
               </FmsToolTip>
               :
               <FmsToolTip message="Chặn" direction="bottom">
-                <img src={blockImg} className="icon-option" onClick={self.blockPerson} />
+                <img src={blockImg} className="icon-option" onClick={this.blockPerson.bind(this)} />
               </FmsToolTip>
           }
-
         </div>
       </div>
     );
   }
 }
 
-module.exports = FmsInfoChat;
+const mapStateToProps = state => {
+  return {
+		selectedConversation: state.dashboard.selectedConversation.chatArea.conversation
+  }
+}
+
+export default connect(mapStateToProps)(FmsInfoChat);

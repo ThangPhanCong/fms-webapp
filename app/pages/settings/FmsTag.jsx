@@ -4,7 +4,7 @@ import uuid from 'uuid';
 import {connect} from 'react-redux';
 import {MAX_TAG_ITEMS, TAG_COLORS} from '../../constants/utils';
 import FmsTagItem from './FmsTagItem';
-import {getTags, addNewTag, updateTag, deleteTag} from '../../actions/setting';
+import {getTags, addNewTag, updateTag, deleteTag} from '../../actions/setting/setting-tag';
 import {
   Link,
   NavLink,
@@ -55,7 +55,7 @@ class FmsTag extends React.Component {
     let countItem = `(${tags.length}/${MAX_TAG_ITEMS})`
     return (
         <div className="fms-block">
-          <Row className="fms-block-header">
+          <Row className="setting-header">
             <Col>
               <span>Thẻ hội thoại</span>
               <span>{countItem}</span>
@@ -75,7 +75,7 @@ class FmsTag extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return {isSettingLoading: state.setting.isSettingLoading, tags: state.setting.tags}
+  return {isSettingLoading: state.setting.isSettingLoading, tags: state.setting.settingTag.tags}
 }
 
 export default withRouter(connect(mapStateToProps)(FmsTag));
