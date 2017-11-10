@@ -7,7 +7,10 @@ import {
   CHANGE_VALUE_TAG,
   IS_EDITTING,
   PROJECT_LOADED,
-  PAGES_LOADED
+  PAGES_LOADED,
+  SET_SELECTED_PAGES,
+  IS_SHOW_MODAL,
+  ALL_PAGES_LOADED
 } from '../actions/setting';
 
 
@@ -17,7 +20,11 @@ const initState = {
   value: "",
   tags: [],
   project: "",
-  pages: []
+  pages: [],
+  isSelected: false,
+  isShowModal: false,
+  selectedPages: [],
+  allPages: []
 }
 
 const settingReducer = (state = initState, action) => {
@@ -68,11 +75,27 @@ const settingReducer = (state = initState, action) => {
         isSettingLoading: false,
         project: action.project
       }
-      case PAGES_LOADED:
-        return {
-          ...state,
-          pages: action.pages
-        }
+    case PAGES_LOADED:
+      return {
+        ...state,
+        pages: action.pages
+      }
+    case SET_SELECTED_PAGES:
+      return {
+        ...state,
+        isSettingLoading: true,
+        selectedPages: action.selectedPages
+      }
+    case IS_SHOW_MODAL:
+      return {
+        ...state,
+        isShowModal: !state.isShowModal
+      }
+    case ALL_PAGES_LOADED:
+      return {
+        ...state,
+        allPages: action.allPages
+      }
     default:
       return state;
   }

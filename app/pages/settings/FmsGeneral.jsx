@@ -37,7 +37,7 @@ class FmsGeneral extends React.Component {
       </Row>
       <FormGroup>
         <ControlLabel>Tên</ControlLabel>
-        <FormControl value={project.name} onChange={this.changeName}/>
+        <FormControl type="text" id="formControlsText" value={project.name} onChange={this.changeName.bind(this)}/>
       </FormGroup>
       <FormGroup>
         <ControlLabel>Mô tả</ControlLabel>
