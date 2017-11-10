@@ -9,6 +9,8 @@ export const UPDATE_TAG = 'UPDATE_TAG';
 export const DELETE_TAG = 'DELETE_TAG';
 export const CHANGE_VALUE_TAG = 'CHANGE_VALUE_TAG';
 export const TAG_LOADED = 'TAG_LOADED';
+export const SET_VALUE_TAG = 'SET_VALUE_TAG';
+export const IS_EDITTING = 'IS_EDITTING';
 
 export const tagLoaded = (tags) => dispatch => {
   dispatch({ type: TAG_LOADED, tags: tags });
@@ -23,7 +25,13 @@ export const delete_tag = (tag) => dispatch => {
   dispatch({type: DELETE_TAG, tag});
 }
 export const changeValueTag = (value) => dispatch => {
-  dispatch({type: CHANGE_VALUE_TAG, value})
+  dispatch({type: CHANGE_VALUE_TAG, value});
+}
+export const setValueTag = (value) => dispatch => {
+  dispatch({type: SET_VALUE_TAG, value});
+}
+export const isEditting = () => dispatch => {
+  dispatch({type: IS_EDITTING});
 }
 export const getTags = (project_alias) => dispatch => {
     TagApi.getProjectTags(project_alias)

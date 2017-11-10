@@ -3,7 +3,7 @@ import { Grid, Row, Col, Checkbox, Button, Modal } from 'react-bootstrap';
 import uuid from 'uuid';
 import {connect} from 'react-redux';
 import {withRouter, Redirect} from 'react-router-dom';
-import {isShowModal, deletePage, getPagesProject} from "../../../actions/setting/setting-page";
+import {isShowModal, deletePage, getPagesProject,resetPages} from "../../../actions/setting/setting-page";
 import FmsSpin from '../../../components/FmsSpin';
 import FmsPageModal from './FmsPageModal';
 import FmsPageInProject from './FmsPageInProject';
@@ -12,6 +12,7 @@ class FmsPage extends React.Component {
   componentDidMount() {
     const {project_alias} = this.props.match.params;
     const {dispatch} = this.props;
+    dispatch(resetPages());
     dispatch(getPagesProject(project_alias));
   }
   openModal() {

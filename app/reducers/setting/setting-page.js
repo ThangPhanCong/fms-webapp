@@ -8,7 +8,9 @@ import {
   SET_LOADING_STATUS,
   PAGES_LOADED,
   ALL_PAGES_LOADED,
-  PAGES_MODAL_LOADED
+  PAGES_MODAL_LOADED,
+  RESET_MODAL_STATE,
+  RESET_PAGES
 } from '../../actions/setting/setting-page';
 
 
@@ -61,16 +63,31 @@ const settingReducer = (state = initState, action) => {
         ...state,
         selectedPagesModal: action.selectedPagesModal
       }
-      case PAGES_LOADED:
-        return {
-          ...state,
-          pages: action.pages
-        }
-      case PAGES_MODAL_LOADED:
-        return {
-          ...state,
-          pagesModal: action.pagesModal
-        }
+    case PAGES_LOADED:
+      return {
+        ...state,
+        pages: action.pages
+      }
+    case PAGES_MODAL_LOADED:
+      return {
+        ...state,
+        pagesModal: action.pagesModal
+      }
+    case RESET_MODAL_STATE:
+      return {
+        ...state,
+        isEditting: false,
+        selectedPages: [],
+        selectedPagesModal: [],
+        isSendingRequest: false,
+        loadingStatus: "",
+      }
+    case RESET_PAGES:
+      return {
+        ...state,
+        pages: [],
+        pagesModal: []
+      }
     default:
       return state;
   }

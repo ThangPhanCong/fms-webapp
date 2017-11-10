@@ -10,25 +10,20 @@ export const COMPLETE_SENDING_REQUEST = 'COMPLETE_SENDING_REQUEST';
 export const SET_LOADING_STATUS = 'SET_LOADING_STATUS';
 export const PAGES_LOADED = 'PAGES_LOADED';
 export const PAGES_MODAL_LOADED = 'PAGES_MODAL_LOADED';
+export const RESET_MODAL_STATE = 'RESET_MODAL_STATE';
+export const RESET_PAGES = 'RESET_PAGES';
 
 export const setSelectedPages = (selectedPages) => dispatch => {
-  dispatch({
-    type: SET_SELECTED_PAGES,
-    selectedPages
-  })
+  dispatch({type: SET_SELECTED_PAGES,selectedPages});
 }
 
 export const isShowModal = () => dispatch => {
-  dispatch({
-    type: IS_SHOW_MODAL
-  })
+  dispatch({type: IS_SHOW_MODAL});
+  dispatch({ type: RESET_MODAL_STATE });
 }
 
 export const setSelectedPagesModal = (selectedPagesModal) => dispatch => {
-  dispatch({
-    type: SET_SELECTED_PAGES_MODAL,
-    selectedPagesModal
-  })
+  dispatch({type: SET_SELECTED_PAGES_MODAL,selectedPagesModal});
 }
 
 export const startSendingRequest = () => dispatch => {
@@ -63,9 +58,17 @@ export const pagesModalLoaded = (pagesModal) => dispatch => {
   })
 }
 
+export const resetModalState = () => dispatch => {
+  dispatch({
+    type: RESET_MODAL_STATE,
+    pagesModal
+  })
+}
+export const resetPages = () => dispatch => {
+  dispatch({type: RESET_PAGES})
+}
 export const getPagesProject = (project_alias) => dispatch => {
-  let pagesProject = [],
-    allPages = [];
+  let pagesProject = [], allPages = [];
   ProjectApi.getProject(project_alias)
     .then(data => {
       if (data) {

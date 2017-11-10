@@ -27,7 +27,7 @@ class FmsGeneral extends React.Component {
     const {project_alias} = this.props.match.params;
     const {dispatch} = this.props;
     dispatch(deleteProject(project_alias));
-    console.log("delte project");
+    this.props.history.push("/projects");
   }
 
   render() {
@@ -60,4 +60,4 @@ const mapStateToProps = state => {
   return {isSettingLoading: state.setting.isSettingLoading, project: state.setting.settingGeneral.project}
 }
 
-export default connect(mapStateToProps)(FmsGeneral);
+export default withRouter(connect(mapStateToProps)(FmsGeneral));

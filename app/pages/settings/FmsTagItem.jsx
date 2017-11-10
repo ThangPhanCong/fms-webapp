@@ -1,32 +1,33 @@
-
+"use strict";
 
 import React from 'react';
 import { Grid, Row, Col, Button, FormGroup, FormControl } from 'react-bootstrap';
 import _ from 'lodash';
+import {setValueTag, changeValueTag} from '../../actions/setting/setting-tag';
+import {connect} from 'react-redux';
 
 class FmsTagItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
       isEditting: false
     }
     this.handleChange = this.handleChange.bind(this);
   }
   getValidationState() {
-    const length = this.state.value.length;
+    const length = this.props.value.length;
     if (length > 10) return 'success';
     else if (length > 5) return 'warning';
     else if (length > 0) return 'error';
   }
   handleChange(e) {
-    this.setState({ value: e.target.value });
+    const {dispatch} = this.props;
+    dispatch(changeValueTag(e.target.value));
   }
   updateTag(tag) {
     let _tag = _.clone(tag);
-    _tag.name = this.state.value;
-
-    console.log('_tag', _tag);
+    const {value} = this.props;
+    _tag.name = value
     this.props.updateTag(_tag);
   }
 
@@ -37,17 +38,17 @@ class FmsTagItem extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ value: this.props.name });
+    const {dispatch, name} = this.props;
+    dispatch(setValueTag(name));
   }
 
   render() {
     let self = this;
     let isEditting = self.state.isEditting;
-
     let colorItemStyle = {
       backgroundColor: self.props.color
     }
-
+    const {value} = this.props
     return (
       <div className="tag-item-wrapper">
         <span className="color-preview" style={colorItemStyle}></span>
@@ -62,7 +63,7 @@ class FmsTagItem extends React.Component {
                 validationState={this.getValidationState()}>
                 <FormControl
                   type="text"
-                  value={this.state.value}
+                  value={value}
                   onChange={this.handleChange} />
               </FormGroup>
             </form>
@@ -79,4 +80,9 @@ class FmsTagItem extends React.Component {
   }
 }
 
-module.exports = FmsTagItem;
+
+const mapStateToProps = state => {
+  return {value: state.setting.settingTag.value}
+}
+
+export default connect(mapStateToProps)(FmsTagItem);

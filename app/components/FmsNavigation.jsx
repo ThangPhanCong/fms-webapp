@@ -107,7 +107,7 @@ class FmsNavigation extends React.Component {
                     <ul className="nav navbar-nav navbar-right">
                       <li><NavLink exact to={'/projects/' + match.params.project_alias} className="project-nav-item"><Image className="ic-conversation" src={cvImg} />HỘI THOẠI</NavLink></li>
                       <li><NavLink to={'/projects/' + match.params.project_alias + '/posts'} className="project-nav-item"><Image src={postsImg} />BÀI VIẾT</NavLink></li>
-                      <li><NavLink to={'/projects/' + match.params.project_alias + '/settings'} className="project-nav-item"><Image src={settingsImg} />CÀI ĐẶT</NavLink></li>
+                      <li><NavLink to={'/projects/' + match.params.project_alias + '/settings/general'} className="project-nav-item"><Image src={settingsImg} />CÀI ĐẶT</NavLink></li>
                       <NavItem className="devider" />
                     </ul>
                     : null
