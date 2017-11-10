@@ -9,13 +9,16 @@ import {
 } from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {withRouter, Redirect} from 'react-router-dom';
-import {getProjectInfo, deleteProject} from "../../actions/setting";
+import {getProjectInfo, deleteProject} from "../../actions/setting/setting-general";
+import {settingLoading, settingLoaded} from "../../actions/setting/setting";
 
 class FmsGeneral extends React.Component {
   componentDidMount() {
     const {project_alias} = this.props.match.params;
     const {dispatch} = this.props;
+    dispatch(settingLoading());
     dispatch(getProjectInfo(project_alias));
+    dispatch(settingLoaded());
   }
   changeName(e) {
     console.log("e.targe.value", e.target.value);
@@ -54,7 +57,7 @@ class FmsGeneral extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return {isSettingLoading: state.setting.isSettingLoading, project: state.setting.project}
+  return {isSettingLoading: state.setting.isSettingLoading, project: state.setting.settingGeneral.project}
 }
 
 export default connect(mapStateToProps)(FmsGeneral);
