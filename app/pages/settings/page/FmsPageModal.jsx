@@ -1,43 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal } from 'react-bootstrap';
-import {getPagesProject, selectPage, isShowModal, getPages} from "../../../actions/setting";
+import {withRouter} from 'react-router-dom';
+import {isShowModal,activePages } from "../../../actions/setting/setting-page";
 import FmsPageItemInModal from './FmsPageItemInModal';
 import FmsSpin from '../../../components/FmsSpin';
 
 class FmsPageModal extends Component {
-  componentDidMount() {
-    const {dispatch} = this.props;
-    dispatch(getPages());
-    dispatch(getPagesProject());
-  }
-  closeModal() {
-    let { dispatch } = this.props;
-    dispatch(closeModal());
-  }
-
-  activePages() {
-    let { dispatch } = this.props;
-    dispatch(activePages());
+  handleActivePages() {
+    const {project_alias} = this.props.match.params;
+    const { dispatch } = this.props;
+    dispatch(activePages(project_alias));
   }
   closeModal() {
     const {dispatch} = this.props;
     dispatch(isShowModal());
   }
   renderPageItems() {
-    let self = this;
-    let { allPages, selectedPages, isSendingRequest, pages } = this.props;
-    console.log("pages la ", pages);
-    console.log("allPages la ", allPages);
-    if (Array.isArray(allPages) && allPages.length > 0) {
-      let listpages = allPages.filter(page => !pages.includes(page));
-      console.log("listpages la ", listpages);
-      allPages= listpages;
-      return allPages.map(page => {
-        let isSelected = selectedPages && (selectedPages.filter(_page => {
+    const { selectedPagesModal, isSendingRequest, pagesModal} = this.props;
+
+    if (Array.isArray(pagesModal) && pagesModal.length > 0) {
+      return pagesModal.map(page => {
+        let isSelected = selectedPagesModal && (selectedPagesModal.filter(_page => {
           return _page.fb_id == page.fb_id;
         }).length > 0);
-        let canSelect = true;
+        let canSelect = !isSendingRequest || true;
 
         return (
           <FmsPageItemInModal data={page} key={page.fb_id} isSelected={isSelected} canSelect={canSelect} />
@@ -53,7 +40,7 @@ class FmsPageModal extends Component {
   renderActivePages() {
     const { dispatch } = this.props;
     let disabled = this.props.isSendingRequest;
-    let selectedPages = this.props.selectedPages;
+    let selectedPagesModal = this.props.selectedPagesModal;
     let loadingStatus = '' + (this.props.loadingStatus || '');
     let statusHidden = this.props.isSendingRequest ? ' ' : ' fms-hidden';
     return (
@@ -71,8 +58,8 @@ class FmsPageModal extends Component {
               <p className="text-status">{loadingStatus}</p>
             </div>
             <button type="button" className={"btn btn-primary active-btn"}
-              disabled={disabled || !selectedPages || !Array.isArray(selectedPages) || selectedPages.length == 0}
-              onClick={this.activePages.bind(this)}>Thêm</button>
+              disabled={disabled || !selectedPagesModal || !Array.isArray(selectedPagesModal) || selectedPagesModal.length == 0}
+              onClick={this.handleActivePages.bind(this)}>Thêm</button>
           </div>
         </Modal.Footer>
       </div>
@@ -90,11 +77,12 @@ class FmsPageModal extends Component {
 
 const mapStateToProps = state => {
   return {
-    isShowModal: state.setting.isShowModal,
-    allPages: state.setting.allPages,
-    pages: state.setting.pages,
-    selectedPages: state.setting.selectedPages
+    isShowModal: state.setting.settingPage.isShowModal,
+    selectedPagesModal: state.setting.settingPage.selectedPagesModal,
+    loadingStatus: state.setting.settingPage.loadingStatus,
+    isSendingRequest: state.setting.settingPage.isSendingRequest,
+    pagesModal: state.setting.settingPage.pagesModal
   }
 }
 
-export default connect(mapStateToProps)(FmsPageModal);
+export default withRouter(connect(mapStateToProps)(FmsPageModal));

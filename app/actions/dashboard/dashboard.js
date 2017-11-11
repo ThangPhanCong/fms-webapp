@@ -6,23 +6,22 @@ import { setConversation } from './chat/messages';
 import { setConversations, getConversations, postSeenCv } from './conversations';
 
 export const getProject = (alias) => dispatch => {
-  let _updateMsgInConversation = (msg) => {
+  const _updateMsgInConversation = (msg) => {
     dispatch(updateMsgInConversation(msg));
-  }
-  let subscribePageChanges = (pages) => {
-    pages.forEach(page => {
-      socket.subscribePageChanges({ page_fb_id: page.fb_id, onUpdateChanges: _updateMsgInConversation });
-    });
   }
   projectApi.getProject(alias)
     .then(project => {
       let pages = project.pages;
       if (pages && Array.isArray(pages) && pages.length > 0) {
         dispatch(getConversations(alias));
-        subscribePageChanges(pages);
+        socket.subscribeProjectChanges({ project_alias: alias, onUpdateChanges: _updateMsgInConversation });
       }
     })
     .catch(err => alert(err));
+}
+
+export const unSubscribeProjectChanges = (project_alias) => dispatch => {
+  socket.unSubscribeProjectChanges({project_alias});
 }
 
 export const updateMsgInConversation = (msg) => (dispatch, getState) => {

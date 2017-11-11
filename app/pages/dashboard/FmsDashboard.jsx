@@ -7,7 +7,7 @@ import FmsConversationList from './conversations/FmsConversationList';
 import FmsClientInformation from './information/FmsClientInformation';
 import FmsVerticalNav from './FmsVerticalNav';
 
-import { getProject } from '../../actions/dashboard/dashboard';
+import { getProject, unSubscribeProjectChanges } from '../../actions/dashboard/dashboard';
 import { getTagsProject } from '../../actions/dashboard/filters';
 
 class FmsDashBoard extends React.Component {
@@ -37,10 +37,16 @@ class FmsDashBoard extends React.Component {
 	// }
 
 	componentDidMount() {
-		let { dispatch } = this.props;
-		let alias = this.props.match.params.project_alias;
+		const { dispatch } = this.props;
+		const alias = this.props.match.params.project_alias;
 		dispatch(getProject(alias));
 		dispatch(getTagsProject(alias));
+	}
+
+	componentWillUnmount() {
+		const { dispatch } = this.props;
+		const alias = this.props.match.params.project_alias;
+		dispatch(unSubscribeProjectChanges(alias));
 	}
 
 	renderConversation() {

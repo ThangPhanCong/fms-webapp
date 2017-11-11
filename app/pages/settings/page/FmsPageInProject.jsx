@@ -2,12 +2,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import tickImg from '../../../images/tick.png';
-import {selectPageModal} from "../../../actions/setting/setting-page";
+import {selectPage} from "../../../actions/setting/setting-page";
 class FmsPageItemInModal extends React.Component {
   onPageClick() {
     let { canSelect, dispatch, isSelected, data } = this.props;
     if (canSelect) {
-      dispatch(selectPageModal(!isSelected, data.fb_id));
+      dispatch(selectPage(!isSelected, data.fb_id));
     }
   }
 

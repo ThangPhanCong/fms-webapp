@@ -4,7 +4,7 @@ import uuid from 'uuid';
 import {connect} from 'react-redux';
 import {MAX_TAG_ITEMS, TAG_COLORS} from '../../constants/utils';
 import FmsTagItem from './FmsTagItem';
-import {getTags, addNewTag, updateTag, deleteTag} from '../../actions/setting';
+import {getTags, addNewTag, updateTag, deleteTag} from '../../actions/setting/setting-tag';
 import {
   Link,
   NavLink,
@@ -75,7 +75,7 @@ class FmsTag extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return {isSettingLoading: state.setting.isSettingLoading, tags: state.setting.tags}
+  return {isSettingLoading: state.setting.isSettingLoading, tags: state.setting.settingTag.tags}
 }
 
 export default withRouter(connect(mapStateToProps)(FmsTag));
