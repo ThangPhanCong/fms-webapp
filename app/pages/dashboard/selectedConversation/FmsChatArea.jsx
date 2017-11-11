@@ -11,12 +11,12 @@ import DashboardAPI from '../../../api/DashboardApi';
 import FmsPostInfoConversation from './FmsPostInfoConversation';
 import FmsTagsBar from './FmsTagsBar';
 
-import { loadMoreMessages } from '../../../actions/dashboard/selectedConversation/chatArea';
+import { loadMoreMessages } from '../../../actions/dashboard/chat/messages';
 
 let lastScrollPosition;
 let lastLength = 0;
 
-class FmsConversationArea extends React.Component {
+class FmsChatArea extends React.Component {
 	// clientChanged() {
 	// 	this.setState({ postInfo: null });
 	// 	lastLength = 0;
@@ -49,7 +49,7 @@ class FmsConversationArea extends React.Component {
 		if (!this.props.postInfo && list.clientHeight + 12 > list.scrollHeight) {
 			this.props.dispatch(loadMoreMessages());
 		}
-		let sc = this.props.selectedConversation;
+		let sc = this.props.conversation;
 		if (sc.children && sc.children.length != lastLength) {
 			if (lastLength != 0) list.scrollTop = list.scrollHeight - lastScrollPosition - 51;
 			lastLength = sc.children.length;
@@ -58,7 +58,7 @@ class FmsConversationArea extends React.Component {
 
 	renderConversation() {
 		let self = this;
-		let sc = this.props.selectedConversation;
+		let sc = this.props.conversation;
 		if (sc && Array.isArray(sc.children)) {
 			let messages = sc.children;
 			messages = messages.sort((msg1, msg2) => {
@@ -90,22 +90,22 @@ class FmsConversationArea extends React.Component {
 	}
 
 	renderTagsBar() {
-		if (this.props.tags && this.props.tags.length > 0 && this.props.isLoadingMsgs == false)
+		if (this.props.tags && this.props.tags.length > 0 && this.props.loadingMsgs == false)
 			return <FmsTagsBar noti={this.props.noti} alias={this.props.alias} />
 	}
 
 	renderInfoChat() {
-		let sc = this.props.selectedConversation;
+		let sc = this.props.conversation;
 		if (sc && Array.isArray(sc.children)) {
 			return <FmsInfoChat />
 		}
 	}
 
 	render() {
-		let showSpin = (this.props.isLoadMoreMsgs == true) ? "" : " hide";
-		let chatArea = (this.props.isLoadingMsgs) ? " hide" : "";
-		let spin = (this.props.isLoadingMsgs) ? "" : " hide";
-		let input = (this.props.isLoadingMsgs) ? " hide" : "";
+		let showSpin = (this.props.loadMoreMsgs == true) ? "" : " hide";
+		let chatArea = (this.props.loadingMsgs) ? " hide" : "";
+		let spin = (this.props.loadingMsgs) ? "" : " hide";
+		let input = (this.props.loadingMsgs) ? " hide" : "";
 
 		return (
 			<div className="inner-conversation-area">
@@ -133,12 +133,12 @@ class FmsConversationArea extends React.Component {
 
 const mapStateToProps = state => {
   return {
-		selectedConversation: state.dashboard.selectedConversation.chatArea.conversation,
-		postInfo: state.dashboard.selectedConversation.chatArea.postInfo,
-		isLoadingMsgs: state.dashboard.selectedConversation.chatArea.isLoadingMsgs,
-		isLoadMoreMsgs: state.dashboard.selectedConversation.chatArea.isLoadMoreMsgs,
+		conversation: state.dashboard.chat.conversation,
+		postInfo: state.dashboard.chat.postInfo,
+		loadingMsgs: state.dashboard.chat.loadingMsgs,
+		loadMoreMsgs: state.dashboard.chat.loadMoreMsgs,
 		tags: state.dashboard.filters.tags
   }
 }
 
-export default connect(mapStateToProps)(FmsConversationArea);
+export default connect(mapStateToProps)(FmsChatArea);

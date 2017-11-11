@@ -4,14 +4,14 @@ import ReactDOM from 'react-dom';
 import uuid from 'uuid';
 
 import searchImg from '../../../images/search.png';
-import FmsClientItem from './FmsClientItem';
+import FmsConversationItem from './FmsConversationItem';
 import DashboardAPI from '../../../api/DashboardApi';
 import FmsSpin from '../../../components/FmsSpin';
 import FmsFilterTags from './FmsFilterTags';
 
 import { loadMoreConversations } from '../../../actions/dashboard/conversations';
 
-class FmsClientList extends React.Component {
+class FmsConversationList extends React.Component {
 	componentDidMount() {
 		const list = ReactDOM.findDOMNode(this.refs.list);
 		list.addEventListener('scroll', () => {
@@ -26,13 +26,13 @@ class FmsClientList extends React.Component {
 		let conversations = this.props.filteredConversations;
 		if (!conversations) return;
 		return conversations.map(conversation => {
-			let isSelected = (self.props.selectedConversation && self.props.selectedConversation._id == conversation._id);
-			return <FmsClientItem key={uuid()} data={conversation} isSelected={isSelected} />
+			let isSelected = (self.props.conversation && self.props.conversation._id == conversation._id);
+			return <FmsConversationItem key={uuid()} data={conversation} isSelected={isSelected} />
 		});
 	}
 
 	render() {
-		let showSpin = (this.props.isLoadMoreConvers == true) ? "" : " hide";
+		let showSpin = (this.props.loadMoreConversations == true) ? "" : " hide";
 
 		return (
 			<div className="client-list-wrapper">
@@ -57,9 +57,9 @@ class FmsClientList extends React.Component {
 const mapStateToProps = state => {
   return {
 		filteredConversations: state.dashboard.conversations.filteredConversations,
-		selectedConversation: state.dashboard.selectedConversation.chatArea.conversation,
-		isLoadMoreConvers: state.dashboard.conversations.isLoadMoreConvers
+		conversation: state.dashboard.chat.conversation,
+		loadMoreConversations: state.dashboard.conversations.loadMoreConversations
   }
 }
 
-export default connect(mapStateToProps)(FmsClientList);
+export default connect(mapStateToProps)(FmsConversationList);

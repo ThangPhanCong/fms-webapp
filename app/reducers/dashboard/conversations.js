@@ -1,54 +1,39 @@
-import {
-  START_LOAD_MORE_CONVERS, COMPLETE_LOAD_MORE_CONVERS, START_LOADING_CONVERS, COMPLETE_LOADING_CONVERS,
-  SET_CONVERSATIONS, SET_FILTERED_CONVERSATIONS, COMPLETE_GET_CONVERSATIONS
-} from '../../actions/dashboard/conversations';
-
 const initState = {
-  isLoadMoreConvers: false,
-  isLoadingConvers: true,
+  loadMoreConversations: false,
+  loadingConversations: true,
   conversations: [],
-  paging: null,
+  pagingConversations: null,
   filteredConversations: []
 }
 
 const conversations = (state = initState, action) => {
   switch (action.type) {
-    case START_LOAD_MORE_CONVERS:
+    case 'LOAD_MORE_CONVERSATIONS':
       return {
         ...state,
-        isLoadMoreConvers: true
+        loadMoreConversations: action.state
       }
-    case COMPLETE_LOAD_MORE_CONVERS:
+    case 'LOADING_CONVERSATIONS':
       return {
         ...state,
-        isLoadMoreConvers: false
+        loadingConversations: action.state
       }
-    case START_LOADING_CONVERS:
-      return {
-        ...state,
-        isLoadingConvers: true
-      }
-    case COMPLETE_LOADING_CONVERS:
-      return {
-        ...state,
-        isLoadingConvers: false
-      }
-    case SET_CONVERSATIONS:
+    case 'SET_CONVERSATIONS':
       return {
         ...state,
         conversations: action.conversations,
-        paging: (action.paging) ? action.paging : null,
-        isLoadMoreConvers: false
+        pagingConversations: (action.pagingConversations) ? action.pagingConversations : null,
+        loadMoreConversations: false
       }
-    case COMPLETE_GET_CONVERSATIONS:
+    case 'COMPLETE_GET_CONVERSATIONS':
       return {
         ...state,
-        paging: action.paging,
+        pagingConversations: action.pagingConversations,
         conversations: action.conversations,
-        isLoadingConvers: false,
+        loadingConversations: false,
         filteredConversations: action.conversations
       }
-    case SET_FILTERED_CONVERSATIONS:
+    case 'SET_FILTERED_CONVERSATIONS':
       return {
         ...state,
         filteredConversations: action.filteredConversations

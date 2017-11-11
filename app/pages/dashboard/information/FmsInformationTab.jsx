@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import notepadImg from '../../../images/notepad.png';
 

@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import FmsInformationTab from './FmsInformationTab';
 import FmsCreateFormTab from './FmsCreateFormTab';

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import DashboardAPI from '../../../api/DashboardApi';
-import { handleTagClick } from '../../../actions/dashboard/selectedConversation/tagsBar';
+import { handleTagClick } from '../../../actions/dashboard/chat/tagsBar';
 
 class FmsTagsBar extends React.Component {
   handleTagClick(tag_id, tag_name) {
@@ -14,7 +14,7 @@ class FmsTagsBar extends React.Component {
       return this.props.tags.map((tag) => {
         let border = (index == 0) ? " start-tag" : ((index == size - 1) ? " end-tag" : "");
         let style = { backgroundColor: tag.color, width: 100 / size + "%" };
-        let activeTag = this.props.selectedConversation.tags.filter((_tag) => { return _tag._id == tag._id });
+        let activeTag = this.props.conversation.tags.filter((_tag) => { return _tag._id == tag._id });
         let opacity = (activeTag.length != 0) ? "" : " blur";
         index++;
         return <div className={"client-tag" + border + opacity} onClick={() => { this.handleTagClick(tag._id, tag.name) }}
@@ -32,7 +32,7 @@ class FmsTagsBar extends React.Component {
 const mapStateToProps = state => {
   return {
     tags: state.dashboard.filters.tags,
-    selectedConversation: state.dashboard.selectedConversation.chatArea.conversation
+    conversation: state.dashboard.chat.conversation
   }
 }
 

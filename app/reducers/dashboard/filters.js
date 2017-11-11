@@ -1,5 +1,3 @@
-import { SET_FILTERS, SET_TAGS, SET_SEARCH_TEXT } from '../../actions/dashboard/filters';
-
 let _filters = [
   {
     type: 'all',
@@ -39,17 +37,17 @@ const initState = {
 
 const filters = (state = initState, action) => {
   switch (action.type) {
-    case SET_FILTERS:
+    case 'SET_FILTERS':
       return {
         ...state,
         filters: action.filters
       }
-    case SET_TAGS:
+    case 'SET_TAGS':
       return {
         ...state,
         tags: action.tags
       }
-    case SET_SEARCH_TEXT:
+    case 'SET_SEARCH_TEXT':
       return {
         ...state,
         searchText: action.searchText

@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import FmsSpin from '../../components/FmsSpin';
-import FmsConversationArea from './selectedConversation/FmsConversationArea';
-import FmsClientList from './conversations/FmsClientList';
+import FmsChatArea from './selectedConversation/FmsChatArea';
+import FmsConversationList from './conversations/FmsConversationList';
 import FmsClientInformation from './information/FmsClientInformation';
 import FmsVerticalNav from './FmsVerticalNav';
 
-import { getProject } from '../../actions/dashboard/conversations';
+import { getProject } from '../../actions/dashboard/dashboard';
 import { getTagsProject } from '../../actions/dashboard/filters';
 
 class FmsDashBoard extends React.Component {
@@ -44,16 +44,16 @@ class FmsDashBoard extends React.Component {
 	}
 
 	renderConversation() {
-		if (this.props.selectedConversation) {
-			return <FmsConversationArea alias={this.props.match.params.project_alias} noti={this.props.noti} />
+		if (this.props.conversation) {
+			return <FmsChatArea alias={this.props.match.params.project_alias} noti={this.props.noti} />
 		} else {
 			return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
 		}
 	}
 
 	renderClientList() {
-		if (this.props.isLoadingConvers == false) {
-			return <FmsClientList alias={this.props.match.params.project_alias} />
+		if (this.props.loadingConversations == false) {
+			return <FmsConversationList alias={this.props.match.params.project_alias} />
 		} else {
 			return <div className="client-list-spin" style={{marginTop: 32 + 'px'}}><FmsSpin size={27} /></div>
 		}
@@ -81,8 +81,8 @@ class FmsDashBoard extends React.Component {
 
 const mapStateToProps = state => {
   return {
-		selectedConversation: state.dashboard.selectedConversation.chatArea.conversation,
-		isLoadingConvers: state.dashboard.conversations.isLoadingConvers
+		conversation: state.dashboard.chat.conversation,
+		loadingConversations: state.dashboard.conversations.loadingConversations
   }
 }
 
