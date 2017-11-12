@@ -1,9 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import FmsToolTip from '../../../components/FmsToolTip';
 import FmsPrivateReplyModal from './FmsPrivateReplyModal';
 import DashboardApi from '../../../api/DashboardApi';
 import FmsSpin from '../../../components/FmsSpin';
+
+import { togglePrivateRepModal } from '../../../actions/dashboard/chat/privateRepModal';
 
 class FmsTextMessageContent extends React.Component {
   constructor(props) {
@@ -23,7 +26,7 @@ class FmsTextMessageContent extends React.Component {
     this.setState({ messaged: true });
   }
   openMessageModal() {
-    this._child.open();
+    this.props.dispatch(togglePrivateRepModal(true));
   }
   handleLikeMessage() {
     if (this.state.isHandling == true) return;
@@ -75,12 +78,14 @@ class FmsTextMessageContent extends React.Component {
           {renderLikeButton()}&nbsp;&nbsp;&nbsp;
           {renderMessageButton()}
         </div>
-        <FmsPrivateReplyModal ref={(child) => {
-          this._child = child;
-        }} message={this.props.message} handleSendMessage={this.handleSendMessage} />
+        <FmsPrivateReplyModal message={this.props.message} handleSendMessage={this.handleSendMessage} />
       </div>
     );
   }
 }
 
-module.exports = FmsTextMessageContent;
+const mapStateToProps = state => {
+  return {}
+}
+
+export default connect(mapStateToProps)(FmsTextMessageContent);

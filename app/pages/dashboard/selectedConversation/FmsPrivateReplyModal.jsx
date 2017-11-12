@@ -1,45 +1,22 @@
-'use strict'
-
 import React from 'react';
 import { Modal } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 import DashboardAPI from '../../../api/DashboardApi';
+import { sendPrivateRepMsg, togglePrivateRepModal } from '../../../actions/dashboard/chat/privateRepModal';
 
 class FmsPrivateReplyModal extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			isShown: false,
-			isSending: false
-		}
-		this.handleSendButton = this.handleSendButton.bind(this);
-		this.close = this.close.bind(this);
+	close() {
+		this.props.dispatch(togglePrivateRepModal(false));
 	}
 	handleSendButton() {
 		let message = this.refs.message_text.value;
-		if (message && message != "") {
-			this.setState({ isSending: true });
-			DashboardAPI.postPrivateReplyMessage(this.props.message._id, message).then((res) => {
-				this.close();
-				this.props.handleSendMessage();
-				this.setState({ isSending: false });
-			}, (err) => {
-				this.setState({ isSending: false });
-				alert("Không thể gửi tin nhắn");
-				throw new Error(err);
-			})
-		}
-	}
-	open() {
-		this.setState({ isShown: true });
-	}
-	close() {
-		this.setState({ isShown: false });
+		this.props.dispatch(sendPrivateRepMsg(this.props.message._id, message, this.props.handleSendMessage));
 	}
 	render() {
 		return (
-			<Modal show={this.state.isShown} onHide={this.close} backdrop='static' keyboard={false} >
-				<Modal.Header closeButton={this.state.isSending == false}>
+			<Modal show={this.props.isShown} onHide={this.close.bind(this)} backdrop='static' keyboard={false} >
+				<Modal.Header closeButton={this.props.isSending == false}>
 					<Modal.Title>Nhắn tin đến {this.props.message.from.name}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
@@ -48,8 +25,8 @@ class FmsPrivateReplyModal extends React.Component {
 				<Modal.Footer>
 					<div className="private-rep-modal-footer-wrapper">
 						<button type="button" className={"btn btn-primary private-rep-btn"}
-							disabled={this.state.isSending}
-							onClick={this.handleSendButton}>Gửi</button>
+							disabled={this.props.isSending}
+							onClick={this.handleSendButton.bind(this)}>Gửi</button>
 					</div>
 				</Modal.Footer>
 			</Modal>
@@ -57,4 +34,11 @@ class FmsPrivateReplyModal extends React.Component {
 	}
 }
 
-module.exports = FmsPrivateReplyModal;
+const mapStateToProps = state => {
+  return {
+    isShown: state.dashboard.chat.privateRepModalShown,
+    isSending: state.dashboard.chat.isSendingPrivateMsg
+  }
+}
+
+export default connect(mapStateToProps)(FmsPrivateReplyModal);
