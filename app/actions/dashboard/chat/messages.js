@@ -81,3 +81,28 @@ export const displayMoreMessages = (more, paging) => (dispatch, getState) => {
   conversation.paging = paging;
   dispatch(setConversation(u.clone(conversation)));
 }
+
+	// reloadAttachment(msgs) {
+	// 	msgs.forEach((msg) => {
+	// 		if (msg.shares) {
+	// 			DashboardApi.getMessageShare(msg.fb_id, msg.page_fb_id).then((res) => {
+	// 				msg.shares = res.data.shares;
+	// 			}, (err) => {
+	// 				throw new Error(err);
+	// 			});
+	// 		} else if (msg.attachment && (msg.attachment.type == 'sticker' || msg.attachment.type == 'photo' ||
+	// 			msg.attachment.type == 'video_inline' || msg.attachment.type == 'share')) {
+	// 			DashboardApi.getCommentAttachment(msg.fb_id, msg.page_fb_id).then((res) => {
+	// 				msg.attachment = res.data.attachment;
+	// 			}, (err) => {
+	// 				throw new Error(err);
+	// 			});
+	// 		} else if (msg.attachments) {
+	// 			DashboardApi.getMessageAttachment(msg.fb_id, msg.page_fb_id).then((res) => {
+	// 				msg.attachments = res.data.attachments;
+	// 			}, (err) => {
+	// 				throw new Error(err);
+	// 			});
+	// 		}
+	// 	});
+	// }

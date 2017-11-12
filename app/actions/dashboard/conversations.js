@@ -1,6 +1,7 @@
 import DashboardApi from '../../api/DashboardApi';
 import * as u from 'lodash';
 import { setConversation, loadingMsgs } from './chat/messages';
+import { filterConversations } from './filters';
 
 
 export const loadMoreConvers = (state) => dispatch => {
@@ -10,10 +11,10 @@ export const loadingConversations = (state) => dispatch => {
   dispatch({ type: 'LOADING_CONVERSATIONS', state });
 }
 export const setConversations = (conversations, pagingConversations) => dispatch => {
-  dispatch({ type: 'SET_CONVERSATIONS', conversations: conversations, pagingConversations });
+  dispatch({ type: 'SET_CONVERSATIONS', conversations, pagingConversations });
 }
 export const completeGetConversations = (conversations, pagingConversations) => dispatch => {
-  dispatch({ type: 'COMPLETE_GET_CONVERSATIONS', conversations: conversations, pagingConversations });
+  dispatch({ type: 'COMPLETE_GET_CONVERSATIONS', conversations, pagingConversations });
 }
 export const setFilteredConversations = (filteredConversations) => dispatch => {
   dispatch({ type: 'SET_FILTERED_CONVERSATIONS', filteredConversations });
@@ -92,7 +93,7 @@ export const loadMoreConversations = (alias) => (dispatch, getState) => {
     let paging = (res.paging) ? res.paging.next : null;
     let newConversations = cs.conversations.concat(res.data);
     dispatch(setConversations(newConversations, paging));
-    //this.filterConversations();
+    dispatch(filterConversations());
   }, (err) => {
     dispatch(loadMoreConvers(false));
     throw new Error(err);

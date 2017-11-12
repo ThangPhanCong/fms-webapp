@@ -4,6 +4,7 @@ import * as u from 'lodash';
 
 import { setConversation } from './chat/messages';
 import { setConversations, getConversations, postSeenCv } from './conversations';
+import { filterConversations } from './filters';
 
 export const getProject = (alias) => dispatch => {
   const _updateMsgInConversation = (msg) => {
@@ -77,6 +78,6 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
     }
   }
   dispatch(setConversations(u.clone(conversations)));
-  //self.filterConversations();
+  dispatch(filterConversations());
   //if (self._child2) self._child2.scrollToBottom();
 }
