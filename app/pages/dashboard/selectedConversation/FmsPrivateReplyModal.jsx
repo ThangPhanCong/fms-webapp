@@ -36,7 +36,7 @@ class FmsPrivateReplyModal extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    isShown: state.dashboard.chat.privateRepModalShown,
+    isShown: state.dashboard.chat.isShownPrivateRepModal,
     isSending: state.dashboard.chat.isSendingPrivateMsg
   }
 }

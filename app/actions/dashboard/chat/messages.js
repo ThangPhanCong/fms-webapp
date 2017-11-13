@@ -5,10 +5,10 @@ import * as u from 'lodash';
 export const setConversation = (conversation) => dispatch => {
   dispatch({ type: 'SET_CONVERSATION', conversation: conversation });
 }
-export const loadingMsgs = (state) => dispatch => {
+export const isLoadingMsgs = (state) => dispatch => {
   dispatch({ type: 'LOADING_MSGS', state });
 }
-export const loadMoreMsgs = (state) => dispatch => {
+export const isLoadMoreMsgs = (state) => dispatch => {
   dispatch({ type: 'LOAD_MORE_MSGS', state });
 }
 export const setPostInfo = (postInfo) => dispatch => {
@@ -19,7 +19,7 @@ export const loadPostInfo = () => (dispatch, getState) => {
   let { chat } = getState().dashboard;
   let conversation = chat.conversation;
   if (!chat.postInfo && conversation.type == "comment") {
-    dispatch(loadMoreMsgs(true));
+    dispatch(isLoadMoreMsgs(true));
     DashboardApi.getPostInfo(conversation.parent_fb_id).then((res) => {
       dispatch(setPostInfo(res));
     }, (err) => {
@@ -32,26 +32,26 @@ export const loadPostInfo = () => (dispatch, getState) => {
 export const loadMoreMessages = () => (dispatch, getState) => {
   let { chat } = getState().dashboard;
   let conv = chat.conversation;
-  if (chat.loadingMsgs || chat.loadMoreMsgs) return;
+  if (chat.isLoadingMsgs || chat.isLoadMoreMsgs) return;
   if (conv.type == "comment" && conv.paging) {
-    dispatch(loadMoreMsgs(true));
+    dispatch(isLoadMoreMsgs(true));
     DashboardApi.getReplyComment(conv.fb_id, conv.paging).then((res) => {
       let paging = (res.paging) ? res.paging.next : null
-      dispatch(loadMoreMsgs(false));
+      dispatch(isLoadMoreMsgs(false));
       dispatch(displayMoreMessages(res.data, paging));
     }, (err) => {
       console.log(err);
-      dispatch(loadMoreMsgs(false));
+      dispatch(isLoadMoreMsgs(false));
     });
   } else if (conv.paging) {
-    dispatch(loadMoreMsgs(true));
+    dispatch(isLoadMoreMsgs(true));
     DashboardApi.getMessageInbox(conv._id, conv.paging).then((res) => {
       let paging = (res.paging) ? res.paging.next : null;
-      dispatch(loadMoreMsgs(false));
+      dispatch(isLoadMoreMsgs(false));
       dispatch(displayMoreMessages(res.data, paging));
     }, (err) => {
       console.log(err);
-      dispatch(loadMoreMsgs(false));
+      dispatch(isLoadMoreMsgs(false));
     });
   } else if (conv.type == "comment" && conv.parent_fb_id) {
     dispatch(loadPostInfo());

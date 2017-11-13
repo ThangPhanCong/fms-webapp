@@ -32,7 +32,7 @@ class FmsConversationList extends React.Component {
 	}
 
 	render() {
-		let showSpin = (this.props.loadMoreConversations == true) ? "" : " hide";
+		let showSpin = (this.props.isLoadMoreConversations == true) ? "" : " hide";
 
 		return (
 			<div className="client-list-wrapper">
@@ -58,7 +58,7 @@ const mapStateToProps = state => {
   return {
 		filteredConversations: state.dashboard.conversations.filteredConversations,
 		conversation: state.dashboard.chat.conversation,
-		loadMoreConversations: state.dashboard.conversations.loadMoreConversations
+		isLoadMoreConversations: state.dashboard.conversations.isLoadMoreConversations
   }
 }
 

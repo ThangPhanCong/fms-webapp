@@ -1,13 +1,13 @@
 import DashboardApi from '../../api/DashboardApi';
 import * as u from 'lodash';
-import { setConversation, loadingMsgs } from './chat/messages';
+import { setConversation, isLoadingMsgs } from './chat/messages';
 import { filterConversations } from './filters';
 
 
-export const loadMoreConvers = (state) => dispatch => {
+export const isLoadMoreConversations = (state) => dispatch => {
   dispatch({ type: 'LOAD_MORE_CONVERSATIONS', state });
 }
-export const loadingConversations = (state) => dispatch => {
+export const isLoadingConversations = (state) => dispatch => {
   dispatch({ type: 'LOADING_CONVERSATIONS', state });
 }
 export const setConversations = (conversations, pagingConversations) => dispatch => {
@@ -46,7 +46,7 @@ export const getConversations = (alias) => dispatch => {
 
 export const handleConversationClick = (selectedConv, type) => (dispatch, getState) => {
   //if (this._child2) this._child2.clientChanged();
-  dispatch(loadingMsgs(true));
+  dispatch(isLoadingMsgs(true));
   let { conversations } = getState().dashboard.conversations;
   if (!selectedConv.is_seen) {
     selectedConv.is_seen = true;
@@ -65,7 +65,7 @@ export const handleConversationClick = (selectedConv, type) => (dispatch, getSta
       });
       //this.reloadAttachment(data.data);
       dispatch(setConversation(u.clone(sc)));
-      dispatch(loadingMsgs(false));
+      dispatch(isLoadingMsgs(false));
     }
     if (type == "inbox") {
       DashboardApi.getMessageInbox(selectedConv._id)
@@ -75,7 +75,7 @@ export const handleConversationClick = (selectedConv, type) => (dispatch, getSta
         .then(data => updateChildren(selectedConv, data))
     }
   } else {
-    dispatch(loadingMsgs(false));
+    dispatch(isLoadingMsgs(false));
   }
 }
 
@@ -87,15 +87,15 @@ export const loadMoreConversations = (alias) => (dispatch, getState) => {
     return filters.length == 1 && filters[0].type == 'all';
   }
   let cs = getState().dashboard.conversations;
-  if (cs.loadMoreConversations == true || !cs.pagingConversations || !isShowAll()) return;
-  dispatch(loadMoreConvers(true));
+  if (cs.isLoadMoreConversations == true || !cs.pagingConversations || !isShowAll()) return;
+  dispatch(isLoadMoreConversations(true));
   DashboardApi.getConversations(alias, cs.pagingConversations).then((res) => {
     let paging = (res.paging) ? res.paging.next : null;
     let newConversations = cs.conversations.concat(res.data);
     dispatch(setConversations(newConversations, paging));
     dispatch(filterConversations());
   }, (err) => {
-    dispatch(loadMoreConvers(false));
+    dispatch(isLoadMoreConversations(false));
     throw new Error(err);
   });
 }

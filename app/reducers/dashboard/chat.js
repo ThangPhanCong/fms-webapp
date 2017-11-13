@@ -2,11 +2,11 @@ import * as redux from 'redux';
 
 const initState = {
   conversation: null,
-  loadingMsgs: false,
-  loadMoreMsgs: false,
+  isLoadingMsgs: false,
+  isLoadMoreMsgs: false,
   postInfo: null,
-  settingTag: false,
-  privateRepModalShown: false,
+  isSettingTag: false,
+  isShownPrivateRepModal: false,
   isSendingPrivateMsg: false
 }
 
@@ -20,28 +20,28 @@ const chat = (state = initState, action) => {
     case 'LOADING_MSGS':
       return {
         ...state,
-        loadingMsgs: action.state
+        isLoadingMsgs: action.state
       }
     case 'LOAD_MORE_MSGS':
       return {
         ...state,
-        loadMoreMsgs: action.state
+        isLoadMoreMsgs: action.state
       }
     case 'SET_POST_INFO':
       return {
         ...state,
         postInfo: action.postInfo,
-        loadMoreMsgs: false
+        isLoadMoreMsgs: false
       }
     case 'SETTING_TAG':
       return {
         ...state,
-        settingTag: action.state
+        isSettingTag: action.state
       }
     case 'TOGGLE_PRIVATE_REP_MODAL':
       return {
         ...state,
-        privateRepModalShown: action.state
+        isShownPrivateRepModal: action.state
       }
     case 'SENDING_PRIVATE_REP_MSG':
       return {

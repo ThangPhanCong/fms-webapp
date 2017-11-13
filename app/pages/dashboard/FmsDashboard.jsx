@@ -33,7 +33,7 @@ class FmsDashBoard extends React.Component {
 	}
 
 	renderClientList() {
-		if (this.props.loadingConversations == false) {
+		if (this.props.isLoadingConversations == false) {
 			return <FmsConversationList alias={this.props.match.params.project_alias} />
 		} else {
 			return <div className="client-list-spin" style={{marginTop: 32 + 'px'}}><FmsSpin size={27} /></div>
@@ -63,7 +63,7 @@ class FmsDashBoard extends React.Component {
 const mapStateToProps = state => {
   return {
 		conversation: state.dashboard.chat.conversation,
-		loadingConversations: state.dashboard.conversations.loadingConversations
+		isLoadingConversations: state.dashboard.conversations.isLoadingConversations
   }
 }
 

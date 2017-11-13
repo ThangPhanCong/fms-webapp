@@ -4,8 +4,8 @@ import { setConversation } from './messages';
 import * as u from 'lodash';
 
 
-export const settingTagConversation = (state) => dispatch => {
-  dispatch({ type: 'SETTING_TAG', settingTag: state });
+export const isSettingTagConversation = (state) => dispatch => {
+  dispatch({ type: 'SETTING_TAG', isSettingTag: state });
 }
 
 export const updateTagsConversation = (tags, conversation_id) => (dispatch, getState) => {
@@ -20,20 +20,20 @@ export const updateTagsConversation = (tags, conversation_id) => (dispatch, getS
 }
 
 export const handleTagClick = (alias, tag_id, tag_name) => (dispatch, getState) => {
-  let { settingTag } = getState().dashboard.chat;
+  let { isSettingTag } = getState().dashboard.chat;
   let { conversation } = getState().dashboard.chat;
-  if (settingTag == true) return;
+  if (isSettingTag == true) return;
   let selectedTag = conversation.tags.filter((tag) => {
     return tag._id == tag_id
   });
-  dispatch(settingTagConversation(true));
+  dispatch(isSettingTagConversation(true));
   if (selectedTag.length == 0) {
     DashboardAPI.createTagConversation(alias, conversation.id, tag_id)
       .then((res) => {
         dispatch(updateTagsConversation(res.tags, conversation.id));
-        dispatch(settingTagConversation(false));
+        dispatch(isSettingTagConversation(false));
       }, (err) => {
-        dispatch(settingTagConversation(false));
+        dispatch(isSettingTagConversation(false));
         alert('Xóa tag thất bại');
         throw new Error(err);
       });
@@ -41,9 +41,9 @@ export const handleTagClick = (alias, tag_id, tag_name) => (dispatch, getState) 
     DashboardAPI.deleteTagConversation(alias, conversation.id, tag_id)
       .then((res) => {
         dispatch(updateTagsConversation(res.tags, conversation.id));
-        dispatch(settingTagConversation(false));
+        dispatch(isSettingTagConversation(false));
       }, (err) => {
-        dispatch(settingTagConversation(false));
+        dispatch(isSettingTagConversation(false));
         alert('Xóa tag thất bại');
         throw new Error(err);
       });

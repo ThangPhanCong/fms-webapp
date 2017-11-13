@@ -90,7 +90,7 @@ class FmsChatArea extends React.Component {
 	}
 
 	renderTagsBar() {
-		if (this.props.tags && this.props.tags.length > 0 && this.props.loadingMsgs == false)
+		if (this.props.tags && this.props.tags.length > 0 && this.props.isLoadingMsgs == false)
 			return <FmsTagsBar noti={this.props.noti} alias={this.props.alias} />
 	}
 
@@ -102,10 +102,10 @@ class FmsChatArea extends React.Component {
 	}
 
 	render() {
-		let showSpin = (this.props.loadMoreMsgs == true) ? "" : " hide";
-		let chatArea = (this.props.loadingMsgs) ? " hide" : "";
-		let spin = (this.props.loadingMsgs) ? "" : " hide";
-		let input = (this.props.loadingMsgs) ? " hide" : "";
+		let showSpin = (this.props.isLoadMoreMsgs == true) ? "" : " hide";
+		let chatArea = (this.props.isLoadingMsgs) ? " hide" : "";
+		let spin = (this.props.isLoadingMsgs) ? "" : " hide";
+		let input = (this.props.isLoadingMsgs) ? " hide" : "";
 
 		return (
 			<div className="inner-conversation-area">
@@ -135,8 +135,8 @@ const mapStateToProps = state => {
   return {
 		conversation: state.dashboard.chat.conversation,
 		postInfo: state.dashboard.chat.postInfo,
-		loadingMsgs: state.dashboard.chat.loadingMsgs,
-		loadMoreMsgs: state.dashboard.chat.loadMoreMsgs,
+		isLoadingMsgs: state.dashboard.chat.isLoadingMsgs,
+		isLoadMoreMsgs: state.dashboard.chat.isLoadMoreMsgs,
 		tags: state.dashboard.filters.tags
   }
 }
