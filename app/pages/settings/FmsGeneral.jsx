@@ -47,10 +47,23 @@ class FmsGeneral extends React.Component {
         <FormControl componentClass="textarea"/>
       </FormGroup>
       <FormGroup>
-      <Button bsStyle="warning">Cập nhật</Button>
+        <Button>Cập nhật</Button>
       </FormGroup>
       <FormGroup>
-      <Button bsStyle="danger" onClick={this.deleteProject.bind(this)}>Xóa</Button>
+        <Row className="setting-header">
+          <Col>
+            Khu vực nguy hiểm
+          </Col>
+        </Row>
+        <div className="danger-zone">
+          <ul>
+            <li>
+              <p>Xóa dự án</p>
+              <Button bsStyle="danger" onClick={this.deleteProject.bind(this)}>Xóa</Button>
+              </li>
+          </ul>
+
+        </div>
       </FormGroup>
     </div>);
   }

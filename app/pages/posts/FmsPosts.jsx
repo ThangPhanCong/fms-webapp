@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 import FmsPostItem from './FmsPostItem';
 import {getPosts, toggleChange} from '../../actions/post';
+import FmsSpin from "../../components/FmsSpin";
 
 class FmsPosts extends React.Component {
   componentDidMount() {
@@ -24,30 +25,35 @@ class FmsPosts extends React.Component {
   }
 
   renderPosts() {
-    const {posts} = this.props;
-    if(posts.length == 0 ) {
+    const {posts, isPostsLoading} = this.props;
+    if(isPostsLoading) {
       return (
-        <div className="no-post">
-          <p>Chưa có bài đăng nào</p>
-        </div>
+        <FmsSpin></FmsSpin>
       )
     } else {
-      return posts.map((post) => {
+      if(posts.length == 0 ) {
         return (
-          <Col xs={12} sm={6} md={4} key={post.fb_id}>
-            <FmsPostItem data={post} onToggleChange={this.onToggleChange.bind(this)} />
-          </Col>
+          <div className="no-post">
+            <p>Chưa có bài đăng nào</p>
+          </div>
         )
-      });
+      } else {
+        return posts.map((post) => {
+          return (
+            <Col xs={12} sm={6} md={4} key={post.fb_id}>
+              <FmsPostItem data={post} onToggleChange={this.onToggleChange.bind(this)} />
+            </Col>
+          )
+        });
+      }
     }
-
   }
 
   render() {
     const {paging, isPostsLoading} = this.props;
-
+    let styleGird = (isPostsLoading) ? "" : "posts";
     return (
-      <Grid bsClass="page posts">
+      <Grid bsClass={"page " + styleGird}>
         <Row>
           {this.renderPosts()}
         </Row>

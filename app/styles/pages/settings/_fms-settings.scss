@@ -92,3 +92,15 @@
         // color:#0366d6;
   }
 }
+.danger-zone {
+  border: 1px solid red;
+  border-radius: 5px;
+
+  li {
+      display: inline;
+    list-style-type: none;
+  }
+  button {
+      display: inline;
+  }
+}
