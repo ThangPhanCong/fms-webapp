@@ -59,7 +59,7 @@ class FmsGeneral extends React.Component {
           <ul>
             <li>
               <p>Xóa dự án</p>
-              <Button bsStyle="danger" onClick={this.deleteProject.bind(this)}>Xóa</Button>
+              <Button onClick={this.deleteProject.bind(this)}>Xóa</Button>
               </li>
           </ul>
 

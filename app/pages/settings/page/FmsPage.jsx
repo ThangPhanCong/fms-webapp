@@ -20,20 +20,28 @@ class FmsPage extends React.Component {
     dispatch(isShowModal());
   }
   renderPages() {
-    const {pages, selectedPages} = this.props;
-    if (Array.isArray(pages) && pages.length > 0) {
-      return pages.map(page => {
-        return (
-          <FmsPageInProject data={page} key={page.fb_id} />
-        )
-      })
-    } else {
+    const {pages, isPagesLoading} = this.props;
+    if(isPagesLoading) {
       return (
-        <div>Bạn không có trang nào!</div>
+        <FmsSpin></FmsSpin>
       )
+    } else {
+      if (Array.isArray(pages) && pages.length > 0) {
+        return pages.map(page => {
+          return (
+            <FmsPageInProject data={page} key={page.fb_id} />
+          )
+        })
+      } else {
+        return (
+          <div>Bạn không có trang nào!</div>
+        )
+      }
     }
+
   }
   render() {
+    const {isPagesLoading} = this.props;
     return (
         <div className="fms-block">
           <Row className="setting-header">
@@ -42,7 +50,7 @@ class FmsPage extends React.Component {
             </Col>
           </Row>
             {this.renderPages()}
-            <Button onClick={this.openModal.bind(this)}>Thêm trang</Button>
+            {(isPagesLoading) ? null : <Button onClick={this.openModal.bind(this)}>Thêm trang</Button> }
             <FmsPageModal></FmsPageModal>
         </div>
     );
@@ -51,7 +59,8 @@ class FmsPage extends React.Component {
 const mapStateToProps = state => {
   return {
     pages: state.setting.settingPage.pages,
-    isShowModal: state.setting.settingPage.isShowModal
+    isShowModal: state.setting.settingPage.isShowModal,
+    isPagesLoading: state.setting.settingPage.isPagesLoading
   }
 }
 export default withRouter(connect(mapStateToProps)(FmsPage));

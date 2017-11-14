@@ -11,7 +11,11 @@ export const PAGES_LOADED = 'PAGES_LOADED';
 export const PAGES_MODAL_LOADED = 'PAGES_MODAL_LOADED';
 export const RESET_MODAL_STATE = 'RESET_MODAL_STATE';
 export const RESET_PAGES = 'RESET_PAGES';
+export const PAGES_LOADING = 'PAGES_LOADING';
 
+export const pagesLoading = () => dispatch => {
+  dispatch({type: PAGES_LOADING})
+}
 export const isShowModal = () => dispatch => {
   dispatch({type: IS_SHOW_MODAL});
   dispatch({ type: RESET_MODAL_STATE });
@@ -63,6 +67,7 @@ export const resetPages = () => dispatch => {
   dispatch({type: RESET_PAGES})
 }
 export const getPagesProject = (project_alias) => dispatch => {
+  dispatch(pagesLoading());
   let pagesProject = [], allPages = [];
   ProjectApi.getProject(project_alias)
     .then(data => {

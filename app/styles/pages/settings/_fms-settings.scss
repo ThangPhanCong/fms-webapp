@@ -45,10 +45,7 @@
     display: inline-block;
     vertical-align: middle;
   }
-  span {
-    font-weight: 600;
 
-  }
 
   .color-preview {
     width: 40px;
@@ -97,22 +94,44 @@
   }
 }
 .danger-zone {
-  border: 1px solid red;
+  border: 1px solid #d73a49;
   border-radius: 5px;
 
   li {
-      display: inline;
     list-style-type: none;
   }
+  p {
+    display: inline-block;
+    padding: 18px 3px 3px 3px;
+    font-weight: 600;
+
+  }
   button {
-      display: inline;
+      display: inline-block;
+      margin: 10px;
+      float: right;
+      color: #cb2431;
+      font-weight: 600;
+      background-color: #fafbfc;
+  }
+  button:hover{
+    color: #fff;
+    background-color: #b5202c;
   }
 }
+
 .noti {
   border: 1px solid #e1e4e8;
-  border-bottom: none;
+  border-radius: 5px;
   .col {
     border-bottom:1px solid #e1e4e8;
+  }
+  .col:last-child {
+    border-bottom: none;
+}
+  span {
+    font-weight: 600;
+
   }
 }
 .delete-button {
