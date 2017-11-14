@@ -23,14 +23,14 @@ import {connect} from 'react-redux';
 
 class FmsSettings extends React.Component {
   render() {
-    return (<Grid bsClass="page">
+    return (<Grid bsClass="page container">
       <Row bsClass="settings-wrapper row">
         <Col xs={12} sm={1}>
         </Col>
         <Col xs={12} sm={2}>
           <FmsSidebar/>
         </Col>
-        <Col xs={12} sm={5}>
+        <Col xs={12} sm={7}>
           <Switch>
             <Route path="/projects/:project_alias/settings/general" component={FmsGeneral}/>
             <Route path="/projects/:project_alias/settings/tag" component={FmsTag}/>

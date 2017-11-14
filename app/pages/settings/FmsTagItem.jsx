@@ -39,7 +39,7 @@ class FmsTagItem extends React.Component {
 
   componentDidMount() {
     const {dispatch, name} = this.props;
-    dispatch(setValueTag(name));
+    // dispatch(setValueTag(name));
   }
 
   render() {
