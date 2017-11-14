@@ -1,9 +1,15 @@
 let apiSender = require('./ApiSender');
 
 module.exports = {
-	getConversations: function (alias, next) {
+	getConversations: function (alias, next, query) {
 		let route = `/api/projects/${alias}/conversations`;
-		if (next) route += `?next=${next}`;
+		if (next) route += `?next=${next}&limit=30`;
+		else route += '?limit=30';
+		if (query) {
+			for (let prop in query) {
+				route += `&${prop}=${query[prop]}`;
+			}
+		}
 		return apiSender.get(route);
 	},
 	getMessageInbox: function (inbox_id, next) {

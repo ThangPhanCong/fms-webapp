@@ -91,7 +91,7 @@ class FmsChatArea extends React.Component {
 
 	renderTagsBar() {
 		if (this.props.tags && this.props.tags.length > 0 && this.props.isLoadingMsgs == false)
-			return <FmsTagsBar noti={this.props.noti} alias={this.props.alias} />
+			return <FmsTagsBar />
 	}
 
 	renderInfoChat() {

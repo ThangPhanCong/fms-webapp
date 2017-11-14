@@ -1,9 +1,9 @@
 const initState = {
+  alias: null,
   isLoadMoreConversations: false,
   isLoadingConversations: true,
   conversations: [],
-  pagingConversations: null,
-  filteredConversations: []
+  pagingConversations: null
 }
 
 const conversations = (state = initState, action) => {
@@ -30,13 +30,12 @@ const conversations = (state = initState, action) => {
         ...state,
         pagingConversations: action.pagingConversations,
         conversations: action.conversations,
-        isLoadingConversations: false,
-        filteredConversations: action.conversations
+        isLoadingConversations: false
       }
-    case 'SET_FILTERED_CONVERSATIONS':
+    case 'SET_ALIAS':
       return {
         ...state,
-        filteredConversations: action.filteredConversations
+        alias: action.alias
       }
     default:
       return state;

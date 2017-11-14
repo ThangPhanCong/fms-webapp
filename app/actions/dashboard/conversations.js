@@ -1,7 +1,6 @@
 import DashboardApi from '../../api/DashboardApi';
 import * as u from 'lodash';
 import { setConversation, isLoadingMsgs } from './chat/messages';
-import { filterConversations } from './filters';
 
 
 export const isLoadMoreConversations = (state) => dispatch => {
@@ -16,10 +15,27 @@ export const setConversations = (conversations, pagingConversations) => dispatch
 export const completeGetConversations = (conversations, pagingConversations) => dispatch => {
   dispatch({ type: 'COMPLETE_GET_CONVERSATIONS', conversations, pagingConversations });
 }
-export const setFilteredConversations = (filteredConversations) => dispatch => {
-  dispatch({ type: 'SET_FILTERED_CONVERSATIONS', filteredConversations });
+export const setAlias = (alias) => dispatch => {
+  dispatch({ type: 'SET_ALIAS', alias});
 }
 
+
+export const generateQueryParams = (filters) => {
+  let query = {}, tags = [];
+  for (let i = 1; i < filters.length; i++) {
+    let f = filters[i];
+    if (f.isTag) {
+      if (f.isActive == true) tags.push(f.type);
+    } else {
+      if (f.type == 'unread' && f.isActive == true) query.status = 'unread';
+      else if (f.type == 'inbox' && f.isActive == true) query.select = 'inbox';
+      else if (f.type == 'comment' && f.isActive == true) query.select = 'comment';
+    }
+  }
+  tags = (tags.length == 0) ? null : tags.join();
+  if (tags) query.tags = tags;
+  return query;
+}
 
 export const postSeenCv = (conversation) => dispatch => {
   if (conversation.type == 'inbox') {
@@ -29,8 +45,9 @@ export const postSeenCv = (conversation) => dispatch => {
   }
 }
 
-export const getConversations = (alias) => dispatch => {
-  DashboardApi.getConversations(alias).then((data) => {
+export const getConversations = (alias) => (dispatch, getState) => {
+  let query = generateQueryParams(getState().dashboard.filters.filters);
+  DashboardApi.getConversations(alias, null, query).then((data) => {
     let conversations = data.data;
     conversations = conversations.sort((a, b) => {
       let t1 = new Date(a.updated_time);
@@ -79,21 +96,15 @@ export const handleConversationClick = (selectedConv, type) => (dispatch, getSta
   }
 }
 
-export const loadMoreConversations = (alias) => (dispatch, getState) => {
-  let isShowAll = () => {
-    let filters = getState().dashboard.filters.filters.filter((filter) => {
-      return filter.isActive;
-    });
-    return filters.length == 1 && filters[0].type == 'all';
-  }
+export const loadMoreConversations = () => (dispatch, getState) => {
   let cs = getState().dashboard.conversations;
-  if (cs.isLoadMoreConversations == true || !cs.pagingConversations || !isShowAll()) return;
+  if (cs.isLoadMoreConversations == true || !cs.pagingConversations) return;
+  let query = generateQueryParams(getState().dashboard.filters.filters);
   dispatch(isLoadMoreConversations(true));
-  DashboardApi.getConversations(alias, cs.pagingConversations).then((res) => {
+  DashboardApi.getConversations(cs.alias, cs.pagingConversations, query).then((res) => {
     let paging = (res.paging) ? res.paging.next : null;
     let newConversations = cs.conversations.concat(res.data);
     dispatch(setConversations(newConversations, paging));
-    dispatch(filterConversations());
   }, (err) => {
     dispatch(isLoadMoreConversations(false));
     throw new Error(err);

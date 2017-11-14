@@ -1,5 +1,7 @@
 import blockApi from '../../../api/BlockApi';
 import * as u from 'lodash';
+import { setConversations } from '../conversations';
+import { setConversation } from './messages';
 
 export const blockPerson = () => (dispatch, getState) => {
   let { conversation } = getState().dashboard.chat;
@@ -29,6 +31,6 @@ export const updateBlockCustomer = (cv, is_blocked) => (dispatch, getState) => {
   dispatch(setConversations(u.clone(conversations)));
   let sc = getState().dashboard.chat.conversation;
   if (sc.fb_id == cv.fb_id) {
-    dispatch(setSelectedConversation(u.clone(cv)));
+    dispatch(setConversation(u.clone(cv)));
   }
 }
