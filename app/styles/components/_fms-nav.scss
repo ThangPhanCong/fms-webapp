@@ -62,7 +62,12 @@
   .navbar-brand {
       font-weight: bold;
       font-size: 20px;
+      height: 56px;
       color: white !important;
+  }
+
+  .navbar-header {
+    height: 56px;
   }
 
   .active {

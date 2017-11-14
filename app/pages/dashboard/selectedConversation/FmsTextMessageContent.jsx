@@ -74,7 +74,6 @@ class FmsTextMessageContent extends React.Component {
       <div>
         <p>{this.props.message.message}</p>
         <div className={"group-action-button-message" + actionButton}>
-          {renderSpinner()}
           {renderLikeButton()}&nbsp;&nbsp;&nbsp;
           {renderMessageButton()}
         </div>

@@ -1,7 +1,6 @@
 .conversation-area {
-    margin: 18px 3px;
     flex: 1;
-    height: calc(100% - 18*2px)
+    height: 100%;
 }
 .inner-conversation-area {
     height: 100%;
@@ -9,7 +8,7 @@
 .chat-area {
     width: 100%;
     background-color: #f1f2f3;
-    padding-right: 5px;
+    padding-left: 5px;
     min-height: calc(100% - 125px);
     max-height: calc(100% - 125px);
     overflow-y: scroll;
@@ -36,14 +35,7 @@
     margin: auto;
     margin-top: 120px;
 }
-
-@media only screen and (min-width: 1000px) {
-    .conversation-area {
-        margin: 18px 15px;
-    }
-}
 .post-info-conversation {
-    border-bottom: 1px solid #cecece;
     padding: 12px;
 }
 .page-name-conversation {
@@ -75,7 +67,7 @@
     cursor: pointer;
 }
 .client-tags-bar {
-    margin: 0 8px;
+    margin: 0px;
 }
 .start-tag {
     border-radius: 5px 0 0 0;

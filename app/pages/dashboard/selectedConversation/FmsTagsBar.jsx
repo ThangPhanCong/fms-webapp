@@ -12,12 +12,11 @@ class FmsTagsBar extends React.Component {
     let renderTag = () => {
       let size = this.props.tags.length, index = 0;
       return this.props.tags.map((tag) => {
-        let border = (index == 0) ? " start-tag" : ((index == size - 1) ? " end-tag" : "");
         let style = { backgroundColor: tag.color, width: 100 / size + "%" };
         let activeTag = this.props.conversation.tags.filter((_tag) => { return _tag._id == tag._id });
         let opacity = (activeTag.length != 0) ? "" : " blur";
         index++;
-        return <div className={"client-tag" + border + opacity} onClick={() => { this.handleTagClick(tag._id, tag.name) }}
+        return <div className={"client-tag" + opacity} onClick={() => { this.handleTagClick(tag._id, tag.name) }}
           style={style} key={index}>{tag.name}</div>
       });
     };
