@@ -68,8 +68,8 @@ FmsProject.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    projects: state.project._project.projects,
-    isProjectLoading: state.project._project.isProjectLoading
+    projects: state.project.projects,
+    isProjectLoading: state.project.isProjectLoading
   }
 }
 

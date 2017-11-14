@@ -7,7 +7,7 @@ import sendImg from '../../../images/send.png';
 import fileApi from '../../../api/FileApi';
 import dashboardApi from '../../../api/DashboardApi';
 
-import { handleFileChange, handleFormSubmit } from '../../../actions/dashboard/selectedConversation/chatArea';
+import { handleFileChange, handleFormSubmit } from '../../../actions/dashboard/chat/messageForm';
 
 class FmsMessageForm extends React.Component {
   handleFileChange(e) {
@@ -22,7 +22,7 @@ class FmsMessageForm extends React.Component {
         <form onSubmit={this.handleFormSubmit.bind(this)} className="input-wrapper">
           <input className="input-text" ref="message" rows="3" placeholder="Soạn tin nhắn..." />
           <ul className="group-button">
-            {this.props.selectedConversation.type == 'comment' ?
+            {this.props.conversation.type == 'comment' ?
               <li><a href="#">
                 <img src={attachImg} className="attach-button" />
                 <input type="file" className="input-file" accept="image/*" onChange={this.handleFileChange.bind(this)}></input>
@@ -39,7 +39,7 @@ class FmsMessageForm extends React.Component {
 
 const mapStateToProps = state => {
   return {
-		selectedConversation: state.dashboard.selectedConversation.chatArea.conversation
+		conversation: state.dashboard.chat.conversation
   }
 }
 

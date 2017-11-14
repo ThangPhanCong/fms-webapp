@@ -9,7 +9,7 @@ import fbImgActive from '../../../images/facebook_active.png';
 import FmsToolTip from '../../../components/FmsToolTip';
 import blockApi from '../../../api/BlockApi';
 
-import { activePerson, blockPerson } from '../../../actions/dashboard/selectedConversation/chatArea';
+import { activePerson, blockPerson } from '../../../actions/dashboard/chat/conversationInfo';
 
 class FmsInfoChat extends React.Component {
   activePerson() {
@@ -44,7 +44,7 @@ class FmsInfoChat extends React.Component {
   }
 
   render() {
-    let sc = this.props.selectedConversation;
+    let sc = this.props.conversation;
     //console.log(this.props);
     let customer = sc.customer;
     let option = "";
@@ -78,7 +78,7 @@ class FmsInfoChat extends React.Component {
 
 const mapStateToProps = state => {
   return {
-		selectedConversation: state.dashboard.selectedConversation.chatArea.conversation
+		conversation: state.dashboard.chat.conversation
   }
 }
 

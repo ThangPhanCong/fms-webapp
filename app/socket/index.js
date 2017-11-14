@@ -11,7 +11,25 @@ export const subscribePageChanges = ({page_fb_id, onUpdateChanges}) => {
   } else {
     retry(subscribePageChanges, {page_fb_id, onUpdateChanges});
   }
-};
+}
+
+export const subscribeProjectChanges = ({project_alias, onUpdateChanges}) => {
+  if (socket) {
+    socket.on(event.PROJECTS_CHANGES_EVENT, onUpdateChanges);
+    socket.emit(event.SUBSCRIBE_PROJECTS_CHANGES_EVENT, project_alias);
+  } else {
+    retry(subscribeProjectChanges, {project_alias, onUpdateChanges});
+  }
+}
+
+export const unSubscribeProjectChanges = ({project_alias}) => {
+  if (socket) {
+    socket.off(event.PROJECTS_CHANGES_EVENT);
+    socket.emit(event.UN_SUBSCRIBE_PROJECTS_CHANGES_EVENT, project_alias);
+  } else {
+    retry(unSubscribeProjectChanges, {project_alias});
+  }
+}
 
 export const activePage = ({page_fb_id, onUpdate, onDone}) => {
   if (socket) {

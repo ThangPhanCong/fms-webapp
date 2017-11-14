@@ -37,8 +37,8 @@ class FmsPostInfoConversation extends React.Component {
 
 const mapStateToProps = state => {
   return {
-		pageInfo: state.dashboard.selectedConversation.chatArea.conversation.page,
-		postInfo: state.dashboard.selectedConversation.chatArea.postInfo
+		pageInfo: state.dashboard.chat.conversation.page,
+		postInfo: state.dashboard.chat.postInfo
   }
 }
 

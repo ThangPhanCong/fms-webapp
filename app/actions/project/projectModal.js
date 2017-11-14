@@ -1,60 +1,43 @@
-import _ from 'lodash';
+import * as u from 'lodash';
 import * as socket from '../../socket';
 import pagesApi from '../../api/PagesApi';
 import projectApi from '../../api/ProjectApi';
 import { getProjects } from './project';
 
 
-export const OPEN_MODAL = 'OPEN_MODAL';
-export const CLOSE_MODAL = 'CLOSE_MODAL';
-export const START_SENDING_REQUEST = 'START_SENDING_REQUEST';
-export const COMPLETE_SENDING_REQUEST = 'COMPLETE_SENDING_REQUEST';
-export const SET_LIST_PAGES = 'SET_LIST_PAGES';
-export const SET_SELECTED_PAGES = 'SET_SELECTED_PAGES';
-export const SET_LOADING_STATUS = 'SET_LOADING_STATUS';
-export const CREATE_PROJECT_SUCCESS = 'CREATE_PROJECT_SUCCESS';
-export const RESET_MODAL_STATE = 'RESET_MODAL_STATE';
-
-
-////////////////////////////////////////////////////////////////////////////
 export const openModal = () => dispatch => {
-  dispatch({ type: OPEN_MODAL });
+  dispatch({ type: 'OPEN_MODAL' });
 }
 export const closeModal = () => dispatch => {
   dispatch(getProjects());
-  dispatch({ type: RESET_MODAL_STATE });
+  dispatch({ type: 'RESET_MODAL_STATE' });
 }
-export const startSendingRequest = () => dispatch => {
-  dispatch({ type: START_SENDING_REQUEST });
-}
-export const completeSendingRequest = () => dispatch => {
-  dispatch({ type: COMPLETE_SENDING_REQUEST });
+export const sendingRequest = (state) => dispatch => {
+  dispatch({ type: 'SENDING_REQUEST', state });
 }
 export const setPages = (pages) => dispatch => {
   const sortedPages = pages.sort((page1, page2) => page1.name > page2.name);
-  dispatch({ type: SET_LIST_PAGES, pages: sortedPages });
+  dispatch({ type: 'SET_LIST_PAGES', pages: sortedPages });
 }
 export const setSelectedPages = (pages) => dispatch => {
-  dispatch({ type: SET_SELECTED_PAGES, selectedPages: pages });
+  dispatch({ type: 'SET_SELECTED_PAGES', selectedPages: pages });
 }
 export const setLoadingStatus = () => dispatch => {
-  dispatch({ type: SET_LOADING_STATUS });
+  dispatch({ type: 'SET_LOADING_STATUS' });
 }
 export const createProjectSuccess = (projectName) => dispatch => {
-  dispatch({ type: CREATE_PROJECT_SUCCESS, newProject: projectName });
+  dispatch({ type: 'CREATE_PROJECT_SUCCESS', newProject: projectName });
 }
 export const resetModalState = () => dispatch => {
-  dispatch({ type: RESET_MODAL_STATE });
+  dispatch({ type: 'RESET_MODAL_STATE' });
 }
-/////////////////////////////////////////////////////////////////////////////////
-
 
 export const createNewProject = (projectName) => dispatch => {
   if (!projectName) {
     alert('Tên dự án không được để trống');
     return;
   }
-  dispatch(startSendingRequest());
+  dispatch(sendingRequest(true));
   projectApi.createNewProject(projectName)
     .then(newProject => {
       dispatch(createProjectSuccess(projectName));
@@ -62,7 +45,7 @@ export const createNewProject = (projectName) => dispatch => {
     })
     .catch(err => {
       alert(err.message);
-      dispatch(completeSendingRequest());
+      dispatch(sendingRequest(false));
     });
 }
 
@@ -77,7 +60,7 @@ export const updatePages = () => dispatch => {
 }
 
 export const clickOnPageInModal = (isSelected, page_fb_id) => (dispatch, getState) => {
-  let { selectedPages, pages } = getState().project.projectModal;
+  let { selectedPages, pages } = getState().project;
   if (isSelected) {
     let selectedPage = pages.filter((page) => {
       return page.fb_id == page_fb_id;
@@ -90,7 +73,7 @@ export const clickOnPageInModal = (isSelected, page_fb_id) => (dispatch, getStat
       return page.fb_id != page_fb_id;
     })
   }
-  dispatch(setSelectedPages(_.clone(selectedPages)));
+  dispatch(setSelectedPages(u.clone(selectedPages)));
 }
 
 let activePage = function (page) {
@@ -140,10 +123,10 @@ let activePage = function (page) {
 }
 
 export const activePages = () => (dispatch, getState) => {
-  let project = getState().project.projectModal.project;
-  let selectedPages = getState().project.projectModal.selectedPages;
+  let project = getState().project.project;
+  let selectedPages = getState().project.selectedPages;
   if (!selectedPages || !Array.isArray(selectedPages) || selectedPages.length == 0) return;
-  dispatch(startSendingRequest());
+  dispatch(sendingRequest(true));
   let error;
   selectedPages.reduce((total, page, index, arr) => {
     return total.then(() => {
@@ -157,7 +140,7 @@ export const activePages = () => (dispatch, getState) => {
       })
       .then(() => {
         if (index == arr.length - 1) {
-          dispatch(completeSendingRequest());
+          dispatch(sendingRequest(false));
           dispatch(closeModal());
         }
       });

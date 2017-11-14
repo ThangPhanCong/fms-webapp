@@ -9,7 +9,7 @@ class FmsAttachmentContent extends React.Component {
       isLoading: true
     }
   }
-  getSizeImage() {
+  getStyleImage() {
     if (!this.props.size || this.props.type == "sticker") return {};
     return {
       width: this.state.size.width,
@@ -66,7 +66,7 @@ class FmsAttachmentContent extends React.Component {
 
     return (
       <div className={"message-attachment-wrapper" + hasMessage + msgAttachWrapper}>
-        <div className={messageAttachment + ' ' + isSticker + hasBorder} style={this.getSizeImage()}>
+        <div className={messageAttachment + ' ' + isSticker + hasBorder} style={this.getStyleImage()}>
           <div className={"attach-spin" + spin}>
             <FmsSpin size={27} />
           </div>

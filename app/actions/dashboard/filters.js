@@ -1,25 +1,19 @@
 import DashboardApi from '../../api/DashboardApi';
 import { setFilteredConversations } from './conversations';
-import * as _ from 'lodash';
+import * as u from 'lodash';
 
-export const SET_FILTERS = 'SET_FILTERS';
-export const SET_TAGS = 'SET_TAGS';
-export const SET_SEARCH_TEXT = 'SET_SEARCH_TEXT';
-
-//////////////////////////////////////////////////////////////////////
 export const setFilters = (filters) => dispatch => {
-  dispatch({ type: SET_FILTERS, filters: filters });
+  dispatch({ type: 'SET_FILTERS', filters: filters });
 }
 export const setTags = (tags) => dispatch => {
-  dispatch({ type: SET_TAGS, tags: tags });
+  dispatch({ type: 'SET_TAGS', tags: tags });
 }
 export const setSearchText = (text) => dispatch => {
-  dispatch({ type: SET_SEARCH_TEXT, searchText: text });
+  dispatch({ type: 'SET_SEARCH_TEXT', searchText: text });
 }
-///////////////////////////////////////////////////////////////////
 
 export const getTagsProject = (alias) => (dispatch, getState) => {
-  let filters = getState().dashboard.filters.filters;
+  let { filters } = getState().dashboard.filters;
   DashboardApi.getProjectTags(alias).then((res) => {
     res.forEach((tag) => {
       filters.push({
@@ -40,38 +34,38 @@ export const getTagsProject = (alias) => (dispatch, getState) => {
 }
 
 export const handleFilter = (newFilters) => dispatch => {
-  dispatch(setFilters(_.clone(newFilters)));
+  dispatch(setFilters(u.clone(newFilters)));
   dispatch(filterConversations());
 }
 
 export const handleTagFilterClick = (_id) => (dispatch, getState) => {
-  let newFilters = getState().dashboard.filters.filters;
-  newFilters.forEach((filter) => {
+  let { filters } = getState().dashboard.filters;
+  filters.forEach((filter) => {
     if (filter.isTag && filter.type == _id) {
       filter.isActive = !filter.isActive;
     }
   });
-  dispatch(handleFilter(newFilters));
+  dispatch(handleFilter(filters));
 }
 
 export const handleTypeFilterClick = (position) => (dispatch, getState) => {
-  let newFilters = getState().dashboard.filters.filters;
-  for (let i = 0; i < newFilters.length; i++) {
-    if (newFilters[i].isTag) continue;
-    if (i == position) newFilters[i].isActive = !newFilters[i].isActive;
+  let { filters } = getState().dashboard.filters;
+  for (let i = 0; i < filters.length; i++) {
+    if (filters[i].isTag) continue;
+    if (i == position) filters[i].isActive = !filters[i].isActive;
     else {
-      if (position == 0) newFilters[i].isActive = false;
-      else newFilters[0].isActive = false
-      if (position == 2 && i == 3) newFilters[i].isActive = false;
-      else if (position == 3 && i == 2) newFilters[i].isActive = false;
+      if (position == 0) filters[i].isActive = false;
+      else filters[0].isActive = false
+      if (position == 2 && i == 3) filters[i].isActive = false;
+      else if (position == 3 && i == 2) filters[i].isActive = false;
     }
   }
   let isShowAll = true;
-  newFilters.forEach((filter) => {
+  filters.forEach((filter) => {
     if (filter.isActive == true && !filter.isTag) isShowAll = false;
   });
-  if (isShowAll == true) newFilters[0].isActive = true;
-  dispatch(handleFilter(newFilters));
+  if (isShowAll == true) filters[0].isActive = true;
+  dispatch(handleFilter(filters));
 }
 
 export const filterConversations = () => (dispatch, getState) => {
@@ -83,15 +77,16 @@ export const filterConversations = () => (dispatch, getState) => {
       else tagFilters.push(filter);
     }
   });
-  let newConversations = filtered.filter((conversation) => {
-    let isOK = conversation.tags.filter(convers_tag => {
-      let isOK2 = tagFilters.filter(tagFilter => {
-        return tagFilter.isActive == true && tagFilter.type == convers_tag._id;
-      });
-      return isOK2.length != 0;
-    });
-    return isOK.length != 0;
-  });
+  let newConversations = [];
   if (tagFilters.length == 0) newConversations = filtered;
+  else {
+    newConversations = filtered.filter((conversation) => {
+      return conversation.tags.filter(convers_tag => {
+        return tagFilters.filter(tagFilter => {
+          return tagFilter.isActive == true && tagFilter.type == convers_tag._id;
+        }).length != 0;
+      }).length != 0;
+    });
+  }
   dispatch(setFilteredConversations(newConversations));
 }

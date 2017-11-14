@@ -9,7 +9,7 @@ import { handleConversationClick } from '../../../actions/dashboard/conversation
 
 const ICON_HEIGHT = 16;
 
-class FmsClientItem extends React.Component {
+class FmsConversationItem extends React.Component {
 	handleConversationClick() {
 		let { dispatch, data } = this.props;
 		dispatch(handleConversationClick(data, data.type));
@@ -68,4 +68,4 @@ const mapStateToProps = state => {
   return {}
 }
 
-export default connect(mapStateToProps)(FmsClientItem);
+export default connect(mapStateToProps)(FmsConversationItem);

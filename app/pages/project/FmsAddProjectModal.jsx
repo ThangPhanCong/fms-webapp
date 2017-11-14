@@ -119,13 +119,13 @@ class FmsAddProjectModal extends Component {
 
 const mapStateToProps = state => {
   return {
-    modalIsShown: state.project.projectModal.modalIsShown,
-    showListPages: state.project.projectModal.showListPages,
-    isSendingRequest: state.project.projectModal.isSendingRequest,
-    project: state.project.projectModal.project,
-    pages: state.project.projectModal.pages,
-    selectedPages: state.project.projectModal.selectedPages,
-    loadingStatus: state.project.projectModal.loadingStatus
+    modalIsShown: state.project.modalIsShown,
+    showListPages: state.project.showListPages,
+    isSendingRequest: state.project.isSendingRequest,
+    project: state.project.project,
+    pages: state.project.pages,
+    selectedPages: state.project.selectedPages,
+    loadingStatus: state.project.loadingStatus
   }
 }
 
