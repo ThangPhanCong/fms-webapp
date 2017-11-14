@@ -1,31 +1,27 @@
 import React from 'react';
 import {connect} from 'react-redux';
-
-import tickImg from '../../../images/tick.png';
-import {selectPage} from "../../../actions/setting/setting-page";
+import {withRouter} from 'react-router-dom';
+import deleteImg from "../../../images/button-delete.svg"
+import {deletePage} from "../../../actions/setting/setting-page";
 class FmsPageItemInModal extends React.Component {
-  onPageClick() {
-    let { canSelect, dispatch, isSelected, data } = this.props;
-    if (canSelect) {
-      dispatch(selectPage(!isSelected, data.fb_id));
-    }
-  }
 
-  renderActiveImg() {
-    if (this.props.isSelected) {
-      return <img src={tickImg} className="tick" />
-    }
+  deletePage() {
+    const {data, dispatch} = this.props;
+      const {project_alias} = this.props.match.params;
+    dispatch(deletePage(project_alias, data._id));
   }
   render() {
-    let self = this;
     let avaUrl = `https://graph.facebook.com/v2.10/${this.props.data.fb_id}/picture`;
-    let disabled = (this.props.canSelect) ? "" : " disabled";
 
     return (
-      <div className={"page-item" + disabled} onClick={this.onPageClick.bind(this)}>
+      <div className={"page-item"}>
         <img src={avaUrl} className="page-profile" />
         <span className="fanpage-title">{this.props.data.name}</span>
-        {this.renderActiveImg()}
+        <button className="delete-button" onClick={this.deletePage.bind(this)}>
+          <svg aria-hidden="true" className="octicon octicon-trashcan" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+            <path fillRule="evenodd" fill="red" d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"></path>
+          </svg>
+        </button>
       </div>
     );
   }
@@ -34,4 +30,4 @@ class FmsPageItemInModal extends React.Component {
 const mapStateToProps = state => {
   return {}
 }
-export default connect(mapStateToProps)(FmsPageItemInModal);
+export default withRouter(connect(mapStateToProps)(FmsPageItemInModal));

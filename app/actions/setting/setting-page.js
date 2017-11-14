@@ -2,7 +2,6 @@ import * as store from '../../helpers/storage';
 import ProjectApi from '../../api/ProjectApi';
 import PagesApi from '../../api/PagesApi';
 import * as socket from '../../socket';
-export const SET_SELECTED_PAGES = 'SET_SELECTED_PAGES';
 export const IS_SHOW_MODAL = 'IS_SHOW_MODAL';
 export const SET_SELECTED_PAGES_MODAL = 'SET_SELECTED_PAGES_MODAL';
 export const START_SENDING_REQUEST = 'START_SENDING_REQUEST';
@@ -12,10 +11,6 @@ export const PAGES_LOADED = 'PAGES_LOADED';
 export const PAGES_MODAL_LOADED = 'PAGES_MODAL_LOADED';
 export const RESET_MODAL_STATE = 'RESET_MODAL_STATE';
 export const RESET_PAGES = 'RESET_PAGES';
-
-export const setSelectedPages = (selectedPages) => dispatch => {
-  dispatch({type: SET_SELECTED_PAGES,selectedPages});
-}
 
 export const isShowModal = () => dispatch => {
   dispatch({type: IS_SHOW_MODAL});
@@ -91,25 +86,6 @@ export const getPagesProject = (project_alias) => dispatch => {
     })
 }
 
-export const selectPage = (is_selected, page_fb_id) => (dispatch, getState) => {
-  let {
-    selectedPages,
-    pages
-  } = getState().setting.settingPage;
-  if (is_selected) {
-    let selectedPage = pages.filter((page) => {
-      return page.fb_id == page_fb_id;
-    }).pop();
-
-    selectedPages = [];
-    selectedPages.push(selectedPage);
-  } else {
-    selectedPages = selectedPages.filter(page => {
-      return page.fb_id != page_fb_id;
-    })
-  }
-  dispatch(setSelectedPages(_.clone(selectedPages)));
-}
 
 export const selectPageModal = (is_selected, page_fb_id) => (dispatch, getState) => {
   let {

@@ -29,12 +29,12 @@
   .setting-header {
     //background-color: rgba(240,240,240, 1);
     color: black;
-    font-size: 120%;
-    padding: 1em;
+    font-size: 24px;
+    // padding: 1em;
     margin-bottom: 0.5em;
-    text-transform: uppercase;
     font-weight: normal;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid #e1e4e8;
+    padding-bottom: 8px;
   }
 }
 
@@ -44,6 +44,10 @@
   * {
     display: inline-block;
     vertical-align: middle;
+  }
+  span {
+    font-weight: 600;
+
   }
 
   .color-preview {
@@ -103,4 +107,23 @@
   button {
       display: inline;
   }
+}
+.noti {
+  border: 1px solid #e1e4e8;
+  border-bottom: none;
+  .col {
+    border-bottom:1px solid #e1e4e8;
+  }
+}
+.delete-button {
+  float: right;
+padding-right: 7px;
+padding-left: 7px;
+margin-left: 5px;
+line-height: 24px;
+color: #cb2431;
+cursor: pointer;
+background-color: transparent;
+border: none;
+margin-top: 15px;
 }

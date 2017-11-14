@@ -12,21 +12,21 @@ class FmsNoti extends React.Component {
               Cài đặt thông báo
             </Col>
           </Row>
-          <Row>
-            <Col>
-              <Checkbox className='tag-item-wrapper'>Âm thanh thông báo</Checkbox>
+          <Row className="noti">
+            <Col className="col">
+              <Checkbox className='tag-item-wrapper'><span>Âm thanh thông báo</span></Checkbox>
             </Col>
-            <Col>
-              <Checkbox className='tag-item-wrapper'>Hiện thị cuộc hội thoại chưa đọc lên trên đầu</Checkbox>
+            <Col className="col">
+              <Checkbox className='tag-item-wrapper'><span>Hiện thị cuộc hội thoại chưa đọc lên trên đầu</span></Checkbox>
             </Col>
-            <Col>
-              <Checkbox className='tag-item-wrapper'>Tự động thích bình luận khi đang trả lời bình luận</Checkbox>
+            <Col className="col">
+              <Checkbox className='tag-item-wrapper'><span>Tự động thích bình luận khi đang trả lời bình luận</span></Checkbox>
             </Col>
-            <Col>
-              <Checkbox className='tag-item-wrapper'>Tự động tạo đơn đặt hàng</Checkbox>
+            <Col className="col">
+              <Checkbox className='tag-item-wrapper'><span>Tự động tạo đơn đặt hàng</span></Checkbox>
             </Col>
-            <Col>
-              <Checkbox className='tag-item-wrapper'>Tự động ẩn bình luận</Checkbox>
+            <Col className="col">
+              <Checkbox className='tag-item-wrapper'><span>Tự động ẩn bình luận</span></Checkbox>
             </Col>
           </Row>
         </div>

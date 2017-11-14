@@ -1,6 +1,5 @@
 import {
   IS_EDITTING,
-  SET_SELECTED_PAGES,
   IS_SHOW_MODAL,
   SET_SELECTED_PAGES_MODAL,
   START_SENDING_REQUEST,
@@ -17,7 +16,6 @@ import {
 const initState = {
   isEditting: false,
   isShowModal: false,
-  selectedPages: [],
   selectedPagesModal: [],
   isSendingRequest: false,
   loadingStatus: "",
@@ -47,11 +45,6 @@ const settingReducer = (state = initState, action) => {
         ...state,
         loadingStatus: action.loadingStatus
       }
-    case SET_SELECTED_PAGES:
-      return {
-        ...state,
-        selectedPages: action.selectedPages
-      }
     case IS_SHOW_MODAL:
       return {
         ...state,
@@ -77,7 +70,6 @@ const settingReducer = (state = initState, action) => {
       return {
         ...state,
         isEditting: false,
-        selectedPages: [],
         selectedPagesModal: [],
         isSendingRequest: false,
         loadingStatus: "",
