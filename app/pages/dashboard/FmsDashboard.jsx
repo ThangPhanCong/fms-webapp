@@ -36,7 +36,7 @@ class FmsDashBoard extends React.Component {
 		if (this.props.isLoadingConversations == false) {
 			return <FmsConversationList alias={this.props.match.params.project_alias} />
 		} else {
-			return <div className="client-list-spin" style={{marginTop: 32 + 'px'}}><FmsSpin size={27} /></div>
+			return <div className="client-list-spin"><FmsSpin size={27} /></div>
 		}
 	}
 
