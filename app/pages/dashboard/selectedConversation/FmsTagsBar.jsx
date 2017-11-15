@@ -6,7 +6,7 @@ import { handleTagClick } from '../../../actions/dashboard/chat/tagsBar';
 
 class FmsTagsBar extends React.Component {
   handleTagClick(tag_id, tag_name) {
-    this.props.dispatch(handleTagClick(this.props.alias, tag_id, tag_name));
+    this.props.dispatch(handleTagClick(tag_id, tag_name));
   }
   render() {
     let renderTag = () => {

@@ -64,15 +64,14 @@ class FmsAddProjectModal extends Component {
       })
     } else {
       return (
-        <div>Bạn không có trang nào!</div>
+        <div className="spinner-in-middle"><FmsSpin size={27} /></div>
       )
     }
   }
 
   renderActivePages() {
-    const { dispatch } = this.props;
+    const { dispatch, selectedPages } = this.props;
     let disabled = this.props.isSendingRequest;
-    let selectedPages = this.props.selectedPages;
     let loadingStatus = '' + (this.props.loadingStatus || '');
     let statusHidden = this.props.isSendingRequest ? ' ' : ' fms-hidden';
 

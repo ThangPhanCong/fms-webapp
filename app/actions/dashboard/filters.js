@@ -1,6 +1,6 @@
 import DashboardApi from '../../api/DashboardApi';
-import { setFilteredConversations } from './conversations';
 import * as u from 'lodash';
+import { getConversations } from './conversations';
 
 export const setFilters = (filters) => dispatch => {
   dispatch({ type: 'SET_FILTERS', filters: filters });
@@ -19,11 +19,7 @@ export const getTagsProject = (alias) => (dispatch, getState) => {
       filters.push({
         isTag: true,
         type: tag._id,
-        isActive: false,
-        filterFunc: (item) => {
-          let isOK = item.tags.filter((_tag) => { return _tag._id == tag._id });
-          return isOK.length != 0;
-        }
+        isActive: false
       });
     });
     dispatch(setTags(res));
@@ -33,9 +29,10 @@ export const getTagsProject = (alias) => (dispatch, getState) => {
   });
 }
 
-export const handleFilter = (newFilters) => dispatch => {
+export const handleFilter = (newFilters) => (dispatch, getState) => {
+  let alias = getState().dashboard.conversations.alias;
   dispatch(setFilters(u.clone(newFilters)));
-  dispatch(filterConversations());
+  dispatch(getConversations(alias));
 }
 
 export const handleTagFilterClick = (_id) => (dispatch, getState) => {
@@ -66,27 +63,4 @@ export const handleTypeFilterClick = (position) => (dispatch, getState) => {
   });
   if (isShowAll == true) filters[0].isActive = true;
   dispatch(handleFilter(filters));
-}
-
-export const filterConversations = () => (dispatch, getState) => {
-  let filtered = getState().dashboard.conversations.conversations;
-  let tagFilters = [];
-  getState().dashboard.filters.filters.map((filter) => {
-    if (filter.isActive == true) {
-      if (!filter.isTag) filtered = filtered.filter(filter.filterFunc);
-      else tagFilters.push(filter);
-    }
-  });
-  let newConversations = [];
-  if (tagFilters.length == 0) newConversations = filtered;
-  else {
-    newConversations = filtered.filter((conversation) => {
-      return conversation.tags.filter(convers_tag => {
-        return tagFilters.filter(tagFilter => {
-          return tagFilter.isActive == true && tagFilter.type == convers_tag._id;
-        }).length != 0;
-      }).length != 0;
-    });
-  }
-  dispatch(setFilteredConversations(newConversations));
 }

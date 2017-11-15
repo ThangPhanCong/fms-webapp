@@ -7,6 +7,7 @@ import FmsConversationList from './conversations/FmsConversationList';
 import FmsClientInformation from './information/FmsClientInformation';
 import FmsVerticalNav from './FmsVerticalNav';
 
+import { setAlias } from '../../actions/dashboard/conversations';
 import { getProject, unSubscribeProjectChanges } from '../../actions/dashboard/dashboard';
 import { getTagsProject } from '../../actions/dashboard/filters';
 
@@ -14,6 +15,7 @@ class FmsDashBoard extends React.Component {
 	componentDidMount() {
 		const { dispatch } = this.props;
 		const alias = this.props.match.params.project_alias;
+		dispatch(setAlias(alias));
 		dispatch(getProject(alias));
 		dispatch(getTagsProject(alias));
 	}
@@ -26,7 +28,7 @@ class FmsDashBoard extends React.Component {
 
 	renderConversation() {
 		if (this.props.conversation) {
-			return <FmsChatArea alias={this.props.match.params.project_alias} noti={this.props.noti} />
+			return <FmsChatArea />
 		} else {
 			return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
 		}
@@ -34,7 +36,7 @@ class FmsDashBoard extends React.Component {
 
 	renderClientList() {
 		if (this.props.isLoadingConversations == false) {
-			return <FmsConversationList alias={this.props.match.params.project_alias} />
+			return <FmsConversationList />
 		} else {
 			return <div className="client-list-spin"><FmsSpin size={27} /></div>
 		}

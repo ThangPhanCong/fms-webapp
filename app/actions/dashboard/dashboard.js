@@ -4,7 +4,6 @@ import * as u from 'lodash';
 
 import { setConversation } from './chat/messages';
 import { setConversations, getConversations, postSeenCv } from './conversations';
-import { filterConversations } from './filters';
 
 export const getProject = (alias) => dispatch => {
   const _updateMsgInConversation = (msg) => {
@@ -25,8 +24,26 @@ export const unSubscribeProjectChanges = (project_alias) => dispatch => {
   socket.unSubscribeProjectChanges({project_alias});
 }
 
+const isInFilteredConversations = (conv, filters) => {
+  let b = true;
+  if (filters[2].isActive && conv.type != 'comment') b = false;
+  if (filters[3].isActive && conv.type != 'inbox') b = false;
+  let activedTagFilter = filters.filter(f => {
+    return (f.isTag == true && f.isActive == true) ? true : false;
+  });
+  let hasSameTag = conv.tags.filter(f => {
+    return activedTagFilter.filter(_f => {
+      return _f._id == f._id;
+    }).length > 0;
+  }).length > 0;
+  if (!hasSameTag && activedTagFilter.length != 0) b = false;
+  return b;
+}
+
 export const updateMsgInConversation = (msg) => (dispatch, getState) => {
   if (!msg || !msg.parent || !msg.parent.type) return;
+  let { filters } = getState().dashboard.filters;
+  if (!isInFilteredConversations(msg.parent, filters)) return;
   let { conversations } = getState().dashboard.conversations;
   let _parent = conversations.filter((c) => { 
     return c._id == msg.parent._id;
@@ -78,6 +95,5 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
     }
   }
   dispatch(setConversations(u.clone(conversations)));
-  dispatch(filterConversations());
   //if (self._child2) self._child2.scrollToBottom();
 }

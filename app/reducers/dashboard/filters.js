@@ -1,31 +1,19 @@
 let _filters = [
   {
     type: 'all',
-    isActive: true,
-    filterFunc: function (item) {
-      return true;
-    }
+    isActive: true
   },
   {
     type: 'unread',
-    isActive: false,
-    filterFunc: function (item) {
-      return item.is_seen == false;
-    }
+    isActive: false
   },
   {
     type: 'comment',
-    isActive: false,
-    filterFunc: function (item) {
-      return item.type == 'comment';
-    }
+    isActive: false
   },
   {
     type: 'inbox',
-    isActive: false,
-    filterFunc: function (item) {
-      return item.type == 'inbox';
-    }
+    isActive: false
   }
 ];
 

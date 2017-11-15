@@ -16,14 +16,14 @@ class FmsConversationList extends React.Component {
 		const list = ReactDOM.findDOMNode(this.refs.list);
 		list.addEventListener('scroll', () => {
 			if ($(list).scrollTop() + $(list).innerHeight() >= $(list)[0].scrollHeight - 64) {
-				this.props.dispatch(loadMoreConversations(this.props.alias));
+				this.props.dispatch(loadMoreConversations());
 			}
 		})
 	}
 
 	renderConversations() {
 		let self = this;
-		let conversations = this.props.filteredConversations;
+		let conversations = this.props.conversations;
 		if (!conversations) return;
 		return conversations.map(conversation => {
 			let isSelected = (self.props.conversation && self.props.conversation._id == conversation._id);
@@ -56,7 +56,7 @@ class FmsConversationList extends React.Component {
 
 const mapStateToProps = state => {
   return {
-		filteredConversations: state.dashboard.conversations.filteredConversations,
+		conversations: state.dashboard.conversations.conversations,
 		conversation: state.dashboard.chat.conversation,
 		isLoadMoreConversations: state.dashboard.conversations.isLoadMoreConversations
   }
