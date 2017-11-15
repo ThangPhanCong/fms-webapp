@@ -32,6 +32,7 @@ class FmsSettings extends React.Component {
         </Col>
         <Col xs={12} sm={7}>
           <Switch>
+
             <Route path="/projects/:project_alias/settings/general" component={FmsGeneral}/>
             <Route path="/projects/:project_alias/settings/tag" component={FmsTag}/>
             <Route path="/projects/:project_alias/settings/page" component={FmsPage}/>
@@ -41,6 +42,7 @@ class FmsSettings extends React.Component {
             <Route path="/projects/:project_alias/settings/employ" component={FmsEmploy}/>
             <Route path="/projects/:project_alias/settings/noti" component={FmsNoti}/>
             <Route path="/projects/:project_alias/settings/pay" component={FmsPay}/>
+            <Redirect to={`/projects/${this.props.match.params.project_alias}/settings/general`}/>
           </Switch>
         </Col>
       </Row>
