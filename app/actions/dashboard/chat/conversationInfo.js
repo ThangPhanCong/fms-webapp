@@ -27,7 +27,7 @@ export const activePerson = () => (dispatch, getState) => {
 
 export const updateBlockCustomer = (cv, is_blocked) => (dispatch, getState) => {
   cv.customer.is_blocked = is_blocked;
-  let conversations = getState().dashboard.conversations.conversations.map(_cv => (cv.fb_id == _cv.fb_id) ? cv : _cv);
+  let conversations = getState().dashboard.conversations.conversations.map(_cv => (cv._id == _cv._id) ? cv : _cv);
   dispatch(setConversations(u.clone(conversations)));
   let sc = getState().dashboard.chat.conversation;
   if (sc.fb_id == cv.fb_id) {
