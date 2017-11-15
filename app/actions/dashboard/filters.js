@@ -19,11 +19,7 @@ export const getTagsProject = (alias) => (dispatch, getState) => {
       filters.push({
         isTag: true,
         type: tag._id,
-        isActive: false,
-        filterFunc: (item) => {
-          let isOK = item.tags.filter((_tag) => { return _tag._id == tag._id });
-          return isOK.length != 0;
-        }
+        isActive: false
       });
     });
     dispatch(setTags(res));
