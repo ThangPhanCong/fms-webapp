@@ -14,6 +14,11 @@ module.exports = {
     let payload = {name};
 		return apiSender.post(route, payload);
 	},
+	updateProject: (alias, project) => {
+		let route = `/api/projects/${alias}`;
+		let payload = {project};
+		return apiSender.put(route, payload);
+	},
 	deleteProject: (alias) => {
 		let route = `/api/projects/${alias}`;
 		return apiSender.delete(route);

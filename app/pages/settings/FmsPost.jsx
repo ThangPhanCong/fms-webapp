@@ -12,6 +12,11 @@ class FmsPost extends React.Component {
               Danh sách bài đăng
             </Col>
           </Row>
+          <Row className="noti">
+            <Col className="col">
+              <Checkbox className='tag-item-wrapper'><span>Tự động ẩn bình luận</span></Checkbox>
+            </Col>
+          </Row>
         </div>
     );
   }
