@@ -1,13 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 class FmsCreateFormTab extends React.Component {
   render() {
+    let name = (this.props.conversation) ? this.props.conversation.customer.name : "";
     return (
       <div className="create-form-tab">
         <form>
           <div className="form-in-tab">
             <i className="glyphicon glyphicon-user icon-in-tabform"></i>
-            <input type="text" className="input-in-tab" placeholder="Tên" />
+            <input type="text" className="input-in-tab" placeholder="Tên" value={name}/>
           </div>
           <div className="form-in-tab">
             <i className="glyphicon glyphicon-phone icon-in-tabform"></i>
@@ -23,4 +25,10 @@ class FmsCreateFormTab extends React.Component {
   }
 }
 
-module.exports = FmsCreateFormTab;
+const mapStateToProps = state => {
+  return {
+		conversation: state.dashboard.chat.conversation
+  }
+}
+
+export default connect(mapStateToProps)(FmsCreateFormTab);
