@@ -20,8 +20,6 @@ class FmsSidebar extends React.Component {
       </ul>
           : null
       )} />
-
-
       );
   }
 }
