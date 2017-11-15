@@ -45,22 +45,22 @@ class FmsVerticalNav extends React.Component {
     }
     return (
       <div ref="vertical_nav">
-        <FmsToolTip message="Show all" direction="right">
+        <FmsToolTip message="Hiển thị tất cả" direction="right">
           <div onClick={() => { this.handleTypeFilterClick(0) }}>
             <img src={src[0]} className={"vertical-nav-item" + className[0]} />
           </div>
         </FmsToolTip>
-        <FmsToolTip message="Filter by unread" direction="right">
+        <FmsToolTip message="Chưa đọc" direction="right">
           <div onClick={() => { this.handleTypeFilterClick(1) }}>
             <img src={src[1]} className={"vertical-nav-item" + className[1]} />
           </div>
         </FmsToolTip>
-        <FmsToolTip message="Filter by comment" direction="right">
+        <FmsToolTip message="Bình luận" direction="right">
           <div onClick={() => { this.handleTypeFilterClick(2) }}>
             <img src={src[2]} className={"vertical-nav-item" + className[2]} />
           </div>
         </FmsToolTip>
-        <FmsToolTip message="Filter by inbox" direction="right">
+        <FmsToolTip message="Tin nhắn" direction="right">
           <div onClick={() => { this.handleTypeFilterClick(3) }}>
             <img src={src[3]} className={"vertical-nav-item" + className[3]} />
           </div>
