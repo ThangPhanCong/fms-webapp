@@ -22,7 +22,7 @@ const conversations = (state = initState, action) => {
       return {
         ...state,
         conversations: action.conversations,
-        pagingConversations: (action.pagingConversations) ? action.pagingConversations : null,
+        pagingConversations: action.pagingConversations,
         isLoadMoreConversations: false
       }
     case 'COMPLETE_GET_CONVERSATIONS':

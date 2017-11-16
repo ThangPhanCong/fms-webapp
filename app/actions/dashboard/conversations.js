@@ -9,7 +9,9 @@ export const isLoadMoreConversations = (state) => dispatch => {
 export const isLoadingConversations = (state) => dispatch => {
   dispatch({ type: 'LOADING_CONVERSATIONS', state });
 }
-export const setConversations = (conversations, pagingConversations) => dispatch => {
+export const setConversations = (conversations, pagingConversations) => (dispatch, getState) => {
+  let _pagingConversations = getState().dashboard.conversations.pagingConversations;
+  if (!pagingConversations) pagingConversations = _pagingConversations;
   dispatch({ type: 'SET_CONVERSATIONS', conversations, pagingConversations });
 }
 export const completeGetConversations = (conversations, pagingConversations) => dispatch => {
