@@ -1,10 +1,10 @@
 import React from 'react';
 import uuid from 'uuid';
-import {connect} from 'react-redux';
 
 import projectApi from '../../api/ProjectApi';
 
 class FmsProjectItem extends React.Component {
+  
   renderPageItem() {
     let project = this.props.data;
     let pages = project.pages;
@@ -29,6 +29,7 @@ class FmsProjectItem extends React.Component {
       return <div></div>
     }
   }
+
   render() {
     let project = this.props.data;
     let projectName = project.name;
@@ -49,7 +50,4 @@ class FmsProjectItem extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {}
-}
-export default connect(mapStateToProps)(FmsProjectItem);
+export default FmsProjectItem;

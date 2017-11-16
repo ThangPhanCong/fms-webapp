@@ -9,9 +9,14 @@ module.exports = {
 		let route = `/api/projects/${alias}`;
 		return apiSender.get(route);
 	},
-	createNewProject: (name) => {
-		let route = `/api/projects`;
-    let payload = {name};
+	verifyName: (name) => {
+		const route = `/api/projects/verify-name`;
+		const payload = { name };
+		return apiSender.post(route, payload);
+	},
+	createNewProject: (name, page_ids) => {
+		const route = `/api/projects`;
+    const payload = {name, page_ids};
 		return apiSender.post(route, payload);
 	},
 	updateProject: (alias, project) => {

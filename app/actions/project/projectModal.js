@@ -4,10 +4,34 @@ import pagesApi from '../../api/PagesApi';
 import projectApi from '../../api/ProjectApi';
 import { getProjects } from './project';
 
+export const OPEN_CREATE_PROJECT_MODAL = 'OPEN_CREATE_PROJECT_MODAL';
+export const CLOSE_CREATE_PROJECT_MODAL = 'CLOSE_CREATE_PROJECT_MODAL';
 
-export const openModal = () => dispatch => {
-  dispatch({ type: 'OPEN_MODAL' });
+export const OPEN_ADD_PAGES_MODAL = 'OPEN_ADD_PAGES_MODAL';
+export const CLOSE_ADD_PAGES_MODAL = 'CLOSE_ADD_PAGES_MODAL';
+
+export const SET_NEW_PROJECT = 'SET_NEW_PROJECT';
+
+export const openCreateProjectModal = () => {
+  return { type: OPEN_CREATE_PROJECT_MODAL };
 }
+
+export const closeCreateProjectModal = () => {
+  return { type: CLOSE_CREATE_PROJECT_MODAL };
+}
+
+export const setNewProject = (newProject) => {
+  return { type: SET_NEW_PROJECT, newProject };
+}
+
+export const openAddPagesModal = () => {
+  return { type: OPEN_ADD_PAGES_MODAL };
+}
+
+export const closeAddPagesModal = () => {
+  return { type: CLOSE_ADD_PAGES_MODAL };
+}
+
 export const closeModal = () => dispatch => {
   dispatch(getProjects());
   dispatch({ type: 'RESET_MODAL_STATE' });
