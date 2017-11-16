@@ -22,7 +22,8 @@ export const setAlias = (alias) => dispatch => {
 }
 
 
-export const generateQueryParams = (filters) => {
+export const generateQueryParams = (f) => {
+  let { filters, searchText } = f;
   let query = {}, tags = [];
   for (let i = 1; i < filters.length; i++) {
     let f = filters[i];
@@ -36,6 +37,7 @@ export const generateQueryParams = (filters) => {
   }
   tags = (tags.length == 0) ? null : tags.join();
   if (tags) query.tags = tags;
+  if (searchText && searchText != "") query.search = searchText;
   return query;
 }
 
@@ -48,7 +50,8 @@ export const postSeenCv = (conversation) => dispatch => {
 }
 
 export const getConversations = (alias) => (dispatch, getState) => {
-  let query = generateQueryParams(getState().dashboard.filters.filters);
+  let query = generateQueryParams(getState().dashboard.filters);
+  dispatch(isLoadingConversations(true));
   DashboardApi.getConversations(alias, null, query).then((data) => {
     let conversations = data.data;
     conversations = conversations.sort((a, b) => {
@@ -59,6 +62,7 @@ export const getConversations = (alias) => (dispatch, getState) => {
     let paging = (data.paging && data.paging.next) ? data.paging.next : null;
     dispatch(completeGetConversations(conversations, paging))
   }, function (err) {
+    dispatch(isLoadingConversations(false));
     console.log(err);
   })
 }
@@ -101,7 +105,7 @@ export const handleConversationClick = (selectedConv, type) => (dispatch, getSta
 export const loadMoreConversations = () => (dispatch, getState) => {
   let cs = getState().dashboard.conversations;
   if (cs.isLoadMoreConversations == true || !cs.pagingConversations) return;
-  let query = generateQueryParams(getState().dashboard.filters.filters);
+  let query = generateQueryParams(getState().dashboard.filters);
   dispatch(isLoadMoreConversations(true));
   DashboardApi.getConversations(cs.alias, cs.pagingConversations, query).then((res) => {
     let paging = (res.paging) ? res.paging.next : null;

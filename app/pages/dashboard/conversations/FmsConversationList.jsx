@@ -9,9 +9,20 @@ import DashboardAPI from '../../../api/DashboardApi';
 import FmsSpin from '../../../components/FmsSpin';
 import FmsFilterTags from './FmsFilterTags';
 
-import { loadMoreConversations } from '../../../actions/dashboard/conversations';
+import { loadMoreConversations, getConversations } from '../../../actions/dashboard/conversations';
+import { setSearchText } from '../../../actions/dashboard/filters';
+
+let timeout;
 
 class FmsConversationList extends React.Component {
+	handleSearchChange() {
+		clearTimeout(timeout);
+		timeout = setTimeout(() => {
+			let { dispatch, alias } = this.props;
+			dispatch(setSearchText(this.refs.searchText.value));
+			dispatch(getConversations(alias));
+		}, 800);
+	}
 	componentDidMount() {
 		const list = ReactDOM.findDOMNode(this.refs.list);
 		list.addEventListener('scroll', () => {
@@ -24,6 +35,9 @@ class FmsConversationList extends React.Component {
 	renderConversations() {
 		let self = this;
 		let conversations = this.props.conversations;
+		if (this.props.isLoadingConversations == true) {
+			return <div className="client-list-spin"><FmsSpin size={27} /></div>
+		}
 		if (!conversations) return;
 		return conversations.map(conversation => {
 			let isSelected = (self.props.conversation && self.props.conversation._id == conversation._id);
@@ -38,7 +52,8 @@ class FmsConversationList extends React.Component {
 			<div className="client-list-wrapper">
 				<div className="search-client">
 					<img src={searchImg} className="search-icon" />
-					<input type="text" className="input-search-client" />
+					<input type="text" className="input-search-client" ref="searchText" 
+						onChange={this.handleSearchChange.bind(this)} defaultValue={this.props.searchText}/>
 					<FmsFilterTags />
 				</div>
 				<div ref="list" className="scroll-list">
@@ -56,9 +71,12 @@ class FmsConversationList extends React.Component {
 
 const mapStateToProps = state => {
   return {
+		alias: state.dashboard.conversations.alias,
 		conversations: state.dashboard.conversations.conversations,
 		conversation: state.dashboard.chat.conversation,
-		isLoadMoreConversations: state.dashboard.conversations.isLoadMoreConversations
+		isLoadMoreConversations: state.dashboard.conversations.isLoadMoreConversations,
+		isLoadingConversations: state.dashboard.conversations.isLoadingConversations,
+		searchText: state.dashboard.filters.searchText
   }
 }
 

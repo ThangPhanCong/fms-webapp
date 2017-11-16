@@ -34,14 +34,6 @@ class FmsDashBoard extends React.Component {
 		}
 	}
 
-	renderClientList() {
-		if (this.props.isLoadingConversations == false) {
-			return <FmsConversationList />
-		} else {
-			return <div className="client-list-spin"><FmsSpin size={27} /></div>
-		}
-	}
-
 	render() {
 		return (
 			<div className="dashboard page">
@@ -49,7 +41,7 @@ class FmsDashBoard extends React.Component {
 					<FmsVerticalNav />
 				</div>
 				<div className="client-list">
-					{this.renderClientList()}
+					<FmsConversationList />
 				</div>
 				<div className="conversation-area">
 					{this.renderConversation()}
@@ -64,8 +56,7 @@ class FmsDashBoard extends React.Component {
 
 const mapStateToProps = state => {
   return {
-		conversation: state.dashboard.chat.conversation,
-		isLoadingConversations: state.dashboard.conversations.isLoadingConversations
+		conversation: state.dashboard.chat.conversation
   }
 }
 

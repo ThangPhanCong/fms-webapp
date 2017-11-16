@@ -20,7 +20,7 @@ let _filters = [
 const initState = {
   filters: _filters,
   tags: [],
-  searchText: null
+  searchText: ""
 }
 
 const filters = (state = initState, action) => {
