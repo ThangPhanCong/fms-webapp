@@ -9,8 +9,9 @@ import {
 } from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {withRouter, Redirect} from 'react-router-dom';
-import {getProjectInfo, deleteProject, changeNameProject, updateProject, changeDescriptionProject} from "../../actions/setting/setting-general";
-import FmsSpin from '../../components/FmsSpin';
+import {getProjectInfo, isShowModal, changeNameProject, updateProject, changeDescriptionProject} from "../../../actions/setting/setting-general";
+import FmsSpin from '../../../components/FmsSpin';
+import FmsConfirm from "./FmsConfirm";
 
 class FmsGeneral extends React.Component {
   componentDidMount() {
@@ -28,11 +29,9 @@ class FmsGeneral extends React.Component {
     let description = e.target.value;
     dispatch(changeDescriptionProject(description));
   }
-  deleteProject() {
-    const {project_alias} = this.props.match.params;
+  isShowModal() {
     const {dispatch} = this.props;
-    dispatch(deleteProject(project_alias));
-    this.props.history.push("/projects");
+    dispatch(isShowModal());
   }
   updateProject() {
     const {project_alias} = this.props.match.params;
@@ -66,12 +65,13 @@ class FmsGeneral extends React.Component {
             <ul>
               <li>
                 <p>Xóa dự án</p>
-                <Button onClick={this.deleteProject.bind(this)}>Xóa</Button>
+                <Button onClick={this.isShowModal.bind(this)}>Xóa</Button>
               </li>
             </ul>
 
           </div>
         </FormGroup>
+        <FmsConfirm></FmsConfirm>
       </div>)
     }
   }

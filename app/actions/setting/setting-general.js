@@ -6,7 +6,11 @@ export const PROJECT_LOADING = 'PROJECT_LOADING';
 export const PROJECT_LOADED = 'PROJECT_LOADED';
 export const CHANGE_NAME_PROJECT = 'CHANGE_NAME_PROJECT';
 export const CHANGE_DESCRIPTON_PROJECT = 'CHANGE_DESCRIPTON_PROJECT';
+export const IS_SHOW_CONFIRM_MODAL = 'IS_SHOW_CONFIRM_MODAL';
 
+export const isShowModal = () => dispatch => {
+  dispatch({type: IS_SHOW_CONFIRM_MODAL});
+}
 export const projectLoading = () => dispatch => {
   dispatch({type: PROJECT_LOADING})
 }
