@@ -17,4 +17,4 @@ class FmsPay extends React.Component {
   }
 }
 
-module.exports = FmsPay;
+export default FmsPay;

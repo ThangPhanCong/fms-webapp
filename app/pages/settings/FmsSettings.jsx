@@ -9,6 +9,8 @@ import {
   Switch,
   withRouter
 } from 'react-router-dom';
+import {connect} from 'react-redux';
+
 import FmsAnswer from './FmsAnswer';
 import FmsCustomer from './FmsCustomer';
 import FmsEmploy from './FmsEmploy';
@@ -19,15 +21,13 @@ import FmsPay from './FmsPay';
 import FmsPost from './FmsPost';
 import FmsTag from './FmsTag';
 import FmsSidebar from './FmsSidebar';
-import {connect} from 'react-redux';
+
 
 class FmsSettings extends React.Component {
   render() {
     return (<Grid bsClass="page container">
       <Row bsClass="settings-wrapper row">
-        <Col xs={12} sm={1}>
-        </Col>
-        <Col xs={12} sm={2}>
+        <Col xs={12} sm={3}>
           <FmsSidebar/>
         </Col>
         <Col xs={12} sm={7}>

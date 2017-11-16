@@ -23,19 +23,6 @@ export const getProjects = () => dispatch => {
     })
 }
 
-export const deleteProject = (alias) => dispatch => {
-  projectApi.deleteProject(alias)
-    .then(() => {
-      return projectApi.getAllProjects();
-    })
-    .then(projects => {
-      dispatch(projectsLoaded(projects));
-    })
-    .catch(err => {
-      alert(err);
-    })
-}
-
 export const createNewProject = (projectName, page_ids) => dispatch => {
   projectApi.createNewProject(projectName, page_ids)
     .then(project => {

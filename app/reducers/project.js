@@ -16,6 +16,7 @@ const project = (state = initState, action) => {
     case PROJECTS_LOADIND:
       return {
         ...state,
+        projects: [],
         isProjectLoading: true
       }
     case PROJECTS_LOADED:

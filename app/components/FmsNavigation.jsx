@@ -45,8 +45,8 @@ class FmsNavigation extends React.Component {
     let userId = user ? user.fb_id : '';
     let username = user ? user.name : '';
 
-    let words_username = username.split(' ');
-    let lastname = words_username[words_username.length - 1];
+    // let words_username = username.split(' ');
+    // let lastname = words_username[words_username.length - 1];
     let avaUser = `https://graph.facebook.com/v2.10/${userId}/picture`;
 
     return (
@@ -94,7 +94,7 @@ class FmsNavigation extends React.Component {
                   { isAuthenticated ?
                     <NavDropdown id="log-out-dropdown" title="">
                       <MenuItem header>Đăng nhập:</MenuItem>
-                      <MenuItem header>Nguyễn Tiến Minh</MenuItem>
+                      <MenuItem header>{username}</MenuItem>
                       <MenuItem divider />
                       <MenuItem onClick={self.onLogoutBtnClick.bind(this)}>Đăng xuất</MenuItem>
                     </NavDropdown>
