@@ -146,3 +146,25 @@ background-color: transparent;
 border: none;
 margin-top: 15px;
 }
+.disable-link {
+  opacity: 0.6;
+  pointer-events: none;
+  cursor: default;
+}
+.body-confirm {
+  button:last-child {
+      display: inline-block;
+      float: right;
+      color: #cb2431;
+      font-weight: 600;
+      background-color: #fafbfc;
+      border: 1px solid #ccc;
+  }
+  button:last-child:hover{
+    color: #fff;
+    background-color: #b5202c;
+  }
+}
+.confirm-modal {
+  margin-top: 14%;
+}

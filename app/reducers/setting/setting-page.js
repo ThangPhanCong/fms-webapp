@@ -57,7 +57,6 @@ const settingReducer = (state = initState, action) => {
         ...state,
         isShowModal: !state.isShowModal
       }
-
     case SET_SELECTED_PAGES_MODAL:
       return {
         ...state,

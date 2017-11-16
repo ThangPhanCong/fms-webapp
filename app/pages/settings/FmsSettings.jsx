@@ -12,7 +12,7 @@ import {
 import FmsAnswer from './FmsAnswer';
 import FmsCustomer from './FmsCustomer';
 import FmsEmploy from './FmsEmploy';
-import FmsGeneral from './FmsGeneral';
+import FmsGeneral from './general/FmsGeneral';
 import FmsNoti from './FmsNoti';
 import FmsPage from './page/FmsPage';
 import FmsPay from './FmsPay';
