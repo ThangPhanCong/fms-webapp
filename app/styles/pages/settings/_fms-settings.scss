@@ -93,6 +93,7 @@
         // color:#0366d6;
   }
 }
+
 .danger-zone {
   border: 1px solid #d73a49;
   border-radius: 5px;
@@ -136,21 +137,22 @@
 }
 .delete-button {
   float: right;
-padding-right: 7px;
-padding-left: 7px;
-margin-left: 5px;
-line-height: 24px;
-color: #cb2431;
-cursor: pointer;
-background-color: transparent;
-border: none;
-margin-top: 15px;
+  padding-right: 7px;
+  padding-left: 7px;
+  margin-left: 5px;
+  line-height: 24px;
+  color: #cb2431;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  margin-top: 15px;
 }
+
 .disable-link {
-  opacity: 0.6;
-  pointer-events: none;
-  cursor: default;
+  cursor: not-allowed;
+  color: darkgray;
 }
+
 .body-confirm {
   button:last-child {
       display: inline-block;
@@ -165,6 +167,7 @@ margin-top: 15px;
     background-color: #b5202c;
   }
 }
+
 .confirm-modal {
   margin-top: 14%;
 }

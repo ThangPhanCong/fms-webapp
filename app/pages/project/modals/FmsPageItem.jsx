@@ -1,21 +1,34 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import propTypes from 'prop-types';
 
-import tickImg from '../../images/tick.png';
-import { clickOnPageInModal } from '../../actions/project/projectModal';
+import tickImg from '../../../images/tick.png';
 
 class FmsPageItemInModal extends React.Component {
+
   onPageClick() {
-    let { canSelect, dispatch, isSelected, data } = this.props;
+    const {
+      canSelect,
+      isSelected,
+      data,
+      onSelect,
+      onUnSelect,
+     } = this.props;
+
     if (canSelect) {
-      dispatch(clickOnPageInModal(!isSelected, data.fb_id));
+      if (!isSelected) {
+        onSelect(data);
+      } else {
+        onUnSelect(data);
+      }
     }
   }
+
   renderActiveImg() {
     if (this.props.isSelected) {
       return <img src={tickImg} className="tick" />
     }
   }
+
   render() {
     let self = this;
     let avaUrl = `https://graph.facebook.com/v2.10/${this.props.data.fb_id}/picture`;
@@ -31,7 +44,12 @@ class FmsPageItemInModal extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {}
+FmsPageItemInModal.propTypes = {
+  data: propTypes.object.isRequired,
+  canSelect: propTypes.bool.isRequired,
+  isSelected: propTypes.bool.isRequired,
+  onSelect: propTypes.func.isRequired,
+  onUnSelect: propTypes.func.isRequired
 }
-export default connect(mapStateToProps)(FmsPageItemInModal);
+
+export default FmsPageItemInModal;
