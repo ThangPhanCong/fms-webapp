@@ -12,6 +12,7 @@ export const isLoadingConversations = (state) => dispatch => {
 export const setConversations = (conversations, pagingConversations) => (dispatch, getState) => {
   let _pagingConversations = getState().dashboard.conversations.pagingConversations;
   if (!pagingConversations) pagingConversations = _pagingConversations;
+  else if (pagingConversations == "null") pagingConversations = null;
   dispatch({ type: 'SET_CONVERSATIONS', conversations, pagingConversations });
 }
 export const completeGetConversations = (conversations, pagingConversations) => dispatch => {
@@ -111,7 +112,7 @@ export const loadMoreConversations = () => (dispatch, getState) => {
   let query = generateQueryParams(getState().dashboard.filters);
   dispatch(isLoadMoreConversations(true));
   DashboardApi.getConversations(cs.alias, cs.pagingConversations, query).then((res) => {
-    let paging = (res.paging) ? res.paging.next : null;
+    let paging = (res.paging) ? res.paging.next : "null";
     let newConversations = cs.conversations.concat(res.data);
     dispatch(setConversations(newConversations, paging));
   }, (err) => {
