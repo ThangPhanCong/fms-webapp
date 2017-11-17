@@ -7,6 +7,7 @@ import { setConversations, getConversations, postSeenCv } from './conversations'
 
 export const getProject = (alias) => dispatch => {
   const _updateMsgInConversation = (msg) => {
+    console.log('_updateMsgInConversation', msg);
     dispatch(updateMsgInConversation(msg));
   }
   projectApi.getProject(alias)
