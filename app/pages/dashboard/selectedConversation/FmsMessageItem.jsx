@@ -32,8 +32,8 @@ class FmsMessageItem extends React.Component {
 	}
 	render() {
 		let self = this;
-		let avaUrl = `https://graph.facebook.com/v2.10/${this.props.message.from.id}/picture`;
-		let userFb = `https://facebook.com/${this.props.message.from.id}`;
+		let avaUrl = `https://graph.facebook.com/v2.10/${this.props.message.from.fb_id}/picture`;
+		let userFb = `https://facebook.com/${this.props.message.from.fb_id}`;
 		let isSelf = this.props.isSelf;
 		let messageWrapper = (isSelf) ? " right-message-wrapper" : " left-message-wrapper";
 		let profileWrapper = (isSelf) ? " right-profile-wrapper" : " left-profile-wrapper";
