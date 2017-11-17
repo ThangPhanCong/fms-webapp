@@ -19,7 +19,7 @@ import {
 } from "../../../actions/setting/setting-general";
 import projectApi from '../../../api/ProjectApi';
 import FmsSpin from '../../../components/FmsSpin';
-
+import FmsConfirm from "../../../components/confirm-modal/FmsConfirm";
 
 class FmsGeneral extends React.Component {
   constructor () {
@@ -91,22 +91,17 @@ class FmsGeneral extends React.Component {
             <FormControl componentClass="textarea" value={project.description} onChange={this.changeDescription.bind(this)}/>
           </FormGroup>
           <FormGroup>
-            <Button onClick={this.updateProject.bind(this)}>Cập nhật</Button>
+            <Button className="button-common update-project" onClick={this.updateProject.bind(this)}>Cập nhật</Button>
           </FormGroup>
-          <FormGroup>
-            <Row className="setting-header">
+          <FormGroup className="danger-zone">
+            <Row className="setting-header delete-project">
               <Col>
                 Khu vực nguy hiểm
               </Col>
             </Row>
-            <div className="danger-zone">
-              <ul>
-                <li>
-                  <p>Xóa dự án</p>
-                  <Button onClick={this.isShowModal.bind(this)}>Xóa</Button>
-                </li>
-              </ul>
-
+            <div className="danger-zone-body">
+                    <p>Khi bạn xóa dự án, toàn bộ dữ liệu khách hàng sẽ bị xóa. Hãy chắc chắn với hành động này!</p>
+                    <Button onClick={this.isShowModal.bind(this)}>Xóa</Button>
             </div>
           </FormGroup>
           <FmsConfirm content={content} isShown={this.state.isConfirmModalShown} onClose={this.onConfirmModalClose.bind(this)}></FmsConfirm>
