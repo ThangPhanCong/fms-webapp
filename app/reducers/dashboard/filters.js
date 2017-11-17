@@ -40,6 +40,8 @@ const filters = (state = initState, action) => {
         ...state,
         searchText: action.searchText
       }
+    case 'RESET_INIT_STATE_FILTERS':
+      return initState;
     default:
       return state;
   }

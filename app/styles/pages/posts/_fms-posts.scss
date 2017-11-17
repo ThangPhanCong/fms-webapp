@@ -7,9 +7,9 @@
   .post-body {
     padding: 10px;
     background-color: white;
-    // border: 1px solid lightgray;
+    border: 1px solid lightgray;
     border-radius: 5px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
+    // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
 
     .content {
       height: 100px;
@@ -61,7 +61,7 @@
 }
 
 .posts {
-  background-color: #f1f2f3;
+  // background-color: #f1f2f3;
   padding: 0px 32px;
   .loadmore-wrapper {
     text-align: center;

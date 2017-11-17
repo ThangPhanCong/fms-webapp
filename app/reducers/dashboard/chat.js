@@ -48,6 +48,8 @@ const chat = (state = initState, action) => {
         ...state,
         isSendingPrivateMsg: action.state
       }
+    case 'RESET_INIT_STATE_CHAT':
+      return initState;
     default:
       return state;
   }

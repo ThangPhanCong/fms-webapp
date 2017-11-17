@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 
 class FmsCreateFormTab extends React.Component {
   render() {
-    let name = (this.props.conversation) ? this.props.conversation.customer.name : "";
+    let c = this.props.conversation;
+    let name = (c && c.customer) ? c.customer.name : "";
     return (
       <div className="create-form-tab">
         <form>
           <div className="form-in-tab">
             <i className="glyphicon glyphicon-user icon-in-tabform"></i>
-            <input type="text" className="input-in-tab" placeholder="Tên" value={name}/>
+            <input type="text" className="input-in-tab" placeholder="Tên" defaultValue={name}/>
           </div>
           <div className="form-in-tab">
             <i className="glyphicon glyphicon-phone icon-in-tabform"></i>
