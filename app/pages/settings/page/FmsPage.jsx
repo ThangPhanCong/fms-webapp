@@ -7,7 +7,7 @@ import {isShowModal, deletePage, getPagesProject,resetPages} from "../../../acti
 import FmsSpin from '../../../components/FmsSpin';
 import FmsPageModal from './FmsPageModal';
 import FmsPageInProject from './FmsPageInProject';
-
+import FmsConfirm from "../../../components/confirm-modal/FmsConfirm";
 class FmsPage extends React.Component {
   componentDidMount() {
     const {project_alias} = this.props.match.params;
@@ -19,6 +19,8 @@ class FmsPage extends React.Component {
     const {dispatch} = this.props;
     dispatch(isShowModal());
   }
+
+
   renderPages() {
     const {pages, isPagesLoading} = this.props;
     if(isPagesLoading) {

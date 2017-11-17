@@ -19,7 +19,7 @@ import {
 } from "../../../actions/setting/setting-general";
 import projectApi from '../../../api/ProjectApi';
 import FmsSpin from '../../../components/FmsSpin';
-import FmsConfirm from "./FmsConfirm";
+
 
 class FmsGeneral extends React.Component {
   constructor () {
@@ -76,6 +76,7 @@ class FmsGeneral extends React.Component {
 
   renderProject() {
     const {isProjectLoading, project} = this.props;
+    const content = "Bạn có chắc chắn xóa dự án không?";
     if (isProjectLoading) {
       return <FmsSpin size={25}></FmsSpin>;
     } else {
@@ -108,7 +109,7 @@ class FmsGeneral extends React.Component {
 
             </div>
           </FormGroup>
-          <FmsConfirm isShown={this.state.isConfirmModalShown} onClose={this.onConfirmModalClose.bind(this)}></FmsConfirm>
+          <FmsConfirm content={content} isShown={this.state.isConfirmModalShown} onClose={this.onConfirmModalClose.bind(this)}></FmsConfirm>
         </div>
       )
     }

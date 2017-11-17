@@ -7,7 +7,7 @@ import {withRouter, Redirect} from 'react-router-dom';
 class FmsConfirm extends React.Component {
 
   render() {
-    const { isShown, onClose } = this.props;
+    const { isShown, onClose, content } = this.props;
 
     return (
       <Modal
@@ -18,7 +18,7 @@ class FmsConfirm extends React.Component {
 
         >
         <Modal.Body>
-          Bạn có chắc chắn xóa dự án không?
+          {content}
         </Modal.Body>
 
         <Modal.Footer>
