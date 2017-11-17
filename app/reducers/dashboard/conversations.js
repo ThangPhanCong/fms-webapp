@@ -37,6 +37,8 @@ const conversations = (state = initState, action) => {
         ...state,
         alias: action.alias
       }
+    case 'RESET_INIT_STATE_CONVERSATIONS':
+      return initState;
     default:
       return state;
   }

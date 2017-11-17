@@ -11,6 +11,9 @@ export const setTags = (tags) => dispatch => {
 export const setSearchText = (text) => dispatch => {
   dispatch({ type: 'SET_SEARCH_TEXT', searchText: text });
 }
+export const resetFilters = () => dispatch => {
+  dispatch({ type: 'RESET_INIT_STATE_FILTERS' });
+}
 
 export const getTagsProject = (alias) => (dispatch, getState) => {
   let { filters } = getState().dashboard.filters;

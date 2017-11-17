@@ -14,6 +14,9 @@ export const isLoadMoreMsgs = (state) => dispatch => {
 export const setPostInfo = (postInfo) => dispatch => {
   dispatch({ type: 'SET_POST_INFO', postInfo: postInfo });
 }
+export const resetChat = () => dispatch => {
+  dispatch({ type: 'RESET_INIT_STATE_CHAT' });
+}
 
 export const loadPostInfo = () => (dispatch, getState) => {
   let { chat } = getState().dashboard;

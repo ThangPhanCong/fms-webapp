@@ -36,7 +36,7 @@ class FmsConversationItem extends React.Component {
 		let isSelected = (this.props.isSelected) ? " selectedItem" : "";
 
 		if (data.type == "inbox") {
-			clientid = data.customer.id;
+			clientid = data.customer.fb_id;
 			clientName = data.customer.name;
 		} else {
 			clientid = data.from.id;

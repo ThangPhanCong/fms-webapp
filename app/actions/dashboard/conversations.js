@@ -20,6 +20,9 @@ export const completeGetConversations = (conversations, pagingConversations) => 
 export const setAlias = (alias) => dispatch => {
   dispatch({ type: 'SET_ALIAS', alias});
 }
+export const resetConversations = () => dispatch => {
+  dispatch({ type: 'RESET_INIT_STATE_CONVERSATIONS' });
+}
 
 
 export const generateQueryParams = (f) => {
