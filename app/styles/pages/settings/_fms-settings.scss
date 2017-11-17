@@ -2,7 +2,12 @@
   margin-top: 18px;
   margin-left: 15px;
   margin-right: 15px;
-
+  input {
+    background-color: #fafbfc;
+  }
+  textarea {
+    background-color: #fafbfc;
+  }
   .active {
     display: block;
     color: black;
@@ -19,23 +24,22 @@
   }
 
   .fms-block {
-    //  border: 1px solid black;
     padding: 0 1em 0.5em;
-    //padding-bottom:0.5em;
-    //background-color: rgba(240,240,240, 1);
-    //background-color:#FBFBFB;
   }
 
   .setting-header {
-    //background-color: rgba(240,240,240, 1);
     color: black;
     font-size: 24px;
-    // padding: 1em;
     margin-bottom: 0.5em;
     font-weight: normal;
     border-bottom: 1px solid #e1e4e8;
     padding-bottom: 8px;
   }
+  .delete-project {
+    font-weight: 600;
+    color: #cb2431;
+  }
+
 }
 
 .tag-item-wrapper {
@@ -95,25 +99,23 @@
 }
 
 .danger-zone {
-  border: 1px solid #d73a49;
-  border-radius: 5px;
+  margin-top: 50px;
+}
 
-  li {
-    list-style-type: none;
-  }
+
+.danger-zone-body {
+
   p {
-    display: inline-block;
+    display: block;
     padding: 18px 3px 3px 3px;
-    font-weight: 600;
 
   }
   button {
-      display: inline-block;
-      margin: 10px;
-      float: right;
+      display: block;
       color: #cb2431;
       font-weight: 600;
       background-color: #fafbfc;
+      width: 84px;
   }
   button:hover{
     color: #fff;
@@ -170,4 +172,20 @@
 
 .confirm-modal {
   margin-top: 14%;
+}
+.button-common {
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 12px;
+  color: #24292e;
+  background-color: #eff3f6;
+  background-image: linear-gradient(-180deg, #fafbfc 0%, #eff3f6 90%);
+}
+.fms-page {
+  .page-item {
+    margin-left: 0px;
+  }
+  button {
+    margin-top: 9px;
+  }
 }
