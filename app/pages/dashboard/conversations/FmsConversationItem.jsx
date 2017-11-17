@@ -39,7 +39,7 @@ class FmsConversationItem extends React.Component {
 			clientid = data.customer.fb_id;
 			clientName = data.customer.name;
 		} else {
-			clientid = data.from.id;
+			clientid = data.from.fb_id;
 			clientName = data.from.name;
 		}
 		message = (data.snippet == "") ? "[Attachment]" : data.snippet;
