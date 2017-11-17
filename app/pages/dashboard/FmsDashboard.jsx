@@ -16,9 +16,6 @@ class FmsDashBoard extends React.Component {
 	componentDidMount() {
 		const { dispatch } = this.props;
 		const alias = this.props.match.params.project_alias;
-		dispatch(resetConversations());
-		dispatch(resetChat());
-		dispatch(resetFilters());
 		dispatch(setAlias(alias));
 		dispatch(getProject(alias));
 		dispatch(getTagsProject(alias));
@@ -28,6 +25,9 @@ class FmsDashBoard extends React.Component {
 		const { dispatch } = this.props;
 		const alias = this.props.match.params.project_alias;
 		dispatch(unSubscribeProjectChanges(alias));
+		dispatch(resetConversations());
+		dispatch(resetChat());
+		dispatch(resetFilters());
 	}
 
 	renderConversation() {
