@@ -25,7 +25,7 @@ import FmsSidebar from './FmsSidebar';
 
 class FmsSettings extends React.Component {
   render() {
-    return (<Grid bsClass="page container">
+    return (<Grid bsClass="page container-fluid">
       <Row bsClass="settings-wrapper row">
         <Col xs={12} sm={3}>
           <FmsSidebar/>

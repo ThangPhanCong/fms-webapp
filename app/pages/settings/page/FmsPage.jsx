@@ -25,7 +25,7 @@ class FmsPage extends React.Component {
     const {pages, isPagesLoading} = this.props;
     if(isPagesLoading) {
       return (
-        <FmsSpin></FmsSpin>
+        <FmsSpin size={25}></FmsSpin>
       )
     } else {
       if (Array.isArray(pages) && pages.length > 0) {
@@ -45,14 +45,14 @@ class FmsPage extends React.Component {
   render() {
     const {isPagesLoading} = this.props;
     return (
-        <div className="fms-block">
+        <div className="fms-block fms-page">
           <Row className="setting-header">
             <Col>
               Danh sách trang của dự án
             </Col>
           </Row>
             {this.renderPages()}
-            {(isPagesLoading) ? null : <Button onClick={this.openModal.bind(this)}>Thêm trang</Button> }
+            {(isPagesLoading) ? null : <Button className="button-common" onClick={this.openModal.bind(this)}>Thêm trang</Button> }
             <FmsPageModal></FmsPageModal>
         </div>
     );
