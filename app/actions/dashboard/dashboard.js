@@ -22,6 +22,7 @@ export const getProject = (alias) => dispatch => {
 
 export const unSubscribeProjectChanges = (project_alias) => dispatch => {
   socket.unSubscribeProjectChanges({project_alias});
+  socket.disconnect();
 }
 
 const isInFilteredConversations = (conv, filters) => {
@@ -45,7 +46,7 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
   let { filters } = getState().dashboard.filters;
   if (!isInFilteredConversations(msg.parent, filters)) return;
   let { conversations } = getState().dashboard.conversations;
-  let _parent = conversations.filter((c) => { 
+  let _parent = conversations.filter((c) => {
     return c._id == msg.parent._id;
   });
   let parent = null;

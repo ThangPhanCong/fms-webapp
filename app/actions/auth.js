@@ -35,7 +35,7 @@ export const verifyAccessToken = (access_token) => (dispatch, getState) => {
         user: userData
       });
 
-      socket.connect(access_token);
+      // socket.connect(access_token);
     })
     .catch(err => {
       store.clearAll();

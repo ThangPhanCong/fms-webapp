@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
 import * as event from '../constants/event';
+import * as store from '../helpers/storage';
 import {BASE_URL} from 'CONFIG';
 
 let socket = null;
@@ -59,12 +60,13 @@ export const activePage = ({page_fb_id, onUpdate, onDone}) => {
   }
 };
 
-export const connect = (access_token) => {
+export const connect = () => {
   if (socket) {
     return;
   }
   const serverUrl = BASE_URL;
-  let query = {access_token: access_token};
+  const access_token = store.get('access_token');
+  const query = {access_token: access_token};
 	let _socket = io.connect(serverUrl, {query});
 
   _socket.on('connect', () => {
@@ -89,6 +91,8 @@ export const disconnect = () => {
 }
 
 const retry = (func, params) => {
+  console.log('retry');
+  connect();
   setTimeout(func, 1000, params);
 }
 
