@@ -9,8 +9,8 @@ import DashboardAPI from '../../../api/DashboardApi';
 import FmsSpin from '../../../components/FmsSpin';
 import FmsFilterTags from './FmsFilterTags';
 
-import { loadMoreConversations, getConversations } from '../../../actions/dashboard/conversations';
-import { setSearchText } from '../../../actions/dashboard/filters';
+import { loadMoreConversations } from '../../../actions/dashboard/conversations';
+import { setSearchText, handleFilter } from '../../../actions/dashboard/filters';
 
 let timeout;
 
@@ -18,9 +18,9 @@ class FmsConversationList extends React.Component {
 	handleSearchChange() {
 		clearTimeout(timeout);
 		timeout = setTimeout(() => {
-			let { dispatch, alias } = this.props;
+			let { dispatch } = this.props;
 			dispatch(setSearchText(this.refs.searchText.value));
-			dispatch(getConversations(alias));
+			dispatch(handleFilter());
 		}, 800);
 	}
 	componentDidMount() {
@@ -68,7 +68,6 @@ class FmsConversationList extends React.Component {
 
 const mapStateToProps = state => {
   return {
-		alias: state.dashboard.conversations.alias,
 		conversations: state.dashboard.conversations.conversations,
 		conversation: state.dashboard.chat.conversation,
 		isLoadingConversations: state.dashboard.conversations.isLoadingConversations,

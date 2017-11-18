@@ -7,7 +7,6 @@ import { setConversations, getConversations, postSeenCv } from './conversations'
 
 export const getProject = (alias) => dispatch => {
   const _updateMsgInConversation = (msg) => {
-    console.log('_updateMsgInConversation', msg);
     dispatch(updateMsgInConversation(msg));
   }
   projectApi.getProject(alias)
@@ -26,8 +25,9 @@ export const unSubscribeProjectChanges = (project_alias) => dispatch => {
   socket.disconnect();
 }
 
-const isInFilteredConversations = (conv, filters) => {
-  let b = true;
+const isInFilteredConversations = (msg, _filters) => {
+  let b = true, conv = msg.parent;
+  let { filters, searchText } = _filters;
   if (filters[2].isActive && conv.type != 'comment') b = false;
   if (filters[3].isActive && conv.type != 'inbox') b = false;
   let activedTagFilter = filters.filter(f => {
@@ -39,13 +39,14 @@ const isInFilteredConversations = (conv, filters) => {
     }).length > 0;
   }).length > 0;
   if (!hasSameTag && activedTagFilter.length != 0) b = false;
+  if (!msg.from.name.includes(searchText)) b = false;
   return b;
 }
 
 export const updateMsgInConversation = (msg) => (dispatch, getState) => {
   if (!msg || !msg.parent || !msg.parent.type) return;
-  let { filters } = getState().dashboard.filters;
-  // if (!isInFilteredConversations(msg.parent, filters)) return;
+  let { filters } = getState().dashboard;
+  if (!isInFilteredConversations(msg, filters)) return;
   let { conversations } = getState().dashboard.conversations;
   conversations = u.clone(conversations);
   let _parent = conversations.filter((c) => {

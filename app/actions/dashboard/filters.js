@@ -1,6 +1,6 @@
 import DashboardApi from '../../api/DashboardApi';
 import * as u from 'lodash';
-import { getConversations } from './conversations';
+import { getConversations, setConversations } from './conversations';
 
 export const setFilters = (filters) => dispatch => {
   dispatch({ type: 'SET_FILTERS', filters: filters });
@@ -32,9 +32,10 @@ export const getTagsProject = (alias) => (dispatch, getState) => {
   });
 }
 
-export const handleFilter = (newFilters) => (dispatch, getState) => {
+export const handleFilter = (newFilters) => (dispatch, getState) => { 
+  dispatch(setConversations([]));
   let alias = getState().dashboard.conversations.alias;
-  dispatch(setFilters(u.clone(newFilters)));
+  if (Array.isArray(newFilters)) dispatch(setFilters(u.clone(newFilters)));
   dispatch(getConversations(alias));
 }
 
