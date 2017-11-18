@@ -10,7 +10,6 @@ const conversations = (state = initState, action) => {
     case 'LOADING_CONVERSATIONS':
       return {
         ...state,
-        conversations: [],
         isLoadingConversations: action.state
       }
     case 'SET_CONVERSATIONS':
