@@ -95,6 +95,6 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
       if (selectedConv && selectedConv._id == parent._id) dispatch(setConversation(u.clone(parent)));
     }
   }
-  dispatch(setConversations((conversations)));
+  dispatch(setConversations(u.clone(conversations)));
   //if (self._child2) self._child2.scrollToBottom();
 }

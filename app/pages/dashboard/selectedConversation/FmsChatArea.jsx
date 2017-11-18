@@ -74,7 +74,7 @@ class FmsChatArea extends React.Component {
 			})
 			let lastItem = messages[messages.length - 1];
 			return messages.map(message => {
-				let isSelf = message.from.id == sc.page.fb_id;
+				let isSelf = message.from.fb_id == sc.page_fb_id;
 				let isLast = lastItem === message;
 				let type = (sc.type == "comment") ? "comment" : "inbox";
 				return <FmsMessageItem message={message} key={uuid()} isSelf={isSelf} isLast={isLast} type={type}
