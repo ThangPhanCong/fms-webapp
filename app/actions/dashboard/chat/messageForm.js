@@ -9,7 +9,7 @@ export const postRepMsg = (conversation, message) => (dispatch, getState) => {
       fb_id,
       message: msg,
       from: {
-        id: conversation.page_fb_id
+        fb_id: conversation.page_fb_id
       },
       updated_time: Date.now(),
       created_time: Date.now(),

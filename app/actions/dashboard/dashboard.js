@@ -45,8 +45,9 @@ const isInFilteredConversations = (conv, filters) => {
 export const updateMsgInConversation = (msg) => (dispatch, getState) => {
   if (!msg || !msg.parent || !msg.parent.type) return;
   let { filters } = getState().dashboard.filters;
-  if (!isInFilteredConversations(msg.parent, filters)) return;
+  // if (!isInFilteredConversations(msg.parent, filters)) return;
   let { conversations } = getState().dashboard.conversations;
+  conversations = u.clone(conversations);
   let _parent = conversations.filter((c) => {
     return c._id == msg.parent._id;
   });
