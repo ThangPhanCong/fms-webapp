@@ -10,6 +10,7 @@ import FmsSpin from '../../../components/FmsSpin';
 import DashboardAPI from '../../../api/DashboardApi';
 import FmsPostInfoConversation from './FmsPostInfoConversation';
 import FmsTagsBar from './FmsTagsBar';
+import FmsPrivateReplyModal from './FmsPrivateReplyModal';
 
 import { loadMoreMessages } from '../../../actions/dashboard/chat/messages';
 
@@ -74,7 +75,7 @@ class FmsChatArea extends React.Component {
 			})
 			let lastItem = messages[messages.length - 1];
 			return messages.map(message => {
-				let isSelf = message.from.fb_id == sc.page.fb_id;
+				let isSelf = message.from.fb_id == sc.page_fb_id;
 				let isLast = lastItem === message;
 				let type = (sc.type == "comment") ? "comment" : "inbox";
 				return <FmsMessageItem message={message} key={uuid()} isSelf={isSelf} isLast={isLast} type={type}
@@ -84,7 +85,7 @@ class FmsChatArea extends React.Component {
 	}
 
 	renderPostInfo() {
-		if (this.props.postInfo && this.props.postInfo.message) {
+		if (this.props.postInfo) {
 			return <FmsPostInfoConversation />
 		}
 	}
@@ -126,6 +127,7 @@ class FmsChatArea extends React.Component {
 				<div className={"input-message-area" + input}>
 					<FmsMessageForm />
 				</div>
+				<FmsPrivateReplyModal />
 			</div>
 		);
 	}

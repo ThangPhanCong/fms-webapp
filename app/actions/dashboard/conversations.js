@@ -1,11 +1,8 @@
 import DashboardApi from '../../api/DashboardApi';
 import * as u from 'lodash';
-import { setConversation, isLoadingMsgs } from './chat/messages';
+import { setConversation, isLoadingMsgs, setPostInfo } from './chat/messages';
 
 
-export const isLoadMoreConversations = (state) => dispatch => {
-  dispatch({ type: 'LOAD_MORE_CONVERSATIONS', state });
-}
 export const isLoadingConversations = (state) => dispatch => {
   dispatch({ type: 'LOADING_CONVERSATIONS', state });
 }
@@ -72,7 +69,7 @@ export const getConversations = (alias) => (dispatch, getState) => {
 }
 
 export const handleConversationClick = (selectedConv, type) => (dispatch, getState) => {
-  //if (this._child2) this._child2.clientChanged();
+  dispatch(setPostInfo(null));
   dispatch(isLoadingMsgs(true));
   let { conversations } = getState().dashboard.conversations;
   if (!selectedConv.is_seen) {
@@ -108,15 +105,15 @@ export const handleConversationClick = (selectedConv, type) => (dispatch, getSta
 
 export const loadMoreConversations = () => (dispatch, getState) => {
   let cs = getState().dashboard.conversations;
-  if (cs.isLoadMoreConversations == true || !cs.pagingConversations) return;
+  if (cs.isLoadingConversations == true || !cs.pagingConversations) return;
   let query = generateQueryParams(getState().dashboard.filters);
-  dispatch(isLoadMoreConversations(true));
+  dispatch(isLoadingConversations(true));
   DashboardApi.getConversations(cs.alias, cs.pagingConversations, query).then((res) => {
     let paging = (res.paging) ? res.paging.next : "null";
     let newConversations = cs.conversations.concat(res.data);
     dispatch(setConversations(newConversations, paging));
   }, (err) => {
-    dispatch(isLoadMoreConversations(false));
+    dispatch(isLoadingConversations(false));
     throw new Error(err);
   });
 }

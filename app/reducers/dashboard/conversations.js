@@ -1,6 +1,5 @@
 const initState = {
   alias: null,
-  isLoadMoreConversations: false,
   isLoadingConversations: true,
   conversations: [],
   pagingConversations: null
@@ -8,11 +7,6 @@ const initState = {
 
 const conversations = (state = initState, action) => {
   switch (action.type) {
-    case 'LOAD_MORE_CONVERSATIONS':
-      return {
-        ...state,
-        isLoadMoreConversations: action.state
-      }
     case 'LOADING_CONVERSATIONS':
       return {
         ...state,
@@ -23,7 +17,7 @@ const conversations = (state = initState, action) => {
         ...state,
         conversations: action.conversations,
         pagingConversations: action.pagingConversations,
-        isLoadMoreConversations: false
+        isLoadingConversations: false
       }
     case 'COMPLETE_GET_CONVERSATIONS':
       return {

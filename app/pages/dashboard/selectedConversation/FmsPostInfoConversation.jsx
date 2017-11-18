@@ -24,12 +24,23 @@ class FmsPostInfoConversation extends React.Component {
         <img className="image-in-conversation" src={src} /></a>
     });
   }
+  renderPost() {
+    let pf = this.props.postInfo;
+    if (pf && pf.message) {
+      return (
+        <div>
+          <p>{this.props.postInfo.message}</p>
+          {this.renderAttachments(this.props.postInfo.attachments)}
+        </div>
+      )
+    }
+  }
   render() {
+    if (!this.props.pageInfo) return <span></span>;
     return (
       <div className="post-info-conversation">
         <p className="page-name-conversation">{this.props.pageInfo.name}</p>
-        <p>{this.props.postInfo.message}</p>
-        {this.renderAttachments(this.props.postInfo.attachments)}
+        {this.renderPost()}
       </div>
     )
   }
@@ -37,8 +48,8 @@ class FmsPostInfoConversation extends React.Component {
 
 const mapStateToProps = state => {
   return {
-		pageInfo: state.dashboard.chat.conversation.page,
-		postInfo: state.dashboard.chat.postInfo
+    pageInfo: state.dashboard.chat.conversation.page,
+    postInfo: state.dashboard.chat.postInfo
   }
 }
 
