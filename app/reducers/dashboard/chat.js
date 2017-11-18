@@ -7,7 +7,8 @@ const initState = {
   postInfo: null,
   isSettingTag: false,
   isShownPrivateRepModal: false,
-  isSendingPrivateMsg: false
+  isSendingPrivateMsg: false,
+  parentMsgModal: null
 }
 
 const chat = (state = initState, action) => {
@@ -38,10 +39,16 @@ const chat = (state = initState, action) => {
         ...state,
         isSettingTag: action.state
       }
-    case 'TOGGLE_PRIVATE_REP_MODAL':
+    case 'OPEN_PRIVATE_REP_MODAL':
       return {
         ...state,
-        isShownPrivateRepModal: action.state
+        isShownPrivateRepModal: true,
+        parentMsgModal: action.message
+      }
+    case 'CLOSE_PRIVATE_REP_MODAL':
+      return {
+        ...state,
+        isShownPrivateRepModal: false
       }
     case 'SENDING_PRIVATE_REP_MSG':
       return {

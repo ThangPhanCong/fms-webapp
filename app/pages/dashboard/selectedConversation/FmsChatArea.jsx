@@ -10,6 +10,7 @@ import FmsSpin from '../../../components/FmsSpin';
 import DashboardAPI from '../../../api/DashboardApi';
 import FmsPostInfoConversation from './FmsPostInfoConversation';
 import FmsTagsBar from './FmsTagsBar';
+import FmsPrivateReplyModal from './FmsPrivateReplyModal';
 
 import { loadMoreMessages } from '../../../actions/dashboard/chat/messages';
 
@@ -126,6 +127,7 @@ class FmsChatArea extends React.Component {
 				<div className={"input-message-area" + input}>
 					<FmsMessageForm />
 				</div>
+				<FmsPrivateReplyModal />
 			</div>
 		);
 	}
