@@ -35,9 +35,6 @@ class FmsConversationList extends React.Component {
 	renderConversations() {
 		let self = this;
 		let conversations = this.props.conversations;
-		if (this.props.isLoadingConversations == true) {
-			return <div className="client-list-spin"><FmsSpin size={27} /></div>
-		}
 		if (!conversations) return;
 		return conversations.map(conversation => {
 			let isSelected = (self.props.conversation && self.props.conversation._id == conversation._id);
@@ -46,7 +43,7 @@ class FmsConversationList extends React.Component {
 	}
 
 	render() {
-		let showSpin = (this.props.isLoadMoreConversations == true) ? "" : " hide";
+		let showSpin = (this.props.isLoadingConversations == true) ? "" : " hide";
 
 		return (
 			<div className="client-list-wrapper">
@@ -74,7 +71,6 @@ const mapStateToProps = state => {
 		alias: state.dashboard.conversations.alias,
 		conversations: state.dashboard.conversations.conversations,
 		conversation: state.dashboard.chat.conversation,
-		isLoadMoreConversations: state.dashboard.conversations.isLoadMoreConversations,
 		isLoadingConversations: state.dashboard.conversations.isLoadingConversations,
 		searchText: state.dashboard.filters.searchText
   }

@@ -3,9 +3,6 @@ import * as u from 'lodash';
 import { setConversation, isLoadingMsgs } from './chat/messages';
 
 
-export const isLoadMoreConversations = (state) => dispatch => {
-  dispatch({ type: 'LOAD_MORE_CONVERSATIONS', state });
-}
 export const isLoadingConversations = (state) => dispatch => {
   dispatch({ type: 'LOADING_CONVERSATIONS', state });
 }
@@ -108,15 +105,15 @@ export const handleConversationClick = (selectedConv, type) => (dispatch, getSta
 
 export const loadMoreConversations = () => (dispatch, getState) => {
   let cs = getState().dashboard.conversations;
-  if (cs.isLoadMoreConversations == true || !cs.pagingConversations) return;
+  if (cs.isLoadingConversations == true || !cs.pagingConversations) return;
   let query = generateQueryParams(getState().dashboard.filters);
-  dispatch(isLoadMoreConversations(true));
+  dispatch(isLoadingConversations(true));
   DashboardApi.getConversations(cs.alias, cs.pagingConversations, query).then((res) => {
     let paging = (res.paging) ? res.paging.next : "null";
     let newConversations = cs.conversations.concat(res.data);
     dispatch(setConversations(newConversations, paging));
   }, (err) => {
-    dispatch(isLoadMoreConversations(false));
+    dispatch(isLoadingConversations(false));
     throw new Error(err);
   });
 }
