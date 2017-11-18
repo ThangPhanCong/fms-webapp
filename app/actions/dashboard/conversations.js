@@ -1,6 +1,6 @@
 import DashboardApi from '../../api/DashboardApi';
 import * as u from 'lodash';
-import { setConversation, isLoadingMsgs } from './chat/messages';
+import { setConversation, isLoadingMsgs, setPostInfo } from './chat/messages';
 
 
 export const isLoadingConversations = (state) => dispatch => {
@@ -69,7 +69,7 @@ export const getConversations = (alias) => (dispatch, getState) => {
 }
 
 export const handleConversationClick = (selectedConv, type) => (dispatch, getState) => {
-  //if (this._child2) this._child2.clientChanged();
+  dispatch(setPostInfo(null));
   dispatch(isLoadingMsgs(true));
   let { conversations } = getState().dashboard.conversations;
   if (!selectedConv.is_seen) {

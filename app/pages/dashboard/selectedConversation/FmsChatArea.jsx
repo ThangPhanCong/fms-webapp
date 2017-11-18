@@ -84,7 +84,7 @@ class FmsChatArea extends React.Component {
 	}
 
 	renderPostInfo() {
-		if (this.props.postInfo && this.props.postInfo.message) {
+		if (this.props.postInfo) {
 			return <FmsPostInfoConversation />
 		}
 	}
