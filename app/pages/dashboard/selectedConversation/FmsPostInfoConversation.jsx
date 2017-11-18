@@ -25,6 +25,7 @@ class FmsPostInfoConversation extends React.Component {
     });
   }
   render() {
+    if (!this.props.pageInfo || !this.props.postInfo) return<span></span>;
     return (
       <div className="post-info-conversation">
         <p className="page-name-conversation">{this.props.pageInfo.name}</p>
