@@ -11,12 +11,12 @@
 }
 .left-message-attachment {
   @include message-attachment;
-  margin: 5px 0px 0px 51px;
+  margin: 5px 0px 0px 42px;
   float: left;
 }
 .right-message-attachment {
   @include message-attachment;
-  margin: 5px 51px 0px 0px;
+  margin: 5px 42px 0px 0px;
   float: right;
 }
 .image-attachment {

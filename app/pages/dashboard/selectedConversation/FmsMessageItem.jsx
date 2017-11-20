@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import uuid from 'uuid';
-import rightArrowImg from '../../../images/right_arrow.png';
-import leftArrowImg from '../../../images/left_arrow.png';
 
 import FmsAttachmentContent from './FmsAttachmentContent';
 import FmsTextMessageContent from './FmsTextMessageContent';
@@ -38,11 +36,8 @@ class FmsMessageItem extends React.Component {
 		let messageWrapper = (isSelf) ? " right-message-wrapper" : " left-message-wrapper";
 		let profileWrapper = (isSelf) ? " right-profile-wrapper" : " left-profile-wrapper";
 		let messageContent = (isSelf) ? " right-message-content" : " left-message-content";
-		let srcArrow = (isSelf) ? rightArrowImg : leftArrowImg;
-		let arrow = (isSelf) ? " right-arrow-message" : " left-arrow-message";
 		let isLast = (this.props.isLast) ? " last-message" : "";
 		messageContent += (this.props.message.message == "" ? " hide" : "");
-		arrow += (this.props.message.message == "") ? " hide" : "";
 		let sent_time = this.convertTime(this.props.message.updated_time);
 		let direction = (isSelf) ? "right" : "left";
 
@@ -103,15 +98,15 @@ class FmsMessageItem extends React.Component {
 			}
 		}
 		let actionButton = (this.props.isSelf == false && this.props.type == "comment") ? true : false;
+		let profileImg = (this.props.marginTop == "") ? "" : " hide";
 
 		return (
-			<div className={"message-item" + isLast}>
+			<div className={"message-item" + isLast + this.props.marginTop}>
 				<div className={"message-wrapper" + messageWrapper} ref="tooltip" data-toggle="tooltip"
 					title={sent_time} data-placement={direction}>
 					<div className={"profile-wrapper" + profileWrapper}>
-						<a href={userFb} target="_blank"><img src={avaUrl} className="profile-message" /></a>
+						<a href={userFb} target="_blank"><img src={avaUrl} className={"profile-message" + profileImg} /></a>
 					</div>
-					<img src={srcArrow} className={arrow} />
 					<div className={"message-content" + messageContent}>
 						<FmsTextMessageContent message={this.props.message} actionButton={actionButton} />
 					</div>
