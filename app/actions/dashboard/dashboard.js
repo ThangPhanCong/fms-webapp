@@ -46,17 +46,23 @@ const isInFilteredConversations = (msg, _filters) => {
 export const updateMsgInConversation = (msg) => (dispatch, getState) => {
   if (!msg || !msg.parent || !msg.parent.type) return;
   let { filters } = getState().dashboard;
-  if (!isInFilteredConversations(msg, filters)) return;
+  let shouldAddToConversations = true;
+  if (!isInFilteredConversations(msg, filters)) shouldAddToConversations = false;
   let { conversations } = getState().dashboard.conversations;
   conversations = u.clone(conversations);
   let _parent = conversations.filter((c) => {
     return c._id == msg.parent._id;
   });
+  let selectedConv = getState().dashboard.chat.conversation;
+  if (selectedConv && msg.parent._id == selectedConv._id) {
+    if (_parent.length == 0) _parent.push(selectedConv);
+    else if (!_parent[0].children) _parent[0].children = selectedConv.children;
+  }
   let parent = null;
   if (_parent.length == 0) {
     // if conversation is not found in current conversations -> create as new conversation and push to first
     parent = msg.parent;
-    conversations.unshift(parent);
+    if (shouldAddToConversations == true) conversations.unshift(parent);
   } else {
     parent = _parent.pop();
     // check if this msg is exists in msg list
@@ -81,7 +87,6 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
       dispatch(postSeenCv(parent));
     } else {
       //this msg is not exists -> add to msg list and update parent
-      let selectedConv = getState().dashboard.chat.conversation;
       if (selectedConv && (selectedConv._id == parent._id)) {
         parent.is_seen = true;
         dispatch(postSeenCv(parent));
@@ -93,7 +98,7 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
       }
       parent.snippet = msg.message;
       let newConvers = conversations.filter((c) => { return c._id != parent._id });
-      newConvers.unshift(parent);
+      if (shouldAddToConversations == true) newConvers.unshift(parent);
       conversations = newConvers;
       if (selectedConv && selectedConv._id == parent._id) dispatch(setConversation(u.clone(parent)));
     }
