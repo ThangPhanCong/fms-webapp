@@ -74,15 +74,15 @@ class FmsChatArea extends React.Component {
 				return t1 - t2;
 			})
 			let lastItem = messages[messages.length - 1];
-			let prevIsSelf = null;
+			let prevSender = null;
 			return messages.map(message => {
 				let isSelf = message.from.fb_id == sc.page_fb_id;
 				let isLast = lastItem === message;
 				let type = (sc.type == "comment") ? "comment" : "inbox";
-				let marginTop = (prevIsSelf == isSelf) ? " small-margin" : "";
-				prevIsSelf = isSelf;
+				let isFirst = (prevSender == message.from.fb_id) ? " is-not-first" : " is-first";
+				prevSender = message.from.fb_id;
 				return <FmsMessageItem message={message} key={uuid()} isSelf={isSelf} isLast={isLast} type={type}
-					getChatAreaWidth={self.getChatAreaWidth.bind(this)} marginTop={marginTop}/>;
+					getChatAreaWidth={self.getChatAreaWidth.bind(this)} isFirst={isFirst}/>;
 			});
 		}
 	}

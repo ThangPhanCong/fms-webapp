@@ -11,22 +11,17 @@ class FmsMessageItem extends React.Component {
 		let date = new Date(time);
 		let hour = (date.getHours() > 9) ? date.getHours() : "0" + date.getHours();
 		let minute = (date.getMinutes() > 9) ? date.getMinutes() : "0" + date.getMinutes();
-		let day;
-		switch (date.getDay()) {
-			case 0: day = "Sunday"; break;
-			case 1: day = "Monday"; break;
-			case 2: day = "Tuesday"; break;
-			case 3: day = "Wednesday"; break;
-			case 4: day = "Thurday"; break;
-			case 5: day = "Friday"; break;
-			case 6: day = "Saturday"; break;
-		};
+		let day = "";
+		// switch (date.getDay()) {
+		// 	case 0: day = "Sunday"; break;
+		// 	case 1: day = "Monday"; break;
+		// 	case 2: day = "Tuesday"; break;
+		// 	case 3: day = "Wednesday"; break;
+		// 	case 4: day = "Thurday"; break;
+		// 	case 5: day = "Friday"; break;
+		// 	case 6: day = "Saturday"; break;
+		// };
 		return day + " " + hour + ":" + minute;
-	}
-	componentDidMount() {
-		$(ReactDOM.findDOMNode(this.refs.tooltip)).ready(function () {
-			$('[data-toggle="tooltip"]').tooltip();
-		});
 	}
 	render() {
 		let self = this;
@@ -98,14 +93,15 @@ class FmsMessageItem extends React.Component {
 			}
 		}
 		let actionButton = (this.props.isSelf == false && this.props.type == "comment") ? true : false;
-		let profileImg = (this.props.marginTop == "") ? "" : " hide";
+		let firstMsg = (this.props.isFirst == " is-first") ? "" : " hide";
+		let sentTime = (this.props.isSelf == true) ? " right-sent-time" : " left-sent-time";
 
 		return (
-			<div className={"message-item" + isLast + this.props.marginTop}>
-				<div className={"message-wrapper" + messageWrapper} ref="tooltip" data-toggle="tooltip"
-					title={sent_time} data-placement={direction}>
+			<div className={"message-item" + isLast + this.props.isFirst}>
+				<div className={"sent-time" + firstMsg + sentTime}>{sent_time}</div>
+				<div className={"message-wrapper" + messageWrapper}>
 					<div className={"profile-wrapper" + profileWrapper}>
-						<a href={userFb} target="_blank"><img src={avaUrl} className={"profile-message" + profileImg} /></a>
+						<a href={userFb} target="_blank"><img src={avaUrl} className={"profile-message" + firstMsg} /></a>
 					</div>
 					<div className={"message-content" + messageContent}>
 						<FmsTextMessageContent message={this.props.message} actionButton={actionButton} />
