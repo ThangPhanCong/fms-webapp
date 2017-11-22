@@ -10,7 +10,7 @@ export const postRepMsg = (conversation, message) => (dispatch, getState) => {
       message: msg,
       from: {
         fb_id: conversation.page_fb_id,
-        name: conversation.customer.name
+        name: (conversation.customer) ? conversation.customer.name : conversation.from.name 
       },
       updated_time: Date.now(),
       created_time: Date.now(),
