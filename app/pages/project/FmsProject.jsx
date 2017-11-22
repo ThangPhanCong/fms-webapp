@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
+import { Observable } from 'rxjs-es/Observable';
 
 import FmsSpin from '../../components/FmsSpin';
 import FmsProjectItem from './FmsProjectItem';
@@ -10,6 +11,17 @@ import FmsAddPagesModal from './modals/FmsAddPagesModal';
 import { getProjects, createNewProject } from '../../actions/project/project';
 import { getPages } from '../../actions/page';
 import projectApi from '../../api/ProjectApi';
+
+let timeout, name, subscription;
+let observable = Observable.create(observer => {
+  projectApi.verifyName(name)
+  .then(() => {
+    observer.complete();
+  })
+  .catch(err => {
+    observer.error();
+  })
+});
 
 class FmsProject extends Component {
   constructor () {
@@ -36,7 +48,8 @@ class FmsProject extends Component {
     })
   }
 
-  onProjectNameChange (name) {
+  onProjectNameChange (_name) {
+    name = _name;
     if (!name) {
       return this.setState({
         isProjectNameVerified: false
@@ -47,21 +60,18 @@ class FmsProject extends Component {
       isNewProjectLoading: true
     })
 
-    // verify project name
-    projectApi.verifyName(name)
-      .then(() => {
-        this.setState({
-          isNewProjectLoading: false,
-          isProjectNameVerified: true
-        })
-      })
-      .catch(err => {
-        this.setState({
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      if (subscription) subscription.unsubscribe();
+			subscription = observable.subscribe({
+        complete: () => this.setState({ isNewProjectLoading: false, isProjectNameVerified: true }),
+        error: err => this.setState({
           isNewProjectLoading: false,
           isProjectNameVerified: false,
           isNewProjectLoading: false
         })
-      })
+      });
+		}, 700);
   }
 
   onProjectModalClose (projectName) {

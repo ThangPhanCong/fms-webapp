@@ -69,6 +69,7 @@ let observable = Observable.create(observer => {
   })
 });
 export const getConversations = (_alias) => (dispatch, getState) => {
+  dispatch(cancelGetConversations());
   query = generateQueryParams(getState().dashboard.filters);
   alias = _alias;
   dispatch(isLoadingConversations(true));

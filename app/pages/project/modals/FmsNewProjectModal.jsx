@@ -74,7 +74,7 @@ class FmsCreateNewProjectModal extends Component {
               type="button"
               className={"btn btn-primary active-btn"}
               onClick={this.onCloseButtonClick.bind(this)}
-              disabled={!isProjectNameVerified}
+              disabled={!isProjectNameVerified || isLoading}
               >Tiếp tục</button>
           </Modal.Footer>
         </div>
