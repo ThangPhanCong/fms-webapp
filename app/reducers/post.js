@@ -10,7 +10,8 @@ const initState = {
   posts: [],
   paging: {
     next: null
-  }
+  },
+  isMorePostsLoading: false
 }
 
 const postReducer = (state = initState, action) => {
@@ -30,12 +31,12 @@ const postReducer = (state = initState, action) => {
     case MORE_POSTS_LOADING:
       return {
         ...state,
-        isPostsLoading: true
+        isMorePostsLoading: true
       }
     case MORE_POSTS_LOADED:
       return {
         ...state,
-        isPostsLoading: false,
+        isMorePostsLoading: false,
         posts: state.posts.concat(action.posts),
         paging: action.paging
       }
