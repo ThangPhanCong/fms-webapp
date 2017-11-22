@@ -1,24 +1,22 @@
-let _filters = [
-  {
-    type: 'all',
-    isActive: true
-  },
-  {
-    type: 'unread',
-    isActive: false
-  },
-  {
-    type: 'comment',
-    isActive: false
-  },
-  {
-    type: 'inbox',
-    isActive: false
-  }
-];
-
 const initState = {
-  filters: _filters,
+  filters: [
+    {
+      type: 'all',
+      isActive: true
+    },
+    {
+      type: 'unread',
+      isActive: false
+    },
+    {
+      type: 'comment',
+      isActive: false
+    },
+    {
+      type: 'inbox',
+      isActive: false
+    }
+  ],
   tags: [],
   searchText: ""
 }
@@ -41,7 +39,28 @@ const filters = (state = initState, action) => {
         searchText: action.searchText
       }
     case 'RESET_INIT_STATE_FILTERS':
-      return initState;
+      return {
+        filters: [
+          {
+            type: 'all',
+            isActive: true
+          },
+          {
+            type: 'unread',
+            isActive: false
+          },
+          {
+            type: 'comment',
+            isActive: false
+          },
+          {
+            type: 'inbox',
+            isActive: false
+          }
+        ],
+        tags: [],
+        searchText: ""
+      }
     default:
       return state;
   }

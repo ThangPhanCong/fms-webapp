@@ -32,7 +32,12 @@ const conversations = (state = initState, action) => {
         alias: action.alias
       }
     case 'RESET_INIT_STATE_CONVERSATIONS':
-      return initState;
+      return {
+        alias: null,
+        isLoadingConversations: true,
+        conversations: [],
+        pagingConversations: null
+      }
     default:
       return state;
   }

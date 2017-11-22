@@ -56,7 +56,16 @@ const chat = (state = initState, action) => {
         isSendingPrivateMsg: action.state
       }
     case 'RESET_INIT_STATE_CHAT':
-      return initState;
+      return {
+        conversation: null,
+        isLoadingMsgs: false,
+        isLoadMoreMsgs: false,
+        postInfo: null,
+        isSettingTag: false,
+        isShownPrivateRepModal: false,
+        isSendingPrivateMsg: false,
+        parentMsgModal: null
+      }
     default:
       return state;
   }
