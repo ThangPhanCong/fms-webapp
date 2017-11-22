@@ -1,6 +1,7 @@
 import DashboardApi from '../../api/DashboardApi';
 import * as u from 'lodash';
 import { setConversation, isLoadingMsgs, setPostInfo } from './chat/messages';
+import { Observable } from 'rxjs-es/Observable';
 
 
 export const isLoadingConversations = (state) => dispatch => {
@@ -50,23 +51,36 @@ export const postSeenCv = (conversation) => dispatch => {
   }
 }
 
-export const getConversations = (alias) => (dispatch, getState) => {
-  let query = generateQueryParams(getState().dashboard.filters);
-  dispatch(isLoadingConversations(true));
+//----------------Get Conversations-----------------------------------
+let query, alias, conversations, paging, subscription;
+let observable = Observable.create(observer => {
   DashboardApi.getConversations(alias, null, query).then((data) => {
-    let conversations = data.data;
+    conversations = data.data;
     conversations = conversations.sort((a, b) => {
       let t1 = new Date(a.updated_time);
       let t2 = new Date(b.updated_time);
       return t2 - t1;
     });
-    let paging = (data.paging && data.paging.next) ? data.paging.next : null;
-    dispatch(completeGetConversations(conversations, paging))
+    paging = (data.paging && data.paging.next) ? data.paging.next : null;
+    observer.complete();
   }, function (err) {
-    dispatch(isLoadingConversations(false));
+    observer.error();
     console.log(err);
   })
+});
+export const getConversations = (_alias) => (dispatch, getState) => {
+  query = generateQueryParams(getState().dashboard.filters);
+  alias = _alias;
+  dispatch(isLoadingConversations(true));
+  subscription = observable.subscribe({
+    error: err => dispatch(isLoadingConversations(false)),
+    complete: () => dispatch(completeGetConversations(conversations, paging))
+  });
 }
+export const cancelGetConversations = () => dispatch => {
+  if (subscription) subscription.unsubscribe();
+}
+//---------------------------------------------------------------------
 
 export const handleConversationClick = (selectedConv, type) => (dispatch, getState) => {
   dispatch(setPostInfo(null));

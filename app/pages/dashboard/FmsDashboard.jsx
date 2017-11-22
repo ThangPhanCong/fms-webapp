@@ -7,7 +7,7 @@ import FmsConversationList from './conversations/FmsConversationList';
 import FmsClientInformation from './information/FmsClientInformation';
 import FmsVerticalNav from './FmsVerticalNav';
 
-import { setAlias, resetConversations } from '../../actions/dashboard/conversations';
+import { setAlias, resetConversations, cancelGetConversations } from '../../actions/dashboard/conversations';
 import { getProject, unSubscribeProjectChanges } from '../../actions/dashboard/dashboard';
 import { getTagsProject, resetFilters } from '../../actions/dashboard/filters';
 import { resetChat } from '../../actions/dashboard/chat/messages';
@@ -24,6 +24,7 @@ class FmsDashBoard extends React.Component {
 	componentWillUnmount() {
 		const { dispatch } = this.props;
 		const alias = this.props.match.params.project_alias;
+		dispatch(cancelGetConversations());
 		dispatch(unSubscribeProjectChanges(alias));
 		dispatch(resetConversations());
 		dispatch(resetChat());
