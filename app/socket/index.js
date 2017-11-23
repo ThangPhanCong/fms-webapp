@@ -6,6 +6,7 @@ import {BASE_URL} from 'CONFIG';
 let socket = null;
 
 export const subscribeProjectChanges = ({project_alias, onUpdateChanges}) => {
+  console.log('subscribeProjectChanges', project_alias);
   if (socket) {
     socket.on(event.PROJECTS_CHANGES_EVENT, onUpdateChanges);
     socket.emit(event.SUBSCRIBE_PROJECTS_CHANGES_EVENT, project_alias);
@@ -15,12 +16,14 @@ export const subscribeProjectChanges = ({project_alias, onUpdateChanges}) => {
 }
 
 export const unSubscribeProjectChanges = ({project_alias}) => {
+  console.log('unSubscribeProjectChanges', project_alias);
   if (socket) {
     socket.off(event.PROJECTS_CHANGES_EVENT);
     socket.emit(event.UN_SUBSCRIBE_PROJECTS_CHANGES_EVENT, project_alias);
-  } else {
-    retry(unSubscribeProjectChanges, {project_alias});
   }
+  // else {
+  //   retry(unSubscribeProjectChanges, {project_alias});
+  // }
 }
 
 export const activePage = ({page_fb_id, onUpdate, onDone}) => {
@@ -51,7 +54,7 @@ export const activePage = ({page_fb_id, onUpdate, onDone}) => {
   }
 };
 
-export const connect = () => {
+export const connect = (cb) => {
   if (socket) {
     return;
   }
@@ -63,6 +66,7 @@ export const connect = () => {
   _socket.on('connect', () => {
     socket = _socket;
     console.log('Connect socket successfully!');
+    cb();
   });
 
   _socket.on('disconnect', () => {
@@ -83,8 +87,13 @@ export const disconnect = () => {
 
 const retry = (func, params) => {
   console.log('retry');
-  connect();
-  setTimeout(func, 1000, params);
+
+  const onConnected = () => {
+    func(params);
+  }
+
+  connect(onConnected);
+  // setTimeout(func, 1000, params);
 }
 
 export default socket;
