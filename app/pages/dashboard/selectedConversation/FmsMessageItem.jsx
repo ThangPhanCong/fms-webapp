@@ -42,15 +42,15 @@ class FmsMessageItem extends React.Component {
 			let msgType = self.props.type;
 			let attachmentData = null;
 
-			if (msg.shares && msg.shares.data.length > 0) {
-				return msg.shares.data.map((share) => {
+			if (msg.shares && msg.shares.length > 0) {
+				return msg.shares.map((share) => {
 					if (share.link && share.link.indexOf("scontent") != -1) {
 						return <FmsAttachmentContent key={uuid()} preview={share.link} isSelf={isSelf} type={'sticker'} />
 					}
 				});
 			}
-			if (msgType == 'inbox' && msg.attachments && msg.attachments.data.length > 0) {
-				attachmentData = msg.attachments.data;
+			if (msgType == 'inbox' && msg.attachments && msg.attachments.length > 0) {
+				attachmentData = msg.attachments;
 			} else if (msgType == 'comment' && msg.attachment) {
 				attachmentData = [msg.attachment];
 			}
