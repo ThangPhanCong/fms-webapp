@@ -119,6 +119,13 @@ module.exports = {
       }, {
         test: /\.json$/,
         loader: 'json-loader'
+      }, {
+        test: /\.es6$/,
+        exclude: /node_modules/,
+        loader: 'babel',
+        query: {
+          presets: ['es2015']
+        }
       }
     ]
   }
