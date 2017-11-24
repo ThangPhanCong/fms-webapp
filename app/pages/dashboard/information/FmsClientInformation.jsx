@@ -10,7 +10,7 @@ class FmsClientInformation extends React.Component {
       <div>
         <Tabs justified={true}>
           <Tab value="pane-1" label="Thông tin">
-            <FmsInformationTab />
+            <FmsInformationTab noti={this.props.noti}/>
           </Tab>
           <Tab value="pane-2" label="Tạo đơn">
             <FmsCreateFormTab />

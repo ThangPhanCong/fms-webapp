@@ -91,5 +91,16 @@ module.exports = {
 	unlikeMessage: (comment_id) => {
 		let route = `/api/comments/${comment_id}/unlike`;
 		return apiSender.post(route);
+	},
+	createNote: (alias, conv_id, type, customer_id, page_id, content) => {
+		let route = `/api/projects/${alias}/addnote`;
+		let payload = {
+			inbox_id: (type == "inbox") ? conv_id : "",
+			comment_id: (type == "comment") ? conv_id : "",
+			customer_id: customer_id,
+			page_id: page_id,
+			content: content
+		}
+		return apiSender.post(route, payload);
 	}
 }

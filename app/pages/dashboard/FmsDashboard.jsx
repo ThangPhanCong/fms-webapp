@@ -52,7 +52,7 @@ class FmsDashBoard extends React.Component {
 					{this.renderConversation()}
 				</div>
 				<div className="client-information-area">
-					<FmsClientInformation />
+					<FmsClientInformation noti={this.props.noti}/>
 				</div>
 			</div>
 		);
