@@ -96,7 +96,7 @@ class FmsProject extends Component {
   }
 
   onAddPagesModalClose (selectedPages) {
-    if (Array.isArray(selectedPages)) {
+    if (Array.isArray(selectedPages) && selectedPages.length > 0) {
       // create project
       const projectName = this.state.projectName;
       const page_ids = selectedPages.map(page => page.fb_id);

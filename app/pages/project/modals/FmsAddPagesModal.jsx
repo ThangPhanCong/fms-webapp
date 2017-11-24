@@ -114,6 +114,7 @@ class FmsAddPagesModal extends Component {
             <button type="button"
               className={"btn btn-primary active-btn"}
               onClick={this.onCloseBtnClick.bind(this)}
+              disabled={this.state.selectedPages.length == 0}
               >Thêm</button>
           </div>
         </Modal.Footer>
