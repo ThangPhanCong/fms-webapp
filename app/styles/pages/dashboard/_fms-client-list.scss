@@ -5,6 +5,7 @@
     height: 100%;
     margin: 0px 0px 0px 0px;
     box-shadow: 0;
+    border-right: 1px solid #dcdedf;
 }
 
 .search-client {
@@ -120,7 +121,6 @@
     .client-list {
         min-width: 250px;
         width: 22%;
-        border-right: 1px solid #dcdedf;
         height: 100%;
     }
     .search-client {

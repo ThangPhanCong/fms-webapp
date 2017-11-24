@@ -88,7 +88,7 @@ class FmsMessageItem extends React.Component {
 					}
 					if (attachType == 'unknown' || preview == '') return;
 					return <FmsAttachmentContent key={uuid()} hasMessage={hasMessage} type={attachType} origin={origin}
-									isSelf={isSelf} preview={preview} size={size} />
+									isSelf={isSelf} preview={preview} size={size} getChatAreaWidth={self.props.getChatAreaWidth}/>
 				})
 			}
 		}
