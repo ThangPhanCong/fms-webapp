@@ -98,6 +98,7 @@ module.exports = {
       }, {
         test: /\.jsx?$/,
         loader: 'babel-loader',
+        exclude: /node_modules/,
         options: {
           presets: ['react', 'es2015', 'stage-0'],
           // compact: true,
@@ -119,14 +120,15 @@ module.exports = {
       }, {
         test: /\.json$/,
         loader: 'json-loader'
-      }, {
-        test: /\.es6$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015']
-        }
-      }
+      },
+      // {
+      //   test: /\.es6$/,
+      //   exclude: /node_modules/,
+      //   loader: 'babel-loader',
+      //   query: {
+      //     presets: ['es2015']
+      //   }
+      // }
     ]
   }
 };
