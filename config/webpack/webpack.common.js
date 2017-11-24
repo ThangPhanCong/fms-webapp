@@ -98,9 +98,10 @@ module.exports = {
       }, {
         test: /\.jsx?$/,
         loader: 'babel-loader',
+        exclude: /node_modules/,
         options: {
           presets: ['react', 'es2015', 'stage-0'],
-          // compact: true,
+          compact: false,
         },
         exclude: /(node_modules)/
       }, {

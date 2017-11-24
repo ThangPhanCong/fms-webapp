@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
-import { Observable } from 'rxjs-es/Observable';
+import { Observable } from 'rxjs/Observable';
 
 import FmsSpin from '../../components/FmsSpin';
 import FmsProjectItem from './FmsProjectItem';
@@ -96,21 +96,19 @@ class FmsProject extends Component {
   }
 
   onAddPagesModalClose (selectedPages) {
-    if (Array.isArray(selectedPages)) {
-      this.setState({
-        isAddPagesModalShown: false
-      })
-
+    if (Array.isArray(selectedPages) && selectedPages.length > 0) {
       // create project
       const projectName = this.state.projectName;
       const page_ids = selectedPages.map(page => page.fb_id);
 
       this.props.dispatch(createNewProject(projectName, page_ids));
-    } else {
-      this.setState({
-        isAddPagesModalShown: false
-      })
     }
+
+    this.setState({
+      isAddPagesModalShown: false,
+      projectName: '',
+      activePages: []
+    })
   }
 
   renderProjects() {
@@ -140,8 +138,10 @@ class FmsProject extends Component {
       isCreateProjectModalShown,
       isNewProjectLoading,
       isProjectNameVerified,
-      isAddPagesModalShown
+      isAddPagesModalShown,
+      projectName
    } = this.state;
+   const unActivePages = pages.filter(page => !page.is_active);
 
     return (
       <div className="page container">
@@ -167,7 +167,8 @@ class FmsProject extends Component {
           <FmsAddPagesModal
             isShown={isAddPagesModalShown}
             isLoading={isPagesLoading}
-            pages={pages}
+            pages={unActivePages}
+            projectName={projectName}
             onClose={this.onAddPagesModalClose.bind(this)}
             />
 
