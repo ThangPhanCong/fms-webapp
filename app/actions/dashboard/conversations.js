@@ -1,7 +1,7 @@
 import DashboardApi from '../../api/DashboardApi';
 import * as u from 'lodash';
 import { setConversation, isLoadingMsgs, setPostInfo } from './chat/messages';
-import { Observable } from 'rxjs-es/Observable';
+import { Observable } from 'rxjs/Observable';
 
 
 export const isLoadingConversations = (state) => dispatch => {

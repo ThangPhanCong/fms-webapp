@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
-import { Observable } from 'rxjs-es/Observable';
+import { Observable } from 'rxjs/Observable';
 
 import FmsSpin from '../../components/FmsSpin';
 import FmsProjectItem from './FmsProjectItem';
