@@ -22,6 +22,10 @@ class FmsAddPagesModal extends Component {
     const { onClose } = this.props;
 
     onClose(this.state.selectedPages);
+
+    this.setState({
+      selectedPages: []
+    })
   }
 
   selectPage (page) {
@@ -79,7 +83,8 @@ class FmsAddPagesModal extends Component {
       isShown,
       isLoading,
       onClose,
-      dispatch
+      dispatch,
+      projectName
     } = this.props;
 
     const {
@@ -95,7 +100,7 @@ class FmsAddPagesModal extends Component {
         onHide={() => { onClose() }}
         backdrop='static' keyboard={false} >
         <Modal.Header closeButton={!isLoading}>
-          <Modal.Title>Thêm trang</Modal.Title>
+          <Modal.Title>Thêm trang cho dự án <strong>{projectName}</strong></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {this.renderPageItems()}
@@ -121,7 +126,8 @@ FmsAddPagesModal.propTypes = {
   pages: propTypes.array.isRequired,
   isShown: propTypes.bool.isRequired,
   isLoading: propTypes.bool,
-  onClose: propTypes.func.isRequired
+  onClose: propTypes.func.isRequired,
+  projectName: propTypes.string
 }
 
 export default FmsAddPagesModal;
