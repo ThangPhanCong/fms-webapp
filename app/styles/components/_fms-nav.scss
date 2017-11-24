@@ -1,5 +1,4 @@
 #fms-nav {
-
   .navbar-nav > li > a:hover {
     color: #A9D3EF;
   }
@@ -45,8 +44,6 @@
   }
 
   .nav-user > .dropdown {
-    padding-top: 5px;
-    padding-bottom: 3px;
     margin-right: 15px;
   }
 
@@ -64,6 +61,8 @@
       font-size: 20px;
       height: 56px;
       color: white !important;
+      display: block;
+      margin-top: 3px;
   }
 
   .navbar-header {
@@ -86,4 +85,5 @@
     opacity: 0.4;
     height: 27px;
   }
+  
 }

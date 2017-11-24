@@ -85,14 +85,8 @@ class FmsNavigation extends React.Component {
                 }
 
                 <Nav pullRight className="nav-user">
-                  {
-                    isAuthenticated ?
-                      <NavItem>
-                        <Image src={avaUser} circle></Image>
-                      </NavItem> : null
-                  }
                   { isAuthenticated ?
-                    <NavDropdown id="log-out-dropdown" title="">
+                    <NavDropdown id="log-out-dropdown" title={<Image src={avaUser} circle></Image>}>
                       <MenuItem header>Đăng nhập:</MenuItem>
                       <MenuItem header>{username}</MenuItem>
                       <MenuItem divider />
