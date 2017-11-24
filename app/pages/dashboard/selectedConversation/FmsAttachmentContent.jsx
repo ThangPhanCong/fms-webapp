@@ -5,46 +5,11 @@ class FmsAttachmentContent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      size: {},
       isLoading: true
     }
   }
-  getStyleImage() {
-    if (!this.props.size || this.props.type == "sticker") return {};
-    return {
-      width: this.state.size.width,
-      maxWidth: this.state.size.width,
-      height: this.state.size.height,
-      maxHeight: this.state.size.height
-    }
-  }
-  updateChatAreaWidth() {
-    if (!this.props.size || this.props.type == "sticker") return;
-    let size = {};
-    let maxWidth = this.props.getChatAreaWidth() * 0.7;
-    let oldWidth = this.props.size.width, oldHeight = this.props.size.height;
-    if (maxWidth < oldWidth) {
-      size.width = maxWidth;
-      size.height = maxWidth * oldHeight / oldWidth;
-    } else {
-      size = this.props.size;
-    }
-    oldHeight = size.height; oldWidth = size.width;
-    if (size.height > 450) {
-      size.height = 450;
-      size.width = 450 * oldWidth / oldHeight;
-    }
-    this.setState({ size: size });
-  }
   attachmentLoadDone() {
     this.setState({ isLoading: false });
-  }
-  componentWillMount() {
-    if (this.props.type != "sticker") window.addEventListener("resize", this.updateChatAreaWidth);
-    this.updateChatAreaWidth();
-  }
-  componentWillUnmount() {
-    if (this.props.type != "sticker") window.removeEventListener("resize", this.updateChatAreaWidth);
   }
   render() {
     let self = this;
@@ -66,7 +31,7 @@ class FmsAttachmentContent extends React.Component {
 
     return (
       <div className={"message-attachment-wrapper" + hasMessage + msgAttachWrapper}>
-        <div className={messageAttachment + ' ' + isSticker + hasBorder} style={this.getStyleImage()}>
+        <div className={messageAttachment + ' ' + isSticker + hasBorder}>
           <div className={"attach-spin" + spin}>
             <FmsSpin size={27} />
           </div>

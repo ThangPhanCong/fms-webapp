@@ -26,11 +26,6 @@ class FmsChatArea extends React.Component {
 	// 	let list = this.refs.chat_area;
 	// 	list.scrollTop = list.scrollHeight;
 	// }
-
-	getChatAreaWidth() {
-		let list = this.refs.chat_area;
-		return list.clientWidth;
-	}
 	componentDidMount() {
 		let list = this.refs.chat_area;
 		list.addEventListener('scroll', () => {
@@ -81,8 +76,8 @@ class FmsChatArea extends React.Component {
 				let type = (sc.type == "comment") ? "comment" : "inbox";
 				let isFirst = (prevSender == message.from.fb_id) ? " is-not-first" : " is-first";
 				prevSender = message.from.fb_id;
-				return <FmsMessageItem message={message} key={uuid()} isSelf={isSelf} isLast={isLast} type={type}
-					getChatAreaWidth={self.getChatAreaWidth.bind(this)} isFirst={isFirst}/>;
+				return <FmsMessageItem message={message} key={uuid()} isSelf={isSelf} 
+								isLast={isLast} type={type} isFirst={isFirst}/>;
 			});
 		}
 	}

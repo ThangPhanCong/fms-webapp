@@ -13,11 +13,13 @@
   @include message-attachment;
   margin: 5px 0px 0px 42px;
   float: left;
+  margin-right: 64px;
 }
 .right-message-attachment {
   @include message-attachment;
   margin: 5px 42px 0px 0px;
   float: right;
+  margin-left: 64px;
 }
 .image-attachment {
   width: 100%;
