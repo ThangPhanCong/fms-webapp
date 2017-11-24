@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import uuid from 'uuid';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 import FmsAttachmentContent from './FmsAttachmentContent';
 import FmsTextMessageContent from './FmsTextMessageContent';
@@ -95,13 +96,18 @@ class FmsMessageItem extends React.Component {
 		let actionButton = (this.props.isSelf == false && this.props.type == "comment") ? true : false;
 		let firstMsg = (this.props.isFirst == " is-first") ? "" : " hide";
 		let sentTime = (this.props.isSelf == true) ? " right-sent-time" : " left-sent-time";
+		const tooltip = (
+			<Tooltip id="tooltip">{this.props.message.from.name}</Tooltip>
+		);
 
 		return (
 			<div className={"message-item" + isLast + this.props.isFirst}>
 				<div className={"sent-time" + firstMsg + sentTime}>{sent_time}</div>
 				<div className={"message-wrapper" + messageWrapper}>
 					<div className={"profile-wrapper" + profileWrapper}>
-						<a href={userFb} target="_blank"><img src={avaUrl} className={"profile-message" + firstMsg} /></a>
+						<OverlayTrigger placement={(isSelf) ? "right" : "left"} overlay={tooltip}>
+							<a href={userFb} target="_blank"><img src={avaUrl} className={"profile-message" + firstMsg} /></a>
+						</OverlayTrigger>
 					</div>
 					<div className={"message-content" + messageContent}>
 						<FmsTextMessageContent message={this.props.message} actionButton={actionButton} />
