@@ -39,19 +39,10 @@ export const loadMoreMessages = () => (dispatch, getState) => {
   let { chat } = getState().dashboard;
   let conv = chat.conversation;
   if (chat.isLoadingMsgs || chat.isLoadMoreMsgs) return;
-  if (conv.type == "comment" && conv.paging) {
+  if (conv.paging) {
     dispatch(isLoadMoreMsgs(true));
-    DashboardApi.getReplyComment(conv.fb_id, conv.paging).then((res) => {
-      let paging = (res.paging) ? res.paging.next : null
-      dispatch(isLoadMoreMsgs(false));
-      dispatch(displayMoreMessages(res.data, paging));
-    }, (err) => {
-      console.log(err);
-      dispatch(isLoadMoreMsgs(false));
-    });
-  } else if (conv.paging) {
-    dispatch(isLoadMoreMsgs(true));
-    DashboardApi.getMessageInbox(conv._id, conv.paging).then((res) => {
+    let msg_id = (conv.type == "comment") ? conv.fb_id : conv._id;
+    DashboardApi.getMessages(conv.type, msg_id, conv.paging).then((res) => {
       let paging = (res.paging) ? res.paging.next : null;
       dispatch(isLoadMoreMsgs(false));
       dispatch(displayMoreMessages(res.data, paging));
@@ -59,7 +50,7 @@ export const loadMoreMessages = () => (dispatch, getState) => {
       console.log(err);
       dispatch(isLoadMoreMsgs(false));
     });
-  } else if (conv.type == "comment" && conv.parent_fb_id) {
+  }  else if (conv.type == "comment" && conv.parent_fb_id) {
     dispatch(loadPostInfo());
   } else if (conv.type == "inbox") {
     let pageInfo = { message: " " };
@@ -87,28 +78,3 @@ export const displayMoreMessages = (more, paging) => (dispatch, getState) => {
   conversation.paging = paging;
   dispatch(setConversation(u.clone(conversation)));
 }
-
-	// reloadAttachment(msgs) {
-	// 	msgs.forEach((msg) => {
-	// 		if (msg.shares) {
-	// 			DashboardApi.getMessageShare(msg.fb_id, msg.page_fb_id).then((res) => {
-	// 				msg.shares = res.data.shares;
-	// 			}, (err) => {
-	// 				throw new Error(err);
-	// 			});
-	// 		} else if (msg.attachment && (msg.attachment.type == 'sticker' || msg.attachment.type == 'photo' ||
-	// 			msg.attachment.type == 'video_inline' || msg.attachment.type == 'share')) {
-	// 			DashboardApi.getCommentAttachment(msg.fb_id, msg.page_fb_id).then((res) => {
-	// 				msg.attachment = res.data.attachment;
-	// 			}, (err) => {
-	// 				throw new Error(err);
-	// 			});
-	// 		} else if (msg.attachments) {
-	// 			DashboardApi.getMessageAttachment(msg.fb_id, msg.page_fb_id).then((res) => {
-	// 				msg.attachments = res.data.attachments;
-	// 			}, (err) => {
-	// 				throw new Error(err);
-	// 			});
-	// 		}
-	// 	});
-	// }

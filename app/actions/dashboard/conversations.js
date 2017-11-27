@@ -106,13 +106,9 @@ export const handleConversationClick = (selectedConv, type) => (dispatch, getSta
       dispatch(setConversation(u.clone(sc)));
       dispatch(isLoadingMsgs(false));
     }
-    if (type == "inbox") {
-      DashboardApi.getMessageInbox(selectedConv._id)
-        .then(data => updateChildren(selectedConv,  data))
-    } else if (type == "comment") {
-      DashboardApi.getReplyComment(selectedConv.fb_id)
-        .then(data => updateChildren(selectedConv, data))
-    }
+    let msg_id = (type == "comment") ? selectedConv.fb_id : selectedConv._id;
+    DashboardApi.getMessages(type, msg_id)
+      .then(data => updateChildren(selectedConv, data));
   } else {
     dispatch(isLoadingMsgs(false));
   }

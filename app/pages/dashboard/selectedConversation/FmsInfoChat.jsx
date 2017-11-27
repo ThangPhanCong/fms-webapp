@@ -19,9 +19,10 @@ class FmsInfoChat extends React.Component {
     this.props.dispatch(blockPerson());
   }
   seen_time(time) {
-    if (time == undefined || time == null) return "";
-    let date = new Date(time);
+    let date;
     let current = new Date();
+    if (!time) date = current;
+    else date = new Date(time);
 
     let cday = current.getDate();
     let cmonth = current.getMonth() + 1;

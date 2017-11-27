@@ -11,6 +11,9 @@
 .title-chat {
   font-weight: 600;
   font-size: 15px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .message-status {
   font-size: 12px;
