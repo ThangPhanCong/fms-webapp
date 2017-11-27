@@ -15,13 +15,8 @@ import FmsPrivateReplyModal from './FmsPrivateReplyModal';
 import { loadMoreMessages, setScrollList } from '../../../actions/dashboard/chat/messages';
 
 let lastScrollPosition;
-let lastLength = 0;
 
 class FmsChatArea extends React.Component {
-	// clientChanged() {
-	// 	this.setState({ postInfo: null });
-	// 	lastLength = 0;
-	// }
 	getChatAreaWidth() {
 		let list = this.refs.chat_area;
 		return list.clientWidth;
@@ -44,11 +39,6 @@ class FmsChatArea extends React.Component {
 		list.scrollTop = list.scrollHeight - lastScrollPosition;
 		if (!this.props.postInfo && list.clientHeight + 12 > list.scrollHeight) {
 			this.props.dispatch(loadMoreMessages());
-		}
-		let sc = this.props.conversation;
-		if (sc.children && sc.children.length != lastLength) {
-			if (lastLength != 0) list.scrollTop = list.scrollHeight - lastScrollPosition - 51;
-			lastLength = sc.children.length;
 		}
 	}
 
@@ -101,7 +91,7 @@ class FmsChatArea extends React.Component {
 	}
 
 	render() {
-		let showSpin = (this.props.isLoadMoreMsgs == true) ? "" : " hide";
+		let showSpin = (!this.props.postInfo) ? "" : " hide";
 		let chatArea = (this.props.isLoadingMsgs) ? " hide" : "";
 		let spin = (this.props.isLoadingMsgs) ? "" : " hide";
 		let input = (this.props.isLoadingMsgs) ? " hide" : "";
