@@ -10,7 +10,7 @@ class FmsCreateFormTab extends React.Component {
         <form>
           <div className="form-in-tab">
             <i className="glyphicon glyphicon-user icon-in-tabform"></i>
-            <input type="text" className="input-in-tab" placeholder="Tên" value={name}/>
+            <input type="text" className="input-in-tab" placeholder="Tên" defaultValue={name} key={name}/>
           </div>
           <div className="form-in-tab">
             <i className="glyphicon glyphicon-phone icon-in-tabform"></i>
