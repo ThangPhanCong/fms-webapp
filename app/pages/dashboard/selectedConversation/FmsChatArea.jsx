@@ -12,7 +12,7 @@ import FmsPostInfoConversation from './FmsPostInfoConversation';
 import FmsTagsBar from './FmsTagsBar';
 import FmsPrivateReplyModal from './FmsPrivateReplyModal';
 
-import { loadMoreMessages } from '../../../actions/dashboard/chat/messages';
+import { loadMoreMessages, setScrollList } from '../../../actions/dashboard/chat/messages';
 
 let lastScrollPosition;
 let lastLength = 0;
@@ -22,15 +22,10 @@ class FmsChatArea extends React.Component {
 	// 	this.setState({ postInfo: null });
 	// 	lastLength = 0;
 	// }
-	// scrollToBottom() {
-	// 	let list = this.refs.chat_area;
-	// 	list.scrollTop = list.scrollHeight;
-	// }
 	getChatAreaWidth() {
 		let list = this.refs.chat_area;
 		return list.clientWidth;
 	}
-
 	componentDidMount() {
 		let list = this.refs.chat_area;
 		list.addEventListener('scroll', () => {
@@ -38,8 +33,8 @@ class FmsChatArea extends React.Component {
 				this.props.dispatch(loadMoreMessages());
 			}
 		});
+		this.props.dispatch(setScrollList(list));
 	}
-
 	componentWillUpdate() {
 		let list = ReactDOM.findDOMNode(this.refs.chat_area);
 		lastScrollPosition = list.scrollHeight - list.scrollTop;

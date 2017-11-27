@@ -6,6 +6,7 @@ const initState = {
   isLoadMoreMsgs: false,
   postInfo: null,
   isSettingTag: false,
+  scrollList: null,
   isShownPrivateRepModal: false,
   isSendingPrivateMsg: false,
   parentMsgModal: null
@@ -33,6 +34,11 @@ const chat = (state = initState, action) => {
         ...state,
         postInfo: action.postInfo,
         isLoadMoreMsgs: false
+      }
+    case 'SET_SCROLL_LIST':
+      return {
+        ...state,
+        scrollList: action.scrollList
       }
     case 'SETTING_TAG':
       return {

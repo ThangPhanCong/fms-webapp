@@ -100,9 +100,12 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
       let newConvers = conversations.filter((c) => { return c._id != parent._id });
       if (shouldAddToConversations == true) newConvers.unshift(parent);
       conversations = newConvers;
-      if (selectedConv && selectedConv._id == parent._id) dispatch(setConversation(u.clone(parent)));
+      if (selectedConv && selectedConv._id == parent._id) {
+        dispatch(setConversation(u.clone(parent)));
+        let scrollList = getState().dashboard.chat.scrollList;
+        if (scrollList) scrollList.scrollTop = scrollList.scrollHeight;
+      }
     }
   }
   dispatch(setConversations(u.clone(conversations)));
-  //if (self._child2) self._child2.scrollToBottom();
 }
