@@ -107,7 +107,7 @@ class FmsMessageItem extends React.Component {
 						</FmsToolTip>
 					</div>
 					<div className={"message-content" + messageContent}>
-						<FmsTextMessageContent textMessage={textMessage} message={msg} isSelf={isSelf} />
+						<FmsTextMessageContent textMessage={textMessage} message={msg} isSelf={isSelf} type={this.props.type}/>
 					</div>
 				</div>
 				{this.renderAttachment()}
