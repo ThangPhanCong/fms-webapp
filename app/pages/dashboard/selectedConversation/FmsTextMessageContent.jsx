@@ -44,7 +44,7 @@ class FmsTextMessageContent extends React.Component {
   }
   render() {
     let self = this;
-    let actionButton = this.props.actionButton ? "" : " hide";
+    let actionButton = (this.props.isSelf == false && this.props.type == "comment") ? "" : " hide";
     function renderLikeButton() {
       if (self.state.liked == false) {
         return <a className="action-button-message" onClick={self.handleLikeMessage}>  Thích</a>
