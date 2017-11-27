@@ -26,6 +26,7 @@ class FmsMessageItem extends React.Component {
 	}
 	render() {
 		let self = this;
+		let msg = self.props.message;
 		let avaUrl = `https://graph.facebook.com/v2.10/${this.props.message.from.fb_id}/picture`;
 		let userFb = `https://facebook.com/${this.props.message.from.fb_id}`;
 		let isSelf = this.props.isSelf;
@@ -33,12 +34,13 @@ class FmsMessageItem extends React.Component {
 		let profileWrapper = (isSelf) ? " right-profile-wrapper" : " left-profile-wrapper";
 		let messageContent = (isSelf) ? " right-message-content" : " left-message-content";
 		let isLast = (this.props.isLast) ? " last-message" : "";
-		messageContent += (this.props.message.message == "" ? " hide" : "");
-		let sent_time = this.convertTime(this.props.message.updated_time);
+		let textMessage = msg.message;
+		if (textMessage == "" && Array.isArray(msg.shares) && msg.shares[0].name) textMessage = msg.shares[0].name;
+		messageContent += (textMessage != "" ? "" : " hide");
+		let sent_time = this.convertTime(msg.updated_time);
 		let direction = (isSelf) ? "right" : "left";
 
 		function renderAttachment() {
-			let msg = self.props.message;
 			let hasMessage = (self.props.message.message == "") ? -1 : 1;
 			let msgType = self.props.type;
 			let attachmentData = null;
@@ -110,7 +112,7 @@ class FmsMessageItem extends React.Component {
 						</OverlayTrigger>
 					</div>
 					<div className={"message-content" + messageContent}>
-						<FmsTextMessageContent message={this.props.message} actionButton={actionButton} />
+						<FmsTextMessageContent textMessage={textMessage} message={this.props.message} actionButton={actionButton} />
 					</div>
 				</div>
 				{renderAttachment()}
