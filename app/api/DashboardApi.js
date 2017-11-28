@@ -87,5 +87,12 @@ module.exports = {
 			content: content
 		}
 		return apiSender.post(route, payload);
+	},
+	updateExpiredAttachment: (type, id) => {
+		let route;
+		if (type == "comment") route = `/api/comments/${id}/attachment`;
+		else if (type == "inbox") route = `/api/inboxes/${id}/attachments`;
+		else route = `/api/posts/${id}/attachments`;
+		return apiSender.put(route);
 	}
 }

@@ -7,6 +7,21 @@ import FmsTextMessageContent from './FmsTextMessageContent';
 import DashboardAPI from '../../../api/DashboardApi';
 
 class FmsMessageItem extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			message: this.props.message
+		}
+	}
+	attachmentLoadError() {
+		let msg = this.state.message;
+		DashboardAPI.updateExpiredAttachment(this.props.type, msg._id)
+			.then(res => {
+				this.setState({ message: msg });
+			}, err => {
+				console.log(err);
+			});
+	}
 	convertTime(time) {
 		let date = new Date(time);
 		let hour = (date.getHours() > 9) ? date.getHours() : "0" + date.getHours();
@@ -26,15 +41,16 @@ class FmsMessageItem extends React.Component {
 	renderAttachment() {
 		let self = this;
 		let isSelf = this.props.isSelf;
-		let msg = self.props.message;
-		let hasMessage = (self.props.message.message == "") ? -1 : 1;
+		let msg = self.state.message;
+		let hasMessage = (self.state.message.message == "") ? -1 : 1;
 		let msgType = self.props.type;
 		let attachmentData = null;
 
 		if (msg.shares && msg.shares.length > 0) {
 			return msg.shares.map((share) => {
 				if (share.link && share.link.indexOf("scontent") != -1) {
-					return <FmsAttachmentContent key={uuid()} preview={share.link} isSelf={isSelf} type={'sticker'} />
+					return <FmsAttachmentContent key={uuid()} preview={share.link} isSelf={isSelf} type={'sticker'} 
+									attachmentLoadError={self.attachmentLoadError.bind(this)}/>
 				}
 			});
 		}
@@ -77,12 +93,13 @@ class FmsMessageItem extends React.Component {
 				}
 				if (attachType == 'unknown' || preview == '') return;
 				return <FmsAttachmentContent key={uuid()} hasMessage={hasMessage} type={attachType} origin={origin}
-					isSelf={isSelf} preview={preview} size={size} getChatAreaWidth={self.props.getChatAreaWidth} />
+					isSelf={isSelf} preview={preview} size={size} getChatAreaWidth={self.props.getChatAreaWidth} 
+					attachmentLoadError={self.attachmentLoadError.bind(this)}/>
 			})
 		}
 	}
 	render() {
-		let msg = this.props.message;
+		let msg = this.state.message;
 		let avaUrl = `https://graph.facebook.com/v2.10/${msg.from.fb_id}/picture`;
 		let userFb = `https://facebook.com/${msg.from.fb_id}`;
 		let isSelf = this.props.isSelf;
