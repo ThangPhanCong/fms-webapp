@@ -96,7 +96,7 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
       if (Array.isArray(parent.children)) {
         parent.children.push(msg);
       }
-      parent.snippet = msg.message;
+      parent.snippet = msg.parent.snippet;
       let newConvers = conversations.filter((c) => { return c._id != parent._id });
       if (shouldAddToConversations == true) newConvers.unshift(parent);
       conversations = newConvers;
