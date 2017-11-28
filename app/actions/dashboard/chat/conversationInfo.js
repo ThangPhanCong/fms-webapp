@@ -5,7 +5,8 @@ import { setConversation } from './messages';
 
 export const blockPerson = () => (dispatch, getState) => {
   let { conversation } = getState().dashboard.chat;
-  blockApi.blockCustomer(conversation.page_fb_id, conversation.customer.id)
+  let customer = (conversation.customer) ? conversation.customer : conversation.from;
+  blockApi.blockCustomer(conversation.page_fb_id, customer.fb_id)
     .then(data => {
       dispatch(updateBlockCustomer(conversation, true));
     })
@@ -16,7 +17,8 @@ export const blockPerson = () => (dispatch, getState) => {
 
 export const activePerson = () => (dispatch, getState) => {
   let { conversation } = getState().dashboard.chat;
-  blockApi.activeCustomer(conversation.page_fb_id, conversation.customer.id)
+  let customer = (conversation.customer) ? conversation.customer : conversation.from;
+  blockApi.activeCustomer(conversation.page_fb_id, customer.fb_id)
     .then(data => {
       dispatch(updateBlockCustomer(conversation, false));
     })

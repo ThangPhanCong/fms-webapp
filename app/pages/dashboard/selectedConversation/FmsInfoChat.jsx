@@ -46,7 +46,6 @@ class FmsInfoChat extends React.Component {
 
   render() {
     let sc = this.props.conversation;
-    //console.log(this.props);
     let customer = sc.customer;
     let option = "";
     if (!customer) {
