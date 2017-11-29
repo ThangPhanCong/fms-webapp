@@ -97,7 +97,7 @@ class FmsAddPagesModal extends Component {
     return (
       <Modal
         show={isShown}
-        onHide={() => { onClose() }}
+        onHide={() => { this.setState({ selectedPages: [] }); onClose() }}
         backdrop='static' keyboard={false} >
         <Modal.Header closeButton={!isLoading}>
           <Modal.Title>Thêm trang cho dự án <strong>{projectName}</strong></Modal.Title>
