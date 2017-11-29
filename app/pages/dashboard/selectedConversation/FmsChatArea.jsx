@@ -11,12 +11,34 @@ import DashboardAPI from '../../../api/DashboardApi';
 import FmsPostInfoConversation from './FmsPostInfoConversation';
 import FmsTagsBar from './FmsTagsBar';
 import FmsPrivateReplyModal from './FmsPrivateReplyModal';
+import FmsDivider from './FmsDivider';
 
 import { loadMoreMessages, setScrollList } from '../../../actions/dashboard/chat/messages';
 
 let lastScrollPosition;
 
 class FmsChatArea extends React.Component {
+	convertTime(time) {
+		let date;
+    let current = new Date();
+    if (!time) date = current;
+    else date = new Date(time);
+
+    let cday = current.getDate();
+    let cmonth = current.getMonth() + 1;
+    let cyear = current.getFullYear();
+
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+
+    let res = "Đã xem";
+    let whatday;
+    if (cyear == year && cmonth == month && cday == day) whatday = "Hôm nay";
+    else if (cyear == year && cmonth == month && cday - day == 1) whatday = "Hôm qua";
+    else whatday = "Ngày " + day + " tháng " + month;
+    return whatday;
+	}
 	getChatAreaWidth() {
 		let list = this.refs.chat_area;
 		return list.clientWidth;
@@ -60,15 +82,28 @@ class FmsChatArea extends React.Component {
 			})
 			let lastItem = messages[messages.length - 1];
 			let prevSender = null;
-			return messages.map(message => {
+			let res = [], lastUpdatedTime = null;
+			messages.forEach(message => {
+				let last, current, hasDivider;
+				if (lastUpdatedTime) last = new Date(lastUpdatedTime);
+				current = new Date(message.updated_time);
+				if (!lastUpdatedTime || last.getDate() != current.getDate()) {
+					hasDivider = true;
+					let divider = <FmsDivider key={uuid()} text={this.convertTime(message.updated_time)}/>;
+					res.push(divider);
+				}
+				lastUpdatedTime = message.updated_time;
 				let isSelf = message.from.fb_id == sc.page_fb_id;
 				let isLast = lastItem === message;
 				let type = (sc.type == "comment") ? "comment" : "inbox";
 				let isFirst = (prevSender == message.from.fb_id) ? " is-not-first" : " is-first";
+				if (hasDivider == true) isFirst = " is-first";
 				prevSender = message.from.fb_id;
-				return <FmsMessageItem message={message} key={uuid()} isSelf={isSelf} isLast={isLast} 
+				let item = <FmsMessageItem message={message} key={uuid()} isSelf={isSelf} isLast={isLast} 
 								getChatAreaWidth={self.getChatAreaWidth.bind(this)} type={type} isFirst={isFirst} />;
+				res.push(item);
 			});
+			return res;
 		}
 	}
 
