@@ -37,7 +37,10 @@ class FmsAttachmentContent extends React.Component {
     this.setState({ size: size });
   }
   attachmentLoadDone() {
-    this.setState({ isLoading: false, size: {} });
+    this.setState({ isLoading: false });
+  }
+  attachmentLoadError() {
+    this.props.attachmentLoadError();
   }
   componentDidMount() {
     this.updateChatAreaWidth();
@@ -67,7 +70,8 @@ class FmsAttachmentContent extends React.Component {
             <FmsSpin size={27} />
           </div>
           <a href={self.props.origin} target="_blank">
-            <img className={"image-attachment" + imgAttach} src={preview} onLoad={this.attachmentLoadDone.bind(this)} />
+            <img className={"image-attachment" + imgAttach} src={preview} onLoad={this.attachmentLoadDone.bind(this)}
+                  onError={this.attachmentLoadError.bind(this)} />
           </a>
         </div>
       </div>

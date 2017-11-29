@@ -12,13 +12,10 @@ module.exports = {
 		}
 		return apiSender.get(route);
 	},
-	getMessageInbox: function (inbox_id, next) {
-		let route = `/api/inboxes/${inbox_id}/messages`;
-		if (next) route += `?next=${next}`;
-		return apiSender.get(route);
-	},
-	getReplyComment: function (comment_id, next) {
-		let route = `/api/comments/${comment_id}/comments`;
+	getMessages: function (type, msg_id, next) {
+		let route;
+		if (type == "comment") route = `/api/comments/${msg_id}/comments`;
+		else route = `/api/inboxes/${msg_id}/messages`;
 		if (next) route += `?next=${next}`;
 		return apiSender.get(route);
 	},
@@ -53,18 +50,6 @@ module.exports = {
 	getAccessToken: (page_id) => {
 		let route = `/api/pages/${page_id}/access-token`;
 		return apiSender.get(route);
-	},
-	getMessageAttachment: (msg_id, page_id) => {
-		let route = `/${msg_id}?fields=attachments`;
-		return apiSender.getGraphApi(route, page_id);
-	},
-	getCommentAttachment: (comment_id, page_id) => {
-		let route = `/${comment_id}?fields=attachment`;
-		return apiSender.getGraphApi(route, page_id);
-	},
-	getMessageShare: (msg_id, page_id) => {
-		let route = `/${msg_id}?fields=shares{link}`;
-		return apiSender.getGraphApi(route, page_id);
 	},
 	postPrivateReplyMessage: (comment_id, message) => {
 		let route = `/api/comments/${comment_id}/private_replies`;
@@ -102,5 +87,12 @@ module.exports = {
 			content: content
 		}
 		return apiSender.post(route, payload);
+	},
+	updateExpiredAttachment: (type, id) => {
+		let route;
+		if (type == "comment") route = `/api/comments/${id}/attachment`;
+		else if (type == "inbox") route = `/api/inboxes/${id}/attachments`;
+		else route = `/api/posts/${id}/attachments`;
+		return apiSender.put(route);
 	}
 }

@@ -1,17 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 class FmsToolTip extends React.Component {
-  componentDidMount() {
-    $(ReactDOM.findDOMNode(this.refs.tooltip)).ready(function () {
-      $('[data-toggle="tooltip"]').tooltip();
-    });
-  }
   render() {
+    const tooltip = <Tooltip id="tooltip">{this.props.message}</Tooltip>
     return (
-      <a ref="tooltip" data-toggle="tooltip" title={this.props.message} data-placement={this.props.direction}>
+      <OverlayTrigger placement={this.props.direction} overlay={tooltip}>
         {this.props.children}
-      </a>
+      </OverlayTrigger>
     )
   }
 }

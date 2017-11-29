@@ -16,7 +16,8 @@ let timeout, name, subscription;
 let observable = Observable.create(observer => {
   projectApi.verifyName(name)
   .then(() => {
-    observer.complete();
+    if (name != "") observer.complete();
+    else observer.error();
   })
   .catch(err => {
     observer.error();
@@ -50,7 +51,7 @@ class FmsProject extends Component {
 
   onProjectNameChange (_name) {
     name = _name;
-    if (!name) {
+    if (!name || name == "") {
       return this.setState({
         isProjectNameVerified: false
       })

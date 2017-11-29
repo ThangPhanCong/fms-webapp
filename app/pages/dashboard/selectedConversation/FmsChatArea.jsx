@@ -12,25 +12,15 @@ import FmsPostInfoConversation from './FmsPostInfoConversation';
 import FmsTagsBar from './FmsTagsBar';
 import FmsPrivateReplyModal from './FmsPrivateReplyModal';
 
-import { loadMoreMessages } from '../../../actions/dashboard/chat/messages';
+import { loadMoreMessages, setScrollList } from '../../../actions/dashboard/chat/messages';
 
 let lastScrollPosition;
-let lastLength = 0;
 
 class FmsChatArea extends React.Component {
-	// clientChanged() {
-	// 	this.setState({ postInfo: null });
-	// 	lastLength = 0;
-	// }
-	// scrollToBottom() {
-	// 	let list = this.refs.chat_area;
-	// 	list.scrollTop = list.scrollHeight;
-	// }
 	getChatAreaWidth() {
 		let list = this.refs.chat_area;
 		return list.clientWidth;
 	}
-
 	componentDidMount() {
 		let list = this.refs.chat_area;
 		list.addEventListener('scroll', () => {
@@ -38,8 +28,8 @@ class FmsChatArea extends React.Component {
 				this.props.dispatch(loadMoreMessages());
 			}
 		});
+		this.props.dispatch(setScrollList(list));
 	}
-
 	componentWillUpdate() {
 		let list = ReactDOM.findDOMNode(this.refs.chat_area);
 		lastScrollPosition = list.scrollHeight - list.scrollTop;
@@ -49,11 +39,6 @@ class FmsChatArea extends React.Component {
 		list.scrollTop = list.scrollHeight - lastScrollPosition;
 		if (!this.props.postInfo && list.clientHeight + 12 > list.scrollHeight) {
 			this.props.dispatch(loadMoreMessages());
-		}
-		let sc = this.props.conversation;
-		if (sc.children && sc.children.length != lastLength) {
-			if (lastLength != 0) list.scrollTop = list.scrollHeight - lastScrollPosition - 51;
-			lastLength = sc.children.length;
 		}
 	}
 
@@ -106,7 +91,7 @@ class FmsChatArea extends React.Component {
 	}
 
 	render() {
-		let showSpin = (this.props.isLoadMoreMsgs == true) ? "" : " hide";
+		let showSpin = (!this.props.postInfo) ? "" : " hide";
 		let chatArea = (this.props.isLoadingMsgs) ? " hide" : "";
 		let spin = (this.props.isLoadingMsgs) ? "" : " hide";
 		let input = (this.props.isLoadingMsgs) ? " hide" : "";
