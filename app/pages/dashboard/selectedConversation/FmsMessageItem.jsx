@@ -28,13 +28,13 @@ class FmsMessageItem extends React.Component {
 		let minute = (date.getMinutes() > 9) ? date.getMinutes() : "0" + date.getMinutes();
 		let day = "";
 		switch (date.getDay()) {
-			case 0: day = "Sunday"; break;
-			case 1: day = "Monday"; break;
-			case 2: day = "Tuesday"; break;
-			case 3: day = "Wednesday"; break;
-			case 4: day = "Thurday"; break;
-			case 5: day = "Friday"; break;
-			case 6: day = "Saturday"; break;
+			case 0: day = "Chủ nhật"; break;
+			case 1: day = "Thứ hai"; break;
+			case 2: day = "Thứ ba"; break;
+			case 3: day = "Thứ tư"; break;
+			case 4: day = "Thứ năm"; break;
+			case 5: day = "Thứ sáu"; break;
+			case 6: day = "Thứ bảy"; break;
 		};
 		return day + " " + hour + ":" + minute;
 	}
