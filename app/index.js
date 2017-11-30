@@ -12,6 +12,8 @@ const store = configure();
 // Load Bootstrap js
 require("bootstrapJs");
 
+console.log('test ok men');
+
 ReactDOM.render(
 	<Provider store={store}>
 		<Router>
