@@ -1,9 +1,10 @@
 import DashboardApi from '../../../api/DashboardApi';
 import * as u from 'lodash';
-
+import { getNotes } from './createOrder';
 
 export const setConversation = (conversation) => dispatch => {
   dispatch({ type: 'SET_CONVERSATION', conversation: conversation });
+  dispatch(getNotes());
 }
 export const isLoadingMsgs = (state) => dispatch => {
   dispatch({ type: 'LOADING_MSGS', state });

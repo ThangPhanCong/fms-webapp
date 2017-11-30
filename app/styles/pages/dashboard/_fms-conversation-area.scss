@@ -38,6 +38,7 @@
 }
 .post-info-conversation {
     padding: 12px;
+    padding-bottom: 0;
 }
 .page-name-conversation {
     text-align: center;
@@ -78,4 +79,21 @@
 }
 .blur {
     opacity: 0.3;
+}
+.divider-wrapper {
+    text-align: center;
+    margin-bottom: -18px;
+    margin-top: 30px;
+}
+.divider {
+    border-top: 1px solid #cecece;
+    width: calc(100% - 84px);
+    margin: auto;
+    margin-bottom: -24px;
+}
+.divider-text {
+    text-align: center;
+    display: inline-block;
+    background-color: white;
+    padding: 12px;
 }

@@ -1,13 +1,27 @@
 import DashboardApi from '../../../api/DashboardApi';
 
 export const createNote = (content, noti) => (dispatch, getState) => {
-  let { alias } = getState().dashboard.conversations;
   let conversation = getState().dashboard.chat.conversation;
-  DashboardApi.createNote(alias, conversation._id, conversation.type,
-      conversation.customer._id, conversation.page._id, content)
+  if (!conversation.customer || conversation.page_fb_id == conversation.customer.fb_id) {
+    alert("Bạn đang tạo ghi chú cho chính mình ???");
+    return;
+  }
+  DashboardApi.createNote(conversation.id, conversation.customer._id, conversation.page._id, content)
     .then(res => {
       noti("success", "Tạo ghi chú thành công.");
+      dispatch(getNotes());
     }, err => {
       noti("danger", "Tạo ghi chú thất bại.");
+    });
+}
+
+export const getNotes = () => (dispatch, getState) => {
+  let { conversation } = getState().dashboard.chat;
+  DashboardApi.getNotes(conversation.id)
+    .then(res => {
+      res.sort((a, b) => {return a.updated_time < b.updated_time});
+      dispatch({ type: 'SET_NOTES', notes: res});
+    }, err => {
+      console.log(err);
     });
 }

@@ -1,5 +1,5 @@
 .information-tab {
-    padding: 16px 12px;
+    
 }
 .note-icon {
     margin: auto;
@@ -9,10 +9,10 @@
 }
 .note-form {
     border: none;
+    padding: 7px;
     width: 100%;
-    padding: 8px;
-    background-color: #e8e8e8;
-    border-radius: 7px;
+    border-bottom: 1px solid #dedede;
+    background-color: #edf4ff;
 }
 .note-form:focus {
     outline: none;
@@ -62,4 +62,37 @@
         height: 100%;
         border-left: 1px solid #dcdedf;
     }
+}
+.notes-list {
+    max-height: 190px;
+    min-height: 190px;
+    overflow-y: scroll;
+    border-bottom: 1px solid #e2e2e2;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    &::-webkit-scrollbar-track {
+        display: none;
+    }
+    &::-webkit-scrollbar-thumb {
+        display: none;
+    }
+}
+.no-note {
+    text-align: center;
+    padding-top: 40px;
+}
+.note-text {
+    padding: 7px;
+    margin: 0;
+    border-bottom: 1px solid #e2e2e2;
+}
+.note-date {
+    font-weight: 600;
+}
+.order-title {
+    text-align: center;
+    font-weight: 600;
+    font-size: 15px;
+    margin-top: 8px;
 }
