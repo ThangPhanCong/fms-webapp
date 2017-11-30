@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 
 import spinnerImg from '../images/spinner.png';
