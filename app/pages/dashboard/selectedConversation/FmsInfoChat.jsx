@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import blockImg from '../../../images/block.png';
 import blockActiveImg from '../../../images/block_active.png';
-import fbImgActive from '../../../images/facebook_active.png';
+import fbImg from '../../../images/facebook.png';
 
 import FmsToolTip from '../../../components/FmsToolTip';
 import blockApi from '../../../api/BlockApi';
@@ -60,6 +60,16 @@ class FmsInfoChat extends React.Component {
           <div className="message-status">{this.seen_time(sc.last_seen)}</div>
         </div>
         <div className={"option" + option}>
+          {
+            sc.link ?
+            <FmsToolTip message="Đi tới hội thoại trên facebook" direction="bottom">
+              <a href={"https://facebook.com" + sc.link} target="_blank">
+                <img src={fbImg} className="icon-option" />
+              </a>
+            </FmsToolTip>
+            :
+            <span/>
+          }
           {
             customer.is_blocked ?
               <FmsToolTip message="Bỏ chặn" direction="bottom">
