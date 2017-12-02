@@ -6,6 +6,8 @@ import FmsAttachmentContent from './FmsAttachmentContent';
 import FmsTextMessageContent from './FmsTextMessageContent';
 import DashboardAPI from '../../../api/DashboardApi';
 
+let attachsFail = [];
+
 class FmsMessageItem extends React.Component {
 	constructor(props) {
 		super(props);
@@ -13,8 +15,10 @@ class FmsMessageItem extends React.Component {
 			message: this.props.message
 		}
 	}
-	attachmentLoadError() {
+	attachmentLoadError(previewUrl) {
 		let msg = this.state.message;
+		if (attachsFail.includes(previewUrl)) return;
+		else attachsFail.push(previewUrl);
 		DashboardAPI.updateExpiredAttachment(this.props.type, msg._id)
 			.then(res => {
 				this.setState({ message: msg });
