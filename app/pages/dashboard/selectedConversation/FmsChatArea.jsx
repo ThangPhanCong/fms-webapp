@@ -41,6 +41,7 @@ class FmsChatArea extends React.Component {
 	}
 	getChatAreaWidth() {
 		let list = this.refs.chat_area;
+		if (!list) return 0;
 		return list.clientWidth;
 	}
 	componentDidMount() {
@@ -84,6 +85,7 @@ class FmsChatArea extends React.Component {
 			let prevSender = null;
 			let res = [], lastUpdatedTime = null;
 			messages.forEach(message => {
+				if (!message) return;
 				let last, current, hasDivider;
 				if (lastUpdatedTime) last = new Date(lastUpdatedTime);
 				current = new Date(message.updated_time);

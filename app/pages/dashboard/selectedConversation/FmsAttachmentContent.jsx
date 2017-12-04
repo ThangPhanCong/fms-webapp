@@ -40,9 +40,9 @@ class FmsAttachmentContent extends React.Component {
     this.setState({ isLoading: false });
   }
   attachmentLoadError() {
-    this.props.attachmentLoadError();
+    this.props.attachmentLoadError(this.props.preview);
   }
-  componentDidMount() {
+  componentWillMount() {
     this.updateChatAreaWidth();
   }
   render() {
