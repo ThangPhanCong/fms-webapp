@@ -1,7 +1,6 @@
 import DashboardApi from '../../../api/DashboardApi';
 import * as u from 'lodash';
 
-
 export const setConversation = (conversation) => dispatch => {
   dispatch({ type: 'SET_CONVERSATION', conversation: conversation });
 }

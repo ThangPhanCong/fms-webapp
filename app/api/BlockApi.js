@@ -6,7 +6,6 @@ module.exports = {
     let payload = {
       user_id: user_fb_id
     }
-
     return apiSender.post(route, payload);
   },
   activeCustomer: (page_fb_id, user_fb_id) => {

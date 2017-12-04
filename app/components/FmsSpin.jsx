@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 
 import spinnerImg from '../images/spinner.png';
@@ -14,6 +12,7 @@ class FmsSpin extends React.Component {
 		);
 	}
 }
+
 FmsSpin.defaultProps = {
 	size: 35
 }

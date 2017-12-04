@@ -1,7 +1,7 @@
 # Facebook manangement suite
 
 ## config
-Create `app/config.json` like `app/config.example.json`
+Create `config.json` like `config.example.json`
 
 ## Build
 `npm run build`

@@ -6,6 +6,8 @@ import FmsAttachmentContent from './FmsAttachmentContent';
 import FmsTextMessageContent from './FmsTextMessageContent';
 import DashboardAPI from '../../../api/DashboardApi';
 
+let attachsFail = [];
+
 class FmsMessageItem extends React.Component {
 	constructor(props) {
 		super(props);
@@ -13,8 +15,10 @@ class FmsMessageItem extends React.Component {
 			message: this.props.message
 		}
 	}
-	attachmentLoadError() {
+	attachmentLoadError(previewUrl) {
 		let msg = this.state.message;
+		if (attachsFail.includes(previewUrl)) return;
+		else attachsFail.push(previewUrl);
 		DashboardAPI.updateExpiredAttachment(this.props.type, msg._id)
 			.then(res => {
 				this.setState({ message: msg });
@@ -26,17 +30,7 @@ class FmsMessageItem extends React.Component {
 		let date = new Date(time);
 		let hour = (date.getHours() > 9) ? date.getHours() : "0" + date.getHours();
 		let minute = (date.getMinutes() > 9) ? date.getMinutes() : "0" + date.getMinutes();
-		let day = "";
-		switch (date.getDay()) {
-			case 0: day = "Sunday"; break;
-			case 1: day = "Monday"; break;
-			case 2: day = "Tuesday"; break;
-			case 3: day = "Wednesday"; break;
-			case 4: day = "Thurday"; break;
-			case 5: day = "Friday"; break;
-			case 6: day = "Saturday"; break;
-		};
-		return day + " " + hour + ":" + minute;
+		return hour + ":" + minute;
 	}
 	renderAttachment() {
 		let self = this;
