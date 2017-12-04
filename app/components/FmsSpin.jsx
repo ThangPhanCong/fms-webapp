@@ -12,6 +12,7 @@ class FmsSpin extends React.Component {
 		);
 	}
 }
+
 FmsSpin.defaultProps = {
 	size: 35
 }

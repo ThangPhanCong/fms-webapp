@@ -11,6 +11,7 @@ class FmsToolTip extends React.Component {
     )
   }
 }
+
 FmsToolTip.defaultProps = {
   message: "",
   direction: "right"
