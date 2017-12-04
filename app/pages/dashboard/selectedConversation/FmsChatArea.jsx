@@ -13,7 +13,7 @@ import FmsTagsBar from './FmsTagsBar';
 import FmsPrivateReplyModal from './FmsPrivateReplyModal';
 import FmsDivider from './FmsDivider';
 
-import { loadMoreMessages, setScrollList } from '../../../actions/dashboard/chat/messages';
+import { loadMoreMessages, isShownNewMsgNoti, setScrollList } from '../../../actions/dashboard/chat/messages';
 
 let lastScrollPosition;
 
@@ -44,11 +44,17 @@ class FmsChatArea extends React.Component {
 		if (!list) return 0;
 		return list.clientWidth;
 	}
+	scrollToLastestMsg() {
+		let list = this.refs.chat_area;
+		list.scrollTop = list.scrollHeight;
+	}
 	componentDidMount() {
 		let list = this.refs.chat_area;
 		list.addEventListener('scroll', () => {
 			if ($(list).scrollTop() == 0) {
 				this.props.dispatch(loadMoreMessages());
+			} else if (list.scrollTop + list.clientHeight + 32 > list.scrollHeight) {
+				this.props.dispatch(isShownNewMsgNoti(false));
 			}
 		});
 		this.props.dispatch(setScrollList(list));
@@ -132,7 +138,7 @@ class FmsChatArea extends React.Component {
 		let chatArea = (this.props.isLoadingMsgs) ? " hide" : "";
 		let spin = (this.props.isLoadingMsgs) ? "" : " hide";
 		let input = (this.props.isLoadingMsgs) ? " hide" : "";
-		let noti = (this.props.isLoadingMsgs) ? " hide" : "";
+		let noti = (this.props.isShownNewMsgNoti) ? "" : " hide";
 
 		return (
 			<div className="inner-conversation-area">
@@ -150,7 +156,9 @@ class FmsChatArea extends React.Component {
 					{this.renderConversation()}
 				</div>
 				<div className={"noti-wrapper" + noti}>
-					<div className="new-message-noti bounce">Có tin nhắn mới</div>
+					<div className="new-message-noti bounce" onClick={this.scrollToLastestMsg.bind(this)}>
+						Có tin nhắn mới
+					</div>
 				</div>
 				{this.renderTagsBar()}
 				<div className={"input-message-area" + input}>
@@ -168,7 +176,8 @@ const mapStateToProps = state => {
 		postInfo: state.dashboard.chat.postInfo,
 		isLoadingMsgs: state.dashboard.chat.isLoadingMsgs,
 		isLoadMoreMsgs: state.dashboard.chat.isLoadMoreMsgs,
-		tags: state.dashboard.filters.tags
+		tags: state.dashboard.filters.tags,
+		isShownNewMsgNoti: state.dashboard.chat.isShownNewMsgNoti
 	}
 }
 

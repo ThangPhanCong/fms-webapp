@@ -105,7 +105,7 @@
     position: absolute;
     top: 100%;
     right: 50%;
-    background-color: #3598DB;
+    background-color: #90A4AE;
     color: white;
     border-radius: 15px;
     margin-top: -40px;
@@ -113,6 +113,7 @@
     text-align: center;
     padding: 4px;
     width: 132px;
+    z-index: 10;
 
     -webkit-animation-duration: .5s;
     animation-duration: .5s;

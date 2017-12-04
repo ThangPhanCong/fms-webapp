@@ -9,7 +9,8 @@ const initState = {
   scrollList: null,
   isShownPrivateRepModal: false,
   isSendingPrivateMsg: false,
-  parentMsgModal: null
+  parentMsgModal: null,
+  isShownNewMsgNoti: false
 }
 
 const chat = (state = initState, action) => {
@@ -60,6 +61,11 @@ const chat = (state = initState, action) => {
       return {
         ...state,
         isSendingPrivateMsg: action.state
+      }
+    case 'IS_SHOWN_NEW_MSG_NOTI':
+      return {
+        ...state,
+        isShownNewMsgNoti: action.state
       }
     case 'RESET_INIT_STATE_CHAT':
       return {

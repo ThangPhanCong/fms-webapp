@@ -16,6 +16,9 @@ export const setPostInfo = (postInfo) => dispatch => {
 export const setScrollList = (scrollList) => dispatch => {
   dispatch({ type: 'SET_SCROLL_LIST', scrollList });
 }
+export const isShownNewMsgNoti = (state) => dispatch => {
+  dispatch({ type: 'IS_SHOWN_NEW_MSG_NOTI', state });
+}
 export const resetChat = () => dispatch => {
   dispatch({ type: 'RESET_INIT_STATE_CHAT' });
 }
