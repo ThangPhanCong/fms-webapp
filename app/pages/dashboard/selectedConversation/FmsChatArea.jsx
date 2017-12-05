@@ -139,6 +139,7 @@ class FmsChatArea extends React.Component {
 		let spin = (this.props.isLoadingMsgs) ? "" : " hide";
 		let input = (this.props.isLoadingMsgs) ? " hide" : "";
 		let noti = (this.props.isShownNewMsgNoti) ? "" : " hide";
+		let notiText = (this.props.conversation.snippet == "") ? "[Attachment]" : this.props.conversation.snippet;
 
 		return (
 			<div className="inner-conversation-area">
@@ -157,7 +158,7 @@ class FmsChatArea extends React.Component {
 				</div>
 				<div className={"noti-wrapper" + noti}>
 					<div className="new-message-noti bounce" onClick={this.scrollToLastestMsg.bind(this)}>
-						Có tin nhắn mới
+						Tin nhắn mới "{notiText}"
 					</div>
 				</div>
 				{this.renderTagsBar()}

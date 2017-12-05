@@ -32,7 +32,7 @@ class FmsInfoChat extends React.Component {
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
 
-    let res = "Đã xem";
+    let res = "Đã xem gần nhất";
     let whatday;
     if (cyear == year && cmonth == month && cday == day) whatday = " hôm nay";
     else if (cyear == year && cmonth == month && cday - day == 1) whatday = " hôm qua";
@@ -41,7 +41,7 @@ class FmsInfoChat extends React.Component {
     let hour = (date.getHours() > 9) ? date.getHours() : "0" + date.getHours();
     let minute = (date.getMinutes() > 9) ? date.getMinutes() : "0" + date.getMinutes();
     let moment = " lúc " + hour + ":" + minute;
-    return res + whatday + moment;
+    return res + moment + whatday;
   }
 
   render() {
