@@ -10,14 +10,17 @@ class FmsPostItem extends React.Component {
   renderImgs() {
     let {attachments} = this.props.data;
     if (attachments) {
-      let photoAttachment = attachments.find(atm => !!atm.photos);
-
-      if (photoAttachment) {
-        return photoAttachment.photos.map(imgUrl => {
-          return (
-            <Image key={uuid()} src={imgUrl}></Image>
-          )
+      let photoAttachment = attachments.data.find(atm => atm);
+      if(photoAttachment.type == "photo") {
+        return (
+          <Image key={uuid()} src={photoAttachment.media.image.src}></Image>
+        )
+      } else if(photoAttachment.type == "album") {
+        return photoAttachment.subattachments.data.map(atm => {
+          return (<Image key={uuid()} src={atm.media.image.src}></Image>)
         })
+      } else {
+        return null;
       }
     }
   }
