@@ -3,11 +3,8 @@ import DashboardApi from '../../../api/DashboardApi';
 export const createNote = (content, noti) => (dispatch, getState) => {
   let { conversation } = getState().dashboard.chat;
   let { alias } = getState().dashboard.conversations;
-  if (!conversation.customer || conversation.page_fb_id == conversation.customer.fb_id) {
-    alert("Bạn đang tạo ghi chú cho chính mình ???");
-    return;
-  }
-  DashboardApi.createNote(alias, conversation.id, conversation.customer._id, conversation.page._id, content)
+  let customer_id = (conversation.customer) ? conversation.customer._id : null;
+  DashboardApi.createNote(alias, conversation.id, customer_id, conversation.page._id, content)
     .then(res => {
       noti("success", "Tạo ghi chú thành công.");
       dispatch(getNotes());

@@ -60,11 +60,20 @@
   flex-direction: column;
   overflow: hidden;
 }
+.name-and-time {
+    display: flex;
+}
+.updated-time {
+    float: right;
+    padding-top: 1px;
+    margin-left: 3px;
+}
 .client-name {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 15px;
+    flex: 1;
 }
 .lastest-message {
     font-size: 14px;
