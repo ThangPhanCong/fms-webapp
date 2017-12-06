@@ -28,7 +28,7 @@ export const loadPostInfo = () => (dispatch, getState) => {
   let conversation = chat.conversation;
   if (!chat.postInfo && conversation.type == "comment") {
     dispatch(isLoadMoreMsgs(true));
-    DashboardApi.getPostInfo(conversation.parent_fb_id).then((res) => {
+    DashboardApi.getPostInfo(conversation.page_fb_id, conversation.parent_fb_id).then((res) => {
       dispatch(setPostInfo(res));
     }, (err) => {
       console.log(err);

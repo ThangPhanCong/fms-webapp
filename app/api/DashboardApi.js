@@ -14,7 +14,7 @@ module.exports = {
 	},
 	getMessages: function (type, msg_id, next) {
 		let route;
-		if (type == "comment") route = `/api/comments/${msg_id}/comments`;
+		if (type == "comment") route = `/api/comments/${msg_id}/reply-comments`;
 		else route = `/api/inboxes/${msg_id}/messages`;
 		if (next) route += `?next=${next}`;
 		return apiSender.get(route);
@@ -43,8 +43,8 @@ module.exports = {
 		}
 		return apiSender.post(route, payload);
 	},
-	getPostInfo: (post_id) => {
-		let route = `/api/posts/${post_id}`;
+	getPostInfo: (page_fb_id, post_id) => {
+		let route = `/api/pages/${page_fb_id}/posts/${post_id}`;
 		return apiSender.get(route);
 	},
 	getAccessToken: (page_id) => {
@@ -77,8 +77,8 @@ module.exports = {
 		let route = `/api/comments/${comment_id}/unlike`;
 		return apiSender.post(route);
 	},
-	createNote: (conv_id, customer_id, page_id, content) => {
-		let route = `/api/conversations/${conv_id}/notes`;
+	createNote: (alias, conv_id, customer_id, page_id, content) => {
+		let route = `/api/projects/${alias}/conversations/${conv_id}/notes`;
 		let payload = {
 			customer_id: customer_id,
 			page_id: page_id,
@@ -86,8 +86,8 @@ module.exports = {
 		}
 		return apiSender.post(route, payload);
 	},
-	getNotes: (conv_id) => {
-		let route = `/api/conversations/${conv_id}/notes`;
+	getNotes: (alias, conv_id) => {
+		let route = `/api/projects/${alias}/conversations/${conv_id}/notes`;
 		return apiSender.get(route);
 	},
 	updateExpiredAttachment: (type, id) => {
