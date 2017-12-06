@@ -39,6 +39,12 @@ class FmsChatArea extends React.Component {
     else whatday = "Ngày " + day + " tháng " + month;
     return whatday;
 	}
+	notifyText(text) {
+		if (!text) return "";
+		let temp = ((text == "") ? "[ Attachment ]" : `"${text}"`);
+		if (temp.length > 14 ) temp = temp.substring(0, 10) + '..."';
+		return temp;
+	}
 	getChatAreaWidth() {
 		let list = this.refs.chat_area;
 		if (!list) return 0;
@@ -134,12 +140,12 @@ class FmsChatArea extends React.Component {
 	}
 
 	render() {
-		let showSpin = (!this.props.postInfo) ? "" : " hide";
-		let chatArea = (this.props.isLoadingMsgs) ? " hide" : "";
-		let spin = (this.props.isLoadingMsgs) ? "" : " hide";
-		let input = (this.props.isLoadingMsgs) ? " hide" : "";
-		let noti = (this.props.isShownNewMsgNoti) ? "" : " hide";
-		let notiText = (this.props.conversation.snippet == "") ? "[Attachment]" : this.props.conversation.snippet;
+		let p = this.props;
+		let showSpin = (!p.postInfo) ? "" : " hide";
+		let chatArea = (p.isLoadingMsgs) ? " hide" : "";
+		let spin = (p.isLoadingMsgs) ? "" : " hide";
+		let input = (p.isLoadingMsgs) ? " hide" : "";
+		let noti = (p.isShownNewMsgNoti) ? "" : " hide";
 
 		return (
 			<div className="inner-conversation-area">
@@ -158,7 +164,7 @@ class FmsChatArea extends React.Component {
 				</div>
 				<div className={"noti-wrapper" + noti}>
 					<div className="new-message-noti bounce" onClick={this.scrollToLastestMsg.bind(this)}>
-						Tin nhắn mới "{notiText}"
+						Tin nhắn mới {this.notifyText(p.conversation.snippet)}
 					</div>
 				</div>
 				{this.renderTagsBar()}
