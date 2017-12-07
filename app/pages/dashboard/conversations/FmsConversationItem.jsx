@@ -60,7 +60,7 @@ class FmsConversationItem extends React.Component {
 				<div className="name-and-message">
 					<div className="name-and-time">
 						<div className={"client-name " + seenClass}>{clientName}</div>
-						<div className="updated-time">{this.convertTime(data.updated_time)}</div>
+						<div className={"updated-time" + seenClass}>{this.convertTime(data.updated_time)}</div>
 					</div>
 					<div className={"lastest-message " + seenClass}>{message}</div>
 					<div className="client-item-tags">
