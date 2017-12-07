@@ -21,7 +21,9 @@ class FmsInfoChat extends React.Component {
   seen_time(time) {
     let date;
     let current = new Date();
-    if (!time) date = current;
+    if (!time) {
+      return "Đã xem vừa xong";
+    }
     else date = new Date(time);
 
     let cday = current.getDate();

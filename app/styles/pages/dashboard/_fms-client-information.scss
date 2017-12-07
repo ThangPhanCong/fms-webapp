@@ -82,11 +82,11 @@
     display: block;
     margin: 12px;
     width: calc(100% - 24px);
-    border-radius: 4px;
+    border-radius: 3px;
     resize: none;
     border: 1px solid #3598DB;
     padding: 5px 12px;
-    height: calc(32vh - 48px);
+    height: calc(32vh - 86px);
     margin-bottom: 0px;
 }
 .add-note-content:focus {
@@ -94,10 +94,19 @@
 }
 .add-note-option {
     display: inline-block;
-    padding: 8px;
+    padding: 3px 8px;
     margin-right: 12px;
+    margin-top: 7px;
+    width: calc(50% - 18px);
     float: right;
     cursor: pointer;
+    border-radius: 3px;
+    background-color: white;
+    border: 1px solid #3598DB;
+}
+.add-note-option:hover {
+    background-color: #3598DB;
+    color: white;
 }
 .no-note {
     text-align: center;
@@ -118,7 +127,6 @@
 }
 .note-option {
     cursor: pointer;
-    text-decoration: underline;
 }
 .note-option:hover {
     color: #666666;

@@ -41,23 +41,24 @@ class FmsInformationTab extends React.Component {
   }
   renderNoteList() {
     if (this.state.isShownAddNote != true) {
-      return <div className="notes-list">
-        <div className="title-section">Ghi chú</div>
-        <a className="add-note-button" onClick={this.openAddNote.bind(this)}>Thêm</a>
-        {this.renderNotes()}
-      </div>
+      return <div>{this.renderNotes()}</div>
     } else {
-      return <div className="notes-list">
+      return <div>
         <textarea ref="note" row={3} className="add-note-content" placeholder="Nhập nội dung ghi chú"></textarea>
-        <a className="add-note-option" onClick={this.cancelAddNote.bind(this)}>Hủy</a>
-        <a className="add-note-option" onClick={this.confirmAddNote.bind(this)}>Thêm</a>
+        <button className="add-note-option" onClick={this.cancelAddNote.bind(this)}>Hủy</button>
+        <button className="add-note-option" onClick={this.confirmAddNote.bind(this)}>Thêm</button>
       </div>
     }
   }
   render() {
+    let addNote = (this.state.isShownAddNote == true) ? " hide" : "";
     return (
       <div className="information-tab">
-        {this.renderNoteList()}
+        <div className="notes-list">
+          <div className="title-section">Ghi chú</div>
+          <a className={"add-note-button" + addNote} onClick={this.openAddNote.bind(this)}>Thêm</a>
+          {this.renderNoteList()}
+        </div>
         <div>
           <div className="title-section">Đơn hàng</div>
           {this.renderOrders()}
