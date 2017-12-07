@@ -14,31 +14,11 @@ import FmsPrivateReplyModal from './FmsPrivateReplyModal';
 import FmsDivider from './FmsDivider';
 
 import { loadMoreMessages, isShownNewMsgNoti, setScrollList } from '../../../actions/dashboard/chat/messages';
+import FmsDate from '../../../helpers/FmsDate';
 
 let lastScrollPosition;
 
 class FmsChatArea extends React.Component {
-	convertTime(time) {
-		let date;
-    let current = new Date();
-    if (!time) date = current;
-    else date = new Date(time);
-
-    let cday = current.getDate();
-    let cmonth = current.getMonth() + 1;
-    let cyear = current.getFullYear();
-
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-
-    let res = "Đã xem";
-    let whatday;
-    if (cyear == year && cmonth == month && cday == day) whatday = "Hôm nay";
-    else if (cyear == year && cmonth == month && cday - day == 1) whatday = "Hôm qua";
-    else whatday = "Ngày " + day + " tháng " + month;
-    return whatday;
-	}
 	notifyText(text) {
 		if (!text) return "";
 		let temp = ((text == "") ? "[ Attachment ]" : `"${text}"`);
@@ -103,7 +83,7 @@ class FmsChatArea extends React.Component {
 				current = new Date(message.updated_time);
 				if (!lastUpdatedTime || last.getDate() != current.getDate()) {
 					hasDivider = true;
-					let divider = <FmsDivider key={uuid()} text={this.convertTime(message.updated_time)}/>;
+					let divider = <FmsDivider key={uuid()} text={(new FmsDate(message.updated_time)).getTimeChatArea()}/>;
 					res.push(divider);
 				}
 				lastUpdatedTime = message.updated_time;

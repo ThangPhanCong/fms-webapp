@@ -6,36 +6,14 @@ import { Image } from 'react-bootstrap';
 import uuid from 'uuid';
 
 import { handleConversationClick } from '../../../actions/dashboard/conversations';
+import FmsDate from '../../../helpers/FmsDate';
 
 const ICON_HEIGHT = 16;
 
 class FmsConversationItem extends React.Component {
 	convertTime(time) {
-		let date;
-    let current = new Date();
-    if (!time) return "";
-    else date = new Date(time);
-
-    let cday = current.getDate();
-    let cmonth = current.getMonth() + 1;
-    let cyear = current.getFullYear();
-
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-		let year = date.getFullYear();
-
-		if (cday == day) return date.getHours() + ":" + date.getMinutes();
-		else if (cday - day < 7 && cday - day > 0) {
-			switch (date.getDate()) {
-				case 0: return "CNhật";
-				case 1: return "Thứ 2";
-				case 2: return "Thứ 3";
-				case 3: return "Thứ 4";
-				case 4: return "Thứ 5";
-				case 5: return "Thứ 6";
-				case 6: return "Thứ 7";
-			}
-		} else return day + "/" + month;
+		let date = new FmsDate(time);
+		return date.getTimeConversationItem();
 	}
 	handleConversationClick() {
 		let { dispatch, data } = this.props;

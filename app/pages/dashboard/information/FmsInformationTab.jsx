@@ -4,42 +4,62 @@ import { createNote } from '../../../actions/dashboard/chat/createOrder';
 import DashboardApi from '../../../api/DashboardApi';
 
 class FmsInformationTab extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { isShownAddNote: false };
+  }
   convertTime(time) {
     let date = new Date(time);
-    return date.getDate() + "/" + (date.getMonth() + 1);
+    return "Ngày tạo: " + date.getDate() + "/" + (date.getMonth() + 1);
   }
-  onNoteSubmit(e) {
-    e.preventDefault();
-    if (!this.props.conversation) {
-      alert("Bạn chưa chọn cuộc hội thoại nào.");
-      return;
-    }
+  openAddNote() {
+    this.setState({ isShownAddNote: true });
+  }
+  cancelAddNote() {
+    this.setState({ isShownAddNote: false });
+  }
+  confirmAddNote() {
     let content = this.refs.note.value;
+    if (!content || content == "") return;
     this.refs.note.value = "";
     this.props.dispatch(createNote(content, this.props.noti));
+    this.setState({ isShownAddNote: false });
   }
   renderNotes() {
     if (this.props.notes.length == 0) return <p className="no-note">Chưa có ghi chú nào</p>
     return this.props.notes.map(note => {
-      return <p key={note._id} className="note-text">
-        <span className="note-date">{this.convertTime(note.updated_time) + ": "}</span>{note.content}
-      </p>
+      return <div key={note._id} className="note-text">
+        <div>{note.content}</div>
+        <div className="note-info-item">{this.convertTime(note.updated_time)}</div>
+        <a className="note-info-item note-option">Sửa</a>
+        <a className="note-info-item note-option">Xóa</a>
+      </div>
     });
   }
   renderOrders() {
     return <p className="no-note">Chưa có đơn hàng nào</p>
   }
+  renderNoteList() {
+    if (this.state.isShownAddNote != true) {
+      return <div className="notes-list">
+        <div className="title-section">Ghi chú</div>
+        <a className="add-note-button" onClick={this.openAddNote.bind(this)}>Thêm</a>
+        {this.renderNotes()}
+      </div>
+    } else {
+      return <div className="notes-list">
+        <textarea ref="note" row={3} className="add-note-content" placeholder="Nhập nội dung ghi chú"></textarea>
+        <a className="add-note-option" onClick={this.cancelAddNote.bind(this)}>Hủy</a>
+        <a className="add-note-option" onClick={this.confirmAddNote.bind(this)}>Thêm</a>
+      </div>
+    }
+  }
   render() {
     return (
       <div className="information-tab">
-        <form onSubmit={this.onNoteSubmit.bind(this)}>
-          <input type="text" className="note-form" placeholder="Nhập nội dung ghi chú" ref="note" />
-        </form>
-        <div className="notes-list">
-          {this.renderNotes()}
-        </div>
+        {this.renderNoteList()}
         <div>
-          <p className="order-title">Đơn hàng</p>
+          <div className="title-section">Đơn hàng</div>
           {this.renderOrders()}
         </div>
       </div>
