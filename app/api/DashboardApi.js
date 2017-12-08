@@ -90,6 +90,14 @@ module.exports = {
 		let route = `/api/projects/${alias}/conversations/${conv_id}/notes`;
 		return apiSender.get(route);
 	},
+	createOrder: (alias, customer_id, payload) => {
+		let route = `/api/projects/${alias}/customers/${customer_id}/orders`;
+		return apiSender.post(route, payload);
+	},
+	getOrders: (alias, customer_id, page_fb_id) => {
+		let route = `/api/projects/${alias}/customers/${customer_id}/orders?pageFbId=${page_fb_id}`;
+		return apiSender.get(route);
+	},
 	updateExpiredAttachment: (type, id) => {
 		let route;
 		if (type == "comment") route = `/api/comments/${id}/attachment`;
