@@ -1,5 +1,6 @@
 import DashboardApi from '../../../api/DashboardApi';
 import * as u from 'lodash';
+import { setConversations } from '../conversations'
 
 export const setConversation = (conversation) => dispatch => {
   dispatch({ type: 'SET_CONVERSATION', conversation: conversation });
@@ -62,6 +63,7 @@ export const loadMoreMessages = () => (dispatch, getState) => {
 
 export const displayMoreMessages = (more, paging) => (dispatch, getState) => {
   let { conversation } = getState().dashboard.chat;
+  let { conversations } = getState().dashboard.conversations;
   let oldChildren = conversation.children;
   let children = more.sort((a, b) => {
     let t1, t2;
@@ -79,4 +81,10 @@ export const displayMoreMessages = (more, paging) => (dispatch, getState) => {
   conversation.children = children;
   conversation.paging = paging;
   dispatch(setConversation(u.clone(conversation)));
+  let newConversations = conversations.map(c => {
+    if (c._id == conversation._id) {
+      return conversation;
+    } else return c;
+  });
+  dispatch(setConversations(newConversations));
 }
