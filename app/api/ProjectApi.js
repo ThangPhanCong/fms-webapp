@@ -29,7 +29,7 @@ module.exports = {
 		return apiSender.delete(route);
 	},
 	addPage: (project_alias, page_fb_id) => {
-		let route = `/api/projects/${project_alias}/addpage`;
+		let route = `/api/projects/${project_alias}/pages`;
     let payload = {page_id: page_fb_id};
 		return apiSender.post(route, payload);
 	},

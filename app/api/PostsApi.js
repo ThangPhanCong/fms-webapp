@@ -14,6 +14,10 @@ module.exports = {
 
     return apiSender.get(route);
   },
+  getPostInfo: (page_fb_id, post_id) => {
+		let route = `/api/pages/${page_fb_id}/posts/${post_id}`;
+		return apiSender.get(route);
+	},
   hideComment: (post_id, hide) => {
     let route;
     if (hide) route = `/api/posts/${post_id}/hidecomment`;
@@ -21,50 +25,9 @@ module.exports = {
 
     return apiSender.post(route, {});
   },
-  getMockPostsOfProject: () => {
-    return Promise.resolve(
-      [
-        {
-          "created_time": "2017-09-25T16:43:21+0000",
-          "message": "adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô",
-          fb_id: uuid()
-        },
-        {
-          "created_time": "2017-09-25T16:43:21+0000",
-          "message": "adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô",
-          fb_id: uuid()
-        },
-        {
-          "created_time": "2017-09-25T16:43:21+0000",
-          "message": "adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô",
-          fb_id: uuid()
-        },
-        {
-          "created_time": "2017-09-25T16:43:21+0000",
-          "message": "adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô",
-          fb_id: uuid()
-        },
-        {
-          "created_time": "2017-09-25T16:43:21+0000",
-          "message": "adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô",
-          fb_id: uuid()
-        },
-        {
-          "created_time": "2017-09-25T16:43:21+0000",
-          "message": "adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô",
-          fb_id: uuid()
-        },
-        {
-          "created_time": "2017-09-25T16:43:21+0000",
-          "message": "adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô",
-          fb_id: uuid()
-        },
-        {
-          "created_time": "2017-09-25T16:43:21+0000",
-          "message": "adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô, adTenSon ông ơi ra đây mà xem được giải oan rồi này. tôi biết ông vô tội mà :))) #Tô",
-          fb_id: uuid()
-        }
-      ]
-    )
-  }
+  updateExpiredAttachmentPost: (post_id) => {
+		let route = `/api/posts/${post_id}`;
+		let payload = { attachments: true };
+		return apiSender.put(route, payload);
+	}
 };

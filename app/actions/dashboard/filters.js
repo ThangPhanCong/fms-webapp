@@ -1,4 +1,4 @@
-import DashboardApi from '../../api/DashboardApi';
+import TagApi from '../../api/TagApi';
 import * as u from 'lodash';
 import { getConversations, setConversations } from './conversations';
 
@@ -17,7 +17,7 @@ export const resetFilters = () => dispatch => {
 
 export const getTagsProject = (alias) => (dispatch, getState) => {
   let { filters } = getState().dashboard.filters;
-  DashboardApi.getProjectTags(alias).then((res) => {
+  TagApi.getProjectTags(alias).then((res) => {
     res.forEach((tag) => {
       filters.push({
         isTag: true,

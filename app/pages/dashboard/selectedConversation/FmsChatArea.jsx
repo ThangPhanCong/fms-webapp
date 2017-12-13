@@ -27,7 +27,7 @@ class FmsChatArea extends React.Component {
 	}
 	getChatAreaWidth() {
 		let list = this.refs.chat_area;
-		if (!list) return 0;
+		if (!list) return 425;
 		return list.clientWidth;
 	}
 	scrollToLastestMsg() {
@@ -121,9 +121,8 @@ class FmsChatArea extends React.Component {
 
 	render() {
 		let p = this.props;
-		let showSpin = (!p.postInfo) ? "" : " hide";
-		let chatArea = (p.isLoadingMsgs) ? " hide" : "";
 		let spin = (p.isLoadingMsgs) ? "" : " hide";
+		let showSpin = (!p.postInfo && spin != "") ? "" : " hide";
 		let input = (p.isLoadingMsgs) ? " hide" : "";
 		let noti = (p.isShownNewMsgNoti) ? "" : " hide";
 
@@ -135,7 +134,7 @@ class FmsChatArea extends React.Component {
 				<div className={"conversation-spin" + spin}>
 					<FmsSpin size={27} />
 				</div>
-				<div className={"chat-area" + chatArea} ref="chat_area">
+				<div className="chat-area" ref="chat_area">
 					<div className={"client-list-spin" + showSpin}>
 						<FmsSpin size={27} />
 					</div>

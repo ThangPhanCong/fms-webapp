@@ -6,7 +6,7 @@ import { setPostInfo } from '../../../actions/dashboard/chat/messages';
 
 class FmsPostInfoConversation extends React.Component {
   handleAttachExpired() {
-    DashboardApi.updateExpiredAttachment("post", this.props.postInfo._id)
+    DashboardApi.updateExpiredAttachment(this.props.postInfo._id)
     .then(res => {
       this.props.dispatch(setPostInfo(res));
     }, err => {

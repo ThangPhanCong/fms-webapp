@@ -1,26 +1,14 @@
-import blockApi from '../../../api/BlockApi';
+import DashboardApi from '../../../api/DashboardApi';
 import * as u from 'lodash';
 import { setConversations } from '../conversations';
 import { setConversation } from './messages';
 
-export const blockPerson = () => (dispatch, getState) => {
+export const blockPerson = (state) => (dispatch, getState) => {
   let { conversation } = getState().dashboard.chat;
   let customer = (conversation.customer) ? conversation.customer : conversation.from;
-  blockApi.blockCustomer(conversation.page_fb_id, customer.fb_id)
+  DashboardApi.blockCustomer(conversation.page_fb_id, customer.fb_id, state)
     .then(data => {
       dispatch(updateBlockCustomer(conversation, true));
-    })
-    .catch(err => {
-      alert(err.message);
-    })
-}
-
-export const activePerson = () => (dispatch, getState) => {
-  let { conversation } = getState().dashboard.chat;
-  let customer = (conversation.customer) ? conversation.customer : conversation.from;
-  blockApi.activeCustomer(conversation.page_fb_id, customer.fb_id)
-    .then(data => {
-      dispatch(updateBlockCustomer(conversation, false));
     })
     .catch(err => {
       alert(err.message);

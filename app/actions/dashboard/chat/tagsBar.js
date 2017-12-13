@@ -1,4 +1,4 @@
-import DashboardAPI from '../../../api/DashboardApi';
+import TagApi from '../../../api/TagApi';
 import { setConversations } from '../conversations';
 import { setConversation } from './messages';
 import * as u from 'lodash';
@@ -29,7 +29,7 @@ export const handleTagClick = (tag_id, tag_name) => (dispatch, getState) => {
   });
   dispatch(isSettingTagConversation(true));
   if (selectedTag.length == 0) {
-    DashboardAPI.createTagConversation(alias, conversation.id, tag_id)
+    TagApi.createTagConversation(alias, conversation.id, tag_id)
       .then((res) => {
         dispatch(updateTagsConversation(res.tags, conversation.id));
         dispatch(isSettingTagConversation(false));
@@ -39,7 +39,7 @@ export const handleTagClick = (tag_id, tag_name) => (dispatch, getState) => {
         throw new Error(err);
       });
   } else {
-    DashboardAPI.deleteTagConversation(alias, conversation.id, tag_id)
+    TagApi.deleteTagConversation(alias, conversation.id, tag_id)
       .then((res) => {
         dispatch(updateTagsConversation(res.tags, conversation.id));
         dispatch(isSettingTagConversation(false));

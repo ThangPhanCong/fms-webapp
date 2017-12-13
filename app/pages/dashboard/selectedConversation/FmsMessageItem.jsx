@@ -5,6 +5,7 @@ import FmsToolTip from '../../../components/FmsToolTip';
 import FmsAttachmentContent from './FmsAttachmentContent';
 import FmsTextMessageContent from './FmsTextMessageContent';
 import DashboardAPI from '../../../api/DashboardApi';
+import FmsDate from '../../../helpers/FmsDate';
 
 let attachsFail = [];
 
@@ -19,18 +20,16 @@ class FmsMessageItem extends React.Component {
 		let msg = this.state.message;
 		if (attachsFail.includes(previewUrl)) return;
 		else attachsFail.push(previewUrl);
-		DashboardAPI.updateExpiredAttachment(this.props.type, msg._id)
+		DashboardAPI.updateExpiredAttachmentMsg(this.props.type, msg._id)
 			.then(res => {
-				this.setState({ message: msg });
+				this.setState({ message: res });
 			}, err => {
 				console.log(err);
 			});
 	}
 	convertTime(time) {
-		let date = new Date(time);
-		let hour = (date.getHours() > 9) ? date.getHours() : "0" + date.getHours();
-		let minute = (date.getMinutes() > 9) ? date.getMinutes() : "0" + date.getMinutes();
-		return hour + ":" + minute;
+		let date = new FmsDate(time);
+		return date.getTimeMessageItem();
 	}
 	renderAttachment() {
 		let self = this;

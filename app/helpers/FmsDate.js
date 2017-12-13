@@ -54,4 +54,16 @@ export default class FmsDate {
 		else if (this.different < 7 && this.different > 0) return this.day;
     else return this.date + "/" + this.month;
   }
+  getTimeMessageItem() {
+    return this.hour + ":" + this.minute;
+  }
+  getTimeInfoChat() {
+    let res = "Đã xem gần nhất";
+    let whatday = this.whatday;
+    if (this.whatday != " hôm nay" && this.whatday != " hôm qua") {
+      whatday = " ngày " + this.date + "/" + this.month;
+    }
+    let moment = " lúc " + this.hour + ":" + this.minute;
+    return res + moment + whatday;
+  }
 }
