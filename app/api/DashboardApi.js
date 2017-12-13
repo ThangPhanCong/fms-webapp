@@ -41,13 +41,12 @@ module.exports = {
 		if (attachment_url) payload.attachment_url = attachment_url;
 		return apiSender.post(route, payload);
 	},
-	blockCustomer: (page_fb_id, user_fb_id, state) => {
-    let route = `/api/pages/${page_fb_id}`;
+	blockCustomer: (page_id, customer_fb_id, state) => {
+    let route = `/api/pages/${page_id}/customers/${customer_fb_id}`;
     let payload = {
-      user_id: user_fb_id,
       block: state
     }
-    return apiSender.post(route, payload);
+    return apiSender.put(route, payload);
   },
 	postPrivateReplyMessage: (comment_id, message) => {
 		let route = `/api/comments/${comment_id}/private-replies`;

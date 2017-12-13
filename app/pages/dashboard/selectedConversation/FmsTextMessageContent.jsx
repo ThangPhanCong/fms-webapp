@@ -24,7 +24,7 @@ class FmsTextMessageContent extends React.Component {
     if (this.state.isHandling == true) return;
     this.setState({ isHandling: true });
     DashboardApi.likeMessage(this.props.message._id, state).then((res) => {
-      this.setState({ isHandling: false, liked: true });
+      this.setState({ isHandling: false, liked: state });
     }, (err) => {
       this.setState({ isHandling: false });
       alert('Something went wrong!');
@@ -63,5 +63,7 @@ class FmsTextMessageContent extends React.Component {
     );
   }
 }
-
-export default FmsTextMessageContent;
+const mapStateToProps = state => {
+	return {}
+}
+export default connect(mapStateToProps)(FmsTextMessageContent);

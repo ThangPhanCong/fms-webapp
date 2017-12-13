@@ -6,9 +6,9 @@ import { setConversation } from './messages';
 export const blockPerson = (state) => (dispatch, getState) => {
   let { conversation } = getState().dashboard.chat;
   let customer = (conversation.customer) ? conversation.customer : conversation.from;
-  DashboardApi.blockCustomer(conversation.page_fb_id, customer.fb_id, state)
+  DashboardApi.blockCustomer(conversation.page._id, customer.fb_id, state)
     .then(data => {
-      dispatch(updateBlockCustomer(conversation, true));
+      dispatch(updateBlockCustomer(conversation, state));
     })
     .catch(err => {
       alert(err.message);
