@@ -1,20 +1,20 @@
 import React from 'react';
 import uuid from 'uuid';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import DashboardApi from '../../../api/DashboardApi';
-import { setPostInfo } from '../../../actions/dashboard/chat/messages';
+import {setPostInfo} from '../../../actions/dashboard/chat/messages';
 
 class FmsPostInfoConversation extends React.Component {
   handleAttachExpired() {
     DashboardApi.updateExpiredAttachment(this.props.postInfo._id)
-    .then(res => {
-      this.props.dispatch(setPostInfo(res));
-    }, err => {
-      console.log(err);
-    });
+      .then(res => {
+        this.props.dispatch(setPostInfo(res));
+      }, err => {
+        console.log(err);
+      });
   }
+
   renderAttachments(attachments) {
-    let self = this;
     let atts = [];
     if (attachments && Array.isArray(attachments.data)) {
       let short = attachments.data[0];
@@ -26,6 +26,7 @@ class FmsPostInfoConversation extends React.Component {
         <img className="image-in-conversation" src={src} onError={this.handleAttachExpired.bind(this)}/></a>
     });
   }
+
   renderPost() {
     let pf = this.props.postInfo;
     if (pf && pf.message) {
@@ -37,8 +38,9 @@ class FmsPostInfoConversation extends React.Component {
       )
     }
   }
+
   render() {
-    if (!this.props.pageInfo) return <span></span>;
+    if (!this.props.pageInfo) return <span/>;
     return (
       <div className="post-info-conversation">
         <p className="page-name-conversation">{this.props.pageInfo.name}</p>
@@ -53,6 +55,6 @@ const mapStateToProps = state => {
     pageInfo: state.dashboard.chat.conversation.page,
     postInfo: state.dashboard.chat.postInfo
   }
-}
+};
 
 export default connect(mapStateToProps)(FmsPostInfoConversation);

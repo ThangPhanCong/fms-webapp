@@ -1,10 +1,8 @@
 import React from 'react';
 import uuid from 'uuid';
 
-import projectApi from '../../api/ProjectApi';
-
 class FmsProjectItem extends React.Component {
-  
+
   renderPageItem() {
     let project = this.props.data;
     let pages = project.pages;
@@ -13,11 +11,11 @@ class FmsProjectItem extends React.Component {
       let pageComponents = pages.filter((item, index) => {
         return index <= MAX_ITEM;
       }).map(page => {
-          let pageAva = `https://graph.facebook.com/v2.10/${page.fb_id}/picture`;
-          return (
-            <img key={page.fb_id} src={pageAva}></img>
-          )
-        });
+        let pageAva = `https://graph.facebook.com/v2.10/${page.fb_id}/picture`;
+        return (
+          <img key={page.fb_id} src={pageAva}/>
+        )
+      });
 
       if (pages.length > MAX_ITEM) {
         let moreText = '+' + (pages.length - MAX_ITEM);
@@ -26,7 +24,7 @@ class FmsProjectItem extends React.Component {
       }
       return pageComponents;
     } else {
-      return <div></div>
+      return <div/>
     }
   }
 
@@ -39,7 +37,7 @@ class FmsProjectItem extends React.Component {
         <div className="project-item panel panel-default">
           <div className="panel-heading">
             <h3 className="panel-title">{projectName}</h3>
-            <span className="glyphicons glyphicons-bin"></span>
+            <span className="glyphicons glyphicons-bin"/>
           </div>
           <div className="panel-body">
             <div className="page-wrapper">{this.renderPageItem()}</div>

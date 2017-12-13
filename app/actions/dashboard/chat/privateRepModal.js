@@ -1,25 +1,25 @@
 import DashboardAPI from '../../../api/DashboardApi';
 import * as u from 'lodash';
-import { setConversation } from './messages';
+import {setConversation} from './messages';
 
 export const openPrivateRepModal = (message) => dispatch => {
-  dispatch({ type: 'OPEN_PRIVATE_REP_MODAL', message});
-}
+  dispatch({type: 'OPEN_PRIVATE_REP_MODAL', message});
+};
 export const closePrivateRepModal = () => dispatch => {
-  dispatch({ type: 'CLOSE_PRIVATE_REP_MODAL'});
-}
+  dispatch({type: 'CLOSE_PRIVATE_REP_MODAL'});
+};
 export const isSendingPrivateRepMsg = (state) => dispatch => {
-  dispatch({ type: 'SENDING_PRIVATE_REP_MSG', state});
-}
+  dispatch({type: 'SENDING_PRIVATE_REP_MSG', state});
+};
 
 export const sendPrivateRepMsg = (msgId, content) => (dispatch, getState) => {
-  if (content && content != "") {
+  if (content && content !== "") {
     dispatch(isSendingPrivateRepMsg(true));
-    DashboardAPI.postPrivateReplyMessage(msgId, content).then((res) => {
+    DashboardAPI.postPrivateReplyMessage(msgId, content).then(() => {
       dispatch(closePrivateRepModal());
-      let { conversation } = getState().dashboard.chat;
+      let {conversation} = getState().dashboard.chat;
       conversation.children.forEach(msg => {
-        if (msg._id == msgId) return msg.can_reply_privately = false;
+        if (msg._id === msgId) return msg.can_reply_privately = false;
       });
       dispatch(setConversation(u.clone(conversation)));
       dispatch(isSendingPrivateRepMsg(false));
@@ -29,4 +29,4 @@ export const sendPrivateRepMsg = (msgId, content) => (dispatch, getState) => {
       throw new Error(err);
     })
   }
-}
+};

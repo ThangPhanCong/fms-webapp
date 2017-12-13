@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import FmsInformationTab from './FmsInformationTab';
 import FmsCreateFormTab from './FmsCreateFormTab';
 import Tabs from 'muicss/lib/react/tabs';
@@ -10,10 +10,12 @@ class FmsClientInformation extends React.Component {
     if (!this.props.conversation) return;
     return <FmsInformationTab noti={this.props.noti}/>
   }
+
   renderTab2() {
     if (!this.props.conversation) return;
     return <FmsCreateFormTab noti={this.props.noti}/>
   }
+
   render() {
     return (
       <div>
@@ -34,6 +36,6 @@ const mapStateToProps = state => {
   return {
     conversation: state.dashboard.chat.conversation
   }
-}
+};
 
 export default connect(mapStateToProps)(FmsClientInformation);

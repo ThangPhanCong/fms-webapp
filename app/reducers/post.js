@@ -12,7 +12,7 @@ const initState = {
     next: null
   },
   isMorePostsLoading: false
-}
+};
 
 const postReducer = (state = initState, action) => {
   switch (action.type) {
@@ -20,29 +20,29 @@ const postReducer = (state = initState, action) => {
       return {
         ...state,
         isPostsLoading: true
-      }
+      };
     case POSTS_LOADED:
       return {
         ...state,
         isPostsLoading: false,
         posts: action.posts,
         paging: action.paging
-      }
+      };
     case MORE_POSTS_LOADING:
       return {
         ...state,
         isMorePostsLoading: true
-      }
+      };
     case MORE_POSTS_LOADED:
       return {
         ...state,
         isMorePostsLoading: false,
         posts: state.posts.concat(action.posts),
         paging: action.paging
-      }
+      };
     default:
       return state;
   }
-}
+};
 
 export default postReducer;

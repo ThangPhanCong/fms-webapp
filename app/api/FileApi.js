@@ -17,9 +17,8 @@ module.exports = {
             reject('Could not upload file')
           }
         }
-      }
-
+      };
       xhr.send(file);
     })
   }
-}
+};

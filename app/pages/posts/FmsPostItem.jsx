@@ -1,29 +1,31 @@
 import React from 'react';
 
-import { Image, Checkbox } from 'react-bootstrap';
+import {Image, Checkbox} from 'react-bootstrap';
 import uuid from 'uuid';
 
 class FmsPostItem extends React.Component {
-  onToggleChange(checked) {
+  onToggleChange() {
     this.props.onToggleChange(this.props.data.fb_id);
   }
+
   renderImgs() {
     let {attachments} = this.props.data;
     if (attachments) {
       let photoAttachment = attachments.data.find(atm => atm);
-      if(photoAttachment.type == "photo") {
+      if (photoAttachment.type === "photo") {
         return (
-          <Image key={uuid()} src={photoAttachment.media.image.src}></Image>
+          <Image key={uuid()} src={photoAttachment.media.image.src}/>
         )
-      } else if(photoAttachment.type == "album") {
+      } else if (photoAttachment.type === "album") {
         return photoAttachment.subattachments.data.map(atm => {
-          return (<Image key={uuid()} src={atm.media.image.src}></Image>)
+          return (<Image key={uuid()} src={atm.media.image.src}/>)
         })
       } else {
         return null;
       }
     }
   }
+
   render() {
     let {page_fb_id, page_fb_name, message, hide_comment} = this.props.data;
     let page_ava = `https://graph.facebook.com/v2.10/${page_fb_id}/picture`;
@@ -36,13 +38,13 @@ class FmsPostItem extends React.Component {
             {this.renderImgs()}
           </div>
           <div className="page-info">
-            <Image src={page_ava} circle></Image>
+            <Image src={page_ava} circle/>
             <span>{page_fb_name}</span>
           </div>
           <div>
             <Checkbox type="checkbox"
-              checked={hide_comment}
-              onChange={this.onToggleChange.bind(this)}> Ẩn bình luận</Checkbox>
+                      checked={hide_comment}
+                      onChange={this.onToggleChange.bind(this)}> Ẩn bình luận</Checkbox>
           </div>
         </div>
       </div>

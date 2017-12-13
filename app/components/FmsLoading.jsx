@@ -7,7 +7,7 @@ class FmsLoading extends React.Component {
     return (
       <div className="loading-wrapper">
         <div className="center">
-          <FmsSpin size={50}></FmsSpin>
+          <FmsSpin size={50}/>
         </div>
       </div>
     )

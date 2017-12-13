@@ -2,7 +2,6 @@ import React from 'react';
 import { Modal } from 'react-bootstrap';
 
 import FmsPageItemInModal from '../project/FmsPageItemInModal';
-import PagesAPI from '../../api/PagesApi';
 import FmsSpin from '../components/FmsSpin';
 import * as socket from '../../socket';
 

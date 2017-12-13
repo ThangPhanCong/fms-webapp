@@ -1,4 +1,3 @@
-import * as store from '../helpers/storage';
 import PostsApi from '../api/PostsApi';
 
 export const POSTS_LOADING = 'POSTS_LOADING';
@@ -7,11 +6,11 @@ export const MORE_POSTS_LOADING = 'MORE_POSTS_LOADING';
 export const MORE_POSTS_LOADED = 'MORE_POSTS_LOADED';
 
 export const getPosts = (project_alias, nextPosts) => dispatch => {
-  if(nextPosts) {
+  if (nextPosts) {
     dispatch({type: MORE_POSTS_LOADING});
     PostsApi.getPostsOfProject(project_alias, nextPosts)
       .then(data => {
-        if(data) {
+        if (data) {
           let posts = data.data;
           let paging = data.paging ? data.paging : null;
           dispatch({type: MORE_POSTS_LOADED, posts, paging});
@@ -24,7 +23,7 @@ export const getPosts = (project_alias, nextPosts) => dispatch => {
     dispatch({type: POSTS_LOADING});
     PostsApi.getPostsOfProject(project_alias)
       .then(data => {
-        if(data) {
+        if (data) {
           let posts = data.data;
           let paging = data.paging ? data.paging : null;
           dispatch({type: POSTS_LOADED, posts, paging});
@@ -35,18 +34,18 @@ export const getPosts = (project_alias, nextPosts) => dispatch => {
       .catch(err => alert(err.message));
   }
 
-}
+};
 
-export const toggleChange = (posts, fb_post_id, noti) => dispatch => {
+export const toggleChange = (posts, fb_post_id, noti) => () => {
   let postChange = posts.find((post) => {
-    return post.fb_id == fb_post_id;
+    return post.fb_id === fb_post_id;
   });
   PostsApi.hideComment(fb_post_id, !postChange.hide_comment)
     .then(() => {
       postChange.hide_comment = !postChange.hide_comment;
 
       for (let post of posts) {
-        if (post.fb_id == fb_post_id) {
+        if (post.fb_id === fb_post_id) {
           if (post.hide_comment) {
             noti('success', 'Ẩn bình luận thành công');
           } else {
@@ -56,4 +55,4 @@ export const toggleChange = (posts, fb_post_id, noti) => dispatch => {
       }
     })
     .catch(err => alert(err.message));
-}
+};

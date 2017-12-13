@@ -1,7 +1,6 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import {connect} from 'react-redux';
-import { Grid, Row, Col, Button } from 'react-bootstrap';
+import {Grid, Row, Col, Button} from 'react-bootstrap';
 import FmsPostItem from './FmsPostItem';
 import {getPosts, toggleChange} from '../../actions/post';
 import FmsSpin from "../../components/FmsSpin";
@@ -26,12 +25,12 @@ class FmsPosts extends React.Component {
 
   renderPosts() {
     const {posts, isPostsLoading} = this.props;
-    if(isPostsLoading) {
+    if (isPostsLoading) {
       return (
-        <FmsSpin></FmsSpin>
+        <FmsSpin/>
       )
     } else {
-      if(posts.length == 0 ) {
+      if (posts.length === 0) {
         return (
           <div className="no-post">
             <p>Chưa có bài đăng nào</p>
@@ -41,7 +40,7 @@ class FmsPosts extends React.Component {
         return posts.map((post) => {
           return (
             <Col xs={12} sm={6} md={4} key={post.fb_id}>
-              <FmsPostItem data={post} onToggleChange={this.onToggleChange.bind(this)} />
+              <FmsPostItem data={post} onToggleChange={this.onToggleChange.bind(this)}/>
             </Col>
           )
         });
@@ -60,7 +59,7 @@ class FmsPosts extends React.Component {
         <div className="loadmore-wrapper">
           {(paging && !isPostsLoading) ?
             (!isMorePostsLoading) ? <Button onClick={this.loadMorePosts.bind(this)}>Lấy thêm</Button>
-            :<FmsSpin></FmsSpin>
+              : <FmsSpin/>
             : null}
 
         </div>
@@ -76,6 +75,6 @@ const mapStateToProps = state => {
     posts: state.post.posts,
     paging: state.post.paging
   }
-}
+};
 
 export default connect(mapStateToProps)(FmsPosts);

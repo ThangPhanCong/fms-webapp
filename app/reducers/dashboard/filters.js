@@ -19,7 +19,7 @@ const initState = {
   ],
   tags: [],
   searchText: ""
-}
+};
 
 const filters = (state = initState, action) => {
   switch (action.type) {
@@ -27,17 +27,17 @@ const filters = (state = initState, action) => {
       return {
         ...state,
         filters: action.filters
-      }
+      };
     case 'SET_TAGS':
       return {
         ...state,
         tags: action.tags
-      }
+      };
     case 'SET_SEARCH_TEXT':
       return {
         ...state,
         searchText: action.searchText
-      }
+      };
     case 'RESET_INIT_STATE_FILTERS':
       return {
         filters: [
@@ -60,10 +60,10 @@ const filters = (state = initState, action) => {
         ],
         tags: [],
         searchText: ""
-      }
+      };
     default:
       return state;
   }
-}
+};
 
 export default filters;

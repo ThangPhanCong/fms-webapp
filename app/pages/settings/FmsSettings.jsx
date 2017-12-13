@@ -1,9 +1,6 @@
 import React from 'react';
-import {Grid, Row, Col, Button, Checkbox} from 'react-bootstrap';
-import uuid from 'uuid';
+import {Grid, Row, Col} from 'react-bootstrap';
 import {
-  Link,
-  NavLink,
   Redirect,
   Route,
   Switch,

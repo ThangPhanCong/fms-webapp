@@ -1,8 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { Grid, Row, Col, Checkbox, Button, Modal } from 'react-bootstrap';
-import uuid from 'uuid';
-import {withRouter, Redirect} from 'react-router-dom';
+import { Button, Modal } from 'react-bootstrap';
 
 class FmsConfirm extends React.Component {
 
@@ -33,6 +31,6 @@ class FmsConfirm extends React.Component {
 FmsConfirm.propTypes = {
   isShown: propTypes.bool.isRequired,
   onClose: propTypes.func.isRequired
-}
+};
 
 export default FmsConfirm;

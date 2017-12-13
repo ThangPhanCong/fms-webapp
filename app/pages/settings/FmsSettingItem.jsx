@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col, Checkbox } from 'react-bootstrap';
+import {Checkbox} from 'react-bootstrap';
 
 class FmsSettingItem extends React.Component {
   render() {
@@ -8,8 +8,10 @@ class FmsSettingItem extends React.Component {
     return (
       <div>
         <Checkbox checked={self.props.checked}
-          inputRef={ref => { this.input = ref; }}
-          onChange={self.check}>{self.props.name}</Checkbox>
+                  inputRef={ref => {
+                    this.input = ref;
+                  }}
+                  onChange={self.check}>{self.props.name}</Checkbox>
       </div>
     );
   }

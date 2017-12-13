@@ -1,7 +1,6 @@
 import * as store from '../helpers/storage';
 import axios from 'axios';
 import {BASE_URL} from 'CONFIG';
-import DashboardAPI from './DashboardApi';
 
 exports.get = (route, access_token) => {
   if (!access_token) {
@@ -10,7 +9,7 @@ exports.get = (route, access_token) => {
   let url = `${BASE_URL}${route}`;
   let headers = {
     'authorization': access_token
-  }
+  };
 
   return axios.get(url, {headers})
     .then(res => {
@@ -31,7 +30,7 @@ exports.post = (route, payload) => {
   let url = `${BASE_URL}${route}`;
   let headers = {
     'authorization': access_token
-  }
+  };
 
   return axios.post(url, payload, {headers})
     .then(res => {
@@ -52,7 +51,7 @@ exports.put = (route, payload) => {
   let url = `${BASE_URL}${route}`;
   let headers = {
     'authorization': access_token
-  }
+  };
 
   return axios.put(url, payload, {headers})
     .then(res => {
@@ -75,7 +74,7 @@ exports.delete = (route, access_token) => {
   let url = `${BASE_URL}${route}`;
   let headers = {
     'authorization': access_token || access_token
-  }
+  };
 
   return axios.delete(url, {headers})
     .then(res => {

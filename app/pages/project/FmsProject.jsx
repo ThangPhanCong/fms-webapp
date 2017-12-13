@@ -1,31 +1,31 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 import propTypes from 'prop-types';
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 
 import FmsSpin from '../../components/FmsSpin';
 import FmsProjectItem from './FmsProjectItem';
 import FmsNewProjectModal from './modals/FmsNewProjectModal';
 import FmsAddPagesModal from './modals/FmsAddPagesModal';
-import { getProjects, createNewProject } from '../../actions/project/project';
-import { getPages } from '../../actions/page';
+import {getProjects, createNewProject} from '../../actions/project/project';
+import {getPages} from '../../actions/page';
 import projectApi from '../../api/ProjectApi';
 
 let timeout, name, subscription;
 let observable = Observable.create(observer => {
   projectApi.verifyName(name)
-  .then(() => {
-    if (name != "") observer.complete();
-    else observer.error();
-  })
-  .catch(err => {
-    observer.error();
-  })
+    .then(() => {
+      if (name !== "") observer.complete();
+      else observer.error();
+    })
+    .catch(() => {
+      observer.error();
+    })
 });
 
 class FmsProject extends Component {
-  constructor () {
+  constructor() {
     super();
 
     this.state = {
@@ -39,19 +39,19 @@ class FmsProject extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
     dispatch(getProjects());
   }
 
-  openCreateProjectModal () {
+  openCreateProjectModal() {
     this.setState({
       isCreateProjectModalShown: true
     })
   }
 
-  onProjectNameChange (_name) {
+  onProjectNameChange(_name) {
     name = _name;
-    if (!name || name == "") {
+    if (!name || name === "") {
       return this.setState({
         isProjectNameVerified: false
       })
@@ -59,23 +59,22 @@ class FmsProject extends Component {
 
     this.setState({
       isNewProjectLoading: true
-    })
+    });
 
     clearTimeout(timeout);
     timeout = setTimeout(() => {
       if (subscription) subscription.unsubscribe();
-			subscription = observable.subscribe({
-        complete: () => this.setState({ isNewProjectLoading: false, isProjectNameVerified: true }),
-        error: err => this.setState({
+      subscription = observable.subscribe({
+        complete: () => this.setState({isNewProjectLoading: false, isProjectNameVerified: true}),
+        error: () => this.setState({
           isNewProjectLoading: false,
-          isProjectNameVerified: false,
-          isNewProjectLoading: false
+          isProjectNameVerified: false
         })
       });
-		}, 700);
+    }, 700);
   }
 
-  onProjectModalClose (projectName) {
+  onProjectModalClose(projectName) {
     if (!projectName) {
       return this.setState({
         isCreateProjectModalShown: false,
@@ -91,12 +90,12 @@ class FmsProject extends Component {
 
       isAddPagesModalShown: true,
       activePages: []
-    })
+    });
 
     this.props.dispatch(getPages());
   }
 
-  onAddPagesModalClose (selectedPages) {
+  onAddPagesModalClose(selectedPages) {
     if (Array.isArray(selectedPages) && selectedPages.length > 0) {
       // create project
       const projectName = this.state.projectName;
@@ -113,8 +112,7 @@ class FmsProject extends Component {
   }
 
   renderProjects() {
-    let self = this;
-    const {projects, dispatch, match, isProjectLoading} = this.props;
+    const {projects, match, isProjectLoading} = this.props;
 
     if (projects.length > 0) {
       return projects.map(project => {
@@ -126,7 +124,7 @@ class FmsProject extends Component {
       })
     } else {
       if (isProjectLoading) {
-        return <div className="col-sm-1"><FmsSpin size={25}></FmsSpin></div>
+        return <div className="col-sm-1"><FmsSpin size={25}/></div>
       } else {
         return <div>Bạn chưa có dự án nào</div>
       }
@@ -134,15 +132,15 @@ class FmsProject extends Component {
   }
 
   render() {
-    const { dispatch, pages, isPagesLoading } = this.props;
+    const {pages, isPagesLoading} = this.props;
     const {
       isCreateProjectModalShown,
       isNewProjectLoading,
       isProjectNameVerified,
       isAddPagesModalShown,
       projectName
-   } = this.state;
-   const unActivePages = pages.filter(page => !page.is_active);
+    } = this.state;
+    const unActivePages = pages.filter(page => !page.is_active);
 
     return (
       <div className="page container">
@@ -152,7 +150,8 @@ class FmsProject extends Component {
               <button
                 className="btn btn-primary"
                 onClick={this.openCreateProjectModal.bind(this)}
-                >Tạo dự án mới</button>
+              >Tạo dự án mới
+              </button>
             </div>
           </div>
           <div className="row">
@@ -164,14 +163,14 @@ class FmsProject extends Component {
             isProjectNameVerified={isProjectNameVerified}
             onProjectNameChange={this.onProjectNameChange.bind(this)}
             onClose={this.onProjectModalClose.bind(this)}
-            />
+          />
           <FmsAddPagesModal
             isShown={isAddPagesModalShown}
             isLoading={isPagesLoading}
             pages={unActivePages}
             projectName={projectName}
             onClose={this.onAddPagesModalClose.bind(this)}
-            />
+          />
 
         </div>
       </div>
@@ -184,7 +183,7 @@ FmsProject.propTypes = {
   isPagesLoading: propTypes.bool.isRequired,
   projects: propTypes.array,
   pages: propTypes.array
-}
+};
 
 const mapStateToProps = state => {
   return {
@@ -193,6 +192,6 @@ const mapStateToProps = state => {
     isProjectLoading: state.project.isProjectLoading,
     isPagesLoading: state.page.isPagesLoading
   }
-}
+};
 
 export default connect(mapStateToProps)(FmsProject);

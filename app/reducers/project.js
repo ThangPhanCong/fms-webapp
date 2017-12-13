@@ -1,4 +1,4 @@
-import * as redux from 'redux';
+
 import {
   PROJECTS_LOADIND,
   PROJECTS_LOADED,
@@ -9,7 +9,7 @@ const initState = {
   isProjectLoading: true,
   projects: [],
   pages: null
-}
+};
 
 const project = (state = initState, action) => {
   switch (action.type) {
@@ -18,13 +18,13 @@ const project = (state = initState, action) => {
         ...state,
         projects: [],
         isProjectLoading: true
-      }
+      };
     case PROJECTS_LOADED:
       return {
         ...state,
         isProjectLoading: false,
         projects: action.projects
-      }
+      };
     case ADD_NEW_PROJECT:
       return {
         ...state,
@@ -32,10 +32,10 @@ const project = (state = initState, action) => {
           ...state.projects,
           action.project
         ]
-      }
+      };
     default:
       return state;
   }
-}
+};
 
 export default project;

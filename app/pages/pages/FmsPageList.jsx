@@ -10,7 +10,7 @@ class FmsPageList extends React.Component {
     this.state = {
       active: [],
       inactive: []
-    }
+    };
     this.updatePages = this.updatePages.bind(this);
     this.handleClickOnPage = this.handleClickOnPage.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -31,7 +31,7 @@ class FmsPageList extends React.Component {
     let that = this;
     let pages = this.state.active;
     return pages.map(function (page) {
-      return <FmsPageItem data={page} key={page.fb_id} onPageClick={that.handleClickOnPage}></FmsPageItem>
+      return <FmsPageItem data={page} key={page.fb_id} onPageClick={that.handleClickOnPage}/>
     });
   }
   componentDidMount() {

@@ -1,4 +1,3 @@
-import * as store from '../../helpers/storage';
 import projectApi from '../../api/ProjectApi';
 
 export const PROJECTS_LOADIND = 'PROJECTS_LOADIND';
@@ -6,14 +5,13 @@ export const PROJECTS_LOADED = 'PROJECTS_LOADED';
 export const ADD_NEW_PROJECT = 'ADD_NEW_PROJECT';
 
 export const projectsLoading = () => {
-  return { type: PROJECTS_LOADIND };
-}
+  return {type: PROJECTS_LOADIND};
+};
 export const projectsLoaded = (projects) => dispatch => {
-  dispatch({ type: PROJECTS_LOADED, projects: projects });
-}
+  dispatch({type: PROJECTS_LOADED, projects: projects});
+};
 
 export const getProjects = () => dispatch => {
-  let access_token = store.get('access_token');
   dispatch(projectsLoading());
 
   projectApi.getAllProjects()
@@ -21,7 +19,7 @@ export const getProjects = () => dispatch => {
       if (!projects) projects = [];
       dispatch(projectsLoaded(projects));
     })
-}
+};
 
 export const createNewProject = (projectName, page_ids) => dispatch => {
   projectApi.createNewProject(projectName, page_ids)
@@ -32,4 +30,4 @@ export const createNewProject = (projectName, page_ids) => dispatch => {
       })
     })
     .catch(err => console.log(err));
-}
+};

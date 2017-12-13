@@ -1,11 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Link, NavLink, Redirect, Route, Switch, withRouter} from 'react-router-dom';
-import * as store from '../helpers/storage';
+import {Link, NavLink, Route, Switch, withRouter} from 'react-router-dom';
 import uuid from 'uuid';
-import { Image, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import {Image, Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
 
-import projectApi from '../api/ProjectApi';
 import {logOut} from '../actions/auth';
 import cvImg from '../images/ic_conversation.png';
 import settingsImg from '../images/ic_settings.png';
@@ -22,7 +20,7 @@ class FmsNavigation extends React.Component {
     return projects.map(project => {
       return (
         <MenuItem key={uuid()}
-          onClick={self.onLogout}><Link to={'/projects/' + project.alias}>{project.name}</Link>
+                  onClick={self.onLogout}><Link to={'/projects/' + project.alias}>{project.name}</Link>
         </MenuItem>
       )
     })
@@ -33,7 +31,7 @@ class FmsNavigation extends React.Component {
     let projects = this.state.projects;
 
     let alias = this.props.match && this.props.match.params ? this.props.match.params.project_alias : '';
-    let projectSelected = projects.find(p => p.alias == alias)
+    let projectSelected = projects.find(p => p.alias === alias)
     let nameProjectSelected = projectSelected ? projectSelected.name : '';
   }
 
@@ -51,14 +49,14 @@ class FmsNavigation extends React.Component {
 
     return (
       <Switch>
-        <Route children={({ match }) => (
+        <Route children={({match}) => (
           <div id="fms-nav">
             <Navbar inverse fixedTop fluid>
               <Navbar.Header>
                 <Navbar.Brand>
                   <Link to="/">Adsbold</Link>
                 </Navbar.Brand>
-                <Navbar.Toggle />
+                <Navbar.Toggle/>
               </Navbar.Header>
               <Navbar.Collapse>
                 {
@@ -85,34 +83,38 @@ class FmsNavigation extends React.Component {
                 }
 
                 <Nav pullRight className="nav-user">
-                  { isAuthenticated ?
-                    <NavDropdown id="log-out-dropdown" title={<Image src={avaUser} circle></Image>}>
+                  {isAuthenticated ?
+                    <NavDropdown id="log-out-dropdown" title={<Image src={avaUser} circle/>}>
                       <MenuItem header>Đăng nhập:</MenuItem>
                       <MenuItem header>{username}</MenuItem>
-                      <MenuItem divider />
+                      <MenuItem divider/>
                       <MenuItem onClick={self.onLogoutBtnClick.bind(this)}>Đăng xuất</MenuItem>
                     </NavDropdown>
                     : null
                   }
                 </Nav>
 
-                <Route path='/projects/:project_alias' children={({ match }) => (
+                <Route path='/projects/:project_alias' children={({match}) => (
                   match && match.params ?
                     <ul className="nav navbar-nav navbar-right">
-                      <li><NavLink exact to={'/projects/' + match.params.project_alias} className="project-nav-item"><Image className="ic-conversation" src={cvImg} />HỘI THOẠI</NavLink></li>
-                      <li><NavLink to={'/projects/' + match.params.project_alias + '/posts'} className="project-nav-item"><Image src={postsImg} />BÀI VIẾT</NavLink></li>
-                      <li><NavLink to={'/projects/' + match.params.project_alias + '/settings'} className="project-nav-item"><Image src={settingsImg} />CÀI ĐẶT</NavLink>
+                      <li><NavLink exact to={'/projects/' + match.params.project_alias}
+                                   className="project-nav-item"><Image className="ic-conversation" src={cvImg}/>HỘI
+                        THOẠI</NavLink></li>
+                      <li><NavLink to={'/projects/' + match.params.project_alias + '/posts'}
+                                   className="project-nav-item"><Image src={postsImg}/>BÀI VIẾT</NavLink></li>
+                      <li><NavLink to={'/projects/' + match.params.project_alias + '/settings'}
+                                   className="project-nav-item"><Image src={settingsImg}/>CÀI ĐẶT</NavLink>
                       </li>
-                      <NavItem className="devider" />
+                      <NavItem className="devider"/>
 
                     </ul>
                     : null
-                )} />
+                )}/>
 
               </Navbar.Collapse>
             </Navbar>
           </div>
-        )} />
+        )}/>
       </Switch>
     )
   }
@@ -124,6 +126,6 @@ const mapStateToProps = state => {
     isAuthenticated: state.auth.isAuthenticated,
     user: state.auth.user
   }
-}
+};
 
 export default withRouter(connect(mapStateToProps)(FmsNavigation));

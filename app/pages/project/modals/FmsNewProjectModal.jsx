@@ -1,32 +1,26 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Modal } from 'react-bootstrap';
+import React, {Component} from 'react';
+import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 
-import FmsPageItem from './FmsPageItem';
 import FmsSpin from '../../../components/FmsSpin';
-import projectApi from '../../../api/ProjectApi';
-import pagesApi from '../../../api/PagesApi';
 import ic_verify from '../../../images/ic_verify.png';
 import ic_cancel from '../../../images/ic_cancel.png';
 
 class FmsCreateNewProjectModal extends Component {
 
-  onCloseButtonClick () {
+  onCloseButtonClick() {
     const projectName = this.refs.projectName.value;
     this.props.onClose(projectName);
   }
 
-  onInputChange () {
+  onInputChange() {
     const projectName = this.refs.projectName.value;
     this.props.onProjectNameChange(projectName);
   }
 
   render() {
     const {
-      dispatch,
       isShown,
-      onClose,
       isLoading,
       isProjectNameVerified
     } = this.props;
@@ -35,12 +29,14 @@ class FmsCreateNewProjectModal extends Component {
       this.refs.projectName.value : '';
 
     return (
-      <Modal show={isShown} backdrop='static' keyboard={false} >
+      <Modal show={isShown} backdrop='static' keyboard={false}>
         <div className="add-project-modal">
           <Modal.Header
             closeButton={true}
-            onHide={() => {this.props.onClose();}}
-            >
+            onHide={() => {
+              this.props.onClose();
+            }}
+          >
             <Modal.Title>Tạo dự án mới</Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -49,11 +45,11 @@ class FmsCreateNewProjectModal extends Component {
               <div className="loading-name">
                 {
                   isLoading ?
-                  <FmsSpin size={16}></FmsSpin> :
+                    <FmsSpin size={16}/> :
                     (isProjectNameVerified ?
-                      <img width={16} src={ic_verify}></img> :
+                        <img width={16} src={ic_verify}/> :
                         (projectName !== '' ?
-                          <img width={16} src={ic_cancel}></img> : null
+                            <img width={16} src={ic_cancel}/> : null
                         )
                     )
                 }
@@ -75,7 +71,8 @@ class FmsCreateNewProjectModal extends Component {
               className={"btn btn-primary active-btn"}
               onClick={this.onCloseButtonClick.bind(this)}
               disabled={!isProjectNameVerified || isLoading}
-              >Tiếp tục</button>
+            >Tiếp tục
+            </button>
           </Modal.Footer>
         </div>
       </Modal>
@@ -89,6 +86,6 @@ FmsCreateNewProjectModal.propTypes = {
   onClose: propTypes.func.isRequired,
   isLoading: propTypes.bool.isRequired,
   isProjectNameVerified: propTypes.bool.isRequired
-}
+};
 
 export default FmsCreateNewProjectModal;

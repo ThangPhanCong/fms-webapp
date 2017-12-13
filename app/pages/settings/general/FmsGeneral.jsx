@@ -8,11 +8,10 @@ import {
   ControlLabel
 } from 'react-bootstrap';
 import {connect} from 'react-redux';
-import {withRouter, Redirect} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 import {
   getProjectInfo,
-  isShowModal,
   changeNameProject,
   updateProject,
   changeDescriptionProject
@@ -22,7 +21,7 @@ import FmsSpin from '../../../components/FmsSpin';
 import FmsConfirm from "../../../components/confirm-modal/FmsConfirm";
 
 class FmsGeneral extends React.Component {
-  constructor () {
+  constructor() {
     super();
 
     this.state = {
@@ -54,7 +53,7 @@ class FmsGeneral extends React.Component {
     })
   }
 
-  onConfirmModalClose (deleteProject) {
+  onConfirmModalClose(deleteProject) {
     if (deleteProject) {
       let alias = this.props.match.params.project_alias;
       projectApi.deleteProject(alias)
@@ -70,7 +69,7 @@ class FmsGeneral extends React.Component {
 
   updateProject() {
     const {project_alias} = this.props.match.params;
-    const {project, dispatch, isProjectLoading} = this.props;
+    const {project, dispatch} = this.props;
     dispatch(updateProject(project_alias, project));
   }
 
@@ -78,7 +77,7 @@ class FmsGeneral extends React.Component {
     const {isProjectLoading, project} = this.props;
     const content = "Bạn có chắc chắn xóa dự án không?";
     if (isProjectLoading) {
-      return <FmsSpin size={25}></FmsSpin>;
+      return <FmsSpin size={25}/>;
     } else {
       return (
         <div>
@@ -88,7 +87,8 @@ class FmsGeneral extends React.Component {
           </FormGroup>
           <FormGroup>
             <ControlLabel>Mô tả</ControlLabel>
-            <FormControl componentClass="textarea" value={project.description} onChange={this.changeDescription.bind(this)}/>
+            <FormControl componentClass="textarea" value={project.description}
+                         onChange={this.changeDescription.bind(this)}/>
           </FormGroup>
           <FormGroup>
             <Button className="button-common update-project" onClick={this.updateProject.bind(this)}>Cập nhật</Button>
@@ -100,11 +100,12 @@ class FmsGeneral extends React.Component {
               </Col>
             </Row>
             <div className="danger-zone-body">
-                    <p>Khi bạn xóa dự án, toàn bộ dữ liệu khách hàng sẽ bị xóa. Hãy chắc chắn với hành động này!</p>
-                    <Button onClick={this.isShowModal.bind(this)}>Xóa</Button>
+              <p>Khi bạn xóa dự án, toàn bộ dữ liệu khách hàng sẽ bị xóa. Hãy chắc chắn với hành động này!</p>
+              <Button onClick={this.isShowModal.bind(this)}>Xóa</Button>
             </div>
           </FormGroup>
-          <FmsConfirm content={content} isShown={this.state.isConfirmModalShown} onClose={this.onConfirmModalClose.bind(this)}></FmsConfirm>
+          <FmsConfirm content={content} isShown={this.state.isConfirmModalShown}
+                      onClose={this.onConfirmModalClose.bind(this)}/>
         </div>
       )
     }
@@ -123,7 +124,10 @@ class FmsGeneral extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return {isProjectLoading: state.setting.settingGeneral.isProjectLoading, project: state.setting.settingGeneral.project}
-}
+  return {
+    isProjectLoading: state.setting.settingGeneral.isProjectLoading,
+    project: state.setting.settingGeneral.project
+  }
+};
 
 export default withRouter(connect(mapStateToProps)(FmsGeneral));

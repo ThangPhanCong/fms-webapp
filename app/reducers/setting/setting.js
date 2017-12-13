@@ -10,7 +10,7 @@ import * as redux from 'redux';
 const initState = {
   isSettingLoading: true,
   isEditting: false,
-}
+};
 
 const settingReducer = (state = initState, action) => {
   switch (action.type) {
@@ -18,21 +18,21 @@ const settingReducer = (state = initState, action) => {
       return {
         ...state,
         isSettingLoading: true
-      }
+      };
     case SETTING_LOADED:
       return {
         ...state,
         isSettingLoading: false
-      }
+      };
     case IS_EDITTING:
       return {
         ...state,
         isEditting: true
-      }
+      };
     default:
       return state;
   }
-}
+};
 const reducers = redux.combineReducers({
   setting: settingReducer,
   settingGeneral,

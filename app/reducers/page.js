@@ -1,4 +1,4 @@
-import * as redux from 'redux';
+
 import {
   PAGES_LOADIND,
   PAGES_LOADED
@@ -7,7 +7,7 @@ import {
 const initState = {
   isPagesLoading: true,
   pages: []
-}
+};
 
 const page = (state = initState, action) => {
   switch (action.type) {
@@ -15,16 +15,16 @@ const page = (state = initState, action) => {
       return {
         ...state,
         isPagesLoading: true
-      }
+      };
     case PAGES_LOADED:
       return {
         ...state,
         isPagesLoading: false,
         pages: action.pages
-      }
+      };
     default:
       return state;
   }
-}
+};
 
 export default page;

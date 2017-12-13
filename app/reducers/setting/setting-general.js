@@ -10,7 +10,7 @@ const initState = {
   project: "",
   isProjectLoading: true,
   isShowModal: false
-}
+};
 
 const settingGeneral = (state = initState, action) => {
   switch (action.type) {
@@ -18,31 +18,31 @@ const settingGeneral = (state = initState, action) => {
       return {
         ...state,
         isShowModal: !state.isShowModal
-      }
+      };
     case PROJECT_LOADING:
       return {
         ...state,
         isProjectLoading: true
-      }
+      };
     case PROJECT_LOADED:
       return {
         ...state,
         isProjectLoading: false,
         project: action.project
-      }
+      };
     case CHANGE_NAME_PROJECT:
       return {
         ...state,
         project: action.project
-      }
+      };
     case CHANGE_DESCRIPTON_PROJECT:
       return {
         ...state,
         project: action.project
-      }
+      };
     default:
       return state;
   }
-}
+};
 
 export default settingGeneral;

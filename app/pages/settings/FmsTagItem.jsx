@@ -1,9 +1,9 @@
 "use strict";
 
 import React from 'react';
-import { Grid, Row, Col, Button, FormGroup, FormControl } from 'react-bootstrap';
+import { Button, FormGroup, FormControl } from 'react-bootstrap';
 import _ from 'lodash';
-import {setValueTag, changeValueTag} from '../../actions/setting/setting-tag';
+import {changeValueTag} from '../../actions/setting/setting-tag';
 import {connect} from 'react-redux';
 
 class FmsTagItem extends React.Component {
@@ -11,7 +11,7 @@ class FmsTagItem extends React.Component {
     super(props);
     this.state = {
       isEditting: false
-    }
+    };
     this.handleChange = this.handleChange.bind(this);
   }
   getValidationState() {
@@ -27,7 +27,7 @@ class FmsTagItem extends React.Component {
   updateTag(tag) {
     let _tag = _.clone(tag);
     const {value} = this.props;
-    _tag.name = value
+    _tag.name = value;
     this.props.updateTag(_tag);
   }
 
@@ -37,21 +37,16 @@ class FmsTagItem extends React.Component {
     this.props.deleteTag(_tag);
   }
 
-  componentDidMount() {
-    const {dispatch, name} = this.props;
-    // dispatch(setValueTag(name));
-  }
-
   render() {
     let self = this;
     let isEditting = self.state.isEditting;
     let colorItemStyle = {
       backgroundColor: self.props.color
-    }
-    const {value} = this.props
+    };
+    const {value} = this.props;
     return (
       <div className="tag-item-wrapper">
-        <span className="color-preview" style={colorItemStyle}></span>
+        <span className="color-preview" style={colorItemStyle}/>
         {
           isEditting ? null : <span className="tag-name">{self.props.name}</span>
         }
@@ -71,7 +66,7 @@ class FmsTagItem extends React.Component {
         }
         <div className='pull-right'>
           <Button onClick={() => { self.props.deleteTag(self.props) }}
-            disabled={self.props.isLoading}><span className="glyphicon glyphicon-trash"></span></Button>
+            disabled={self.props.isLoading}><span className="glyphicon glyphicon-trash"/></Button>
           <Button onClick={() => { self.setState({ isEditting: !isEditting }); if (isEditting) self.updateTag(self.props) }}
             disabled={self.props.isLoading}>{isEditting ? "Xong" : "Chỉnh sửa"}</Button>
         </div>
@@ -83,6 +78,6 @@ class FmsTagItem extends React.Component {
 
 const mapStateToProps = state => {
   return {value: state.setting.settingTag.value}
-}
+};
 
 export default connect(mapStateToProps)(FmsTagItem);
