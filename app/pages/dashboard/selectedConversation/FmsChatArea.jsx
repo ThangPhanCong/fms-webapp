@@ -13,42 +13,34 @@ import FmsTagsBar from './FmsTagsBar';
 import FmsPrivateReplyModal from './FmsPrivateReplyModal';
 import FmsDivider from './FmsDivider';
 
-import { loadMoreMessages, setScrollList } from '../../../actions/dashboard/chat/messages';
+import { loadMoreMessages, isShownNewMsgNoti, setScrollList } from '../../../actions/dashboard/chat/messages';
+import FmsDate from '../../../helpers/FmsDate';
 
 let lastScrollPosition;
 
 class FmsChatArea extends React.Component {
-	convertTime(time) {
-		let date;
-    let current = new Date();
-    if (!time) date = current;
-    else date = new Date(time);
-
-    let cday = current.getDate();
-    let cmonth = current.getMonth() + 1;
-    let cyear = current.getFullYear();
-
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-
-    let res = "Đã xem";
-    let whatday;
-    if (cyear == year && cmonth == month && cday == day) whatday = "Hôm nay";
-    else if (cyear == year && cmonth == month && cday - day == 1) whatday = "Hôm qua";
-    else whatday = "Ngày " + day + " tháng " + month;
-    return whatday;
+	notifyText(text) {
+		if (!text) return "";
+		let temp = ((text == "") ? "[ Attachment ]" : `"${text}"`);
+		if (temp.length > 14 ) temp = temp.substring(0, 10) + '..."';
+		return temp;
 	}
 	getChatAreaWidth() {
 		let list = this.refs.chat_area;
-		if (!list) return 0;
+		if (!list) return 425;
 		return list.clientWidth;
+	}
+	scrollToLastestMsg() {
+		let list = this.refs.chat_area;
+		list.scrollTop = list.scrollHeight;
 	}
 	componentDidMount() {
 		let list = this.refs.chat_area;
 		list.addEventListener('scroll', () => {
 			if ($(list).scrollTop() == 0) {
 				this.props.dispatch(loadMoreMessages());
+			} else if (list.scrollTop + list.clientHeight + 32 > list.scrollHeight) {
+				this.props.dispatch(isShownNewMsgNoti(false));
 			}
 		});
 		this.props.dispatch(setScrollList(list));
@@ -91,7 +83,7 @@ class FmsChatArea extends React.Component {
 				current = new Date(message.updated_time);
 				if (!lastUpdatedTime || last.getDate() != current.getDate()) {
 					hasDivider = true;
-					let divider = <FmsDivider key={uuid()} text={this.convertTime(message.updated_time)}/>;
+					let divider = <FmsDivider key={uuid()} text={(new FmsDate(message.updated_time)).getTimeChatArea()}/>;
 					res.push(divider);
 				}
 				lastUpdatedTime = message.updated_time;
@@ -128,10 +120,11 @@ class FmsChatArea extends React.Component {
 	}
 
 	render() {
-		let showSpin = (!this.props.postInfo) ? "" : " hide";
-		let chatArea = (this.props.isLoadingMsgs) ? " hide" : "";
-		let spin = (this.props.isLoadingMsgs) ? "" : " hide";
-		let input = (this.props.isLoadingMsgs) ? " hide" : "";
+		let p = this.props;
+		let spin = (p.isLoadingMsgs) ? "" : " hide";
+		let showSpin = (!p.postInfo && spin != "") ? "" : " hide";
+		let input = (p.isLoadingMsgs) ? " hide" : "";
+		let noti = (p.isShownNewMsgNoti) ? "" : " hide";
 
 		return (
 			<div className="inner-conversation-area">
@@ -141,12 +134,17 @@ class FmsChatArea extends React.Component {
 				<div className={"conversation-spin" + spin}>
 					<FmsSpin size={27} />
 				</div>
-				<div className={"chat-area" + chatArea} ref="chat_area">
+				<div className="chat-area" ref="chat_area">
 					<div className={"client-list-spin" + showSpin}>
 						<FmsSpin size={27} />
 					</div>
 					{this.renderPostInfo()}
 					{this.renderConversation()}
+				</div>
+				<div className={"noti-wrapper" + noti}>
+					<div className="new-message-noti bounce" onClick={this.scrollToLastestMsg.bind(this)}>
+						Tin nhắn mới {this.notifyText(p.conversation.snippet)}
+					</div>
 				</div>
 				{this.renderTagsBar()}
 				<div className={"input-message-area" + input}>
@@ -164,7 +162,8 @@ const mapStateToProps = state => {
 		postInfo: state.dashboard.chat.postInfo,
 		isLoadingMsgs: state.dashboard.chat.isLoadingMsgs,
 		isLoadMoreMsgs: state.dashboard.chat.isLoadMoreMsgs,
-		tags: state.dashboard.filters.tags
+		tags: state.dashboard.filters.tags,
+		isShownNewMsgNoti: state.dashboard.chat.isShownNewMsgNoti
 	}
 }
 

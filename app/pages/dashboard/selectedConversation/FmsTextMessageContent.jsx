@@ -16,27 +16,15 @@ class FmsTextMessageContent extends React.Component {
       liked: this.props.message.is_like
     }
     this.openMessageModal = this.openMessageModal.bind(this);
-    this.handleLikeMessage = this.handleLikeMessage.bind(this);
-    this.handleUnlikeMessage = this.handleUnlikeMessage.bind(this);
   }
   openMessageModal() {
     this.props.dispatch(openPrivateRepModal(this.props.message));
   }
-  handleLikeMessage() {
+  handleLikeMessage(state) {
     if (this.state.isHandling == true) return;
     this.setState({ isHandling: true });
-    DashboardApi.likeMessage(this.props.message._id).then((res) => {
-      this.setState({ isHandling: false, liked: true });
-    }, (err) => {
-      this.setState({ isHandling: false });
-      alert('Something went wrong!');
-    });
-  }
-  handleUnlikeMessage() {
-    if (this.state.isHandling == true) return;
-    this.setState({ isHandling: true });
-    DashboardApi.unlikeMessage(this.props.message._id).then((res) => {
-      this.setState({ isHandling: false, liked: false });
+    DashboardApi.likeMessage(this.props.message._id, state).then((res) => {
+      this.setState({ isHandling: false, liked: state });
     }, (err) => {
       this.setState({ isHandling: false });
       alert('Something went wrong!');
@@ -47,9 +35,9 @@ class FmsTextMessageContent extends React.Component {
     let actionButton = (this.props.isSelf == false && this.props.type == "comment") ? "" : " hide";
     function renderLikeButton() {
       if (self.state.liked == false) {
-        return <a className="action-button-message" onClick={self.handleLikeMessage}>  Thích</a>
+        return <a className="action-button-message" onClick={() => {self.handleLikeMessage(true)}}>  Thích</a>
       } else {
-        return <a className="action-button-message" onClick={self.handleUnlikeMessage}>  Bỏ thích</a>
+        return <a className="action-button-message" onClick={() => {self.handleLikeMessage(false)}}>  Bỏ thích</a>
       }
     };
     function renderMessageButton() {
@@ -75,9 +63,7 @@ class FmsTextMessageContent extends React.Component {
     );
   }
 }
-
 const mapStateToProps = state => {
-  return {}
+	return {}
 }
-
 export default connect(mapStateToProps)(FmsTextMessageContent);

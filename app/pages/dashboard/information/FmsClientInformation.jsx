@@ -12,7 +12,7 @@ class FmsClientInformation extends React.Component {
   }
   renderTab2() {
     if (!this.props.conversation) return;
-    return <FmsCreateFormTab />
+    return <FmsCreateFormTab noti={this.props.noti}/>
   }
   render() {
     return (

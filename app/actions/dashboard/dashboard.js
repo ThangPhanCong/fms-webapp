@@ -2,7 +2,7 @@ import * as socket from '../../socket';
 import projectApi from '../../api/ProjectApi';
 import * as u from 'lodash';
 
-import { setConversation } from './chat/messages';
+import { setConversation, isShownNewMsgNoti } from './chat/messages';
 import { setConversations, getConversations, postSeenCv } from './conversations';
 
 export const getProject = (alias) => dispatch => {
@@ -102,8 +102,9 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
       conversations = newConvers;
       if (selectedConv && selectedConv._id == parent._id) {
         dispatch(setConversation(u.clone(parent)));
-        let scrollList = getState().dashboard.chat.scrollList;
-        if (scrollList) scrollList.scrollTop = scrollList.scrollHeight;
+        let sl = getState().dashboard.chat.scrollList;
+        if (sl.scrollTop + sl.clientHeight + 32 > sl.scrollHeight) sl.scrollTop = sl.scrollHeight;
+        else dispatch(isShownNewMsgNoti(true));
       }
     }
   }

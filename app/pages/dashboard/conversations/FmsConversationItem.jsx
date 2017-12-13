@@ -6,10 +6,15 @@ import { Image } from 'react-bootstrap';
 import uuid from 'uuid';
 
 import { handleConversationClick } from '../../../actions/dashboard/conversations';
+import FmsDate from '../../../helpers/FmsDate';
 
 const ICON_HEIGHT = 16;
 
 class FmsConversationItem extends React.Component {
+	convertTime(time) {
+		let date = new FmsDate(time);
+		return date.getTimeConversationItem();
+	}
 	handleConversationClick() {
 		let { dispatch, data } = this.props;
 		dispatch(handleConversationClick(data, data.type));
@@ -53,7 +58,10 @@ class FmsConversationItem extends React.Component {
 					<img src={avaUrl} className="client-profile" />
 				</div>
 				<div className="name-and-message">
-					<div className={"client-name " + seenClass}>{clientName}</div>
+					<div className="name-and-time">
+						<div className={"client-name " + seenClass}>{clientName}</div>
+						<div className={"updated-time" + seenClass}>{this.convertTime(data.updated_time)}</div>
+					</div>
 					<div className={"lastest-message " + seenClass}>{message}</div>
 					<div className="client-item-tags">
 						{this.renderIconType()}

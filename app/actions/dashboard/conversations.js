@@ -1,6 +1,6 @@
 import DashboardApi from '../../api/DashboardApi';
 import * as u from 'lodash';
-import { setConversation, isLoadingMsgs, setPostInfo } from './chat/messages';
+import { setConversation, isLoadingMsgs, setPostInfo, isShownNewMsgNoti } from './chat/messages';
 import { Observable } from 'rxjs/Observable';
 import { getNotes } from './chat/createOrder';
 
@@ -86,6 +86,7 @@ export const cancelGetConversations = () => dispatch => {
 
 export const handleConversationClick = (selectedConv, type) => (dispatch, getState) => {
   dispatch(setPostInfo(null));
+  dispatch(isShownNewMsgNoti(false));
   dispatch(isLoadingMsgs(true));
   let { conversations } = getState().dashboard.conversations;
   if (!selectedConv.is_seen) {

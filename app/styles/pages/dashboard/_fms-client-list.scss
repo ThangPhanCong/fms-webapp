@@ -5,12 +5,12 @@
     height: 100%;
     margin: 0px 0px 0px 0px;
     box-shadow: 0;
-    border-right: 1px solid #dcdedf;
+    border-right: 1px solid #cacaca;
 }
 
 .search-client {
     padding: 9px 12px;
-    border-bottom: 1px solid #dedede;
+    border-bottom: 1px solid #cacaca;
     display: none;
 }
 .search-icon {
@@ -60,11 +60,20 @@
   flex-direction: column;
   overflow: hidden;
 }
+.name-and-time {
+    display: flex;
+}
+.updated-time {
+    float: right;
+    padding-top: 1px;
+    margin-left: 3px;
+}
 .client-name {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 15px;
+    flex: 1;
 }
 .lastest-message {
     font-size: 14px;

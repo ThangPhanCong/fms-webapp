@@ -1,5 +1,7 @@
 import DashboardApi from '../../../api/DashboardApi';
+import PostsApi from '../../../api/PostsApi';
 import * as u from 'lodash';
+import { setConversations } from '../conversations'
 
 export const setConversation = (conversation) => dispatch => {
   dispatch({ type: 'SET_CONVERSATION', conversation: conversation });
@@ -16,6 +18,9 @@ export const setPostInfo = (postInfo) => dispatch => {
 export const setScrollList = (scrollList) => dispatch => {
   dispatch({ type: 'SET_SCROLL_LIST', scrollList });
 }
+export const isShownNewMsgNoti = (state) => dispatch => {
+  dispatch({ type: 'IS_SHOWN_NEW_MSG_NOTI', state });
+}
 export const resetChat = () => dispatch => {
   dispatch({ type: 'RESET_INIT_STATE_CHAT' });
 }
@@ -25,7 +30,7 @@ export const loadPostInfo = () => (dispatch, getState) => {
   let conversation = chat.conversation;
   if (!chat.postInfo && conversation.type == "comment") {
     dispatch(isLoadMoreMsgs(true));
-    DashboardApi.getPostInfo(conversation.parent_fb_id).then((res) => {
+    PostsApi.getPostInfo(conversation.page_fb_id, conversation.parent_fb_id).then((res) => {
       dispatch(setPostInfo(res));
     }, (err) => {
       console.log(err);
@@ -59,6 +64,7 @@ export const loadMoreMessages = () => (dispatch, getState) => {
 
 export const displayMoreMessages = (more, paging) => (dispatch, getState) => {
   let { conversation } = getState().dashboard.chat;
+  let { conversations } = getState().dashboard.conversations;
   let oldChildren = conversation.children;
   let children = more.sort((a, b) => {
     let t1, t2;
@@ -76,4 +82,10 @@ export const displayMoreMessages = (more, paging) => (dispatch, getState) => {
   conversation.children = children;
   conversation.paging = paging;
   dispatch(setConversation(u.clone(conversation)));
+  let newConversations = conversations.map(c => {
+    if (c._id == conversation._id) {
+      return conversation;
+    } else return c;
+  });
+  dispatch(setConversations(newConversations));
 }
