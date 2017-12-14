@@ -17,11 +17,11 @@ module.exports = {
   updateNote: (alias, conv_id, note_id, content) => {
     let route = `/api/projects/${alias}/conversations/${conv_id}/notes/${note_id}`;
     let payload = {content};
-    apiSender.put(route, payload);
+    return apiSender.put(route, payload);
   },
   deleteNote: (alias, conv_id, note_id) => {
     let route = `/api/projects/${alias}/conversations/${conv_id}/notes/${note_id}`;
-    apiSender.delete(route);
+    return apiSender.delete(route);
   },
   createOrder: (alias, customer_id, payload) => {
     let route = `/api/projects/${alias}/customers/${customer_id}/orders`;

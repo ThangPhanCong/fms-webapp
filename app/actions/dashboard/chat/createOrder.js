@@ -3,11 +3,13 @@ import OrderApi from '../../../api/OrderApi';
 export const createNote = (content, noti) => (dispatch, getState) => {
   let {conversation} = getState().dashboard.chat;
   let {alias} = getState().dashboard.conversations;
+  let {notes} = getState().dashboard.createOrder;
   let customer_id = (conversation.customer) ? conversation.customer._id : null;
   OrderApi.createNote(alias, conversation.id, customer_id, conversation.page._id, content)
-    .then(() => {
+    .then((res) => {
       noti("success", "Tạo ghi chú thành công.");
-      dispatch(getNotes());
+      notes.unshift(res);
+      dispatch({type: 'SET_NOTES', notes});
     }, () => {
       noti("danger", "Tạo ghi chú thất bại.");
     });
@@ -19,9 +21,44 @@ export const getNotes = () => (dispatch, getState) => {
   OrderApi.getNotes(alias, conversation.id)
     .then(res => {
       res.sort((a, b) => {
-        return a.updated_time < b.updated_time
+        let t1 = new Date(a.updated_time);
+        let t2 = new Date(b.updated_time);
+        return t2 - t1;
       });
       dispatch({type: 'SET_NOTES', notes: res});
+    }, err => {
+      console.log(err);
+    });
+};
+
+export const deleteNote = (note_id, noti) => (dispatch, getState) => {
+  let {alias} = getState().dashboard.conversations;
+  let {conversation} = getState().dashboard.chat;
+  let {notes} = getState().dashboard.createOrder;
+  OrderApi.deleteNote(alias, conversation.id, note_id)
+    .then(() => {
+      noti("success", "Đã xóa một ghi chú.");
+      let newNotes = notes.filter(note => {
+        return note._id !== note_id;
+      });
+      dispatch({type: 'SET_NOTES', notes: newNotes});
+    }, err => {
+      console.log(err);
+    });
+};
+
+export const updateNote = (note_id, content, noti) => (dispatch, getState) => {
+  let {alias} = getState().dashboard.conversations;
+  let {conversation} = getState().dashboard.chat;
+  let {notes} = getState().dashboard.createOrder;
+  OrderApi.updateNote(alias, conversation.id, note_id, content)
+    .then(res => {
+      noti("success", "Đã cập nhật một ghi chú.");
+      let newNotes = notes.map(note => {
+        if (note._id !== note_id) return note;
+        else return res;
+      });
+      dispatch({type: 'SET_NOTES', notes: newNotes});
     }, err => {
       console.log(err);
     });
