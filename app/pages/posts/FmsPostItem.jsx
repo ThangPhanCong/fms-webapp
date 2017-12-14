@@ -27,25 +27,23 @@ class FmsPostItem extends React.Component {
   }
 
   render() {
-    let {page_fb_id, page_fb_name, message, hide_comment} = this.props.data;
-    let page_ava = `https://graph.facebook.com/v2.10/${page_fb_id}/picture`;
+    let {page, message, hide_comment} = this.props.data;
 
     return (
-      <div className="post-item-wrapper">
-        <div className="post-body">
+      <div className="post-item">
+        <div className="page-info">
+          <div className="page-name">{page.name}</div>
+        </div>
+        <div className="content-wrapper">
           <p className="content">{message}</p>
           <div className="image-wrapper">
             {this.renderImgs()}
           </div>
-          <div className="page-info">
-            <Image src={page_ava} circle/>
-            <span>{page_fb_name}</span>
-          </div>
-          <div>
-            <Checkbox type="checkbox"
-                      checked={hide_comment}
-                      onChange={this.onToggleChange.bind(this)}> Ẩn bình luận</Checkbox>
-          </div>
+        </div>
+        <div>
+          <Checkbox type="checkbox"
+                    checked={hide_comment}
+                    onChange={this.onToggleChange.bind(this)}> Ẩn bình luận</Checkbox>
         </div>
       </div>
     );
