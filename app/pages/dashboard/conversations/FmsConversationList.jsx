@@ -29,7 +29,8 @@ class FmsConversationList extends React.Component {
       if ($(list).scrollTop() + $(list).innerHeight() >= $(list)[0].scrollHeight - 64) {
         this.props.dispatch(loadMoreConversations());
       }
-    })
+    });
+    $(list).scrollbar();
   }
 
   renderConversations() {
@@ -53,10 +54,8 @@ class FmsConversationList extends React.Component {
                  onChange={this.handleSearchChange.bind(this)} defaultValue={this.props.searchText}/>
           <FmsFilterTags/>
         </div>
-        <div ref="list" className="scroll-list">
-          <div>
-            {this.renderConversations()}
-          </div>
+        <div ref="list" className="scroll-list scrollbar-inner">
+          {this.renderConversations()}
           <div className={"client-list-spin" + showSpin}>
             <FmsSpin size={27}/>
           </div>

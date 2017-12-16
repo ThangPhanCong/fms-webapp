@@ -6,6 +6,7 @@ let configPath;
 
 const indexHtml = path.join(__rootdir, 'app', 'index.html');
 const appJs = path.join(__rootdir, 'app', 'index.js');
+const fms_scroll = path.join(__rootdir, 'app', 'helpers', 'fms_scroll');
 
 if (process.env.NODE_ENV === 'production') {
   configPath = path.resolve(__rootdir, 'config/env/config-prod.json');
@@ -18,6 +19,7 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   entry: [
     appJs,
+    fms_scroll,
     indexHtml
   ],
 
