@@ -1,7 +1,12 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+
+import FmsToolTip from '../../../components/FmsToolTip/FmsToolTip';
+import FmsPrivateReplyModal from './FmsPrivateReplyModal';
 import DashboardApi from '../../../api/DashboardApi';
-import {openPrivateRepModal} from '../../../actions/dashboard/chat/privateRepModal';
+import FmsSpin from '../../../components/FmsSpin/FmsSpin';
+
+import { openPrivateRepModal } from '../../../actions/dashboard/chat/privateRepModal';
 
 class FmsTextMessageContent extends React.Component {
   constructor(props) {

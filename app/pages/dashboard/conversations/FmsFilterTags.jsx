@@ -1,8 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import FmsToolTip from '../../../components/FmsToolTip';
-import {handleTagFilterClick} from '../../../actions/dashboard/filters';
+
+import FmsToolTip from '../../../components/FmsToolTip/FmsToolTip';
+import { handleTagFilterClick } from '../../../actions/dashboard/filters';
 
 class FmsFilterTags extends React.Component {
   handleTagFilterClick(_id) {

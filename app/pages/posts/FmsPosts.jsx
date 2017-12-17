@@ -3,8 +3,7 @@ import {connect} from 'react-redux';
 import {Grid, Row, Col, Button} from 'react-bootstrap';
 import FmsPostItem from './FmsPostItem';
 import {getPosts, toggleChange} from '../../actions/post';
-import FmsSpin from "../../components/FmsSpin";
-import FmsDivider from '../../pages/dashboard/selectedConversation/FmsDivider';
+import FmsSpin from "../../components/FmsSpin/FmsSpin";
 
 class FmsPosts extends React.Component {
   componentDidMount() {

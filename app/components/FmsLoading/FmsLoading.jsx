@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FmsSpin from './FmsSpin';
+import FmsSpin from '../FmsSpin/FmsSpin';
 
 class FmsLoading extends React.Component {
   render () {

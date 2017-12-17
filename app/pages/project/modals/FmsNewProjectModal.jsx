@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 
-import FmsSpin from '../../../components/FmsSpin';
+import FmsPageItem from './FmsPageItem';
+import FmsSpin from '../../../components/FmsSpin/FmsSpin';
+import projectApi from '../../../api/ProjectApi';
+import pagesApi from '../../../api/PagesApi';
 import ic_verify from '../../../images/ic_verify.png';
 import ic_cancel from '../../../images/ic_cancel.png';
 

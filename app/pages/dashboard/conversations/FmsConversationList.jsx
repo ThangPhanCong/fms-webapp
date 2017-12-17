@@ -5,7 +5,10 @@ import uuid from 'uuid';
 
 import searchImg from '../../../images/search.png';
 import FmsConversationItem from './FmsConversationItem';
-import FmsSpin from '../../../components/FmsSpin';
+
+import DashboardAPI from '../../../api/DashboardApi';
+import FmsSpin from '../../../components/FmsSpin/FmsSpin';
+
 import FmsFilterTags from './FmsFilterTags';
 import FmsScrollableDiv from '../../../components/scroll-bar/FmsScrollableDiv';
 
@@ -41,23 +44,26 @@ class FmsConversationList extends React.Component {
   render() {
     let showSpin = (this.props.isLoadingConversations === true) ? "" : " hide";
 
-    return (
-      <div className="client-list-wrapper">
-        <div className="search-client">
-          <img src={searchImg} className="search-icon"/>
-          <input type="text" className="input-search-client" ref="searchText"
-                 onChange={this.handleSearchChange.bind(this)} defaultValue={this.props.searchText}/>
-          <FmsFilterTags/>
-        </div>
-        <FmsScrollableDiv className="scroll-list" handleLoadMore={this.handleLoadMore.bind(this)}>
-          {this.renderConversations()}
-          <div className={"client-list-spin" + showSpin}>
-            <FmsSpin size={27}/>
-          </div>
-        </FmsScrollableDiv>
-      </div>
-    );
-  }
+		return (
+			<div className="client-list-wrapper">
+				<div className="search-client">
+					<img src={searchImg} className="search-icon" />
+					<input type="text" className="input-search-client" ref="searchText"
+						onChange={this.handleSearchChange.bind(this)} defaultValue={this.props.searchText}/>
+					<FmsFilterTags />
+				</div>
+				<div ref="list" className="scroll-list">
+					<div>
+						{this.renderConversations()}
+					</div>
+					<div className={"client-list-spin" + showSpin}>
+						<FmsSpin size={27} />
+					</div>
+				</div>
+			</div>
+		);
+	}
+
 }
 
 const mapStateToProps = state => {
