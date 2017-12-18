@@ -35,65 +35,23 @@ class FmsMessageItem extends React.Component {
   }
 
   renderAttachment() {
-    let self = this;
-    let isSelf = this.props.isSelf;
-    let msg = self.state.message;
-    let hasMessage = (self.state.message.message === "") ? -1 : 1;
-    let msgType = self.props.type;
-    let attachmentData = null;
-
-    if (msg.shares && msg.shares.length > 0) {
-      return msg.shares.map((share) => {
-        if (share.link && share.link.indexOf("scontent") !== -1) {
-          return <FmsAttachmentContent key={uuid()} preview={share.link} isSelf={isSelf} type={'sticker'}
-                                       attachmentLoadError={self.attachmentLoadError.bind(this)}/>
-        }
-      });
-    }
-    if (msgType === 'inbox' && msg.attachments && msg.attachments.length > 0) {
-      attachmentData = msg.attachments;
-    } else if (msgType === 'comment' && msg.attachment) {
-      attachmentData = [msg.attachment];
-    }
-    if (attachmentData) {
-      let index = 0;
-      return attachmentData.map(attachment => {
-        index++;
-        if (index > 1) hasMessage = 0;
-        let attachType = 'unknown', preview = '', origin;
-        let size = {width: 0, height: 0};
-        if (attachment.type) {
-          let t = attachment.type;
-          if (t === 'sticker') attachType = 'sticker';
-          else if (t === 'photo' || t === 'video_inline' || t === 'share') attachType = 'image';
-          preview = attachment.media.image.src;
-          size.width = attachment.media.image.width;
-          size.height = attachment.media.image.height;
-          if (t !== 'sticker') origin = attachment.url;
-        }
-        else {
-          let t = attachment.mime_type;
-          if (t === "image/jpeg" || t === "image/gif") {
-            attachType = 'image';
-            preview = attachment.image_data.preview_url;
-            origin = attachment.image_data.url;
-            size.width = attachment.image_data.width;
-            size.height = attachment.image_data.height;
-          } else if (t === "video/mp4") {
-            attachType = 'image';
-            preview = attachment.video_data.preview_url;
-            origin = attachment.video_data.url;
-            size.width = attachment.video_data.width;
-            size.height = attachment.video_data.height;
-          }
-        }
-        if (attachType === 'unknown' || preview === '') return;
-        return <FmsAttachmentContent key={uuid()} hasMessage={hasMessage} type={attachType} origin={origin}
-                                     isSelf={isSelf} preview={preview} size={size}
-                                     getChatAreaWidth={self.props.getChatAreaWidth}
-                                     attachmentLoadError={self.attachmentLoadError.bind(this)}/>
-      })
-    }
+    // let msg = this.state.message, attachments;
+    // if (this.props.type === "comment") attachments = msg.attachment.data;
+    // else attachments = msg.attachments.data;
+    // console.log(msg);
+    // let attachments = msg.attachments;
+    // if (!attachments) return;
+    // let self = this;
+    // let isSelf = this.props.isSelf;
+    // let hasMessage = (msg.message === "") ? -1 : 1;
+    // let data = attachments[0].data;
+    // return data.map(a => {
+    //   let size = {width: a.width, height: a.height};
+    //   return <FmsAttachmentContent key={uuid()} hasMessage={hasMessage} origin={a.src}
+    //                                 isSelf={isSelf} preview={a.preview} size={size}
+    //                                 getChatAreaWidth={self.props.getChatAreaWidth}
+    //                                 attachmentLoadError={self.attachmentLoadError.bind(this)}/>
+    // });
   }
 
   render() {
