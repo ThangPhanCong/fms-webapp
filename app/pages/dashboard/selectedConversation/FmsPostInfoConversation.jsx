@@ -15,16 +15,16 @@ class FmsPostInfoConversation extends React.Component {
   }
 
   renderAttachments(attachments) {
-    let atts = [];
-    if (attachments && Array.isArray(attachments.data)) {
-      let short = attachments.data[0];
-      if (short.subattachments && Array.isArray(short.subattachments.data)) atts = short.subattachments.data;
-    }
-    return atts.map(att => {
-      let src = att.media.image.src;
-      return <a className="attachment-in-conversation" href={src} target="_blank" key={uuid()}>
-        <img className="image-in-conversation" src={src} onError={this.handleAttachExpired.bind(this)}/></a>
-    });
+    // let atts = [];
+    // if (attachments && Array.isArray(attachments.data)) {
+    //   let short = attachments.data[0];
+    //   if (short.subattachments && Array.isArray(short.subattachments.data)) atts = short.subattachments.data;
+    // }
+    // return atts.map(att => {
+    //   let src = att.media.image.src;
+    //   return <a className="attachment-in-conversation" href={src} target="_blank" key={uuid()}>
+    //     <img className="image-in-conversation" src={src} onError={this.handleAttachExpired.bind(this)}/></a>
+    // });
   }
 
   renderPost() {
