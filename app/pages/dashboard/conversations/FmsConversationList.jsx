@@ -7,6 +7,7 @@ import searchImg from '../../../images/search.png';
 import FmsConversationItem from './FmsConversationItem';
 import FmsSpin from '../../../components/FmsSpin';
 import FmsFilterTags from './FmsFilterTags';
+import FmsScrollableDiv from '../../../components/FmsScrollableDiv';
 
 import {loadMoreConversations} from '../../../actions/dashboard/conversations';
 import {setSearchText, handleFilter} from '../../../actions/dashboard/filters';
@@ -23,14 +24,8 @@ class FmsConversationList extends React.Component {
     }, 800);
   }
 
-  componentDidMount() {
-    const list = ReactDOM.findDOMNode(this.refs.list);
-    list.addEventListener('scroll', () => {
-      if ($(list).scrollTop() + $(list).innerHeight() >= $(list)[0].scrollHeight - 64) {
-        this.props.dispatch(loadMoreConversations());
-      }
-    });
-    $(list).scrollbar();
+  handleLoadMore() {
+    this.props.dispatch(loadMoreConversations());
   }
 
   renderConversations() {
@@ -54,12 +49,12 @@ class FmsConversationList extends React.Component {
                  onChange={this.handleSearchChange.bind(this)} defaultValue={this.props.searchText}/>
           <FmsFilterTags/>
         </div>
-        <div ref="list" className="scroll-list scrollbar-inner">
+        <FmsScrollableDiv customClass="scroll-list" handleLoadMore={this.handleLoadMore.bind(this)}>
           {this.renderConversations()}
           <div className={"client-list-spin" + showSpin}>
             <FmsSpin size={27}/>
           </div>
-        </div>
+        </FmsScrollableDiv>
       </div>
     );
   }
