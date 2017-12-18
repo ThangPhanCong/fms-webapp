@@ -125,9 +125,27 @@
 }
   
 .scrollbar-inner > .scroll-element .scroll-element_track { background-color: transparent; }
-.scrollbar-inner > .scroll-element .scroll-bar { background-color: #c2c2c2; min-height: 64px; display: none}
-.scrollbar-inner:hover > .scroll-element .scroll-bar { display: block}
-.scrollbar-inner > .scroll-element:hover .scroll-bar { background-color: #919191; display: block}
+.scrollbar-inner > .scroll-element .scroll-bar { 
+    background-color: #c2c2c2; 
+    min-height: 64px; 
+    visibility: hidden;
+    -webkit-transition: visibility 2s;
+       -moz-transition: visibility 2s;
+        -ms-transition: visibility 2s;
+         -o-transition: visibility 2s;
+            transition: visibility 2s;
+}
+.scrollbar-inner:hover > .scroll-element .scroll-bar { 
+    visibility: visible;
+    -webkit-transition: visibility 2s;
+       -moz-transition: visibility 2s;
+        -ms-transition: visibility 2s;
+         -o-transition: visibility 2s;
+            transition: visibility 2s;
+}
+.scrollbar-inner > .scroll-element:hover .scroll-bar { 
+    background-color: #919191; 
+}
 .scrollbar-inner > .scroll-element.scroll-draggable .scroll-bar { background-color: #919191; }
   
   

@@ -45,6 +45,7 @@ class FmsChatArea extends React.Component {
         this.props.dispatch(isShownNewMsgNoti(false));
       }
     });
+    $(list).scrollbar();
     this.props.dispatch(setScrollList(list));
   }
 
@@ -138,7 +139,7 @@ class FmsChatArea extends React.Component {
         <div className={"conversation-spin" + spin}>
           <FmsSpin size={27}/>
         </div>
-        <div className="chat-area" ref="chat_area">
+        <div className="chat-area scrollbar-inner" ref="chat_area">
           <div className={"client-list-spin" + showSpin}>
             <FmsSpin size={27}/>
           </div>
