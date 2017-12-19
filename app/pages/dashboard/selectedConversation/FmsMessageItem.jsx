@@ -23,7 +23,7 @@ class FmsMessageItem extends React.Component {
     else attachsFail.push(previewUrl);
     DashboardAPI.updateExpiredAttachmentMsg(this.props.type, msg._id)
       .then(res => {
-        this.setState({message: res});
+        this.setState({ message: res });
       }, err => {
         console.log(err);
       });
@@ -35,23 +35,31 @@ class FmsMessageItem extends React.Component {
   }
 
   renderAttachment() {
-    // let msg = this.state.message, attachments;
-    // if (this.props.type === "comment") attachments = msg.attachment.data;
-    // else attachments = msg.attachments.data;
-    // console.log(msg);
-    // let attachments = msg.attachments;
-    // if (!attachments) return;
-    // let self = this;
-    // let isSelf = this.props.isSelf;
-    // let hasMessage = (msg.message === "") ? -1 : 1;
-    // let data = attachments[0].data;
-    // return data.map(a => {
-    //   let size = {width: a.width, height: a.height};
-    //   return <FmsAttachmentContent key={uuid()} hasMessage={hasMessage} origin={a.src}
-    //                                 isSelf={isSelf} preview={a.preview} size={size}
-    //                                 getChatAreaWidth={self.props.getChatAreaWidth}
-    //                                 attachmentLoadError={self.attachmentLoadError.bind(this)}/>
-    // });
+    let msg = this.state.message, self = this;
+    if (!msg.attachments && !msg.shares) return;
+    let isSelf = this.props.isSelf;
+    let hasMessage = (msg.message == "") ? -1 : 1;
+    if (msg.shares) {
+      return msg.shares.map(share => {
+        if (share.link && share.link.indexOf("scontent") !== -1) {
+          return <FmsAttachmentContent key={uuid()} preview={share.link} isSelf={isSelf} type={'sticker'}
+            attachmentLoadError={self.attachmentLoadError.bind(this)} />
+        }
+      });
+    } else {
+      return msg.attachments.map((attachment, index) => {
+        let data = attachment.data, size;
+        if (Array.isArray(data) && data.length > 0) {
+          data = data[0];
+          if (index > 0) hasMessage = 0;
+          size = { width: data.width, height: data.height };
+          return <FmsAttachmentContent key={uuid()} hasMessage={hasMessage} origin={data.src}
+            isSelf={isSelf} preview={data.preview || data.src} size={size}
+            getChatAreaWidth={self.props.getChatAreaWidth}
+            attachmentLoadError={self.attachmentLoadError.bind(this)} />
+        }
+      });
+    }
   }
 
   render() {
@@ -76,11 +84,11 @@ class FmsMessageItem extends React.Component {
         <div className={"message-wrapper" + messageWrapper}>
           <div className={"profile-wrapper" + profileWrapper}>
             <FmsToolTip message={msg.from.name} direction={(isSelf) ? "right" : "left"}>
-              <a href={userFb} target="_blank"><img src={avaUrl} className={"profile-message" + firstMsg}/></a>
+              <a href={userFb} target="_blank"><img src={avaUrl} className={"profile-message" + firstMsg} /></a>
             </FmsToolTip>
           </div>
           <div className={"message-content" + messageContent}>
-            <FmsTextMessageContent textMessage={textMessage} message={msg} isSelf={isSelf} type={this.props.type}/>
+            <FmsTextMessageContent textMessage={textMessage} message={msg} isSelf={isSelf} type={this.props.type} />
           </div>
         </div>
         {this.renderAttachment()}

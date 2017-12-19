@@ -14,9 +14,8 @@ class FmsScrollableDiv extends React.Component {
     $(list).scrollbar();
 	}
 	render() {
-		let customClass = this.props.customClass;
 		return (
-			<div ref="list" className={customClass + " scrollbar-inner"}>
+			<div ref="list" className={this.props.className + " scrollbar-inner"}>
 				{this.props.children}
 			</div>
 		)

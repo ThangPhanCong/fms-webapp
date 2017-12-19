@@ -7,7 +7,7 @@ import searchImg from '../../../images/search.png';
 import FmsConversationItem from './FmsConversationItem';
 import FmsSpin from '../../../components/FmsSpin';
 import FmsFilterTags from './FmsFilterTags';
-import FmsScrollableDiv from '../../../components/FmsScrollableDiv';
+import FmsScrollableDiv from '../../../components/scroll-bar/FmsScrollableDiv';
 
 import {loadMoreConversations} from '../../../actions/dashboard/conversations';
 import {setSearchText, handleFilter} from '../../../actions/dashboard/filters';
@@ -49,7 +49,7 @@ class FmsConversationList extends React.Component {
                  onChange={this.handleSearchChange.bind(this)} defaultValue={this.props.searchText}/>
           <FmsFilterTags/>
         </div>
-        <FmsScrollableDiv customClass="scroll-list" handleLoadMore={this.handleLoadMore.bind(this)}>
+        <FmsScrollableDiv className="scroll-list" handleLoadMore={this.handleLoadMore.bind(this)}>
           {this.renderConversations()}
           <div className={"client-list-spin" + showSpin}>
             <FmsSpin size={27}/>

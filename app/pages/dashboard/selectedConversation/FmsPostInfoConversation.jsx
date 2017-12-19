@@ -1,8 +1,8 @@
 import React from 'react';
 import uuid from 'uuid';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import DashboardApi from '../../../api/DashboardApi';
-import {setPostInfo} from '../../../actions/dashboard/chat/messages';
+import { setPostInfo } from '../../../actions/dashboard/chat/messages';
 
 class FmsPostInfoConversation extends React.Component {
   handleAttachExpired() {
@@ -15,16 +15,13 @@ class FmsPostInfoConversation extends React.Component {
   }
 
   renderAttachments(attachments) {
-    // let atts = [];
-    // if (attachments && Array.isArray(attachments.data)) {
-    //   let short = attachments.data[0];
-    //   if (short.subattachments && Array.isArray(short.subattachments.data)) atts = short.subattachments.data;
-    // }
-    // return atts.map(att => {
-    //   let src = att.media.image.src;
-    //   return <a className="attachment-in-conversation" href={src} target="_blank" key={uuid()}>
-    //     <img className="image-in-conversation" src={src} onError={this.handleAttachExpired.bind(this)}/></a>
-    // });
+    if (attachments && Array.isArray(attachments) && attachments.length > 0 && Array.isArray(attachments[0].data)) {
+      return attachments[0].data.map(attachment => {
+        let src = attachment.preview || attachment.src;
+        return <a className="attachment-in-conversation" href={src} target="_blank" key={uuid()}>
+          <img className="image-in-conversation" src={src} onError={this.handleAttachExpired.bind(this)} /></a>
+      });
+    }
   }
 
   renderPost() {
@@ -40,7 +37,7 @@ class FmsPostInfoConversation extends React.Component {
   }
 
   render() {
-    if (!this.props.pageInfo) return <span/>;
+    if (!this.props.pageInfo) return <span />;
     return (
       <div className="post-info-conversation">
         <p className="page-name-conversation">{this.props.pageInfo.name}</p>

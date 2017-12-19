@@ -68,7 +68,7 @@ class FmsAttachmentContent extends React.Component {
     let isSticker = (self.props.type === "sticker") ? " sticker" : "";
     let hasBorder = (this.state.isLoading) ? "" : " no-border";
     let preview = self.props.preview;
-    let msgAttachWrapper = (self.props.preview === "" || self.props.preview == null || self.props.preview === undefined) ? " hide" : "";
+    let msgAttachWrapper = (self.props.preview == "" || !self.props.preview) ? " hide" : "";
 
     return (
       <div className={"message-attachment-wrapper" + hasMessage + msgAttachWrapper}>
