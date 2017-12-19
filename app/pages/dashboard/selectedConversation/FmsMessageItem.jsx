@@ -55,7 +55,7 @@ class FmsMessageItem extends React.Component {
           size = { width: data.width, height: data.height };
           return <FmsAttachmentContent key={uuid()} hasMessage={hasMessage} origin={data.src}
             isSelf={isSelf} preview={data.preview || data.src} size={size}
-            getChatAreaWidth={self.props.getChatAreaWidth}
+            getChatAreaWidth={self.props.getChatAreaWidth} type={attachment.type}
             attachmentLoadError={self.attachmentLoadError.bind(this)} />
         }
       });
