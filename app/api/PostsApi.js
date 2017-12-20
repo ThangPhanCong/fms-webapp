@@ -18,11 +18,9 @@ module.exports = {
     return apiSender.get(route);
   },
   hideComment: (post_id, hide) => {
-    let route;
-    if (hide) route = `/api/posts/${post_id}/hidecomment`;
-    else route = `/api/posts/${post_id}/unhidecomment`;
-
-    return apiSender.post(route, {});
+    let route = `/api/posts/${post_id}`;
+    let payload = { hide_comment: hide };
+    return apiSender.put(route, payload);
   },
   updateExpiredAttachmentPost: (post_id) => {
     let route = `/api/posts/${post_id}`;

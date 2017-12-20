@@ -5,23 +5,16 @@ import uuid from 'uuid';
 
 class FmsPostItem extends React.Component {
   onToggleChange() {
-    this.props.onToggleChange(this.props.data.fb_id);
+    this.props.onToggleChange(this.props.data._id);
   }
 
   renderImgs() {
     let {attachments} = this.props.data;
-    if (attachments) {
-      let photoAttachment = attachments.data.find(atm => atm);
-      if (photoAttachment.type === "photo") {
-        return (
-          <Image key={uuid()} src={photoAttachment.media.image.src}/>
-        )
-      } else if (photoAttachment.type === "album") {
-        return photoAttachment.subattachments.data.map(atm => {
-          return (<Image key={uuid()} src={atm.media.image.src}/>)
-        })
-      } else {
-        return null;
+    if (attachments && Array.isArray(attachments) && attachments.length > 0) {
+      if (Array.isArray(attachments[0].data)) {
+        return attachments[0].data.map(a => {
+          return <Image key={uuid()} src={a.preview || a.src}/>;
+        });
       }
     }
   }

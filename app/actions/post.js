@@ -36,16 +36,16 @@ export const getPosts = (project_alias, nextPosts) => dispatch => {
 
 };
 
-export const toggleChange = (posts, fb_post_id, noti) => () => {
+export const toggleChange = (posts, post_id, noti) => () => {
   let postChange = posts.find((post) => {
-    return post.fb_id === fb_post_id;
+    return post._id === post_id;
   });
-  PostsApi.hideComment(fb_post_id, !postChange.hide_comment)
+  PostsApi.hideComment(post_id, !postChange.hide_comment)
     .then(() => {
       postChange.hide_comment = !postChange.hide_comment;
 
       for (let post of posts) {
-        if (post.fb_id === fb_post_id) {
+        if (post._id === post_id) {
           if (post.hide_comment) {
             noti('success', 'Ẩn bình luận thành công');
           } else {

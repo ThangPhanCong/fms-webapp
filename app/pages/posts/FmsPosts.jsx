@@ -4,6 +4,7 @@ import {Grid, Row, Col, Button} from 'react-bootstrap';
 import FmsPostItem from './FmsPostItem';
 import {getPosts, toggleChange} from '../../actions/post';
 import FmsSpin from "../../components/FmsSpin";
+import FmsDivider from '../../pages/dashboard/selectedConversation/FmsDivider';
 
 class FmsPosts extends React.Component {
   componentDidMount() {
@@ -50,9 +51,23 @@ class FmsPosts extends React.Component {
 
   render() {
     const {paging, isPostsLoading, isMorePostsLoading} = this.props;
-    let styleGird = (isPostsLoading) ? "" : "posts";
     return (
-      <Grid bsClass={"page " + styleGird}>
+      <Grid bsClass={"page posts"}>
+        <div className="new-post">
+          <div className="title-new-post">Đăng bài mới</div>
+          <div className="header-new-post">
+            Chọn trang để đăng bài
+          </div>
+          <div className="body-new-post">
+            <textarea className="textarea-new-post"/>
+          </div>
+          <div className="trailer-new-post">
+            <button className="button-new-post btn btn-primary">Lên lịch</button>
+            <button className="button-new-post btn btn-success">Đăng</button>
+          </div>
+        </div>
+        <hr className="hr-divider"/>
+        <div className="title-list-post">Các bài đăng gần đây</div>
         <Row>
           {this.renderPosts()}
         </Row>
