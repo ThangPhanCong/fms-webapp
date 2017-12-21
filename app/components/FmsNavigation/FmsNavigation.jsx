@@ -1,26 +1,16 @@
 import React from 'react';
 import {connect} from 'react-redux';
-<<<<<<< 5d2c85969759b086fb7d264ddea464f65d198e18:app/components/FmsNavigation.jsx
-import {Link, NavLink, Route, Switch, withRouter} from 'react-router-dom';
-=======
+
 import {Link, NavLink, Redirect, Route, Switch, withRouter} from 'react-router-dom';
 import * as store from '../../helpers/storage';
->>>>>>> testcomponent:app/components/FmsNavigation/FmsNavigation.jsx
 import uuid from 'uuid';
 import {Image, Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
 
-<<<<<<< 5d2c85969759b086fb7d264ddea464f65d198e18:app/components/FmsNavigation.jsx
-import {logOut} from '../actions/auth';
-import cvImg from '../images/ic_conversation.png';
-import settingsImg from '../images/ic_settings.png';
-import postsImg from '../images/ic_posts.png';
-=======
 import projectApi from '../../api/ProjectApi';
 import {logOut} from '../../actions/auth';
 import cvImg from '../../images/ic_conversation.png';
 import settingsImg from '../../images/ic_settings.png';
 import postsImg from '../../images/ic_posts.png';
->>>>>>> testcomponent:app/components/FmsNavigation/FmsNavigation.jsx
 
 class FmsNavigation extends React.Component {
 
