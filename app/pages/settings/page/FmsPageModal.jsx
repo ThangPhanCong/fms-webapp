@@ -4,7 +4,7 @@ import {Modal} from 'react-bootstrap';
 import {withRouter} from 'react-router-dom';
 import {isShowModal, activePages} from "../../../actions/setting/setting-page";
 import FmsPageItemInModal from './FmsPageItemInModal';
-import FmsSpin from '../../../components/FmsSpin';
+import FmsSpin from '../../../components/FmsSpin/FmsSpin';
 
 class FmsPageModal extends Component {
   handleActivePages() {

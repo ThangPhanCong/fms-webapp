@@ -1,6 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
+
+import FmsSpin from '../../components/FmsSpin/FmsSpin';
 import FmsChatArea from './selectedConversation/FmsChatArea';
 import FmsConversationList from './conversations/FmsConversationList';
 import FmsClientInformation from './information/FmsClientInformation';

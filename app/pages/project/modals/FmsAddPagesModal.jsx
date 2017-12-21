@@ -4,7 +4,9 @@ import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 
 import FmsPageItem from './FmsPageItem';
-import FmsSpin from '../../../components/FmsSpin';
+import FmsSpin from '../../../components/FmsSpin/FmsSpin';
+import projectApi from '../../../api/ProjectApi';
+import pagesApi from '../../../api/PagesApi';
 
 class FmsAddPagesModal extends Component {
   constructor() {

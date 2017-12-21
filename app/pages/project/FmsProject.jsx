@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import propTypes from 'prop-types';
 import {Observable} from 'rxjs/Observable';
 
-import FmsSpin from '../../components/FmsSpin';
+import FmsSpin from '../../components/FmsSpin/FmsSpin';
 import FmsProjectItem from './FmsProjectItem';
 import FmsNewProjectModal from './modals/FmsNewProjectModal';
 import FmsAddPagesModal from './modals/FmsAddPagesModal';

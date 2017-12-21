@@ -1,12 +1,19 @@
 const webpack = require('webpack');
 const path = require('path');
+const SuppressChunksPlugin = require('suppress-chunks-webpack-plugin').default;
 
 const __rootdir = path.join(__dirname, '/../..');
 let configPath;
 
 const indexHtml = path.join(__rootdir, 'app', 'index.html');
+const indextestHtml = path.join(__rootdir, 'app', 'index-test.html');
 const appJs = path.join(__rootdir, 'app', 'index.js');
-const fms_scroll = path.join(__rootdir, 'app', 'components', 'scroll-bar', 'fms_scroll');
+const apptestJs = path.join(__rootdir, 'app', 'index-test.js');
+
+const entry = {
+  indexHtml,
+  app: appJs
+}
 
 if (process.env.NODE_ENV === 'production') {
   configPath = path.resolve(__rootdir, 'config/env/config-prod.json');
@@ -14,18 +21,16 @@ if (process.env.NODE_ENV === 'production') {
   configPath = path.resolve(__rootdir, 'config/env/config-staging.json');
 } else {
   configPath = path.resolve(__rootdir, 'config.json');
+  entry['index-test'] = indextestHtml;
+  entry['app-test'] = apptestJs;
 }
 
 module.exports = {
-  entry: [
-    appJs,
-    fms_scroll,
-    indexHtml
-  ],
-
+  entry: entry,
   output: {
     path: path.resolve(__rootdir, 'build'),
-    filename: 'app.bundle.js'
+    filename: '[name].bundle.js',
+    publicPath: '/'
   },
 
   resolve: {
@@ -46,13 +51,14 @@ module.exports = {
       name: 'vendor',
       filename: 'vendor.bundle.js',
       minChunks: module => module.context && module.context.indexOf('node_modules') !== -1
-    })
+    }),
+    new SuppressChunksPlugin(['index-test', 'indexHtml'])
   ],
 
   module: {
     rules: [
       {
-        test: indexHtml,
+        test: [indexHtml, indextestHtml],
         loaders: [
           {
             loader: 'file-loader',
@@ -68,31 +74,17 @@ module.exports = {
             }
           }
         ],
-      }, {
+      },
+      {
         test: /\.scss$/,
-        loaders: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '/static/[name].css'
-            }
-          },
-          'extract-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              minimize: process.env.NODE_ENV == 'production'
-            }
-          },
-          'sass-loader'
-        ],
+        use: ['style-loader', 'css-loader', 'sass-loader']
       }, {
         test: /\.css$/,
         loaders: [
           {
             loader: 'file-loader',
             options: {
-              name: '/static/[name].css'
+              name: 'static/[name].css'
             }
           },
           'extract-loader', 'css-loader'
@@ -125,4 +117,4 @@ module.exports = {
       }
     ]
   }
-};
+}

@@ -17,7 +17,7 @@ import {
   changeDescriptionProject
 } from "../../../actions/setting/setting-general";
 import projectApi from '../../../api/ProjectApi';
-import FmsSpin from '../../../components/FmsSpin';
+import FmsSpin from '../../../components/FmsSpin/FmsSpin';
 import FmsConfirm from "../../../components/confirm-modal/FmsConfirm";
 
 class FmsGeneral extends React.Component {

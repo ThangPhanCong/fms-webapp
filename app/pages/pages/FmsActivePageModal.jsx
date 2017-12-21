@@ -1,8 +1,9 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 
-import FmsPageItemInModal from '../project/FmsPageItemInModal';
-import FmsSpin from '../components/FmsSpin';
+// import FmsPageItemInModal from '../project/FmsPageItemInModal';
+import PagesAPI from '../../api/PagesApi';
+// import FmsSpin from '../components/';
 import * as socket from '../../socket';
 
 class FmsActivePageModal extends React.Component {
@@ -128,7 +129,7 @@ class FmsActivePageModal extends React.Component {
 				<Modal.Footer>
 					<div className="pagemodal-footer-wrapper">
 						<div className={"status " + statusHidden}>
-							<FmsSpin size={34}></FmsSpin>
+							{/* <FmsSpin size={34}></FmsSpin> */}
 							<p className="text-status">{loadingStatus}</p>
 						</div>
 						<button type="button" className={"btn btn-primary active-btn"}

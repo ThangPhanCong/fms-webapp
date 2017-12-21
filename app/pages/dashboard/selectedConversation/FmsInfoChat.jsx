@@ -5,7 +5,7 @@ import blockImg from '../../../images/block.png';
 import blockActiveImg from '../../../images/block_active.png';
 import fbImg from '../../../images/facebook.png';
 
-import FmsToolTip from '../../../components/FmsToolTip';
+import FmsToolTip from '../../../components/FmsToolTip/FmsToolTip';
 
 import {blockPerson} from '../../../actions/dashboard/chat/conversationInfo';
 import FmsDate from '../../../helpers/FmsDate';

@@ -1,9 +1,9 @@
 import React from 'react';
 import {Row, Col, Button} from 'react-bootstrap';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
-import {isShowModal, getPagesProject, resetPages} from "../../../actions/setting/setting-page";
-import FmsSpin from '../../../components/FmsSpin';
+import {withRouter, Redirect} from 'react-router-dom';
+import {isShowModal, deletePage, getPagesProject,resetPages} from "../../../actions/setting/setting-page";
+import FmsSpin from '../../../components/FmsSpin/FmsSpin';
 import FmsPageModal from './FmsPageModal';
 import FmsPageInProject from './FmsPageInProject';
 

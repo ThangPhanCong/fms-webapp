@@ -11,8 +11,9 @@ import unreadImgActive from '../../images/unread_active.png';
 import postImgActive from '../../images/post_active.png';
 import inboxImgActive from '../../images/inbox_active.png';
 
-import FmsToolTip from '../../components/FmsToolTip';
-import {handleTypeFilterClick} from '../../actions/dashboard/filters';
+
+import FmsToolTip from '../../components/FmsToolTip/FmsToolTip';
+import { handleTypeFilterClick } from '../../actions/dashboard/filters';
 
 class FmsVerticalNav extends React.Component {
   handleTypeFilterClick(position) {
