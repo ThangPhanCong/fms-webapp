@@ -1,3 +1,5 @@
+// TODO: đặt lại tên cho file này, nếu là thư viện bên ngoài copy lại thì để nguyên tên file và trích dẫn phần đầu
+
 /**
  * jQuery CSS Customizable Scrollbar
  *
