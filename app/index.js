@@ -3,10 +3,9 @@ import {Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import 'url-search-params-polyfill';
-import FmsButtonTest from './components/FmsButton/FmsButtonTest'
 
 import {configure} from './store/configureStore';
-import FmsApp from './pages/FmsApp';
+import FmsApp from './containers/FmsApp';
 
 const store = configure();
 
@@ -14,7 +13,7 @@ const store = configure();
 require("bootstrapJs");
 
 //Load Css js
-require('../app/composeCss')
+require('../app/composeCss');
 
 
 ReactDOM.render(

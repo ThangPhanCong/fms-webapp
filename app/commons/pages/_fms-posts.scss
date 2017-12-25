@@ -1,0 +1,119 @@
+.post-item {
+  padding: 10px;
+  margin-bottom: 30px;
+  background-color: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 3px;
+  min-height: 320px;
+  max-height: 320px;
+  display: flex;
+  flex-direction: column;
+  .content-wrapper {
+    flex: 1;
+    overflow: hidden;
+    padding-top: 10px;
+  }
+  .content {
+    overflow: hidden;
+  }
+  .checkbox {
+    margin: 0;
+    padding-top: 10px;
+    border-top: 1px solid #e2e2e2;
+  }
+  .page-info {
+    padding: 0 0 10px 10px;
+    border-bottom: 1px solid #e2e2e2;
+    .page-name {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 15px;
+      font-weight: 600;
+    }
+  }
+  .image-wrapper {
+    height: 72px;
+    max-height: 72px;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      border-radius: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 5px;
+    }
+    img {
+      // width: 58px;
+      max-height: 72px;
+      max-width: 80px;
+      padding-right: 7px;
+      overflow: hidden;
+      height: 72px;
+    }
+  }
+}
+
+.posts {
+  // background-color: #f1f2f3;
+  padding: 0 32px;
+  min-height: 100vh;
+  background-color: #f6f6f6;
+  .loadmore-wrapper {
+    text-align: center;
+  }
+}
+
+.no-post {
+  margin: 10px auto auto;
+  text-align: center;
+}
+
+.page {
+  .fms-spin {
+    margin-top: 14px;
+    text-align: center;
+  }
+}
+.new-post {
+  margin-top: 15px;
+  width: 525px;
+  display: inline-block;
+}
+.title-new-post {
+  font-weight: 600;
+  font-size: 16px;
+}
+.textarea-new-post {
+  width: 100%;
+  height: 100px;
+  resize: none;
+  border-radius: 3px;
+}
+.textarea-new-post:focus {
+  outline: none;
+}
+.header-new-post {
+  padding: 7px;
+  padding-left: 0;
+}
+.trailer-new-post {
+  padding: 7px 0;
+}
+.button-new-post {
+  margin-right: 10px;
+}
+
+.title-list-post {
+  text-align: center;
+  font-weight: 600;
+  font-size: 16px;
+  margin: 18px;
+}
+.hr-divider {
+  border-top: 1px solid #cecece;
+}

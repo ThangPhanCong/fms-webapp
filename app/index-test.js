@@ -3,13 +3,13 @@ import {Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import 'url-search-params-polyfill';
-import TestComponent from './components/test/TestComponents'
-import FmsButtonTest from './components/FmsButton/FmsButtonTest'
-import FmsLoadingTest from './components/FmsLoading/FmsLoading'
-import FmsToolTipTest from './components/FmsToolTip/FmsToolTip'
+import TestComponent from './commons/test/TestComponents'
+import FmsButtonTest from './commons/FmsButton/FmsButtonTest'
+import FmsLoadingTest from './commons/FmsLoading/FmsLoading'
+import FmsToolTipTest from './commons/FmsToolTip/FmsToolTip'
 
 import {configure} from './store/configureStore';
-import FmsApp from './pages/FmsApp';
+import FmsApp from './containers/FmsApp';
 
 const store = configure();
 
