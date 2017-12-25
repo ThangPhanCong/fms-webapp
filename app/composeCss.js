@@ -3,3 +3,6 @@ function importAll (r) {
 }
 
 importAll(require.context('././', true, /\.scss$/));
+// importAll(require.context('././', true, /\.css$/));
+
+require('./styles/bootstrap.css');

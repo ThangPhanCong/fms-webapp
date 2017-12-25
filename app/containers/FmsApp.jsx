@@ -14,7 +14,7 @@ import FmsPosts from './posts/FmsPosts';
 import FmsSettings from './settings/FmsSettings';
 import FmsLoading from '../commons/FmsLoading/FmsLoading';
 import FmsRoute from '../commons/FmsRoute';
-import {ALERT_TIME_DISMIS} from '../constants/utils';
+import {ALERT_TIME_DISMIS} from '../constants/alert';
 import {verifyAccessToken} from '../actions/auth';
 
 class FmsApp extends Component {

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Row, Col} from 'react-bootstrap';
 import {connect} from 'react-redux';
-import {MAX_TAG_ITEMS, TAG_COLORS} from '../../constants/utils';
+import {MAX_TAG_ITEMS, TAG_COLORS} from '../../constants/tag';
 import FmsTagItem from './FmsTagItem';
 import {getTags, addNewTag, updateTag, deleteTag} from '../../actions/setting/setting-tag';
 import {
