@@ -6,9 +6,9 @@ import uuid from 'uuid';
 import propTypes from 'prop-types';
 
 import FmsHome from './home/FmsHome';
+import FmsLogin from './login/FmsLogin';
 import FmsProject from './project/FmsProject';
 import FmsDashboard from './dashboard/FmsDashboard';
-// import FmsNavigation from '../commons/FmsNavigation';
 import FmsNavigation from '../commons/FmsNavigation/FmsNavigation';
 import FmsPosts from './posts/FmsPosts';
 import FmsSettings from './settings/FmsSettings';
@@ -19,6 +19,7 @@ import FmsLoading from '../commons/FmsLoading/FmsLoading';
 import FmsRoute from '../commons/FmsRoute';
 import {ALERT_TIME_DISMIS} from '../constants/alert';
 import {verifyAccessToken} from '../actions/auth';
+import FmsProgress from "../commons/FmsProgress/FmsProgress";
 
 class FmsApp extends Component {
     constructor(props) {
@@ -95,30 +96,33 @@ class FmsApp extends Component {
         } else {
             if (isAuthenticated) {
                 return (
-                    //     {this.renderAlerts()}
-                    // <FmsNavigation/>
-                    <Switch>
-                        <FmsRoute exact path="/projects" component={FmsProject} noti={this.noti.bind(this)}/>
-                        <FmsRoute exact path="/projects/:project_alias"
-                                  component={FmsDashboard}
-                                  noti={this.noti.bind(this)}/>
-                        <FmsRoute path="/projects/:project_alias/posts"
-                                  component={FmsPosts}
-                                  noti={this.noti.bind(this)}/>
-                        <FmsRoute path="/projects/:project_alias/settings"
-                                  component={FmsSettings}
-                                  noti={this.noti.bind(this)}/>
-                        <Route path="/ok" component={ProjectDashboard}>
-                            {/*<IndexRedirect to="/projects"/>*/}
-                            {/*<Redirect to="projects"/>*/}
-                        </Route>
-                        <Redirect to="/projects"/>
-                    </Switch>
+                    <div>
+                        {/*// {this.renderAlerts()}*/}
+                        <FmsProgress />
+                        {/*<FmsNavigation />*/}
+                        <Switch>
+                            <FmsRoute exact path="/projects" component={FmsProject} noti={this.noti.bind(this)}/>
+                            <FmsRoute exact path="/projects/:project_alias"
+                                      component={FmsDashboard}
+                                      noti={this.noti.bind(this)}/>
+                            <FmsRoute path="/projects/:project_alias/posts"
+                                      component={FmsPosts}
+                                      noti={this.noti.bind(this)}/>
+                            <FmsRoute path="/projects/:project_alias/settings"
+                                      component={FmsSettings}
+                                      noti={this.noti.bind(this)}/>
+                            <Route path="/ok" component={ProjectDashboard}>
+                                {/*<IndexRedirect to="/projects"/>*/}
+                                {/*<Redirect to="projects"/>*/}
+                            </Route>
+                            <Redirect to="/projects"/>
+                        </Switch>
+                    </div>
                 )
             } else {
                 return (
                     <Switch>
-                        <FmsRoute exact path="/" component={FmsHome} noti={this.noti.bind(this)}/>
+                        <FmsRoute exact path="/" component={FmsLogin} noti={this.noti.bind(this)}/>
                         <Redirect to="/"/>
                     </Switch>
                 )

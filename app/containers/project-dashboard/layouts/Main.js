@@ -1,13 +1,12 @@
 import React from 'react';
-import Progress from '../common/Progress';
 import Navigation from '../common/Navigation';
 import Footer from '../common/Footer';
 import TopHeader from '../common/TopHeader';
 import {correctHeight, detectBody} from './Helpers';
 import MinorView from "../views/Minor";
-import MainView from "../views/Main";
 import {Route, Switch} from "react-router-dom";
 import RightSideBar from "../common/RightSideBar";
+import Dashboard from "../views/Dashboard";
 
 class Main extends React.Component {
 
@@ -23,7 +22,6 @@ class Main extends React.Component {
         let wrapperClass = "gray-bg " + this.props.location.pathname;
         return (
             <div id="wrapper">
-                <Progress />
                 <Navigation
                     location={this.props.location}
                 />
@@ -33,8 +31,8 @@ class Main extends React.Component {
                     <TopHeader onToggleRightNavbar={() => {this.toggleRightNavbar()}}/>
 
                     <Switch>
-                        <Route path="main" component={MainView}> </Route>
-                        <Route path="minor" component={MinorView}> </Route>
+                        <Route path={this.props.match.path + "/dashboard"} component={Dashboard}> </Route>
+                        <Route path={this.props.match.path + "/minor"} component={MinorView}> </Route>
                     </Switch>
 
                     <Footer/>

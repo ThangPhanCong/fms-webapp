@@ -25,7 +25,6 @@ class Navigation extends Component {
                     <li className="nav-header">
                         <div className="dropdown profile-element">
                             <img alt="avatar-user" className="img-circle" src={profileMockup}/>
-                            <span></span>
                             <a data-toggle="dropdown" className="dropdown-toggle" href="#">
                             <span className="clear"> <span className="block m-t-xs"> <strong className="font-bold">Nguyễn Văn Vui</strong>
                              </span> <span className="text-muted text-xs block">Nhân viên bán hàng <b
@@ -38,14 +37,34 @@ class Navigation extends Component {
                             <img alt="avatar-user" className="img-circle" src={profileMockup}/>
                         </div>
                     </li>
-                    
+
+
                     <li className={this.activeRoute("main")}>
-                        <Link to="main"><i className="fa fa-th-large"></i> <span className="nav-label">Main view</span></Link>
+                        <Link to="main">
+                            <i className="fa fa-th-large"/>
+                            <span className="nav-label">Main view</span>
+                        </Link>
                     </li>
-                    
+
+                    <li className={this.activeRoute("dashboard")}>
+                        <Link to="main">
+                            <i className="fa fa-th-large"/>
+                            <span className="nav-label">Main view</span>
+                            <i class="fa arrow"/>
+                        </Link>
+                        <ul className={this.secondLevelActive('dashboard')}>
+                            <li className=""><a href="#">Cuộc hội thoại</a></li>
+                            <li><a href="#">Bài viết</a></li>
+                            <li><a href="#">Thẻ màu</a></li>
+                            <li><a href="#">Cài đặt</a></li>
+                        </ul>
+                    </li>
+
                     <li className={this.activeRoute("minor")}>
-                        <Link to="minor"><i className="fa fa-th-large"></i> <span
-                            className="nav-label">Minor view</span></Link>
+                        <Link to="minor">
+                            <i className="fa fa-th-large"/>
+                            <span className="nav-label">Minor view</span>
+                        </Link>
                     </li>
                 </ul>
 
@@ -54,4 +73,4 @@ class Navigation extends Component {
     }
 }
 
-export default Navigation
+export default Navigation;
