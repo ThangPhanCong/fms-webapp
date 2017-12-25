@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import inboxImg from '../../../images/inbox.png';
-import postImg from '../../../images/post.png';
+import inboxImg from '../../../assets/images/inbox.png';
+import postImg from '../../../assets/images/post.png';
 import uuid from 'uuid';
 
 import { handleConversationClick } from '../../../actions/dashboard/conversations';

@@ -8,9 +8,9 @@ import {Image, Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstra
 
 import projectApi from '../../api/ProjectApi';
 import {logOut} from '../../actions/auth';
-import cvImg from '../../images/ic_conversation.png';
-import settingsImg from '../../images/ic_settings.png';
-import postsImg from '../../images/ic_posts.png';
+import cvImg from '../../assets/images/ic_conversation.png';
+import settingsImg from '../../assets/images/ic_settings.png';
+import postsImg from '../../assets/images/ic_posts.png';
 
 class FmsNavigation extends React.Component {
 

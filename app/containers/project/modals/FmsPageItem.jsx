@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
-import tickImg from '../../../images/tick.png';
+import tickImg from '../../../assets/images/tick.png';
 
 class FmsPageItemInModal extends React.Component {
   onPageClick() {

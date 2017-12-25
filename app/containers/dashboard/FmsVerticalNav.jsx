@@ -1,15 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import allImg from '../../images/all.png';
-import unreadImg from '../../images/unread.png';
-import postImg from '../../images/post.png';
-import inboxImg from '../../images/inbox.png';
+import allImg from '../../assets/images/all.png';
+import unreadImg from '../../assets/images/unread.png';
+import postImg from '../../assets/images/post.png';
+import inboxImg from '../../assets/images/inbox.png';
 
-import allImgActive from '../../images/all_active.png';
-import unreadImgActive from '../../images/unread_active.png';
-import postImgActive from '../../images/post_active.png';
-import inboxImgActive from '../../images/inbox_active.png';
+import allImgActive from '../../assets/images/all_active.png';
+import unreadImgActive from '../../assets/images/unread_active.png';
+import postImgActive from '../../assets/images/post_active.png';
+import inboxImgActive from '../../assets/images/inbox_active.png';
 
 
 import FmsToolTip from '../../commons/FmsToolTip/FmsToolTip';

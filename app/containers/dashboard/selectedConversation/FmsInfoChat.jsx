@@ -1,9 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import blockImg from '../../../images/block.png';
-import blockActiveImg from '../../../images/block_active.png';
-import fbImg from '../../../images/facebook.png';
+import blockImg from '../../../assets/images/block.png';
+import blockActiveImg from '../../../assets/images/block_active.png';
+import fbImg from '../../../assets/images/facebook.png';
 
 import FmsToolTip from '../../../commons/FmsToolTip/FmsToolTip';
 

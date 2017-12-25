@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {logIn} from '../../actions/auth';
 
-import homepageImg from '../../images/homepage.jpg';
+import homepageImg from '../../assets/images/homepage.jpg';
 
 class FmsHome extends Component {
   onClickLoginBtn() {

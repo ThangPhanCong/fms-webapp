@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import tickImg from '../../../images/tick.png';
+import tickImg from '../../../assets/images/tick.png';
 import {selectPageModal} from "../../../actions/setting/setting-page";
 
 class FmsPageItemInModal extends React.Component {

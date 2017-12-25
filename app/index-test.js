@@ -8,23 +8,18 @@ import FmsButtonTest from './commons/FmsButton/FmsButtonTest'
 import FmsLoadingTest from './commons/FmsLoading/FmsLoading'
 import FmsToolTipTest from './commons/FmsToolTip/FmsToolTip'
 
+import '../app/composeAssets';
+
 import {configure} from './store/configureStore';
-import FmsApp from './containers/FmsApp';
 
 const store = configure();
 
-// Load Bootstrap js
-require("bootstrapJs");
-
-//Load Css js
-require('../app/composeCss')
-
 ReactDOM.render(
-	<Router>
-		<Switch>
-			<Route path='/test' component ={TestComponent} />
-		</Switch>
-	</Router>
-		,
-	document.getElementById('app-test')
+    <Router>
+        <Switch>
+            <Route path='/test' component={TestComponent}/>
+        </Switch>
+    </Router>
+    ,
+    document.getElementById('app-test')
 );

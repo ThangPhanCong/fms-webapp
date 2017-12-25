@@ -35,9 +35,8 @@ module.exports = {
 
     resolve: {
         alias: {
-            bootstrapJs: path.resolve(__rootdir, 'node_modules/bootstrap/dist/js/bootstrap.min.js'),
             CONFIG: configPath,
-            images: path.resolve(__rootdir, 'app/images')
+            images: path.resolve(__rootdir, 'app/assets/images')
         },
         extensions: ['.json', '.js', '.jsx']
     },
@@ -45,8 +44,14 @@ module.exports = {
     plugins: [
         new webpack.ProvidePlugin({
             '$': 'jquery',
-            'jQuery': 'jquery'
+            'jQuery': 'jquery',
+            'window.jQuery': 'jquery',
+            'window.$': 'jquery'
         }),
+
+        // new webpack.DefinePlugin({
+        //     "require.specified": "require.resolve"
+        // }),
 
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
@@ -84,7 +89,7 @@ module.exports = {
                             sourceMap: false,
                             data: '@import "variables";',
                             includePaths: [
-                                path.join(__rootdir, 'app/styles/theme')
+                                path.join(__rootdir, 'app/assets/styles/theme')
                             ]
                         }
                     }

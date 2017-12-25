@@ -6,8 +6,8 @@ import FmsPageItem from './FmsPageItem';
 import FmsSpin from '../../../commons/FmsSpin/FmsSpin';
 import projectApi from '../../../api/ProjectApi';
 import pagesApi from '../../../api/PagesApi';
-import ic_verify from '../../../images/ic_verify.png';
-import ic_cancel from '../../../images/ic_cancel.png';
+import ic_verify from '../../../assets/images/ic_verify.png';
+import ic_cancel from '../../../assets/images/ic_cancel.png';
 
 class FmsCreateNewProjectModal extends Component {
 

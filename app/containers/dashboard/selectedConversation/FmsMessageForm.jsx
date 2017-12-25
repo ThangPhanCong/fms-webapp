@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import attachImg from '../../../images/attachment.png';
-import sendImg from '../../../images/send.png';
+import attachImg from '../../../assets/images/attachment.png';
+import sendImg from '../../../assets/images/send.png';
 
 import {handleFileChange, handleFormSubmit} from '../../../actions/dashboard/chat/messageForm';
 

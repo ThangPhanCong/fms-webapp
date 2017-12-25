@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import ReactDOM from 'react-dom';
 import uuid from 'uuid';
 
-import searchImg from '../../../images/search.png';
+import searchImg from '../../../assets/images/search.png';
 import FmsConversationItem from './FmsConversationItem';
 
 import DashboardAPI from '../../../api/DashboardApi';
