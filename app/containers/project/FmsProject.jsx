@@ -147,7 +147,7 @@ class FmsProject extends Component {
             <div className="">
                 <FmsNavigation/>
 
-                <div className="page container project-wrapper">
+                <div className="container project-wrapper">
                     <div className="row button-project-wrapper">
                         <div className="col-md-2">
                             <button
