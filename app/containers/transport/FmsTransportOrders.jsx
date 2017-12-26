@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
-class Dashboard extends Component {
+
+class FmsTransportOrders extends Component {
 
     render() {
         return (
@@ -9,7 +10,7 @@ class Dashboard extends Component {
                     <div className="col-lg-12">
                         <div className="text-center m-t-lg">
                             <h1>
-                                Welcome in INSPINIA ReactJS Seed Project
+                                Yêu cầu vận chuyển
                             </h1>
                             <small>
                                 It is an application skeleton for a typical web app. You can use it to quickly bootstrap
@@ -21,7 +22,7 @@ class Dashboard extends Component {
             </div>
         )
     }
-
 }
 
-export default Dashboard
+
+export default FmsTransportOrders;

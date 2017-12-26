@@ -102,19 +102,19 @@ class FmsApp extends Component {
                         {/*<FmsNavigation />*/}
                         <Switch>
                             <FmsRoute exact path="/projects" component={FmsProject} noti={this.noti.bind(this)}/>
-                            <FmsRoute exact path="/projects/:project_alias"
-                                      component={FmsDashboard}
-                                      noti={this.noti.bind(this)}/>
-                            <FmsRoute path="/projects/:project_alias/posts"
-                                      component={FmsPosts}
-                                      noti={this.noti.bind(this)}/>
-                            <FmsRoute path="/projects/:project_alias/settings"
-                                      component={FmsSettings}
-                                      noti={this.noti.bind(this)}/>
-                            <Route path="/ok" component={ProjectDashboard}>
+                            {/*<FmsRoute exact path="/projects/:project_alias"*/}
+                                      {/*component={FmsDashboard}*/}
+                                      {/*noti={this.noti.bind(this)}/>*/}
+                            {/*<FmsRoute path="/projects/:project_alias/posts"*/}
+                                      {/*component={FmsPosts}*/}
+                                      {/*noti={this.noti.bind(this)}/>*/}
+                            {/*<FmsRoute path="/projects/:project_alias/settings"*/}
+                                      {/*component={FmsSettings}*/}
+                                      {/*noti={this.noti.bind(this)}/>*/}
+                            <FmsRoute path="/projects/:project_alias" component={ProjectDashboard}>
                                 {/*<IndexRedirect to="/projects"/>*/}
                                 {/*<Redirect to="projects"/>*/}
-                            </Route>
+                            </FmsRoute>
                             <Redirect to="/projects"/>
                         </Switch>
                     </div>

@@ -4,9 +4,31 @@ import Footer from '../common/Footer';
 import TopHeader from '../common/TopHeader';
 import {correctHeight, detectBody} from './Helpers';
 import MinorView from "../views/Minor";
-import {Route, Switch} from "react-router-dom";
+import {Redirect, Route, Switch} from "react-router-dom";
 import RightSideBar from "../common/RightSideBar";
 import Dashboard from "../views/Dashboard";
+
+import navItems from '../common/NavItemConfig'
+
+function flatStructure(treeConfig) {
+    if (Array.isArray(treeConfig) && treeConfig.length > 0) {
+        let flatConfig = [];
+
+        for (let item of treeConfig) {
+            if (Array.isArray(item.children) && item.children.length > 0) {
+                flatConfig = flatConfig.concat(flatStructure(item.children));
+            } else {
+                flatConfig.push(item);
+            }
+        }
+
+        return flatConfig;
+    } else {
+        return [];
+    }
+}
+
+const containers = flatStructure(navItems);
 
 class Main extends React.Component {
 
@@ -14,11 +36,11 @@ class Main extends React.Component {
         showRightNavbar: false
     };
 
-    toggleRightNavbar () {
+    toggleRightNavbar() {
         this.setState({showRightNavbar: !this.state.showRightNavbar})
     }
 
-    render () {
+    render() {
         let wrapperClass = "gray-bg " + this.props.location.pathname;
         return (
             <div id="wrapper">
@@ -28,12 +50,13 @@ class Main extends React.Component {
 
                 <div id="page-wrapper" className={wrapperClass}>
 
-                    <TopHeader onToggleRightNavbar={() => {this.toggleRightNavbar()}}/>
+                    <TopHeader onToggleRightNavbar={() => {
+                        this.toggleRightNavbar()
+                    }}/>
 
-                    <Switch>
-                        <Route path={this.props.match.path + "/dashboard"} component={Dashboard}> </Route>
-                        <Route path={this.props.match.path + "/minor"} component={MinorView}> </Route>
-                    </Switch>
+                    {
+                        this.renderBodyPage()
+                    }
 
                     <Footer/>
 
@@ -62,6 +85,21 @@ class Main extends React.Component {
                 correctHeight();
             }, 300)
         });
+    }
+
+
+    renderBodyPage() {
+        console.log('containers', containers);
+        return (
+            <Switch>
+                {
+                    containers.map(
+                        (container, i) =>
+                            <Route key={i} path={this.props.match.url + "/" + container.route} component={container.component} />
+                    )
+                }
+            </Switch>
+        )
     }
 }
 

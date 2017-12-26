@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
-class Minor extends Component {
+
+class FmsTransporting extends Component {
 
     render() {
         return (
@@ -9,10 +10,11 @@ class Minor extends Component {
                     <div className="col-lg-12">
                         <div className="text-center m-t-lg">
                             <h1>
-                                Sample example of second view
+                                Đang vận chuyển
                             </h1>
                             <small>
-                                Written in Minor.js component
+                                It is an application skeleton for a typical web app. You can use it to quickly bootstrap
+                                your webapp projects.
                             </small>
                         </div>
                     </div>
@@ -20,7 +22,7 @@ class Minor extends Component {
             </div>
         )
     }
-
 }
 
-export default Minor
+
+export default FmsTransporting;
