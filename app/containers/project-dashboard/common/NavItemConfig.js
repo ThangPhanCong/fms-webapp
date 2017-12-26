@@ -1,5 +1,5 @@
 import React from 'react';
-import FmsDashboard from '../../dashboard/FmsDashboard';
+import FmsDashboard from '../../dashboard/FmsDashboard/FmsDashboard';
 
 export default [
     {

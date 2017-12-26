@@ -1,4 +1,6 @@
 import React from 'react';
+import {connect} from 'react-redux';
+
 import Navigation from '../common/Navigation';
 import Footer from '../common/Footer';
 import TopHeader from '../common/TopHeader';
@@ -7,6 +9,7 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import RightSideBar from "../common/RightSideBar";
 
 import navItems from '../common/NavItemConfig'
+import {setAlias} from '../../../actions/dashboard/conversations';
 
 
 const containers = flatStructure(navItems);
@@ -39,7 +42,7 @@ class Main extends React.Component {
                         this.renderBodyPage()
                     }
 
-                    <Footer/>
+                    {/* <Footer/> */}
 
                 </div>
 
@@ -50,6 +53,10 @@ class Main extends React.Component {
             </div>
 
         )
+    }
+
+    componentWillMount() {
+        this.props.dispatch(setAlias(this.props.match.params.project_alias));
     }
 
     componentDidMount() {
@@ -70,7 +77,6 @@ class Main extends React.Component {
 
 
     renderBodyPage() {
-        console.log('containers', containers);
         return (
             <Switch>
                 {
@@ -86,5 +92,8 @@ class Main extends React.Component {
         )
     }
 }
-
-export default Main
+const mapStateToProps = state => {
+    return {}
+};
+  
+export default connect(mapStateToProps)(Main);

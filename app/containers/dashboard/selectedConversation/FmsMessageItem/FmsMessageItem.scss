@@ -1,0 +1,87 @@
+.message-item {
+    display: inline-block;
+    width: 100%;
+    margin-top: 12px;
+}
+.is-not-first {
+    margin-top: -2px;
+}
+.is-first {
+    margin-bottom: 5px;
+}
+.sent-time {
+    width: 100%;
+    display: block;
+    color: #555555;
+}
+.left-sent-time {
+    text-align: left;
+    padding-left: 45px;
+}
+.right-sent-time {
+    text-align: right;
+    padding-right: 45px;
+}
+.message-wrapper {
+    display: flex;
+    position: relative;
+    z-index: 1;
+}
+.profile-wrapper {
+    width: 32px;
+    height: 32px;
+    margin: 6px 5px;
+}
+.profile-message {
+    width: 100%;
+    border-radius: 50%;
+}
+.message-content {
+    display: flex;
+    align-items: center;
+    border-radius: 7px;
+    padding: 9px 15px;
+    flex: 1;
+
+    p {
+      max-width: 230px;
+      word-wrap: break-word;
+      margin: 0;
+    }
+
+    @media (min-width: 768px) {
+      p {
+        max-width: 383px;
+      }
+    }
+}
+.left-message-wrapper {
+    float: left;
+    margin-right: 51px;
+}
+.right-message-wrapper {
+    float: right;
+    margin-left: 51px;
+}
+.left-profile-wrapper {
+    float: left;
+    order: 1;
+}
+.right-profile-wrapper {
+    float: right;
+    order: 2;
+}
+.left-message-content {
+    float: left;
+    order: 2;
+    background-color: #f1f0f0;
+}
+.right-message-content {
+    float: right;
+    order: 1;
+    background-color: #3598DB;
+    color: white;
+}
+.last-message {
+    margin-bottom: 32px;
+}

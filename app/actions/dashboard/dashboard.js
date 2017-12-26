@@ -5,7 +5,8 @@ import * as u from 'lodash';
 import {setConversation, isShownNewMsgNoti} from './chat/messages';
 import {setConversations, getConversations, postSeenCv} from './conversations';
 
-export const getProject = (alias) => dispatch => {
+export const getProject = () => (dispatch, getState) => {
+  let {alias} = getState().dashboard.conversations;
   const _updateMsgInConversation = (msg) => {
     dispatch(updateMsgInConversation(msg));
   };

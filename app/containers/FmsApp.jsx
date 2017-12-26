@@ -1,17 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Alert, AlertContainer} from "react-bs-notifier";
-import {Switch, Redirect, withRouter, Route} from 'react-router-dom';
+import {Switch, Redirect, withRouter} from 'react-router-dom';
 import uuid from 'uuid';
 import propTypes from 'prop-types';
 
-import FmsHome from './home/FmsHome';
 import FmsLogin from './login/FmsLogin';
 import FmsProject from './project/FmsProject';
-import FmsDashboard from './dashboard/FmsDashboard';
-import FmsNavigation from '../commons/FmsNavigation/FmsNavigation';
-import FmsPosts from './posts/FmsPosts';
-import FmsSettings from './settings/FmsSettings';
 import ProjectDashboard from './project-dashboard/layouts/Main';
 import FmsLoading from '../commons/FmsLoading/FmsLoading';
 import FmsRoute from '../commons/FmsRoute';

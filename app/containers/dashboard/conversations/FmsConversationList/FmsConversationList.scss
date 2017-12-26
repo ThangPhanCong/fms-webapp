@@ -1,0 +1,59 @@
+.client-list {
+  background-color: white;
+  border-radius: 0;
+  width: 75px;
+  height: 100%;
+  margin: 0;
+  border-right: 1px solid #cacaca;
+}
+.selectedItem {
+  background-color: #eaecef;
+}
+.client-list-spin {
+  width: 100%;
+  margin: 12px auto;
+}
+.client-list-wrapper {
+  height: 100%;
+  overflow: hidden;
+}
+.scroll-list {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  border-radius:0 0 5px 5px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &::-webkit-scrollbar-track {
+  //   background-color: rgba(0, 0, 0, 0.1);
+  //   background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+  }
+}
+.scroll-list:hover {
+  .scroll-bar {
+      display: initial;
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  .scroll-list {
+      height: 100%;
+  }
+  .client-list {
+      min-width: 250px;
+      width: 22%;
+      height: 100%;
+  }
+  .search-client {
+      display: flex;
+  }
+}
