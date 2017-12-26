@@ -45,13 +45,9 @@
 }
 
 @media only screen and (min-width: 1000px) {
-  .scroll-list {
-      height: 100%;
-  }
   .client-list {
       min-width: 250px;
       width: 22%;
-      height: 100%;
   }
   .search-client {
       display: flex;
