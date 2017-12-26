@@ -1,0 +1,25 @@
+.posts {
+  // background-color: #f1f2f3;
+  padding: 0 32px;
+  margin: 0 -15px;
+  min-height: 100vh;
+  background-color: #f6f6f6;
+  .loadmore-wrapper {
+    text-align: center;
+  }
+}
+
+.no-post {
+  margin: 10px auto auto;
+  text-align: center;
+}
+
+.page {
+  .fms-spin {
+    margin-top: 14px;
+    text-align: center;
+  }
+}
+.add-post-btn {
+  margin: 15px 0;
+}
