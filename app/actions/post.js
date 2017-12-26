@@ -36,7 +36,7 @@ export const getPosts = (project_alias, nextPosts) => dispatch => {
 
 };
 
-export const toggleChange = (posts, post_id, noti) => () => {
+export const toggleChange = (posts, post_id, noti) => (dispatch) => {
   let postChange = posts.find((post) => {
     return post._id === post_id;
   });
@@ -53,6 +53,11 @@ export const toggleChange = (posts, post_id, noti) => () => {
           }
         }
       }
+      let newPosts = posts.map(post => {
+        if (post_id === post._id) return postChange;
+        else return post;
+      });
+      dispatch({type: 'SET_POSTS', posts: newPosts});
     })
     .catch(err => alert(err.message));
 };

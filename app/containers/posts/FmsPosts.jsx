@@ -4,13 +4,11 @@ import {Grid, Row, Col, Button} from 'react-bootstrap';
 import FmsPostItem from './FmsPostItem';
 import {getPosts, toggleChange} from '../../actions/post';
 import FmsSpin from "../../commons/FmsSpin/FmsSpin";
-import FmsDivider from '../../pages/dashboard/selectedConversation/FmsDivider';
 
 class FmsPosts extends React.Component {
   componentDidMount() {
-    const {project_alias} = this.props.match.params;
     const {dispatch} = this.props;
-    dispatch(getPosts(project_alias));
+    dispatch(getPosts(this.props.alias));
   }
 
   onToggleChange(fb_post_id) {
@@ -19,9 +17,8 @@ class FmsPosts extends React.Component {
   }
 
   loadMorePosts() {
-    const {project_alias} = this.props.match.params;
     const {dispatch, paging} = this.props;
-    dispatch(getPosts(project_alias, paging.next));
+    dispatch(getPosts(this.props.alias, paging.next));
   }
 
   renderPosts() {
@@ -88,7 +85,8 @@ const mapStateToProps = state => {
     isPostsLoading: state.post.isPostsLoading,
     isMorePostsLoading: state.post.isMorePostsLoading,
     posts: state.post.posts,
-    paging: state.post.paging
+    paging: state.post.paging,
+    alias: state.dashboard.conversations.alias
   }
 };
 
