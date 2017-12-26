@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
+import {flatStructure} from "../layouts/Helpers";
 
 class NavItem extends Component {
 
@@ -46,9 +47,10 @@ class NavItem extends Component {
 
     render() {
         const {navItem} = this.props;
+        const routes = flatStructure([navItem]).map(item => item.route);
 
         return (
-            <li className={this.activeRoute(navItem.route)}>
+            <li className={this.activeRoute(...routes)}>
                 <Link to={navItem.route || '#'}>
                     <i className={"fa " + navItem.icon}/>
                     <span className="nav-label">{navItem.title}</span>
