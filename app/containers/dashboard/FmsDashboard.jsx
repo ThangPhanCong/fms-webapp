@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-
+import {withRouter} from 'react-router-dom';
 
 import FmsSpin from '../../commons/FmsSpin/FmsSpin';
 import FmsChatArea from './selectedConversation/FmsChatArea';
@@ -66,4 +66,4 @@ const mapStateToProps = state => {
   }
 };
 
-export default connect(mapStateToProps)(FmsDashBoard);
+export default withRouter(connect(mapStateToProps)(FmsDashBoard));

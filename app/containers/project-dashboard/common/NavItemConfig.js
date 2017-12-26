@@ -1,4 +1,5 @@
 import React from 'react';
+import FmsDashboard from '../../dashboard/FmsDashboard';
 
 export default [
     {
@@ -34,7 +35,7 @@ export default [
                 route: 'conversations',
                 title: 'Cuộc hội thoại',
                 component: () => {
-                    return <p>Cuộc hội thoại</p>
+                    return <FmsDashboard/>
                 }
             },
             {
