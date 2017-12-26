@@ -19,9 +19,9 @@ class FmsDashBoard extends React.Component {
   }
 
   componentWillUnmount() {
-    const {dispatch} = this.props;
+    const {dispatch, alias} = this.props;
     dispatch(cancelGetConversations());
-    dispatch(unSubscribeProjectChanges());
+    dispatch(unSubscribeProjectChanges(alias));
     dispatch(resetConversations());
     dispatch(resetChat());
     dispatch(resetFilters());
@@ -57,7 +57,8 @@ class FmsDashBoard extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    conversation: state.dashboard.chat.conversation
+    conversation: state.dashboard.chat.conversation,
+    alias: state.dashboard.conversations.alias
   }
 };
 

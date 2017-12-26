@@ -33,7 +33,7 @@ const conversations = (state = initState, action) => {
       };
     case 'RESET_INIT_STATE_CONVERSATIONS':
       return {
-        alias: null,
+        ...state,
         isLoadingConversations: true,
         conversations: [],
         pagingConversations: null
