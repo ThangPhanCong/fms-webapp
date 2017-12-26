@@ -2,4 +2,8 @@
   padding: 20px 0;
   font-size: 25px;
   color: #676a6c;
+
+  &:hover, &:focus {
+    color: black;
+  }
 }

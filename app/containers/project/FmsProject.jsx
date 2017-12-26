@@ -127,7 +127,7 @@ class FmsProject extends Component {
             if (isProjectLoading) {
                 return <div className="col-sm-1"><FmsSpin size={25}/></div>
             } else {
-                return <div>Bạn chưa có dự án nào</div>
+                return <div>Bạn chưa có cửa hàng nào</div>
             }
         }
     }
@@ -153,7 +153,7 @@ class FmsProject extends Component {
                             <button
                                 className="btn btn-primary"
                                 onClick={this.openCreateProjectModal.bind(this)}
-                            >Tạo dự án mới
+                            >Tạo cửa hàng mới
                             </button>
                         </div>
                     </div>
