@@ -31,9 +31,13 @@ class Main extends React.Component {
 
                 <div id="page-wrapper" className={wrapperClass}>
 
-                    <TopHeader onToggleRightNavbar={() => {
-                        this.toggleRightNavbar()
-                    }}/>
+                    <TopHeader
+                        onToggleRightNavbar={() => {
+                            this.toggleRightNavbar()
+                        }}
+
+                        {...this.props}
+                    />
 
                     {
                         this.renderBodyPage()
@@ -76,11 +80,12 @@ class Main extends React.Component {
                 {
                     containers.map(
                         (container, i) =>
-                            <Route key={i} path={this.props.match.url + "/" + container.route} component={container.component} />
+                            <Route key={i} path={this.props.match.url + "/" + container.route}
+                                   component={container.component}/>
                     )
                 }
 
-                <Redirect to={this.props.match.url + "/dashboard"} />
+                <Redirect to={this.props.match.url + "/dashboard"}/>
 
             </Switch>
         )

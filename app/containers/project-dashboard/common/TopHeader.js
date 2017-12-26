@@ -22,18 +22,9 @@ class TopHeader extends React.Component {
                             <i className="fa fa-bars"/>
                         </a>
 
-                        <ul className="nav navbar-top-links navbar-left">
-                            <li className="dropdown">
-                                <a className="dropdown-toggle" data-toggle="dropdown" href="#" style={{color: 'gray'}}>
-                                    Shop bán giầy dép <i className="fa fa-caret-down"/>
-                                </a>
-                                <ul className="dropdown-menu dropdown-header-with-text">
-                                    <li className=""><a>Shop bán áo 1</a></li>
-                                    <li className=""><a>Shop bán áo 2</a></li>
-                                    <li className=""><a>Shop bán áo 3</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                        {
+                            this.renderProjectItems()
+                        }
                     </div>
 
                     <ul className="nav navbar-top-links navbar-right">
@@ -144,6 +135,23 @@ class TopHeader extends React.Component {
                     </ul>
                 </nav>
             </div>
+        )
+    }
+
+    renderProjectItems() {
+        return (
+            <ul className="nav navbar-top-links navbar-left">
+                <li className="dropdown">
+                    <a className="dropdown-toggle" data-toggle="dropdown" href="#" style={{color: 'gray'}}>
+                        Shop bán giầy dép <i className="fa fa-caret-down"/>
+                    </a>
+                    <ul className="dropdown-menu dropdown-header-with-text">
+                        <li className=""><a>Shop bán áo 1</a></li>
+                        <li className=""><a>Shop bán áo 2</a></li>
+                        <li className=""><a>Shop bán áo 3</a></li>
+                    </ul>
+                </li>
+            </ul>
         )
     }
 }
