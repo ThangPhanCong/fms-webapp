@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link, Location} from 'react-router-dom';
+import profileMockup from '../../../assets/images/mockup/profile_small.jpg';
 
 class RightSideBar extends Component {
 
@@ -36,7 +37,7 @@ class RightSideBar extends Component {
                                 <div className="sidebar-message">
                                     <a href="#">
                                         <div className="pull-left text-center">
-                                            <img alt="image" className="img-circle message-avatar" src="img/a1.jpg"/>
+                                            <img alt="image" className="img-circle message-avatar" src={profileMockup}/>
 
                                             <div className="m-t-xs">
                                                 <i className="fa fa-star text-warning"></i>
@@ -54,7 +55,7 @@ class RightSideBar extends Component {
                                 <div className="sidebar-message">
                                     <a href="#">
                                         <div className="pull-left text-center">
-                                            <img alt="image" className="img-circle message-avatar" src="img/a2.jpg"/>
+                                            <img alt="image" className="img-circle message-avatar" src={profileMockup}/>
                                         </div>
                                         <div className="media-body">
                                             The point of using Lorem Ipsum is that it has a more-or-less normal.
@@ -66,7 +67,7 @@ class RightSideBar extends Component {
                                 <div className="sidebar-message">
                                     <a href="#">
                                         <div className="pull-left text-center">
-                                            <img alt="image" className="img-circle message-avatar" src="img/a3.jpg"/>
+                                            <img alt="image" className="img-circle message-avatar" src={profileMockup}/>
 
                                             <div className="m-t-xs">
                                                 <i className="fa fa-star text-warning"></i>
@@ -85,7 +86,7 @@ class RightSideBar extends Component {
                                 <div className="sidebar-message">
                                     <a href="#">
                                         <div className="pull-left text-center">
-                                            <img alt="image" className="img-circle message-avatar" src="img/a4.jpg"/>
+                                            <img alt="image" className="img-circle message-avatar" src={profileMockup}/>
                                         </div>
 
                                         <div className="media-body">
@@ -99,7 +100,7 @@ class RightSideBar extends Component {
                                 <div className="sidebar-message">
                                     <a href="#">
                                         <div className="pull-left text-center">
-                                            <img alt="image" className="img-circle message-avatar" src="img/a8.jpg"/>
+                                            <img alt="image" className="img-circle message-avatar" src={profileMockup}/>
                                         </div>
                                         <div className="media-body">
 
@@ -112,7 +113,7 @@ class RightSideBar extends Component {
                                 <div className="sidebar-message">
                                     <a href="#">
                                         <div className="pull-left text-center">
-                                            <img alt="image" className="img-circle message-avatar" src="img/a7.jpg"/>
+                                            <img alt="image" className="img-circle message-avatar" src={profileMockup}/>
                                         </div>
                                         <div className="media-body">
                                             Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..",
@@ -125,7 +126,7 @@ class RightSideBar extends Component {
                                 <div className="sidebar-message">
                                     <a href="#">
                                         <div className="pull-left text-center">
-                                            <img alt="image" className="img-circle message-avatar" src="img/a3.jpg"/>
+                                            <img alt="image" className="img-circle message-avatar" src={profileMockup}/>
 
                                             <div className="m-t-xs">
                                                 <i className="fa fa-star text-warning"></i>
@@ -143,7 +144,7 @@ class RightSideBar extends Component {
                                 <div className="sidebar-message">
                                     <a href="#">
                                         <div className="pull-left text-center">
-                                            <img alt="image" className="img-circle message-avatar" src="img/a4.jpg"/>
+                                            <img alt="image" className="img-circle message-avatar" src={profileMockup}/>
                                         </div>
                                         <div className="media-body">
                                             Uncover many web sites still in their infancy. Various versions have.

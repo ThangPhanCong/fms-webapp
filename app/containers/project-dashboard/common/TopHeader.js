@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dropdown} from 'react-bootstrap';
+import profileMockup from '../../../assets/images/mockup/profile_small.jpg';
 import {smoothlyMenu} from '../layouts/Helpers';
 
 class TopHeader extends React.Component {
@@ -46,7 +46,7 @@ class TopHeader extends React.Component {
                                 <li>
                                     <div className="dropdown-messages-box">
                                         <a href="profile.html" className="pull-left">
-                                            <img alt="image" className="img-circle" src="img/a7.jpg"/>
+                                            <img alt="image" className="img-circle" src={profileMockup}/>
                                         </a>
                                         <div>
                                             <small className="pull-right">46h ago</small>
@@ -59,7 +59,7 @@ class TopHeader extends React.Component {
                                 <li>
                                     <div className="dropdown-messages-box">
                                         <a href="profile.html" className="pull-left">
-                                            <img alt="image" className="img-circle" src="img/a4.jpg"/>
+                                            <img alt="image" className="img-circle" src={profileMockup}/>
                                         </a>
                                         <div>
                                             <small className="pull-right text-navy">5h ago</small>
@@ -73,7 +73,7 @@ class TopHeader extends React.Component {
                                 <li>
                                     <div className="dropdown-messages-box">
                                         <a href="profile.html" className="pull-left">
-                                            <img alt="image" className="img-circle" src="img/profile.jpg"/>
+                                            <img alt="image" className="img-circle" src={profileMockup}/>
                                         </a>
                                         <div>
                                             <small className="pull-right">23h ago</small>
