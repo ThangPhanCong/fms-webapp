@@ -2,29 +2,12 @@ import React from 'react';
 import Navigation from '../common/Navigation';
 import Footer from '../common/Footer';
 import TopHeader from '../common/TopHeader';
-import {correctHeight, detectBody} from './Helpers';
+import {correctHeight, detectBody, flatStructure} from './Helpers';
 import {Redirect, Route, Switch} from "react-router-dom";
 import RightSideBar from "../common/RightSideBar";
 
 import navItems from '../common/NavItemConfig'
 
-function flatStructure(treeConfig) {
-    if (Array.isArray(treeConfig) && treeConfig.length > 0) {
-        let flatConfig = [];
-
-        for (let item of treeConfig) {
-            if (Array.isArray(item.children) && item.children.length > 0) {
-                flatConfig = flatConfig.concat(flatStructure(item.children));
-            } else {
-                flatConfig.push(item);
-            }
-        }
-
-        return flatConfig;
-    } else {
-        return [];
-    }
-}
 
 const containers = flatStructure(navItems);
 
@@ -96,6 +79,9 @@ class Main extends React.Component {
                             <Route key={i} path={this.props.match.url + "/" + container.route} component={container.component} />
                     )
                 }
+
+                <Redirect to={this.props.match.url + "/dashboard"} />
+
             </Switch>
         )
     }
