@@ -47,9 +47,9 @@ export const toggleChange = (posts, post_id, noti) => () => {
       for (let post of posts) {
         if (post._id === post_id) {
           if (post.hide_comment) {
-            noti('success', 'Ẩn bình luận thành công');
+            //noti('success', 'Ẩn bình luận thành công');
           } else {
-            noti('success', 'Bỏ ẩn bình luận thành công');
+            //noti('success', 'Bỏ ẩn bình luận thành công');
           }
         }
       }
