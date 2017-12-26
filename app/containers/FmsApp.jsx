@@ -13,8 +13,6 @@ import FmsNavigation from '../commons/FmsNavigation/FmsNavigation';
 import FmsPosts from './posts/FmsPosts';
 import FmsSettings from './settings/FmsSettings';
 import ProjectDashboard from './project-dashboard/layouts/Main';
-import MainView from './project-dashboard/views/Main';
-import MinorView from './project-dashboard/views/Minor';
 import FmsLoading from '../commons/FmsLoading/FmsLoading';
 import FmsRoute from '../commons/FmsRoute';
 import {ALERT_TIME_DISMIS} from '../constants/alert';

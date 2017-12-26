@@ -3,10 +3,8 @@ import Navigation from '../common/Navigation';
 import Footer from '../common/Footer';
 import TopHeader from '../common/TopHeader';
 import {correctHeight, detectBody} from './Helpers';
-import MinorView from "../views/Minor";
 import {Redirect, Route, Switch} from "react-router-dom";
 import RightSideBar from "../common/RightSideBar";
-import Dashboard from "../views/Dashboard";
 
 import navItems from '../common/NavItemConfig'
 
