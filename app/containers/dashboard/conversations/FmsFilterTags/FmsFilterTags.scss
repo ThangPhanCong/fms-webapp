@@ -1,13 +1,20 @@
 .search-client {
   padding: 9px 12px;
   border-bottom: 1px solid #cacaca;
+  height: 50px;
+  align-items: center;
   display: none;
+}
+@media only screen and (min-width: 1000px) {
+  .search-client {
+    display: flex;
+  }
 }
 .search-icon {
   width: 27px;
   height: 27px;
   float: left;
-  margin: 4px 4px 0 0;
+  margin: 0px 4px 0 0;
 }
 .input-search-client {
   border: none;
@@ -23,7 +30,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 5px;
 }
 .filter-tag {
   width: 13px;
