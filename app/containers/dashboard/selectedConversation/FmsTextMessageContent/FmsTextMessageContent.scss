@@ -1,0 +1,19 @@
+.hide {
+  display: none;
+}
+.group-action-button-message {
+    float: left;
+}
+.action-button-message {
+    color: #3598DB;
+    cursor: pointer;
+    font-size: 12px;
+}
+.disabled-action-button-message {
+    color: #acacac;
+    cursor: default;
+    font-size: 12px;
+}
+.spinner-message-item {
+  display: inline-block;
+}

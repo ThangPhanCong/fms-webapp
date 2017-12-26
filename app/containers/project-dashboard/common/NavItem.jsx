@@ -20,9 +20,6 @@ class NavItem extends Component {
 
             const {pathname} = this.props.location;
 
-            // debugger;
-            console.log('route', route)
-
             if (pathname.split('/').includes(route)) {
                 return true;
             }

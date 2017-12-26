@@ -15,8 +15,9 @@ export const resetFilters = () => dispatch => {
   dispatch({type: 'RESET_INIT_STATE_FILTERS'});
 };
 
-export const getTagsProject = (alias) => (dispatch, getState) => {
+export const getTagsProject = () => (dispatch, getState) => {
   let {filters} = getState().dashboard.filters;
+  let {alias} = getState().dashboard.conversations;
   TagApi.getProjectTags(alias).then((res) => {
     res.forEach((tag) => {
       filters.push({

@@ -7,11 +7,11 @@ export const createNote = (content, noti) => (dispatch, getState) => {
   let customer_id = (conversation.customer) ? conversation.customer._id : null;
   OrderApi.createNote(alias, conversation.id, customer_id, conversation.page._id, content)
     .then((res) => {
-      noti("success", "Tạo ghi chú thành công.");
+      //noti("success", "Tạo ghi chú thành công.");
       notes.unshift(res);
       dispatch({type: 'SET_NOTES', notes});
     }, () => {
-      noti("danger", "Tạo ghi chú thất bại.");
+      //noti("danger", "Tạo ghi chú thất bại.");
     });
 };
 
@@ -37,7 +37,7 @@ export const deleteNote = (note_id, noti) => (dispatch, getState) => {
   let {notes} = getState().dashboard.createOrder;
   OrderApi.deleteNote(alias, conversation.id, note_id)
     .then(() => {
-      noti("success", "Đã xóa một ghi chú.");
+      //noti("success", "Đã xóa một ghi chú.");
       let newNotes = notes.filter(note => {
         return note._id !== note_id;
       });
@@ -53,7 +53,7 @@ export const updateNote = (note_id, content, noti) => (dispatch, getState) => {
   let {notes} = getState().dashboard.createOrder;
   OrderApi.updateNote(alias, conversation.id, note_id, content)
     .then(res => {
-      noti("success", "Đã cập nhật một ghi chú.");
+      //noti("success", "Đã cập nhật một ghi chú.");
       let newNotes = notes.map(note => {
         if (note._id !== note_id) return note;
         else return res;
@@ -75,11 +75,11 @@ export const createNewOrder = (phone, address, noti) => (dispatch, getState) => 
   };
   OrderApi.createOrder(alias, customer_id, payload)
     .then(() => {
-      noti("success", "Tạo đơn hàng thành công.");
+      //noti("success", "Tạo đơn hàng thành công.");
       dispatch(getOrders());
     }, err => {
       console.log(err);
-      noti("danger", "Tạo đơn hàng thất bại.");
+      //noti("danger", "Tạo đơn hàng thất bại.");
     });
 };
 
