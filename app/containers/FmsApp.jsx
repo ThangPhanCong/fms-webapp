@@ -91,25 +91,15 @@ class FmsApp extends Component {
                 return (
                     <div>
                         {/*// {this.renderAlerts()}*/}
+
                         <FmsProgress />
-                        {/*<FmsNavigation />*/}
+
                         <Switch>
-                            <FmsRoute exact path="/projects" component={FmsProject} noti={this.noti.bind(this)}/>
-                            {/*<FmsRoute exact path="/projects/:project_alias"*/}
-                                      {/*component={FmsDashboard}*/}
-                                      {/*noti={this.noti.bind(this)}/>*/}
-                            {/*<FmsRoute path="/projects/:project_alias/posts"*/}
-                                      {/*component={FmsPosts}*/}
-                                      {/*noti={this.noti.bind(this)}/>*/}
-                            {/*<FmsRoute path="/projects/:project_alias/settings"*/}
-                                      {/*component={FmsSettings}*/}
-                                      {/*noti={this.noti.bind(this)}/>*/}
-                            <FmsRoute path="/projects/:project_alias" component={ProjectDashboard}>
-                                {/*<IndexRedirect to="/projects"/>*/}
-                                {/*<Redirect to="projects"/>*/}
-                            </FmsRoute>
-                            <Redirect to="/projects"/>
+                            <FmsRoute exact path="/shops" component={FmsProject} noti={this.noti.bind(this)}/>
+                            <FmsRoute path="/shops/:project_alias" component={ProjectDashboard} />
+                            <Redirect to="/shops"/>
                         </Switch>
+
                     </div>
                 )
             } else {

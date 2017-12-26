@@ -40,11 +40,11 @@ class FmsCreateNewProjectModal extends Component {
               this.props.onClose();
             }}
           >
-            <Modal.Title>Tạo dự án mới</Modal.Title>
+            <Modal.Title>Tạo cửa hàng mới</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div className="form-group">
-              <label htmlFor="project-name">Tên dự án</label>
+              <label htmlFor="project-name">Tên cửa hàng</label>
               <div className="loading-name">
                 {
                   isLoading ?

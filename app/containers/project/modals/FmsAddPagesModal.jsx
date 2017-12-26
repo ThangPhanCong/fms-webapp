@@ -89,7 +89,7 @@ class FmsAddPagesModal extends Component {
         }}
         backdrop='static' keyboard={false}>
         <Modal.Header closeButton={!isLoading}>
-          <Modal.Title>Thêm trang cho dự án <strong>{projectName}</strong></Modal.Title>
+          <Modal.Title>Thêm trang cho cửa hàng <strong>{projectName}</strong></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {this.renderPageItems()}

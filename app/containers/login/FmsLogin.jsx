@@ -14,22 +14,19 @@ class FmsLogin extends Component {
     render() {
         return (
             <div className='login-form'>
-                <h1>Adsbold</h1>
+                <h1 className='animated fadeIn'>Adsbold</h1>
 
                 <div className="center-block login-box text-center animated fadeInDown">
 
-                    <p>Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app
-                        views.
-                    </p>
-                    <p>Login in. To see it in action.</p>
+                    <p>Công cụ quản lí bán hàng qua Facebook, chăm sóc khách hàng, tích hợp các dịch vụ bên vận chuyển và các tiện ích.</p>
 
                     <button
                         className="btn btn-primary block full-width m-b"
-                        onClick={this.onClickLoginBtn.bind(this)} >Login
+                        onClick={this.onClickLoginBtn.bind(this)} >Vào bảng điều khiển
                     </button>
 
                     <p className="m-t">
-                        <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small>
+                        <small>Bản quyền thuộc về Adsbold &copy; 2017</small>
                     </p>
                 </div>
             </div>
