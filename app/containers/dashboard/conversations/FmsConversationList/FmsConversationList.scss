@@ -52,4 +52,7 @@
   .search-client {
       display: flex;
   }
+  .scroll-list {
+    height: calc(100% - 50px);
+  }
 }

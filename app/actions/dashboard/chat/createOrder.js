@@ -1,4 +1,5 @@
 import OrderApi from '../../../api/OrderApi';
+import * as u from 'lodash';
 
 export const createNote = (content, noti) => (dispatch, getState) => {
   let {conversation} = getState().dashboard.chat;
@@ -9,7 +10,7 @@ export const createNote = (content, noti) => (dispatch, getState) => {
     .then((res) => {
       //noti("success", "Tạo ghi chú thành công.");
       notes.unshift(res);
-      dispatch({type: 'SET_NOTES', notes});
+      dispatch({type: 'SET_NOTES', notes: u.clone(notes)});
     }, () => {
       //noti("danger", "Tạo ghi chú thất bại.");
     });

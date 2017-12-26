@@ -1,5 +1,3 @@
-// TODO: đặt lại tên cho file này, nếu là thư viện bên ngoài copy lại thì để nguyên tên file và trích dẫn phần đầu
-
 /**
  * jQuery CSS Customizable Scrollbar
  *
@@ -645,7 +643,6 @@
      */
 
     var updateScrollbars = (function () {
-        console.log("change");
         var timer = 0,
             timerCounter = 0;
 

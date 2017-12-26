@@ -1,6 +1,7 @@
 import 'jquery';
 import 'metismenu';
 import 'bootstrap';
+import './assets/js/jquery.scrollbar';
 
 import 'url-search-params-polyfill';
 

@@ -20,9 +20,8 @@ class FmsDashBoard extends React.Component {
 
   componentWillUnmount() {
     const {dispatch} = this.props;
-    const alias = this.props.match.params.project_alias;
     dispatch(cancelGetConversations());
-    dispatch(unSubscribeProjectChanges(alias));
+    dispatch(unSubscribeProjectChanges());
     dispatch(resetConversations());
     dispatch(resetChat());
     dispatch(resetFilters());

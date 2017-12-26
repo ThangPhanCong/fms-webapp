@@ -4,6 +4,7 @@ import {Grid, Row, Col, Button} from 'react-bootstrap';
 import FmsPostItem from './FmsPostItem';
 import {getPosts, toggleChange} from '../../actions/post';
 import FmsSpin from "../../commons/FmsSpin/FmsSpin";
+import FmsDivider from '../../pages/dashboard/selectedConversation/FmsDivider';
 
 class FmsPosts extends React.Component {
   componentDidMount() {

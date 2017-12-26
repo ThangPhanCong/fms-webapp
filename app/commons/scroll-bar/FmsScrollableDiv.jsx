@@ -11,7 +11,7 @@ class FmsScrollableDiv extends React.Component {
 				}
 			});
 		}
-    $(list).scrollbar();
+    	$(list).scrollbar();
 	}
 	render() {
 		return (
