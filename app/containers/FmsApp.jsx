@@ -33,8 +33,6 @@ class FmsApp extends Component {
         const access_token = params.get('access_token');
 
         dispatch(verifyAccessToken(access_token));
-
-        // register notification center
         registerNotiCenter(this.noti.bind(this));
     }
 
