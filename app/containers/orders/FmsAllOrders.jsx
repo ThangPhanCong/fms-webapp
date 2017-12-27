@@ -7,8 +7,6 @@ class FmsAllOrders extends Component {
             [
                 <FmsPageTitle key={1} title="Tất cả đơn hàng" route="Shop bán giày dép/Quản lí đơn hàng/Tất cả đơn hàng"/>,
                 <div key={2} className="wrapper wrapper-content animated fadeInRight">
-
-
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="text-center m-t-lg">
