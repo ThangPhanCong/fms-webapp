@@ -34,6 +34,7 @@ class TopHeader extends React.Component {
         const {project_alias} = this.props.match.params;
         const currProject = projects.find(project => project.alias === project_alias);
         projects = projects.filter(p => p.alias !== project_alias);
+        const currRoute = this.props.location.pathname.split('/').pop();
 
         return (
             <ul className="nav navbar-top-links navbar-left">
@@ -44,7 +45,7 @@ class TopHeader extends React.Component {
                     <ul className="dropdown-menu dropdown-header-with-text">
                         {
                             projects.map(
-                                (project, i) => <li key={i} className=""><Link to={'/shops/' + project.alias}>{project.name}</Link></li>
+                                (project, i) => <li key={i} className=""><Link to={`/shops/${project.alias}/${currRoute}`}>{project.name}</Link></li>
                             )
                         }
                     </ul>
