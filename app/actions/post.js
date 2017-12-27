@@ -1,4 +1,5 @@
 import PostsApi from '../api/PostsApi';
+import {noti} from "../containers/notification/NotificationService";
 
 export const POSTS_LOADING = 'POSTS_LOADING';
 export const POSTS_LOADED = 'POSTS_LOADED';
@@ -36,7 +37,7 @@ export const getPosts = (project_alias, nextPosts) => dispatch => {
 
 };
 
-export const toggleChange = (posts, post_id, noti) => (dispatch) => {
+export const toggleChange = (posts, post_id) => (dispatch) => {
   let postChange = posts.find((post) => {
     return post._id === post_id;
   });
@@ -47,9 +48,9 @@ export const toggleChange = (posts, post_id, noti) => (dispatch) => {
       for (let post of posts) {
         if (post._id === post_id) {
           if (post.hide_comment) {
-            //noti('success', 'Ẩn bình luận thành công');
+            noti('success', 'Ẩn bình luận thành công');
           } else {
-            //noti('success', 'Bỏ ẩn bình luận thành công');
+            noti('success', 'Bỏ ẩn bình luận thành công');
           }
         }
       }

@@ -21,21 +21,21 @@ class FmsInformationTab extends React.Component {
     let content = this.refs.note.value;
     if (!content || content === "") return;
     this.refs.note.value = "";
-    this.props.dispatch(createNote(content, this.props.noti));
+    this.props.dispatch(createNote(content));
     this.setState({ type: 0 });
   }
   deleteNote(note) {
     this.setState({ type: 2, selectedNote: note });
   }
   confirmDeleteNote() {
-    this.props.dispatch(deleteNote(this.state.selectedNote._id, this.props.noti));
+    this.props.dispatch(deleteNote(this.state.selectedNote._id));
     this.setState({ type: 0, selectedNote: null });
   }
   updateNote(note) {
     this.setState({ type: 3, selectedNote: note });
   }
   confirmUpdateNote() {
-    this.props.dispatch(updateNote(this.state.selectedNote._id, this.refs.note.value, this.props.noti));
+    this.props.dispatch(updateNote(this.state.selectedNote._id, this.refs.note.value));
     this.setState({ type: 0, selectedNote: null });
   }
   renderNotes() {

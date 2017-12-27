@@ -13,7 +13,7 @@ class FmsCreateFormTab extends React.Component {
       alert("Vui lòng nhập đầy đủ thông tin.");
       return;
     }
-    this.props.dispatch(createNewOrder(r.phone.value, r.address.value, this.props.noti));
+    this.props.dispatch(createNewOrder(r.phone.value, r.address.value));
     r.phone.value = "";
     r.address.value = "";
   }
