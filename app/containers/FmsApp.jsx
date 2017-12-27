@@ -13,6 +13,7 @@ import FmsRoute from '../commons/FmsRoute';
 import {ALERT_TIME_DISMIS} from '../constants/alert';
 import {verifyAccessToken} from '../actions/auth';
 import FmsProgress from "../commons/FmsProgress/FmsProgress";
+import {registerNotiCenter} from "./notification/NotificationService";
 
 class FmsApp extends Component {
     constructor(props) {
@@ -32,6 +33,9 @@ class FmsApp extends Component {
         const access_token = params.get('access_token');
 
         dispatch(verifyAccessToken(access_token));
+
+        // register notification center
+        registerNotiCenter(this.noti.bind(this));
     }
 
     noti(type, message) {
@@ -90,13 +94,16 @@ class FmsApp extends Component {
             if (isAuthenticated) {
                 return (
                     <div>
-                        {/*// {this.renderAlerts()}*/}
+                        {
+                            this.renderAlerts()
+                        }
 
-                        <FmsProgress />
+                        <FmsProgress/>
 
                         <Switch>
-                            <FmsRoute exact path="/shops" component={FmsProject} noti={this.noti.bind(this)}/>
-                            <FmsRoute path="/shops/:project_alias" component={ProjectDashboard} />
+                            <FmsRoute exact path="/shops" component={FmsProject}/>
+                            <FmsRoute path="/shops/:project_alias" component={ProjectDashboard}/>
+
                             <Redirect to="/shops"/>
                         </Switch>
 
