@@ -1,8 +1,22 @@
 import React from 'react';
 import profileMockup from '../../../assets/images/mockup/profile_small.jpg';
 import {smoothlyMenu} from '../layouts/Helpers';
+import {getAllProjects} from "../../../api/ProjectApi";
+import {Link} from "react-router-dom";
 
 class TopHeader extends React.Component {
+
+    state = {
+        projects: []
+    };
+
+    componentDidMount() {
+        getAllProjects()
+            .then(projects => {
+                this.setState({projects});
+            })
+            .catch(err => console.log(err));
+    }
 
     toggleNavigation(e) {
         e.preventDefault();
@@ -11,16 +25,28 @@ class TopHeader extends React.Component {
     }
 
     renderProjectItems() {
+        let {projects} = this.state;
+
+        if (projects.length === 0) {
+            return null;
+        }
+
+        const {project_alias} = this.props.match.params;
+        const currProject = projects.find(project => project.alias === project_alias);
+        projects = projects.filter(p => p.alias !== project_alias);
+
         return (
             <ul className="nav navbar-top-links navbar-left">
                 <li className="dropdown">
                     <a className="dropdown-toggle" data-toggle="dropdown" href="#" style={{color: 'gray'}}>
-                        Shop bán giầy dép <i className="fa fa-caret-down"/>
+                        {currProject.name} <i className="fa fa-caret-down"/>
                     </a>
                     <ul className="dropdown-menu dropdown-header-with-text">
-                        <li className=""><a>Shop bán áo 1</a></li>
-                        <li className=""><a>Shop bán áo 2</a></li>
-                        <li className=""><a>Shop bán áo 3</a></li>
+                        {
+                            projects.map(
+                                (project, i) => <li key={i} className=""><Link to={'/shops/' + project.alias}>{project.name}</Link></li>
+                            )
+                        }
                     </ul>
                 </li>
             </ul>
@@ -58,7 +84,8 @@ class TopHeader extends React.Component {
                                         </a>
                                         <div>
                                             <small className="pull-right">46h ago</small>
-                                            <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br/>
+                                            <strong>Mike Loreipsum</strong> started following <strong>Monica
+                                            Smith</strong>. <br/>
                                             <small className="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
                                         </div>
                                     </div>
@@ -71,9 +98,10 @@ class TopHeader extends React.Component {
                                         </a>
                                         <div>
                                             <small className="pull-right text-navy">5h ago</small>
-                                            <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>.
+                                            <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica
+                                            Smith</strong>.
                                             <br/>
-                                                <small className="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
+                                            <small className="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
                                         </div>
                                     </div>
                                 </li>
@@ -145,7 +173,9 @@ class TopHeader extends React.Component {
 
 
                         <li>
-                            <a className="right-sidebar-toggle" onClick={() => {this.props.onToggleRightNavbar()}}>
+                            <a className="right-sidebar-toggle" onClick={() => {
+                                this.props.onToggleRightNavbar()
+                            }}>
                                 <i className="fa fa-tasks"></i>
                             </a>
                         </li>
