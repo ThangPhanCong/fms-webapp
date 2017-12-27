@@ -19,6 +19,12 @@ class FmsPosts extends React.Component {
         dispatch(getPosts(this.props.alias));
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.alias !== this.props.alias) {
+            this.props.dispatch(getPosts(this.props.alias));
+        }
+    }
+
     onToggleChange(fb_post_id) {
         const {posts, dispatch, noti} = this.props;
         dispatch(toggleChange(posts, fb_post_id, noti));

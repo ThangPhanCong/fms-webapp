@@ -19,7 +19,7 @@ class FmsAddPostModal extends React.Component {
            if (page._id === eventKey) this.setState({ selectedPage: page });
         });
     }
-    componentWillMount() {
+    onChangeAlias() {
         this.setState({ isHandling: true });
         ProjectApi.getProject(this.props.alias)
             .then(res => {
@@ -27,6 +27,14 @@ class FmsAddPostModal extends React.Component {
             }, () => {
                 alert("Something went wrong.");
             });
+    }
+    componentWillMount() {
+        this.onChangeAlias();
+    }
+    componentDidUpdate(prevProps) {
+        if (prevProps.alias !== this.props.alias) {
+            this.onChangeAlias();
+        }
     }
     renderMenuItem() {
         return this.state.pages.map(page => {

@@ -1,10 +1,13 @@
 import React from 'react';
+import {connect} from 'react-redux';
+
 import profileMockup from '../../../assets/images/mockup/profile_small.jpg';
 import {smoothlyMenu} from '../layouts/Helpers';
 import {getAllProjects} from "../../../api/ProjectApi";
 import {Link} from "react-router-dom";
 import {flatConfig} from "./RouteConfig";
 import {getRouteNameAtLevel} from "../../../utils/route-utils";
+import {setAlias} from "../../../actions/dashboard/conversations";
 
 class TopHeader extends React.Component {
 
@@ -25,6 +28,12 @@ class TopHeader extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         this.updateColorByLocation(nextProps.location);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.location !== this.props.location) {
+            this.props.dispatch(setAlias(this.props.match.params.project_alias));
+        }
     }
 
     updateColorByLocation(location) {
@@ -210,5 +219,8 @@ class TopHeader extends React.Component {
         )
     }
 }
+const mapStateToProps = () => {
+    return {}
+};
 
-export default TopHeader
+export default connect(mapStateToProps)(TopHeader);
