@@ -3,6 +3,8 @@ import FmsDashboard from '../../dashboard/FmsDashboard/FmsDashboard';
 import FmsPosts from '../../posts/FmsPosts/FmsPosts';
 import FmsAllOrders from "../../orders/FmsAllOrders";
 import {flatStructure} from "../../../utils/data-structure-utils";
+import FmsSavedOrders from "../../orders/FmsSavedOrders";
+import FmsTagOrders from "../../orders/FmsTagOrders";
 
 const treeConfig = [
     {
@@ -78,17 +80,13 @@ const treeConfig = [
                 route: 'saved-orders',
                 title: 'Lưu trữ đơn',
                 headerColor: '#f3f3f4',
-                component: () => {
-                    return <p>Lưu trữ đơn</p>
-                }
+                component: () => <FmsSavedOrders />
             },
             {
                 route: 'order-tags',
                 title: 'Thẻ màu',
                 headerColor: '#f3f3f4',
-                component: () => {
-                    return <p>Thẻ màu</p>
-                }
+                component: () => <FmsTagOrders />
             }
         ]
     },
