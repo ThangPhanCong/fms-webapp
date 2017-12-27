@@ -5,6 +5,7 @@ import FmsAllOrders from "../../orders/FmsAllOrders";
 import {flatStructure} from "../../../utils/data-structure-utils";
 import FmsSavedOrders from "../../orders/FmsSavedOrders";
 import FmsTagOrders from "../../orders/FmsTagOrders";
+import FmsColorCards from "../../cards/FmsColorCards/FmsColorCards";
 
 const treeConfig = [
     {
@@ -52,7 +53,7 @@ const treeConfig = [
                 title: 'Thẻ màu',
                 headerColor: '#f3f3f4',
                 component: () => {
-                    return <p>Thẻ màu</p>
+                    return <FmsColorCards />
                 }
             },
             {
