@@ -11,6 +11,12 @@ class FmsColorCards extends React.Component {
         dispatch(getTags(alias));
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.alias !== this.props.alias) {
+            this.props.dispatch(getTags(this.props.alias));
+        }
+    }
+
     updateTag(tag) {
         const {dispatch, alias} = this.props;
         dispatch(updateTag(alias, tag));
@@ -33,9 +39,13 @@ class FmsColorCards extends React.Component {
     }
 
     renderTags() {
-        return this.props.tags.map((tag, index) => {
-           return <FmsColorCardItem data={tag} key={index} index={index + 1}/>;
-        });
+        if (this.props.isSettingLoading === true) {
+            return <tr style={{backgroundColor: "white"}}><th>Loading...</th></tr>
+        } else {
+            return this.props.tags.map((tag, index) => {
+                return <FmsColorCardItem data={tag} key={index} index={index + 1}/>;
+            });
+        }
     }
 
     render() {
@@ -89,7 +99,7 @@ class FmsColorCards extends React.Component {
 const mapStateToProps = state => {
     return {
         alias: state.dashboard.conversations.alias,
-        isSettingLoading: state.setting.isSettingLoading,
+        isSettingLoading: state.setting.setting.isSettingLoading,
         tags: state.setting.settingTag.tags
     }
 };
