@@ -106,8 +106,7 @@ module.exports = {
                 options: {
                     presets: ['react', 'es2015', 'stage-0'],
                     compact: false,
-                },
-                exclude: /(node_modules)/
+                }
             }, {
                 test: /\.(ttf|eot|woff|woff2|svg|png|jpg)$/,
                 loader: 'url-loader',
