@@ -3,11 +3,14 @@ import profileMockup from '../../../assets/images/mockup/profile_small.jpg';
 import {smoothlyMenu} from '../layouts/Helpers';
 import {getAllProjects} from "../../../api/ProjectApi";
 import {Link} from "react-router-dom";
+import {flatConfig} from "./RouteConfig";
+import {getRouteNameAtLevel} from "../../../utils/route-utils";
 
 class TopHeader extends React.Component {
 
     state = {
-        projects: []
+        projects: [],
+        color: 'white'
     };
 
     componentDidMount() {
@@ -16,6 +19,25 @@ class TopHeader extends React.Component {
                 this.setState({projects});
             })
             .catch(err => console.log(err));
+
+        this.updateColorByLocation();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.updateColorByLocation(nextProps.location);
+    }
+
+    updateColorByLocation(location) {
+        const {pathname} = location || this.props.location;
+        const currRouteName = getRouteNameAtLevel(pathname, 3);
+        if (currRouteName) {
+            const currRoute = flatConfig.find(r => r.route === currRouteName);
+            this.changeColor(currRoute.headerColor);
+        }
+    }
+
+    changeColor(color) {
+        this.setState({color});
     }
 
     toggleNavigation(e) {
@@ -55,10 +77,12 @@ class TopHeader extends React.Component {
     }
 
     render() {
+        const {color} = this.state;
+
         return (
             <div className="row border-bottom">
                 <nav className="navbar navbar-static-top" role="navigation"
-                     style={{marginBottom: 0, backgroundColor: 'white'}}>
+                     style={{marginBottom: 0, backgroundColor: color}}>
 
                     <div className="navbar-header">
                         <a className="navbar-minimalize minimalize-styl-2 btn btn-primary "

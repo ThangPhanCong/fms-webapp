@@ -5,7 +5,7 @@ import {Link, NavLink, Redirect, Route, Switch, withRouter} from 'react-router-d
 import {Image, Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
 
 import {logOut} from '../../actions/auth';
-import navItems from "../../containers/project-dashboard/common/NavItemConfig";
+import navItems from "../../containers/project-dashboard/common/RouteConfig";
 
 class FmsNavigation extends React.Component {
 

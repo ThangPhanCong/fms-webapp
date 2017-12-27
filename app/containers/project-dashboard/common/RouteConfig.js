@@ -1,31 +1,32 @@
 import React from 'react';
 import FmsDashboard from '../../dashboard/FmsDashboard/FmsDashboard';
 import FmsPosts from '../../posts/FmsPosts/FmsPosts';
+import FmsAllOrders from "../../orders/FmsAllOrders";
+import {flatStructure} from "../../../utils/data-structure-utils";
 
-export default [
+const treeConfig = [
     {
         route: 'dashboard',
         title: 'Bảng điều khiển',
         icon: 'fa-th-large',
-        component: () => {
-            return (
-                <div className="wrapper wrapper-content animated fadeInRight">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="text-center m-t-lg">
-                                <h1>
-                                    Dashboard
-                                </h1>
-                                <small>
-                                    It is an application skeleton for a typical web app. You can use it to quickly bootstrap
-                                    your webapp projects.
-                                </small>
-                            </div>
+        headerColor: 'white',
+        component: () => (
+            <div className="wrapper wrapper-content animated fadeInRight">
+                <div className="row">
+                    <div className="col-lg-12">
+                        <div className="text-center m-t-lg">
+                            <h1>
+                                Dashboard
+                            </h1>
+                            <small>
+                                It is an application skeleton for a typical web app. You can use it to quickly bootstrap
+                                your webapp projects.
+                            </small>
                         </div>
                     </div>
                 </div>
-            )
-        }
+            </div>
+        )
     },
     {
         route: '#',
@@ -35,20 +36,19 @@ export default [
             {
                 route: 'conversations',
                 title: 'Cuộc hội thoại',
-                component: () => {
-                    return <FmsDashboard/>
-                }
+                headerColor: 'white',
+                component: () => <FmsDashboard/>
             },
             {
                 route: 'posts',
                 title: 'Bài viết',
-                component: () => {
-                    return <FmsPosts/>
-                }
+                headerColor: 'white',
+                component: () => <FmsPosts/>
             },
             {
                 route: 'conversation-tags',
                 title: 'Thẻ màu',
+                headerColor: '#f3f3f4',
                 component: () => {
                     return <p>Thẻ màu</p>
                 }
@@ -56,6 +56,7 @@ export default [
             {
                 route: 'conversation-settings',
                 title: 'Cài đặt',
+                headerColor: '#f3f3f4',
                 component: () => {
                     return <p>Cài đặt</p>
                 }
@@ -70,13 +71,13 @@ export default [
             {
                 route: 'orders',
                 title: 'Tất cả đơn hàng',
-                component: () => {
-                    return <p>Tất cả đơn hàng</p>
-                }
+                headerColor: '#f3f3f4',
+                component: () => <FmsAllOrders />
             },
             {
                 route: 'saved-orders',
                 title: 'Lưu trữ đơn',
+                headerColor: '#f3f3f4',
                 component: () => {
                     return <p>Lưu trữ đơn</p>
                 }
@@ -84,6 +85,7 @@ export default [
             {
                 route: 'order-tags',
                 title: 'Thẻ màu',
+                headerColor: '#f3f3f4',
                 component: () => {
                     return <p>Thẻ màu</p>
                 }
@@ -98,6 +100,7 @@ export default [
             {
                 route: 'stock',
                 title: 'Yêu cầu xuất hàng',
+                headerColor: '#f3f3f4',
                 component: () => {
                     return <p>Yêu cầu xuất hàng</p>
                 }
@@ -105,6 +108,7 @@ export default [
             {
                 route: 'products',
                 title: 'Sản phẩm',
+                headerColor: '#f3f3f4',
                 component: () => {
                     return <p>Sản phẩm</p>
                 }
@@ -119,6 +123,7 @@ export default [
             {
                 route: 'transport-orders',
                 title: 'Yêu cầu vận chuyển',
+                headerColor: '#f3f3f4',
                 component: () => {
                     return <p>Yêu cầu vận chuyển</p>
                 }
@@ -126,6 +131,7 @@ export default [
             {
                 route: 'transporting-orders',
                 title: 'Đang vận chuyển',
+                headerColor: '#f3f3f4',
                 component: () => {
                     return <p>Đang vận chuyển</p>
                 }
@@ -134,3 +140,7 @@ export default [
     },
 
 ];
+
+export default treeConfig;
+
+export const flatConfig = flatStructure(treeConfig);

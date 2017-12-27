@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
-import {flatStructure} from "../layouts/Helpers";
+import {flatStructure} from "../../../utils/data-structure-utils";
 
 class NavItem extends Component {
 

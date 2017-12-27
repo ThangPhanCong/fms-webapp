@@ -1,25 +1,29 @@
 import React, {Component} from 'react';
-
+import FmsPageTitle from "../../commons/page-title/FmsPageTitle";
 
 class FmsAllOrders extends Component {
-
     render() {
         return (
-            <div className="wrapper wrapper-content animated fadeInRight">
-                <div className="row">
-                    <div className="col-lg-12">
-                        <div className="text-center m-t-lg">
-                            <h1>
-                                Tất cả đơn hàng
-                            </h1>
-                            <small>
-                                It is an application skeleton for a typical web app. You can use it to quickly bootstrap
-                                your webapp projects.
-                            </small>
+            [
+                <FmsPageTitle key={1} title="Tất cả đơn hàng" route="Shop bán giày dép/Quản lí đơn hàng/Tất cả đơn hàng"/>,
+                <div key={2} className="wrapper wrapper-content animated fadeInRight">
+
+
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div className="text-center m-t-lg">
+                                <h1>
+                                    Tất cả đơn hàng
+                                </h1>
+                                <small>
+                                    It is an application skeleton for a typical web app. You can use it to quickly bootstrap
+                                    your webapp projects.
+                                </small>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            ]
         )
     }
 }

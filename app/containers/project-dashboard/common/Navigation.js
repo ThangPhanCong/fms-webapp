@@ -3,7 +3,7 @@ import {Link, Location, withRouter} from 'react-router-dom';
 import profileMockup from '../../../assets/images/mockup/profile_small.jpg';
 import NavItem from "./NavItem";
 
-import navItems from './NavItemConfig'
+import navItems from './RouteConfig'
 import {connect} from "react-redux";
 import {logOut} from "../../../actions/auth";
 

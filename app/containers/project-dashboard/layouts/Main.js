@@ -4,15 +4,12 @@ import {connect} from 'react-redux';
 import Navigation from '../common/Navigation';
 import Footer from '../common/Footer';
 import TopHeader from '../common/TopHeader';
-import {correctHeight, detectBody, flatStructure} from './Helpers';
+import {correctHeight, detectBody} from './Helpers';
 import {Redirect, Route, Switch} from "react-router-dom";
 import RightSideBar from "../common/RightSideBar";
 
-import navItems from '../common/NavItemConfig'
 import {setAlias} from '../../../actions/dashboard/conversations';
-
-
-const containers = flatStructure(navItems);
+import {flatConfig} from "../common/RouteConfig";
 
 class Main extends React.Component {
 
@@ -84,7 +81,7 @@ class Main extends React.Component {
         return (
             <Switch>
                 {
-                    containers.map(
+                    flatConfig.map(
                         (container, i) =>
                             <Route key={i} path={this.props.match.url + "/" + container.route}
                                    component={container.component}/>
