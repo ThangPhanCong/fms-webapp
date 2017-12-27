@@ -46,10 +46,13 @@
 
 @media only screen and (min-width: 1000px) {
   .client-list {
-      min-width: 250px;
-      width: 22%;
+      min-width: 200px;
+      width: 24%;
   }
   .search-client {
       display: flex;
+  }
+  .scroll-list {
+    height: calc(100% - 50px);
   }
 }

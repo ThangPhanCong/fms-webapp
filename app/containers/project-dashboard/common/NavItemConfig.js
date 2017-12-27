@@ -1,5 +1,6 @@
 import React from 'react';
 import FmsDashboard from '../../dashboard/FmsDashboard/FmsDashboard';
+import FmsPosts from '../../posts/FmsPosts/FmsPosts';
 
 export default [
     {
@@ -42,7 +43,7 @@ export default [
                 route: 'posts',
                 title: 'Bài viết',
                 component: () => {
-                    return <p>Bài viết</p>
+                    return <FmsPosts/>
                 }
             },
             {

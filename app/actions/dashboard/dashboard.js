@@ -21,8 +21,8 @@ export const getProject = () => (dispatch, getState) => {
     .catch(err => alert(err));
 };
 
-export const unSubscribeProjectChanges = (project_alias) => () => {
-  socket.unSubscribeProjectChanges({project_alias});
+export const unSubscribeProjectChanges = (alias) => () => {
+  socket.unSubscribeProjectChanges({project_alias: alias});
   socket.disconnect();
 };
 

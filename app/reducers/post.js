@@ -40,6 +40,11 @@ const postReducer = (state = initState, action) => {
         posts: state.posts.concat(action.posts),
         paging: action.paging
       };
+    case 'SET_POSTS':
+      return {
+        ...state,
+        posts: action.posts
+      }
     default:
       return state;
   }

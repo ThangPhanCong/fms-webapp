@@ -1,0 +1,23 @@
+.textarea-new-post {
+  width: 100%;
+  height: 100px;
+  resize: none;
+  border-radius: 3px;
+  border: none;
+  font-size: 16px;
+}
+.textarea-new-post:focus {
+  outline: none;
+}
+.button-new-post {
+  margin-right: 10px;
+}
+.title-modal {
+  font-size: 16px;
+  display: inline-block;
+  margin-right: 6px;
+}
+.spin-wrapper {
+  margin: auto;
+  text-align: center;
+}
