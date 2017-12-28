@@ -112,17 +112,22 @@ class FmsProject extends Component {
         })
     }
 
+    navigateToProject(projectAlias) {
+        const {history} = this.props;
+        history.push(`/shops/${projectAlias}`);
+    }
+
     renderProjects() {
-        const {projects, match, isProjectLoading} = this.props;
+        const {projects, isProjectLoading} = this.props;
 
         if (projects.length > 0) {
-            return projects.map(project => {
-                return (
-                    <Link key={project.alias} to={match.path + '/' + project.alias}>
-                        <FmsProjectItem data={project}/>
-                    </Link>
-                )
-            })
+            return projects.map((project, i) => (
+                <FmsProjectItem
+                    key={i}
+                    data={project}
+                    onClick={() => this.navigateToProject(project.alias)}
+                />
+            ))
         } else {
             if (isProjectLoading) {
                 return <div className="col-sm-1"><FmsSpin size={25}/></div>
@@ -144,7 +149,7 @@ class FmsProject extends Component {
         const unActivePages = pages.filter(page => !page.is_active);
 
         return (
-            <div className="">
+            <div style={{backgroundColor: '#f3f2f2', height: '100vh'}}>
                 <FmsNavigation/>
 
                 <div className="container project-wrapper">
@@ -153,7 +158,8 @@ class FmsProject extends Component {
                             <button
                                 className="btn btn-primary"
                                 onClick={this.openCreateProjectModal.bind(this)}
-                            >Tạo cửa hàng mới
+                            >
+                                <i className='fa fa-plus'/>&nbsp; Tạo cửa hàng mới
                             </button>
                         </div>
                     </div>

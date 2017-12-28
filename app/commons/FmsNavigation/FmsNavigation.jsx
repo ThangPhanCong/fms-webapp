@@ -16,21 +16,17 @@ class FmsNavigation extends React.Component {
 
     render() {
         let self = this;
-
-        const {isAuthenticated, user} = this.props;
-
+        const {user} = this.props;
         let userId = user ? user.fb_id : '';
         let username = user ? user.name : '';
-
-        // let words_username = username.split(' ');
-        // let lastname = words_username[words_username.length - 1];
         let avaUser = `https://graph.facebook.com/v2.10/${userId}/picture`;
 
         return (
-            <div style={{backgroundColor: '#f3f3f4'}}>
-                <div className="border-bottom container">
+            <div className='border-bottom'
+                 style={{backgroundColor: 'white', boxShadow: '0 1px 2px rgba(0,0,0,.2)'}}>
+                <div className="container">
                     <nav className="navbar navbar-static-top" role="navigation"
-                         style={{marginBottom: 0}}>
+                         style={{marginBottom: 0, backgroundColor: 'white'}}>
 
                         <div className="navbar-header">
                             <a className='navbar-brand' href='#'>
@@ -48,9 +44,9 @@ class FmsNavigation extends React.Component {
                                 </a>
                                 <ul className="dropdown-menu dropdown-header-with-text">
                                     <li className='dropdown-header'>Đăng nhập:</li>
-                                    <li className='dropdown-header'>{username}</li>
+                                    <li className='dropdown-header' style={{color: '#676a6c', fontSize: '14px'}}>{username}</li>
                                     <li className='divider'/>
-                                    <li className=""><a onClick={self.onLogoutBtnClick.bind(this)}>Đăng xuất</a></li>
+                                    <li className=""><a onClick={self.onLogoutBtnClick.bind(this)} style={{textAlign: 'center'}}>Đăng xuất</a></li>
                                 </ul>
                             </li>
                         </ul>
