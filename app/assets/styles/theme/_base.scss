@@ -187,7 +187,8 @@ video {
 
 #wrapper {
   width: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
+  max-height: 100vh;
   background-color: #2f4050;
 }
 

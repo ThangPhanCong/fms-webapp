@@ -12,54 +12,74 @@ import {getTagsProject, resetFilters} from '../../../actions/dashboard/filters';
 import {resetChat} from '../../../actions/dashboard/chat/messages';
 
 class FmsDashBoard extends React.Component {
-  componentDidMount() {
-    const {dispatch} = this.props;
-    dispatch(getProject());
-    dispatch(getTagsProject());
-  }
-
-  componentWillUnmount() {
-    const {dispatch, alias} = this.props;
-    dispatch(cancelGetConversations());
-    dispatch(unSubscribeProjectChanges(alias));
-    dispatch(resetConversations());
-    dispatch(resetChat());
-    dispatch(resetFilters());
-  }
-
-  renderConversation() {
-    if (this.props.conversation) {
-      return <FmsChatArea/>
-    } else {
-      return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
+    startDashboard() {
+        const {dispatch} = this.props;
+        dispatch(getProject());
+        dispatch(getTagsProject());
     }
-  }
 
-  render() {
-    return (
-      <div className="dashboard page">
-        <div className="vertical-nav">
-          <FmsVerticalNav/>
-        </div>
-        <div className="client-list">
-          <FmsConversationList/>
-        </div>
-        <div className="conversation-area">
-          {this.renderConversation()}
-        </div>
-        <div className="client-information-area">
-          <FmsClientInformation />
-        </div>
-      </div>
-    );
-  }
+    closeDashboard() {
+        const {dispatch, alias} = this.props;
+        dispatch(cancelGetConversations());
+        dispatch(unSubscribeProjectChanges(alias));
+        dispatch(resetConversations());
+        dispatch(resetChat());
+        dispatch(resetFilters());
+    }
+
+    componentDidMount() {
+        this.startDashboard();
+    }
+
+    componentWillUnmount() {
+        this.closeDashboard();
+    }
+
+    componentWillUpdate(nextProps) {
+        if (nextProps.alias !== this.props.alias) {
+            this.closeDashboard();
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.alias !== this.props.alias) {
+            this.startDashboard();
+        }
+    }
+
+    renderConversation() {
+        if (this.props.conversation) {
+            return <FmsChatArea/>
+        } else {
+            return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
+        }
+    }
+
+    render() {
+        return (
+            <div className="dashboard page">
+                <div className="vertical-nav">
+                    <FmsVerticalNav/>
+                </div>
+                <div className="client-list">
+                    <FmsConversationList/>
+                </div>
+                <div className="conversation-area">
+                    {this.renderConversation()}
+                </div>
+                <div className="client-information-area">
+                    <FmsClientInformation/>
+                </div>
+            </div>
+        );
+    }
 }
 
 const mapStateToProps = state => {
-  return {
-    conversation: state.dashboard.chat.conversation,
-    alias: state.dashboard.conversations.alias
-  }
+    return {
+        conversation: state.dashboard.chat.conversation,
+        alias: state.dashboard.conversations.alias
+    }
 };
 
 export default connect(mapStateToProps)(FmsDashBoard);
