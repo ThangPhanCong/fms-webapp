@@ -13,7 +13,7 @@ import FmsTagsBar from '../FmsTagsBar/FmsTagsBar';
 import FmsPrivateReplyModal from '../FmsPrivateReplyModal/FmsPrivateReplyModal';
 import FmsDivider from '../FmsDivider/FmsDivider';
 
-import {loadMoreMessages, isShownNewMsgNoti, setScrollList} from '../../../../actions/dashboard/chat/messages';
+import {loadMoreMessages, isShownNewMsgNoti, setScrollList, resetChat} from '../../../../actions/dashboard/chat/messages';
 import FmsDate from '../../../../helpers/FmsDate';
 
 let lastScrollPosition;
@@ -51,11 +51,14 @@ class FmsChatArea extends React.Component {
     }
 
     componentWillUpdate() {
+        if (!this.props.conversation) return;
         let list = ReactDOM.findDOMNode(this.refs.chat_area);
         lastScrollPosition = list.scrollHeight - list.scrollTop;
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
+        if (prevProps.alias !== this.props.alias) this.props.dispatch(resetChat());
+        if (!this.props.conversation) return;
         let list = ReactDOM.findDOMNode(this.refs.chat_area);
         list.scrollTop = list.scrollHeight - lastScrollPosition;
         if (!this.props.postInfo && list.clientHeight + 12 > list.scrollHeight) {
@@ -167,6 +170,7 @@ class FmsChatArea extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        alias: state.dashboard.conversations.alias,
         conversation: state.dashboard.chat.conversation,
         postInfo: state.dashboard.chat.postInfo,
         isLoadingMsgs: state.dashboard.chat.isLoadingMsgs,
