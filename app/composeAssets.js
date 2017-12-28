@@ -16,7 +16,5 @@ importAll(require.context('././', true, /\.scss$/));
 
 
 function importAll(r) {
-    console.log('=============', r)
-
     r.keys().forEach(r);
 }
