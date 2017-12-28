@@ -35,7 +35,7 @@ class NavItem extends Component {
             <ul className={this.secondLevelActive(...routes)}>
                 {
                     navChilds.map(
-                        (c, i) => <li key={i} className={this.activeRoute(c.route)}><Link to={c.route}>{c.title}</Link></li>
+                        (c, i) => <li key={i} className={this.activeRoute(c.route)}><Link to={c.route} replace>{c.title}</Link></li>
                     )
                 }
             </ul>
@@ -48,7 +48,7 @@ class NavItem extends Component {
 
         return (
             <li className={this.activeRoute(...routes)}>
-                <Link to={navItem.route || '#'}>
+                <Link to={navItem.route || '#'} replace>
                     <i className={"fa " + navItem.icon}/>
                     <span className="nav-label">{navItem.title}</span>
                 </Link>

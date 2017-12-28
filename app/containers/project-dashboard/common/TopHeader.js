@@ -76,7 +76,7 @@ class TopHeader extends React.Component {
                     <ul className="dropdown-menu dropdown-header-with-text">
                         {
                             projects.map(
-                                (project, i) => <li key={i} className=""><Link to={`/shops/${project.alias}/${currRoute}`}>{project.name}</Link></li>
+                                (project, i) => <li key={i} className=""><Link to={`/shops/${project.alias}/${currRoute}`} replace>{project.name}</Link></li>
                             )
                         }
                     </ul>
