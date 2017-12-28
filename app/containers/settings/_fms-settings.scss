@@ -14,10 +14,10 @@
     font-weight: 600;
     border-left: 3px solid #e36209;
   }
-.nav-link:hover {
-  background-color: #f0f5f5;
+  .nav-link:hover {
+    background-color: #f0f5f5;
 
-}
+  }
   .count-item {
     margin-left: 6px;
     margin-right: 28px;
@@ -50,7 +50,6 @@
     vertical-align: middle;
   }
 
-
   .color-preview {
     width: 40px;
     height: 34px;
@@ -78,7 +77,6 @@
   border: 1px solid #cecece;
   border-radius: 5px;
 
-
   ul {
     list-style-type: none;
   }
@@ -94,14 +92,13 @@
     margin-left: -40px;
     border-bottom: 1px solid #e1e4e8;
     display: block;
-        // color:#0366d6;
+    // color:#0366d6;
   }
 }
 
 .danger-zone {
   margin-top: 50px;
 }
-
 
 .danger-zone-body {
 
@@ -111,13 +108,13 @@
 
   }
   button {
-      display: block;
-      color: #cb2431;
-      font-weight: 600;
-      background-color: #fafbfc;
-      width: 84px;
+    display: block;
+    color: #cb2431;
+    font-weight: 600;
+    background-color: #fafbfc;
+    width: 84px;
   }
-  button:hover{
+  button:hover {
     color: #fff;
     background-color: #b5202c;
   }
@@ -127,16 +124,17 @@
   border: 1px solid #e1e4e8;
   border-radius: 5px;
   .col {
-    border-bottom:1px solid #e1e4e8;
+    border-bottom: 1px solid #e1e4e8;
   }
   .col:last-child {
     border-bottom: none;
-}
+  }
   span {
     font-weight: 600;
 
   }
 }
+
 .delete-button {
   float: right;
   padding-right: 7px;
@@ -157,14 +155,14 @@
 
 .body-confirm {
   button:last-child {
-      display: inline-block;
-      float: right;
-      color: #cb2431;
-      font-weight: 600;
-      background-color: #fafbfc;
-      border: 1px solid #ccc;
+    display: inline-block;
+    float: right;
+    color: #cb2431;
+    font-weight: 600;
+    background-color: #fafbfc;
+    border: 1px solid #ccc;
   }
-  button:last-child:hover{
+  button:last-child:hover {
     color: #fff;
     background-color: #b5202c;
   }
@@ -173,6 +171,7 @@
 .confirm-modal {
   margin-top: 14%;
 }
+
 .button-common {
   font-weight: 600;
   line-height: 20px;
@@ -181,6 +180,7 @@
   background-color: #eff3f6;
   background-image: linear-gradient(-180deg, #fafbfc 0%, #eff3f6 90%);
 }
+
 .fms-page {
   .page-item {
     margin-left: 0px;
