@@ -2,7 +2,7 @@
   padding: 10px;
   margin-bottom: 30px;
   background-color: white;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #eaeaea;
   border-radius: 3px;
   min-height: 320px;
   max-height: 320px;
@@ -19,11 +19,9 @@
   .checkbox {
     margin: 0;
     padding-top: 10px;
-    border-top: 1px solid #e2e2e2;
   }
   .page-info {
-    padding: 0 0 10px 10px;
-    border-bottom: 1px solid #e2e2e2;
+    padding: 0;
     .page-name {
       overflow: hidden;
       white-space: nowrap;
