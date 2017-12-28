@@ -11,10 +11,12 @@ import './assets/styles/animate.css'
 
 
 // app theme
-import('./assets/styles/app.scss');
+// import('./assets/styles/app.scss');
 importAll(require.context('././', true, /\.scss$/));
 
 
 function importAll(r) {
+    console.log('=============', r)
+
     r.keys().forEach(r);
 }
