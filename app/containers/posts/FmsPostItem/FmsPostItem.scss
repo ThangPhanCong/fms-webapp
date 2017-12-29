@@ -2,7 +2,7 @@
   padding: 10px;
   margin-bottom: 30px;
   background-color: white;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #eaeaea;
   border-radius: 3px;
   min-height: 320px;
   max-height: 320px;
@@ -11,7 +11,6 @@
   .content-wrapper {
     flex: 1;
     overflow: hidden;
-    padding-top: 10px;
   }
   .content {
     overflow: hidden;
@@ -19,11 +18,9 @@
   .checkbox {
     margin: 0;
     padding-top: 10px;
-    border-top: 1px solid #e2e2e2;
   }
   .page-info {
-    padding: 0 0 10px 10px;
-    border-bottom: 1px solid #e2e2e2;
+    padding: 0 0 10px 0;
     .page-name {
       overflow: hidden;
       white-space: nowrap;
@@ -33,27 +30,10 @@
     }
   }
   .image-wrapper {
-    height: 72px;
-    max-height: 72px;
-    overflow-y: auto;
-    &::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    &::-webkit-scrollbar-track {
-      border-radius: 5px;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(0, 0, 0, 0.3);
-      border-radius: 5px;
-    }
-    img {
-      // width: 58px;
-      max-height: 72px;
-      max-width: 80px;
-      padding-right: 7px;
-      overflow: hidden;
-      height: 72px;
+    .image {
+      width: 96px;
+      height: 96px;
+      margin-right: 7px;
     }
   }
 }

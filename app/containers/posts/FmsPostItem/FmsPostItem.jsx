@@ -1,7 +1,9 @@
 import React from 'react';
 
-import {Image, Checkbox} from 'react-bootstrap';
+import {Checkbox} from 'react-bootstrap';
 import uuid from 'uuid';
+import FmsCroppedImage from '../../../commons/FmsCroppedImage/FmsCroppedImage';
+import FmsScrollableDiv from '../../../commons/scroll-bar/FmsScrollableDiv';
 
 class FmsPostItem extends React.Component {
   onToggleChange() {
@@ -13,7 +15,7 @@ class FmsPostItem extends React.Component {
     if (attachments && Array.isArray(attachments) && attachments.length > 0) {
       if (Array.isArray(attachments[0].data)) {
         return attachments[0].data.map(a => {
-          return <Image key={uuid()} src={a.preview || a.src}/>;
+          return <FmsCroppedImage className="image" key={uuid()} src={a.preview || a.src}/>;
         });
       }
     }
@@ -27,12 +29,12 @@ class FmsPostItem extends React.Component {
         <div className="page-info">
           <div className="page-name">{page.name}</div>
         </div>
-        <div className="content-wrapper">
+        <FmsScrollableDiv className="content-wrapper">
           <p className="content">{message}</p>
           <div className="image-wrapper">
             {this.renderImgs()}
           </div>
-        </div>
+        </FmsScrollableDiv>
         <div>
           <Checkbox type="checkbox"
                     checked={hide_comment}

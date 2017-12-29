@@ -19,6 +19,7 @@ body.full-height-layout #page-wrapper {
 
 #page-wrapper {
   min-height: auto;
+  overflow: auto;
 }
 
 body.boxed-layout {
@@ -58,6 +59,10 @@ a:hover, a:focus {
 
 .border-bottom {
   border-bottom: 1px solid $border-color !important;
+}
+
+.border-bottom-nav {
+  border-bottom: 1px solid #bcbcbc !important;
 }
 
 .font-bold {

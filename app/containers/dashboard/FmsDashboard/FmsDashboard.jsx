@@ -20,11 +20,10 @@ class FmsDashBoard extends React.Component {
 
     closeDashboard() {
         const {dispatch, alias} = this.props;
+        dispatch(resetFilters());
+        dispatch(resetConversations());
         dispatch(cancelGetConversations());
         dispatch(unSubscribeProjectChanges(alias));
-        dispatch(resetConversations());
-        dispatch(resetChat());
-        dispatch(resetFilters());
     }
 
     componentDidMount() {
