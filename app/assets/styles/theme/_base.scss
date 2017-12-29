@@ -19,7 +19,6 @@ body.full-height-layout #page-wrapper {
 
 #page-wrapper {
   min-height: auto;
-  overflow: auto;
 }
 
 body.boxed-layout {
@@ -193,7 +192,6 @@ video {
 #wrapper {
   width: 100%;
   overflow: hidden;
-  max-height: 100vh;
   background-color: #2f4050;
 }
 
