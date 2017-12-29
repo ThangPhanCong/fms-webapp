@@ -16,6 +16,7 @@
 .project-item {
   cursor: pointer;
   border-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px;
 
   h2 {
     font-weight: normal;
@@ -29,7 +30,7 @@
   }
 
   &:hover {
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px;
+    box-shadow: rgba(0, 0, 0, 0.2) 1px 2px 2px;
   }
 
   .small {
