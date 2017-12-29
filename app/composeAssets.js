@@ -11,7 +11,6 @@ import './assets/styles/animate.css'
 
 
 // app theme
-// import('./assets/styles/app.scss');
 importAll(require.context('././', true, /\.scss$/));
 
 

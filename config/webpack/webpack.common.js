@@ -49,10 +49,6 @@ module.exports = {
             'window.$': 'jquery'
         }),
 
-        // new webpack.DefinePlugin({
-        //     "require.specified": "require.resolve"
-        // }),
-
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
             filename: 'vendor.bundle.js',
