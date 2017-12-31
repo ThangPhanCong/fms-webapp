@@ -50,6 +50,10 @@ class FmsChatArea extends React.Component {
         this.props.dispatch(setScrollList(list));
     }
 
+    componentWillUnmount() {
+        this.props.dispatch(resetChat());
+    }
+
     componentWillUpdate() {
         if (!this.props.conversation) return;
         let list = ReactDOM.findDOMNode(this.refs.chat_area);
