@@ -1,17 +1,25 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {Link, NavLink, Redirect, Route, Switch, withRouter} from 'react-router-dom';
-import {Image, Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
+import {withRouter} from 'react-router-dom';
+import {Image} from 'react-bootstrap';
 
 import {logOut} from '../../actions/auth';
-import navItems from "../../containers/project-dashboard/common/RouteConfig";
+import trackUserBehavior from './track-user-behavior';
 
 class FmsNavigation extends React.Component {
 
     onLogoutBtnClick() {
         const {dispatch} = this.props;
         dispatch(logOut());
+    }
+
+    componentDidMount() {
+        const {user} = this.props;
+
+        if (process.env.NODE_ENV === 'production') {
+            trackUserBehavior(user);
+        }
     }
 
     render() {
@@ -44,9 +52,11 @@ class FmsNavigation extends React.Component {
                                 </a>
                                 <ul className="dropdown-menu dropdown-header-with-text">
                                     <li className='dropdown-header'>Đăng nhập:</li>
-                                    <li className='dropdown-header' style={{color: '#676a6c', fontSize: '14px'}}>{username}</li>
+                                    <li className='dropdown-header'
+                                        style={{color: '#676a6c', fontSize: '14px'}}>{username}</li>
                                     <li className='divider'/>
-                                    <li className=""><a onClick={self.onLogoutBtnClick.bind(this)} style={{textAlign: 'center'}}>Đăng xuất</a></li>
+                                    <li className=""><a onClick={self.onLogoutBtnClick.bind(this)}
+                                                        style={{textAlign: 'center'}}>Đăng xuất</a></li>
                                 </ul>
                             </li>
                         </ul>
