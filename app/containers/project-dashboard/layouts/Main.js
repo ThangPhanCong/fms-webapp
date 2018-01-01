@@ -33,6 +33,8 @@ class Main extends React.Component {
     }
 
     render() {
+        const {showRightNavbar} = this.state;
+
         return (
             <div id="wrapper">
                 <Navigation
@@ -56,7 +58,7 @@ class Main extends React.Component {
                 </div>
 
                 {
-                    this.state.showRightNavbar ? <RightSideBar/> : null
+                    showRightNavbar ? <RightSideBar/> : null
                 }
 
             </div>
