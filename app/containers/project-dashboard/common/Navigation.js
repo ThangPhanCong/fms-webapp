@@ -32,7 +32,7 @@ class Navigation extends Component {
                                 <span className="block m-t-xs">
                                 <strong className="font-bold">{user.name}</strong>
                              </span>
-                                <span className="text-muted text-xs block">Nhân viên bán hàng
+                                <span className="text-muted text-xs block">Chủ cửa hàng
                                 <b className="caret"/>
                             </span>
                             </span>
