@@ -12,11 +12,19 @@ class PageBody extends Component {
 
     componentDidMount() {
         const {project_alias} = this.props.match.params;
+        this.updateProjectInfo(project_alias);
+    }
 
+    updateProjectInfo(project_alias) {
         getProject(project_alias)
             .then(project => {
                 this.setState({project});
             })
+    }
+
+    componentWillReceiveProps(nextProps){
+        const {project_alias} = nextProps.match.params;
+        this.updateProjectInfo(project_alias);
     }
 
     render() {
