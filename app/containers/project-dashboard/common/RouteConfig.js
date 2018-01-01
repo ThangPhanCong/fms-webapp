@@ -13,7 +13,7 @@ const treeConfig = [
         title: 'Bảng điều khiển',
         icon: 'fa-th-large',
         headerColor: 'white',
-        component: () => (
+        component: (props) => (
             <div className="wrapper wrapper-content animated fadeInRight">
                 <div className="row">
                     <div className="col-lg-12">
@@ -40,27 +40,27 @@ const treeConfig = [
                 route: 'conversations',
                 title: 'Cuộc hội thoại',
                 headerColor: 'white',
-                component: () => <FmsDashboard/>
+                component: (props) => <FmsDashboard {...props}/>
             },
             {
                 route: 'posts',
                 title: 'Bài viết',
                 headerColor: 'white',
-                component: () => <FmsPosts/>
+                component: (props) => <FmsPosts {...props}/>
             },
             {
                 route: 'conversation-tags',
                 title: 'Thẻ màu',
                 headerColor: '#f3f3f4',
-                component: () => {
-                    return <FmsColorCards />
+                component: (props) => {
+                    return <FmsColorCards {...props}/>
                 }
             },
             {
                 route: 'conversation-settings',
                 title: 'Cài đặt',
                 headerColor: '#f3f3f4',
-                component: () => {
+                component: (props) => {
                     return <p>Cài đặt</p>
                 }
             }
@@ -75,19 +75,19 @@ const treeConfig = [
                 route: 'orders',
                 title: 'Tất cả đơn hàng',
                 headerColor: '#f3f3f4',
-                component: () => <FmsAllOrders />
+                component: (props) => <FmsAllOrders {...props}/>
             },
             {
                 route: 'saved-orders',
                 title: 'Lưu trữ đơn',
                 headerColor: '#f3f3f4',
-                component: () => <FmsSavedOrders />
+                component: (props) => <FmsSavedOrders {...props}/>
             },
             {
                 route: 'order-tags',
                 title: 'Thẻ màu',
                 headerColor: '#f3f3f4',
-                component: () => <FmsTagOrders />
+                component: (props) => <FmsTagOrders {...props}/>
             }
         ]
     },

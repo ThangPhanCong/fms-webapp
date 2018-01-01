@@ -16,7 +16,12 @@ class FmsPageTitle extends React.Component {
                                     if (i !== all.length - 1) {
                                         return <li key={i}><a>{r}</a></li>
                                     } else {
-                                        return <li key={i} className="active"><strong>{r}</strong></li>
+                                        return (
+                                            <li key={i}
+                                                className="active">
+                                                <strong>{r}</strong>
+                                            </li>
+                                        )
                                     }
                                 }
                             )

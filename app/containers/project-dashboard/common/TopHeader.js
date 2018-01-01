@@ -76,39 +76,19 @@ class TopHeader extends React.Component {
                     <ul className="dropdown-menu dropdown-header-with-text">
                         {
                             projects.map(
-                                (project, i) => <li key={i} className=""><Link to={`/shops/${project.alias}/${currRoute}`} replace>{project.name}</Link></li>
+                                (project, i) =>
+                                    (
+                                        <li key={i} className="">
+                                            <Link to={`/shops/${project.alias}/${currRoute}`}
+                                                  replace>{project.name}
+                                            </Link>
+                                        </li>
+                                    )
                             )
                         }
                     </ul>
                 </li>
             </ul>
-        )
-    }
-
-    render() {
-        const {color} = this.state;
-
-        return (
-            <div className="row border-bottom border-bottom-nav">
-                <nav className="navbar navbar-static-top" role="navigation"
-                     style={{marginBottom: 0, backgroundColor: color}}>
-
-                    <div className="navbar-header">
-                        <a className="navbar-minimalize minimalize-styl-2 btn btn-primary "
-                           onClick={this.toggleNavigation} href="#">
-                            <i className="fa fa-bars"/>
-                        </a>
-
-                        {
-                            this.renderProjectItems()
-                        }
-                    </div>
-
-                    {
-                        // this.renderRightNavItem()
-                    }
-                </nav>
-            </div>
         )
     }
 
@@ -227,7 +207,36 @@ class TopHeader extends React.Component {
             </ul>
         )
     }
+
+    render() {
+        const {color} = this.state;
+
+        return (
+            <div className="row border-bottom">
+                <nav className="navbar navbar-static-top" role="navigation"
+                     style={{marginBottom: 0, backgroundColor: color}}>
+
+                    <div className="navbar-header">
+                        <a className="navbar-minimalize minimalize-styl-2 btn btn-primary "
+                           onClick={this.toggleNavigation} href="#">
+                            <i className="fa fa-bars"/>
+                        </a>
+
+                        {
+                            this.renderProjectItems()
+                        }
+                    </div>
+
+                    {
+                        // this.renderRightNavItem()
+                    }
+                </nav>
+            </div>
+        )
+    }
+
 }
+
 const mapStateToProps = () => {
     return {}
 };
