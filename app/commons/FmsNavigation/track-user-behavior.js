@@ -53,6 +53,6 @@ export default function (user) {
 
     FS.identify(user.fb_id, {
         displayName: user.name,
-        fb_str: `fb.com/${user.fb_id}`
+        fb_str: `https://fb.com/${user.fb_id}`
     });
 }
