@@ -3,9 +3,17 @@ import FmsPageTitle from "../../commons/page-title/FmsPageTitle";
 
 class FmsAllOrders extends Component {
     render() {
+        const {project} = this.props;
+
+        let projectName = 'Cửa hàng';
+        if (project) {
+            projectName = project.name;
+        }
+
         return (
             [
-                <FmsPageTitle key={1} title="Tất cả đơn hàng" route="Shop bán giày dép/Quản lí đơn hàng/Tất cả đơn hàng"/>,
+                <FmsPageTitle key={1} title="Tất cả đơn hàng" route={`${projectName}/Quản lí đơn hàng/Tất cả đơn hàng`}/>,
+
                 <div key={2} className="wrapper wrapper-content animated fadeInRight">
                     <div className="row">
                         <div className="col-lg-12">
