@@ -48,6 +48,9 @@ class FmsProjectItem extends React.Component {
                             &nbsp;&nbsp;&nbsp;
                             <span>Đơn hàng: </span>
                             <strong>200</strong>
+                            &nbsp;&nbsp;&nbsp;
+                            <span>Nhân viên: </span>
+                            <strong>5</strong>
                         </p>
 
                         <div className="">
