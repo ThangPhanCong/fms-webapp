@@ -41,6 +41,9 @@ class FmsProjectItem extends React.Component {
             <div className="col-md-4">
                 <div className="ibox">
                     <div className="ibox-content project-item" onClick={this.props.onClick}>
+
+                        {/*<span className='pull-right'>Settings</span>*/}
+
                         <h2>{projectName}</h2>
                         <p className="small">
                             <span>Sản phẩm: </span>
