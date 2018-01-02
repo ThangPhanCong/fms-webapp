@@ -6,6 +6,7 @@ import {flatStructure} from "../../../utils/data-structure-utils";
 import FmsSavedOrders from "../../orders/FmsSavedOrders";
 import FmsTagOrders from "../../orders/FmsTagOrders";
 import FmsColorCards from "../../cards/FmsColorCards/FmsColorCards";
+import FmsProducts from "../../stock/FmsProducts";
 
 const treeConfig = [
     {
@@ -108,9 +109,7 @@ const treeConfig = [
                 route: 'products',
                 title: 'Sản phẩm',
                 headerColor: '#f3f3f4',
-                component: () => {
-                    return <p>Sản phẩm</p>
-                }
+                component: (props) => <FmsProducts {...props}/>
             }
         ]
     },
