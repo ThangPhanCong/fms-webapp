@@ -14,10 +14,9 @@ class FmsTabs extends React.Component {
 
     renderTabPanels(panels) {
         const {tabActive} = this.state;
+        const activePanel = panels[tabActive];
 
-        return panels.map(
-            (panel, i) => <FmsTabPanel key={i} active={tabActive === i} content={panel}/>
-        )
+        return <FmsTabPanel active={true} content={activePanel}/>
     }
 
     render() {

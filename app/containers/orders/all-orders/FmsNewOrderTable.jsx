@@ -44,7 +44,6 @@ class FmsNewOrderTable extends Component {
         return (
             <div className="table-responsive">
                 <table className="table table-striped">
-
                     {
                         this.renderTabelHeader()
                     }
