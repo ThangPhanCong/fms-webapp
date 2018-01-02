@@ -6,9 +6,11 @@ class FmsTabPanel extends React.Component {
 
         return (
             <div className={`tab-pane ${active ? 'active' : ''}`}>
-                {
-                    content
-                }
+                <div className='panel-body'>
+                    {
+                        content
+                    }
+                </div>
             </div>
         )
     }

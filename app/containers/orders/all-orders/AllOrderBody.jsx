@@ -1,4 +1,7 @@
 import React, {Component} from "react";
+import FmsTabs from "../../../commons/FmsTabs/FmsTabs";
+import FmsTab from "../../../commons/FmsTabs/FmsTab";
+import FmsNewOrderTab from "./FmsNewOrderTab";
 
 class AllOrderBody extends Component {
     render () {
@@ -6,15 +9,15 @@ class AllOrderBody extends Component {
             <div className="wrapper wrapper-content animated fadeInRight">
                 <div className="row">
                     <div className="col-lg-12">
-                        <div className="text-center m-t-lg">
-                            <h1>
-                                Tất cả đơn hàng
-                            </h1>
-                            <small>
-                                It is an application skeleton for a typical web app. You can use it to quickly bootstrap
-                                your webapp projects.
-                            </small>
-                        </div>
+                        <FmsTabs>
+                            <FmsTab title='Đơn hàng mới'>
+                                <FmsNewOrderTab/>
+                            </FmsTab>
+
+                            <FmsTab title='Yêu cầu xuất'>
+                                <p>ok men</p>
+                            </FmsTab>
+                        </FmsTabs>
                     </div>
                 </div>
             </div>
