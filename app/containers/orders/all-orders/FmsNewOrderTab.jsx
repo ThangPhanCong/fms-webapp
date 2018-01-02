@@ -1,11 +1,14 @@
 import React, {Component} from "react";
 import FmsNewOrderSearchBar from "./FmsNewOrderSearchBar";
 import FmsNewOrderTable from "./FmsNewOrderTable";
+import {getNewProjectOrders} from "../../../api/OrderApi";
+import FmsSpin from "../../../commons/FmsSpin/FmsSpin";
 
 class FmsNewOrderTab extends Component {
 
     state = {
         orders: [],
+        isLoading: true,
         search: null
     };
 
@@ -13,8 +16,13 @@ class FmsNewOrderTab extends Component {
         console.log('searchQuery', searchQuery);
     }
 
+    componentDidMount() {
+        getNewProjectOrders()
+            .then(orders => this.setState({orders, isLoading: false}));
+    }
+
     render() {
-        const {orders} = this.state;
+        const {orders, isLoading} = this.state;
 
         return (
             <div className="row">
@@ -22,7 +30,11 @@ class FmsNewOrderTab extends Component {
                     <div className="ibox">
                         <FmsNewOrderSearchBar onSearchQueryChange={this.searchItem.bind(this)}/>
 
-                        <FmsNewOrderTable orders={orders}/>
+                        {
+                            isLoading ?
+                                <FmsSpin size={25} center={true}/> :
+                                <FmsNewOrderTable orders={orders}/>
+                        }
                     </div>
                 </div>
             </div>

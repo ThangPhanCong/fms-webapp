@@ -1,28 +1,81 @@
 import React, {Component} from "react";
 
+import ic_viettel from 'images/ic_viettel.png';
+import FmsOrderDetailModal from "../modals/FmsOrderDetailModal";
+
 class FmsNewOrderTable extends Component {
 
-    renderTabelBody() {
+    state = {
+        isShownModal: false,
+        selectedOrder: null
+    };
+
+    onCloseModal () {
+        this.setState({isShownModal: false});
+    }
+
+    openModal (order) {
+        this.setState({isShownModal: true, selectedOrder: order})
+    }
+
+    renderProductIdItem(products) {
+        return (
+            <td>
+                {
+                    products.map(
+                        (product, i) => [
+                            <span key={1}>{product.id}</span>,
+                            <br key={2}/>
+                        ]
+                    )
+                }
+            </td>
+        )
+    }
+
+    renderTableRows() {
+        const {orders} = this.props;
+
+        return orders.map(
+            (order, i) => (
+                <tr key={i}>
+                    <td>{i}</td>
+                    <td><a>
+                        <span
+                            className="badge badge-info"
+                            onClick={() => {this.openModal(order)}}
+                        >{order.id}</span>
+                    </a></td>
+                    <td>{order.customer.name}</td>
+                    <td>{order.customer.phone}</td>
+                    <td><img src={ic_viettel}/></td>
+                    <td>HB40123 <br/> YH40231</td>
+
+                    {
+                        this.renderProductIdItem(order.products)
+                    }
+
+                    <td>{order.private_note}</td>
+                    <td>14:53 <br/> 29-11</td>
+                    <td className="color-tag">
+                        <span className="label label-green tag-label">{order.tag.name}</span>
+                    </td>
+                </tr>
+            )
+        );
+    }
+
+    renderTableBody() {
         return (
             <tbody>
-            <tr>
-                <td>1</td>
-                <td><a href="#"><span className="badge badge-info">DH12501</span></a></td>
-                <td>A Vinh</td>
-                <td>0983380972</td>
-                <td><img src="./img/ic-viettel.png"/></td>
-                <td>HB40123 <br/> YH40231</td>
-                <td>a đang họp. lát gọi lại, anh chọn rồi anh alo cho</td>
-                <td>14:53 <br/> 29-11</td>
-                <td className="color-tag">
-                    <span className="label label-gray tag-label">Chờ quyết định</span>
-                </td>
-            </tr>
+            {
+                this.renderTableRows()
+            }
             </tbody>
         )
     }
 
-    renderTabelHeader() {
+    renderTableHeader() {
         return (
             <thead>
             <tr>
@@ -40,21 +93,35 @@ class FmsNewOrderTable extends Component {
         )
     }
 
-    render () {
+    render() {
+        const {isShownModal, selectedOrder} = this.state;
+
         return (
             <div className="table-responsive">
                 <table className="table table-striped">
                     {
-                        this.renderTabelHeader()
+                        this.renderTableHeader()
                     }
 
                     {
-                        this.renderTabelBody()
+                        this.renderTableBody()
                     }
                 </table>
+
+                {
+                    selectedOrder ?
+                        <FmsOrderDetailModal
+                            isShown={isShownModal}
+                            onClose={this.onCloseModal.bind(this)}
+                            order={selectedOrder}
+                        /> :
+                        null
+                }
             </div>
         )
     }
+
+
 }
 
 export default FmsNewOrderTable;
