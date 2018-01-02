@@ -4,7 +4,7 @@ import FmsTab from "../../../commons/FmsTabs/FmsTab";
 import FmsNewOrderTab from "./FmsNewOrderTab";
 
 class AllOrderBody extends Component {
-    render () {
+    render() {
         return (
             <div className="wrapper wrapper-content animated fadeInRight">
                 <div className="row">
@@ -17,6 +17,16 @@ class AllOrderBody extends Component {
                             <FmsTab title='Yêu cầu xuất'>
                                 <p>ok men</p>
                             </FmsTab>
+
+                            <FmsTab
+                                title={
+                                    <button className='btn btn-primary btn-sm btn-create-order'
+                                            onClick={() => console.log('ok men')}>
+                                        <i className='fa fa-pencil'/> Tạo đơn
+                                    </button>
+                                }
+                                renderBody={false}
+                            />
                         </FmsTabs>
                     </div>
                 </div>
@@ -24,5 +34,6 @@ class AllOrderBody extends Component {
         )
     }
 }
+
 
 export default AllOrderBody;

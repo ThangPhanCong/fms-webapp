@@ -8,15 +8,18 @@ class FmsTabs extends React.Component {
         tabActive: 0
     };
 
-    activeTab (index) {
-        this.setState({tabActive: index});
+    activeTab(index) {
+        const {children} = this.props;
+        if (children[index].props.renderBody) {
+            this.setState({tabActive: index});
+        }
     }
 
     renderTabPanels(panels) {
         const {tabActive} = this.state;
         const activePanel = panels[tabActive];
 
-        return <FmsTabPanel active={true} content={activePanel}/>
+        return <FmsTabPanel active={true} content={activePanel}/>;
     }
 
     render() {

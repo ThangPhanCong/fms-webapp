@@ -6,14 +6,17 @@ class FmsTabHeader extends React.Component {
         const {tabActive, onSelectTab} = this.props;
 
         return titles.map(
-            (title, i) => (
-                <li
-                    key={i}
-                    className={tabActive === i ? 'active' : ''}
-                >
-                    <a onClick={() => onSelectTab(i)}>{title}</a>
-                </li>
-            )
+            (title, i) => {
+                if (typeof title === 'string') {
+                    return (
+                        <li key={i} className={tabActive === i ? 'active' : ''}>
+                            <a onClick={() => onSelectTab(i)}>{title}</a>
+                        </li>
+                    )
+                } else {
+                    return <li key={i}>{title}</li>;
+                }
+            }
         )
     }
 

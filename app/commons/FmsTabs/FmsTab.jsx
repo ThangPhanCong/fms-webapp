@@ -1,3 +1,13 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-export default (props) => props.children;
+class FmsTab extends Component {
+    static defaultProps = {
+        renderBody: true
+    };
+
+    render() {
+        return this.props.children;
+    }
+}
+
+export default FmsTab;

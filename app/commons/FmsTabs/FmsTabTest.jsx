@@ -13,6 +13,11 @@ class FmsTabTest extends React.Component {
                 <FmsTab title="ok men 2">
                     <p>ok men 2 body</p>
                 </FmsTab>
+
+                <FmsTab
+                    title={<button onClick={() => {console.log('ok men ......')}}/>}
+                    renderBody={false}
+                />
             </FmsTabs>
         );
     }
