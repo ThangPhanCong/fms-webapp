@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import FmsPageTitle from "../../commons/page-title/FmsPageTitle";
-import FmsSavedOrderBody from "./saved-orders/FmsSavedOrderBody";
+import FmsOrderTagBody from "./tags/FmsOrderTagBody";
 
 
-class FmsSavedOrders extends Component {
+class FmsTagOrders extends Component {
 
     render() {
         const {project} = this.props;
@@ -15,13 +15,13 @@ class FmsSavedOrders extends Component {
 
         return (
             [
-                <FmsPageTitle key={1} title="Lưu trữ đơn hàng" route={`${projectName}/Quản lí đơn hàng/Lưu trữ đơn hàng`}/>,
+                <FmsPageTitle key={1} title="Thẻ màu" route={`${projectName}/Quản lí đơn hàng/Thẻ màu`}/>,
 
-                <FmsSavedOrderBody />
+                <FmsOrderTagBody key={2} project={project}/>
             ]
         )
     }
 }
 
 
-export default FmsSavedOrders;
+export default FmsTagOrders;

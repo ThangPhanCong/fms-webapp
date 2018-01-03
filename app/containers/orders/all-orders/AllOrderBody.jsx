@@ -3,6 +3,7 @@ import FmsTabs from "../../../commons/FmsTabs/FmsTabs";
 import FmsTab from "../../../commons/FmsTabs/FmsTab";
 import FmsNewOrderTab from "./FmsNewOrderTab";
 import FmsCreateOrderModal from "../modals/FmsCreateOrderModal";
+import FmsExportOrderTab from "./FmsExportOrderTab";
 
 class AllOrderBody extends Component {
 
@@ -26,7 +27,7 @@ class AllOrderBody extends Component {
         const {isShownCreateOrderModal} = this.state;
 
         return (
-            <div className="wrapper wrapper-content animated fadeInRight">
+            <div className="wrapper wrapper-content">
                 <div className="row">
                     <div className="col-lg-12">
                         <FmsTabs>
@@ -36,7 +37,7 @@ class AllOrderBody extends Component {
                             </FmsTab>
 
                             <FmsTab title='Yêu cầu xuất'>
-                                <p>ok men</p>
+                                <FmsExportOrderTab />
                             </FmsTab>
 
                             <FmsTab
@@ -52,14 +53,10 @@ class AllOrderBody extends Component {
                         </FmsTabs>
                     </div>
 
-                    {
-                        isShownCreateOrderModal ?
-                            <FmsCreateOrderModal
-                                isShown={isShownCreateOrderModal}
-                                onClose={this.onCloseModal.bind(this)}
-                            />
-                            : null
-                    }
+                    <FmsCreateOrderModal
+                        isShown={isShownCreateOrderModal}
+                        onClose={this.onCloseModal.bind(this)}
+                    />
 
                 </div>
             </div>

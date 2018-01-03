@@ -165,9 +165,15 @@ class FmsCreateNewProductModal extends Component {
 
                     <Modal.Footer>
                         <button
+                            className='btn btn-white'
+                            onClick={this.onCloseButtonClick.bind(this)}
+                            disabled={isLoading}>Hủy
+                        </button>
+
+                        <button
                             className='btn btn-primary'
                             onClick={this.onCreateProduct.bind(this)}
-                            disabled={isLoading}>Thêm
+                            disabled={isLoading}>Thêm mới
                         </button>
                     </Modal.Footer>
                 </div>

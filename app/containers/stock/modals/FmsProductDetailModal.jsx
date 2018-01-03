@@ -59,7 +59,6 @@ class FmsProductDetailModal extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('nextProps', nextProps)
         if (nextProps.product) {
             this.setState({product: nextProps.product, originalId: nextProps.product.id});
         }
@@ -172,9 +171,15 @@ class FmsProductDetailModal extends Component {
 
                     <Modal.Footer>
                         <button
-                            className='btn btn-danger'
+                            className='btn btn-danger pull-left btn-outline'
                             onClick={this.onDeleteProduct.bind(this)}
                             disabled={isLoading}>Xóa
+                        </button>
+
+                        <button
+                            className='btn btn-white'
+                            onClick={this.onCloseButtonClick.bind(this)}
+                            disabled={isLoading}>Hủy
                         </button>
 
                         <button

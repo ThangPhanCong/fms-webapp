@@ -49,7 +49,6 @@ class FmsNewOrderTable extends Component {
                     <td>{order.customer.name}</td>
                     <td>{order.customer.phone}</td>
                     <td><img src={ic_viettel}/></td>
-                    <td>HB40123 <br/> YH40231</td>
 
                     {
                         this.renderProductIdItem(order.products)
@@ -108,15 +107,11 @@ class FmsNewOrderTable extends Component {
                     }
                 </table>
 
-                {
-                    selectedOrder ?
-                        <FmsOrderDetailModal
-                            isShown={isShownModal}
-                            onClose={this.onCloseModal.bind(this)}
-                            order={selectedOrder}
-                        /> :
-                        null
-                }
+                <FmsOrderDetailModal
+                    isShown={isShownModal}
+                    onClose={this.onCloseModal.bind(this)}
+                    order={selectedOrder}
+                />
             </div>
         )
     }

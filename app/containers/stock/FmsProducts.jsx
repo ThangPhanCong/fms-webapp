@@ -10,6 +10,7 @@ import {delay} from 'utils/timeout-utils';
 class FmsProducts extends Component {
 
     state = {
+        project: null,
         products: [],
         isLoading: true,
         isShowCreateProductModal: false
@@ -28,15 +29,18 @@ class FmsProducts extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.project) {
+        const {project} = this.state;
+        if (!project || (nextProps.project && nextProps.project.alias !== project.alias)) {
+            this.setState({project: nextProps.project});
             this.updateProductList(nextProps.project);
         }
     }
 
     updateProductList(project) {
         project = project || this.props.project;
+
         this.setState({isLoading: true});
-        console.log('props', this.props);
+        console.log('updateProductList');
 
         if (project) {
             getProducts(project.alias)
@@ -66,7 +70,7 @@ class FmsProducts extends Component {
             [
                 <FmsPageTitle key={1} title="Sản phẩm" route={`${projectName}/Quản lí kho/Sản phẩm`}/>,
 
-                <div key={2} className="wrapper wrapper-content animated fadeIn">
+                <div key={2} className="wrapper wrapper-content">
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="ibox">

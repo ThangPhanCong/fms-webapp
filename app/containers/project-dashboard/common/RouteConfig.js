@@ -4,7 +4,7 @@ import FmsPosts from '../../posts/FmsPosts/FmsPosts';
 import FmsAllOrders from "../../orders/FmsAllOrders";
 import {flatStructure} from "../../../utils/data-structure-utils";
 import FmsSavedOrders from "../../orders/FmsSavedOrders";
-import FmsTagOrders from "../../orders/FmsTagOrders";
+import FmsTagOrders from "../../orders/FmsOrderTags";
 import FmsColorCards from "../../cards/FmsColorCards/FmsColorCards";
 import FmsProducts from "../../stock/FmsProducts";
 

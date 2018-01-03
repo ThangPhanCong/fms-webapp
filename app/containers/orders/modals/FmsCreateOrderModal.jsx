@@ -44,12 +44,22 @@ class FmsCreateOrderModal extends Component {
         this.setState({order: newOrder});
     }
 
-    componentDidMount() {
-        getDefaultOrderId()
-            .then(id => {
-                const newOrder = {...this.state.order, id};
-                this.setState({order: newOrder, isLoadingDefaultId: false});
-            })
+    // componentDidMount() {
+    //     getDefaultOrderId()
+    //         .then(id => {
+    //             const newOrder = {...this.state.order, id};
+    //             this.setState({order: newOrder, isLoadingDefaultId: false});
+    //         })
+    // }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isShown) {
+            getDefaultOrderId()
+                .then(id => {
+                    const newOrder = {...this.state.order, id};
+                    this.setState({order: newOrder, isLoadingDefaultId: false});
+                })
+        }
     }
 
     renderProducts() {
@@ -78,17 +88,6 @@ class FmsCreateOrderModal extends Component {
                 <div className="row">
 
                     <div className="col-sm-12">
-                        <div className="form-group row">
-                            <div className="col-sm-3">
-                                <label className="control-label">Mã đơn</label>
-                            </div>
-                            <div className="col-sm-9">
-                                <input type="text"
-                                       value={order.id}
-                                       className="form-control"
-                                />
-                            </div>
-                        </div>
 
                         <div className="form-group row">
                             <div className="col-sm-3">
