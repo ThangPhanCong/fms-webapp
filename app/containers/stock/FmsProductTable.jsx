@@ -1,6 +1,19 @@
 import React, {Component} from "react";
+import FmsProductDetailModal from "./modals/FmsProductDetailModal";
 
 class FmsProductTable extends Component {
+
+    state = {
+        isShowDetailModal: false
+    };
+
+    onCloseModal() {
+        this.setState({isShowDetailModal: false});
+    }
+
+    onOpenModal() {
+        this.setState({isShowDetailModal: true});
+    }
 
     renderTableHeader() {
         return (
@@ -27,7 +40,14 @@ class FmsProductTable extends Component {
                     (product, i) => (
                         <tr key={i}>
                             <td>{i}</td>
-                            <td><a><span className="badge badge-info">{product.id}</span></a></td>
+                            <td><a>
+                                <span
+                                    className="badge badge-info"
+                                    onClick={this.onOpenModal.bind(this)}
+                                >
+                                    {product.id}
+                                    </span>
+                            </a></td>
                             <td>{product.name}</td>
                             <td>{product.price}</td>
                             <td>{product.quantity}</td>
@@ -42,6 +62,8 @@ class FmsProductTable extends Component {
     }
 
     render() {
+        const {isShowDetailModal} = this.state;
+
         return (
             <div className="table-responsive">
                 <table className="table table-striped">
@@ -54,6 +76,15 @@ class FmsProductTable extends Component {
                         this.renderTableBody()
                     }
                 </table>
+
+                {
+                    isShowDetailModal ?
+                        <FmsProductDetailModal
+                            isShown={isShowDetailModal}
+                            onClose={this.onCloseModal.bind(this)}
+                        />
+                        : null
+                }
             </div>
         )
     }

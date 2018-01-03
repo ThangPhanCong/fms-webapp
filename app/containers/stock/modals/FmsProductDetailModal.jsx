@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 
-class FmsCreateNewProductModal extends Component {
+class FmsProductDetailModal extends Component {
 
     onCloseButtonClick() {
         this.props.onClose();
@@ -20,7 +20,7 @@ class FmsCreateNewProductModal extends Component {
                         closeButton={true}
                         onHide={this.onCloseButtonClick.bind(this)}
                     >
-                        <h4 className='header-title'>Thêm sản phẩm</h4>
+                        <h4 className='header-title'>Sản phẩm ...</h4>
 
                     </Modal.Header>
 
@@ -38,9 +38,9 @@ class FmsCreateNewProductModal extends Component {
     }
 }
 
-FmsCreateNewProductModal.propTypes = {
+FmsProductDetailModal.propTypes = {
     isShown: propTypes.bool.isRequired,
     onClose: propTypes.func.isRequired
 };
 
-export default FmsCreateNewProductModal;
+export default FmsProductDetailModal;

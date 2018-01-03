@@ -71,7 +71,8 @@ class FmsProducts extends Component {
                                         isShowCreateProductModal ?
                                             <FmsCreateNewProductModal
                                                 isShown={isShowCreateProductModal}
-                                                onClose={this.onCloseModal.bind(this)}/>
+                                                onClose={this.onCloseModal.bind(this)}
+                                            />
                                             : null
                                     }
 
