@@ -7,14 +7,18 @@ import FmsCreateOrderModal from "../modals/FmsCreateOrderModal";
 class AllOrderBody extends Component {
 
     state = {
-      isShownCreateOrderModal: false
+        isShownCreateOrderModal: false
     };
 
-    onCloseModal (order) {
+    onCloseModal(shouldUpdateOrderList) {
+        if (shouldUpdateOrderList) {
+
+        }
+
         this.setState({isShownCreateOrderModal: false})
     }
 
-    onOpenModal () {
+    onOpenModal() {
         this.setState({isShownCreateOrderModal: true})
     }
 
@@ -26,6 +30,7 @@ class AllOrderBody extends Component {
                 <div className="row">
                     <div className="col-lg-12">
                         <FmsTabs>
+
                             <FmsTab title='Đơn hàng mới'>
                                 <FmsNewOrderTab/>
                             </FmsTab>
@@ -43,6 +48,7 @@ class AllOrderBody extends Component {
                                 }
                                 renderBody={false}
                             />
+
                         </FmsTabs>
                     </div>
 
@@ -51,7 +57,8 @@ class AllOrderBody extends Component {
                             <FmsCreateOrderModal
                                 isShown={isShownCreateOrderModal}
                                 onClose={this.onCloseModal.bind(this)}
-                            /> : null
+                            />
+                            : null
                     }
 
                 </div>

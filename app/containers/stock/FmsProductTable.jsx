@@ -7,12 +7,16 @@ class FmsProductTable extends Component {
         isShowDetailModal: false
     };
 
-    onCloseModal() {
+    onCloseModal(shouldReloadData) {
+        if (shouldReloadData) {
+            this.props.onReloadProducts();
+        }
+
         this.setState({isShowDetailModal: false});
     }
 
-    onOpenModal() {
-        this.setState({isShowDetailModal: true});
+    onOpenModal(selectedProduct) {
+        this.setState({isShowDetailModal: true, selectedProduct});
     }
 
     renderTableHeader() {
@@ -41,9 +45,10 @@ class FmsProductTable extends Component {
                         <tr key={i}>
                             <td>{i}</td>
                             <td><a>
-                                <span
-                                    className="badge badge-info"
-                                    onClick={this.onOpenModal.bind(this)}
+                                <span className="badge badge-info"
+                                      onClick={() => {
+                                          this.onOpenModal(product)
+                                      }}
                                 >
                                     {product.id}
                                     </span>
@@ -52,7 +57,13 @@ class FmsProductTable extends Component {
                             <td>{product.price}</td>
                             <td>{product.quantity}</td>
                             <td>{product.unit}</td>
-                            <td><i className='fa fa-pencil clickable'/></td>
+                            <td>
+                                <i className='fa fa-pencil clickable'
+                                   onClick={() => {
+                                       this.onOpenModal(product)
+                                   }}
+                                />
+                            </td>
                         </tr>
                     )
                 )
@@ -62,7 +73,14 @@ class FmsProductTable extends Component {
     }
 
     render() {
-        const {isShowDetailModal} = this.state;
+        const {
+            isShowDetailModal,
+            selectedProduct
+        } = this.state;
+
+        const {
+            project
+        } = this.props;
 
         return (
             <div className="table-responsive">
@@ -77,14 +95,12 @@ class FmsProductTable extends Component {
                     }
                 </table>
 
-                {
-                    isShowDetailModal ?
-                        <FmsProductDetailModal
-                            isShown={isShowDetailModal}
-                            onClose={this.onCloseModal.bind(this)}
-                        />
-                        : null
-                }
+                <FmsProductDetailModal
+                    isShown={isShowDetailModal}
+                    onClose={this.onCloseModal.bind(this)}
+                    product={selectedProduct}
+                    project={project}
+                />
             </div>
         )
     }

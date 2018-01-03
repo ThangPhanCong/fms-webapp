@@ -58,14 +58,15 @@ class FmsCreateNewProjectModal extends Component {
                                         )
                                 }
                             </div>
+
                             <input
                                 type="project-name"
                                 className="form-control"
                                 ref="projectName"
                                 id="project-name"
-                                onChange={this.onInputChange.bind(this)}>
+                                onChange={this.onInputChange.bind(this)}
+                            />
 
-                            </input>
                         </div>
 
                     </Modal.Body>

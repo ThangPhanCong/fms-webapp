@@ -108,5 +108,16 @@ module.exports = {
         ];
 
         return delay(1000).then(() => Promise.resolve(orders));
+    },
+    getDefaultOrderId: () => {
+        return delay(1000).then(() => Promise.resolve("DH12394"));
+    },
+    exportOrder: (order) => {
+        console.log(order);
+        return delay(1000).then(() => Promise.resolve(order));
+    },
+    createNewOrder: (order) => {
+        console.log(order);
+        return delay(1000).then(() => Promise.resolve(order));
     }
 };

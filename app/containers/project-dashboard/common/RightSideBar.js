@@ -280,7 +280,7 @@ class RightSideBar extends Component {
                                     <div className="onoffswitch">
                                         <input type="checkbox" name="collapsemenu" className="onoffswitch-checkbox"
                                                id="example"/>
-                                        <label className="onoffswitch-label" for="example">
+                                        <label className="onoffswitch-label" htmlFor="example">
                                             <span className="onoffswitch-inner"></span>
                                             <span className="onoffswitch-switch"></span>
                                         </label>
@@ -296,7 +296,7 @@ class RightSideBar extends Component {
                                         <input type="checkbox" name="collapsemenu" checked
                                                className="onoffswitch-checkbox"
                                                id="example2"/>
-                                        <label className="onoffswitch-label" for="example2">
+                                        <label className="onoffswitch-label" htmlFor="example2">
                                             <span className="onoffswitch-inner"></span>
                                             <span className="onoffswitch-switch"></span>
                                         </label>
@@ -311,7 +311,7 @@ class RightSideBar extends Component {
                                     <div className="onoffswitch">
                                         <input type="checkbox" name="collapsemenu" className="onoffswitch-checkbox"
                                                id="example3"/>
-                                        <label className="onoffswitch-label" for="example3">
+                                        <label className="onoffswitch-label" htmlFor="example3">
                                             <span className="onoffswitch-inner"></span>
                                             <span className="onoffswitch-switch"></span>
                                         </label>
@@ -326,7 +326,7 @@ class RightSideBar extends Component {
                                     <div className="onoffswitch">
                                         <input type="checkbox" name="collapsemenu" className="onoffswitch-checkbox"
                                                id="example4"/>
-                                        <label className="onoffswitch-label" for="example4">
+                                        <label className="onoffswitch-label" htmlFor="example4">
                                             <span className="onoffswitch-inner"></span>
                                             <span className="onoffswitch-switch"></span>
                                         </label>
@@ -342,7 +342,7 @@ class RightSideBar extends Component {
                                         <input type="checkbox" checked name="collapsemenu"
                                                className="onoffswitch-checkbox"
                                                id="example5"/>
-                                        <label className="onoffswitch-label" for="example5">
+                                        <label className="onoffswitch-label" htmlFor="example5">
                                             <span className="onoffswitch-inner"></span>
                                             <span className="onoffswitch-switch"></span>
                                         </label>
@@ -358,7 +358,7 @@ class RightSideBar extends Component {
                                         <input type="checkbox" checked name="collapsemenu"
                                                className="onoffswitch-checkbox"
                                                id="example6"/>
-                                        <label className="onoffswitch-label" for="example6">
+                                        <label className="onoffswitch-label" htmlFor="example6">
                                             <span className="onoffswitch-inner"></span>
                                             <span className="onoffswitch-switch"></span>
                                         </label>
@@ -373,7 +373,7 @@ class RightSideBar extends Component {
                                     <div className="onoffswitch">
                                         <input type="checkbox" name="collapsemenu" className="onoffswitch-checkbox"
                                                id="example7"/>
-                                        <label className="onoffswitch-label" for="example7">
+                                        <label className="onoffswitch-label" htmlFor="example7">
                                             <span className="onoffswitch-inner"></span>
                                             <span className="onoffswitch-switch"></span>
                                         </label>

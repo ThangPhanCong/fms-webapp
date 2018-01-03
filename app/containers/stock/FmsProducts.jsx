@@ -5,7 +5,7 @@ import FmsSpin from "../../commons/FmsSpin/FmsSpin";
 import FmsProductSearchBar from "./FmsProductSearchBar";
 import FmsProductTable from "./FmsProductTable";
 import FmsCreateNewProductModal from "./modals/FmsCreateNewProductModal";
-
+import {delay} from 'utils/timeout-utils';
 
 class FmsProducts extends Component {
 
@@ -19,18 +19,43 @@ class FmsProducts extends Component {
         this.setState({isShowCreateProductModal: true});
     }
 
-    onCloseModal() {
+    onCloseModal(shouldReload) {
+        if (shouldReload) {
+            this.updateProductList();
+        }
+
         this.setState({isShowCreateProductModal: false});
     }
 
-    componentDidMount() {
-        getProducts()
-            .then(products => this.setState({products, isLoading: false}));
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.project) {
+            this.updateProductList(nextProps.project);
+        }
+    }
+
+    updateProductList(project) {
+        project = project || this.props.project;
+        this.setState({isLoading: true});
+        console.log('props', this.props);
+
+        if (project) {
+            getProducts(project.alias)
+                .then(products => this.setState({products, isLoading: false}));
+        }
+    }
+
+    reloadProducts() {
+        const {project} = this.props;
+        this.updateProductList(project);
     }
 
     render() {
         const {project} = this.props;
-        const {products, isLoading, isShowCreateProductModal} = this.state;
+        const {
+            products,
+            isLoading,
+            isShowCreateProductModal
+        } = this.state;
 
         let projectName = 'Cửa hàng';
         if (project) {
@@ -63,18 +88,16 @@ class FmsProducts extends Component {
 
                                     {
                                         isLoading ?
-                                            <FmsSpin size={25} center={true}/> :
-                                            <FmsProductTable products={products}/>
+                                            <FmsSpin size={25} center={true}/>
+                                            : <FmsProductTable products={products} project={project}
+                                                               onReloadProducts={this.reloadProducts.bind(this)}/>
                                     }
 
-                                    {
-                                        isShowCreateProductModal ?
-                                            <FmsCreateNewProductModal
-                                                isShown={isShowCreateProductModal}
-                                                onClose={this.onCloseModal.bind(this)}
-                                            />
-                                            : null
-                                    }
+                                    <FmsCreateNewProductModal
+                                        isShown={isShowCreateProductModal}
+                                        onClose={this.onCloseModal.bind(this)}
+                                        project={project}
+                                    />
 
                                 </div>
                             </div>
