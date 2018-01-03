@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
+import FmsCheckbox from 'commons/FmsCheckbox/FmsCheckbox';
 
 class FmsOrderDetailModal extends Component {
 
@@ -203,9 +204,7 @@ class FmsOrderDetailModal extends Component {
                                                                     <td>40.000đ</td>
                                                                     <td>0đ</td>
                                                                     <td>80.000đ</td>
-                                                                    <td><i className="fa fa-trash-o clickable"
-                                                                           data-toggle="tooltip" data-placement="top"
-                                                                           title="Xóa sản phẩm"></i></td>
+                                                                    <td><i className="fa fa-trash-o clickable"/></td>
                                                                 </tr>
 
                                                                 <tr>
@@ -260,6 +259,9 @@ class FmsOrderDetailModal extends Component {
 
                             <div className="col-sm-10 total-item">
                                 <span className="pull-right">Đã thanh toán</span>
+                            </div>
+                            <div className="col-sm-2">
+                                <FmsCheckbox />
                             </div>
 
 

@@ -36,7 +36,8 @@ module.exports = {
     resolve: {
         alias: {
             CONFIG: configPath,
-            images: path.resolve(__rootdir, 'app/assets/images')
+            images: path.resolve(__rootdir, 'app/assets/images'),
+            commons: path.resolve(__rootdir, 'app/commons')
         },
         extensions: ['.json', '.js', '.jsx']
     },
