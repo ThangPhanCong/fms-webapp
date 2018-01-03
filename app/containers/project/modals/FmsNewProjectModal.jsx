@@ -33,7 +33,7 @@ class FmsCreateNewProjectModal extends Component {
 
         return (
             <Modal show={isShown} backdrop='static' keyboard={false}>
-                <div className="add-project-modal">
+                <div className="add-project-modal inmodal">
                     <Modal.Header
                         closeButton={true}
                         onHide={() => {
@@ -42,6 +42,7 @@ class FmsCreateNewProjectModal extends Component {
                     >
                         <Modal.Title>Tạo cửa hàng mới</Modal.Title>
                     </Modal.Header>
+
                     <Modal.Body>
                         <div className="form-group">
                             <label htmlFor="project-name">Tên cửa hàng</label>
@@ -68,6 +69,7 @@ class FmsCreateNewProjectModal extends Component {
                         </div>
 
                     </Modal.Body>
+
                     <Modal.Footer>
                         <button
                             type="button"
@@ -77,6 +79,7 @@ class FmsCreateNewProjectModal extends Component {
                         >Tiếp tục
                         </button>
                     </Modal.Footer>
+
                 </div>
             </Modal>
         );
