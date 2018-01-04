@@ -128,7 +128,7 @@ const treeConfig = [
                 }
             },
             {
-                route: '',
+                route: 'cod-payment',
                 title: 'Thanh toán COD',
                 headerColor: '#f3f3f4',
                 component: () => {

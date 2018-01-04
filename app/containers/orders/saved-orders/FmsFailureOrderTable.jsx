@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import ic_viettel from 'images/ic_viettel.png';
 import FmsOrderDetailModal from "../modals/FmsOrderDetailModal";
 
-class FmsSuccessOrderTable extends Component {
+class FmsFailureOrderTable extends Component {
 
     state = {
         isShownModal: false,
@@ -84,7 +84,7 @@ class FmsSuccessOrderTable extends Component {
                 <th>Sản phẩm</th>
                 <th>Ghi chú</th>
                 <th>Ngày tạo</th>
-                <th>Ngày giao hàng</th>
+                <th>Ngày hủy</th>
             </tr>
             </thead>
         )
@@ -117,4 +117,4 @@ class FmsSuccessOrderTable extends Component {
 
 }
 
-export default FmsSuccessOrderTable;
+export default FmsFailureOrderTable;

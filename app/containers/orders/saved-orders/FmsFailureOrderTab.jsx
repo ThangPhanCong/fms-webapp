@@ -3,6 +3,7 @@ import {getNewProjectOrders} from "../../../api/OrderApi";
 import FmsSpin from "../../../commons/FmsSpin/FmsSpin";
 import FmsSuccessOrderTable from "./FmsSuccessOrderTable";
 import FmsFailureOrderSearchBar from "./FmsFailureOrderSearchBar";
+import FmsFailureOrderTable from "./FmsFailureOrderTable";
 
 class FmsFailureOrderTab extends Component {
 
@@ -33,7 +34,7 @@ class FmsFailureOrderTab extends Component {
                         {
                             isLoading ?
                                 <FmsSpin size={25} center={true}/> :
-                                <FmsSuccessOrderTable orders={orders}/>
+                                <FmsFailureOrderTable orders={orders}/>
                         }
                     </div>
                 </div>

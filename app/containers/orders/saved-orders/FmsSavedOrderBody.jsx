@@ -15,13 +15,18 @@ class FmsSavedOrderBody extends Component {
                             <FmsTab
                                 title={{
                                     content: 'Đơn giao thành công',
-                                    icon: 'fa fa-check'
+                                    icon: 'fa fa-check green-text'
                                 }}
                             >
                                 <FmsSuccessOrdersTab/>
                             </FmsTab>
 
-                            <FmsTab title='Đơn bị hủy'>
+                            <FmsTab
+                                title={{
+                                    content: 'Đơn bị hủy',
+                                    icon: 'fa fa-times red-text'
+                                }}
+                            >
                                 <FmsFailureOrderTab/>
                             </FmsTab>
 

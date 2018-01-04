@@ -41,12 +41,9 @@ class FmsSucessOrderSearchBar extends Component {
                 </div>
                 <div className="col-sm-2">
                     <div className="form-group">
-                        <label className="control-label" htmlFor="status">Đánh dấu</label>
-                        <select name="status" id="status" className="form-control">
-                            <option value="0" defaultValue></option>
-                            <option value="1">Liên hệ lại</option>
-                            <option value="2">Chờ quyết định</option>
-                        </select>
+                        <label className="control-label" htmlFor="quantity">Ngày giao hàng</label>
+                        <input type="text" id="quantity" name="quantity" value="" placeholder=""
+                               className="form-control"/>
                     </div>
                 </div>
             </div>
