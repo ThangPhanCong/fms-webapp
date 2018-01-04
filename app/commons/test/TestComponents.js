@@ -6,6 +6,7 @@ import FmsLoadingTest from '../FmsLoading/FmsLoading'
 import FmsToolTipTest from '../FmsToolTip/FmsToolTip'
 import FmsTabTest from "../FmsTabs/FmsTabTest";
 import FmsCheckboxTest from "../FmsCheckbox/FmsCheckboxTest";
+import FmsFlotChartTest from "../charts/FmsFlotChartTest";
 
 const TestComponent = ({match}) => (
     <div>
@@ -30,12 +31,18 @@ const TestComponent = ({match}) => (
                     FmsCheckbox
                 </Link>
             </li>
+            <li>
+                <Link to={`${match.url}/fmsflotchart`}>
+                    FmsFlotChart
+                </Link>
+            </li>
         </ul>
 
         <Route path={`${match.url}/fmsbutton`} component={FmsButtonTest}/>
         <Route path={`${match.url}/fmsloading`} component={FmsLoadingTest}/>
         <Route path={`${match.url}/fmstab`} component={FmsTabTest}/>
         <Route path={`${match.url}/fmscheckbox`} component={FmsCheckboxTest}/>
+        <Route path={`${match.url}/fmsflotchart`} component={FmsFlotChartTest}/>
     </div>
 );
 

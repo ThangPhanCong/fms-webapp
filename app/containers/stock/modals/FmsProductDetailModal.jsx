@@ -32,13 +32,17 @@ class FmsProductDetailModal extends Component {
         const {project} = this.props;
         const {product} = this.state;
 
-        this.setState({isLoading: true});
+        const allow = confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');
 
-        deleteProduct(project.alias, product)
-            .then(product => {
-                const shouldUpdate = true;
-                this.closeModal(shouldUpdate);
-            })
+        if (allow) {
+            this.setState({isLoading: true});
+
+            deleteProduct(project.alias, product)
+                .then(product => {
+                    const shouldUpdate = true;
+                    this.closeModal(shouldUpdate);
+                })
+        }
     }
 
     onCloseButtonClick() {

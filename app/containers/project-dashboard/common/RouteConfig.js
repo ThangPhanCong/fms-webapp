@@ -7,6 +7,7 @@ import FmsSavedOrders from "../../orders/FmsSavedOrders";
 import FmsTagOrders from "../../orders/FmsOrderTags";
 import FmsColorCards from "../../cards/FmsColorCards/FmsColorCards";
 import FmsProducts from "../../stock/FmsProducts";
+import FmsStatistic from "../../statistic/FmsStatistic";
 
 const treeConfig = [
     {
@@ -14,23 +15,7 @@ const treeConfig = [
         title: 'Bảng điều khiển',
         icon: 'fa-th-large',
         headerColor: 'white',
-        component: (props) => (
-            <div className="wrapper wrapper-content animated fadeInRight">
-                <div className="row">
-                    <div className="col-lg-12">
-                        <div className="text-center m-t-lg">
-                            <h1>
-                                Dashboard
-                            </h1>
-                            <small>
-                                It is an application skeleton for a typical web app. You can use it to quickly bootstrap
-                                your webapp projects.
-                            </small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
+        component: (props) => <FmsStatistic {...props}/>
     },
     {
         route: '#',
@@ -132,6 +117,22 @@ const treeConfig = [
                 headerColor: '#f3f3f4',
                 component: () => {
                     return <p>Đang vận chuyển</p>
+                }
+            },
+            {
+                route: 'return-orders',
+                title: 'Chờ hoàn lại',
+                headerColor: '#f3f3f4',
+                component: () => {
+                    return <p>Chờ hoàn lại</p>
+                }
+            },
+            {
+                route: '',
+                title: 'Thanh toán COD',
+                headerColor: '#f3f3f4',
+                component: () => {
+                    return <p>Thanh toán COD</p>
                 }
             }
         ]

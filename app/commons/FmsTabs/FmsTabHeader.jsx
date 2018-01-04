@@ -13,6 +13,15 @@ class FmsTabHeader extends React.Component {
                             <a onClick={() => onSelectTab(i)}>{title}</a>
                         </li>
                     )
+                } else if (typeof title === 'object') {
+                    return (
+                        <li key={i} className={tabActive === i ? 'active' : ''}>
+                            <a onClick={() => onSelectTab(i)}>
+                                <i className={`${title.icon}`}/>
+                                {title.content}
+                            </a>
+                        </li>
+                    )
                 } else {
                     return <li key={i}>{title}</li>;
                 }
