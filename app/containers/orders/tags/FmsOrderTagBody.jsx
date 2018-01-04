@@ -96,7 +96,7 @@ class FmsOrderTagBody extends Component {
                         </a>
                     </td>
                     <td>{tag.name}</td>
-                    <td>Đánh dấu những đơn cần liên hệ lại cho khách</td>
+                    <td>{tag.description}</td>
                     <td className="color-tag">
                         <span
                             className="label tag-label"

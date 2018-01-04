@@ -117,10 +117,10 @@ class FmsDetailOrderTagModal extends Component {
                             <div className="col-sm-9">
                                 <input type="text"
                                        className="form-control"
-                                       ref='price'
-                                       value={tag.price || ''}
+                                       ref='description'
+                                       value={tag.description || ''}
                                        onChange={() => {
-                                           this.onChangeInput('price')
+                                           this.onChangeInput('description')
                                        }}
                                 />
                             </div>
