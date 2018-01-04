@@ -8,6 +8,7 @@ import FmsTagOrders from "../../orders/FmsOrderTags";
 import FmsColorCards from "../../cards/FmsColorCards/FmsColorCards";
 import FmsProducts from "../../stock/FmsProducts";
 import FmsStatistic from "../../statistic/FmsStatistic";
+import FmsExportOrders from "../../stock/FmsExportOrders";
 
 const treeConfig = [
     {
@@ -83,12 +84,10 @@ const treeConfig = [
         icon: 'fa-cubes',
         children: [
             {
-                route: 'stock',
+                route: 'export-order',
                 title: 'Yêu cầu xuất hàng',
                 headerColor: '#f3f3f4',
-                component: () => {
-                    return <p>Yêu cầu xuất hàng</p>
-                }
+                component: (props) => <FmsExportOrders {...props}/>
             },
             {
                 route: 'products',
