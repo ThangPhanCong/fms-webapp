@@ -41,7 +41,9 @@ class TopHeader extends React.Component {
         const currRouteName = getRouteNameAtLevel(pathname, 3);
         if (currRouteName) {
             const currRoute = flatConfig.find(r => r.route === currRouteName);
-            this.changeColor(currRoute.headerColor);
+            if (currRoute) {
+                this.changeColor(currRoute.headerColor);
+            }
         }
     }
 

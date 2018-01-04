@@ -1,28 +1,47 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
-import {createOrderTag} from "../../../api/OrderTagApi";
+import {deleteOrderTag, updateOrderTag} from "../../../api/OrderTagApi";
 
-class FmsCreateOrderTagModal extends Component {
+class FmsDetailOrderTagModal extends Component {
 
     state = {
         tag: {},
         isLoading: false
     };
 
-    onCreateOrderTag() {
+    onUpdateOrderTag() {
         const {tag} = this.state;
         const {project} = this.props;
 
         this.setState({isLoading: true});
 
-        createOrderTag(project.alias, tag)
-            .then(tag => {
+        updateOrderTag(project.alias, tag)
+            .then((tag) => {
                 this.closeModal(true);
             })
             .catch(err => {
                 alert(err.message);
             })
+    }
+
+    onDeleteButtonClick() {
+        const allowDelete = confirm('Bạn có chắc chắn muốn xóa thẻ màu?');
+
+        if (allowDelete) {
+            const {tag} = this.state;
+            const {project} = this.props;
+
+            this.setState({isLoading: true});
+
+            deleteOrderTag(project.alias, tag._id)
+                .then(() => {
+                    this.closeModal(true);
+                })
+                .catch(err => {
+                    alert(err.message);
+                })
+        }
     }
 
     onCloseButtonClick() {
@@ -42,16 +61,15 @@ class FmsCreateOrderTagModal extends Component {
         this.setState({tag: newTag});
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     console.log('componentWillReceiveProps nextProps', nextProps)
-    //     if (nextProps.isShown) {
-    //         this.setState({isLoading: false});
-    //     }
-    //
-    //     if (nextProps.tag) {
-    //         this.setState({tag: {...nextProps.tag}});
-    //     }
-    // }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isShown) {
+            this.setState({isLoading: false});
+        }
+
+        if (nextProps.tag) {
+            this.setState({tag: {...nextProps.tag}});
+        }
+    }
 
     render() {
         const {
@@ -70,7 +88,7 @@ class FmsCreateOrderTagModal extends Component {
                         closeButton={true}
                         onHide={this.onCloseButtonClick.bind(this)}
                     >
-                        <h4 className='modal-title'>Thẻ mới</h4>
+                        <h4 className='modal-title'>Chỉnh sửa thẻ màu</h4>
 
                     </Modal.Header>
 
@@ -99,10 +117,10 @@ class FmsCreateOrderTagModal extends Component {
                             <div className="col-sm-9">
                                 <input type="text"
                                        className="form-control"
-                                       ref='description'
-                                       value={tag.description || ''}
+                                       ref='price'
+                                       value={tag.price || ''}
                                        onChange={() => {
-                                           this.onChangeInput('description')
+                                           this.onChangeInput('price')
                                        }}
                                 />
                             </div>
@@ -113,6 +131,12 @@ class FmsCreateOrderTagModal extends Component {
 
                     <Modal.Footer>
                         <button
+                            className='btn btn-danger btn-outline pull-left'
+                            onClick={this.onDeleteButtonClick.bind(this)}
+                            disabled={isLoading}>Xóa
+                        </button>
+
+                        <button
                             className='btn btn-white'
                             onClick={this.onCloseButtonClick.bind(this)}
                             disabled={isLoading}>Hủy
@@ -120,8 +144,8 @@ class FmsCreateOrderTagModal extends Component {
 
                         <button
                             className='btn btn-primary'
-                            onClick={this.onCreateOrderTag.bind(this)}
-                            disabled={isLoading}>Tạo mới
+                            onClick={this.onUpdateOrderTag.bind(this)}
+                            disabled={isLoading}>Cập nhật
                         </button>
                     </Modal.Footer>
                 </div>
@@ -130,9 +154,9 @@ class FmsCreateOrderTagModal extends Component {
     }
 }
 
-FmsCreateOrderTagModal.propTypes = {
+FmsDetailOrderTagModal.propTypes = {
     isShown: propTypes.bool.isRequired,
     onClose: propTypes.func.isRequired
 };
 
-export default FmsCreateOrderTagModal;
+export default FmsDetailOrderTagModal;

@@ -1,36 +1,74 @@
 import React, {Component} from "react";
-import {getOrderTags} from "../../../api/OrderTagApi";
+import {deleteOrderTag, getOrderTags} from "../../../api/OrderTagApi";
 import FmsSpin from "commons/FmsSpin/FmsSpin";
 import FmsCreateOrderTagModal from "../modals/FmsCreateOrderTagModal";
+import FmsDetailOrderTagModal from "../modals/FmsDetailOrderTagModal";
 
 class FmsOrderTagBody extends Component {
 
     state = {
         tags: [],
+        selectedTag: null,
         isShownCreateTagModal: false,
+        isShownDetailTagModal: false,
         isLoading: true,
         project: null
     };
 
-    onCloseModal(shouldUpdateTags) {
+    onCloseCreateTagModal(shouldUpdateTags) {
         if (shouldUpdateTags) {
-
+            const {project} = this.state;
+            this.updateTags(project);
         }
 
         this.setState({isShownCreateTagModal: false})
     }
 
-    onOpenModal() {
+    onOpenCreateTagModal() {
         this.setState({isShownCreateTagModal: true})
+    }
+
+    onCloseDetailTagModal(shouldUpdate) {
+        if (shouldUpdate) {
+            const {project} = this.state;
+            this.updateTags(project);
+        }
+
+        this.setState({isShownDetailTagModal: false});
+    }
+
+    onOpenDetailTagModal(tag) {
+        this.setState({
+            selectedTag: tag,
+            isShownDetailTagModal: true
+        });
     }
 
     updateTags(project) {
         this.setState({isLoading: true});
 
         getOrderTags(project.alias)
-            .then(tags => {
+            .then((tags = []) => {
                 this.setState({tags, isLoading: false});
             })
+            .catch(err => {
+                alert(err.message);
+                this.setState({isLoading: false});
+            })
+    }
+
+    onDeleteTag(tag) {
+        const {project} = this.state;
+        const allowDelete = confirm('Bạn có chắc chắn muốn xóa thẻ màu?');
+        if (allowDelete) {
+            deleteOrderTag(project.alias, tag._id)
+                .then(() => {
+                    this.updateTags(project);
+                })
+                .catch(err => {
+                    alert(err.message);
+                })
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -68,9 +106,15 @@ class FmsOrderTagBody extends Component {
                             }}
                         >{tag.name}</span>
                     </td>
-                    <td><i className="fa fa-trash-o clickable"/>
+                    <td>
+                        <i className="fa fa-trash-o clickable"
+                            onClick={() => this.onDeleteTag(tag)}
+                        />
                     </td>
-                    <td><i className="fa fa-pencil clickable"/>
+                    <td>
+                        <i className="fa fa-pencil clickable"
+                           onClick={() => this.onOpenDetailTagModal({...tag})}
+                        />
                     </td>
                 </tr>
             )
@@ -78,38 +122,48 @@ class FmsOrderTagBody extends Component {
     }
 
     renderTagTable() {
-        const {isLoading} = this.state;
+        const {isLoading, tags} = this.state;
 
         return (
-            <div className="table-responsive order-tag-table">
+            <div className="table-responsive">
                 {
                     isLoading ?
                         <FmsSpin size={25} center/>
-                        :
-                        <table className="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Màu</th>
-                                <th>Tên thẻ</th>
-                                <th>Ghi chú</th>
-                                <th>Hiển thị</th>
-                            </tr>
-                            </thead>
+                        : (
+                            (tags.length !== 0) ?
+                                (
+                                    <table className="table table-striped order-tag-table">
+                                        <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Màu</th>
+                                            <th>Tên thẻ</th>
+                                            <th>Ghi chú</th>
+                                            <th>Hiển thị</th>
+                                        </tr>
+                                        </thead>
 
-                            <tbody>
-                            {
-                                this.renderOrderTagItem()
-                            }
-                            </tbody>
-                        </table>
+                                        <tbody>
+                                        {
+                                            this.renderOrderTagItem()
+                                        }
+                                        </tbody>
+                                    </table>
+                                )
+                                : null
+                        )
                 }
             </div>
         )
     }
 
     render() {
-        const {isShownCreateTagModal, project} = this.state;
+        const {
+            isShownCreateTagModal,
+            isShownDetailTagModal,
+            project,
+            selectedTag
+        } = this.state;
 
         return (
             <div className="wrapper wrapper-content">
@@ -122,7 +176,7 @@ class FmsOrderTagBody extends Component {
                                     <div className="col-lg-12">
                                         <button
                                             className="btn btn-primary btn-sm"
-                                            onClick={this.onOpenModal.bind(this)}
+                                            onClick={this.onOpenCreateTagModal.bind(this)}
                                         >
                                             <i className="fa fa-plus"/> Thêm thẻ màu
                                         </button>
@@ -139,8 +193,15 @@ class FmsOrderTagBody extends Component {
 
                     <FmsCreateOrderTagModal
                         isShown={isShownCreateTagModal}
-                        onClose={this.onCloseModal.bind(this)}
+                        onClose={this.onCloseCreateTagModal.bind(this)}
                         project={project}
+                    />
+
+                    <FmsDetailOrderTagModal
+                        isShown={isShownDetailTagModal}
+                        onClose={this.onCloseDetailTagModal.bind(this)}
+                        project={project}
+                        tag={selectedTag}
                     />
                 </div>
             </div>

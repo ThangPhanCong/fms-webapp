@@ -9,6 +9,8 @@ import FmsColorCards from "../../cards/FmsColorCards/FmsColorCards";
 import FmsProducts from "../../stock/FmsProducts";
 import FmsStatistic from "../../statistic/FmsStatistic";
 import FmsExportOrders from "../../stock/FmsExportOrders";
+import FmsTransportOrders from "../../transport/FmsTransportOrders";
+import FmsTransporting from "../../transport/FmsTransporting";
 
 const treeConfig = [
     {
@@ -106,17 +108,13 @@ const treeConfig = [
                 route: 'transport-orders',
                 title: 'Yêu cầu vận chuyển',
                 headerColor: '#f3f3f4',
-                component: () => {
-                    return <p>Yêu cầu vận chuyển</p>
-                }
+                component: (props) => <FmsTransportOrders {...props} />
             },
             {
                 route: 'transporting-orders',
                 title: 'Đang vận chuyển',
                 headerColor: '#f3f3f4',
-                component: () => {
-                    return <p>Đang vận chuyển</p>
-                }
+                component: (props) => <FmsTransporting {...props}/>
             },
             {
                 route: 'return-orders',
