@@ -87,12 +87,12 @@ class FmsExportOrderTab extends Component {
                                 />
                         }
 
-                        <FmsOrderDetailModal
-                            isShown={isShownModal}
-                            onClose={this.onCloseModal.bind(this)}
-                            order={selectedOrder}
-                            project={project}
-                        />
+                        {/*<FmsOrderDetailModal*/}
+                            {/*isShown={isShownModal}*/}
+                            {/*onClose={this.onCloseModal.bind(this)}*/}
+                            {/*order={selectedOrder}*/}
+                            {/*project={project}*/}
+                        {/*/>*/}
                     </div>
                 </div>
             </div>
