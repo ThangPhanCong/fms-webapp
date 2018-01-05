@@ -29,12 +29,14 @@ const treeConfig = [
                 route: 'conversations',
                 title: 'Cuộc hội thoại',
                 headerColor: 'white',
+                hasBorderBottom: true,
                 component: (props) => <FmsDashboard {...props}/>
             },
             {
                 route: 'posts',
                 title: 'Bài viết',
                 headerColor: 'white',
+                hasBorderBottom: true,
                 component: (props) => <FmsPosts {...props}/>
             },
             {

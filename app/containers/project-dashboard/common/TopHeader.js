@@ -13,7 +13,8 @@ class TopHeader extends React.Component {
 
     state = {
         projects: [],
-        color: 'white'
+        color: 'white',
+        hasBorderBottom: false
     };
 
     componentDidMount() {
@@ -43,12 +44,17 @@ class TopHeader extends React.Component {
             const currRoute = flatConfig.find(r => r.route === currRouteName);
             if (currRoute) {
                 this.changeColor(currRoute.headerColor);
+                this.changeBorderBottom(currRoute.hasBorderBottom);
             }
         }
     }
 
     changeColor(color) {
         this.setState({color});
+    }
+
+    changeBorderBottom(hasBorderBottom) {
+        this.setState({hasBorderBottom});
     }
 
     toggleNavigation(e) {
@@ -211,10 +217,13 @@ class TopHeader extends React.Component {
     }
 
     render() {
-        const {color} = this.state;
+        const {
+            color,
+            hasBorderBottom
+        } = this.state;
 
         return (
-            <div className="row border-bottom border-bottom-nav">
+            <div className={`row border-bottom ${hasBorderBottom ? 'border-bottom-nav' : ''}`}>
                 <nav className="navbar navbar-static-top" role="navigation"
                      style={{marginBottom: 0, backgroundColor: color}}>
 
