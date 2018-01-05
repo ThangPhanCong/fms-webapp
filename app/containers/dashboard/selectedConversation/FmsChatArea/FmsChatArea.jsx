@@ -124,7 +124,7 @@ class FmsChatArea extends React.Component {
 
     renderTagsBar() {
         if (this.props.tags && this.props.tags.length > 0 && this.props.isLoadingMsgs === false)
-            return <FmsTagsBar/>
+            return <FmsTagsBar alias={this.props.alias}/>
     }
 
     renderInfoChat() {
@@ -174,7 +174,6 @@ class FmsChatArea extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        alias: state.dashboard.conversations.alias,
         conversation: state.dashboard.chat.conversation,
         postInfo: state.dashboard.chat.postInfo,
         isLoadingMsgs: state.dashboard.chat.isLoadingMsgs,

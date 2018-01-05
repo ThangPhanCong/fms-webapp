@@ -2,9 +2,8 @@ import OrderApi from '../../../api/OrderApi';
 import * as u from 'lodash';
 import {noti} from "../../../containers/notification/NotificationService";
 
-export const createNote = (content) => (dispatch, getState) => {
+export const createNote = (alias, content) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
-    let {alias} = getState().dashboard.conversations;
     let {notes} = getState().dashboard.createOrder;
     let customer_id = (conversation.customer) ? conversation.customer._id : null;
     OrderApi.createNote(alias, conversation.id, customer_id, conversation.page._id, content)
@@ -17,9 +16,8 @@ export const createNote = (content) => (dispatch, getState) => {
         });
 };
 
-export const getNotes = () => (dispatch, getState) => {
+export const getNotes = (alias) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
-    let {alias} = getState().dashboard.conversations;
     OrderApi.getNotes(alias, conversation.id)
         .then(res => {
             res.sort((a, b) => {
@@ -33,8 +31,7 @@ export const getNotes = () => (dispatch, getState) => {
         });
 };
 
-export const deleteNote = (note_id) => (dispatch, getState) => {
-    let {alias} = getState().dashboard.conversations;
+export const deleteNote = (alias, note_id) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
     let {notes} = getState().dashboard.createOrder;
     OrderApi.deleteNote(alias, conversation.id, note_id)
@@ -49,8 +46,7 @@ export const deleteNote = (note_id) => (dispatch, getState) => {
         });
 };
 
-export const updateNote = (note_id, content) => (dispatch, getState) => {
-    let {alias} = getState().dashboard.conversations;
+export const updateNote = (alias, note_id, content) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
     let {notes} = getState().dashboard.createOrder;
     OrderApi.updateNote(alias, conversation.id, note_id, content)
@@ -66,9 +62,8 @@ export const updateNote = (note_id, content) => (dispatch, getState) => {
         });
 };
 
-export const createNewOrder = (phone, address) => (dispatch, getState) => {
+export const createNewOrder = (alias, phone, address) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
-    let {alias} = getState().dashboard.conversations;
     let customer_id = (conversation.customer) ? conversation.customer._id : null;
     let payload = {
         phone: phone,
@@ -78,16 +73,15 @@ export const createNewOrder = (phone, address) => (dispatch, getState) => {
     OrderApi.createOrder(alias, customer_id, payload)
         .then(() => {
             noti("success", "Tạo đơn hàng thành công.");
-            dispatch(getOrders());
+            dispatch(getOrders(alias));
         }, err => {
             console.log(err);
             noti("danger", "Tạo đơn hàng thất bại.");
         });
 };
 
-export const getOrders = () => (dispatch, getState) => {
+export const getOrders = (alias) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
-    let {alias} = getState().dashboard.conversations;
     let customer_id = (conversation.customer) ? conversation.customer._id : null;
     OrderApi.getOrders(alias, customer_id, conversation.page_fb_id)
         .then(res => {

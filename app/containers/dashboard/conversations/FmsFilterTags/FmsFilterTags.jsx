@@ -7,7 +7,7 @@ import { handleTagFilterClick } from '../../../../actions/dashboard/filters';
 
 class FmsFilterTags extends React.Component {
   handleTagFilterClick(_id) {
-    this.props.dispatch(handleTagFilterClick(_id));
+    this.props.dispatch(handleTagFilterClick(this.props.alias, _id));
   }
 
   renderFilterTag() {

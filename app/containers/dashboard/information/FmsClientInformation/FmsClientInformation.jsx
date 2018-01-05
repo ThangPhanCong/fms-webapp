@@ -8,12 +8,12 @@ import Tab from 'muicss/lib/react/tab';
 class FmsClientInformation extends React.Component {
   renderTab1() {
     if (!this.props.conversation) return;
-    return <FmsInformationTab />
+    return <FmsInformationTab alias={this.props.alias}/>
   }
 
   renderTab2() {
     if (!this.props.conversation) return;
-    return <FmsCreateFormTab />
+    return <FmsCreateFormTab alias={this.props.alias}/>
   }
 
   render() {

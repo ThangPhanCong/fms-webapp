@@ -97,8 +97,7 @@ const mapStateToProps = state => {
         isPostsLoading: state.post.isPostsLoading,
         isMorePostsLoading: state.post.isMorePostsLoading,
         posts: state.post.posts,
-        paging: state.post.paging,
-        alias: state.dashboard.conversations.alias
+        paging: state.post.paging
     }
 };
 
