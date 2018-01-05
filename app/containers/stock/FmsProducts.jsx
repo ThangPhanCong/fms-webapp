@@ -10,7 +10,6 @@ import {delay} from 'utils/timeout-utils';
 class FmsProducts extends Component {
 
     state = {
-        project: null,
         products: [],
         isLoading: true,
         isShowCreateProductModal: false
@@ -22,30 +21,32 @@ class FmsProducts extends Component {
 
     onCloseModal(shouldReload) {
         if (shouldReload) {
-            this.updateProductList();
+            const {project} = this.props;
+            this.updateProductList(project);
         }
 
         this.setState({isShowCreateProductModal: false});
     }
 
     componentWillReceiveProps(nextProps) {
-        const {project} = this.state;
-        if (!project || (nextProps.project && nextProps.project.alias !== project.alias)) {
-            this.setState({project: nextProps.project});
+        if (nextProps.project) {
             this.updateProductList(nextProps.project);
         }
     }
 
-    updateProductList(project) {
-        project = project || this.props.project;
-
-        this.setState({isLoading: true});
-        console.log('updateProductList');
+    componentDidMount() {
+        const {project} = this.props;
 
         if (project) {
-            getProducts(project.alias)
-                .then(products => this.setState({products, isLoading: false}));
+            this.updateProductList(project);
         }
+    }
+
+    updateProductList(project) {
+        this.setState({isLoading: true});
+
+        getProducts(project.alias)
+            .then(products => this.setState({products, isLoading: false}));
     }
 
     reloadProducts() {

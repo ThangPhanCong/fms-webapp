@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 import FmsCheckbox from 'commons/FmsCheckbox/FmsCheckbox';
-import {exportOrder, getDefaultOrderId, createNewOrder} from "../../../api/OrderApi";
+import {exportOrder, updateOrder} from "../../../api/OrderApi";
+import {cloneDiff} from "../../../utils/object-utils";
 
 class FmsOrderDetailModal extends Component {
 
@@ -11,23 +12,39 @@ class FmsOrderDetailModal extends Component {
         isLoading: false
     };
 
-    createNewOrder() {
+    updateOrder() {
+        const {project} = this.props;
+        const diffOrder = cloneDiff({...this.props.order}, {...this.state.order});
+        diffOrder._id = this.props.order._id;
+
+        // if has no different => do nothing
+        if (Object.keys(diffOrder).length === 1) {
+            console.log('order has no different');
+            this.props.onClose();
+            return;
+        }
+
+        console.log('order diff', diffOrder);
+
         this.setState({isLoading: true});
 
-        createNewOrder(this.state.order)
+        updateOrder(project.alias, diffOrder)
             .then(order => {
-                const updateUI = true;
-                this.props.onClose(updateUI);
+                this.props.onClose(order);
+            })
+            .catch(err => {
+                alert(err.message);
+                this.setState({isLoading: false})
             })
     }
 
     exportOrder() {
+        const {project} = this.props;
         this.setState({isLoading: true});
 
-        exportOrder(this.state.order)
+        exportOrder(project.alias, this.state.order)
             .then(order => {
-                const updateUI = true;
-                this.props.onClose(updateUI);
+                this.props.onClose(order);
             })
     }
 
@@ -41,6 +58,11 @@ class FmsOrderDetailModal extends Component {
         newOrder[refName] = newValue;
 
         this.setState({order: newOrder});
+    }
+
+    componentDidMount() {
+        const {order} = this.props;
+        this.setState({order});
     }
 
     componentWillReceiveProps(nextProps) {
@@ -149,10 +171,10 @@ class FmsOrderDetailModal extends Component {
                                     <div className="col-sm-9">
                                         <input type="text"
                                                className="form-control"
-                                               ref='customer_fb'
-                                               value={order.customer_fb || ''}
+                                               ref='customer_facebook'
+                                               value={order.customer_facebook || ''}
                                                onChange={() => {
-                                                   this.onChangeInput('customer_fb')
+                                                   this.onChangeInput('customer_facebook')
                                                }}
                                         />
                                     </div>
@@ -188,13 +210,19 @@ class FmsOrderDetailModal extends Component {
                                         <label className="control-label">Phương thức</label>
                                     </div>
                                     <div className="col-sm-8">
-                                        <select className="form-control">
-                                            <option value="0" defaultValue></option>
-                                            <option value="2">Tổng bưu điện</option>
-                                            <option value="2">Viettel Post</option>
-                                            <option value="2">EMS</option>
-                                            <option value="2">Shopee</option>
-                                            <option value="2">Tự vận chuyển</option>
+                                        <select className="form-control"
+                                                ref='transport_method'
+                                                value={order.transport_method || ''}
+                                                onChange={() => {
+                                                    this.onChangeInput('transport_method')
+                                                }}
+                                        >
+                                            <option value="" defaultValue/>
+                                            <option value="TONG_BUU_DIEN">Tổng bưu điện</option>
+                                            <option value="VIETTEL_POST">Viettel Post</option>
+                                            <option value="EMS">EMS</option>
+                                            <option value="SHOPEE">Shopee</option>
+                                            <option value="SELF">Tự vận chuyển</option>
                                         </select>
                                     </div>
                                 </div>
@@ -328,6 +356,10 @@ class FmsOrderDetailModal extends Component {
             isLoading
         } = this.state;
 
+        if (!order) {
+            return null;
+        }
+
         return (
             <Modal show={isShown} bsSize="large" backdrop='static' keyboard={false}>
                 <div className='order-detail-modal inmodal'>
@@ -364,8 +396,8 @@ class FmsOrderDetailModal extends Component {
                         </button>
 
                         <button className="btn btn-primary"
-                                onClick={() => this.createNewOrder()}
-                                disabled={isLoading}>Tạo mới
+                                onClick={() => this.updateOrder()}
+                                disabled={isLoading}>Cập nhật
                         </button>
                     </Modal.Footer>
 

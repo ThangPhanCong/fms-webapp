@@ -6,3 +6,4 @@ config.json
 yarn.lock
 *.log
 package-lock.json
+test.js

@@ -2,33 +2,42 @@ import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 import FmsCheckbox from 'commons/FmsCheckbox/FmsCheckbox';
-import {exportOrder, getDefaultOrderId, createNewOrder} from "../../../api/OrderApi";
+import {exportOrder, createNewOrder} from "../../../api/OrderApi";
 
 class FmsCreateOrderModal extends Component {
 
     state = {
         order: {},
-        isLoading: false,
-        isLoadingDefaultId: true
+        isLoading: false
     };
 
     createNewOrder() {
+        const {project} = this.props;
         this.setState({isLoading: true});
 
-        createNewOrder(this.state.order)
+        createNewOrder(project.alias, this.state.order)
+            .then(
+                order => {
+                    const updateUI = true;
+                    this.props.onClose(updateUI);
+                },
+                err => alert(err.message)
+            )
+            .then(() => this.setState({isLoading: false}))
+    }
+
+    exportOrder() {
+        const {project} = this.props;
+        this.setState({isLoading: true});
+
+        exportOrder(project.alias, this.state.order)
             .then(order => {
                 const updateUI = true;
                 this.props.onClose(updateUI);
             })
-    }
-
-    exportOrder() {
-        this.setState({isLoading: true});
-
-        exportOrder(this.state.order)
-            .then(order => {
-                const updateUI = true;
-                this.props.onClose(updateUI);
+            .catch(err => {
+                alert(err.message);
+                this.setState({isLoading: false});
             })
     }
 
@@ -44,21 +53,9 @@ class FmsCreateOrderModal extends Component {
         this.setState({order: newOrder});
     }
 
-    // componentDidMount() {
-    //     getDefaultOrderId()
-    //         .then(id => {
-    //             const newOrder = {...this.state.order, id};
-    //             this.setState({order: newOrder, isLoadingDefaultId: false});
-    //         })
-    // }
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.isShown) {
-            getDefaultOrderId()
-                .then(id => {
-                    const newOrder = {...this.state.order, id};
-                    this.setState({order: newOrder, isLoadingDefaultId: false});
-                })
+            this.setState({order: {}});
         }
     }
 
@@ -163,7 +160,7 @@ class FmsCreateOrderModal extends Component {
                                         <input type="text"
                                                className="form-control"
                                                ref='customer_fb'
-                                               value={order.customer_fb || ''}
+                                               value={order.customer_facebook || ''}
                                                onChange={() => {
                                                    this.onChangeInput('customer_fb')
                                                }}
@@ -201,13 +198,19 @@ class FmsCreateOrderModal extends Component {
                                         <label className="control-label">Phương thức</label>
                                     </div>
                                     <div className="col-sm-8">
-                                        <select className="form-control">
-                                            <option value="0" defaultValue></option>
-                                            <option value="2">Tổng bưu điện</option>
-                                            <option value="2">Viettel Post</option>
-                                            <option value="2">EMS</option>
-                                            <option value="2">Shopee</option>
-                                            <option value="2">Tự vận chuyển</option>
+                                        <select className="form-control"
+                                                ref='transport_method'
+                                                value={order.transport_method || ''}
+                                                onChange={() => {
+                                                    this.onChangeInput('transport_method')
+                                                }}
+                                        >
+                                            <option value="" defaultValue/>
+                                            <option value="TONG_BUU_DIEN">Tổng bưu điện</option>
+                                            <option value="VIETTEL_POST">Viettel Post</option>
+                                            <option value="EMS">EMS</option>
+                                            <option value="SHOPEE">Shopee</option>
+                                            <option value="SELF">Tự vận chuyển</option>
                                         </select>
                                     </div>
                                 </div>

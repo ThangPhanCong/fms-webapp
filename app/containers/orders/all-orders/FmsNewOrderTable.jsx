@@ -6,16 +6,19 @@ import FmsOrderDetailModal from "../modals/FmsOrderDetailModal";
 class FmsNewOrderTable extends Component {
 
     state = {
-        isShownModal: false,
-        selectedOrder: null
+        selectedOrder: null,
+        isShownModal: false
     };
 
-    onCloseModal () {
+    onCloseModal (updatedOrder) {
         this.setState({isShownModal: false});
     }
 
     openModal (order) {
-        this.setState({isShownModal: true, selectedOrder: order})
+        this.setState({
+            selectedOrder: order,
+            isShownModal: true,
+        })
     }
 
     renderProductIdItem(products) {
@@ -46,8 +49,8 @@ class FmsNewOrderTable extends Component {
                             onClick={() => {this.openModal(order)}}
                         >{order.id}</span>
                     </a></td>
-                    <td>{order.customer.name}</td>
-                    <td>{order.customer.phone}</td>
+                    <td>{order.customer_name}</td>
+                    <td>{order.customer_phone}</td>
                     <td><img src={ic_viettel}/></td>
 
                     {
@@ -57,7 +60,7 @@ class FmsNewOrderTable extends Component {
                     <td>{order.private_note}</td>
                     <td>14:53 <br/> 29-11</td>
                     <td className="color-tag">
-                        <span className="label label-green tag-label">{order.tag.name}</span>
+                        {/*<span className="label label-green tag-label">{order.order_tag.name}</span>*/}
                     </td>
                 </tr>
             )
@@ -94,6 +97,7 @@ class FmsNewOrderTable extends Component {
 
     render() {
         const {isShownModal, selectedOrder} = this.state;
+        const {project} = this.props;
 
         return (
             <div className="table-responsive">
@@ -111,6 +115,7 @@ class FmsNewOrderTable extends Component {
                     isShown={isShownModal}
                     onClose={this.onCloseModal.bind(this)}
                     order={selectedOrder}
+                    project={project}
                 />
             </div>
         )

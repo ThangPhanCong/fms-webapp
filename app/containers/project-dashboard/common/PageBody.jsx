@@ -10,11 +10,6 @@ class PageBody extends Component {
         project: null
     };
 
-    componentDidMount() {
-        const {project_alias} = this.props.match.params;
-        this.updateProjectInfo(project_alias);
-    }
-
     updateProjectInfo(project_alias) {
         getProject(project_alias)
             .then(project => {
@@ -22,13 +17,21 @@ class PageBody extends Component {
             })
     }
 
-    componentWillReceiveProps(nextProps){
-        const {project_alias} = nextProps.match.params;
+    componentDidMount() {
+        const {project_alias} = this.props.match.params;
         this.updateProjectInfo(project_alias);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const {project_alias} = nextProps.match.params;
+        if (project_alias) {
+            this.updateProjectInfo(project_alias);
+        }
     }
 
     render() {
         const {project} = this.state;
+
         return (
             <Switch>
                 {

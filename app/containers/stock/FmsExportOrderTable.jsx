@@ -67,9 +67,9 @@ class FmsExportOrderTable extends Component {
                             }}
                         >{order.id}</span>
                     </a></td>
-                    <td>{order.customer.name}</td>
-                    <td>{order.customer.phone}</td>
-                    <td>{order.transport.address}</td>
+                    <td>{order.customer_name}</td>
+                    <td>{order.customer_phone}</td>
+                    <td>{order.transport_address}</td>
 
                     {
                         this.renderProductIdItem(order.products)

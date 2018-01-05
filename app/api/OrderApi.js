@@ -1,20 +1,16 @@
-const apiSender = require('./ApiSender');
+import apiSender, {post, put, get} from './ApiSender';
 import {delay} from '../utils/timeout-utils';
 
 const mockupOrders = [
     {
         id: 'DH12501',
         private_note: 'a đang họp. lát gọi lại, anh chọn rồi anh alo cho',
-        customer: {
-            name: 'a Vinh',
-            phone: '0986284919',
-            fb: 'fb.com/hoanghong'
-        },
-        transport: {
-            address: 'Số 5s, Khu Phố 2, Phường Quyết Thắng, Biên Hòa, Đồng Nai',
-            method: 'TONG_BUU_DIEN',
-            fee: '10000'
-        },
+        customer_name: 'a Vinh',
+        customer_phone: '0986284919',
+        customer_facebook: 'fb.com/hoanghong',
+        transport_address: 'Số 5s, Khu Phố 2, Phường Quyết Thắng, Biên Hòa, Đồng Nai',
+        transport_method: 'TONG_BUU_DIEN',
+        transport_fee: '10000',
         products: [
             {
                 id: 'SP12501',
@@ -31,24 +27,20 @@ const mockupOrders = [
                 discount: '10000'
             }
         ],
-        tag: {
+        order_tag: {
             name: 'Chờ quyết định',
             color: '#black'
         }
     },
     {
-        id: 'DH12502',
+        id: 'DH12501',
         private_note: 'a đang họp. lát gọi lại, anh chọn rồi anh alo cho',
-        customer: {
-            name: 'a Bat',
-            phone: '0986284919',
-            fb: 'fb.com/hoanghong'
-        },
-        transport: {
-            address: 'Số 5s, Khu Phố 2, Phường Quyết Thắng, Biên Hòa, Đồng Nai',
-            method: 'TONG_BUU_DIEN',
-            fee: '10000'
-        },
+        customer_name: 'a Vinh',
+        customer_phone: '0986284919',
+        customer_facebook: 'fb.com/hoanghong',
+        transport_address: 'Số 5s, Khu Phố 2, Phường Quyết Thắng, Biên Hòa, Đồng Nai',
+        transport_method: 'TONG_BUU_DIEN',
+        transport_fee: '10000',
         products: [
             {
                 id: 'SP12501',
@@ -65,11 +57,11 @@ const mockupOrders = [
                 discount: '10000'
             }
         ],
-        tag: {
+        order_tag: {
             name: 'Chờ quyết định',
             color: '#black'
         }
-    }
+    },
 ];
 
 module.exports = {
@@ -104,21 +96,18 @@ module.exports = {
         return apiSender.get(route);
     },
     getNewProjectOrders: (projectAlias) => {
-        // let route = `/api/projects/${alias}/customers/${customer_id}/orders?pageFbId=${page_fb_id}`;
-        // return apiSender.get(route);
-
-        return delay(1000).then(() => Promise.resolve(mockupOrders));
+        return get(`/api/projects/${projectAlias}/orders`);
     },
-    getDefaultOrderId: () => {
-        return delay(1000).then(() => Promise.resolve("DH12394"));
-    },
-    exportOrder: (order) => {
+    exportOrder: (projectAlias, order) => {
         console.log(order);
         return delay(1000).then(() => Promise.resolve(order));
     },
-    createNewOrder: (order) => {
+    createNewOrder: (projectAlias, order) => {
         console.log(order);
-        return delay(1000).then(() => Promise.resolve(order));
+        return post(`/api/projects/${projectAlias}/orders`, order);
+    },
+    updateOrder: (projectAlias, order) => {
+        return put(`/api/projects/${projectAlias}/orders/${order._id}`, order);
     },
     getExportOrders: (projectAlias) => {
         return delay(1000).then(() => Promise.resolve(mockupOrders));

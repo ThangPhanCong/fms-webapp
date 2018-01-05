@@ -8,12 +8,13 @@ import FmsExportOrderTab from "./FmsExportOrderTab";
 class AllOrderBody extends Component {
 
     state = {
-        isShownCreateOrderModal: false
+        isShownCreateOrderModal: false,
+        version: 0
     };
 
     onCloseModal(shouldUpdateOrderList) {
         if (shouldUpdateOrderList) {
-
+            this.setState({version: this.state.version + 1});
         }
 
         this.setState({isShownCreateOrderModal: false})
@@ -24,7 +25,11 @@ class AllOrderBody extends Component {
     }
 
     render() {
-        const {isShownCreateOrderModal} = this.state;
+        const {project} = this.props;
+        const {
+            isShownCreateOrderModal,
+            version
+        } = this.state;
 
         return (
             <div className="wrapper wrapper-content">
@@ -33,11 +38,11 @@ class AllOrderBody extends Component {
                         <FmsTabs>
 
                             <FmsTab title='Đơn hàng mới'>
-                                <FmsNewOrderTab/>
+                                <FmsNewOrderTab project={project} version={version}/>
                             </FmsTab>
 
                             <FmsTab title='Yêu cầu xuất'>
-                                <FmsExportOrderTab />
+                                <FmsExportOrderTab project={project} version={version}/>
                             </FmsTab>
 
                             <FmsTab
@@ -56,7 +61,9 @@ class AllOrderBody extends Component {
                     <FmsCreateOrderModal
                         isShown={isShownCreateOrderModal}
                         onClose={this.onCloseModal.bind(this)}
+                        project={project}
                     />
+
 
                 </div>
             </div>

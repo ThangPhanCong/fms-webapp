@@ -16,9 +16,22 @@ class FmsExportOrderTab extends Component {
         console.log('searchQuery', searchQuery);
     }
 
-    componentDidMount() {
-        getNewProjectOrders()
+    updateOrders(project) {
+        this.setState({isLoading: true});
+
+        getNewProjectOrders(project.alias)
             .then(orders => this.setState({orders, isLoading: false}));
+    }
+
+    componentDidMount() {
+        const {project} = this.props;
+        this.updateOrders(project);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.project) {
+            this.updateOrders(nextProps.project);
+        }
     }
 
     render() {
@@ -32,9 +45,10 @@ class FmsExportOrderTab extends Component {
 
                         {
                             isLoading ?
-                                <FmsSpin size={25} center={true}/> :
-                                <FmsNewOrderTable orders={orders}/>
+                                <FmsSpin size={25} center={true}/> : null
+
                         }
+                        {/*<FmsNewOrderTable orders={orders}/>*/}
                     </div>
                 </div>
             </div>

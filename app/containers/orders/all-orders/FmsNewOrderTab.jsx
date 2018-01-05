@@ -8,21 +8,40 @@ class FmsNewOrderTab extends Component {
 
     state = {
         orders: [],
-        isLoading: true,
-        search: null
+        isLoading: true
     };
 
     searchItem(searchQuery) {
         console.log('searchQuery', searchQuery);
     }
 
-    componentDidMount() {
-        getNewProjectOrders()
+    updateOrders(project) {
+        this.setState({isLoading: true});
+
+        getNewProjectOrders(project.alias)
             .then(orders => this.setState({orders, isLoading: false}));
+    }
+
+    componentDidMount() {
+        const {project} = this.props;
+        if (project) {
+            this.updateOrders(project);
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.project && nextProps.project !== this.props.project) {
+            this.updateOrders(nextProps.project);
+        }
+
+        if (nextProps.version !== this.props.version) {
+            this.updateOrders(this.props.project);
+        }
     }
 
     render() {
         const {orders, isLoading} = this.state;
+        const {project} = this.props;
 
         return (
             <div className="row">
@@ -33,7 +52,7 @@ class FmsNewOrderTab extends Component {
                         {
                             isLoading ?
                                 <FmsSpin size={25} center={true}/> :
-                                <FmsNewOrderTable orders={orders}/>
+                                <FmsNewOrderTable orders={orders} project={project}/>
                         }
                     </div>
                 </div>

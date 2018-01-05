@@ -17,14 +17,16 @@ class FmsCreateNewProductModal extends Component {
         this.setState({isLoading: true});
 
         createNewProduct(project.alias, product)
-            .then(product => {
-                const shouldUpdate = true;
-                this.closeModal(shouldUpdate);
-            })
-            .catch(err => {
-                alert(err.message);
-                this.setState({isLoading: false});
-            })
+            .then(
+                product => {
+                    const shouldUpdate = true;
+                    this.closeModal(shouldUpdate);
+                },
+                err => {
+                    alert(err.message);
+                }
+            )
+            .then(() => this.setState({isLoading: false}));
     }
 
     onCloseButtonClick() {
@@ -32,7 +34,6 @@ class FmsCreateNewProductModal extends Component {
     }
 
     closeModal(shouldUpdate) {
-        this.setState({product: {}, isLoading: false});
         this.props.onClose(shouldUpdate);
     }
 
@@ -55,6 +56,7 @@ class FmsCreateNewProductModal extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.isShown) {
+            this.setState({product: {}, isLoading: false});
             this.updateDefaultProductId();
         }
     }

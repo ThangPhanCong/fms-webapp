@@ -15,7 +15,7 @@ class FmsAllOrders extends Component {
             [
                 <FmsPageTitle key={1} title="Tất cả đơn hàng" route={`${projectName}/Quản lí đơn hàng/Tất cả đơn hàng`}/>,
 
-                <AllOrderBody key={2} />
+                <AllOrderBody key={2} project={project}/>
             ]
         )
     }
