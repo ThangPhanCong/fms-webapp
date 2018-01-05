@@ -3,16 +3,39 @@ import FmsNewOrderSearchBar from "./FmsNewOrderSearchBar";
 import FmsNewOrderTable from "./FmsNewOrderTable";
 import {getNewProjectOrders} from "../../../api/OrderApi";
 import FmsSpin from "../../../commons/FmsSpin/FmsSpin";
+import FmsOrderDetailModal from "../modals/FmsOrderDetailModal";
 
 class FmsNewOrderTab extends Component {
 
     state = {
         orders: [],
-        isLoading: true
+        selectedOrder: null,
+        isLoading: true,
+        isShownModal: false
     };
 
     searchItem(searchQuery) {
         console.log('searchQuery', searchQuery);
+    }
+
+    onCloseModal(updatedOrder) {
+        if (updatedOrder) {
+            const {project} = this.props;
+            this.updateOrders(project);
+        }
+
+        this.setState({isShownModal: false});
+    }
+
+    openModal(order) {
+        this.setState({
+            selectedOrder: order,
+            isShownModal: true,
+        })
+    }
+
+    onSelectItem(order) {
+        this.openModal(order);
     }
 
     updateOrders(project) {
@@ -40,7 +63,12 @@ class FmsNewOrderTab extends Component {
     }
 
     render() {
-        const {orders, isLoading} = this.state;
+        const {
+            orders,
+            isLoading,
+            isShownModal,
+            selectedOrder
+        } = this.state;
         const {project} = this.props;
 
         return (
@@ -52,8 +80,19 @@ class FmsNewOrderTab extends Component {
                         {
                             isLoading ?
                                 <FmsSpin size={25} center={true}/> :
-                                <FmsNewOrderTable orders={orders} project={project}/>
+                                <FmsNewOrderTable
+                                    orders={orders}
+                                    project={project}
+                                    onSelectItem={this.onSelectItem.bind(this)}
+                                />
                         }
+
+                        <FmsOrderDetailModal
+                            isShown={isShownModal}
+                            onClose={this.onCloseModal.bind(this)}
+                            order={selectedOrder}
+                            project={project}
+                        />
                     </div>
                 </div>
             </div>

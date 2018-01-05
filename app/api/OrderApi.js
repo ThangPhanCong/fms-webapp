@@ -109,6 +109,9 @@ module.exports = {
     updateOrder: (projectAlias, order) => {
         return put(`/api/projects/${projectAlias}/orders/${order._id}`, order);
     },
+    deleteOrder: (projectAlias, order) => {
+        return apiSender.delete(`/api/projects/${projectAlias}/orders/${order._id}`);
+    },
     getExportOrders: (projectAlias) => {
         return delay(1000).then(() => Promise.resolve(mockupOrders));
     },

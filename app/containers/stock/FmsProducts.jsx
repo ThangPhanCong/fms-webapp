@@ -28,20 +28,6 @@ class FmsProducts extends Component {
         this.setState({isShowCreateProductModal: false});
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.project) {
-            this.updateProductList(nextProps.project);
-        }
-    }
-
-    componentDidMount() {
-        const {project} = this.props;
-
-        if (project) {
-            this.updateProductList(project);
-        }
-    }
-
     updateProductList(project) {
         this.setState({isLoading: true});
 
@@ -52,6 +38,20 @@ class FmsProducts extends Component {
     reloadProducts() {
         const {project} = this.props;
         this.updateProductList(project);
+    }
+
+    componentDidMount() {
+        const {project} = this.props;
+
+        if (project) {
+            this.updateProductList(project);
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.project) {
+            this.updateProductList(nextProps.project);
+        }
     }
 
     render() {
@@ -89,7 +89,7 @@ class FmsProducts extends Component {
                                         </div>
                                     </div>
 
-                                    <FmsProductSearchBar/>
+                                    <FmsProductSearchBar />
 
                                     {
                                         isLoading ?

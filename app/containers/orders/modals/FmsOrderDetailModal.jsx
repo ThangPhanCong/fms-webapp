@@ -2,13 +2,15 @@ import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 import FmsCheckbox from 'commons/FmsCheckbox/FmsCheckbox';
-import {exportOrder, updateOrder} from "../../../api/OrderApi";
+import {deleteOrder, exportOrder, updateOrder} from "../../../api/OrderApi";
 import {cloneDiff} from "../../../utils/object-utils";
+import {getOrderTags} from "../../../api/OrderTagApi";
 
 class FmsOrderDetailModal extends Component {
 
     state = {
         order: {},
+        orderTags: [],
         isLoading: false
     };
 
@@ -46,6 +48,30 @@ class FmsOrderDetailModal extends Component {
             .then(order => {
                 this.props.onClose(order);
             })
+            .catch(err => {
+                alert(err.message);
+                this.setState({isLoading: false})
+            })
+    }
+
+    onDeleteOrder() {
+        const allowDelete = confirm('Bạn có chắc chắn muốn xóa đơn hàng');
+        if (!allowDelete) return;
+
+        const {project} = this.props;
+        this.setState({isLoading: true});
+
+        deleteOrder(project.alias, this.state.order)
+            .then(
+                () => {
+                    const shouldUpdated = true;
+                    this.props.onClose(shouldUpdated);
+                },
+                err => {
+                    alert(err.message);
+                }
+            )
+            .then(() => this.setState({isLoading: false}));
     }
 
     onCloseButtonClick() {
@@ -55,19 +81,50 @@ class FmsOrderDetailModal extends Component {
     onChangeInput(refName) {
         const newValue = this.refs[refName].value;
         const newOrder = {...this.state.order};
-        newOrder[refName] = newValue;
+
+        switch (refName) {
+            case 'order_tag':
+                newOrder.order_tag = newValue;
+                break;
+            default:
+                newOrder[refName] = newValue;
+        }
 
         this.setState({order: newOrder});
     }
 
     componentDidMount() {
-        const {order} = this.props;
+        const {order, project} = this.props;
         this.setState({order});
+
+        if (project) {
+            getOrderTags(project.alias)
+                .then(
+                    orderTags => {
+                        this.setState({orderTags});
+                    },
+                    err => {
+                        alert(err.message)
+                    }
+                )
+        }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.order) {
-            this.setState({order: nextProps.order});
+            this.setState({order: nextProps.order, isLoading: false});
+        }
+
+        if (nextProps.project !== this.props.project) {
+            getOrderTags(nextProps.project.alias)
+                .then(
+                    orderTags => {
+                        this.setState({orderTags});
+                    },
+                    err => {
+                        alert(err.message)
+                    }
+                )
         }
     }
 
@@ -89,7 +146,7 @@ class FmsOrderDetailModal extends Component {
     }
 
     renderModalBody() {
-        const {order} = this.state;
+        const {order, orderTags} = this.state;
 
         return (
             <Modal.Body>
@@ -118,10 +175,33 @@ class FmsOrderDetailModal extends Component {
                             <div className="col-sm-3">
                                 <label className="control-label">Đánh dấu</label>
                             </div>
-                            <div className="col-sm-9 color-tag ">
-                                <span className="label l-label tag-label pull-left clickable">
-                                    <i className="fa fa-pencil"/>
-                                </span>
+                            <div className="col-sm-9 color-tag">
+                                <select className="form-control"
+                                        ref='order_tag'
+                                        value={
+                                            ((order) => {
+                                                if (typeof order.order_tag === 'string') {
+                                                    return order.order_tag;
+                                                } else if (order.order_tag) {
+                                                    return order.order_tag._id;
+                                                } else {
+                                                    return '';
+                                                }
+                                            })(order)
+                                        }
+                                        onChange={() => {
+                                            this.onChangeInput('order_tag')
+                                        }}
+                                >
+                                    <option value="" defaultValue/>
+                                    {
+                                        orderTags.map(
+                                            (tag, i) => (
+                                                <option key={i} value={tag._id}>{tag.name}</option>
+                                            )
+                                        )
+                                    }
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -385,6 +465,11 @@ class FmsOrderDetailModal extends Component {
                     }
 
                     <Modal.Footer>
+                        <button className="btn btn-danger btn-outline pull-left"
+                                onClick={this.onDeleteOrder.bind(this)}
+                                disabled={isLoading}>Xóa
+                        </button>
+
                         <button className="btn btn-white"
                                 onClick={this.onCloseButtonClick.bind(this)}
                                 disabled={isLoading}>Hủy

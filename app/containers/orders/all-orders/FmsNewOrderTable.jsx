@@ -1,24 +1,24 @@
 import React, {Component} from "react";
+import {extract} from "utils/phone-extract-utils";
 
 import ic_viettel from 'images/ic_viettel.png';
-import FmsOrderDetailModal from "../modals/FmsOrderDetailModal";
+import ic_mobi from 'images/ic_mobi.png';
+import ic_vina from 'images/ic_vina.png';
 
 class FmsNewOrderTable extends Component {
 
-    state = {
-        selectedOrder: null,
-        isShownModal: false
-    };
+    getPhoneProviderImage (phone) {
+        if (!phone || phone.length < 10 || phone.length > 11) return null;
+        switch(extract(phone)) {
+            case 'viettel':
+                return ic_viettel;
+            case 'mobi':
+                return ic_mobi;
+            case 'vina':
+                return ic_vina;
+        }
 
-    onCloseModal (updatedOrder) {
-        this.setState({isShownModal: false});
-    }
-
-    openModal (order) {
-        this.setState({
-            selectedOrder: order,
-            isShownModal: true,
-        })
+        return null;
     }
 
     renderProductIdItem(products) {
@@ -37,7 +37,7 @@ class FmsNewOrderTable extends Component {
     }
 
     renderTableRows() {
-        const {orders} = this.props;
+        const {orders, onSelectItem} = this.props;
 
         return orders.map(
             (order, i) => (
@@ -46,12 +46,12 @@ class FmsNewOrderTable extends Component {
                     <td><a>
                         <span
                             className="badge badge-info"
-                            onClick={() => {this.openModal(order)}}
+                            onClick={() => {onSelectItem(order)}}
                         >{order.id}</span>
                     </a></td>
                     <td>{order.customer_name}</td>
                     <td>{order.customer_phone}</td>
-                    <td><img src={ic_viettel}/></td>
+                    <td><img src={this.getPhoneProviderImage(order.customer_phone)}/></td>
 
                     {
                         this.renderProductIdItem(order.products)
@@ -96,9 +96,6 @@ class FmsNewOrderTable extends Component {
     }
 
     render() {
-        const {isShownModal, selectedOrder} = this.state;
-        const {project} = this.props;
-
         return (
             <div className="table-responsive">
                 <table className="table table-striped">
@@ -111,12 +108,6 @@ class FmsNewOrderTable extends Component {
                     }
                 </table>
 
-                <FmsOrderDetailModal
-                    isShown={isShownModal}
-                    onClose={this.onCloseModal.bind(this)}
-                    order={selectedOrder}
-                    project={project}
-                />
             </div>
         )
     }
