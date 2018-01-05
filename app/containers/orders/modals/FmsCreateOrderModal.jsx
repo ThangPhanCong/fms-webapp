@@ -427,10 +427,10 @@ class FmsCreateOrderModal extends Component {
                                 disabled={isLoading}>Hủy
                         </button>
 
-                        <button className="btn btn-success"
-                                onClick={() => this.exportOrder()}
-                                disabled={isLoading}>Yêu cầu xuất
-                        </button>
+                        {/*<button className="btn btn-success"*/}
+                                {/*onClick={() => this.exportOrder()}*/}
+                                {/*disabled={isLoading}>Yêu cầu xuất*/}
+                        {/*</button>*/}
 
                         <button className="btn btn-primary"
                                 onClick={() => this.createNewOrder()}

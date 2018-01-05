@@ -14,10 +14,10 @@ exports.get = (route, access_token) => {
     return axios.get(url, {headers})
         .then(res => {
             if (!res.data) {
-                throw new Error('Something went wrong');
+                return Promise.reject(new Error('Something went wrong'));
             } else {
                 if (res.data.err) {
-                    throw new Error(res.data.msg);
+                    return Promise.reject(new Error(res.data.msg));
                 } else {
                     return Promise.resolve(res.data.data);
                 }
@@ -35,10 +35,10 @@ exports.post = (route, payload) => {
     return axios.post(url, payload, {headers})
         .then(res => {
             if (!res.data) {
-                throw new Error('Something went wrong');
+                return Promise.reject(new Error('Something went wrong'));
             } else {
                 if (res.data.err) {
-                    throw new Error(res.data.msg);
+                    return Promise.reject(new Error(res.data.msg));
                 } else {
                     return Promise.resolve(res.data.data);
                 }
@@ -56,10 +56,10 @@ exports.put = (route, payload) => {
     return axios.put(url, payload, {headers})
         .then(res => {
             if (!res.data) {
-                throw new Error('Something went wrong');
+                return Promise.reject(new Error('Something went wrong'));
             } else {
                 if (res.data.err) {
-                    throw new Error(res.data.msg);
+                    return Promise.reject(new Error(res.data.msg));
                 } else {
                     return Promise.resolve(res.data.data);
                 }
@@ -79,10 +79,10 @@ exports.delete = (route, access_token) => {
     return axios.delete(url, {headers})
         .then(res => {
             if (!res.data) {
-                throw new Error('Something went wrong');
+                return Promise.reject(new Error('Something went wrong'));
             } else {
                 if (res.data.err) {
-                    throw new Error(res.data.msg);
+                    return Promise.reject(new Error(res.data.msg));
                 } else {
                     return Promise.resolve(res.data.data);
                 }

@@ -42,9 +42,14 @@ class FmsOrderDetailModal extends Component {
 
     exportOrder() {
         const {project} = this.props;
+        const diffOrder = cloneDiff({...this.props.order}, {...this.state.order});
+        diffOrder._id = this.props.order._id;
+
+        console.log('order diff', diffOrder);
+
         this.setState({isLoading: true});
 
-        exportOrder(project.alias, this.state.order)
+        exportOrder(project.alias, diffOrder)
             .then(order => {
                 this.props.onClose(order);
             })
@@ -93,20 +98,27 @@ class FmsOrderDetailModal extends Component {
         this.setState({order: newOrder});
     }
 
+    updateOrderTags(project) {
+        getOrderTags(project.alias)
+            .then(
+                orderTags => {
+                    const noneTag = {_id: 'none', name: ''};
+                    orderTags.unshift(noneTag);
+                    this.setState({orderTags});
+                },
+                err => {
+                    alert(err.message)
+                }
+            )
+            .catch(err => alert(err.message));
+    }
+
     componentDidMount() {
         const {order, project} = this.props;
         this.setState({order});
 
         if (project) {
-            getOrderTags(project.alias)
-                .then(
-                    orderTags => {
-                        this.setState({orderTags});
-                    },
-                    err => {
-                        alert(err.message)
-                    }
-                )
+            this.updateOrderTags(project);
         }
     }
 
@@ -116,15 +128,7 @@ class FmsOrderDetailModal extends Component {
         }
 
         if (nextProps.project !== this.props.project) {
-            getOrderTags(nextProps.project.alias)
-                .then(
-                    orderTags => {
-                        this.setState({orderTags});
-                    },
-                    err => {
-                        alert(err.message)
-                    }
-                )
+            this.updateOrderTags(nextProps.project);
         }
     }
 
@@ -193,7 +197,6 @@ class FmsOrderDetailModal extends Component {
                                             this.onChangeInput('order_tag')
                                         }}
                                 >
-                                    <option value="" defaultValue/>
                                     {
                                         orderTags.map(
                                             (tag, i) => (

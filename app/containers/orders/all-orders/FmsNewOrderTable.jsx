@@ -60,7 +60,16 @@ class FmsNewOrderTable extends Component {
                     <td>{order.private_note}</td>
                     <td>14:53 <br/> 29-11</td>
                     <td className="color-tag">
-                        {/*<span className="label label-green tag-label">{order.order_tag.name}</span>*/}
+                        {
+                            order.order_tag ?
+                                <span className="label tag-label"
+                                      style={{
+                                          backgroundColor: order.order_tag.color,
+                                          color: 'white'
+                                      }}
+                                >{order.order_tag.name}</span>
+                                : null
+                        }
                     </td>
                 </tr>
             )

@@ -64,6 +64,16 @@ const mockupOrders = [
     },
 ];
 
+const ORDER_STATUS = {
+    DRAFT: "DRAFT",
+    EXPORTED_ORDER: "EXPORTED_ORDER",
+    TRANSPORTED_ORDER: "TRANSPORTED_ORDER",
+    TRANSPORTING: "TRANSPORTING",
+    PAY: "PAY_COD",
+    REFUND: "REFUND",
+    WAIT: "WAIT"
+};
+
 module.exports = {
     createNote: (alias, conv_id, customer_id, page_id, content) => {
         let route = `/api/projects/${alias}/conversations/${conv_id}/notes`;
@@ -98,10 +108,6 @@ module.exports = {
     getNewProjectOrders: (projectAlias) => {
         return get(`/api/projects/${projectAlias}/orders`);
     },
-    exportOrder: (projectAlias, order) => {
-        console.log(order);
-        return delay(1000).then(() => Promise.resolve(order));
-    },
     createNewOrder: (projectAlias, order) => {
         console.log(order);
         return post(`/api/projects/${projectAlias}/orders`, order);
@@ -112,8 +118,16 @@ module.exports = {
     deleteOrder: (projectAlias, order) => {
         return apiSender.delete(`/api/projects/${projectAlias}/orders/${order._id}`);
     },
+    exportOrder: (projectAlias, order) => {
+        const payload = {
+            ...order,
+            status: ORDER_STATUS.EXPORTED_ORDER
+        };
+
+        return put(`/api/projects/${projectAlias}/orders/${order._id}`, payload);
+    },
     getExportOrders: (projectAlias) => {
-        return delay(1000).then(() => Promise.resolve(mockupOrders));
+        return get(`/api/projects/${projectAlias}/exported-orders`);
     },
     getTransportOrders: (projectAlias) => {
         return delay(1000).then(() => Promise.resolve(mockupOrders));
