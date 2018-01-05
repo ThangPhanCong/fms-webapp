@@ -99,16 +99,16 @@ class FmsCreateOrderModal extends Component {
     renderProducts() {
         return (
             <tr>
-                {/*<td>1</td>*/}
-                {/*<td><a href="#"><span*/}
-                {/*className="badge badge-info">SP12501</span></a>*/}
-                {/*</td>*/}
-                {/*<td>Kính Mắt Cao Cấp C2</td>*/}
-                {/*<td>2</td>*/}
-                {/*<td>40.000đ</td>*/}
-                {/*<td>0đ</td>*/}
-                {/*<td>80.000đ</td>*/}
-                {/*<td><i className="fa fa-trash-o clickable"/></td>*/}
+                <td>1</td>
+                <td><a><span className="badge badge-info">SP12501</span></a>
+                </td>
+                <td>Kính Mắt Cao Cấp C2</td>
+                <td>2</td>
+                <td>40.000đ</td>
+                <td>0đ</td>
+                <td>80.000đ</td>
+                <td><i className="fa fa-trash-o clickable"/></td>
+                <td><i className="fa fa-pencil clickable"/></td>
             </tr>
         )
     }
@@ -239,7 +239,7 @@ class FmsCreateOrderModal extends Component {
                             <div className="panel-body">
                                 <div className="form-group row">
                                     <div className="col-sm-4">
-                                        <label className="control-label">Địa chỉ</label>
+                                        <label className="control-label">Địa chỉ nhận</label>
                                     </div>
                                     <div className="col-sm-8">
                                         <input type="text"
@@ -428,8 +428,8 @@ class FmsCreateOrderModal extends Component {
                         </button>
 
                         {/*<button className="btn btn-success"*/}
-                                {/*onClick={() => this.exportOrder()}*/}
-                                {/*disabled={isLoading}>Yêu cầu xuất*/}
+                        {/*onClick={() => this.exportOrder()}*/}
+                        {/*disabled={isLoading}>Yêu cầu xuất*/}
                         {/*</button>*/}
 
                         <button className="btn btn-primary"

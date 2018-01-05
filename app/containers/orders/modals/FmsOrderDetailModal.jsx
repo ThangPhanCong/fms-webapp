@@ -41,6 +41,9 @@ class FmsOrderDetailModal extends Component {
     }
 
     exportOrder() {
+        const allowExport = confirm('Bạn có chắc chắn muốn xuất đơn hàng này?');
+        if (!allowExport) return;
+
         const {project} = this.props;
         const diffOrder = cloneDiff({...this.props.order}, {...this.state.order});
         diffOrder._id = this.props.order._id;
@@ -60,7 +63,7 @@ class FmsOrderDetailModal extends Component {
     }
 
     onDeleteOrder() {
-        const allowDelete = confirm('Bạn có chắc chắn muốn xóa đơn hàng');
+        const allowDelete = confirm('Bạn có chắc chắn muốn xóa đơn hàng này?');
         if (!allowDelete) return;
 
         const {project} = this.props;
@@ -135,16 +138,16 @@ class FmsOrderDetailModal extends Component {
     renderProducts() {
         return (
             <tr>
-                {/*<td>1</td>*/}
-                {/*<td><a href="#"><span*/}
-                {/*className="badge badge-info">SP12501</span></a>*/}
-                {/*</td>*/}
-                {/*<td>Kính Mắt Cao Cấp C2</td>*/}
-                {/*<td>2</td>*/}
-                {/*<td>40.000đ</td>*/}
-                {/*<td>0đ</td>*/}
-                {/*<td>80.000đ</td>*/}
-                {/*<td><i className="fa fa-trash-o clickable"/></td>*/}
+                <td>1</td>
+                <td><a><span className="badge badge-info">SP12501</span></a>
+                </td>
+                <td>Kính Mắt Cao Cấp C2</td>
+                <td>2</td>
+                <td>40.000đ</td>
+                <td>0đ</td>
+                <td>80.000đ</td>
+                <td><i className="fa fa-trash-o clickable"/></td>
+                <td><i className="fa fa-pencil clickable"/></td>
             </tr>
         )
     }
@@ -274,7 +277,7 @@ class FmsOrderDetailModal extends Component {
                             <div className="panel-body">
                                 <div className="form-group row">
                                     <div className="col-sm-4">
-                                        <label className="control-label">Địa chỉ</label>
+                                        <label className="control-label">Địa chỉ nhận</label>
                                     </div>
                                     <div className="col-sm-8">
                                         <input type="text"
