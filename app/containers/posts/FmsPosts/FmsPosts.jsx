@@ -15,13 +15,14 @@ class FmsPosts extends React.Component {
     }
 
     componentDidMount() {
-        const {dispatch} = this.props;
-        dispatch(getPosts(this.props.alias));
+        if (this.props.project && this.props.project.alias) {
+            this.props.dispatch(getPosts(this.props.project.alias));
+        }
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.alias !== this.props.alias) {
-            this.props.dispatch(getPosts(this.props.alias));
+        if ((!prevProps.project && this.props.project) || prevProps.project.alias !== this.props.project.alias) {
+            this.props.dispatch(getPosts(this.props.project.alias));
         }
     }
 
@@ -40,7 +41,7 @@ class FmsPosts extends React.Component {
 
     loadMorePosts() {
         const {dispatch, paging} = this.props;
-        dispatch(getPosts(this.props.alias, paging.next));
+        dispatch(getPosts(this.props.project.alias, paging.next));
     }
 
     renderPosts() {
@@ -70,6 +71,7 @@ class FmsPosts extends React.Component {
 
     render() {
         const {paging, isPostsLoading, isMorePostsLoading} = this.props;
+        let alias = (this.props.project) ? this.props.project.alias : null;
         return (
             <Grid bsClass={"page posts"}>
                 <button className="btn btn-primary add-post-btn" onClick={this.openModal.bind(this)}>
@@ -86,7 +88,7 @@ class FmsPosts extends React.Component {
 
                 </div>
                 <FmsAddPostModal isShown={this.state.isShownModal} closeModal={this.closeModal.bind(this)}
-                                 alias={this.props.alias}/>
+                                 alias={alias}/>
             </Grid>
         );
     }
