@@ -7,13 +7,14 @@ import FmsColorCardItem from "../FmsColorCardItem/FmsColorCardItem";
 
 class FmsColorCards extends React.Component {
     componentDidMount() {
-        const {dispatch, alias} = this.props;
-        dispatch(getTags(alias));
+        if (this.props.project && this.props.project.alias) {
+            this.props.dispatch(getTags(this.props.project.alias));
+        }
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.alias !== this.props.alias) {
-            this.props.dispatch(getTags(this.props.alias));
+        if ((!prevProps.project && this.props.project) || prevProps.project.alias !== this.props.project.alias) {
+            this.props.dispatch(getTags(this.props.project.alias));
         }
     }
 

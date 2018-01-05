@@ -84,7 +84,7 @@ export const cancelGetConversations = () => () => {
 };
 //---------------------------------------------------------------------
 
-export const handleConversationClick = (selectedConv, type) => (dispatch, getState) => {
+export const handleConversationClick = (alias, selectedConv, type) => (dispatch, getState) => {
   dispatch(setPostInfo(null));
   dispatch(isShownNewMsgNoti(false));
   dispatch(isLoadingMsgs(true));
@@ -114,15 +114,15 @@ export const handleConversationClick = (selectedConv, type) => (dispatch, getSta
   } else {
     dispatch(isLoadingMsgs(false));
   }
-  dispatch(getNotes());
+  dispatch(getNotes(alias));
 };
 
-export const loadMoreConversations = () => (dispatch, getState) => {
+export const loadMoreConversations = (alias) => (dispatch, getState) => {
   let cs = getState().dashboard.conversations;
   if (cs.isLoadingConversations === true || !cs.pagingConversations) return;
   let query = generateQueryParams(getState().dashboard.filters);
   dispatch(isLoadingConversations(true));
-  DashboardApi.getConversations(cs.alias, cs.pagingConversations, query).then((res) => {
+  DashboardApi.getConversations(alias, cs.pagingConversations, query).then((res) => {
     let paging = (res.paging) ? res.paging.next : "null";
     let newConversations = cs.conversations.concat(res.data);
     dispatch(setConversations(newConversations, paging));

@@ -17,7 +17,7 @@ import { handleTypeFilterClick } from '../../../actions/dashboard/filters';
 
 class FmsVerticalNav extends React.Component {
   handleTypeFilterClick(position) {
-    this.props.dispatch(handleTypeFilterClick(position));
+    this.props.dispatch(handleTypeFilterClick(this.props.alias, position));
   }
 
   render() {

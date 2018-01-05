@@ -19,10 +19,9 @@ export const updateTagsConversation = (tags, conversation_id) => (dispatch, getS
   dispatch(setConversation(u.clone(conversation)));
 };
 
-export const handleTagClick = (tag_id) => (dispatch, getState) => {
+export const handleTagClick = (alias, tag_id) => (dispatch, getState) => {
   let {isSettingTag} = getState().dashboard.chat;
   let {conversation} = getState().dashboard.chat;
-  let {alias} = getState().dashboard.conversations;
   if (isSettingTag === true) return;
   let selectedTag = conversation.tags.filter((tag) => {
     return tag._id === tag_id

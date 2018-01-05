@@ -214,7 +214,7 @@ class TopHeader extends React.Component {
         const {color} = this.state;
 
         return (
-            <div className="row border-bottom">
+            <div className="row border-bottom border-bottom-nav">
                 <nav className="navbar navbar-static-top" role="navigation"
                      style={{marginBottom: 0, backgroundColor: color}}>
 

@@ -15,9 +15,8 @@ export const resetFilters = () => dispatch => {
   dispatch({type: 'RESET_INIT_STATE_FILTERS'});
 };
 
-export const getTagsProject = () => (dispatch, getState) => {
+export const getTagsProject = (alias) => (dispatch, getState) => {
   let {filters} = getState().dashboard.filters;
-  let {alias} = getState().dashboard.conversations;
   TagApi.getProjectTags(alias).then((res) => {
     res.forEach((tag) => {
       filters.push({
@@ -33,24 +32,23 @@ export const getTagsProject = () => (dispatch, getState) => {
   });
 };
 
-export const handleFilter = (newFilters) => (dispatch, getState) => {
+export const handleFilter = (alias, newFilters) => (dispatch) => {
   dispatch(setConversations([]));
-  let alias = getState().dashboard.conversations.alias;
   if (Array.isArray(newFilters)) dispatch(setFilters(u.clone(newFilters)));
   dispatch(getConversations(alias));
 };
 
-export const handleTagFilterClick = (_id) => (dispatch, getState) => {
+export const handleTagFilterClick = (alias, _id) => (dispatch, getState) => {
   let {filters} = getState().dashboard.filters;
   filters.forEach((filter) => {
     if (filter.isTag && filter.type === _id) {
       filter.isActive = !filter.isActive;
     }
   });
-  dispatch(handleFilter(filters));
+  dispatch(handleFilter(alias, filters));
 };
 
-export const handleTypeFilterClick = (position) => (dispatch, getState) => {
+export const handleTypeFilterClick = (alias, position) => (dispatch, getState) => {
   let {filters} = getState().dashboard.filters;
   for (let i = 0; i < filters.length; i++) {
     if (filters[i].isTag) continue;
@@ -67,5 +65,5 @@ export const handleTypeFilterClick = (position) => (dispatch, getState) => {
     if (filter.isActive === true && !filter.isTag) isShowAll = false;
   });
   if (isShowAll === true) filters[0].isActive = true;
-  dispatch(handleFilter(filters));
+  dispatch(handleFilter(alias, filters));
 };

@@ -20,6 +20,7 @@ class FmsAddPostModal extends React.Component {
         });
     }
     onChangeAlias() {
+        if (!this.props.alias) return;
         this.setState({ isHandling: true });
         ProjectApi.getProject(this.props.alias)
             .then(res => {

@@ -14,7 +14,7 @@ class FmsConversationItem extends React.Component {
 	}
 	handleConversationClick() {
 		let { dispatch, data } = this.props;
-		dispatch(handleConversationClick(data, data.type));
+		dispatch(handleConversationClick(this.props.alias, data, data.type));
 	}
 	renderIconType() {
 		let self = this;

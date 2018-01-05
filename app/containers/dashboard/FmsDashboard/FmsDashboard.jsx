@@ -9,65 +9,70 @@ import FmsVerticalNav from '../FmsVerticalNav/FmsVerticalNav';
 import {resetConversations, cancelGetConversations} from '../../../actions/dashboard/conversations';
 import {getProject, unSubscribeProjectChanges} from '../../../actions/dashboard/dashboard';
 import {getTagsProject, resetFilters} from '../../../actions/dashboard/filters';
-import {resetChat} from '../../../actions/dashboard/chat/messages';
 
 class FmsDashBoard extends React.Component {
     startDashboard() {
-        const {dispatch} = this.props;
-        dispatch(getProject());
-        dispatch(getTagsProject());
+        const {dispatch, project} = this.props;
+        dispatch(getProject(project.alias));
+        dispatch(getTagsProject(project.alias));
     }
 
     closeDashboard() {
-        const {dispatch, alias} = this.props;
+        const {dispatch, project} = this.props;
         dispatch(resetFilters());
         dispatch(resetConversations());
         dispatch(cancelGetConversations());
-        dispatch(unSubscribeProjectChanges(alias));
+        dispatch(unSubscribeProjectChanges(project.alias));
     }
 
     componentDidMount() {
-        this.startDashboard();
+        if (this.props.project && this.props.project.alias) {
+            this.startDashboard();
+        }
     }
 
     componentWillUnmount() {
-        this.closeDashboard();
+        if (this.props.project && this.props.project.alias) {
+            this.closeDashboard();
+        }
     }
 
     componentWillUpdate(nextProps) {
-        if (nextProps.alias !== this.props.alias) {
+        if (nextProps.project && this.props.project && nextProps.project.alias !== this.props.project.alias) {
             this.closeDashboard();
         }
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.alias !== this.props.alias) {
+        if ((!prevProps.project && this.props.project) || prevProps.project.alias !== this.props.project.alias) {
             this.startDashboard();
         }
     }
 
     renderConversation() {
         if (this.props.conversation) {
-            return <FmsChatArea/>
+            return <FmsChatArea alias={this.props.project.alias}/>
         } else {
             return <div className="notifiy-no-conversation">Bạn chưa chọn cuộc hội thoại nào!</div>
         }
     }
 
     render() {
+        let alias = (this.props.project) ? this.props.project.alias : null;
+        let clientInfo = (this.props.conversation) ? "" : " hide";
         return (
             <div className="dashboard page">
                 <div className="vertical-nav">
-                    <FmsVerticalNav/>
+                    <FmsVerticalNav alias={alias}/>
                 </div>
                 <div className="client-list">
-                    <FmsConversationList/>
+                    <FmsConversationList alias={alias}/>
                 </div>
                 <div className="conversation-area">
                     {this.renderConversation()}
                 </div>
-                <div className="client-information-area">
-                    <FmsClientInformation/>
+                <div className={"client-information-area" + clientInfo}>
+                    <FmsClientInformation alias={alias}/>
                 </div>
             </div>
         );
@@ -76,8 +81,7 @@ class FmsDashBoard extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        conversation: state.dashboard.chat.conversation,
-        alias: state.dashboard.conversations.alias
+        conversation: state.dashboard.chat.conversation
     }
 };
 
