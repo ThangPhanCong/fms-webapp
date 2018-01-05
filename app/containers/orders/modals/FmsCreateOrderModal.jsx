@@ -3,11 +3,13 @@ import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 import FmsCheckbox from 'commons/FmsCheckbox/FmsCheckbox';
 import {exportOrder, createNewOrder} from "../../../api/OrderApi";
+import {getOrderTags} from "../../../api/OrderTagApi";
 
 class FmsCreateOrderModal extends Component {
 
     state = {
         order: {},
+        orderTags: [],
         isLoading: false
     };
 
@@ -48,14 +50,49 @@ class FmsCreateOrderModal extends Component {
     onChangeInput(refName) {
         const newValue = this.refs[refName].value;
         const newOrder = {...this.state.order};
-        newOrder[refName] = newValue;
+
+        switch (refName) {
+            case 'order_tag':
+                newOrder.order_tag = newValue;
+                break;
+            default:
+                newOrder[refName] = newValue;
+        }
 
         this.setState({order: newOrder});
     }
 
+    componentDidMount() {
+        const {project} = this.props;
+
+        if (project) {
+            getOrderTags(project.alias)
+                .then(
+                    orderTags => {
+                        this.setState({orderTags});
+                    },
+                    err => {
+                        alert(err.message)
+                    }
+                )
+        }
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.isShown) {
-            this.setState({order: {}});
+            this.setState({order: {}, isLoading: false});
+        }
+
+        if (nextProps.project !== this.props.project) {
+            getOrderTags(nextProps.project.alias)
+                .then(
+                    orderTags => {
+                        this.setState({orderTags});
+                    },
+                    err => {
+                        alert(err.message)
+                    }
+                )
         }
     }
 
@@ -77,7 +114,7 @@ class FmsCreateOrderModal extends Component {
     }
 
     renderModalBody() {
-        const {order} = this.state;
+        const {order, orderTags} = this.state;
 
         return (
             <Modal.Body>
@@ -106,10 +143,33 @@ class FmsCreateOrderModal extends Component {
                             <div className="col-sm-3">
                                 <label className="control-label">Đánh dấu</label>
                             </div>
-                            <div className="col-sm-9 color-tag ">
-                                <span className="label l-label tag-label pull-left clickable">
-                                    <i className="fa fa-pencil"/>
-                                </span>
+                            <div className="col-sm-9 color-tag">
+                                <select className="form-control"
+                                        ref='order_tag'
+                                        value={
+                                            ((order) => {
+                                                if (typeof order.order_tag === 'string') {
+                                                    return order.order_tag;
+                                                } else if (order.order_tag) {
+                                                    return order.order_tag._id;
+                                                } else {
+                                                    return '';
+                                                }
+                                            })(order)
+                                        }
+                                        onChange={() => {
+                                            this.onChangeInput('order_tag')
+                                        }}
+                                >
+                                    <option value="" defaultValue/>
+                                    {
+                                        orderTags.map(
+                                            (tag, i) => (
+                                                <option key={i} value={tag._id}>{tag.name}</option>
+                                            )
+                                        )
+                                    }
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -159,10 +219,10 @@ class FmsCreateOrderModal extends Component {
                                     <div className="col-sm-9">
                                         <input type="text"
                                                className="form-control"
-                                               ref='customer_fb'
+                                               ref='customer_facebook'
                                                value={order.customer_facebook || ''}
                                                onChange={() => {
-                                                   this.onChangeInput('customer_fb')
+                                                   this.onChangeInput('customer_facebook')
                                                }}
                                         />
                                     </div>
