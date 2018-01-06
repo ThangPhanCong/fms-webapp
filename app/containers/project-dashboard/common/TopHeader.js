@@ -216,7 +216,7 @@ class TopHeader extends React.Component {
         return (
             <div className="row border-bottom border-bottom-nav">
                 <nav className="navbar navbar-static-top" role="navigation"
-                     style={{marginBottom: 0, backgroundColor: color}}>
+                     style={{marginBottom: 0}}>
 
                     <div className="navbar-header">
                         <a className="navbar-minimalize minimalize-styl-2 btn btn-primary "
