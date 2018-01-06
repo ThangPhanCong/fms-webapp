@@ -129,10 +129,26 @@ module.exports = {
     getExportOrders: (projectAlias) => {
         return get(`/api/projects/${projectAlias}/exported-orders`);
     },
+    orderTransportedOrder: (projectAlias, order) => {
+        const payload = {
+            ...order,
+            status: ORDER_STATUS.TRANSPORTED_ORDER
+        };
+
+        return put(`/api/projects/${projectAlias}/orders/${order._id}`, payload);
+    },
     getTransportOrders: (projectAlias) => {
-        return delay(1000).then(() => Promise.resolve(mockupOrders));
+        return get(`/api/projects/${projectAlias}/transported-orders`);
+    },
+    orderTransportingOrder: (projectAlias, order) => {
+        const payload = {
+            ...order,
+            status: ORDER_STATUS.TRANSPORTING
+        };
+
+        return put(`/api/projects/${projectAlias}/orders/${order._id}`, payload);
     },
     getTransportingOrders: (projectAlias) => {
-        return delay(1000).then(() => Promise.resolve(mockupOrders));
+        return get(`/api/projects/${projectAlias}/transporting-orders`);
     }
 };

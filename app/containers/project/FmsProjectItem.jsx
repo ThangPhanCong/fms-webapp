@@ -34,8 +34,7 @@ class FmsProjectItem extends React.Component {
     }
 
     render() {
-        let project = this.props.data;
-        let projectName = project.name;
+        const project = this.props.data;
 
         return (
             <div className="col-md-4">
@@ -44,16 +43,16 @@ class FmsProjectItem extends React.Component {
 
                         {/*<span className='pull-right'>Settings</span>*/}
 
-                        <h2>{projectName}</h2>
+                        <h2>{project.name}</h2>
                         <p className="small">
                             <span>Sản phẩm: </span>
-                            <strong>300</strong>
+                            <strong>{project.total_product}</strong>
                             &nbsp;&nbsp;&nbsp;
                             <span>Đơn hàng: </span>
-                            <strong>200</strong>
+                            <strong>{project.total_order}</strong>
                             &nbsp;&nbsp;&nbsp;
                             <span>Nhân viên: </span>
-                            <strong>5</strong>
+                            <strong>0</strong>
                         </p>
 
                         <div className="">
