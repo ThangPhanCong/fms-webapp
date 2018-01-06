@@ -153,6 +153,7 @@ class FmsProject extends Component {
                 <FmsNavigation/>
 
                 <div className="container project-wrapper">
+
                     <div className="row button-project-wrapper">
                         <div className="col-md-2">
                             <button
@@ -163,9 +164,11 @@ class FmsProject extends Component {
                             </button>
                         </div>
                     </div>
+
                     <div className="row">
                         {this.renderProjects()}
                     </div>
+
                     <FmsNewProjectModal
                         isShown={isCreateProjectModalShown}
                         isLoading={isNewProjectLoading}
@@ -173,6 +176,7 @@ class FmsProject extends Component {
                         onProjectNameChange={this.onProjectNameChange.bind(this)}
                         onClose={this.onProjectModalClose.bind(this)}
                     />
+
                     <FmsAddPagesModal
                         isShown={isAddPagesModalShown}
                         isLoading={isPagesLoading}
