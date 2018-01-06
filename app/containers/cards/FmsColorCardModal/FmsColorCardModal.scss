@@ -1,0 +1,31 @@
+.fms-modal-title {
+  font-size: 25px;
+}
+.color-card-form-group {
+  display: flex;
+  .form-group-label {
+    font-size: 17px;
+    margin-right: 12px;
+    padding-top: 4px;
+    width: 95px;
+  }
+  .form-control {
+    flex: 1;
+  }
+  .color-card {
+    width: 27px;
+    height: 32px;
+    margin-right: 8px;
+    display: inline-block;
+    border-radius: 3px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .preview {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 15px;
+  }
+}

@@ -1,11 +1,23 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import uuid from 'uuid';
 
-import {MAX_TAG_ITEMS, TAG_COLORS} from '../../../constants/tag';
-import {getTags, addNewTag, updateTag, deleteTag} from '../../../actions/setting/setting-tag';
+import {MAX_TAG_ITEMS} from '../../../constants/tag';
+import {getTags} from '../../../actions/setting/setting-tag';
 import FmsColorCardItem from "../FmsColorCardItem/FmsColorCardItem";
+import FmsPageTitle from "../../../commons/page-title/FmsPageTitle";
+import FmsSpin from '../../../commons/FmsSpin/FmsSpin';
+import FmsColorCardModal from '../FmsColorCardModal/FmsColorCardModal';
 
 class FmsColorCards extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isShownModal: false,
+            selectedCard: null
+        }
+    }
+
     componentDidMount() {
         if (this.props.project && this.props.project.alias) {
             this.props.dispatch(getTags(this.props.project.alias));
@@ -18,61 +30,37 @@ class FmsColorCards extends React.Component {
         }
     }
 
-    updateTag(tag) {
-        const {dispatch, alias} = this.props;
-        dispatch(updateTag(alias, tag));
+    openModal(selectedCard) {
+        this.setState({isShownModal: true, selectedCard});
     }
 
-    deleteTag(tag) {
-        const {dispatch, alias} = this.props;
-        dispatch(deleteTag(alias, tag));
-    }
-
-    addNewTag(color, name) {
-        const {dispatch, tags, alias} = this.props;
-        let remainingColors = TAG_COLORS.filter(c => {
-            let _tag = tags.find(t => t.color === c);
-            return !_tag;
-        });
-
-        color = remainingColors.pop();
-        dispatch(addNewTag(alias, color, name));
+    closeModal() {
+        this.setState({isShownModal: false});
     }
 
     renderTags() {
-        if (this.props.isSettingLoading === true) {
-            return <tr style={{backgroundColor: "white"}}><th>Loading...</th></tr>
-        } else {
+        if (this.props.isSettingLoading === false) {
             return this.props.tags.map((tag, index) => {
-                return <FmsColorCardItem data={tag} key={index} index={index + 1}/>;
+                return <FmsColorCardItem data={tag} key={index} index={index + 1}
+                                         onClick={() => {this.openModal(tag)}}/>;
             });
         }
     }
 
     render() {
-        let {tags} = this.props;
-        let countItem = `(${tags.length}/${MAX_TAG_ITEMS})`;
+        let alias = (this.props.project) ? this.props.project.alias : null;
+        let route = (alias) ? `${alias}/Quản lý trang/Thẻ màu` : "";
+        let isDisabled = this.props.tags.length >= MAX_TAG_ITEMS || this.props.isSettingLoading;
         return (
             <div>
-                <div className="color-cards-title">
-                    <h2>Thẻ màu</h2>
-                    <ol className="breadcrumb">
-                        <li>
-                            <span>Shop bán giầy dép</span>
-                        </li>
-                        <li>
-                            <span>Quản lí đơn hàng</span>
-                        </li>
-                        <li className="active">
-                            <strong>Thẻ màu</strong>
-                        </li>
-                    </ol>
-                </div>
+                <FmsPageTitle title="Thẻ màu" route={route}/>
                 <div className="row color-cards-wrapper">
                     <div className="col-lg-12" >
-                        <button className="btn btn-primary btn-sm" type="button" name="button">
+                        <button className="btn btn-primary btn-sm" type="button" name="button"
+                                onClick={() => {this.openModal()}} disabled={isDisabled}>
                             <i className="fa fa-plus"/> Thêm thẻ màu
                         </button>
+                        <div className="count-cards">Số lượng: {this.props.tags.length + " / " + MAX_TAG_ITEMS}</div>
                         <br/>
                     </div>
                     <div className="table-responsive color-cards-table">
@@ -91,7 +79,12 @@ class FmsColorCards extends React.Component {
                             </tbody>
                         </table>
                     </div>
+                    {this.props.isSettingLoading ?
+                        <div className="spin-wrapper"><FmsSpin size={27}/></div> : null
+                    }
                 </div>
+                <FmsColorCardModal isShown={this.state.isShownModal} closeModal={this.closeModal.bind(this)}
+                                   data={this.state.selectedCard} alias={alias} key={uuid()}/>
             </div>
         );
     }
@@ -99,7 +92,6 @@ class FmsColorCards extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        alias: state.dashboard.conversations.alias,
         isSettingLoading: state.setting.setting.isSettingLoading,
         tags: state.setting.settingTag.tags
     }
