@@ -1,40 +1,24 @@
 import React, {Component} from "react";
-import FmsProductDetailModal from "./modals/FmsProductDetailModal";
+import {extract} from "utils/phone-extract-utils";
+
 import ic_viettel from 'images/ic_viettel.png';
+import ic_mobi from 'images/ic_mobi.png';
+import ic_vina from 'images/ic_vina.png';
 
 class FmsExportOrderTable extends Component {
 
-    state = {
-        isShowDetailModal: false
-    };
-
-    onCloseModal(shouldReloadData) {
-        if (shouldReloadData) {
-            this.props.onReloadOrders();
+    getPhoneProviderImage (phone) {
+        if (!phone || phone.length < 10 || phone.length > 11) return null;
+        switch(extract(phone)) {
+            case 'viettel':
+                return ic_viettel;
+            case 'mobi':
+                return ic_mobi;
+            case 'vina':
+                return ic_vina;
         }
 
-        this.setState({isShowDetailModal: false});
-    }
-
-    onOpenModal(selectedOrder) {
-        this.setState({isShowDetailModal: true, selectedOrder});
-    }
-
-    renderTableHeader() {
-        return (
-            <thead>
-            <tr>
-                <th>STT</th>
-                <th>Mã đơn</th>
-                <th>Khách hàng</th>
-                <th>Điện thoại</th>
-                <th>Địa chỉ</th>
-                <th>Sản phẩm</th>
-                <th>Thành tiền</th>
-                <th>Ngày yêu cầu xuất</th>
-            </tr>
-            </thead>
-        )
+        return null;
     }
 
     renderProductIdItem(products) {
@@ -53,7 +37,7 @@ class FmsExportOrderTable extends Component {
     }
 
     renderTableRows() {
-        const {orders} = this.props;
+        const {orders, onSelectItem} = this.props;
 
         return orders.map(
             (order, i) => (
@@ -62,27 +46,27 @@ class FmsExportOrderTable extends Component {
                     <td><a>
                         <span
                             className="badge badge-info"
-                            onClick={() => {
-                                this.openModal(order)
-                            }}
+                            onClick={() => {onSelectItem(order)}}
                         >{order.id}</span>
                     </a></td>
                     <td>{order.customer_name}</td>
                     <td>{order.customer_phone}</td>
-                    <td>{order.transport_address}</td>
+                    <td><img src={this.getPhoneProviderImage(order.customer_phone)}/></td>
 
                     {
                         this.renderProductIdItem(order.products)
                     }
 
-                    <td>1.000.000</td>
+                    <td>{order.private_note}</td>
                     <td>14:53 <br/> 29-11</td>
+                    <td>14:53 <br/> 29-11</td>
+
                 </tr>
             )
         );
     }
 
-    renderTableBody () {
+    renderTableBody() {
         return (
             <tbody>
             {
@@ -92,20 +76,28 @@ class FmsExportOrderTable extends Component {
         )
     }
 
+    renderTableHeader() {
+        return (
+            <thead>
+            <tr>
+                <th>STT</th>
+                <th>Mã đơn</th>
+                <th>Khách hàng</th>
+                <th>Điện thoại</th>
+                <th>Nhà mạng</th>
+                <th>Sản phẩm</th>
+                <th>Ghi chú</th>
+                <th>Ngày tạo</th>
+                <th>Ngày xuất</th>
+            </tr>
+            </thead>
+        )
+    }
+
     render() {
-        const {
-            isShowDetailModal,
-            selectedProduct
-        } = this.state;
-
-        const {
-            project
-        } = this.props;
-
         return (
             <div className="table-responsive">
                 <table className="table table-striped">
-
                     {
                         this.renderTableHeader()
                     }
@@ -115,15 +107,11 @@ class FmsExportOrderTable extends Component {
                     }
                 </table>
 
-                <FmsProductDetailModal
-                    isShown={isShowDetailModal}
-                    onClose={this.onCloseModal.bind(this)}
-                    product={selectedProduct}
-                    project={project}
-                />
             </div>
         )
     }
+
+
 }
 
 export default FmsExportOrderTable;

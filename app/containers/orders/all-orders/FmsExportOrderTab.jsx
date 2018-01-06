@@ -1,41 +1,75 @@
 import React, {Component} from "react";
-import FmsNewOrderTable from "./FmsNewOrderTable";
-import {getNewProjectOrders} from "../../../api/OrderApi";
+import {getExportOrders} from "../../../api/OrderApi";
 import FmsSpin from "../../../commons/FmsSpin/FmsSpin";
+import FmsOrderDetailModal from "../modals/FmsOrderDetailModal";
 import FmsExportOrderSearchBar from "./FmsExportOrderSearchBar";
+import FmsExportOrderTable from "../../stock/FmsExportOrderTable";
 
 class FmsExportOrderTab extends Component {
 
     state = {
         orders: [],
+        selectedOrder: null,
         isLoading: true,
-        search: null
+        isShownModal: false
     };
 
     searchItem(searchQuery) {
         console.log('searchQuery', searchQuery);
     }
 
+    onCloseModal(updatedOrder) {
+        if (updatedOrder) {
+            const {project} = this.props;
+            this.updateOrders(project);
+        }
+
+        this.setState({isShownModal: false});
+    }
+
+    openModal(order) {
+        this.setState({
+            selectedOrder: order,
+            isShownModal: true,
+        })
+    }
+
+    onSelectItem(order) {
+        this.openModal(order);
+    }
+
     updateOrders(project) {
         this.setState({isLoading: true});
 
-        getNewProjectOrders(project.alias)
+        getExportOrders(project.alias)
             .then(orders => this.setState({orders, isLoading: false}));
     }
 
     componentDidMount() {
         const {project} = this.props;
-        this.updateOrders(project);
+        if (project) {
+            this.updateOrders(project);
+        }
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.project) {
+        if (nextProps.project && nextProps.project !== this.props.project) {
             this.updateOrders(nextProps.project);
+        }
+
+        if (nextProps.version !== this.props.version) {
+            this.updateOrders(this.props.project);
         }
     }
 
     render() {
-        const {orders, isLoading} = this.state;
+        const {
+            orders,
+            isLoading,
+            isShownModal,
+            selectedOrder
+        } = this.state;
+        const {project} = this.props;
 
         return (
             <div className="row">
@@ -45,10 +79,20 @@ class FmsExportOrderTab extends Component {
 
                         {
                             isLoading ?
-                                <FmsSpin size={25} center={true}/> : null
-
+                                <FmsSpin size={25} center={true}/> :
+                                <FmsExportOrderTable
+                                    orders={orders}
+                                    project={project}
+                                    onSelectItem={this.onSelectItem.bind(this)}
+                                />
                         }
-                        {/*<FmsNewOrderTable orders={orders}/>*/}
+
+                        {/*<FmsOrderDetailModal*/}
+                            {/*isShown={isShownModal}*/}
+                            {/*onClose={this.onCloseModal.bind(this)}*/}
+                            {/*order={selectedOrder}*/}
+                            {/*project={project}*/}
+                        {/*/>*/}
                     </div>
                 </div>
             </div>
