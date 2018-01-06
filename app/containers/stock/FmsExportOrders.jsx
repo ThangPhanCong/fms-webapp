@@ -4,14 +4,31 @@ import FmsSpin from "../../commons/FmsSpin/FmsSpin";
 import FmsExportOrderSearchBar from "../orders/all-orders/FmsExportOrderSearchBar";
 import FmsExportOrderTable from "./FmsExportOrderTable";
 import {getExportOrders} from "../../api/OrderApi";
+import FmsExportOrderDetailModal from "./modals/FmsExportOrderDetailModal";
 
 class FmsExportOrders extends Component {
 
     state = {
         project: null,
         orders: [],
+        selectedOrder: null,
         isLoading: true,
+        isShownDetailModal: false
     };
+
+    onCloseDetailModal(updatedOrder) {
+        if (updatedOrder) {
+            const {project} = this.state;
+            this.updateOrderList(project);
+        }
+
+        this.setState({isShownDetailModal: false});
+    }
+
+    onOpenDetailModal(selectedOrder) {
+        console.log('ok men', selectedOrder)
+        this.setState({selectedOrder, isShownDetailModal: true});
+    }
 
     componentWillReceiveProps(nextProps) {
         const {project} = this.state;
@@ -40,7 +57,9 @@ class FmsExportOrders extends Component {
         const {project} = this.props;
         const {
             orders,
+            selectedOrder,
             isLoading,
+            isShownDetailModal
         } = this.state;
 
         let projectName = 'Cửa hàng';
@@ -50,7 +69,8 @@ class FmsExportOrders extends Component {
 
         return (
             [
-                <FmsPageTitle key={1} title="Yêu cầu xuất hàng" route={`${projectName}/Quản lí kho/Yêu cầu xuất hàng`}/>,
+                <FmsPageTitle key={1} title="Yêu cầu xuất hàng"
+                              route={`${projectName}/Quản lí kho/Yêu cầu xuất hàng`}/>,
 
                 <div key={2} className="wrapper wrapper-content">
                     <div className="row">
@@ -58,14 +78,25 @@ class FmsExportOrders extends Component {
                             <div className="ibox">
                                 <div className="ibox-content">
 
-                                    <FmsExportOrderSearchBar />
+                                    <FmsExportOrderSearchBar/>
 
                                     {
                                         isLoading ?
                                             <FmsSpin size={25} center={true}/>
-                                            : <FmsExportOrderTable orders={orders} project={project}
-                                                               onReloadOrders={this.reloadOrders.bind(this)}/>
+                                            :
+                                            <FmsExportOrderTable
+                                                orders={orders}
+                                                project={project}
+                                                onReloadOrders={this.reloadOrders.bind(this)}
+                                                onSelectItem={this.onOpenDetailModal.bind(this)}
+                                            />
                                     }
+
+                                    <FmsExportOrderDetailModal
+                                        order={selectedOrder}
+                                        project={project}
+                                        onClose={this.onCloseDetailModal.bind(this)}
+                                        isShown={isShownDetailModal}/>
 
                                 </div>
                             </div>

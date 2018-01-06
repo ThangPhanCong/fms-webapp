@@ -1,17 +1,34 @@
 import React, {Component} from 'react';
 import FmsPageTitle from "../../commons/page-title/FmsPageTitle";
 import FmsSpin from "../../commons/FmsSpin/FmsSpin";
-import {getTransportingOrders} from "../../api/OrderApi";
-import FmsTransportingSearchBar from "./transporting/FmsTransportingSearchBar";
-import FmsTransportingTable from "./transporting/FmsTransportingTable";
+import {getTransportingOrders, getTransportOrders} from "../../api/OrderApi";
+import FmsTransportOrderSearchBar from "./transport-orders/FmsTransportOrderSearchBar";
+import FmsTransportOrderTable from "./transport-orders/FmsTransportOrderTable";
+import FmsTransportedOrderDetailModal from "./modals/FmsTransportedOrderDetailModal";
 
 class FmsTransporting extends Component {
 
     state = {
         project: null,
         orders: [],
+        selectedOrder: null,
         isLoading: true,
+        isShownDetailModal: false
     };
+
+    onCloseDetailModal(updatedOrder) {
+        if (updatedOrder) {
+            const {project} = this.state;
+            this.updateOrderList(project);
+        }
+
+        this.setState({isShownDetailModal: false});
+    }
+
+    onOpenDetailModal(selectedOrder) {
+        console.log('ok men', selectedOrder)
+        this.setState({selectedOrder, isShownDetailModal: true});
+    }
 
     componentWillReceiveProps(nextProps) {
         const {project} = this.state;
@@ -40,7 +57,9 @@ class FmsTransporting extends Component {
         const {project} = this.props;
         const {
             orders,
+            selectedOrder,
             isLoading,
+            isShownDetailModal
         } = this.state;
 
         let projectName = 'Cửa hàng';
@@ -50,7 +69,8 @@ class FmsTransporting extends Component {
 
         return (
             [
-                <FmsPageTitle key={1} title="Đang vận chuyển" route={`${projectName}/Quản lí kho/Đang vận chuyển`}/>,
+                <FmsPageTitle key={1} title="Yêu cầu vận chuyển"
+                              route={`${projectName}/Quản lí vận chuyển/Yêu cầu vận chuyển`}/>,
 
                 <div key={2} className="wrapper wrapper-content">
                     <div className="row">
@@ -58,14 +78,25 @@ class FmsTransporting extends Component {
                             <div className="ibox">
                                 <div className="ibox-content">
 
-                                    <FmsTransportingSearchBar />
+                                    <FmsTransportOrderSearchBar />
 
                                     {
                                         isLoading ?
                                             <FmsSpin size={25} center={true}/>
-                                            : <FmsTransportingTable orders={orders} project={project}
-                                                                      onReloadOrders={this.reloadOrders.bind(this)}/>
+                                            :
+                                            <FmsTransportOrderTable
+                                                orders={orders}
+                                                project={project}
+                                                onReloadOrders={this.reloadOrders.bind(this)}
+                                                onSelectItem={this.onOpenDetailModal.bind(this)}
+                                            />
                                     }
+
+                                    <FmsTransportedOrderDetailModal
+                                        order={selectedOrder}
+                                        project={project}
+                                        onClose={this.onCloseDetailModal.bind(this)}
+                                        isShown={isShownDetailModal}/>
 
                                 </div>
                             </div>
