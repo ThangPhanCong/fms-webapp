@@ -50,7 +50,7 @@ class FmsAddPostModal extends React.Component {
         this.setState({isHandling: true});
         ProjectApi.getProject(this.props.alias)
             .then(res => {
-                this.setState({unselectedPages: res.pages, isHandling: false});
+                this.setState({unselectedPages: res.pages, isHandling: false, selectedPages: []});
             }, () => {
                 alert("Something went wrong.");
             });

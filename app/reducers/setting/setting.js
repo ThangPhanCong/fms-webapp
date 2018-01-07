@@ -27,7 +27,7 @@ const settingReducer = (state = initState, action) => {
     case IS_EDITTING:
       return {
         ...state,
-        isEditting: true
+        isEditting: action.state
       };
     default:
       return state;

@@ -73,7 +73,7 @@ class FmsPosts extends React.Component {
     render() {
         const {paging, isPostsLoading, isMorePostsLoading} = this.props;
         let alias = (this.props.project) ? this.props.project.alias : null;
-        let route = (alias) ? `${alias}/Quản lý trang/Bài viết` : "/";
+        let route = (alias) ? `${alias}/Quản lý trang/Bài viết` : "";
         return (
             <div>
                 <FmsPageTitle title={"Bài viết"} route={route}/>

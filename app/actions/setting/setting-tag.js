@@ -27,8 +27,8 @@ export const changeValueTag = (value) => dispatch => {
 export const setValueTag = (value) => dispatch => {
     dispatch({type: SET_VALUE_TAG, value});
 };
-export const isEditting = () => dispatch => {
-    dispatch({type: IS_EDITTING});
+export const isEditting = (state) => dispatch => {
+    dispatch({type: IS_EDITTING, state});
 };
 export const getTags = (project_alias) => dispatch => {
     dispatch(settingLoading());
@@ -44,30 +44,39 @@ export const getTags = (project_alias) => dispatch => {
         .catch(err => alert(err.message));
 };
 
-export const addNewTag = (project_alias, color, name) => dispatch => {
+export const addNewTag = (project_alias, color, name, closeModal) => dispatch => {
+    dispatch(isEditting(true));
     TagApi.create(project_alias, name, color)
         .then(newTag => {
             dispatch(addTag(newTag));
+            closeModal();
+            dispatch(isEditting(false));
         })
         .catch(err => {
             alert(err.message);
         });
 };
 
-export const updateTag = (project_alias, tag) => dispatch => {
+export const updateTag = (project_alias, tag, closeModal) => dispatch => {
+    dispatch(isEditting(true));
     TagApi.update(project_alias, tag._id, tag.name, tag.color)
         .then(updatedTag => {
             dispatch(update_tag(updatedTag));
+            closeModal();
+            dispatch(isEditting(false));
         })
         .catch(err => {
             alert(err.message);
         });
 };
 
-export const deleteTag = (project_alias, tag) => dispatch => {
+export const deleteTag = (project_alias, tag, closeModal) => dispatch => {
+    dispatch(isEditting(true));
     TagApi.remove(project_alias, tag._id)
         .then(() => {
             dispatch(delete_tag(tag));
+            closeModal();
+            dispatch(isEditting(false));
         })
         .catch(err => {
             alert(err.message);

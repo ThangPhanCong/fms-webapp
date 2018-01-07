@@ -1,9 +1,13 @@
 .color-cards-wrapper {
   background-color: white;
   padding: 15px 5px;
-  margin: 36px 10px 20px;
+  margin: 20px 10px 20px;
   .color-cards-table {
     padding: 15px 15px 0;
+  }
+  .count-cards {
+    display: inline-block;
+    margin-left: 12px;
   }
 }
 .color-cards-title {
