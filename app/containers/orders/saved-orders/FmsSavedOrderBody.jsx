@@ -8,6 +8,10 @@ class FmsSavedOrderBody extends Component {
 
     render() {
         return (
+            <p>Lưu trữ đơn</p>
+        )
+
+        return (
             <div className="wrapper wrapper-content">
                 <div className="row">
                     <div className="col-lg-12">

@@ -17,7 +17,7 @@ class FmsSavedOrders extends Component {
             [
                 <FmsPageTitle key={1} title="Lưu trữ đơn hàng" route={`${projectName}/Quản lí đơn hàng/Lưu trữ đơn hàng`}/>,
 
-                <FmsSavedOrderBody key={2}/>
+                <FmsSavedOrderBody key={2} project={project}/>
             ]
         )
     }
