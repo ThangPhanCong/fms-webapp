@@ -5,6 +5,7 @@ import FmsCheckbox from 'commons/FmsCheckbox/FmsCheckbox';
 import {deleteOrder, exportOrder, updateOrder} from "../../../api/OrderApi";
 import {cloneDiff} from "../../../utils/object-utils";
 import {getOrderTags} from "../../../api/OrderTagApi";
+import {toReadablePrice} from "../../../utils/price-utils";
 
 class FmsOrderDetailModal extends Component {
 
@@ -82,17 +83,42 @@ class FmsOrderDetailModal extends Component {
             .then(() => this.setState({isLoading: false}));
     }
 
+    calculateProductsPrice() {
+        const {order} = this.state;
+        if (order && Array.isArray(order.products)) {
+            return order.products.reduce((totalPrice, product) => {
+                return totalPrice + (product.price * product.quantity - product.discount);
+            }, 0)
+        } else {
+            return 0;
+        }
+    }
+
+    calculateTotalPrice() {
+        const {order} = this.state;
+        if (order) {
+            const transport_fee = order.transport_fee || 0;
+            const productsFee = this.calculateProductsPrice();
+
+            return parseInt(transport_fee) + productsFee;
+        } else {
+            return 0;
+        }
+    }
+
     onCloseButtonClick() {
         this.props.onClose();
     }
 
-    onChangeInput(refName) {
-        const newValue = this.refs[refName].value;
+    onChangeInput(refName, newValue = this.refs[refName].value) {
         const newOrder = {...this.state.order};
 
         switch (refName) {
             case 'order_tag':
                 newOrder.order_tag = newValue;
+                break;
+            case 'is_pay':
+                newOrder.is_pay = newValue;
                 break;
             default:
                 newOrder[refName] = newValue;
@@ -136,20 +162,27 @@ class FmsOrderDetailModal extends Component {
     }
 
     renderProducts() {
-        return (
-            <tr>
-                <td>1</td>
-                <td><a><span className="badge badge-info">SP12501</span></a>
-                </td>
-                <td>Kính Mắt Cao Cấp C2</td>
-                <td>2</td>
-                <td>40.000đ</td>
-                <td>0đ</td>
-                <td>80.000đ</td>
-                <td><i className="fa fa-trash-o clickable"/></td>
-                <td><i className="fa fa-pencil clickable"/></td>
-            </tr>
-        )
+        const {order} = this.state;
+
+        if (Array.isArray(order.products)) {
+            return order.products.map(
+                (product, i) => (
+                    <tr key={i}>
+                        <td>{i}</td>
+                        <td><a><span className="badge badge-info">{product.id}</span></a></td>
+                        <td>{product.name}</td>
+                        <td>{toReadablePrice(product.quantity)}</td>
+                        <td>{toReadablePrice(product.price)}</td>
+                        <td>{toReadablePrice(product.discount)}</td>
+                        <td>{toReadablePrice(product.price * product.quantity - product.discount)}</td>
+                        <td><i className="fa fa-trash-o clickable"/></td>
+                        <td><i className="fa fa-pencil clickable"/></td>
+                    </tr>
+                )
+            )
+        } else {
+            return null;
+        }
     }
 
     renderModalBody() {
@@ -397,32 +430,46 @@ class FmsOrderDetailModal extends Component {
                     </div>
 
 
-                    <div className="col-sm-10">
-                        <span className="pull-right">Tổng tiền sản phẩm</span>
-                    </div>
-                    <div className="col-sm-2">
-                        <label>200.000đ</label>
-                    </div>
-
-                    <div className="col-sm-10">
-                        <span className="pull-right">Phí vận chuyển</span>
-                    </div>
-                    <div className="col-sm-2">
-                        <label>0đ</label>
+                    <div className='row total-price-row'>
+                        <div className="col-sm-10">
+                            <span className="pull-right">Tổng tiền sản phẩm</span>
+                        </div>
+                        <div className="col-sm-2">
+                            <label className='pull-right'>{toReadablePrice(this.calculateProductsPrice())}</label>
+                        </div>
                     </div>
 
-                    <div className="col-sm-10">
-                        <span className="pull-right">Tổng cộng</span>
-                    </div>
-                    <div className="col-sm-2">
-                        <label>200.000đ</label>
+                    <div className="row total-price-row">
+                        <div className="col-sm-10">
+                            <span className="pull-right">Phí vận chuyển</span>
+                        </div>
+                        <div className="col-sm-2">
+                            <label className='pull-right'>{toReadablePrice(order.transport_fee || 0)}</label>
+                        </div>
                     </div>
 
-                    <div className="col-sm-10 total-item">
-                        <span className="pull-right">Đã thanh toán</span>
+                    <div className="row total-price-row">
+                        <div className="col-sm-10">
+                            <span className="pull-right">Tổng cộng</span>
+                        </div>
+                        <div className="col-sm-2">
+                            <label className='pull-right'>{toReadablePrice(this.calculateTotalPrice())}</label>
+                        </div>
                     </div>
-                    <div className="col-sm-2">
-                        <FmsCheckbox/>
+
+                    <div className="row total-price-row">
+                        <div className="col-sm-10 total-item">
+                            <span className="pull-right">Đã thanh toán</span>
+                        </div>
+                        <div className="col-sm-2">
+                            <FmsCheckbox className='pull-right'
+                                         ref='is_pay'
+                                         checked={order.is_pay}
+                                         onChange={(value) => {
+                                             this.onChangeInput('is_pay', value)
+                                         }}
+                            />
+                        </div>
                     </div>
 
 

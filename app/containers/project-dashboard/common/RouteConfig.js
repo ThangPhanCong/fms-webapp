@@ -119,19 +119,11 @@ const treeConfig = [
                 component: (props) => <FmsTransporting {...props}/>
             },
             {
-                route: 'return-orders',
-                title: 'Chờ hoàn lại',
+                route: 'waiting-orders',
+                title: 'Đối soát vận chuyển',
                 headerColor: '#f3f3f4',
                 component: () => {
-                    return <p>Chờ hoàn lại</p>
-                }
-            },
-            {
-                route: 'cod-payment',
-                title: 'Thanh toán COD',
-                headerColor: '#f3f3f4',
-                component: () => {
-                    return <p>Thanh toán COD</p>
+                    return <p>Đối soát vận chuyển</p>
                 }
             }
         ]

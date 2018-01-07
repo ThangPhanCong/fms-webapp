@@ -5,11 +5,13 @@ import {getTransportingOrders, getTransportOrders} from "../../api/OrderApi";
 import FmsTransportOrderSearchBar from "./transport-orders/FmsTransportOrderSearchBar";
 import FmsTransportOrderTable from "./transport-orders/FmsTransportOrderTable";
 import FmsTransportedOrderDetailModal from "./modals/FmsTransportedOrderDetailModal";
+import FmsTransportingSearchBar from "./transporting/FmsTransportingSearchBar";
+import FmsTransportingTable from "./transporting/FmsTransportingTable";
+import FmsTransportingDetailModal from "./modals/FmsTransportingDetailModal";
 
 class FmsTransporting extends Component {
 
     state = {
-        project: null,
         orders: [],
         selectedOrder: null,
         isLoading: true,
@@ -18,7 +20,7 @@ class FmsTransporting extends Component {
 
     onCloseDetailModal(updatedOrder) {
         if (updatedOrder) {
-            const {project} = this.state;
+            const {project} = this.props;
             this.updateOrderList(project);
         }
 
@@ -26,31 +28,36 @@ class FmsTransporting extends Component {
     }
 
     onOpenDetailModal(selectedOrder) {
-        console.log('ok men', selectedOrder)
+        console.log('onOpenDetailModal', selectedOrder)
         this.setState({selectedOrder, isShownDetailModal: true});
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const {project} = this.state;
-        if (!project || (nextProps.project && nextProps.project.alias !== project.alias)) {
-            this.setState({project: nextProps.project});
-            this.updateOrderList(nextProps.project);
-        }
-    }
-
-    updateOrderList(project) {
-        project = project || this.props.project;
-        this.setState({isLoading: true});
-
-        if (project) {
-            getTransportingOrders(project.alias)
-                .then(orders => this.setState({orders, isLoading: false}));
-        }
     }
 
     reloadOrders() {
         const {project} = this.props;
         this.updateOrderList(project);
+    }
+
+    updateOrderList(project) {
+        this.setState({isLoading: true});
+
+        getTransportingOrders(project.alias)
+            .then(orders => this.setState({
+                orders,
+                isLoading: false
+            }));
+    }
+
+    componentDidMount() {
+        const {project} = this.props;
+        if (project) {
+            this.updateOrderList(project);
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.project !== this.props.project) {
+            this.updateOrderList(nextProps.project);
+        }
     }
 
     render() {
@@ -69,8 +76,8 @@ class FmsTransporting extends Component {
 
         return (
             [
-                <FmsPageTitle key={1} title="Yêu cầu vận chuyển"
-                              route={`${projectName}/Quản lí vận chuyển/Yêu cầu vận chuyển`}/>,
+                <FmsPageTitle key={1} title="Đang vận chuyển"
+                              route={`${projectName}/Quản lí vận chuyển/Đang vận chuyển`}/>,
 
                 <div key={2} className="wrapper wrapper-content">
                     <div className="row">
@@ -78,13 +85,13 @@ class FmsTransporting extends Component {
                             <div className="ibox">
                                 <div className="ibox-content">
 
-                                    <FmsTransportOrderSearchBar />
+                                    <FmsTransportingSearchBar/>
 
                                     {
                                         isLoading ?
                                             <FmsSpin size={25} center={true}/>
                                             :
-                                            <FmsTransportOrderTable
+                                            <FmsTransportingTable
                                                 orders={orders}
                                                 project={project}
                                                 onReloadOrders={this.reloadOrders.bind(this)}
@@ -92,7 +99,7 @@ class FmsTransporting extends Component {
                                             />
                                     }
 
-                                    <FmsTransportedOrderDetailModal
+                                    <FmsTransportingDetailModal
                                         order={selectedOrder}
                                         project={project}
                                         onClose={this.onCloseDetailModal.bind(this)}

@@ -1,9 +1,23 @@
 import React from 'react';
 
 class FmsCheckbox extends React.Component {
+    onChange() {
+        this.props.onChange(
+            this.refs['checkbox'].checked
+        );
+    }
+
     render() {
+        const {checked, className} = this.props;
+
         return (
-            <input type='checkbox'/>
+            <input
+                className={className}
+                type='checkbox'
+                ref='checkbox'
+                checked={checked}
+                onChange={this.onChange.bind(this)}
+            />
         )
     }
 }
