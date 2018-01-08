@@ -7,6 +7,7 @@ import FmsToolTipTest from '../FmsToolTip/FmsToolTip'
 import FmsTabTest from "../FmsTabs/FmsTabTest";
 import FmsCheckboxTest from "../FmsCheckbox/FmsCheckboxTest";
 import FmsFlotChartTest from "../charts/FmsFlotChartTest";
+import FmsDatePickerTest from "../date-picker/FmsDatePickerTest";
 
 const TestComponent = ({match}) => (
     <div>
@@ -36,6 +37,11 @@ const TestComponent = ({match}) => (
                     FmsFlotChart
                 </Link>
             </li>
+            <li>
+                <Link to={`${match.url}/fmsdatepicker`}>
+                    FmsDatePickerTest
+                </Link>
+            </li>
         </ul>
 
         <Route path={`${match.url}/fmsbutton`} component={FmsButtonTest}/>
@@ -43,6 +49,7 @@ const TestComponent = ({match}) => (
         <Route path={`${match.url}/fmstab`} component={FmsTabTest}/>
         <Route path={`${match.url}/fmscheckbox`} component={FmsCheckboxTest}/>
         <Route path={`${match.url}/fmsflotchart`} component={FmsFlotChartTest}/>
+        <Route path={`${match.url}/fmsdatepicker`} component={FmsDatePickerTest}/>
     </div>
 );
 
