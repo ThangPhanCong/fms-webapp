@@ -11,6 +11,8 @@ class FmsProducts extends Component {
 
     state = {
         products: [],
+        filter: {},
+        timeoutKey: null,
         isLoading: true,
         isShowCreateProductModal: false
     };
@@ -28,10 +30,25 @@ class FmsProducts extends Component {
         this.setState({isShowCreateProductModal: false});
     }
 
-    updateProductList(project) {
+    onChangeFilter(filter) {
+        const {project} = this.props;
+        const {timeoutKey} = this.state;
+        const before = 0.5 * 1000; // 1s
+
+        if (timeoutKey) clearTimeout(timeoutKey);
+
+        const newTimeoutKey = setTimeout(() => {
+            this.updateProductList(project, filter);
+            this.setState({timeoutKey: null});
+        }, before);
+
+        this.setState({filter, timeoutKey: newTimeoutKey});
+    }
+
+    updateProductList(project, filter = this.state.filter) {
         this.setState({isLoading: true});
 
-        getProducts(project.alias)
+        getProducts(project.alias, filter)
             .then(products => this.setState({products, isLoading: false}));
     }
 
@@ -89,7 +106,7 @@ class FmsProducts extends Component {
                                         </div>
                                     </div>
 
-                                    <FmsProductSearchBar />
+                                    <FmsProductSearchBar onChangeFilter={this.onChangeFilter.bind(this)}/>
 
                                     {
                                         isLoading ?
