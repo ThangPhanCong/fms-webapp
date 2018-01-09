@@ -62,7 +62,7 @@ class FmsColorCardModal extends React.Component {
 
     render() {
         let data = this.props.data;
-        let title = (data) ? "Cập nhật thẻ màu" : "Tạo thẻ màu mới";
+        let title = (data) ? "Chỉnh sửa thẻ màu" : "Tạo thẻ màu mới";
         let name = this.state.name;
         name = (name || (name !== null && name === "")) ? name : (data ? data.name : "Thẻ mới");
         let note = (data && data.description) ? data.description : "Thêm ghi chú của bạn";
@@ -70,6 +70,7 @@ class FmsColorCardModal extends React.Component {
         let style = {backgroundColor: color, color: "white"};
 
         let isDisabled = color === '#CACACA' || name === "Thẻ mới" || this.props.isEditting;
+        let calcelIsDisabled = this.props.isEditting;
 
         return (
             <Modal
@@ -108,11 +109,13 @@ class FmsColorCardModal extends React.Component {
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        {data ? <button className="button-new-post btn btn-danger" disabled={isDisabled}
-                                        onClick={this.deleteTag.bind(this)}>Xóa thẻ</button> : null}
+                        {data ? <button className="btn btn-danger btn-outline pull-left" disabled={isDisabled}
+                                        onClick={this.deleteTag.bind(this)}>Xóa</button> : null}
+                        <button className="btn btn-default" disabled={calcelIsDisabled}
+                                onClick={this.props.closeModal}>Hủy</button>
                         {data ?
-                            <button className="button-new-post btn btn-success" onClick={this.updateTag.bind(this)} disabled={isDisabled}>Cập nhật</button> :
-                            <button className="button-new-post btn btn-success" onClick={this.addNewTag.bind(this)} disabled={isDisabled}>Tạo mới</button>}
+                            <button className="btn btn-primary" onClick={this.updateTag.bind(this)} disabled={isDisabled}>Cập nhật</button> :
+                            <button className="btn btn-primary" onClick={this.addNewTag.bind(this)} disabled={isDisabled}>Tạo mới</button>}
                     </Modal.Footer>
                 </div>
             </Modal>
