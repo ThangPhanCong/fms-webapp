@@ -42,16 +42,19 @@ class FmsCreateOrderTagModal extends Component {
         this.setState({tag: newTag});
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     console.log('componentWillReceiveProps nextProps', nextProps)
-    //     if (nextProps.isShown) {
-    //         this.setState({isLoading: false});
-    //     }
-    //
-    //     if (nextProps.tag) {
-    //         this.setState({tag: {...nextProps.tag}});
-    //     }
-    // }
+    onChangeColor(color) {
+        let tag = this.state.tag;
+        tag.color = color;
+        this.setState({tag: tag});
+    }
+    renderColors() {
+        return this.props.colors.map((color, index) => {
+            return <div key={index} className="color-card" style={{backgroundColor: color}}
+                        onClick={() => {
+                            this.onChangeColor(color)
+                        }}/>;
+        });
+    }
 
     render() {
         const {
@@ -63,6 +66,15 @@ class FmsCreateOrderTagModal extends Component {
             tag
         } = this.state;
 
+        let name = tag.name;
+        name = (name) ? name : "";
+        let color = (tag.color) ? tag.color : '#CACACA';
+        let style = {backgroundColor: color, color: "white"};
+
+        let isDisabled = color === '#CACACA' || name === "" || isLoading;
+        let calcelIsDisabled = this.props.isEditting;
+        let preview = (name === "") ? " hide" : "";
+
         return (
             <Modal show={isShown} backdrop='static' keyboard={false}>
                 <div className='inmodal'>
@@ -70,15 +82,23 @@ class FmsCreateOrderTagModal extends Component {
                         closeButton={true}
                         onHide={this.onCloseButtonClick.bind(this)}
                     >
-                        <h4 className='modal-title'>Thẻ mới</h4>
+                        <h4 className='modal-title'>Tạo thẻ màu mới</h4>
 
                     </Modal.Header>
 
                     <Modal.Body>
+                        <div className="form-group row">
+                            <div className="col-sm-3">
+                                <label className="control-label">Chọn màu</label>
+                            </div>
+                            <div className="col-sm-9">
+                                {this.renderColors()}
+                            </div>
+                        </div>
 
                         <div className="form-group row">
                             <div className="col-sm-3">
-                                <label className="control-label">Tên</label>
+                                <label className="control-label">Tên thẻ</label>
                             </div>
                             <div className="col-sm-9">
                                 <input type="text"
@@ -108,20 +128,27 @@ class FmsCreateOrderTagModal extends Component {
                             </div>
                         </div>
 
-
+                        <div className="form-group row">
+                            <div className="col-sm-3">
+                                <label className="control-label form-group-label">Xem trước</label>
+                            </div>
+                            <div className="col-sm-9">
+                                <div className={"preview" + preview} style={style}>{name}</div>
+                            </div>
+                        </div>
                     </Modal.Body>
 
                     <Modal.Footer>
                         <button
                             className='btn btn-white'
                             onClick={this.onCloseButtonClick.bind(this)}
-                            disabled={isLoading}>Hủy
+                            disabled={calcelIsDisabled}>Hủy
                         </button>
 
                         <button
                             className='btn btn-primary'
                             onClick={this.onCreateOrderTag.bind(this)}
-                            disabled={isLoading}>Tạo mới
+                            disabled={isDisabled}>Tạo mới
                         </button>
                     </Modal.Footer>
                 </div>

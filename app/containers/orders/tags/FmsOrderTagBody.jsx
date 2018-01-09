@@ -3,6 +3,8 @@ import {deleteOrderTag, getOrderTags} from "../../../api/OrderTagApi";
 import FmsSpin from "commons/FmsSpin/FmsSpin";
 import FmsCreateOrderTagModal from "../modals/FmsCreateOrderTagModal";
 import FmsDetailOrderTagModal from "../modals/FmsDetailOrderTagModal";
+import {MAX_TAG_ITEMS, TAG_COLORS} from "../../../constants/tag";
+import uuid from 'uuid';
 
 class FmsOrderTagBody extends Component {
 
@@ -80,13 +82,24 @@ class FmsOrderTagBody extends Component {
         }
     }
 
+    getUnusedColors() {
+        let tags = this.state.tags;
+        let colors = TAG_COLORS.map(color => {
+            let same = tags.filter(tag => {
+               return color === tag.color;
+            });
+            if (same.length === 0) return color;
+        });
+        return colors.filter(color => color);
+    }
+
     renderOrderTagItem() {
         const {tags} = this.state;
 
         return tags.map(
             (tag, i) => (
                 <tr key={i}>
-                    <td>{i}</td>
+                    <td>{i+1}</td>
                     <td className="color-tag">
                         <a>
                             <span
@@ -108,7 +121,7 @@ class FmsOrderTagBody extends Component {
                     </td>
                     <td>
                         <i className="fa fa-trash-o clickable"
-                            onClick={() => this.onDeleteTag(tag)}
+                           onClick={() => this.onDeleteTag(tag)}
                         />
                     </td>
                     <td>
@@ -158,12 +171,14 @@ class FmsOrderTagBody extends Component {
     }
 
     render() {
+        let colors = this.getUnusedColors();
         const {
             isShownCreateTagModal,
             isShownDetailTagModal,
             project,
             selectedTag
         } = this.state;
+        let isDisabled = this.state.tags.length >= MAX_TAG_ITEMS || this.state.isLoading;
 
         return (
             <div className="wrapper wrapper-content">
@@ -177,9 +192,13 @@ class FmsOrderTagBody extends Component {
                                         <button
                                             className="btn btn-primary btn-sm"
                                             onClick={this.onOpenCreateTagModal.bind(this)}
+                                            disabled={isDisabled}
                                         >
                                             <i className="fa fa-plus"/> Thêm thẻ màu
                                         </button>
+                                        <div className="count-cards">Số
+                                            lượng: {this.state.tags.length + " / " + MAX_TAG_ITEMS}</div>
+                                        <br/>
                                     </div>
                                 </div>
 
@@ -195,6 +214,8 @@ class FmsOrderTagBody extends Component {
                         isShown={isShownCreateTagModal}
                         onClose={this.onCloseCreateTagModal.bind(this)}
                         project={project}
+                        colors={colors}
+                        key={uuid()}
                     />
 
                     <FmsDetailOrderTagModal
@@ -202,6 +223,8 @@ class FmsOrderTagBody extends Component {
                         onClose={this.onCloseDetailTagModal.bind(this)}
                         project={project}
                         tag={selectedTag}
+                        colors={colors}
+                        key={uuid()}
                     />
                 </div>
             </div>
