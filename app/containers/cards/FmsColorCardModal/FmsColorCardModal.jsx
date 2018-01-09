@@ -51,11 +51,13 @@ class FmsColorCardModal extends React.Component {
     renderColors() {
         return TAG_COLORS.map((color, index) => {
             let same = this.props.tags.filter(tag => {
-               return tag.color === color;
+                return tag.color === color;
             });
             if (same.length === 0) {
                 return <div key={index} className="color-card" style={{backgroundColor: color}}
-                            onClick={() => {this.onChangeColor(color)}}/>;
+                            onClick={() => {
+                                this.onChangeColor(color)
+                            }}/>;
             }
         });
     }
@@ -84,38 +86,60 @@ class FmsColorCardModal extends React.Component {
                         <h4 className="fms-modal-title">{title}</h4>
                     </Modal.Header>
                     <Modal.Body>
-                        <div className="form-group color-card-form-group">
-                            <label className="form-group-label">Chọn màu</label>
-                            {this.renderColors()}
+                        <div className="form-group row">
+                            <div className="col-sm-3">
+                                <label className="control-label">Chọn màu</label>
+                            </div>
+                            <div className="col-sm-9">
+                                {this.renderColors()}
+                            </div>
                         </div>
-                        <div className="form-group color-card-form-group">
-                            <label className="control-label form-group-label">Tên thẻ</label>
-                            <input type="text"
-                                   className="form-control"
-                                   ref='name'
-                                   value={name}
-                                   onChange={() => {this.onChangeInput('name')}}/>
+
+                        <div className="form-group row">
+                            <div className="col-sm-3">
+                                <label className="control-label">Tên thẻ</label>
+                            </div>
+                            <div className="col-sm-9">
+                                <input type="text"
+                                       className="form-control"
+                                       ref='name'
+                                       value={name}
+                                       onChange={() => {
+                                           this.onChangeInput('name')
+                                       }}/>
+                            </div>
                         </div>
-                        <div className="form-group color-card-form-group">
-                            <label className="control-label form-group-label">Ghi chú</label>
-                            <input type="text"
-                                   className="form-control"
-                                   ref='note'
-                                   defaultValue={note}/>
+                        <div className="form-group row">
+                            <div className="col-sm-3">
+                                <label className="control-label">Ghi chú</label>
+                            </div>
+                            <div className="col-sm-9">
+                                <input type="text"
+                                       className="form-control"
+                                       ref='note'
+                                       defaultValue={note}/>
+                            </div>
                         </div>
-                        <div className="form-group color-card-form-group">
-                            <label className="control-label form-group-label">Xem trước</label>
-                            <div className="preview" style={style}>{name}</div>
+                        <div className="form-group row">
+                            <div className="col-sm-3">
+                                <label className="control-label form-group-label">Xem trước</label>
+                            </div>
+                            <div className="col-sm-9">
+                                <div className="preview" style={style}>{name}</div>
+                            </div>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
                         {data ? <button className="btn btn-danger btn-outline pull-left" disabled={isDisabled}
                                         onClick={this.deleteTag.bind(this)}>Xóa</button> : null}
                         <button className="btn btn-default" disabled={calcelIsDisabled}
-                                onClick={this.props.closeModal}>Hủy</button>
+                                onClick={this.props.closeModal}>Hủy
+                        </button>
                         {data ?
-                            <button className="btn btn-primary" onClick={this.updateTag.bind(this)} disabled={isDisabled}>Cập nhật</button> :
-                            <button className="btn btn-primary" onClick={this.addNewTag.bind(this)} disabled={isDisabled}>Tạo mới</button>}
+                            <button className="btn btn-primary" onClick={this.updateTag.bind(this)}
+                                    disabled={isDisabled}>Cập nhật</button> :
+                            <button className="btn btn-primary" onClick={this.addNewTag.bind(this)}
+                                    disabled={isDisabled}>Tạo mới</button>}
                     </Modal.Footer>
                 </div>
             </Modal>
