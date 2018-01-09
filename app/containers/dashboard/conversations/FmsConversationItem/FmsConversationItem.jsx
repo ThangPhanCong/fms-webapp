@@ -1,74 +1,69 @@
 import React from 'react';
 import inboxImg from '../../../../assets/images/inbox.png';
 import postImg from '../../../../assets/images/post.png';
-import uuid from 'uuid';
 import FmsDate from '../../../../helpers/FmsDate';
 
 class FmsConversationItem extends React.Component {
 
-	static convertTime(time) {
-		let date = new FmsDate(time);
-		return date.getTimeConversationItem();
-	}
+    static convertTime(time) {
+        let date = new FmsDate(time);
+        return date.getTimeConversationItem();
+    }
 
-	handleConversationClick() {
-		const {onSelect, data} = this.props;
-		onSelect(data);
-	}
+    handleConversationClick() {
+        const {onSelect, data} = this.props;
+        onSelect(data);
+    }
 
-	renderIconType() {
-		let self = this;
-		let icons = [];
-		let conversationIcon = self.props.data.type === 'inbox' ? <img className="icon-type" key={99} src={inboxImg} /> : <img className="icon-type" key={uuid()} src={postImg} />;
-		icons.push(conversationIcon);
+    renderIconType() {
+        return this.props.data.tags.map((t, i) => {
+            let tagStyled = {
+                backgroundColor: t.color,
+            };
+            return <span className="client-item-tag" key={i} style={tagStyled}/>
+        });
+    }
 
-		let tagIcons = self.props.data.tags.map((t, i) => {
-			let tagStyled = {
-				backgroundColor: t.color,
-			};
-			return <span className="client-item-tag" key={i} style={tagStyled}/>
-		});
-		icons = icons.concat(tagIcons);
+    render() {
+        let data = this.props.data;
+        let clientid, clientName, message;
+        let isSelected = (this.props.isSelected) ? " selectedItem" : "";
+        let tags = (data.tags.length === 0) ? " hide" : "";
 
-		return icons;
-	}
+        if (data.type === "inbox") {
+            clientid = data.customer.fb_id;
+            clientName = data.customer.name;
+        } else {
+            clientid = data.from.fb_id;
+            clientName = data.from.name;
+        }
+        message = (data.snippet === "") ? "[Attachment]" : data.snippet;
 
-	render() {
-		let data = this.props.data;
-		let clientid, clientName, message;
-		let isSelected = (this.props.isSelected) ? " selectedItem" : "";
+        let seenClass = data.is_seen ? '' : ' not-seen';
 
-		if (data.type === "inbox") {
-			clientid = data.customer.fb_id;
-			clientName = data.customer.name;
-		} else {
-			clientid = data.from.fb_id;
-			clientName = data.from.name;
-		}
-		message = (data.snippet === "") ? "[Attachment]" : data.snippet;
+        let avaUrl = `https://graph.facebook.com/v2.10/${clientid}/picture`;
 
-		let seenClass = data.is_seen ? '' : ' not-seen';
-
-		let avaUrl = `https://graph.facebook.com/v2.10/${clientid}/picture`;
-
-		return (
-			<div className={"client-item" + isSelected} onClick={this.handleConversationClick.bind(this)}>
-				<div className="client-profile-wrapper">
-					<img src={avaUrl} className="client-profile" />
-				</div>
-				<div className="name-and-message">
-					<div className="name-and-time">
-						<div className={"client-name " + seenClass}>{clientName}</div>
-						<div className={"updated-time" + seenClass}>{FmsConversationItem.convertTime(data.updated_time)}</div>
-					</div>
-					<div className={"lastest-message " + seenClass}>{message}</div>
-					<div className="client-item-tags">
-						{this.renderIconType()}
-					</div>
-				</div>
-			</div>
-		);
-	}
+        return (
+            <div className={"client-item" + isSelected} onClick={this.handleConversationClick.bind(this)}>
+                <div className="client-profile-wrapper">
+                    <img src={avaUrl} className="client-profile"/>
+                </div>
+                <div className="name-and-message">
+                    <div className="name-and-time">
+                        <div className={"client-name " + seenClass}>{clientName}</div>
+                        <div className={"updated-time" + seenClass}>{FmsConversationItem.convertTime(data.updated_time)}</div>
+                    </div>
+                    <div className="message-and-type">
+                        <div className={"lastest-message" + seenClass}>{message}</div>
+                        <img className="icon-type" src={data.type === 'inbox' ? inboxImg : postImg}/>
+                    </div>
+                    <div className={"client-item-tags" + tags}>
+                        {this.renderIconType()}
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default FmsConversationItem;
