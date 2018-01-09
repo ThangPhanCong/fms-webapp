@@ -36,7 +36,7 @@ const treeConfig = [
                 route: 'posts',
                 title: 'Bài viết',
                 headerColor: '#f3f3f4',
-                hasBorderBottom: true,
+                hasBorderBottom: false,
                 component: (props) => <FmsPosts {...props}/>
             },
             {

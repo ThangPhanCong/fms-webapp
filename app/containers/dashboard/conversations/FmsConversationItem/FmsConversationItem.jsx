@@ -1,21 +1,21 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import inboxImg from '../../../../assets/images/inbox.png';
 import postImg from '../../../../assets/images/post.png';
 import uuid from 'uuid';
-
-import { handleConversationClick } from '../../../../actions/dashboard/conversations';
 import FmsDate from '../../../../helpers/FmsDate';
 
 class FmsConversationItem extends React.Component {
+
 	static convertTime(time) {
 		let date = new FmsDate(time);
 		return date.getTimeConversationItem();
 	}
+
 	handleConversationClick() {
-		let { dispatch, data } = this.props;
-		dispatch(handleConversationClick(this.props.alias, data, data.type));
+		const {onSelect, data} = this.props;
+		onSelect(data);
 	}
+
 	renderIconType() {
 		let self = this;
 		let icons = [];
@@ -32,6 +32,7 @@ class FmsConversationItem extends React.Component {
 
 		return icons;
 	}
+
 	render() {
 		let data = this.props.data;
 		let clientid, clientName, message;
@@ -49,6 +50,7 @@ class FmsConversationItem extends React.Component {
 		let seenClass = data.is_seen ? '' : ' not-seen';
 
 		let avaUrl = `https://graph.facebook.com/v2.10/${clientid}/picture`;
+
 		return (
 			<div className={"client-item" + isSelected} onClick={this.handleConversationClick.bind(this)}>
 				<div className="client-profile-wrapper">
@@ -69,8 +71,4 @@ class FmsConversationItem extends React.Component {
 	}
 }
 
-const mapStateToProps = () => {
-  return {}
-};
-
-export default connect(mapStateToProps)(FmsConversationItem);
+export default FmsConversationItem;
