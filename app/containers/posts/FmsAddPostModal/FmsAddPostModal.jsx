@@ -102,7 +102,7 @@ class FmsAddPostModal extends React.Component {
 
     renderDropdownItem() {
         return this.state.unselectedPages.map(page => {
-            return <MenuItem key={uuid()} eventKey={page._id}>{page.name}</MenuItem>
+            return <MenuItem key={page._id} eventKey={page._id}>{page.name}</MenuItem>
         });
     }
 

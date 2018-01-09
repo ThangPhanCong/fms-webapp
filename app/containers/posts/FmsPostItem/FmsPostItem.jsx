@@ -14,8 +14,8 @@ class FmsPostItem extends React.Component {
     let {attachments} = this.props.data;
     if (attachments && Array.isArray(attachments) && attachments.length > 0) {
       if (Array.isArray(attachments[0].data)) {
-        return attachments[0].data.map(a => {
-          return <FmsCroppedImage className="image" key={uuid()} src={a.preview || a.src}/>;
+        return attachments[0].data.map((a, i) => {
+          return <FmsCroppedImage className="image" key={i} src={a.preview || a.src}/>;
         });
       }
     }

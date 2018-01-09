@@ -19,14 +19,14 @@ class FmsConversationItem extends React.Component {
 	renderIconType() {
 		let self = this;
 		let icons = [];
-		let conversationIcon = self.props.data.type === 'inbox' ? <img className="icon-type" key={uuid()} src={inboxImg} /> : <img className="icon-type" key={uuid()} src={postImg} />;
+		let conversationIcon = self.props.data.type === 'inbox' ? <img className="icon-type" key={99} src={inboxImg} /> : <img className="icon-type" key={uuid()} src={postImg} />;
 		icons.push(conversationIcon);
 
-		let tagIcons = self.props.data.tags.map(t => {
+		let tagIcons = self.props.data.tags.map((t, i) => {
 			let tagStyled = {
 				backgroundColor: t.color,
 			};
-			return <span className="client-item-tag" key={uuid()} style={tagStyled}/>
+			return <span className="client-item-tag" key={i} style={tagStyled}/>
 		});
 		icons = icons.concat(tagIcons);
 

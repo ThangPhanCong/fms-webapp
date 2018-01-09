@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import uuid from 'uuid';
 import {connect} from 'react-redux';
 
 import FmsMessageItem from '../FmsMessageItem/FmsMessageItem';
@@ -96,7 +95,7 @@ class FmsChatArea extends React.Component {
                 current = new Date(message.updated_time);
                 if (!lastUpdatedTime || last.getDate() !== current.getDate()) {
                     hasDivider = true;
-                    let divider = <FmsDivider key={uuid()}
+                    let divider = <FmsDivider key={message._id}
                                               text={(new FmsDate(message.updated_time)).getTimeChatArea()}/>;
                     res.push(divider);
                 }
@@ -107,7 +106,7 @@ class FmsChatArea extends React.Component {
                 let isFirst = (prevSender === message.from.fb_id) ? " is-not-first" : " is-first";
                 if (hasDivider === true) isFirst = " is-first";
                 prevSender = message.from.fb_id;
-                let item = <FmsMessageItem message={message} key={uuid()} isSelf={isSelf} isLast={isLast}
+                let item = <FmsMessageItem message={message} key={message.fb_id} isSelf={isSelf} isLast={isLast}
                                            getChatAreaWidth={self.getChatAreaWidth.bind(this)} type={type}
                                            isFirst={isFirst}/>;
                 res.push(item);
