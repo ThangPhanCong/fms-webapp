@@ -57,8 +57,6 @@ class FmsConversationList extends React.Component {
     render() {
         const showSpin = (this.props.isLoadingConversations === true) ? "" : " hide";
 
-        console.log('FmsConversationList render');
-
         return (
             <div className="client-list-wrapper">
                 <div className="search-client">

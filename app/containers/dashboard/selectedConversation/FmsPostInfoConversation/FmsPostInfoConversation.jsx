@@ -17,9 +17,9 @@ class FmsPostInfoConversation extends React.Component {
 
     renderAttachments(attachments) {
         if (attachments && Array.isArray(attachments) && attachments.length > 0 && Array.isArray(attachments[0].data)) {
-            return attachments[0].data.map(attachment => {
+            return attachments[0].data.map((attachment, i) => {
                 let src = attachment.preview || attachment.src;
-                return <a href={src} target="_blank" key={uuid()}>
+                return <a href={src} target="_blank" key={i}>
                     <FmsCroppedImage className="image-in-conversation" src={src} onError={this.handleAttachExpired.bind(this)}/></a>
             });
         }

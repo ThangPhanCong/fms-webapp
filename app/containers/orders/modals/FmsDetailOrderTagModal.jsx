@@ -11,13 +11,18 @@ class FmsDetailOrderTagModal extends Component {
     };
 
     onUpdateOrderTag() {
-        const {tag} = this.state;
-        const {project} = this.props;
+        const {project, tag} = this.props;
 
         this.setState({isLoading: true});
+        const newTag = {
+            _id: tag._id,
+            name: this.state.tag.name || tag.name,
+            color: this.state.tag.color || tag.color,
+            description: this.state.tag.description || tag.description
+        };
 
-        updateOrderTag(project.alias, tag)
-            .then((tag) => {
+        updateOrderTag(project.alias, newTag)
+            .then(() => {
                 this.closeModal(true);
             })
             .catch(err => {
@@ -61,6 +66,12 @@ class FmsDetailOrderTagModal extends Component {
         this.setState({tag: newTag});
     }
 
+    onChangeColor(color) {
+        let tag = this.state.tag;
+        tag.color = color;
+        this.setState({tag: tag});
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.isShown) {
             this.setState({isLoading: false});
@@ -71,15 +82,30 @@ class FmsDetailOrderTagModal extends Component {
         }
     }
 
-    render() {
-        const {
-            isShown
-        } = this.props;
+    renderColors() {
+        return this.props.colors.map((color, index) => {
+            return <div key={index} className="color-card" style={{backgroundColor: color}}
+                        onClick={() => {
+                            this.onChangeColor(color)
+                        }}/>;
+        });
+    }
 
-        const {
-            isLoading,
-            tag
-        } = this.state;
+    render() {
+        const {isShown} = this.props;
+        const selectedTag = this.props.tag;
+        const {isLoading, tag} = this.state;
+
+        let name = tag.name;
+        name = (name || name === "") ? name : (selectedTag ? selectedTag.name : "");
+        let note = (tag.description || tag.description === "") ? tag.description :
+                   (selectedTag && selectedTag.description ? selectedTag.description : "");
+        let color = (tag.color) ? tag.color : (selectedTag ? selectedTag.color : "#CACACA");
+        let style = {backgroundColor: color, color: "white"};
+
+        let isDisabled = name === "" || isLoading;
+        let calcelIsDisabled = isLoading;
+        let preview = (name === "") ? " hide" : "";
 
         return (
             <Modal show={isShown} backdrop='static' keyboard={false}>
@@ -93,6 +119,14 @@ class FmsDetailOrderTagModal extends Component {
                     </Modal.Header>
 
                     <Modal.Body>
+                        <div className="form-group row">
+                            <div className="col-sm-3">
+                                <label className="control-label">Chọn màu</label>
+                            </div>
+                            <div className="col-sm-9">
+                                {this.renderColors()}
+                            </div>
+                        </div>
 
                         <div className="form-group row">
                             <div className="col-sm-3">
@@ -102,7 +136,7 @@ class FmsDetailOrderTagModal extends Component {
                                 <input type="text"
                                        className="form-control"
                                        ref='name'
-                                       value={tag.name || ''}
+                                       value={name || ''}
                                        onChange={() => {
                                            this.onChangeInput('name')
                                        }}
@@ -118,7 +152,7 @@ class FmsDetailOrderTagModal extends Component {
                                 <input type="text"
                                        className="form-control"
                                        ref='description'
-                                       value={tag.description || ''}
+                                       value={note}
                                        onChange={() => {
                                            this.onChangeInput('description')
                                        }}
@@ -126,26 +160,33 @@ class FmsDetailOrderTagModal extends Component {
                             </div>
                         </div>
 
-
+                        <div className="form-group row">
+                            <div className="col-sm-3">
+                                <label className="control-label form-group-label">Xem trước</label>
+                            </div>
+                            <div className="col-sm-9">
+                                <div className={"preview" + preview} style={style}>{name}</div>
+                            </div>
+                        </div>
                     </Modal.Body>
 
                     <Modal.Footer>
                         <button
                             className='btn btn-danger btn-outline pull-left'
                             onClick={this.onDeleteButtonClick.bind(this)}
-                            disabled={isLoading}>Xóa
+                            disabled={calcelIsDisabled}>Xóa
                         </button>
 
                         <button
                             className='btn btn-white'
                             onClick={this.onCloseButtonClick.bind(this)}
-                            disabled={isLoading}>Hủy
+                            disabled={calcelIsDisabled}>Hủy
                         </button>
 
                         <button
                             className='btn btn-primary'
                             onClick={this.onUpdateOrderTag.bind(this)}
-                            disabled={isLoading}>Cập nhật
+                            disabled={isDisabled}>Cập nhật
                         </button>
                     </Modal.Footer>
                 </div>

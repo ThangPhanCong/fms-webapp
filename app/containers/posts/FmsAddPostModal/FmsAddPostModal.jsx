@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import uuid from 'uuid';
 
 import {Modal, DropdownButton, MenuItem} from 'react-bootstrap';
@@ -75,7 +76,7 @@ class FmsAddPostModal extends React.Component {
                 })
                 .then(() => {
                     let reader = new FileReader();
-                    reader.onload = function() {
+                    reader.onload = function () {
                         let newStates = self.state.states.map((state, index) => {
                             let temp = self.state.files[index];
                             if (file.name === temp.name && file.lastModified === temp.lastModified) return reader.result;
@@ -85,13 +86,20 @@ class FmsAddPostModal extends React.Component {
                     };
                     reader.readAsDataURL(file);
                 })
-                .catch(err => {console.log(err.message)});
+                .catch(err => {
+                    console.log(err.message)
+                });
         });
         this.setState({files: newFiles, states: newStates});
     }
 
     componentWillMount() {
         this.onChangeAlias();
+    }
+
+    adjustHeight() {
+        let textarea = ReactDOM.findDOMNode(this.refs.content);
+        $(textarea).height(this.refs.content.scrollHeight - 4);
     }
 
     componentDidUpdate(prevProps) {
@@ -102,12 +110,11 @@ class FmsAddPostModal extends React.Component {
 
     renderDropdownItem() {
         return this.state.unselectedPages.map(page => {
-            return <MenuItem key={uuid()} eventKey={page._id}>{page.name}</MenuItem>
+            return <MenuItem key={page._id} eventKey={page._id}>{page.name}</MenuItem>
         });
     }
 
     renderImages() {
-        if (this.state.states.length === 0) return <div>Chưa có ảnh nào.</div>;
         return this.state.states.map((state, index) => {
             if (state === "uploading") {
                 return <div key={index} className="image-wrapper border">
@@ -126,14 +133,17 @@ class FmsAddPostModal extends React.Component {
             return <div className="spin-wrapper"><FmsSpin size={27}/></div>
         } else {
             return <div>
-                <textarea className="textarea-new-post" placeholder="Nhập nội dung"/>
-                <div className="add-post-add-images">
-                    <a>Thêm ảnh</a>
-                    <input type="file" className="input-file" accept="image/*" multiple="multiple"
-                           onChange={this.onChangeFiles.bind(this)}/>
-                </div>
+                <textarea className="textarea-new-post" placeholder="Nhập nội dung"
+                          ref="content" onChange={this.adjustHeight.bind(this)}/>
                 <div className="add-post-image-wrapper">
                     {this.renderImages()}
+                    <div className="add-post-add-images">
+                        <label className="add-image-button" htmlFor="inputFile">
+                            <i className="glyphicon glyphicon-plus glyphicon-add"/>
+                        </label>
+                        <input type="file" className="input-file" accept="image/*" multiple="multiple"
+                               onChange={this.onChangeFiles.bind(this)} id="inputFile"/>
+                    </div>
                 </div>
             </div>
         }
@@ -141,10 +151,14 @@ class FmsAddPostModal extends React.Component {
 
     renderSelectedPages() {
         return this.state.selectedPages.map((page, index) => {
+            let name = page.name || "";
+            if (name.length > 30) name = name.substr(0, 28) + "...";
             return <div className="add-post-page-item" key={index}>
-                {page.name}
+                {name}
                 <span className="glyphicon glyphicon-remove delete-selected-page"
-                      onClick={() => {this.onDeleteSelectedPage(page._id)}}/>
+                      onClick={() => {
+                          this.onDeleteSelectedPage(page._id)
+                      }}/>
             </div>
         });
     }
@@ -158,26 +172,28 @@ class FmsAddPostModal extends React.Component {
                     this.props.closeModal();
                 }}
                 backdrop='static' keyboard={false}>
-                <Modal.Header closeButton={true}>
-                    <Modal.Title>
-                        <div className="title-modal">Đăng bài mới cho các trang</div>
-                        <DropdownButton onSelect={(eventKey) => {
-                            this.onSelect(eventKey)
-                        }} title={"Chọn trang"} id={uuid()}>
-                            {this.renderDropdownItem()}
-                        </DropdownButton>
-                        <div>{this.renderSelectedPages()}</div>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {this.renderBody()}
-                </Modal.Body>
-                <Modal.Footer>
-                    <div className="trailer-new-post">
-                        <button className="button-new-post btn btn-success" disabled={isDisabled}>Lên lịch</button>
-                        <button className="button-new-post btn btn-primary" disabled={isDisabled}>Đăng</button>
-                    </div>
-                </Modal.Footer>
+                <div className="inmodal">
+                    <Modal.Header closeButton={true}>
+                        <Modal.Title>
+                            <div className="modal-title">Đăng bài mới cho các trang</div>
+                            <DropdownButton onSelect={(eventKey) => {
+                                this.onSelect(eventKey)
+                            }} title={"Chọn trang"} id={uuid()}>
+                                {this.renderDropdownItem()}
+                            </DropdownButton>
+                            <div>{this.renderSelectedPages()}</div>
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {this.renderBody()}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div className="trailer-new-post">
+                            <button className="button-new-post btn btn-success" disabled={isDisabled}>Lên lịch</button>
+                            <button className="button-new-post btn btn-primary" disabled={isDisabled}>Đăng</button>
+                        </div>
+                    </Modal.Footer>
+                </div>
             </Modal>
         )
     }

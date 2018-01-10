@@ -66,13 +66,14 @@ class FmsColorCardModal extends React.Component {
         let data = this.props.data;
         let title = (data) ? "Chỉnh sửa thẻ màu" : "Tạo thẻ màu mới";
         let name = this.state.name;
-        name = (name || (name !== null && name === "")) ? name : (data ? data.name : "Thẻ mới");
-        let note = (data && data.description) ? data.description : "Thêm ghi chú của bạn";
+        name = (name || name === "") ? name : (data ? data.name : "");
+        let note = (data && data.description) ? data.description : "";
         let color = (this.state.color) ? this.state.color : (data ? data.color : '#CACACA');
         let style = {backgroundColor: color, color: "white"};
 
-        let isDisabled = color === '#CACACA' || name === "Thẻ mới" || this.props.isEditting;
+        let isDisabled = color === '#CACACA' || name === "" || this.props.isEditting;
         let calcelIsDisabled = this.props.isEditting;
+        let preview = (name === "") ? " hide" : "";
 
         return (
             <Modal
@@ -125,7 +126,7 @@ class FmsColorCardModal extends React.Component {
                                 <label className="control-label form-group-label">Xem trước</label>
                             </div>
                             <div className="col-sm-9">
-                                <div className="preview" style={style}>{name}</div>
+                                <div className={"preview" + preview} style={style}>{name}</div>
                             </div>
                         </div>
                     </Modal.Body>

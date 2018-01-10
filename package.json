@@ -16,6 +16,7 @@
     "animate.css": "^3.5.2",
     "axios": "^0.9.1",
     "bootstrap": "^3.3.7",
+    "create-react-class": "^15.6.2",
     "font-awesome": "^4.7.0",
     "form-data": "^2.3.1",
     "jquery": "^2.2.1",
@@ -23,6 +24,7 @@
     "muicss": "^0.9.27",
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.2",
+    "react-bootstrap-daterangepicker": "^3.4.1",
     "react-bs-notifier": "^4.3.2",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
@@ -32,7 +34,8 @@
     "socket.io-client": "^2.0.3",
     "store": "^2.0.12",
     "url-search-params-polyfill": "^2.0.1",
-    "uuid": "^3.1.0"
+    "uuid": "^3.1.0",
+    "moment": "latest"
   },
   "devDependencies": {
     "babel": "^6.23.0",

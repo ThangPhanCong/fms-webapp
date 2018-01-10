@@ -1,5 +1,4 @@
 import React from 'react';
-import uuid from 'uuid';
 import FmsToolTip from '../../../../commons/FmsToolTip/FmsToolTip';
 
 import FmsAttachmentContent from '.././FmsAttachmentContent/FmsAttachmentContent';
@@ -37,9 +36,9 @@ class FmsMessageItem extends React.Component {
 		let isSelf = this.props.isSelf;
 		let hasMessage = (msg.message == "") ? -1 : 1;
 		if (msg.shares) {
-			return msg.shares.map(share => {
+			return msg.shares.map((share, index) => {
 				if (share.link && share.link.indexOf("scontent") !== -1) {
-					return <FmsAttachmentContent key={uuid()} preview={share.link} isSelf={isSelf} type={'sticker'}
+					return <FmsAttachmentContent key={index} preview={share.link} isSelf={isSelf} type={'sticker'}
 						attachmentLoadError={self.attachmentLoadError.bind(this)} />
 				}
 			});
@@ -50,7 +49,7 @@ class FmsMessageItem extends React.Component {
 					data = data[0];
 					if (index > 0) hasMessage = 0;
 					size = { width: data.width, height: data.height };
-					return <FmsAttachmentContent key={uuid()} hasMessage={hasMessage} origin={data.src}
+					return <FmsAttachmentContent key={index} hasMessage={hasMessage} origin={data.src}
 						isSelf={isSelf} preview={data.preview || data.src} size={size}
 						getChatAreaWidth={self.props.getChatAreaWidth} type={attachment.type}
 						attachmentLoadError={self.attachmentLoadError.bind(this)} />
