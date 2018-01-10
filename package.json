@@ -19,7 +19,9 @@
     "create-react-class": "^15.6.2",
     "font-awesome": "^4.7.0",
     "form-data": "^2.3.1",
-    "jquery": "^2.2.1",
+    "jquery": "^2.2.4",
+    "jquery-flot": "^0.8.3",
+    "jquery-sparkline": "^2.4.0",
     "metismenu": "^2.7.1",
     "moment": "latest",
     "muicss": "^0.9.27",
@@ -31,9 +33,11 @@
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
+    "react-sparklines": "^1.7.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "socket.io-client": "^2.0.3",
+    "sparkline": "^0.2.0",
     "store": "^2.0.12",
     "url-search-params-polyfill": "^2.0.1",
     "uuid": "^3.1.0"
@@ -61,9 +65,6 @@
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.9",
     "webpack": "^3.7.1",
-    "webpack-dev-middleware": "^2.0.1",
-    "webpack-dev-server": "^2.9.7",
-    "webpack-hot-middleware": "^2.21.0",
     "webpack-merge": "^4.1.0"
   }
 }
