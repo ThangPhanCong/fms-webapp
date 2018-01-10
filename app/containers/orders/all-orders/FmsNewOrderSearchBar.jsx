@@ -60,7 +60,7 @@ class FmsNewOrderSearchBar extends Component {
                             >
                                 <button className="btn btn-default selected-date-range-btn" style={{width:'100%'}}>
                                     <div className="pull-left">
-                                        <i class="fa fa-calendar glyphicon glyphicon-calendar"></i>
+                                        <i className="fa fa-calendar glyphicon glyphicon-calendar"></i>
                                     </div>
                                     <div className="pull-right">
                                         <span>
