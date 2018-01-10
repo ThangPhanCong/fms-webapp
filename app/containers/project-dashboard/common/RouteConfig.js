@@ -11,6 +11,7 @@ import FmsStatistic from "../../statistic/FmsStatistic";
 import FmsExportOrders from "../../stock/FmsExportOrders";
 import FmsTransportOrders from "../../transport/FmsTransportOrders";
 import FmsTransporting from "../../transport/FmsTransporting";
+import FmsSetting from '../../settings/FmsSettings';
 
 const treeConfig = [
     {
@@ -52,7 +53,7 @@ const treeConfig = [
                 title: 'Cài đặt',
                 headerColor: '#f3f3f4',
                 component: (props) => {
-                    return <p>Cài đặt</p>
+                    return <FmsSetting {...props}/>
                 }
             }
         ]

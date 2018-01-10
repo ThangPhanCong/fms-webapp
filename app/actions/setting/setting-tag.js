@@ -9,6 +9,9 @@ export const TAG_LOADED = 'TAG_LOADED';
 export const SET_VALUE_TAG = 'SET_VALUE_TAG';
 export const IS_EDITTING = 'IS_EDITTING';
 
+export const isLoadingTags = (state) => dispatch => {
+    dispatch({type: 'IS_LOADING_TAGS', state});
+};
 export const tagLoaded = (tags) => dispatch => {
     dispatch({type: TAG_LOADED, tags: tags});
 };
@@ -31,7 +34,7 @@ export const isEditting = (state) => dispatch => {
     dispatch({type: IS_EDITTING, state});
 };
 export const getTags = (project_alias) => dispatch => {
-    dispatch(settingLoading());
+    dispatch(isLoadingTags(true));
     TagApi.getProjectTags(project_alias)
         .then(tags => {
             if (tags) {
@@ -39,7 +42,7 @@ export const getTags = (project_alias) => dispatch => {
             } else {
                 throw new Error("Tags not found");
             }
-            dispatch(settingLoaded());
+            dispatch(isLoadingTags(false));
         })
         .catch(err => alert(err.message));
 };

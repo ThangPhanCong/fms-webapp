@@ -47,7 +47,7 @@ class FmsColorCards extends React.Component {
     }
 
     renderTags() {
-        if (this.props.isSettingLoading === false) {
+        if (this.props.isLoadingTags === false) {
             return this.props.tags.map((tag, index) => {
                 return <FmsColorCardItem data={tag} key={index} index={index + 1}
                        openModal={this.openModal.bind(this)} deleteTag={this.deleteTag.bind(this)}/>;
@@ -58,7 +58,7 @@ class FmsColorCards extends React.Component {
     render() {
         let alias = (this.props.project) ? this.props.project.alias : null;
         let route = (alias) ? `${alias}/Quản lý trang/Thẻ màu` : "";
-        let isDisabled = this.props.tags.length >= MAX_TAG_ITEMS || this.props.isSettingLoading;
+        let isDisabled = this.props.tags.length >= MAX_TAG_ITEMS || this.props.isLoadingTags;
         return (
             <div className="row">
                 <div className="col-lg-12">
@@ -91,7 +91,7 @@ class FmsColorCards extends React.Component {
                                 </tbody>
                             </table>
                         </div>
-                        {this.props.isSettingLoading ?
+                        {this.props.isLoadingTags ?
                             <div className="spin-wrapper"><FmsSpin size={27}/></div> : null
                         }
                     </div>
@@ -105,7 +105,7 @@ class FmsColorCards extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        isSettingLoading: state.setting.setting.isSettingLoading,
+        isLoadingTags: state.setting.settingTag.isLoadingTags,
         tags: state.setting.settingTag.tags
     }
 };
