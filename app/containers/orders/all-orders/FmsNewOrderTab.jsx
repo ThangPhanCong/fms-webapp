@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import FmsNewOrderSearchBar from "./FmsNewOrderSearchBar";
 import FmsNewOrderTable from "./FmsNewOrderTable";
-import {getNewProjectOrders} from "../../../api/OrderApi";
+import {getOrders} from "../../../api/OrderApi";
 import FmsSpin from "../../../commons/FmsSpin/FmsSpin";
 import FmsOrderDetailModal from "../modals/FmsOrderDetailModal";
 
@@ -41,7 +41,7 @@ class FmsNewOrderTab extends Component {
     updateOrders(project) {
         this.setState({isLoading: true});
 
-        getNewProjectOrders(project.alias)
+        getOrders(project.alias)
             .then(orders => this.setState({orders, isLoading: false}));
     }
 
