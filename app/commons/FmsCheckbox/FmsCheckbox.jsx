@@ -1,38 +1,32 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
-const propTypes = {
-    checked: PropTypes.bool,
-    className: PropTypes.string,
-    label: PropTypes.string,
-    disabled: PropTypes.bool,
-    handleChange: PropTypes.func.isRequired
-};
-
-const defaultProps = {
-    className: ''
-};
+import propTypes from 'prop-types';
 
 class FmsCheckbox extends React.Component {
+    onChange() {
+        this.props.onChange(
+            this.refs['checkbox'].checked
+        );
+    }
+
     render() {
-        const {checked, className, label, disabled, handleChange} = this.props;
-        const classes = ['checkbox', className].join(' ');
+        const {checked, className} = this.props;
+
         return (
-            <div className={classes}>
-                <input
-                    type='checkbox'
-                    ref='checkbox'
-                    checked={checked}
-                    disabled={disabled}
-                    onChange={handleChange}
-                />
-                <label onClick={(e) => disabled ? {} : handleChange(e)}>{label}</label>
-            </div>
+            <input
+                className={className}
+                type='checkbox'
+                ref='checkbox'
+                checked={checked}
+                onChange={this.onChange.bind(this)}
+            />
         )
     }
 }
 
-FmsCheckbox.propTypes = propTypes;
-FmsCheckbox.defaultProps = defaultProps;
+FmsCheckbox.propTypes = {
+    onChange: propTypes.func,
+    checked: propTypes.bool,
+    className: propTypes.string
+};
 
-export default FmsCheckbox
+export default FmsCheckbox;

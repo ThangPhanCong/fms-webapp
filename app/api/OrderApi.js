@@ -1,4 +1,5 @@
 import apiSender, {post, put, get} from './ApiSender';
+import {delay} from 'utils/timeout-utils';
 
 const mockupOrders = [
     {
@@ -74,18 +75,17 @@ const ORDER_STATUS = {
 };
 
 module.exports = {
-    createOrder: (alias, customer_id, payload) => {
-        let route = `/api/projects/${alias}/customers/${customer_id}/orders`;
-        return apiSender.post(route, payload);
+    getTestOrders: () => {
+        return delay(1000).then(() => Promise.resolve(mockupOrders));
     },
-    getOrders: (alias, customer_id, page_fb_id) => {
-        let route = `/api/projects/${alias}/customers/${customer_id}/orders?pageFbId=${page_fb_id}`;
-        return apiSender.get(route);
+    getTestOrder: () => {
+        return delay(1000).then(() => Promise.resolve(mockupOrders[0]));
     },
-    getNewProjectOrders: (projectAlias) => {
-        return get(`/api/projects/${projectAlias}/orders`);
+    getOrders: (projectAlias, filter) => {
+        const queryParams = toQueryParams(filter);
+        return get(`/api/projects/${projectAlias}/orders?${queryParams}`);
     },
-    createNewOrder: (projectAlias, order) => {
+    createOrder: (projectAlias, order) => {
         return post(`/api/projects/${projectAlias}/orders`, order);
     },
     updateOrder: (projectAlias, order) => {

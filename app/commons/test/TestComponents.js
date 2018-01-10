@@ -10,6 +10,7 @@ import FmsLineChartTest from "../charts/FmsLineChart/FmsLineChartTest";
 import FmsLineChartCanvasTest from "../charts/FmsLineChartCanvas/FmsLineChartCanvasTest";
 import FmsDatePickerTest from "../date-picker/FmsDatePickerTest";
 import FmsSwitchTest from '../FmsSwitch/FmsSwitchTest';
+import FmsOrderDetailModalTest from "../order-modal/FmsOrderDetailModalTest";
 
 const TestComponent = ({match}) => (
     <div>
@@ -59,6 +60,11 @@ const TestComponent = ({match}) => (
                     FmsSwitchTest
                 </Link>
             </li>
+            <li>
+                <Link to={`${match.url}/fmsdetailordermodal`}>
+                    FmsOrderDetailModalTest
+                </Link>
+            </li>
         </ul>
 
         <Route path={`${match.url}/fmsbutton`} component={FmsButtonTest}/>
@@ -70,6 +76,7 @@ const TestComponent = ({match}) => (
         <Route path={`${match.url}/fmslinechartcanvas`} component={FmsLineChartCanvasTest}/>
         <Route path={`${match.url}/fmsdatepicker`} component={FmsDatePickerTest}/>
         <Route path={`${match.url}/fmsswitch`} component={FmsSwitchTest}/>
+        <Route path={`${match.url}/fmsdetailordermodal`} component={FmsOrderDetailModalTest}/>
     </div>
 );
 
