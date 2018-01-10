@@ -1,32 +1,47 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import uuid from 'uuid';
 
 import {MAX_TAG_ITEMS} from '../../../constants/tag';
-import {deleteTag, getTags} from '../../../actions/setting/setting-tag';
 import FmsColorCardItem from "../FmsColorCardItem/FmsColorCardItem";
 import FmsPageTitle from "../../../commons/page-title/FmsPageTitle";
 import FmsSpin from '../../../commons/FmsSpin/FmsSpin';
 import FmsColorCardModal from '../FmsColorCardModal/FmsColorCardModal';
+import TagApi from '../../../api/TagApi';
 
 class FmsColorCards extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             isShownModal: false,
-            selectedCard: null
+            selectedCard: null,
+            tags: [],
+            isEditting: false,
+            isLoading: true
         }
+    }
+
+    getTags(alias) {
+        this.setState({isLoading: true});
+        TagApi.getProjectTags(alias)
+            .then(tags => {
+                if (tags) this.setState({tags: tags});
+                else alert("Something went wrong.");
+                this.setState({isLoading: false});
+            })
+            .catch(err => {
+                alert(err.message);
+                this.setState({isLoading: false});
+            })
     }
 
     componentDidMount() {
         if (this.props.project && this.props.project.alias) {
-            this.props.dispatch(getTags(this.props.project.alias));
+            this.getTags(this.props.project.alias);
         }
     }
 
     componentDidUpdate(prevProps) {
         if ((!prevProps.project && this.props.project) || prevProps.project.alias !== this.props.project.alias) {
-            this.props.dispatch(getTags(this.props.project.alias));
+            this.getTags(this.props.project.alias);
         }
     }
 
@@ -38,19 +53,53 @@ class FmsColorCards extends React.Component {
         this.setState({isShownModal: false});
     }
 
+    addNewTag(tag) {
+        this.setState({isEditting: true});
+        TagApi.create(this.props.project.alias, tag.name, tag.color)
+            .then(() => {
+                this.getTags(this.props.project.alias);
+                this.setState({isEditting: false, isShownModal: false});
+            })
+            .catch(err => {
+                alert(err.message);
+                this.setState({isEditting: false});
+            })
+    }
+
+    updateTag(tag) {
+        this.setState({isEditting: true});
+        TagApi.update(this.props.project.alias, tag._id, tag.name, tag.color)
+            .then(() => {
+                this.getTags(this.props.project.alias);
+                this.setState({isEditting: false, isShownModal: false});
+            })
+            .catch(err => {
+                alert(err.message);
+                this.setState({isEditting: false});
+            })
+    }
+
     deleteTag(tag) {
-        const allowDelete = confirm('Bạn có chắc chắn muốn xóa thẻ màu?');
+        let allowDelete = confirm("Bạn có chắc muốn xóa thẻ màu?");
         if (allowDelete) {
-            const {dispatch, project} = this.props;
-            dispatch(deleteTag(project.alias, tag));
+            this.setState({isEditting: true});
+            TagApi.remove(this.props.project.alias, tag._id)
+                .then(() => {
+                    this.getTags(this.props.project.alias);
+                    this.setState({isEditting: false, isShownModal: false});
+                })
+                .catch(err => {
+                    alert(err.message);
+                    this.setState({isEditting: false});
+                })
         }
     }
 
     renderTags() {
-        if (this.props.isLoadingTags === false) {
-            return this.props.tags.map((tag, index) => {
+        if (this.state.isLoading === false) {
+            return this.state.tags.map((tag, index) => {
                 return <FmsColorCardItem data={tag} key={index} index={index + 1}
-                       openModal={this.openModal.bind(this)} deleteTag={this.deleteTag.bind(this)}/>;
+                                         openModal={this.openModal.bind(this)} deleteTag={this.deleteTag.bind(this)}/>;
             });
         }
     }
@@ -58,7 +107,7 @@ class FmsColorCards extends React.Component {
     render() {
         let alias = (this.props.project) ? this.props.project.alias : null;
         let route = (alias) ? `${alias}/Quản lý trang/Thẻ màu` : "";
-        let isDisabled = this.props.tags.length >= MAX_TAG_ITEMS || this.props.isLoadingTags;
+        let isDisabled = this.state.tags.length >= MAX_TAG_ITEMS || this.state.isLoadingTags;
         return (
             <div className="row">
                 <div className="col-lg-12">
@@ -72,7 +121,7 @@ class FmsColorCards extends React.Component {
                                 <i className="fa fa-plus"/> Thêm thẻ màu
                             </button>
                             <div className="count-cards">Số
-                                lượng: {this.props.tags.length + " / " + MAX_TAG_ITEMS}</div>
+                                lượng: {this.state.tags.length + " / " + MAX_TAG_ITEMS}</div>
                             <br/>
                         </div>
                         <div className="table-responsive color-cards-table">
@@ -91,23 +140,18 @@ class FmsColorCards extends React.Component {
                                 </tbody>
                             </table>
                         </div>
-                        {this.props.isLoadingTags ?
+                        {this.state.isLoadingTags ?
                             <div className="spin-wrapper"><FmsSpin size={27}/></div> : null
                         }
                     </div>
                     <FmsColorCardModal isShown={this.state.isShownModal} closeModal={this.closeModal.bind(this)}
-                                       data={this.state.selectedCard} alias={alias} key={uuid()}/>
+                                       data={this.state.selectedCard} tags={this.state.tags}
+                                       isEditting={this.state.isEditting} addNewTag={this.addNewTag.bind(this)}
+                                       deleteTag={this.deleteTag.bind(this)} updateTag={this.updateTag.bind(this)}/>
                 </div>
             </div>
         );
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        isLoadingTags: state.setting.settingTag.isLoadingTags,
-        tags: state.setting.settingTag.tags
-    }
-};
-
-export default connect(mapStateToProps)(FmsColorCards);
+export default FmsColorCards;
