@@ -1,8 +1,6 @@
 import React from 'react';
 import Modal from "react-bootstrap/es/Modal";
-import {addNewTag, deleteTag, updateTag} from "../../../actions/setting/setting-tag";
 import {TAG_COLORS} from "../../../constants/tag";
-import {connect} from "react-redux";
 
 class FmsColorCardModal extends React.Component {
     constructor(props) {
@@ -16,6 +14,8 @@ class FmsColorCardModal extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (this.props.data !== nextProps.data && nextProps.data) {
             this.setState({name: nextProps.data.name, color: nextProps.data.color});
+        } else if (this.props.data && !nextProps.data) {
+            this.setState({name: null, color: null});
         }
     }
 
@@ -29,23 +29,24 @@ class FmsColorCardModal extends React.Component {
     }
 
     updateTag() {
-        const {dispatch, alias, data} = this.props;
+        const {data} = this.props;
         let tag = {
             _id: data._id,
             name: this.state.name || data.name,
             color: this.state.color || data.color
         };
-        dispatch(updateTag(alias, tag, this.props.closeModal));
+        this.setState({name: null, color: null});
+        this.props.updateTag(tag);
     }
 
     deleteTag() {
-        const {dispatch, alias, data} = this.props;
-        dispatch(deleteTag(alias, data, this.props.closeModal));
+        this.setState({name: null, color: null});
+        this.props.deleteTag(this.props.data);
     }
 
     addNewTag() {
-        const {dispatch, alias} = this.props;
-        dispatch(addNewTag(alias, this.state.color, this.state.name, this.props.closeModal));
+        this.setState({name: null, color: null});
+        this.props.addNewTag({name: this.state.name, color: this.state.color});
     }
 
     renderColors() {
@@ -148,11 +149,4 @@ class FmsColorCardModal extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        tags: state.setting.settingTag.tags,
-        isEditting: state.setting.setting.isEditting
-    }
-};
-
-export default connect(mapStateToProps)(FmsColorCardModal);
+export default FmsColorCardModal;

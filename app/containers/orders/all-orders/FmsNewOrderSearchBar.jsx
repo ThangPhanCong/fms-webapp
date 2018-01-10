@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 
 class FmsNewOrderSearchBar extends Component {
-    render () {
+    render() {
         return (
             <div className="row">
                 <div className="col-sm-2">
