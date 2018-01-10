@@ -1,23 +1,28 @@
 import React from 'react';
 
 class FmsCheckbox extends React.Component {
+    state = {
+        checked: this.props.checked || false
+    }
     onChange() {
-        this.props.onChange(
-            this.refs['checkbox'].checked
-        );
+        if (!this.props.disabled) {
+            this.setState({checked: !this.state.checked});
+        }
     }
 
     render() {
-        const {checked, className} = this.props;
-
+        const {checked, className, label, disabled} = this.props;
         return (
-            <input
-                className={className}
-                type='checkbox'
-                ref='checkbox'
-                checked={checked}
-                onChange={this.onChange.bind(this)}
-            />
+            <div className={'checkbox ' + className}>
+                <input
+                    type='checkbox'
+                    ref='checkbox'
+                    checked={this.state.checked}
+                    disabled={disabled}
+                    onChange={this.onChange.bind(this)}
+                />
+                <label onClick={this.onChange.bind(this)}>{label}</label>
+            </div>
         )
     }
 }
