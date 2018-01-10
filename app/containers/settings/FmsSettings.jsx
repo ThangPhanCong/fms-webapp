@@ -2,16 +2,20 @@ import React from 'react';
 import FmsPageTitle from '../../commons/page-title/FmsPageTitle';
 import FmsSpin from '../../commons/FmsSpin/FmsSpin';
 import PageApi from '../../api/PagesApi';
+import ProjectApi from '../../api/ProjectApi';
+import addImg from '../../assets/images/add.png';
 
 class FmsSettings extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            all: null
+            all: null,
+            isHandling: false
         }
     }
 
-    componentWillMount() {
+    getPages(){
+        this.setState({all: null});
         PageApi.getPages()
             .then(pages => {
                 this.setState({all: pages});
@@ -21,10 +25,51 @@ class FmsSettings extends React.Component {
             })
     }
 
+    componentWillMount() {
+        this.getPages();
+    }
+
+    deletePage(page_id) {
+        if (!this.state.isHandling) {
+            this.setState({isHandling: true});
+            ProjectApi.deletePage(this.props.project.alias, page_id)
+                .then(() => {
+                    this.setState({isHandling: false});
+                    this.getPages();
+                })
+                .catch(err => {
+                    alert(err.message);
+                    this.setState({isHandling: false});
+                })
+        }
+    }
+
+    addPage(page_id) {
+        if (!this.state.isHandling) {
+            this.setState({isHandling: true});
+            ProjectApi.addPage(this.props.project.alias, page_id)
+                .then(() => {
+                    this.setState({isHandling: false});
+                    this.getPages();
+                })
+                .catch(err => {
+                    alert(err.message);
+                    this.setState({isHandling: false});
+                })
+        }
+    }
+
     renderShopPages() {
         if (this.state.all && this.props.project && Array.isArray(this.props.project.pages)) {
+            let disabled = (this.state.isHandling) ? " disabled" : "";
             return this.props.project.pages.map(page => {
-                return <div className="page-item-setting" key={page.fb_id}>{page.name}</div>
+                let avaUrl = `https://graph.facebook.com/v2.10/${page.fb_id}/picture`;
+                return <div className="page-item-setting" key={page.fb_id}>
+                    <div className="avatar"><img className="avatar-image" src={avaUrl}/></div>
+                    <div className="page-name">{page.name}</div>
+                    <div className={"glyphicon glyphicon-trash delete-icon clickable" + disabled}
+                         onClick={() => {this.addPage(page.fb_id)}}/>
+                </div>
             });
         } else {
             return <div className="spin-wrapper"><FmsSpin size={27}/></div>
@@ -38,8 +83,15 @@ class FmsSettings extends React.Component {
                 let same = pages.filter(p => p.fb_id === page.fb_id);
                 return same.length === 0 && !page.is_active;
             });
+            let disabled = (this.state.isHandling) ? " disabled" : "";
             return filtered.map(page => {
-                return <div className="page-item-setting" key={page.fb_id}>{page.name}</div>
+                let avaUrl = `https://graph.facebook.com/v2.10/${page.fb_id}/picture`;
+                return <div className="page-item-setting" key={page.fb_id}>
+                    <div className="avatar"><img className="avatar-image" src={avaUrl}/></div>
+                    <div className="page-name">{page.name}</div>
+                    <img className={"add-icon clickable" + disabled} src={addImg}
+                         onClick={() => {this.deletePage(page._id)}}/>
+                </div>
             })
         } else {
             return <div className="spin-wrapper"><FmsSpin size={27}/></div>
@@ -57,8 +109,8 @@ class FmsSettings extends React.Component {
                     <div className="row">
                         <div className="col-md-6">
                             <div className="ibox float-e-margins">
-                                <div className="ibox-title">
-                                    <h5>Các trang thuộc cửa hàng</h5>
+                                <div className="ibox-title title">
+                                    Các trang thuộc cửa hàng
                                 </div>
                                 <div>
                                     <div className="ibox-content no-padding border-left-right">
@@ -69,21 +121,14 @@ class FmsSettings extends React.Component {
                         </div>
                         <div className="col-md-6">
                             <div className="ibox float-e-margins">
-                                <div className="ibox-title">
-                                    <h5>Các trang chưa được kích hoạt</h5>
+                                <div className="ibox-title title">
+                                    Các trang chưa được kích hoạt
                                 </div>
                                 <div>
                                     <div className="ibox-content no-padding border-left-right">
                                         {this.renderOtherPages()}
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <div className="delete-shop">
-                                <div>Xóa cửa hàng</div>
                             </div>
                         </div>
                     </div>
