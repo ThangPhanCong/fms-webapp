@@ -1,4 +1,5 @@
 import apiSender, {post, put, get} from './ApiSender';
+import {toQueryParams} from 'utils/query-utils';
 import {delay} from 'utils/timeout-utils';
 
 const mockupOrders = [
@@ -81,7 +82,7 @@ module.exports = {
     getTestOrder: () => {
         return delay(1000).then(() => Promise.resolve(mockupOrders[0]));
     },
-    getOrders: (projectAlias, filter) => {
+    getOrders: (projectAlias, filter = {}) => {
         const queryParams = toQueryParams(filter);
         return get(`/api/projects/${projectAlias}/orders?${queryParams}`);
     },
