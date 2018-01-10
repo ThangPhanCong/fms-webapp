@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import FmsProductDetailModal from "./modals/FmsProductDetailModal";
+import {toReadablePrice} from "../../utils/price-utils";
 
 class FmsProductTable extends Component {
 
@@ -54,8 +55,8 @@ class FmsProductTable extends Component {
                                     </span>
                             </a></td>
                             <td>{product.name}</td>
-                            <td>{product.price}</td>
-                            <td>{product.quantity}</td>
+                            <td>{toReadablePrice(product.price)}</td>
+                            <td>{toReadablePrice(product.quantity)}</td>
                             <td>{product.unit}</td>
                             <td>
                                 <i className='fa fa-pencil clickable'

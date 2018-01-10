@@ -1,3 +1,4 @@
+import NoteApi from '../../../api/NoteApi';
 import OrderApi from '../../../api/OrderApi';
 import * as u from 'lodash';
 import {noti} from "../../../containers/notification/NotificationService";
@@ -6,7 +7,8 @@ export const createNote = (alias, content) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
     let {notes} = getState().dashboard.createOrder;
     let customer_id = (conversation.customer) ? conversation.customer._id : null;
-    OrderApi.createNote(alias, conversation.id, customer_id, conversation.page._id, content)
+
+    NoteApi.createNote(alias, conversation.id, customer_id, conversation.page._id, content)
         .then((res) => {
             noti("success", "Tạo ghi chú thành công.");
             notes.unshift(res);
@@ -18,7 +20,7 @@ export const createNote = (alias, content) => (dispatch, getState) => {
 
 export const getNotes = (alias) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
-    OrderApi.getNotes(alias, conversation.id)
+    NoteApi.getNotes(alias, conversation.id)
         .then(res => {
             res.sort((a, b) => {
                 let t1 = new Date(a.updated_time);
@@ -34,7 +36,7 @@ export const getNotes = (alias) => (dispatch, getState) => {
 export const deleteNote = (alias, note_id) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
     let {notes} = getState().dashboard.createOrder;
-    OrderApi.deleteNote(alias, conversation.id, note_id)
+    NoteApi.deleteNote(alias, conversation.id, note_id)
         .then(() => {
             noti("success", "Đã xóa một ghi chú.");
             let newNotes = notes.filter(note => {
@@ -49,7 +51,7 @@ export const deleteNote = (alias, note_id) => (dispatch, getState) => {
 export const updateNote = (alias, note_id, content) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
     let {notes} = getState().dashboard.createOrder;
-    OrderApi.updateNote(alias, conversation.id, note_id, content)
+    NoteApi.updateNote(alias, conversation.id, note_id, content)
         .then(res => {
             noti("success", "Đã cập nhật một ghi chú.");
             let newNotes = notes.map(note => {

@@ -58,8 +58,9 @@ class FmsDashBoard extends React.Component {
     }
 
     render() {
-        let alias = (this.props.project) ? this.props.project.alias : null;
-        let clientInfo = (this.props.conversation) ? "" : " hide";
+        const alias = (this.props.project) ? this.props.project.alias : null;
+        const clientInfo = (this.props.conversation) ? "" : " hide";
+
         return (
             <div className="dashboard page">
                 <div className="vertical-nav">

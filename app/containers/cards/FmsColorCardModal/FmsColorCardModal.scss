@@ -1,17 +1,8 @@
 .fms-modal-title {
   font-size: 25px;
 }
-.color-card-form-group {
-  display: flex;
-  .form-group-label {
-    font-size: 17px;
-    margin-right: 12px;
-    padding-top: 4px;
-    width: 95px;
-  }
-  .form-control {
-    flex: 1;
-  }
+
+.col-sm-9 {
   .color-card {
     width: 27px;
     height: 32px;
@@ -22,10 +13,11 @@
       cursor: pointer;
     }
   }
+
   .preview {
     display: inline-block;
-    padding: 6px 12px;
+    padding: 4px 8px;
     border-radius: 4px;
-    font-size: 15px;
+    font-size: 13px;
   }
 }

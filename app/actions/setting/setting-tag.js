@@ -75,7 +75,7 @@ export const deleteTag = (project_alias, tag, closeModal) => dispatch => {
     TagApi.remove(project_alias, tag._id)
         .then(() => {
             dispatch(delete_tag(tag));
-            closeModal();
+            if (closeModal) closeModal();
             dispatch(isEditting(false));
         })
         .catch(err => {

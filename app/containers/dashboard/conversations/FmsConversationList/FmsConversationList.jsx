@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import uuid from 'uuid';
+import propTypes from 'prop-types';
 
 import searchImg from '../../../../assets/images/search.png';
 import FmsConversationItem from '../FmsConversationItem/FmsConversationItem';
@@ -10,12 +10,19 @@ import FmsSpin from '../../../../commons/FmsSpin/FmsSpin';
 import FmsFilterTags from '../FmsFilterTags/FmsFilterTags';
 import FmsScrollableDiv from '../../../../commons/scroll-bar/FmsScrollableDiv';
 
-import {loadMoreConversations} from '../../../../actions/dashboard/conversations';
+import {handleConversationClick, loadMoreConversations} from '../../../../actions/dashboard/conversations';
 import {setSearchText, handleFilter} from '../../../../actions/dashboard/filters';
 
+// transform to state
 let timeout;
 
 class FmsConversationList extends React.Component {
+
+    selectConversation(data) {
+        const { dispatch } = this.props;
+        dispatch(handleConversationClick(this.props.alias, data, data.type));
+    }
+
     handleSearchChange() {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
@@ -30,29 +37,43 @@ class FmsConversationList extends React.Component {
     }
 
     renderConversations() {
-        let self = this;
-        let conversations = this.props.conversations;
+        const {conversations} = this.props;
         if (!conversations) return;
+
         return conversations.map(conversation => {
-            let isSelected = (self.props.conversation && self.props.conversation._id === conversation._id);
-            return <FmsConversationItem key={uuid()} data={conversation} isSelected={isSelected}
-                    alias={this.props.alias}/>
+            const isSelected = (this.props.conversation && this.props.conversation._id === conversation._id);
+
+            return (
+                <FmsConversationItem
+                    key={conversation._id}
+                    data={conversation}
+                    isSelected={isSelected}
+                    onSelect={this.selectConversation.bind(this)}
+                />
+            )
         });
     }
 
     render() {
-        let showSpin = (this.props.isLoadingConversations === true) ? "" : " hide";
+        const showSpin = (this.props.isLoadingConversations === true) ? "" : " hide";
 
         return (
             <div className="client-list-wrapper">
                 <div className="search-client">
-                    <img src={searchImg} className="search-icon"/>
-                    <input type="text" className="input-search-client" ref="searchText"
-                           onChange={this.handleSearchChange.bind(this)} defaultValue={this.props.searchText}/>
+                    <img className="search-icon" src={searchImg}/>
+                    <input type="text"
+                           className="input-search-client"
+                           ref="searchText"
+                           onChange={this.handleSearchChange.bind(this)} defaultValue={this.props.searchText}
+                    />
                     <FmsFilterTags alias={this.props.alias}/>
                 </div>
-                <FmsScrollableDiv className="scroll-list" handleLoadMore={this.handleLoadMore.bind(this)}>
+                <FmsScrollableDiv
+                    className="scroll-list"
+                    handleLoadMore={this.handleLoadMore.bind(this)}
+                >
                     {this.renderConversations()}
+
                     <div className={"client-list-spin" + showSpin}>
                         <FmsSpin size={27}/>
                     </div>
@@ -61,6 +82,10 @@ class FmsConversationList extends React.Component {
         );
     }
 }
+
+FmsConversationList.propTypes = {
+    alias: propTypes.string
+};
 
 const mapStateToProps = state => {
     return {

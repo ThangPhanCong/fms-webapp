@@ -1,5 +1,4 @@
 import apiSender, {post, put, get} from './ApiSender';
-import {delay} from '../utils/timeout-utils';
 
 const mockupOrders = [
     {
@@ -75,28 +74,6 @@ const ORDER_STATUS = {
 };
 
 module.exports = {
-    createNote: (alias, conv_id, customer_id, page_id, content) => {
-        let route = `/api/projects/${alias}/conversations/${conv_id}/notes`;
-        let payload = {
-            customer_id: customer_id,
-            page_id: page_id,
-            content: content
-        };
-        return apiSender.post(route, payload);
-    },
-    getNotes: (alias, conv_id) => {
-        let route = `/api/projects/${alias}/conversations/${conv_id}/notes`;
-        return apiSender.get(route);
-    },
-    updateNote: (alias, conv_id, note_id, content) => {
-        let route = `/api/projects/${alias}/conversations/${conv_id}/notes/${note_id}`;
-        let payload = {content};
-        return apiSender.put(route, payload);
-    },
-    deleteNote: (alias, conv_id, note_id) => {
-        let route = `/api/projects/${alias}/conversations/${conv_id}/notes/${note_id}`;
-        return apiSender.delete(route);
-    },
     createOrder: (alias, customer_id, payload) => {
         let route = `/api/projects/${alias}/customers/${customer_id}/orders`;
         return apiSender.post(route, payload);
@@ -109,7 +86,6 @@ module.exports = {
         return get(`/api/projects/${projectAlias}/orders`);
     },
     createNewOrder: (projectAlias, order) => {
-        console.log(order);
         return post(`/api/projects/${projectAlias}/orders`, order);
     },
     updateOrder: (projectAlias, order) => {
@@ -117,38 +93,5 @@ module.exports = {
     },
     deleteOrder: (projectAlias, order) => {
         return apiSender.delete(`/api/projects/${projectAlias}/orders/${order._id}`);
-    },
-    exportOrder: (projectAlias, order) => {
-        const payload = {
-            ...order,
-            status: ORDER_STATUS.EXPORTED_ORDER
-        };
-
-        return put(`/api/projects/${projectAlias}/orders/${order._id}`, payload);
-    },
-    getExportOrders: (projectAlias) => {
-        return get(`/api/projects/${projectAlias}/exported-orders`);
-    },
-    orderTransportedOrder: (projectAlias, order) => {
-        const payload = {
-            ...order,
-            status: ORDER_STATUS.TRANSPORTED_ORDER
-        };
-
-        return put(`/api/projects/${projectAlias}/orders/${order._id}`, payload);
-    },
-    getTransportOrders: (projectAlias) => {
-        return get(`/api/projects/${projectAlias}/transported-orders`);
-    },
-    orderTransportingOrder: (projectAlias, order) => {
-        const payload = {
-            ...order,
-            status: ORDER_STATUS.TRANSPORTING
-        };
-
-        return put(`/api/projects/${projectAlias}/orders/${order._id}`, payload);
-    },
-    getTransportingOrders: (projectAlias) => {
-        return get(`/api/projects/${projectAlias}/transporting-orders`);
     }
 };
