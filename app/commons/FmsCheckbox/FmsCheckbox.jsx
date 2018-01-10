@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 class FmsCheckbox extends React.Component {
     onChange() {
@@ -22,4 +23,10 @@ class FmsCheckbox extends React.Component {
     }
 }
 
-export default FmsCheckbox
+FmsCheckbox.propTypes = {
+    onChange: propTypes.func,
+    checked: propTypes.bool,
+    className: propTypes.string
+};
+
+export default FmsCheckbox;
