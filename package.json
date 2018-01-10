@@ -21,7 +21,9 @@
     "form-data": "^2.3.1",
     "jquery": "^2.2.1",
     "metismenu": "^2.7.1",
+    "moment": "latest",
     "muicss": "^0.9.27",
+    "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.2",
     "react-bootstrap-daterangepicker": "^3.4.1",
@@ -34,8 +36,7 @@
     "socket.io-client": "^2.0.3",
     "store": "^2.0.12",
     "url-search-params-polyfill": "^2.0.1",
-    "uuid": "^3.1.0",
-    "moment": "latest"
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "babel": "^6.23.0",
