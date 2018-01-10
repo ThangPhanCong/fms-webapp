@@ -35,14 +35,17 @@ class FmsColorCardModal extends React.Component {
             name: this.state.name || data.name,
             color: this.state.color || data.color
         };
+        this.setState({name: null, color: null});
         this.props.updateTag(tag);
     }
 
     deleteTag() {
+        this.setState({name: null, color: null});
         this.props.deleteTag(this.props.data);
     }
 
     addNewTag() {
+        this.setState({name: null, color: null});
         this.props.addNewTag({name: this.state.name, color: this.state.color});
     }
 
