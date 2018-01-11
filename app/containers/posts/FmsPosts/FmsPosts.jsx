@@ -51,8 +51,7 @@ class FmsPosts extends React.Component {
                 .then(data => {
                     if (data) {
                         let paging = data.paging ? data.paging : null;
-                        let posts = this.state.posts.concat(data.data);
-                        this.setState({posts, paging, isLoading: false});
+                        this.setState({posts: data.data, paging, isLoading: false});
                     } else {
                         throw new Error("Posts not found");
                     }

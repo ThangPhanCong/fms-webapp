@@ -1,0 +1,113 @@
+.client-information-area {
+  background-color: white;
+  height: 100%;
+  border-left: 1px solid #cacaca;
+  .title-information {
+    height: 50px;
+    border-bottom: 1px solid #cacaca;
+    font-weight: 600;
+    font-size: 15px;
+    text-align: center;
+    padding-top: 14px;
+  }
+
+  .notes-list {
+    max-height: 190px;
+    min-height: 32vh;
+    overflow-y: scroll;
+    border-bottom: 1px solid #dadada;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    &::-webkit-scrollbar-track {
+      display: none;
+    }
+    &::-webkit-scrollbar-thumb {
+      display: none;
+    }
+    .btn-default {
+      border: 1px solid #cacaca;
+    }
+  }
+  .add-note-button {
+    display: block;
+    float: right;
+    color: #3598DB;
+    padding: 8px 12px 0;
+    cursor: pointer;
+    font-size: 15px;
+  }
+  .note-text {
+    padding: 7px 0;
+    margin: 0 12px;
+    border-bottom: 1px solid #dedede;
+    color: #666666;
+    font-size: 15px;
+  }
+  .order-title {
+    text-align: center;
+    font-weight: 600;
+    font-size: 15px;
+    margin-top: 8px;
+  }
+  .title-section {
+    display: inline-block;
+    font-weight: 600;
+    padding: 8px 12px 0;
+    font-size: 15px;
+  }
+  .note-info-item {
+    margin-right: 15px;
+    display: inline-block;
+    font-size: 12px;
+    color: #a1a1a1;
+  }
+  .note-option {
+    cursor: pointer;
+  }
+  .note-option:hover {
+    color: #666666;
+  }
+  .no-note {
+    text-align: center;
+    padding-top: 24px;
+  }
+  .add-note-content {
+    display: block;
+    width: calc(100% - 24px);
+    border-radius: 3px;
+    resize: none;
+    border: 1px solid #cacaca;
+    padding: 5px 12px;
+    height: calc(32vh - 86px);
+    margin: 12px 12px 0;
+  }
+  .add-note-content:focus {
+    outline: none;
+  }
+  .button-note-option {
+    display: inline-block;
+    padding: 3px 8px;
+    margin-right: 12px;
+    margin-top: 7px;
+    width: calc(50% - 18px);
+    float: right;
+    border-radius: 3px;
+    border: 1px solid #1ab394;
+  }
+}
+
+@media only screen and (min-width: 100px) and (max-width: 999px) {
+  .client-information-area {
+    min-width: 200px;
+    max-width: 230px;
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  .client-information-area {
+    max-width: 26%;
+    width: 26%;
+    min-width: 240px;
+  }
+}
