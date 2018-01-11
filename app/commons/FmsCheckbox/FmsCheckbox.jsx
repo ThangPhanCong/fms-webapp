@@ -9,7 +9,7 @@ class FmsCheckbox extends React.Component {
     }
 
     render() {
-        const {checked, className} = this.props;
+        const {checked, className, disabled} = this.props;
 
         return (
             <input
@@ -18,6 +18,7 @@ class FmsCheckbox extends React.Component {
                 ref='checkbox'
                 checked={checked}
                 onChange={this.onChange.bind(this)}
+                disabled={disabled}
             />
         )
     }
@@ -26,7 +27,8 @@ class FmsCheckbox extends React.Component {
 FmsCheckbox.propTypes = {
     onChange: propTypes.func,
     checked: propTypes.bool,
-    className: propTypes.string
+    className: propTypes.string,
+    disabled: propTypes.bool
 };
 
 export default FmsCheckbox;
