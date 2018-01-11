@@ -3,8 +3,9 @@ import FmsPageTitle from "../../commons/page-title/FmsPageTitle";
 import FmsSpin from "../../commons/FmsSpin/FmsSpin";
 import FmsExportOrderSearchBar from "../orders/all-orders/FmsExportOrderSearchBar";
 import FmsExportOrderTable from "./FmsExportOrderTable";
-import {getExportOrders} from "../../api/OrderApi";
-import FmsExportOrderDetailModal from "./modals/FmsExportOrderDetailModal";
+import {getOrders, ORDER_STATUS} from "../../api/OrderApi";
+import FmsOrderDetailModal from "../../commons/order-modal/FmsOrderDetailModal";
+
 
 class FmsExportOrders extends Component {
 
@@ -43,7 +44,7 @@ class FmsExportOrders extends Component {
         this.setState({isLoading: true});
 
         if (project) {
-            getExportOrders(project.alias)
+            getOrders(project.alias, {status: ORDER_STATUS.EXPORTED_ORDER})
                 .then(orders => this.setState({orders, isLoading: false}));
         }
     }
@@ -92,11 +93,13 @@ class FmsExportOrders extends Component {
                                             />
                                     }
 
-                                    <FmsExportOrderDetailModal
+                                    <FmsOrderDetailModal
                                         order={selectedOrder}
                                         project={project}
                                         onClose={this.onCloseDetailModal.bind(this)}
-                                        isShown={isShownDetailModal}/>
+                                        isShown={isShownDetailModal}
+                                        typeModal={2}
+                                    />
 
                                 </div>
                             </div>

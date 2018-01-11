@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 import FmsCheckbox from 'commons/FmsCheckbox/FmsCheckbox';
-import {exportOrder, createNewOrder} from "../../../api/OrderApi";
+import {exportOrder, createOrder} from "../../../api/OrderApi";
 import {getOrderTags} from "../../../api/OrderTagApi";
 import {toReadablePrice} from "../../../utils/price-utils";
 
@@ -18,7 +18,7 @@ class FmsCreateOrderModal extends Component {
         const {project} = this.props;
         this.setState({isLoading: true});
 
-        createNewOrder(project.alias, this.state.order)
+        createOrder(project.alias, this.state.order)
             .then(
                 order => {
                     const updateUI = true;

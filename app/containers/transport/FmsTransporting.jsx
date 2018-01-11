@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import FmsPageTitle from "../../commons/page-title/FmsPageTitle";
 import FmsSpin from "../../commons/FmsSpin/FmsSpin";
-import {getTransportingOrders, getTransportOrders} from "../../api/OrderApi";
+import {getOrders, ORDER_STATUS} from "../../api/OrderApi";
 import FmsTransportOrderSearchBar from "./transport-orders/FmsTransportOrderSearchBar";
 import FmsTransportOrderTable from "./transport-orders/FmsTransportOrderTable";
-import FmsTransportedOrderDetailModal from "./modals/FmsTransportedOrderDetailModal";
 import FmsTransportingSearchBar from "./transporting/FmsTransportingSearchBar";
 import FmsTransportingTable from "./transporting/FmsTransportingTable";
-import FmsTransportingDetailModal from "./modals/FmsTransportingDetailModal";
+import FmsOrderDetailModal from "../../commons/order-modal/FmsOrderDetailModal";
 
 class FmsTransporting extends Component {
 
@@ -40,7 +39,7 @@ class FmsTransporting extends Component {
     updateOrderList(project) {
         this.setState({isLoading: true});
 
-        getTransportingOrders(project.alias)
+        getOrders(project.alias, {status: ORDER_STATUS.TRANSPORTING})
             .then(orders => this.setState({
                 orders,
                 isLoading: false
@@ -99,11 +98,13 @@ class FmsTransporting extends Component {
                                             />
                                     }
 
-                                    <FmsTransportingDetailModal
+                                    <FmsOrderDetailModal
                                         order={selectedOrder}
                                         project={project}
                                         onClose={this.onCloseDetailModal.bind(this)}
-                                        isShown={isShownDetailModal}/>
+                                        isShown={isShownDetailModal}
+                                        typeModal={4}
+                                    />
 
                                 </div>
                             </div>

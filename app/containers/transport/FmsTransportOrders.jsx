@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import FmsPageTitle from "../../commons/page-title/FmsPageTitle";
 import FmsSpin from "../../commons/FmsSpin/FmsSpin";
-import {getTransportOrders} from "../../api/OrderApi";
+import {getOrders, ORDER_STATUS} from "../../api/OrderApi";
 import FmsTransportOrderSearchBar from "./transport-orders/FmsTransportOrderSearchBar";
 import FmsTransportOrderTable from "./transport-orders/FmsTransportOrderTable";
-import FmsTransportedOrderDetailModal from "./modals/FmsTransportedOrderDetailModal";
+import FmsOrderDetailModal from "../../commons/order-modal/FmsOrderDetailModal";
 
 class FmsTransportOrders extends Component {
 
@@ -43,7 +43,7 @@ class FmsTransportOrders extends Component {
         this.setState({isLoading: true});
 
         if (project) {
-            getTransportOrders(project.alias)
+            getOrders(project.alias, {status: ORDER_STATUS.TRANSPORTED_ORDER})
                 .then(orders => this.setState({orders, isLoading: false}));
         }
     }
@@ -92,11 +92,13 @@ class FmsTransportOrders extends Component {
                                             />
                                     }
 
-                                    <FmsTransportedOrderDetailModal
+                                    <FmsOrderDetailModal
                                         order={selectedOrder}
                                         project={project}
                                         onClose={this.onCloseDetailModal.bind(this)}
-                                        isShown={isShownDetailModal}/>
+                                        isShown={isShownDetailModal}
+                                        typeModal={3}
+                                    />
 
                                 </div>
                             </div>

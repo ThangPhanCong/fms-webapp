@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import {getExportOrders} from "../../../api/OrderApi";
+import {getOrders, ORDER_STATUS} from "../../../api/OrderApi";
 import FmsSpin from "../../../commons/FmsSpin/FmsSpin";
-import FmsOrderDetailModal from "../modals/FmsOrderDetailModal";
+import FmsOrderDetailModal from "../../../commons/order-modal/FmsOrderDetailModal";
 import FmsExportOrderSearchBar from "./FmsExportOrderSearchBar";
 import FmsExportOrderTable from "../../stock/FmsExportOrderTable";
 
@@ -41,7 +41,7 @@ class FmsExportOrderTab extends Component {
     updateOrders(project) {
         this.setState({isLoading: true});
 
-        getExportOrders(project.alias)
+        getOrders(project.alias, {status: ORDER_STATUS.EXPORTED_ORDER})
             .then(orders => this.setState({orders, isLoading: false}));
     }
 
@@ -87,12 +87,13 @@ class FmsExportOrderTab extends Component {
                                 />
                         }
 
-                        {/*<FmsOrderDetailModal*/}
-                            {/*isShown={isShownModal}*/}
-                            {/*onClose={this.onCloseModal.bind(this)}*/}
-                            {/*order={selectedOrder}*/}
-                            {/*project={project}*/}
-                        {/*/>*/}
+                        <FmsOrderDetailModal
+                            isShown={isShownModal}
+                            onClose={this.onCloseModal.bind(this)}
+                            order={selectedOrder}
+                            typeModal={2}
+                            project={project}
+                        />
                     </div>
                 </div>
             </div>
