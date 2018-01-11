@@ -7,21 +7,23 @@ class FmsColorCardModal extends React.Component {
         super(props);
         this.state = {
             name: null,
+            description: null,
             color: null
         }
     }
 
     componentWillReceiveProps(nextProps) {
         if (this.props.data !== nextProps.data && nextProps.data) {
-            this.setState({name: nextProps.data.name, color: nextProps.data.color});
+            this.setState({name: nextProps.data.name, color: nextProps.data.color, description: nextProps.data.description});
         } else if (this.props.data && !nextProps.data) {
-            this.setState({name: null, color: null});
+            this.setState({name: null, color: null, description: null});
         }
     }
 
     onChangeInput(refName) {
         let value = this.refs[refName].value;
-        this.setState({name: value});
+        if (refName === 'name') this.setState({name: value});
+        else this.setState({description: value});
     }
 
     onChangeColor(color) {
@@ -33,20 +35,21 @@ class FmsColorCardModal extends React.Component {
         let tag = {
             _id: data._id,
             name: this.state.name || data.name,
-            color: this.state.color || data.color
+            color: this.state.color || data.color,
+            description: this.state.description || data.description
         };
-        this.setState({name: null, color: null});
+        this.setState({name: null, color: null, description: null});
         this.props.updateTag(tag);
     }
 
     deleteTag() {
-        this.setState({name: null, color: null});
+        this.setState({name: null, color: null, description: null});
         this.props.deleteTag(this.props.data);
     }
 
     addNewTag() {
-        this.setState({name: null, color: null});
-        this.props.addNewTag({name: this.state.name, color: this.state.color});
+        this.props.addNewTag({name: this.state.name, color: this.state.color, description: this.state.description});
+        this.setState({name: null, color: null, description: null});
     }
 
     renderColors() {
@@ -68,7 +71,8 @@ class FmsColorCardModal extends React.Component {
         let title = (data) ? "Chỉnh sửa thẻ màu" : "Tạo thẻ màu mới";
         let name = this.state.name;
         name = (name || name === "") ? name : (data ? data.name : "");
-        let note = (data && data.description) ? data.description : "";
+        let note = this.state.description;
+        note = (note || note === "") ? note : ((data && data.description) ? data.description : "");
         let color = (this.state.color) ? this.state.color : (data ? data.color : '#CACACA');
         let style = {backgroundColor: color, color: "white"};
 
@@ -119,7 +123,10 @@ class FmsColorCardModal extends React.Component {
                                 <input type="text"
                                        className="form-control"
                                        ref='note'
-                                       defaultValue={note}/>
+                                       value={note}
+                                       onChange={() => {
+                                           this.onChangeInput('note')
+                                       }}/>
                             </div>
                         </div>
                         <div className="form-group row">

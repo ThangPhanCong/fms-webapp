@@ -55,7 +55,7 @@ class FmsColorCards extends React.Component {
 
     addNewTag(tag) {
         this.setState({isEditting: true});
-        TagApi.create(this.props.project.alias, tag.name, tag.color)
+        TagApi.create(this.props.project.alias, tag.name, tag.color, tag.description)
             .then(() => {
                 this.getTags(this.props.project.alias);
                 this.setState({isEditting: false, isShownModal: false});
@@ -68,7 +68,7 @@ class FmsColorCards extends React.Component {
 
     updateTag(tag) {
         this.setState({isEditting: true});
-        TagApi.update(this.props.project.alias, tag._id, tag.name, tag.color)
+        TagApi.update(this.props.project.alias, tag._id, tag.name, tag.color, tag.description)
             .then(() => {
                 this.getTags(this.props.project.alias);
                 this.setState({isEditting: false, isShownModal: false});
@@ -107,7 +107,7 @@ class FmsColorCards extends React.Component {
     render() {
         let alias = (this.props.project) ? this.props.project.alias : null;
         let route = (alias) ? `${alias}/Quản lý trang/Thẻ màu` : "";
-        let isDisabled = this.state.tags.length >= MAX_TAG_ITEMS || this.state.isLoadingTags;
+        let isDisabled = this.state.tags.length >= MAX_TAG_ITEMS || this.state.isLoading;
         return (
             <div className="row">
                 <div className="col-lg-12">
@@ -140,7 +140,7 @@ class FmsColorCards extends React.Component {
                                 </tbody>
                             </table>
                         </div>
-                        {this.state.isLoadingTags ?
+                        {this.state.isLoading ?
                             <div className="spin-wrapper"><FmsSpin size={27}/></div> : null
                         }
                     </div>

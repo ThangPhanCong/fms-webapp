@@ -30,7 +30,8 @@ class FmsSettings extends React.Component {
     }
 
     deletePage(page_id) {
-        if (!this.state.isHandling) {
+        let aloww = confirm("Bạn có chắc muốn xóa trang này khỏi cửa hàng?");
+        if (aloww && !this.state.isHandling) {
             this.setState({isHandling: true});
             ProjectApi.deletePage(this.props.project.alias, page_id)
                 .then(() => {
@@ -45,7 +46,8 @@ class FmsSettings extends React.Component {
     }
 
     addPage(page_id) {
-        if (!this.state.isHandling) {
+        let aloww = confirm("Bạn có muốn thêm trang này vào cửa hàng?");
+        if (aloww && !this.state.isHandling) {
             this.setState({isHandling: true});
             ProjectApi.addPage(this.props.project.alias, page_id)
                 .then(() => {
@@ -68,11 +70,11 @@ class FmsSettings extends React.Component {
                     <div className="avatar"><img className="avatar-image" src={avaUrl}/></div>
                     <div className="page-name">{page.name}</div>
                     <div className={"glyphicon glyphicon-trash delete-icon clickable" + disabled}
-                         onClick={() => {this.addPage(page.fb_id)}}/>
+                         onClick={() => {this.deletePage(page._id)}}/>
                 </div>
             });
         } else {
-            return <div className="spin-wrapper"><FmsSpin size={27}/></div>
+            return <div className="spin-wrapper padding"><FmsSpin size={27}/></div>
         }
     }
 
@@ -90,11 +92,11 @@ class FmsSettings extends React.Component {
                     <div className="avatar"><img className="avatar-image" src={avaUrl}/></div>
                     <div className="page-name">{page.name}</div>
                     <img className={"add-icon clickable" + disabled} src={addImg}
-                         onClick={() => {this.deletePage(page._id)}}/>
+                         onClick={() => {this.addPage(page._id)}}/>
                 </div>
             })
         } else {
-            return <div className="spin-wrapper"><FmsSpin size={27}/></div>
+            return <div className="spin-wrapper padding"><FmsSpin size={27}/></div>
         }
     }
 
