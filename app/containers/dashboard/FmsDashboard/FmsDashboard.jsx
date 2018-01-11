@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import FmsChatArea from '../selectedConversation/FmsChatArea/FmsChatArea';
 import FmsConversationList from '../conversations/FmsConversationList/FmsConversationList';
-import FmsClientInformation from '../information/FmsClientInformation/FmsClientInformation';
+import FmsClientInformation from '../FmsClientInformation/FmsClientInformation';
 import FmsVerticalNav from '../FmsVerticalNav/FmsVerticalNav';
 
 import {resetConversations, cancelGetConversations} from '../../../actions/dashboard/conversations';
