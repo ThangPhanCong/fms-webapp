@@ -65,17 +65,13 @@ const mockupOrders = [
     },
 ];
 
-const ORDER_STATUS = {
-    DRAFT: "DRAFT",
-    EXPORTED_ORDER: "EXPORTED_ORDER",
-    TRANSPORTED_ORDER: "TRANSPORTED_ORDER",
-    TRANSPORTING: "TRANSPORTING",
-    PAY: "PAY_COD",
-    REFUND: "REFUND",
-    WAIT: "WAIT"
-};
-
 module.exports = {
+    ORDER_STATUS: {
+        DRAFT: "DRAFT",
+        EXPORTED_ORDER: "EXPORTED_ORDER",
+        TRANSPORTED_ORDER: "TRANSPORTED_ORDER",
+        TRANSPORTING: "TRANSPORTING",
+    },
     getTestOrders: () => {
         return delay(1000).then(() => Promise.resolve(mockupOrders));
     },

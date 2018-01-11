@@ -2,17 +2,19 @@ import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 import FmsCheckbox from 'commons/FmsCheckbox/FmsCheckbox';
-import {deleteOrder, exportOrder, updateOrder} from "api/OrderApi";
+import {deleteOrder, updateOrder} from "api/OrderApi";
 import {cloneDiff} from "utils/object-utils";
 import {getOrderTags} from "api/OrderTagApi";
 import {toReadablePrice} from "utils/price-utils";
+import {typesModal} from "./config";
 
 class FmsOrderDetailModal extends Component {
 
     state = {
         order: {},
         orderTags: [],
-        isLoading: false
+        isLoading: false,
+        config: {}
     };
 
     updateOrder() {
@@ -41,19 +43,22 @@ class FmsOrderDetailModal extends Component {
             })
     }
 
-    exportOrder() {
-        const allowExport = confirm('Bạn có chắc chắn muốn xuất đơn hàng này?');
+    changeStatusOrder() {
+        const allowExport = confirm('Bạn có chắc chắn muốn thay đổi trạng thái đơn hàng này?');
         if (!allowExport) return;
 
         const {project} = this.props;
         const diffOrder = cloneDiff({...this.props.order}, {...this.state.order});
         diffOrder._id = this.props.order._id;
+        if (this.state.config.nextStatus !== '') {
+            diffOrder.status = this.state.config.nextStatus;
+        }
 
         console.log('order diff', diffOrder);
 
         this.setState({isLoading: true});
 
-        exportOrder(project.alias, diffOrder)
+        updateOrder(project.alias, diffOrder)
             .then(order => {
                 this.props.onClose(order);
             })
@@ -143,8 +148,9 @@ class FmsOrderDetailModal extends Component {
     }
 
     componentDidMount() {
-        const {order, project} = this.props;
-        this.setState({order});
+        const {order, project, typeModal} = this.props;
+        let config = typesModal[typeModal-1];
+        this.setState({order, config});
 
         if (project) {
             this.updateOrderTags(project);
@@ -153,7 +159,7 @@ class FmsOrderDetailModal extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.order) {
-            this.setState({order: nextProps.order, isLoading: false});
+            this.setState({order: nextProps.order, isLoading: false, config: typesModal[nextProps.typeModal-1]});
         }
 
         if (nextProps.project !== this.props.project) {
@@ -162,8 +168,7 @@ class FmsOrderDetailModal extends Component {
     }
 
     renderProducts() {
-        const {order} = this.state;
-
+        const {order, config} = this.state;
         if (Array.isArray(order.products)) {
             return order.products.map(
                 (product, i) => (
@@ -175,8 +180,12 @@ class FmsOrderDetailModal extends Component {
                         <td>{toReadablePrice(product.price)}</td>
                         <td>{toReadablePrice(product.discount)}</td>
                         <td>{toReadablePrice(product.price * product.quantity - product.discount)}</td>
-                        <td><i className="fa fa-trash-o clickable"/></td>
-                        <td><i className="fa fa-pencil clickable"/></td>
+                        {
+                            config.sanPham ? <td><i className="fa fa-trash-o clickable"/></td> : null
+                        }
+                        {
+                            config.sanPham ? <td><i className="fa fa-pencil clickable"/></td> : null
+                        }
                     </tr>
                 )
             )
@@ -186,8 +195,7 @@ class FmsOrderDetailModal extends Component {
     }
 
     renderModalBody() {
-        const {order, orderTags} = this.state;
-
+        const {order, orderTags, config} = this.state;
         return (
             <Modal.Body>
 
@@ -210,39 +218,45 @@ class FmsOrderDetailModal extends Component {
                                 />
                             </div>
                         </div>
-
-                        <div className="form-group row">
-                            <div className="col-sm-3">
-                                <label className="control-label">Đánh dấu</label>
-                            </div>
-                            <div className="col-sm-9 color-tag">
-                                <select className="form-control"
-                                        ref='order_tag'
-                                        value={
-                                            ((order) => {
-                                                if (typeof order.order_tag === 'string') {
-                                                    return order.order_tag;
-                                                } else if (order.order_tag) {
-                                                    return order.order_tag._id;
-                                                } else {
-                                                    return '';
-                                                }
-                                            })(order)
-                                        }
-                                        onChange={() => {
-                                            this.onChangeInput('order_tag')
-                                        }}
-                                >
-                                    {
-                                        orderTags.map(
-                                            (tag, i) => (
-                                                <option key={i} value={tag._id}>{tag.name}</option>
+                        
+                        {
+                            config.danhDau
+                            ?
+                            <div className="form-group row">
+                                <div className="col-sm-3">
+                                    <label className="control-label">Đánh dấu</label>
+                                </div>
+                                <div className="col-sm-9 color-tag">
+                                    <select className="form-control"
+                                            ref='order_tag'
+                                            value={
+                                                ((order) => {
+                                                    if (typeof order.order_tag === 'string') {
+                                                        return order.order_tag;
+                                                    } else if (order.order_tag) {
+                                                        return order.order_tag._id;
+                                                    } else {
+                                                        return '';
+                                                    }
+                                                })(order)
+                                            }
+                                            onChange={() => {
+                                                this.onChangeInput('order_tag')
+                                            }}
+                                    >
+                                        {
+                                            orderTags.map(
+                                                (tag, i) => (
+                                                    <option key={i} value={tag._id}>{tag.name}</option>
+                                                )
                                             )
-                                        )
-                                    }
-                                </select>
+                                        }
+                                    </select>
+                                </div>
                             </div>
-                        </div>
+                            : null
+                        }
+                        
                     </div>
 
                     <div className="col-sm-6">
@@ -263,6 +277,7 @@ class FmsOrderDetailModal extends Component {
                                                onChange={() => {
                                                    this.onChangeInput('customer_name')
                                                }}
+                                               disabled={!config.khachHang}
                                         />
                                     </div>
                                 </div>
@@ -279,6 +294,7 @@ class FmsOrderDetailModal extends Component {
                                                onChange={() => {
                                                    this.onChangeInput('customer_phone')
                                                }}
+                                               disabled={!config.khachHang}
                                         />
                                     </div>
                                 </div>
@@ -295,6 +311,7 @@ class FmsOrderDetailModal extends Component {
                                                onChange={() => {
                                                    this.onChangeInput('customer_facebook')
                                                }}
+                                               disabled={!config.khachHang}
                                         />
                                     </div>
                                 </div>
@@ -320,6 +337,7 @@ class FmsOrderDetailModal extends Component {
                                                onChange={() => {
                                                    this.onChangeInput('transport_address')
                                                }}
+                                               disabled={!config.vanChuyen}
                                         />
                                     </div>
                                 </div>
@@ -335,6 +353,7 @@ class FmsOrderDetailModal extends Component {
                                                 onChange={() => {
                                                     this.onChangeInput('transport_method')
                                                 }}
+                                                disabled={!config.vanChuyen}
                                         >
                                             <option value="" defaultValue/>
                                             <option value="TONG_BUU_DIEN">Tổng bưu điện</option>
@@ -358,6 +377,7 @@ class FmsOrderDetailModal extends Component {
                                                onChange={() => {
                                                    this.onChangeInput('transport_fee')
                                                }}
+                                               disabled={!config.vanChuyen}
                                         />
                                     </div>
                                 </div>
@@ -376,24 +396,28 @@ class FmsOrderDetailModal extends Component {
                                     <div className="col-lg-12">
                                         <div className="ibox none-margin-bottom">
                                             <div className="">
-                                                <div className="row">
-                                                    <div className="col-sm-9">
-                                                        <div className="form-group">
-                                                            <input type="text"
-                                                                   value=""
-                                                                   placeholder="Tìm và thêm sản phẩm"
-                                                                   className="form-control"/>
+                                                {
+                                                    config.sanPham ?
+                                                    <div className="row">
+                                                        <div className="col-sm-9">
+                                                            <div className="form-group">
+                                                                <input type="text"
+                                                                    value=""
+                                                                    placeholder="Tìm và thêm sản phẩm"
+                                                                    className="form-control"/>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div className="col-sm-3">
-                                                        <div className="form-group">
-                                                            <button className="btn btn-primary full-width"
-                                                            >Thêm sản phẩm
-                                                            </button>
+                                                        <div className="col-sm-3">
+                                                            <div className="form-group">
+                                                                <button className="btn btn-primary full-width">
+                                                                Thêm sản phẩm
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                    : null
+                                                }
 
                                                 <div className="table-responsive">
                                                     <table className="table table-striped">
@@ -469,6 +493,7 @@ class FmsOrderDetailModal extends Component {
                                 onChange={(value) => {
                                     this.onChangeInput('is_pay', value)
                                 }}
+                                disabled={!config.thanhToan}
                             />
                         </div>
                     </div>
@@ -482,12 +507,14 @@ class FmsOrderDetailModal extends Component {
 
     render() {
         const {
-            isShown
+            isShown,
+            typeModal
         } = this.props;
 
         const {
             order,
-            isLoading
+            isLoading,
+            config
         } = this.state;
 
         if (!order) {
@@ -530,8 +557,8 @@ class FmsOrderDetailModal extends Component {
                         </button>
 
                         <button className="btn btn-success"
-                                onClick={() => this.exportOrder()}
-                                disabled={isLoading}>Yêu cầu xuất
+                                onClick={() => this.changeStatusOrder()}
+                                disabled={isLoading}>{config.btnSuccessName}
                         </button>
 
                         <button className="btn btn-primary"
@@ -548,6 +575,7 @@ class FmsOrderDetailModal extends Component {
 
 FmsOrderDetailModal.propTypes = {
     isShown: propTypes.bool.isRequired,
+    typeModal: propTypes.number.isRequired,
     onClose: propTypes.func.isRequired,
     order: propTypes.object
 };
