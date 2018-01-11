@@ -11,10 +11,6 @@
   outline: none;
 }
 
-.button-new-post {
-  margin-right: 10px;
-}
-
 .title-modal {
   font-size: 16px;
   display: inline-block;
@@ -38,10 +34,9 @@
 .delete-selected-page {
   margin: 0 -5px 0 5px;
   font-size: 12px;
-}
-
-.delete-selected-page:hover {
-  cursor: pointer;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .add-post-image-wrapper {

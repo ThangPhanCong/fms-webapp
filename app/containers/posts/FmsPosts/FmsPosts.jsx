@@ -1,35 +1,91 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import {Grid, Row, Col, Button} from 'react-bootstrap';
 import FmsPostItem from '../FmsPostItem/FmsPostItem';
-import {getPosts, toggleChange} from '../../../actions/post';
 import FmsSpin from "../../../commons/FmsSpin/FmsSpin";
 import FmsAddPostModal from '../FmsAddPostModal/FmsAddPostModal';
 import FmsPageTitle from '../../../commons/page-title/FmsPageTitle';
+import PostsApi from "../../../api/PostsApi";
+import {noti} from "../../notification/NotificationService";
 
 class FmsPosts extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isShownModal: false
+            isShownModal: false,
+            isLoading: true,
+            isLoadMore: false,
+            posts: [],
+            paging: {next: null}
         };
     }
 
     componentDidMount() {
         if (this.props.project && this.props.project.alias) {
-            this.props.dispatch(getPosts(this.props.project.alias));
+            this.getPosts(this.props.project.alias);
         }
     }
 
     componentDidUpdate(prevProps) {
         if ((!prevProps.project && this.props.project) || prevProps.project.alias !== this.props.project.alias) {
-            this.props.dispatch(getPosts(this.props.project.alias));
+            this.getPosts(this.props.project.alias);
         }
     }
 
-    onToggleChange(fb_post_id) {
-        const {posts, dispatch, noti} = this.props;
-        dispatch(toggleChange(posts, fb_post_id, noti));
+    getPosts(alias, paging) {
+        if (paging) {
+            this.setState({isLoadMore: true});
+            PostsApi.getPostsOfProject(alias, paging)
+                .then(data => {
+                    if (data) {
+                        let paging = data.paging ? data.paging : null;
+                        let posts = this.state.posts.concat(data.data);
+                        this.setState({posts, paging, isLoadMore: false});
+                    } else {
+                        throw new Error("Posts not found");
+                    }
+                })
+                .catch(err => alert(err.message));
+        } else {
+            this.setState({isLoading: true});
+            PostsApi.getPostsOfProject(alias)
+                .then(data => {
+                    if (data) {
+                        let paging = data.paging ? data.paging : null;
+                        let posts = this.state.posts.concat(data.data);
+                        this.setState({posts, paging, isLoading: false});
+                    } else {
+                        throw new Error("Posts not found");
+                    }
+                })
+                .catch(err => alert(err.message));
+        }
+    }
+
+    onToggleChange(post_id) {
+        let {posts} = this.state;
+        let postChange = posts.find((post) => {
+            return post._id === post_id;
+        });
+        PostsApi.hideComment(post_id, !postChange.hide_comment)
+            .then(() => {
+                postChange.hide_comment = !postChange.hide_comment;
+
+                for (let post of posts) {
+                    if (post._id === post_id) {
+                        if (post.hide_comment) {
+                            noti('success', 'Ẩn bình luận thành công');
+                        } else {
+                            noti('success', 'Bỏ ẩn bình luận thành công');
+                        }
+                    }
+                }
+                let newPosts = posts.map(post => {
+                    if (post_id === post._id) return postChange;
+                    else return post;
+                });
+                this.setState({posts: newPosts});
+            })
+            .catch(err => alert(err.message));
     }
 
     openModal() {
@@ -41,13 +97,12 @@ class FmsPosts extends React.Component {
     }
 
     loadMorePosts() {
-        const {dispatch, paging} = this.props;
-        dispatch(getPosts(this.props.project.alias, paging.next));
+        this.getPosts(this.props.project.alias, this.state.paging.next);
     }
 
     renderPosts() {
-        const {posts, isPostsLoading} = this.props;
-        if (isPostsLoading) {
+        let {isLoading, posts} = this.state;
+        if (isLoading) {
             return (
                 <FmsSpin/>
             )
@@ -71,7 +126,7 @@ class FmsPosts extends React.Component {
     }
 
     render() {
-        const {paging, isPostsLoading, isMorePostsLoading} = this.props;
+        let {isLoading, isLoadMore, paging} = this.state;
         let alias = (this.props.project) ? this.props.project.alias : null;
         let route = (alias) ? `${alias}/Quản lý trang/Bài viết` : "";
         return (
@@ -91,8 +146,8 @@ class FmsPosts extends React.Component {
                         {this.renderPosts()}
                     </Row>
                     <div className="loadmore-wrapper">
-                        {(paging && !isPostsLoading) ?
-                            (!isMorePostsLoading) ? <Button onClick={this.loadMorePosts.bind(this)}>Lấy thêm</Button>
+                        {(paging && !isLoading) ?
+                            (!isLoadMore) ? <Button onClick={this.loadMorePosts.bind(this)}>Tải thêm</Button>
                                 : <FmsSpin/>
                             : null}
 
@@ -105,13 +160,4 @@ class FmsPosts extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        isPostsLoading: state.post.isPostsLoading,
-        isMorePostsLoading: state.post.isMorePostsLoading,
-        posts: state.post.posts,
-        paging: state.post.paging
-    }
-};
-
-export default connect(mapStateToProps)(FmsPosts);
+export default FmsPosts;

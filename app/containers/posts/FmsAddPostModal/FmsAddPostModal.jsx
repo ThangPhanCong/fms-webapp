@@ -188,10 +188,8 @@ class FmsAddPostModal extends React.Component {
                         {this.renderBody()}
                     </Modal.Body>
                     <Modal.Footer>
-                        <div className="trailer-new-post">
-                            <button className="button-new-post btn btn-success" disabled={isDisabled}>Lên lịch</button>
-                            <button className="button-new-post btn btn-primary" disabled={isDisabled}>Đăng</button>
-                        </div>
+                        <button className="btn btn-default" disabled={isDisabled}>Hủy</button>
+                        <button className="btn btn-primary" disabled={isDisabled}>Đăng</button>
                     </Modal.Footer>
                 </div>
             </Modal>
