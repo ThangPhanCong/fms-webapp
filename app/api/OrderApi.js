@@ -71,6 +71,7 @@ module.exports = {
         EXPORTED_ORDER: "EXPORTED_ORDER",
         TRANSPORTED_ORDER: "TRANSPORTED_ORDER",
         TRANSPORTING: "TRANSPORTING",
+        SAVED_ORDER: "SAVED_ORDER"
     },
     getTestOrders: () => {
         return delay(1000).then(() => Promise.resolve(mockupOrders));
