@@ -48,7 +48,7 @@ class FmsInformationTab extends React.Component {
             </div>
         });
     }
-    static renderOrders() {
+    renderOrders() {
         return <p className="no-note">Chưa có đơn hàng nào</p>
     }
     renderNoteList() {
@@ -86,7 +86,8 @@ class FmsInformationTab extends React.Component {
                     </div>
                     <div>
                         <div className="title-section">Đơn hàng</div>
-                        {FmsInformationTab.renderOrders()}
+                        <a className="add-note-button" onClick={() => {}}>Thêm</a>
+                        {this.renderOrders()}
                     </div>
                 </div>
             </div>
