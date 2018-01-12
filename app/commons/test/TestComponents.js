@@ -11,7 +11,7 @@ import FmsLineChartCanvasTest from "../charts/FmsLineChartCanvas/FmsLineChartCan
 import FmsDatePickerTest from "../date-picker/FmsDatePickerTest";
 import FmsSwitchTest from '../FmsSwitch/FmsSwitchTest';
 import FmsOrderDetailModalTest from "../order-modal/FmsOrderDetailModalTest";
-import FmsTimelineTest from '../FmsTimeline/FmsTimelineTest';
+// import FmsTimelineTest from '../FmsTimeline/FmsTimelineTest';
 
 const TestComponent = ({match}) => (
     <div>
@@ -83,7 +83,7 @@ const TestComponent = ({match}) => (
         <Route path={`${match.url}/fmsdatepicker`} component={FmsDatePickerTest}/>
         <Route path={`${match.url}/fmsswitch`} component={FmsSwitchTest}/>
         <Route path={`${match.url}/fmsdetailordermodal`} component={FmsOrderDetailModalTest}/>
-        <Route path={`${match.url}/fmstimeline`} component={FmsTimelineTest}/>
+        {/*<Route path={`${match.url}/fmstimeline`} component={FmsTimelineTest}/>*/}
     </div>
 );
 
