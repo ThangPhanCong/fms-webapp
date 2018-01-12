@@ -68,6 +68,7 @@
   color: rgba(153, 153, 153, 1);
   font-weight: 400;
   flex: 1;
+  padding-right: 12px;
 }
 
 .client-item-tags {
@@ -77,8 +78,11 @@
 
 .client-item-tag {
   display: inline-block;
-  width: 20px;
-  height: 5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  margin-right: 4px;
+
 }
 
 .icon-type {
