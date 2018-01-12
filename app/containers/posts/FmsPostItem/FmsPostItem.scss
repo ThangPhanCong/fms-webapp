@@ -26,11 +26,11 @@
     display: flex;
     align-items: center;
     .page-name {
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
       font-size: 15px;
       font-weight: 600;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
     .avatar-wrapper {
       width: 40px;
@@ -45,9 +45,13 @@
     }
     .post-info {
       display: inline-block;
+      overflow: hidden;
       .created-time {
         font-size: 12px;
         color: #888888;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
     }
   }

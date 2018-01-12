@@ -75,14 +75,14 @@ class FmsAddPostModal extends React.Component {
         if (!isValid) alert("Kích thước ảnh tối đa là 2Mb. Một số ảnh quá lớn đã bị bỏ qua.");
         isValid = true;
 
-        files.forEach(file => {
+        files.forEach((file, index) => {
             if (newFiles.length >= MAX_NUMBER_OF_FILE) {
                 isValid = false;
                 return;
             }
             newStates.push("uploading");
             newFiles.push(file);
-            fileApi.getS3SigningRequest(file.name, file.type)
+            fileApi.getS3SigningRequest(index, file.type)
                 .then(data => {
                     let signedRequest = data.signedRequest;
                     let newFiles = this.state.files;
@@ -129,7 +129,7 @@ class FmsAddPostModal extends React.Component {
             .then(() => {
                 this.props.closeModal();
                 this.setState({isPosting: false, files: [], states: []});
-                this.props.getPosts();
+                alert(`Đăng thành công bài viết cho ${pages_fb_id.length} trang.`);
             })
             .catch(() => {
                 this.setState({isPosting: false});
