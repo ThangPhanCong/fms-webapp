@@ -3,6 +3,10 @@ import OrderApi from '../../../api/OrderApi';
 import * as u from 'lodash';
 import {noti} from "../../../containers/notification/NotificationService";
 
+export const setOrders = (orders) => dispatch => {
+    dispatch({type: 'SET_ORDERS', orders});
+};
+
 export const createNote = (alias, content) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
     let {notes} = getState().dashboard.createOrder;
@@ -85,6 +89,7 @@ export const createNewOrder = (alias, phone, address) => (dispatch, getState) =>
 export const getOrders = (alias) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
     let customer_id = (conversation.customer) ? conversation.customer._id : null;
+    if (!customer_id) return;
     OrderApi.getOrders(alias, customer_id, conversation.page_fb_id)
         .then(res => {
             console.log(res);

@@ -1,17 +1,23 @@
 const initState = {
-  notes: []
+    notes: [],
+    orders: []
 };
 
 const createOrder = (state = initState, action) => {
-  switch (action.type) {
-    case 'SET_NOTES':
-      return {
-        ...state,
-        notes: action.notes
-      };
-    default:
-      return state;
-  }
+    switch (action.type) {
+        case 'SET_NOTES':
+            return {
+                ...state,
+                notes: action.notes
+            };
+        case 'SET_ORDERS':
+            return {
+                ...state,
+                orders: action.orders
+            };
+        default:
+            return state;
+    }
 };
 
 export default createOrder;
