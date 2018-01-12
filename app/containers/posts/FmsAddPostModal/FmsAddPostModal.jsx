@@ -1,49 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import uuid from 'uuid';
 
-import {Modal, DropdownButton, MenuItem} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import ProjectApi from '../../../api/ProjectApi';
 import FmsSpin from '../../../commons/FmsSpin/FmsSpin';
 import fileApi from '../../../api/FileApi';
+import postsApi from '../../../api/PostsApi';
 import FmsCroppedImage from '../../../commons/FmsCroppedImage/FmsCroppedImage';
+
+const MAX_FILE_SIZE = 2202010;
+const MAX_NUMBER_OF_FILE = 15;
 
 class FmsAddPostModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            unselectedPages: [],
-            selectedPages: [],
+            pages: [],
             isHandling: false,
             files: [],
-            states: []
+            states: [],
+            isPosting: false
         }
     }
 
-    onSelect(eventKey) {
-        let selectedPages = this.state.selectedPages;
-        let unselectedPages = this.state.unselectedPages.filter(page => {
-            if (page._id === eventKey) {
-                selectedPages.push(page);
-                return false;
-            } else {
-                return true;
-            }
-        });
-        this.setState({selectedPages: selectedPages, unselectedPages: unselectedPages});
+    isNoSelectedPages() {
+        let pages = this.state.pages.filter(p => p.isSelected);
+        return pages.length === 0;
     }
 
-    onDeleteSelectedPage(_id) {
-        let unselectedPages = this.state.unselectedPages;
-        let selectedPages = this.state.selectedPages.filter(page => {
-            if (page._id === _id) {
-                unselectedPages.push(page);
-                return false;
-            } else {
-                return true;
-            }
-        });
-        this.setState({selectedPages: selectedPages});
+    isUploadingFiles() {
+        let filesHasNoUrl = this.state.states.filter(state => state === "uploading");
+        return filesHasNoUrl.length > 0;
     }
 
     onChangeAlias() {
@@ -51,27 +38,60 @@ class FmsAddPostModal extends React.Component {
         this.setState({isHandling: true});
         ProjectApi.getProject(this.props.alias)
             .then(res => {
-                this.setState({unselectedPages: res.pages, isHandling: false, selectedPages: []});
+                res.pages.forEach(p => {
+                    p.isSelected = false
+                });
+                this.setState({pages: res.pages, isHandling: false});
             }, () => {
                 alert("Something went wrong.");
             });
+    }
+
+    onSelectPage(page) {
+        let pages = this.state.pages;
+        pages.forEach(p => {
+            if (p.fb_id === page.fb_id) p.isSelected = !p.isSelected;
+        });
+        this.setState({pages});
     }
 
     onChangeFiles(e) {
         let self = this;
         let newFiles = this.state.files;
         let newStates = this.state.states;
+
         let files = e.target.files || e.dataTransfer.files;
         if (!files) return;
         files = Array.prototype.slice.call(files);
+
+        let isValid = true;
+        files = files.filter(f => {
+            if (f.size < MAX_FILE_SIZE) return true;
+            else {
+                isValid = false;
+                return false;
+            }
+        });
+        if (!isValid) alert("Kích thước ảnh tối đa là 2Mb. Một số ảnh quá lớn đã bị bỏ qua.");
+        isValid = true;
+
         files.forEach(file => {
+            if (newFiles.length >= MAX_NUMBER_OF_FILE) {
+                isValid = false;
+                return;
+            }
             newStates.push("uploading");
             newFiles.push(file);
-            let s3Url;
             fileApi.getS3SigningRequest(file.name, file.type)
                 .then(data => {
                     let signedRequest = data.signedRequest;
-                    s3Url = data.url;
+                    let newFiles = this.state.files;
+                    newFiles.forEach(f => {
+                        if (f.name === file.name && f.lastModified === file.lastModified) {
+                            f.url = data.url;
+                        }
+                    });
+                    this.setState({files: newFiles});
                     return fileApi.uploadFileToS3(file, signedRequest);
                 })
                 .then(() => {
@@ -90,11 +110,31 @@ class FmsAddPostModal extends React.Component {
                     console.log(err.message)
                 });
         });
+        if (!isValid) alert("Số lượng ảnh tối đa là 15. Một số ảnh đã bị bỏ qua.");
         this.setState({files: newFiles, states: newStates});
     }
 
-    componentWillMount() {
-        this.onChangeAlias();
+    onPost() {
+        let message = this.refs.content.value;
+        if (!message) {
+            alert("Chưa có nội dung bài đăng.");
+            return;
+        }
+        let pages = this.state.pages.filter(p => p.isSelected);
+        let pages_fb_id = pages.map(p => p.fb_id);
+        let images = this.state.files.map(f => f.url);
+        let content = {message, urls: images, published: true};
+        this.setState({isPosting: true});
+        postsApi.addNewPost(pages_fb_id, content)
+            .then(() => {
+                this.props.closeModal();
+                this.setState({isPosting: false, files: [], states: []});
+                this.props.getPosts();
+            })
+            .catch(() => {
+                this.setState({isPosting: false});
+                alert("Something went wrong");
+            });
     }
 
     adjustHeight() {
@@ -102,16 +142,14 @@ class FmsAddPostModal extends React.Component {
         $(textarea).height(this.refs.content.scrollHeight - 4);
     }
 
+    componentWillMount() {
+        this.onChangeAlias();
+    }
+
     componentDidUpdate(prevProps) {
         if (prevProps.alias !== this.props.alias) {
             this.onChangeAlias();
         }
-    }
-
-    renderDropdownItem() {
-        return this.state.unselectedPages.map(page => {
-            return <MenuItem key={page._id} eventKey={page._id}>{page.name}</MenuItem>
-        });
     }
 
     renderImages() {
@@ -142,29 +180,31 @@ class FmsAddPostModal extends React.Component {
                             <i className="glyphicon glyphicon-plus glyphicon-add"/>
                         </label>
                         <input type="file" className="input-file" accept="image/*" multiple="multiple"
-                               onChange={this.onChangeFiles.bind(this)} id="inputFile"/>
+                               onChange={this.onChangeFiles.bind(this)} id="inputFile" disabled={this.state.isPosting}/>
                     </div>
                 </div>
             </div>
         }
     }
 
-    renderSelectedPages() {
-        return this.state.selectedPages.map((page, index) => {
-            let name = page.name || "";
-            if (name.length > 30) name = name.substr(0, 28) + "...";
-            return <div className="add-post-page-item" key={index}>
-                {name}
-                <span className="glyphicon glyphicon-remove delete-selected-page"
-                      onClick={() => {
-                          this.onDeleteSelectedPage(page._id)
-                      }}/>
+    renderPages() {
+        return this.state.pages.map((page, index) => {
+            return <div key={index} className="add-post-page-item">
+                <label className="page-name">
+                    <input type="checkbox" className="add-post-checkbox" checked={page.isSelected}
+                           onChange={() => {
+                               this.onSelectPage(page)
+                           }}/>
+                    {page.name}
+                </label>
             </div>
         });
     }
 
     render() {
-        let isDisabled = (this.state.isHandling);
+        let postisDisabled = (this.state.isHandling || this.state.isPosting
+            || this.isNoSelectedPages() || this.isUploadingFiles());
+        let cancelIsDisabled = this.state.isHandling || this.state.isPosting;
         return (
             <Modal
                 show={this.props.isShown}
@@ -176,20 +216,26 @@ class FmsAddPostModal extends React.Component {
                     <Modal.Header closeButton={true}>
                         <Modal.Title>
                             <div className="modal-title">Đăng bài mới cho các trang</div>
-                            <DropdownButton onSelect={(eventKey) => {
-                                this.onSelect(eventKey)
-                            }} title={"Chọn trang"} id={uuid()}>
-                                {this.renderDropdownItem()}
-                            </DropdownButton>
-                            <div>{this.renderSelectedPages()}</div>
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                        <div className="selected-pages">{this.renderPages()}</div>
+                        <hr/>
                         {this.renderBody()}
                     </Modal.Body>
                     <Modal.Footer>
-                        <button className="btn btn-default" disabled={isDisabled}>Hủy</button>
-                        <button className="btn btn-primary" disabled={isDisabled}>Đăng</button>
+                        <button className="btn btn-default"
+                                disabled={cancelIsDisabled}
+                                onClick={() => {
+                                    this.props.closeModal()
+                                }}>
+                            Hủy
+                        </button>
+                        <button className="btn btn-primary"
+                                disabled={postisDisabled}
+                                onClick={this.onPost.bind(this)}>
+                            Đăng
+                        </button>
                     </Modal.Footer>
                 </div>
             </Modal>

@@ -60,6 +60,10 @@ class FmsPosts extends React.Component {
         }
     }
 
+    getPostsFromModal() {
+        this.getPosts(this.props.project.alias);
+    }
+
     onToggleChange(post_id) {
         let {posts} = this.state;
         let postChange = posts.find((post) => {
@@ -152,7 +156,7 @@ class FmsPosts extends React.Component {
 
                     </div>
                     <FmsAddPostModal isShown={this.state.isShownModal} closeModal={this.closeModal.bind(this)}
-                                     alias={alias}/>
+                                     alias={alias} getPosts={this.getPostsFromModal.bind(this)}/>
                 </Grid>
             </div>
         );

@@ -5,16 +5,15 @@
   border: none;
   font-size: 16px;
   background-color: #f8fafb;
+  &:focus {
+    outline: none;
+  }
 }
 
-.textarea-new-post:focus {
-  outline: none;
-}
-
-.title-modal {
-  font-size: 16px;
-  display: inline-block;
-  margin-right: 6px;
+.inmodal {
+  .selected-pages {
+    padding-left: 2px;
+  }
 }
 
 .spin-wrapper {
@@ -23,19 +22,15 @@
 }
 
 .add-post-page-item {
-  background-color: #efefef;
-  padding: 5px 18px;
-  display: inline-block;
-  border-radius: 15px;
-  margin: 10px 10px 0 0;
-  font-size: 14px;
-}
-
-.delete-selected-page {
-  margin: 0 -5px 0 5px;
-  font-size: 12px;
-  &:hover {
-    cursor: pointer;
+  padding: 5px 0;
+  .add-post-checkbox {
+    display: inline-block;
+    margin-right: 5px;
+  }
+  .page-name {
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 500;
   }
 }
 
