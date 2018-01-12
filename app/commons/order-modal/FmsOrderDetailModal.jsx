@@ -6,7 +6,7 @@ import {deleteOrder, updateOrder, createOrder} from "api/OrderApi";
 import {cloneDiff} from "utils/object-utils";
 import {getOrderTags} from "api/OrderTagApi";
 import {toReadablePrice} from "utils/price-utils";
-import {typesModal} from "./config";
+import {typesModal, statusTransport} from "./config";
 
 class FmsOrderDetailModal extends Component {
 
@@ -270,6 +270,24 @@ class FmsOrderDetailModal extends Component {
                                             )
                                         }
                                     </select>
+                                </div>
+                            </div>
+                            : null
+                        }
+
+                        {
+                            config.statusTransport ?
+                            <div className="form-group row">
+                                <div className="col-sm-6">
+                                    <label className="control-label">Trạng thái vận chuyển</label>
+                                </div>
+                                <div className="col-sm-6">
+                                    <button className="btn btn-outline btn-danger pull-right">
+                                        Hủy bỏ đơn hàng
+                                    </button>
+                                    <button className="btn btn-outline btn-primary pull-right">
+                                        Thay đổi trạng thái
+                                    </button>
                                 </div>
                             </div>
                             : null
@@ -595,7 +613,7 @@ class FmsOrderDetailModal extends Component {
                         </button>
 
                         <button className="btn btn-success"
-                                onClick={config.createNewOrder ? this.changeStatusOrder.bind(this) : this.createNewOrder.bind(this)}
+                                onClick={config.createNewOrder ? this.createNewOrder.bind(this) : this.changeStatusOrder.bind(this)}
                                 disabled={isLoading}>{config.btnSuccessName}
                         </button>
 
