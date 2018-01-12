@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 import FmsCheckbox from 'commons/FmsCheckbox/FmsCheckbox';
-import {deleteOrder, updateOrder} from "api/OrderApi";
+import {deleteOrder, updateOrder, createOrder} from "api/OrderApi";
 import {cloneDiff} from "utils/object-utils";
 import {getOrderTags} from "api/OrderTagApi";
 import {toReadablePrice} from "utils/price-utils";
@@ -34,6 +34,20 @@ class FmsOrderDetailModal extends Component {
         this.setState({isLoading: true});
 
         updateOrder(project.alias, diffOrder)
+            .then(order => {
+                this.props.onClose(order);
+            })
+            .catch(err => {
+                alert(err.message);
+                this.setState({isLoading: false})
+            })
+    }
+
+    createNewOrder() {
+        const {project} = this.props;
+        this.setState({isLoading: true});
+
+        createOrder(project.alias, this.state.order)
             .then(order => {
                 this.props.onClose(order);
             })
@@ -149,8 +163,12 @@ class FmsOrderDetailModal extends Component {
 
     componentDidMount() {
         const {order, project, typeModal} = this.props;
-        let config = typesModal[typeModal-1];
-        this.setState({order, config});
+        let config = typesModal[typeModal];
+        if (!order) {
+            this.setState({config});
+        } else {
+            this.setState({order, config});
+        }
 
         if (project) {
             this.updateOrderTags(project);
@@ -159,7 +177,7 @@ class FmsOrderDetailModal extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.order) {
-            this.setState({order: nextProps.order, isLoading: false, config: typesModal[nextProps.typeModal-1]});
+            this.setState({order: nextProps.order, isLoading: false, config: typesModal[nextProps.typeModal]});
         }
 
         if (nextProps.project !== this.props.project) {
@@ -505,6 +523,39 @@ class FmsOrderDetailModal extends Component {
         )
     }
 
+    renderModalHeader() {
+        let nameModal;
+        if (this.state.config.createNewOrder) {
+            nameModal = (<h4>Đơn hàng mới</h4>);
+        } else {
+            nameModal = (
+                <div>
+                    <h4>Đơn hàng #{this.state.order.id}</h4>
+
+                    <div>
+                        <small className="font-bold">Ngày tạo: <strong>12:49, 24-12-2017</strong></small>
+                    </div>
+                    <div>
+                        <small className="font-bold">Nguồn đơn: <a>fb.com/my-shop/posts/4128912312412</a></small>
+                    </div>
+                </div>
+            );
+        }
+        return (
+            <Modal.Header
+                closeButton={true}
+                onHide={() => {
+                    this.props.onClose();
+                }}
+            >
+                {
+                    nameModal
+                }
+
+            </Modal.Header>
+        )
+    }
+
     render() {
         const {
             isShown,
@@ -517,39 +568,26 @@ class FmsOrderDetailModal extends Component {
             config
         } = this.state;
 
-        if (!order) {
-            return null;
-        }
-
         return (
             <Modal show={isShown} bsSize="large" backdrop='static' keyboard={false}>
                 <div className='order-detail-modal inmodal'>
-                    <Modal.Header
-                        closeButton={true}
-                        onHide={() => {
-                            this.props.onClose();
-                        }}
-                    >
-                        <h4>Đơn hàng #{order.id}</h4>
-
-                        <div>
-                            <small className="font-bold">Ngày tạo: <strong>12:49, 24-12-2017</strong></small>
-                        </div>
-                        <div>
-                            <small className="font-bold">Nguồn đơn: <a>fb.com/my-shop/posts/4128912312412</a></small>
-                        </div>
-
-                    </Modal.Header>
+                    {
+                        this.renderModalHeader()
+                    }
 
                     {
                         this.renderModalBody()
                     }
 
                     <Modal.Footer>
-                        <button className="btn btn-danger btn-outline pull-left"
+                        {
+                            config.btnDelete ?
+                            <button className="btn btn-danger btn-outline pull-left"
                                 onClick={this.onDeleteOrder.bind(this)}
                                 disabled={isLoading}>Xóa
-                        </button>
+                            </button>
+                            : null
+                        }
 
                         <button className="btn btn-white"
                                 onClick={this.onCloseButtonClick.bind(this)}
@@ -557,14 +595,18 @@ class FmsOrderDetailModal extends Component {
                         </button>
 
                         <button className="btn btn-success"
-                                onClick={() => this.changeStatusOrder()}
+                                onClick={config.createNewOrder ? this.changeStatusOrder.bind(this) : this.createNewOrder.bind(this)}
                                 disabled={isLoading}>{config.btnSuccessName}
                         </button>
 
-                        <button className="btn btn-primary"
+                        {
+                            config.btnUpdate ?
+                            <button className="btn btn-primary"
                                 onClick={() => this.updateOrder()}
                                 disabled={isLoading}>Cập nhật
-                        </button>
+                            </button>
+                            : null
+                        }
                     </Modal.Footer>
 
                 </div>
