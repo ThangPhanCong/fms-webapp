@@ -10,11 +10,12 @@ class FmsSettings extends React.Component {
         super(props);
         this.state = {
             all: null,
+            pages: null,
             isHandling: false
         }
     }
 
-    getPages(){
+    getPages() {
         this.setState({all: null});
         PageApi.getPages()
             .then(pages => {
@@ -25,8 +26,29 @@ class FmsSettings extends React.Component {
             })
     }
 
+    getPagesOfProject(alias) {
+        this.setState({pages: null});
+        ProjectApi.getPages(alias)
+            .then(res => {
+                this.setState({pages: res.pages});
+            })
+            .catch(err => {
+                alert(err.message);
+            });
+    }
+
     componentWillMount() {
         this.getPages();
+        if (this.props.project && this.props.project.alias) {
+            this.getPagesOfProject(this.props.project.alias);
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if ((!prevProps.project && this.props.project) ||
+            (prevProps.project && this.props.project && prevProps.project.alias !== this.props.project.alias)) {
+            this.getPagesOfProject(this.props.project.alias);
+        }
     }
 
     deletePage(page_id) {
@@ -37,6 +59,7 @@ class FmsSettings extends React.Component {
                 .then(() => {
                     this.setState({isHandling: false});
                     this.getPages();
+                    this.getPagesOfProject(this.props.project.alias);
                 })
                 .catch(err => {
                     alert(err.message);
@@ -53,6 +76,7 @@ class FmsSettings extends React.Component {
                 .then(() => {
                     this.setState({isHandling: false});
                     this.getPages();
+                    this.getPagesOfProject(this.props.project.alias);
                 })
                 .catch(err => {
                     alert(err.message);
@@ -62,15 +86,17 @@ class FmsSettings extends React.Component {
     }
 
     renderShopPages() {
-        if (this.state.all && this.props.project && Array.isArray(this.props.project.pages)) {
+        if (this.state.all && this.state.pages) {
             let disabled = (this.state.isHandling) ? " disabled" : "";
-            return this.props.project.pages.map(page => {
+            return this.state.pages.map(page => {
                 let avaUrl = `https://graph.facebook.com/v2.10/${page.fb_id}/picture`;
                 return <div className="page-item-setting" key={page.fb_id}>
                     <div className="avatar"><img className="avatar-image" src={avaUrl}/></div>
                     <div className="page-name">{page.name}</div>
                     <div className={"glyphicon glyphicon-trash delete-icon clickable" + disabled}
-                         onClick={() => {this.deletePage(page._id)}}/>
+                         onClick={() => {
+                             this.deletePage(page._id)
+                         }}/>
                 </div>
             });
         } else {
@@ -79,8 +105,8 @@ class FmsSettings extends React.Component {
     }
 
     renderOtherPages() {
-        if (this.state.all && this.props.project && Array.isArray(this.props.project.pages)) {
-            let pages = this.props.project.pages;
+        if (this.state.all && this.state.pages) {
+            let pages = this.state.pages;
             let filtered = this.state.all.filter(page => {
                 let same = pages.filter(p => p.fb_id === page.fb_id);
                 return same.length === 0 && !page.is_active;
@@ -92,7 +118,9 @@ class FmsSettings extends React.Component {
                     <div className="avatar"><img className="avatar-image" src={avaUrl}/></div>
                     <div className="page-name">{page.name}</div>
                     <img className={"add-icon clickable" + disabled} src={addImg}
-                         onClick={() => {this.addPage(page._id)}}/>
+                         onClick={() => {
+                             this.addPage(page._id)
+                         }}/>
                 </div>
             })
         } else {

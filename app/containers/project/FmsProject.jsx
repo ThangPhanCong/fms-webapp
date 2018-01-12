@@ -132,7 +132,7 @@ class FmsProject extends Component {
             if (isProjectLoading) {
                 return <div className="col-sm-1"><FmsSpin size={25}/></div>
             } else {
-                return <div>Bạn chưa có cửa hàng nào</div>
+                return <div className="no-project">Bạn chưa có cửa hàng nào</div>
             }
         }
     }
