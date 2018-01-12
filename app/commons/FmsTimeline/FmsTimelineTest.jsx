@@ -27,9 +27,7 @@ const items = [
 export default class FmsTimelineTest extends React.Component {
     render() {
         return (
-            <div>
-                <FmsTimeline items={items} />
-            </div>
+            <FmsTimeline items={items} />
         );
     }
 }

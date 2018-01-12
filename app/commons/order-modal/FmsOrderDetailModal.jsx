@@ -7,6 +7,7 @@ import {cloneDiff} from "utils/object-utils";
 import {getOrderTags} from "api/OrderTagApi";
 import {toReadablePrice} from "utils/price-utils";
 import {typesModal, statusTransport} from "./config";
+import FmsTimelineTest from '../FmsTimeline/FmsTimelineTest'
 
 class FmsOrderDetailModal extends Component {
 
@@ -288,6 +289,9 @@ class FmsOrderDetailModal extends Component {
                                     <button className="btn btn-outline btn-primary pull-right">
                                         Thay đổi trạng thái
                                     </button>
+                                </div>
+                                <div className="col-sm-12">
+                                    <FmsTimelineTest />
                                 </div>
                             </div>
                             : null
