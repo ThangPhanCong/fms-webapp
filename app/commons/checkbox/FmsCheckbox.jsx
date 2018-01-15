@@ -20,8 +20,6 @@ class FmsCheckbox extends React.Component {
     registerOnHover() {
         const {id} = this.state;
 
-        console.log('id', id);
-
         $(`#${id}`)
             .mouseover(() => {
                 this.setState({isHover: true});
