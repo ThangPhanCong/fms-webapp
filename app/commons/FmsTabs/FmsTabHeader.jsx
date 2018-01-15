@@ -10,7 +10,7 @@ class FmsTabHeader extends React.Component {
                 if (typeof title === 'string') {
                     return (
                         <li key={i} className={tabActive === i ? 'active' : ''}>
-                            <a onClick={() => onSelectTab(i)}>{title}</a>
+                            <a onClick={() => onSelectTab(i)} className="dashboard-custom">{title}</a>
                         </li>
                     )
                 } else if (typeof title === 'object' && title.props) {
@@ -18,7 +18,7 @@ class FmsTabHeader extends React.Component {
                 } else {
                     return (
                         <li key={i} className={tabActive === i ? 'active' : ''}>
-                            <a onClick={() => onSelectTab(i)}>
+                            <a onClick={() => onSelectTab(i)} className="dashboard-custom">
                                 <i className={`${title.icon}`}/>
                                 {title.content}
                             </a>
