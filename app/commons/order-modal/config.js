@@ -65,6 +65,46 @@ export const typesModal = [
         btnSuccessName: 'Lưu trữ đơn',
         btnDelete: false,
         btnUpdate: true,        
-        nextStatus: ORDER_STATUS.SAVED_ORDER
+        nextStatus: ORDER_STATUS.SAVED_ORDER,
+        statusTransport: true
+    }
+];
+
+export const statusTransport = [
+    {
+        name: 'Bưu tá đang đi phát',
+        color: ''
+    },
+    {
+        name: 'Chưa phát được',
+        color: ''
+    },
+    {
+        name: 'Hủy đơn hàng',
+        color: ''
+    },
+    {
+        name: 'Khách từ chối nhận',
+        color: ''
+    },
+    {
+        name: 'Lưu bưu cục',
+        color: ''
+    },
+    {
+        name: 'Đang hoàn về',
+        color: ''
+    },
+    {
+        name: 'Đang vận chuyển',
+        color: ''
+    },
+    {
+        name: 'Đã gửi',
+        color: ''
+    },
+    {
+        name: 'Đã đến bưu cục',
+        color: '#3ea993'
     }
 ];

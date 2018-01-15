@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 import FmsCheckbox from 'commons/FmsCheckbox/FmsCheckbox';
-import {exportOrder, createOrder} from "../../../api/OrderApi";
+import {createOrder} from "../../../api/OrderApi";
 import {getOrderTags} from "../../../api/OrderTagApi";
 import {toReadablePrice} from "../../../utils/price-utils";
 
@@ -27,21 +27,6 @@ class FmsCreateOrderModal extends Component {
                 err => alert(err.message)
             )
             .then(() => this.setState({isLoading: false}))
-    }
-
-    exportOrder() {
-        const {project} = this.props;
-        this.setState({isLoading: true});
-
-        exportOrder(project.alias, this.state.order)
-            .then(order => {
-                const updateUI = true;
-                this.props.onClose(updateUI);
-            })
-            .catch(err => {
-                alert(err.message);
-                this.setState({isLoading: false});
-            })
     }
 
     calculateProductsPrice() {
@@ -473,11 +458,6 @@ class FmsCreateOrderModal extends Component {
                                 onClick={this.onCloseButtonClick.bind(this)}
                                 disabled={isLoading}>Hủy
                         </button>
-
-                        {/*<button className="btn btn-success"*/}
-                        {/*onClick={() => this.exportOrder()}*/}
-                        {/*disabled={isLoading}>Yêu cầu xuất*/}
-                        {/*</button>*/}
 
                         <button className="btn btn-primary"
                                 onClick={() => this.createNewOrder()}
