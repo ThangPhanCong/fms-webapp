@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 import FmsCheckbox from 'commons/FmsCheckbox/FmsCheckbox';
-import {createOrder} from "../../../api/OrderApi";
-import {getOrderTags} from "../../../api/OrderTagApi";
-import {toReadablePrice} from "../../../utils/price-utils";
+import {createOrder} from "api/OrderApi";
+import {getOrderTags} from "api/OrderTagApi";
+import {toReadablePrice} from "utils/price-utils";
 
 class FmsCreateOrderModal extends Component {
 
@@ -473,7 +473,8 @@ class FmsCreateOrderModal extends Component {
 
 FmsCreateOrderModal.propTypes = {
     isShown: propTypes.bool.isRequired,
-    onClose: propTypes.func.isRequired
+    onClose: propTypes.func.isRequired,
+    project: propTypes.object
 };
 
 export default FmsCreateOrderModal;

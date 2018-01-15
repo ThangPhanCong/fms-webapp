@@ -1,6 +1,7 @@
 import React from 'react';
 import FmsOrderDetailModal from "./FmsOrderDetailModal";
 import {getTestOrder} from "../../api/OrderApi";
+import FmsCreateOrderModal from "./FmsCreateOrderModal";
 
 class FmsOrderDetailModalTest extends React.Component {
 
@@ -9,6 +10,7 @@ class FmsOrderDetailModalTest extends React.Component {
         isShownModal2: false,
         isShownModal3: false,
         isShownModal4: false,
+        isShownCreateOrderModal: false,
         typeModal: 1,
         order: null
     };
@@ -26,6 +28,14 @@ class FmsOrderDetailModalTest extends React.Component {
         this.setState({['isShownModal'+numb]: false})
     }
 
+    onOpenCreateOrderModal() {
+        this.setState({isShownCreateOrderModal: true})
+    }
+
+    onCloseCreateOrderModal() {
+        this.setState({isShownCreateOrderModal: false})
+    }
+
     componentDidMount() {
         getTestOrder()
             .then(order => {
@@ -39,6 +49,7 @@ class FmsOrderDetailModalTest extends React.Component {
             isShownModal2,
             isShownModal3,
             isShownModal4,
+            isShownCreateOrderModal,
             order,
             typeModal
         } = this.state;
@@ -60,6 +71,10 @@ class FmsOrderDetailModalTest extends React.Component {
                 <button
                     onClick={this.onOpenModal.bind(this, 4)}
                 >Show modal 4
+                </button>
+                <button
+                    onClick={this.onOpenCreateOrderModal.bind(this)}
+                >Show create order modal
                 </button>
 
                 <FmsOrderDetailModal
@@ -85,6 +100,11 @@ class FmsOrderDetailModalTest extends React.Component {
                     onClose={this.onCloseModal.bind(this, 4)}
                     typeModal={typeModal}
                     order={order}
+                />
+                <FmsCreateOrderModal
+                    isShown={isShownCreateOrderModal}
+                    onClose={this.onCloseCreateOrderModal.bind(this)}
+                    project={{alias: 'tmu'}}
                 />
             </div>
         );
