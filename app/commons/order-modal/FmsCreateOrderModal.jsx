@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
-import FmsCheckbox from 'commons/FmsCheckbox/FmsCheckbox';
-import {createOrder} from "api/OrderApi";
-import {getOrderTags} from "api/OrderTagApi";
-import {toReadablePrice} from "utils/price-utils";
+import FmsCheckbox from '../FmsCheckbox/FmsCheckbox';
+import {createOrder} from "../../api/OrderApi";
+import {getOrderTags} from "../../api/OrderTagApi";
+import {toReadablePrice} from "../../utils/price-utils";
 
 class FmsCreateOrderModal extends Component {
 
@@ -19,8 +19,7 @@ class FmsCreateOrderModal extends Component {
         this.setState({isLoading: true});
 
         createOrder(project.alias, this.state.order)
-            .then(
-                order => {
+            .then(order => {
                     const updateUI = true;
                     this.props.onClose(updateUI);
                 },
@@ -76,7 +75,7 @@ class FmsCreateOrderModal extends Component {
     componentDidMount() {
         const {project} = this.props;
 
-        if (project) {
+        if (project && project.alias) {
             getOrderTags(project.alias)
                 .then(
                     orderTags => {
@@ -94,7 +93,8 @@ class FmsCreateOrderModal extends Component {
             this.setState({order: {}, isLoading: false});
         }
 
-        if (nextProps.project !== this.props.project) {
+        if (nextProps.project && nextProps.project.alias &&
+            nextProps.project !== this.props.project) {
             getOrderTags(nextProps.project.alias)
                 .then(
                     orderTags => {
