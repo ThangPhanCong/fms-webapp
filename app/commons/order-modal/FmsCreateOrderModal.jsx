@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
-import FmsCheckbox from '../FmsCheckbox/FmsCheckbox';
+import FmsCheckbox from '../checkbox/FmsCheckbox';
 import {createOrder} from "../../api/OrderApi";
 import {getOrderTags} from "../../api/OrderTagApi";
 import {toReadablePrice} from "../../utils/price-utils";

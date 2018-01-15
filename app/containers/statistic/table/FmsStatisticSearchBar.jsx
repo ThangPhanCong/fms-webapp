@@ -39,8 +39,12 @@ class FmsStatisticSearchBar extends Component {
                 <Col sm={4}>
                     <FormGroup>
                         <label className="control-label" htmlFor="status">Status</label>
-                        <select name="status" id="status" className="form-control">
-                            <option value="1" selected="">Completed</option>
+                        <select name="status"
+                                id="status"
+                                className="form-control"
+                                defaultValue=""
+                        >
+                            <option value="1">Completed</option>
                             <option value="0">Pending</option>
                         </select>
                     </FormGroup>

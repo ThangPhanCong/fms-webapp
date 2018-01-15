@@ -84,7 +84,8 @@ module.exports = {
                 test: /\.scss$/,
                 use: ['style-loader', 'css-loader',
                     {
-                        loader: "sass-loader", options: {
+                        loader: "sass-loader",
+                        options: {
                             sourceMap: false,
                             data: '@import "variables";',
                             includePaths: [

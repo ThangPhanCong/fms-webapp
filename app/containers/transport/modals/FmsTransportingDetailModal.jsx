@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
-import FmsCheckbox from 'commons/FmsCheckbox/FmsCheckbox';
+import FmsCheckbox from 'commons/checkbox/FmsCheckbox';
 import {deleteOrder, orderTransportedOrder, orderTransportingOrder} from "../../../api/OrderApi";
 import {cloneDiff} from "../../../utils/object-utils";
 import {getOrderTags} from "../../../api/OrderTagApi";
