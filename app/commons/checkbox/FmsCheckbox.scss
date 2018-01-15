@@ -1,0 +1,18 @@
+.fms-checkbox {
+  position: relative;
+
+  input {
+    position: absolute;
+    top: -20%;
+    left: -20%;
+    display: block;
+    width: 140%;
+    height: 140%;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    border: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+}
