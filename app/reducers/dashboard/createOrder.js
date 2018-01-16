@@ -1,6 +1,7 @@
 const initState = {
     notes: [],
-    orders: []
+    orders: [],
+    reports: []
 };
 
 const createOrder = (state = initState, action) => {
@@ -14,6 +15,11 @@ const createOrder = (state = initState, action) => {
             return {
                 ...state,
                 orders: action.orders
+            };
+        case 'SET_REPORTS':
+            return {
+                ...state,
+                reports: action.reports
             };
         default:
             return state;

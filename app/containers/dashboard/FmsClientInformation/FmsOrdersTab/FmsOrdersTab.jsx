@@ -1,10 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import uuid from 'uuid';
 import {createNote, deleteNote, updateNote} from '../../../../actions/dashboard/chat/createOrder';
-import FmsOrderModal from '../../../../commons/order-modal/FmsOrderDetailModal';
-
-const NEW_ORDER = 0, ORDER_DETAIL = 1;
+import FmsNewOrderModal from '../../../../commons/order-modal/FmsCreateOrderModal';
 
 class FmsOrdersTab extends React.Component {
     constructor(props) {
@@ -12,8 +9,8 @@ class FmsOrdersTab extends React.Component {
         this.state = {
             type: 0,
             selectedNote: null,
-            isShownOrderModal: false,
-            modalType: 0
+            isShownNewOrderModal: false,
+            isShownOrderDetailModal: false
         };
     }
 
@@ -30,12 +27,12 @@ class FmsOrdersTab extends React.Component {
         this.setState({type: 1});
     }
 
-    openOrderModal(type) {
-        this.setState({modalType: type, isShownOrderModal: true});
+    openNewOrderModal() {
+        this.setState({isShownNewOrderModal: true});
     }
 
-    closeOrderModal() {
-        this.setState({ isShownOrderModal: false});
+    closeNewOrderModal() {
+        this.setState({ isShownNewOrderModal: false});
     }
 
     confirmAddNote() {
@@ -114,7 +111,7 @@ class FmsOrdersTab extends React.Component {
         else title = "Sửa ghi chú";
         return (
             <div>
-                <div className="information-tab">
+                <div>
                     <div className="notes-list">
                         <div className="title-section">{title}</div>
                         <a className={"add-note-button" + addNote} onClick={this.openAddNote.bind(this)}>Thêm</a>
@@ -122,12 +119,12 @@ class FmsOrdersTab extends React.Component {
                     </div>
                     <div>
                         <div className="title-section">Đơn hàng</div>
-                        <a className="add-note-button" onClick={() => {this.openOrderModal(NEW_ORDER)}}>Thêm</a>
+                        <a className="add-note-button" onClick={() => {this.openNewOrderModal()}}>Thêm</a>
                         {this.renderOrders()}
                     </div>
                 </div>
-                <FmsOrderModal isShown={this.state.isShownOrderModal} typeModal={this.state.modalType}
-                               onClose={this.closeOrderModal.bind(this)} key={uuid()}/>
+                <FmsNewOrderModal isShown={this.state.isShownNewOrderModal} project={{alias: this.props.alias}}
+                               onClose={this.closeNewOrderModal.bind(this)}/>
             </div>
         );
     }

@@ -7,6 +7,7 @@ import FmsSpin from '../../../commons/FmsSpin/FmsSpin';
 import fileApi from '../../../api/FileApi';
 import postsApi from '../../../api/PostsApi';
 import FmsCroppedImage from '../../../commons/FmsCroppedImage/FmsCroppedImage';
+import {noti} from "../../notification/NotificationService";
 
 const MAX_FILE_SIZE = 2202010;
 const MAX_NUMBER_OF_FILE = 15;
@@ -129,7 +130,10 @@ class FmsAddPostModal extends React.Component {
             .then(() => {
                 this.props.closeModal();
                 this.setState({isPosting: false, files: [], states: []});
-                alert(`Đăng thành công bài viết cho ${pages_fb_id.length} trang.`);
+                noti("success", `Đăng thành công bài viết cho ${pages_fb_id.length} trang.`);
+                setTimeout(() => {
+                    this.props.getPosts();
+                }, 4000);
             })
             .catch(() => {
                 this.setState({isPosting: false});
