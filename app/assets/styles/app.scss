@@ -7,3 +7,19 @@
 .clickable {
   cursor: pointer;
 }
+
+.top-right-0-1 {
+  top: 8px !important;
+  right: 0;
+  .alert-success {
+    color: white;
+    background-color: #1ab394;
+    width: 290px;
+  }
+  i {
+    opacity: 1 !important;
+  }
+  button {
+    opacity: 1 !important;
+  }
+}
