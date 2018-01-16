@@ -2,6 +2,7 @@ import React from 'react'
 import FmsTabs from '../../../commons/FmsTabs/FmsTabs';
 import FmsTab from '../../../commons/FmsTabs/FmsTab';
 import FmsOrdersTab from "./FmsOrdersTab/FmsOrdersTab";
+import FmsInformationTab from "./FmsInformationTab/FmsInformationTab";
 
 class FmsClientInformation extends React.Component {
     render() {
@@ -11,7 +12,7 @@ class FmsClientInformation extends React.Component {
                     <FmsOrdersTab alias={this.props.alias}/>
                 </FmsTab>
                 <FmsTab title="Thông tin">
-                    <div>Thông tin khách hàng</div>
+                    <FmsInformationTab/>
                 </FmsTab>
             </FmsTabs>
         )

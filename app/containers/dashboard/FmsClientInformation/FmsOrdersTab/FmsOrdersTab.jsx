@@ -111,7 +111,7 @@ class FmsOrdersTab extends React.Component {
         else title = "Sửa ghi chú";
         return (
             <div>
-                <div className="information-tab">
+                <div>
                     <div className="notes-list">
                         <div className="title-section">{title}</div>
                         <a className={"add-note-button" + addNote} onClick={this.openAddNote.bind(this)}>Thêm</a>
