@@ -61,9 +61,9 @@ class FmsPriceCalculatorPanel extends Component {
 }
 
 FmsPriceCalculatorPanel.propTypes = {
-    productPrice: propTypes.string,
-    totalPrice: propTypes.string,
-    transport_fee: propTypes.string,
+    productPrice: propTypes.number,
+    totalPrice: propTypes.number,
+    transport_fee: propTypes.number,
     is_pay: propTypes.bool,
     onChangeInput: propTypes.func
 };

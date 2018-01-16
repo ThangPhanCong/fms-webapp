@@ -202,7 +202,7 @@ class FmsOrderDetailModal extends Component {
                         <FmsPriceCalculatorPanel
                             productPrice={this.calculateProductsPrice()}
                             totalPrice={this.calculateTotalPrice()}
-                            transport_fee={order.transport_fee}
+                            transport_fee={parseInt(order.transport_fee || 0)}
                             is_pay={order.is_pay}
                             onChangeInput={this.onChangeInput.bind(this)}
                         />

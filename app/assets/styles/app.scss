@@ -1,4 +1,13 @@
-//@import "theme/all_style";
+@import "bootstrap";
+
+@import "i-check/green";
+@import "i-check/square";
+
+@import "animate";
+
+@import "colors";
+
+@import "theme/all_style";
 
 .fms-hidden {
   visibility: hidden;
