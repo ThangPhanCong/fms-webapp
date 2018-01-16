@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {Link, Location, withRouter} from 'react-router-dom';
-import profileMockup from '../../../assets/images/mockup/profile_small.jpg';
+import {Link, Location} from 'react-router-dom';
 import NavItem from "./NavItem";
 
 import navItems from './RouteConfig'
@@ -58,6 +57,10 @@ class Navigation extends Component {
         return (
             <nav className="navbar-default navbar-static-side" role="navigation">
                 <ul className="nav metismenu" id="side-menu" ref="menu">
+                    <Link to={'/shops'}> <div className="back-to-shops">
+                            <i className="glyphicon glyphicon-menu-left"/>
+                            <div className="back-text">Quay lại cửa hàng</div>
+                    </div></Link>
                     {
                         this.renderHeaderNavItem()
                     }

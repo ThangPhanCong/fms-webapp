@@ -1,3 +1,15 @@
 .nav-avatar {
   width: 48px;
 }
+.back-to-shops {
+  padding: 13px 20px 15px 20px;
+  color: white;
+  display: flex;
+  align-items: center;
+  .back-text {
+    font-size: 13px;
+    margin-left: 10px;
+    display: inline-block;
+    padding-top: 1px;
+  }
+}
