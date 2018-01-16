@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import FmsTabs from "../../../commons/FmsTabs/FmsTabs";
 import FmsTab from "../../../commons/FmsTabs/FmsTab";
 import FmsNewOrderTab from "./FmsNewOrderTab";
-import FmsOrderDetailModal from "../../../commons/order-modal/FmsOrderDetailModal";
 import FmsExportOrderTab from "./FmsExportOrderTab";
+import FmsCreateOrderModal from "../../../commons/order-modal/FmsCreateOrderModal";
 
 class AllOrderBody extends Component {
 
@@ -58,9 +58,8 @@ class AllOrderBody extends Component {
                         </FmsTabs>
                     </div>
 
-                    <FmsOrderDetailModal
+                    <FmsCreateOrderModal
                         isShown={isShownCreateOrderModal}
-                        typeModal={0}
                         onClose={this.onCloseModal.bind(this)}
                         project={project}
                     />
