@@ -2,6 +2,70 @@ import apiSender, {post, put, get} from './ApiSender';
 import {toQueryParams} from 'utils/query-utils';
 import {delay} from 'utils/timeout-utils';
 
+export const ORDER_STATUS = {
+    DRAFT: "DRAFT",
+    EXPORTED_ORDER: "EXPORTED_ORDER",
+    TRANSPORTED_ORDER: "TRANSPORTED_ORDER",
+    TRANSPORTING: "TRANSPORTING",
+
+    // luu tru don hang
+    DON_HANG_THANH_CONG: "DON_HANG_THANH_CONG",
+    DON_HANG_THAT_BAI: "DON_HANG_THAT_BAI",
+};
+
+export function getOrders(projectAlias, filter = {}) {
+    const queryParams = toQueryParams(filter);
+    return get(`/api/projects/${projectAlias}/orders?${queryParams}`);
+}
+
+export function createOrder(projectAlias, order) {
+    return post(`/api/projects/${projectAlias}/orders`, order);
+}
+
+export function updateOrder(projectAlias, order) {
+    return put(`/api/projects/${projectAlias}/orders/${order._id}`, order);
+}
+
+export function deleteOrder(projectAlias, order) {
+    return apiSender.delete(`/api/projects/${projectAlias}/orders/${order._id}`);
+}
+
+export function saveSuccessOrder(projectAlias, order) {
+    const payload = {
+        ...order,
+        status: ORDER_STATUS.DON_HANG_THANH_CONG
+    };
+    return put(`/api/projects/${projectAlias}/orders/${order._id}`, payload);
+}
+
+export function saveFailureOrder(projectAlias, order) {
+    const payload = {
+        ...order,
+        status: ORDER_STATUS.DON_HANG_THAT_BAI
+    };
+    return put(`/api/projects/${projectAlias}/orders/${order._id}`, payload);
+}
+
+export function getSuccessOrder(projectAlias, filter = {}) {
+    const successOrderFilter = {
+        ...filter,
+        status: ORDER_STATUS.DON_HANG_THANH_CONG
+    };
+    const queryParams = toQueryParams(successOrderFilter);
+    return get(`/api/projects/${projectAlias}/orders?${queryParams}`);
+}
+
+export function getFailureOrder(projectAlias, filter = {}) {
+    const successOrderFilter = {
+        ...filter,
+        status: ORDER_STATUS.DON_HANG_THAT_BAI
+    };
+    const queryParams = toQueryParams(successOrderFilter);
+    return get(`/api/projects/${projectAlias}/orders?${queryParams}`);
+}
+
+
+//// for test only
 const mockupOrders = [
     {
         id: 'DH12501',
@@ -65,31 +129,10 @@ const mockupOrders = [
     },
 ];
 
-module.exports = {
-    ORDER_STATUS: {
-        DRAFT: "DRAFT",
-        EXPORTED_ORDER: "EXPORTED_ORDER",
-        TRANSPORTED_ORDER: "TRANSPORTED_ORDER",
-        TRANSPORTING: "TRANSPORTING",
-        SAVED_ORDER: "SAVED_ORDER"
-    },
-    getTestOrders: () => {
-        return delay(1000).then(() => Promise.resolve(mockupOrders));
-    },
-    getTestOrder: () => {
-        return delay(1000).then(() => Promise.resolve(mockupOrders[0]));
-    },
-    getOrders: (projectAlias, filter = {}) => {
-        const queryParams = toQueryParams(filter);
-        return get(`/api/projects/${projectAlias}/orders?${queryParams}`);
-    },
-    createOrder: (projectAlias, order) => {
-        return post(`/api/projects/${projectAlias}/orders`, order);
-    },
-    updateOrder: (projectAlias, order) => {
-        return put(`/api/projects/${projectAlias}/orders/${order._id}`, order);
-    },
-    deleteOrder: (projectAlias, order) => {
-        return apiSender.delete(`/api/projects/${projectAlias}/orders/${order._id}`);
-    }
-};
+export function getTestOrders() {
+    return delay(1000).then(() => Promise.resolve(mockupOrders));
+}
+
+export function getTestOrder() {
+    return delay(1000).then(() => Promise.resolve(mockupOrders[0]));
+}

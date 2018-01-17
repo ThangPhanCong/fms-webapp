@@ -1,9 +1,29 @@
 .status-label {
-    font-size: 15px;
-    background-color: attr(data-color);
-    color: white;
+  font-size: 15px;
+  background-color: attr(data-color);
+  color: white;
 }
 
 button {
-    margin-left: 5px;
+  margin-left: 5px;
+}
+
+.product-search-dropdown {
+  .dropdown-menu > li > a {
+    &:hover, &:focus {
+      text-decoration: none;
+      color: #fff;
+      background-color: #1ab394;
+      outline: 0;
+    }
+
+    &.none-item {
+      &:hover, &:focus {
+        text-decoration: none;
+        color: #262626;
+        background-color: #f5f5f5;
+        cursor: not-allowed;
+      }
+    }
+  }
 }

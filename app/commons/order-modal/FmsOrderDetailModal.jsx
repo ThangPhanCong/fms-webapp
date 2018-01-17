@@ -12,6 +12,7 @@ import FmsProductsInfoPanel from "./panels/FmsProductsInfoPanel";
 import FmsNoteInfoPanel from "./panels/FmsNoteInfoPanel";
 import FmsOrderTagInfoPanel from "./panels/FmsOrderTagInfoPanel";
 import FmsPriceCalculatorPanel from "./panels/FmsPriceCalculatorPanel";
+import {saveSuccessOrder} from "../../api/OrderApi";
 
 class FmsOrderDetailModal extends Component {
 
@@ -48,55 +49,6 @@ class FmsOrderDetailModal extends Component {
             })
     }
 
-    changeStatusOrder() {
-        const allowExport = confirm('Bạn có chắc chắn muốn thay đổi trạng thái đơn hàng này?');
-        if (!allowExport) return;
-
-        const {project} = this.props;
-        const diffOrder = cloneDiff({...this.props.order}, {...this.state.order});
-        diffOrder._id = this.props.order._id;
-        if (this.state.config.nextStatus !== '') {
-            diffOrder.status = this.state.config.nextStatus;
-        }
-
-        console.log('order diff', diffOrder);
-
-        this.setState({isLoading: true});
-
-        updateOrder(project.alias, diffOrder)
-            .then(order => {
-                this.props.onClose(order);
-            })
-            .catch(err => {
-                alert(err.message);
-                this.setState({isLoading: false})
-            })
-    }
-
-    onDeleteOrder() {
-        const allowDelete = confirm('Bạn có chắc chắn muốn xóa đơn hàng này?');
-        if (!allowDelete) return;
-
-        const {project} = this.props;
-        this.setState({isLoading: true});
-
-        deleteOrder(project.alias, this.state.order)
-            .then(
-                () => {
-                    const shouldUpdated = true;
-                    this.props.onClose(shouldUpdated);
-                },
-                err => {
-                    alert(err.message);
-                }
-            )
-            .then(() => this.setState({isLoading: false}));
-    }
-
-    onCloseButtonClick() {
-        this.props.onClose();
-    }
-
     calculateProductsPrice() {
         const {order} = this.state;
         if (order && Array.isArray(order.products)) {
@@ -120,6 +72,51 @@ class FmsOrderDetailModal extends Component {
         }
     }
 
+    onDeleteOrder() {
+        const allowDelete = confirm('Bạn có chắc chắn muốn xóa đơn hàng này?');
+        if (!allowDelete) return;
+
+        const {project} = this.props;
+        this.setState({isLoading: true});
+
+        deleteOrder(project.alias, this.state.order)
+            .then(
+                () => {
+                    const shouldUpdated = true;
+                    this.props.onClose(shouldUpdated);
+                },
+                err => {
+                    alert(err.message);
+                }
+            )
+            .then(() => this.setState({isLoading: false}));
+    }
+
+    async onSavedOrder() {
+        const allowSaveSuccessful = confirm('Đơn hàng này là đơn hàng thành công?');
+
+        const {project} = this.props;
+        this.setState({isLoading: true});
+
+        try {
+            if (allowSaveSuccessful) {
+                await saveSuccessOrder(project.alias, this.state.order);
+            } else {
+                await saveSuccessOrder(project.alias, this.state.order);
+            }
+
+            const shouldUpdated = true;
+            this.props.onClose(shouldUpdated);
+        } catch (err) {
+           alert(err.message);
+        }
+
+        this.setState({isLoading: false})
+    }
+
+    onCloseButtonClick() {
+        this.props.onClose();
+    }
 
     onChangeInput(refName, newValue = this.refs[refName].value) {
         const newOrder = {...this.state.order};
@@ -258,6 +255,11 @@ class FmsOrderDetailModal extends Component {
                 <button className="btn btn-white"
                         onClick={this.onCloseButtonClick.bind(this)}
                         disabled={isLoading}>Hủy
+                </button>
+
+                <button className="btn btn-success"
+                        onClick={this.onSavedOrder.bind(this)}
+                        disabled={isLoading}>Lưu trữ
                 </button>
 
                 <button className="btn btn-primary"
