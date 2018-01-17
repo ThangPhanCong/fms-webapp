@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 
 import ic_viettel from 'images/ic_viettel.png';
-import FmsOrderDetailModal from "../modals/FmsOrderDetailModal";
+import FmsOrderDetailModal from "../../../commons/order-modal/FmsOrderDetailModal";
 
 class FmsFailureOrderTable extends Component {
 

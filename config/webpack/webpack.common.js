@@ -86,10 +86,9 @@ module.exports = {
                     {
                         loader: "sass-loader",
                         options: {
-                            sourceMap: false,
-                            data: '@import "variables";',
+                            data: '@import "bootstrap/variables"; @import "bootstrap/mixins";',
                             includePaths: [
-                                path.join(__rootdir, 'app/assets/styles/theme')
+                                path.join(__rootdir, 'app/assets/styles')
                             ]
                         }
                     }

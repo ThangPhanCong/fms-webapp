@@ -5,13 +5,12 @@ import './assets/js/jquery.scrollbar';
 
 import 'url-search-params-polyfill';
 
-import './../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './../node_modules/font-awesome/css/font-awesome.css'
-import './assets/styles/animate.css'
-
 
 // app theme
-importAll(require.context('././', true, /\.scss$/));
+import './assets/styles/app.scss'
+importAll(require.context('./commons', true, /\.scss$/));
+importAll(require.context('./containers', true, /\.scss$/));
 
 
 function importAll(r) {

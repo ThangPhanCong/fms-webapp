@@ -31,12 +31,6 @@ class TopHeader extends React.Component {
         this.updateColorByLocation(nextProps.location);
     }
 
-    // componentDidUpdate(prevProps) {
-    //     if (prevProps.location !== this.props.location) {
-    //         this.props.dispatch(setAlias(this.props.match.params.project_alias));
-    //     }
-    // }
-
     updateColorByLocation(location) {
         const {pathname} = location || this.props.location;
         const currRouteName = getRouteNameAtLevel(pathname, 3);

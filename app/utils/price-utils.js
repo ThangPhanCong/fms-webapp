@@ -1,4 +1,4 @@
-export function toReadablePrice(price, devider = '.') {
+export function toReadablePrice(price = 0, devider = '.') {
     const reverseWords = price.toString().split('').reverse();
     return reverseWords.map((w, i) => {
         if (i % 3 === 0 && i !== 0) {
