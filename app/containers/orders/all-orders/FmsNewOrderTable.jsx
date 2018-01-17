@@ -59,6 +59,8 @@ class FmsNewOrderTable extends Component {
 
                     <td>{order.private_note}</td>
                     <td>14:53 <br/> 29-11</td>
+                    <td className='price-td'
+                    ><i className='fa fa-check clickable text-navy'/></td>
                     <td className="color-tag">
                         {
                             order.order_tag ?
@@ -98,6 +100,7 @@ class FmsNewOrderTable extends Component {
                 <th>Sản phẩm</th>
                 <th>Ghi chú</th>
                 <th>Ngày tạo</th>
+                <th>Thanh toán</th>
                 <th>Đánh dấu</th>
             </tr>
             </thead>

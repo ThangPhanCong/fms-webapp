@@ -131,6 +131,9 @@ class FmsOrderDetailModal extends Component {
             case 'is_pay':
                 newOrder.is_pay = newValue;
                 break;
+            case 'products':
+                newOrder.products = newValue;
+                break;
             default:
                 newOrder[refName] = newValue;
         }
@@ -195,7 +198,10 @@ class FmsOrderDetailModal extends Component {
                     </div>
 
                     <div className="col-sm-12">
-                        <FmsProductsInfoPanel products={order.products}/>
+                        <FmsProductsInfoPanel
+                            products={order.products}
+                            onChangeInput={this.onChangeInput.bind(this)}
+                        />
                     </div>
 
                     <div className="col-sm-12">

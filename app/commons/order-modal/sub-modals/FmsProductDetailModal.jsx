@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
+import {toReadablePrice} from "../../../utils/price-utils";
 
 class FmsProductDetailModal extends Component {
 
@@ -8,8 +9,43 @@ class FmsProductDetailModal extends Component {
         updatedProduct: null
     };
 
-    onChangeInput(refName, newValue = this.refs[refName].value) {
+    onDeleteProduct() {
+        const allowDelete = confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');
+        if (!allowDelete) return;
+        const action = 'delete';
+        const {onClose} = this.props;
+        const {updatedProduct} = this.state;
 
+        onClose(action, updatedProduct);
+    }
+
+    onUpdateProduct() {
+        const action = 'update';
+        const {onClose} = this.props;
+        const {updatedProduct} = this.state;
+
+        onClose(action, updatedProduct);
+    }
+
+    onChangeInput(refName, newValue = this.refs[refName].value) {
+        const {updatedProduct} = this.state;
+        const newProduct = {
+            ...updatedProduct,
+            [refName]: newValue
+        };
+
+        this.setState({updatedProduct: newProduct});
+    }
+
+    calculateTotalPrice() {
+        const {updatedProduct} = this.state;
+        const {
+            quantity = 0,
+            price = 0,
+            discount = 0
+        } = updatedProduct;
+
+        return (quantity * price) - discount;
     }
 
     componentDidMount() {
@@ -66,15 +102,16 @@ class FmsProductDetailModal extends Component {
                 <div className="form-group">
                     <div className="row">
                         <div className="col-sm-3">
-                            <label className="control-label">Số lượng</label>
+                            <label className="control-label">Giá</label>
                         </div>
                         <div className="col-sm-9">
                             <input type="text"
                                    className="form-control"
-                                   ref='quantity'
-                                   value={updatedProduct.quantity}
+                                   ref='price'
+                                   disabled
+                                   value={toReadablePrice(updatedProduct.price)}
                                    onChange={
-                                       () => this.onChangeInput('quantity')
+                                       () => this.onChangeInput('price')
                                    }
                             />
                         </div>
@@ -84,12 +121,12 @@ class FmsProductDetailModal extends Component {
                 <div className="form-group">
                     <div className="row">
                         <div className="col-sm-3">
-                            <label className="control-label">Giá</label>
+                            <label className="control-label">Số lượng</label>
                         </div>
                         <div className="col-sm-9">
                             <input type="text"
                                    className="form-control"
-                                   ref='price'
+                                   ref='quantity'
                                    value={updatedProduct.quantity}
                                    onChange={
                                        () => this.onChangeInput('quantity')
@@ -126,8 +163,7 @@ class FmsProductDetailModal extends Component {
                             <input type="text"
                                    className="form-control"
                                    disabled
-                                   ref='total'
-                                   value={updatedProduct.total || 0}
+                                   value={toReadablePrice(this.calculateTotalPrice())}
                             />
                         </div>
                     </div>
@@ -153,15 +189,24 @@ class FmsProductDetailModal extends Component {
     renderModalFooter() {
         return (
             <Modal.Footer>
-                <button className='btn btn-outline btn-danger pull-left'>
+                <button
+                    className='btn btn-outline btn-danger pull-left'
+                    onClick={this.onDeleteProduct.bind(this)}
+                >
                     Xóa
                 </button>
 
-                <button className='btn btn-white'>
+                <button
+                    className='btn btn-white'
+                    onClick={() => this.props.onClose()}
+                >
                     Hủy
                 </button>
 
-                <button className='btn btn-primary'>
+                <button
+                    className='btn btn-primary'
+                    onClick={this.onUpdateProduct.bind(this)}
+                >
                     Cập nhật
                 </button>
             </Modal.Footer>

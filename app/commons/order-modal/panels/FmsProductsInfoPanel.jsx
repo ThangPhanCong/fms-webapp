@@ -11,6 +11,41 @@ class FmsProductsInfoPanel extends Component {
         selectedProduct: null
     };
 
+    updateProducts(product) {
+        const {
+            products,
+            onChangeInput
+        } = this.props;
+
+        const newProducts = products.map(
+            p => (
+                p.id === product.id
+                    ? product
+                    : p
+            )
+        );
+
+        onChangeInput('products', newProducts);
+    }
+
+    deleteProduct(product) {
+        const {
+            products,
+            onChangeInput
+        } = this.props;
+
+        const filteredProducts = products.filter(
+            p => (p.id !== product.id)
+        );
+
+        onChangeInput('products', filteredProducts);
+    }
+
+    onDeleteProductClick(product) {
+        const allowDelete = confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');
+        if (allowDelete) this.deleteProduct(product);
+    }
+
     onOpenProductDetailModal(selectedProduct) {
         this.setState({
             isProductDetailModalShown: true,
@@ -18,7 +53,16 @@ class FmsProductsInfoPanel extends Component {
         });
     }
 
-    onCloseProductDetailModal() {
+    onCloseProductDetailModal(action = '', updatedProduct) {
+        switch (action) {
+            case 'update':
+                this.updateProducts(updatedProduct);
+                break;
+            case 'delete':
+                this.deleteProduct(updatedProduct);
+                break;
+        }
+
         this.setState({isProductDetailModalShown: false});
     }
 
@@ -39,7 +83,10 @@ class FmsProductsInfoPanel extends Component {
                         <td>{toReadablePrice(product.price)}</td>
                         <td>{toReadablePrice(product.discount)}</td>
                         <td>{toReadablePrice(product.price * product.quantity - product.discount)}</td>
-                        <td><i className="fa fa-trash-o clickable"/></td>
+                        <td><i
+                            className="fa fa-trash-o clickable"
+                            onClick={() => this.onDeleteProductClick(product)}
+                        /></td>
                         <td><i
                             className="fa fa-pencil clickable"
                             onClick={() => this.onOpenProductDetailModal(product)}
@@ -122,7 +169,8 @@ class FmsProductsInfoPanel extends Component {
 }
 
 FmsProductsInfoPanel.propTypes = {
-    products: propTypes.array
+    products: propTypes.array,
+    onChangeInput: propTypes.func
 };
 
 export default FmsProductsInfoPanel;
