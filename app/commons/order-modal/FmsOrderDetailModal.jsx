@@ -199,6 +199,7 @@ class FmsOrderDetailModal extends Component {
 
                     <div className="col-sm-12">
                         <FmsProductsInfoPanel
+                            project={project}
                             products={order.products}
                             onChangeInput={this.onChangeInput.bind(this)}
                         />

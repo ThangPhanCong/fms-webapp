@@ -35,11 +35,13 @@ class FmsSearchDropdown extends Component {
 
         const {
             query,
-            items
+            items,
+            className
         } = this.props;
 
         return (
-            <div className={`form-group dropdown ${showMenuItem ? 'open' : ''}`}>
+            <div
+                className={`form-group dropdown ${showMenuItem ? 'open' : ''} ${className || ''}`}>
                 <input
                     className='form-control'
                     type='text'
@@ -68,7 +70,8 @@ FmsSearchDropdown.propTypes = {
     onSearchChange: propTypes.func,
     onSelectItem: propTypes.func,
     items: propTypes.array,
-    query: propTypes.string
+    query: propTypes.string,
+    className: propTypes.string,
 };
 
 export default FmsSearchDropdown;
