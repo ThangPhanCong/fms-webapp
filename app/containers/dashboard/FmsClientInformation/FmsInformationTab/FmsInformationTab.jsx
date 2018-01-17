@@ -7,9 +7,13 @@ class FmsInformationTab extends React.Component {
         super(props);
         this.state = {
             type: 0,
-            reports: [],
             selectedReport: null
         }
+    }
+
+    convertTime(time) {
+        let date = new Date(time);
+        return "Ngày tạo: " + date.getDate() + "/" + (date.getMonth() + 1);
     }
 
     cancelAddReport() {
@@ -31,7 +35,7 @@ class FmsInformationTab extends React.Component {
     deleteReport(report) {
         let allow = confirm("Bạn có muốn xóa ghi chú này?");
         if (allow) {
-            this.props.dispatch(deleteReport(this.props.alias, report._id));
+            this.props.dispatch(deleteReport(report._id));
         }
     }
 
@@ -40,16 +44,16 @@ class FmsInformationTab extends React.Component {
     }
 
     confirmUpdateReport() {
-        this.props.dispatch(updateReport(this.props.alias, this.state.selectedReport._id, this.refs.report.value));
+        this.props.dispatch(updateReport(this.state.selectedReport._id, this.refs.report.value));
         this.setState({type: 0, selectedReport: null});
     }
 
     renderReports() {
-        if (this.state.reports.length === 0) return <p className="no-note">Chưa có báo xấu</p>;
-        return this.state.reports.map(report => {
+        if (this.props.reports.length === 0) return <p className="no-note">Chưa có báo xấu</p>;
+        return this.props.reports.map(report => {
             return <div key={report._id} className="note-text">
-                <div>{report.content}</div>
-                <div className="note-info-item">{FmsOrdersTab.convertTime(report.updated_time)}</div>
+                <div>{report.from.name + ": " + report.content}</div>
+                <div className="note-info-item">{this.convertTime(report.updated_time)}</div>
                 <a className="note-info-item note-option" onClick={() => {
                     this.updateReport(report)
                 }}>Sửa</a>
