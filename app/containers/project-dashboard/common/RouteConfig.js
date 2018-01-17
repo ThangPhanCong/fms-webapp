@@ -14,13 +14,13 @@ import FmsTransporting from "../../transport/FmsTransporting";
 import FmsSetting from '../../settings/FmsSettings';
 
 const treeConfig = [
-    {
-        route: 'dashboard',
-        title: 'Bảng điều khiển',
-        icon: 'fa-th-large',
-        headerColor: 'white',
-        component: (props) => <FmsStatistic {...props}/>
-    },
+    // {
+    //     route: 'dashboard',
+    //     title: 'Bảng điều khiển',
+    //     icon: 'fa-th-large',
+    //     headerColor: 'white',
+    //     component: (props) => <FmsStatistic {...props}/>
+    // },
     {
         route: '#',
         title: 'Quản lí trang',
@@ -88,12 +88,12 @@ const treeConfig = [
         title: 'Quản lí kho',
         icon: 'fa-cubes',
         children: [
-            {
-                route: 'export-order',
-                title: 'Yêu cầu xuất hàng',
-                headerColor: '#f3f3f4',
-                component: (props) => <FmsExportOrders {...props}/>
-            },
+            // {
+            //     route: 'export-order',
+            //     title: 'Yêu cầu xuất hàng',
+            //     headerColor: '#f3f3f4',
+            //     component: (props) => <FmsExportOrders {...props}/>
+            // },
             {
                 route: 'products',
                 title: 'Sản phẩm',
@@ -102,33 +102,33 @@ const treeConfig = [
             }
         ]
     },
-    {
-        route: '#',
-        title: 'Quản lí vận chuyển',
-        icon: 'fa-truck',
-        children: [
-            {
-                route: 'transport-orders',
-                title: 'Yêu cầu vận chuyển',
-                headerColor: '#f3f3f4',
-                component: (props) => <FmsTransportOrders {...props} />
-            },
-            {
-                route: 'transporting-orders',
-                title: 'Đang vận chuyển',
-                headerColor: '#f3f3f4',
-                component: (props) => <FmsTransporting {...props}/>
-            },
-            {
-                route: 'waiting-orders',
-                title: 'Đối soát vận chuyển',
-                headerColor: '#f3f3f4',
-                component: () => {
-                    return <p>Đối soát vận chuyển</p>
-                }
-            }
-        ]
-    },
+    // {
+    //     route: '#',
+    //     title: 'Quản lí vận chuyển',
+    //     icon: 'fa-truck',
+    //     children: [
+    //         {
+    //             route: 'transport-orders',
+    //             title: 'Yêu cầu vận chuyển',
+    //             headerColor: '#f3f3f4',
+    //             component: (props) => <FmsTransportOrders {...props} />
+    //         },
+    //         {
+    //             route: 'transporting-orders',
+    //             title: 'Đang vận chuyển',
+    //             headerColor: '#f3f3f4',
+    //             component: (props) => <FmsTransporting {...props}/>
+    //         },
+    //         {
+    //             route: 'waiting-orders',
+    //             title: 'Đối soát vận chuyển',
+    //             headerColor: '#f3f3f4',
+    //             component: () => {
+    //                 return <p>Đối soát vận chuyển</p>
+    //             }
+    //         }
+    //     ]
+    // },
 
 ];
 

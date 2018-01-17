@@ -41,9 +41,9 @@ class AllOrderBody extends Component {
                                 <FmsNewOrderTab project={project} version={version}/>
                             </FmsTab>
 
-                            <FmsTab title='Yêu cầu xuất'>
-                                <FmsExportOrderTab project={project} version={version}/>
-                            </FmsTab>
+                            {/*<FmsTab title='Yêu cầu xuất'>*/}
+                                {/*<FmsExportOrderTab project={project} version={version}/>*/}
+                            {/*</FmsTab>*/}
 
                             <FmsTab
                                 title={

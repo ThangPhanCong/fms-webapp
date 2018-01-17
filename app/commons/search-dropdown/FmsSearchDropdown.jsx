@@ -41,14 +41,24 @@ class FmsSearchDropdown extends Component {
 
         return (
             <div
-                className={`form-group dropdown ${showMenuItem ? 'open' : ''} ${className || ''}`}>
-                <input
-                    className='form-control'
-                    type='text'
-                    ref='search'
-                    value={query}
-                    onChange={() => this.onChangeInput('search')}
-                />
+                className={`form-group fms-searchdropdown dropdown ${showMenuItem ? 'open' : ''} ${className || ''}`}>
+                <div className='input-container'>
+                    <input
+                        className='form-control'
+                        type='text'
+                        ref='search'
+                        value={query}
+                        onChange={() => this.onChangeInput('search')}
+                    />
+                    {
+                        showMenuItem
+                            ? <i
+                                className='fa fa-times clickable'
+                                onClick={() => {this.setState({showMenuItem: false})}}
+                            />
+                            : null
+                    }
+                </div>
                 <ul className='dropdown-menu'>
                     {
                         items.map(
