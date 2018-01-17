@@ -61,8 +61,9 @@ class FmsOrdersTab extends React.Component {
 
     renderNotes() {
         if (this.props.notes.length === 0) return <p className="no-note">Chưa có ghi chú nào</p>;
-        return this.props.notes.map(note => {
-            return <div key={note._id} className="note-text">
+        return this.props.notes.map((note, index) => {
+            let custom = (index === this.props.notes.length - 1) ? " last" : "";
+            return <div key={note._id} className={"note-text" + custom}>
                 <div>{note.content}</div>
                 <div className="note-info-item">{FmsOrdersTab.convertTime(note.updated_time)}</div>
                 <a className="note-info-item note-option" onClick={() => {
@@ -110,7 +111,7 @@ class FmsOrdersTab extends React.Component {
         else if (type === 2) title = "Xóa ghi chú";
         else title = "Sửa ghi chú";
         return (
-            <div>
+            <div className="order-tab">
                 <div>
                     <div className="notes-list">
                         <div className="title-section">{title}</div>

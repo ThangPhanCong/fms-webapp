@@ -2,23 +2,21 @@
   background-color: white;
   height: 100%;
   border-left: 1px solid #cacaca;
-
-  .notes-list {
-    max-height: 190px;
-    min-height: 32vh;
-    overflow-y: scroll;
-    border-bottom: 1px solid #dadada;
+  .order-tab {
+    height: 100%;
+    overflow: auto;
     &::-webkit-scrollbar {
       display: none;
     }
-    &::-webkit-scrollbar-track {
-      display: none;
-    }
-    &::-webkit-scrollbar-thumb {
-      display: none;
-    }
+  }
+  .notes-list {
+    min-height: 202px;
+    border-bottom: 1px solid #dadada;
     .btn-default {
       border: 1px solid #cacaca;
+    }
+    .last {
+      border-bottom: none;
     }
   }
   .add-note-button {
@@ -35,6 +33,7 @@
     border-bottom: 1px solid #dedede;
     color: #666666;
     font-size: 15px;
+    word-wrap: break-word;
   }
   .order-title {
     text-align: center;
