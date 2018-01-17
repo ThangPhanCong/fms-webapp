@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link, Location} from 'react-router-dom';
+import {Location} from 'react-router-dom';
 import NavItem from "./NavItem";
 
 import navItems from './RouteConfig'
@@ -25,7 +25,7 @@ class Navigation extends Component {
         return (
             <li className="nav-header">
                 <div className="dropdown profile-element">
-                    <img alt="avatar-user" className="img-circle nav-avatar" src={avaUser} />
+                    <img alt="avatar-user" className="img-circle nav-avatar" src={avaUser}/>
                     <a data-toggle="dropdown" className="dropdown-toggle" href="#">
                             <span className="clear">
                                 <span className="block m-t-xs">
@@ -41,7 +41,7 @@ class Navigation extends Component {
                     </ul>
                 </div>
                 <div className="logo-element">
-                    <img alt="avatar-user" className="img-circle nav-avatar" src={avaUser} />
+                    <img alt="avatar-user" className="img-circle nav-avatar" src={avaUser}/>
                 </div>
             </li>
         )
@@ -57,10 +57,6 @@ class Navigation extends Component {
         return (
             <nav className="navbar-default navbar-static-side" role="navigation">
                 <ul className="nav metismenu" id="side-menu" ref="menu">
-                    <Link to={'/shops'}> <div className="back-to-shops">
-                            <i className="glyphicon glyphicon-menu-left"/>
-                            <div className="back-text">Quay lại cửa hàng</div>
-                    </div></Link>
                     {
                         this.renderHeaderNavItem()
                     }
