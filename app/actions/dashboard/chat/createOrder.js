@@ -97,7 +97,12 @@ export const getOrders = (alias) => (dispatch, getState) => {
     if (!customer_id) return;
     OrderApi.getOrders(alias, customer_id, conversation.page_fb_id)
         .then(res => {
-            console.log(res);
+            res.sort((a, b) => {
+                let t1 = new Date(a.updated_time);
+                let t2 = new Date(b.updated_time);
+                return t2 - t1;
+            });
+            dispatch(setOrders(res));
         }, err => {
             console.log(err);
         });

@@ -131,9 +131,6 @@ class FmsAddPostModal extends React.Component {
                 this.props.closeModal();
                 this.setState({isPosting: false, files: [], states: []});
                 noti("success", `Đăng thành công bài viết cho ${pages_fb_id.length} trang.`);
-                setTimeout(() => {
-                    this.props.getPosts();
-                }, 4000);
             })
             .catch(() => {
                 this.setState({isPosting: false});
