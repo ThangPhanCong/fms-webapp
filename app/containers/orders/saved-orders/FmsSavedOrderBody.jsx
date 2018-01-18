@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import propTypes from 'prop-types';
 import FmsTabs from "../../../commons/FmsTabs/FmsTabs";
 import FmsTab from "../../../commons/FmsTabs/FmsTab";
 import FmsSuccessOrdersTab from "./FmsSuccessOrdersTab";
@@ -7,9 +8,7 @@ import FmsFailureOrderTab from "./FmsFailureOrderTab";
 class FmsSavedOrderBody extends Component {
 
     render() {
-        return (
-            <p>Lưu trữ đơn</p>
-        )
+        const {project} = this.props;
 
         return (
             <div className="wrapper wrapper-content">
@@ -22,7 +21,9 @@ class FmsSavedOrderBody extends Component {
                                     icon: 'fa fa-check green-text'
                                 }}
                             >
-                                <FmsSuccessOrdersTab/>
+                                <FmsSuccessOrdersTab
+                                    project={project}
+                                />
                             </FmsTab>
 
                             <FmsTab
@@ -31,7 +32,9 @@ class FmsSavedOrderBody extends Component {
                                     icon: 'fa fa-times red-text'
                                 }}
                             >
-                                <FmsFailureOrderTab/>
+                                <FmsFailureOrderTab
+                                    project={project}
+                                />
                             </FmsTab>
 
                         </FmsTabs>
@@ -43,5 +46,8 @@ class FmsSavedOrderBody extends Component {
     }
 }
 
+FmsSavedOrderBody.propTypes = {
+    project: propTypes.object
+};
 
 export default FmsSavedOrderBody;

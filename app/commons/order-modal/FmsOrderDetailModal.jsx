@@ -12,7 +12,7 @@ import FmsProductsInfoPanel from "./panels/FmsProductsInfoPanel";
 import FmsNoteInfoPanel from "./panels/FmsNoteInfoPanel";
 import FmsOrderTagInfoPanel from "./panels/FmsOrderTagInfoPanel";
 import FmsPriceCalculatorPanel from "./panels/FmsPriceCalculatorPanel";
-import {saveSuccessOrder} from "../../api/OrderApi";
+import {saveFailureOrder, saveSuccessOrder} from "../../api/OrderApi";
 
 class FmsOrderDetailModal extends Component {
 
@@ -102,7 +102,7 @@ class FmsOrderDetailModal extends Component {
             if (allowSaveSuccessful) {
                 await saveSuccessOrder(project.alias, this.state.order);
             } else {
-                await saveSuccessOrder(project.alias, this.state.order);
+                await saveFailureOrder(project.alias, this.state.order);
             }
 
             const shouldUpdated = true;
@@ -295,7 +295,6 @@ class FmsOrderDetailModal extends Component {
 
 FmsOrderDetailModal.propTypes = {
     isShown: propTypes.bool.isRequired,
-    typeModal: propTypes.number.isRequired,
     onClose: propTypes.func.isRequired,
     project: propTypes.object,
     order: propTypes.object
