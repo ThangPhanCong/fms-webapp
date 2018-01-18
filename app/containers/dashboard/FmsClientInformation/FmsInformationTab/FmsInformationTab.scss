@@ -6,23 +6,5 @@
     .information-area {
       flex: 1;
     }
-    .report-area {
-      max-height: 190px;
-      min-height: 32vh;
-      overflow-y: scroll;
-      border-top: 1px solid #cfcfcf;
-      &::-webkit-scrollbar {
-        display: none;
-      }
-      &::-webkit-scrollbar-track {
-        display: none;
-      }
-      &::-webkit-scrollbar-thumb {
-        display: none;
-      }
-      .btn-default {
-        border: 1px solid #cacaca;
-      }
-    }
   }
 }

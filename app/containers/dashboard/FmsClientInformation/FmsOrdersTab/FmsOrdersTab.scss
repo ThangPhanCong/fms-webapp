@@ -9,14 +9,23 @@
       display: none;
     }
   }
-  .notes-list {
+  .order-area {
     min-height: 202px;
+    border-bottom: 1px solid #dadada;
+  }
+  .report-area {
+    overflow: hidden;
+    padding-bottom: 8px;
+    .reporter {
+      text-decoration: underline;
+    }
+  }
+  .notes-list {
+    overflow: hidden;
+    padding-bottom: 8px;
     border-bottom: 1px solid #dadada;
     .btn-default {
       border: 1px solid #cacaca;
-    }
-    .last {
-      border-bottom: none;
     }
   }
   .add-note-button {
@@ -32,8 +41,11 @@
     margin: 0 12px;
     border-bottom: 1px solid #dedede;
     color: #666666;
-    font-size: 15px;
+    font-size: 13px;
     word-wrap: break-word;
+  }
+  .last {
+    border-bottom: none;
   }
   .order-title {
     text-align: center;
@@ -61,7 +73,7 @@
   }
   .no-note {
     text-align: center;
-    padding-top: 24px;
+    padding-top: 12px;
   }
   .add-note-content {
     display: block;

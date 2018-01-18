@@ -1,5 +1,5 @@
 import NoteApi from '../../../api/NoteApi';
-import OrderApi from '../../../api/OrderApi';
+import {getOrders, createOrder} from '../../../api/OrderApi';
 import ReportApi from '../../../api/ReportApi';
 import * as u from 'lodash';
 import {noti} from "../../../containers/notification/NotificationService";
@@ -81,7 +81,7 @@ export const createNewOrder = (alias, phone, address) => (dispatch, getState) =>
         address: address,
         page_fb_id: conversation.page_fb_id
     };
-    OrderApi.createOrder(alias, customer_id, payload)
+    createOrder(alias, customer_id, payload)
         .then(() => {
             noti("success", "Tạo đơn hàng thành công.");
             dispatch(getOrders(alias));
@@ -91,11 +91,11 @@ export const createNewOrder = (alias, phone, address) => (dispatch, getState) =>
         });
 };
 
-export const getOrders = (alias) => (dispatch, getState) => {
+export const getAllOrders = (alias) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
     let customer_id = (conversation.customer) ? conversation.customer._id : null;
     if (!customer_id) return;
-    OrderApi.getOrders(alias, customer_id, conversation.page_fb_id)
+    getOrders(alias, customer_id, conversation.page_fb_id)
         .then(res => {
             res.sort((a, b) => {
                 let t1 = new Date(a.updated_time);

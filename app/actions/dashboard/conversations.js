@@ -2,7 +2,7 @@ import DashboardApi from '../../api/DashboardApi';
 import * as u from 'lodash';
 import {setConversation, isLoadingMsgs, setPostInfo, isShownNewMsgNoti} from './chat/messages';
 import {Observable} from 'rxjs/Observable';
-import {getNotes, getOrders, getReports} from './chat/createOrder';
+import {getNotes, getAllOrders, getReports} from './chat/createOrder';
 
 export const isLoadingConversations = (state) => dispatch => {
     dispatch({type: 'LOADING_CONVERSATIONS', state});
@@ -114,7 +114,7 @@ export const handleConversationClick = (alias, selectedConv, type) => (dispatch,
         dispatch(isLoadingMsgs(false));
     }
     dispatch(getNotes(alias));
-    dispatch(getOrders(alias));
+    dispatch(getAllOrders(alias));
     dispatch(getReports());
 };
 
