@@ -7,10 +7,10 @@ import FmsFailureOrderTab from "./FmsFailureOrderTab";
 class FmsSavedOrderBody extends Component {
 
     render() {
-        return (
-            <p>Lưu trữ đơn</p>
-        )
-
+        // return (
+        //     <p>Lưu trữ đơn</p>
+        // )
+        const {project} = this.props;
         return (
             <div className="wrapper wrapper-content">
                 <div className="row">
@@ -22,7 +22,7 @@ class FmsSavedOrderBody extends Component {
                                     icon: 'fa fa-check green-text'
                                 }}
                             >
-                                <FmsSuccessOrdersTab/>
+                                <FmsSuccessOrdersTab project={project}/>
                             </FmsTab>
 
                             <FmsTab
@@ -31,7 +31,7 @@ class FmsSavedOrderBody extends Component {
                                     icon: 'fa fa-times red-text'
                                 }}
                             >
-                                <FmsFailureOrderTab/>
+                                <FmsFailureOrderTab project={project}/>
                             </FmsTab>
 
                         </FmsTabs>
