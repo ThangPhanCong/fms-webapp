@@ -1,110 +1,24 @@
-import {ORDER_STATUS} from '../../api/OrderApi';
-
 export const typesModal = [
     {
-        name: 'Tạo mới đơn hàng',
-        ghiChu: true,
-        danhDau: true,
-        khachHang: true,
-        vanChuyen: true,
-        sanPham: true,
-        thanhToan: true,
-        btnSuccessName: 'Tạo mới',
-        btnDelete: false,
-        btnUpdate: false,
-        nextStatus: ORDER_STATUS.DRAFT,
-        createNewOrder: true
-    },
-    {
         name: 'Tất cả đơn hàng',
-        ghiChu: true,
-        danhDau: true,
-        khachHang: true,
-        vanChuyen: true,
-        sanPham: true,
-        thanhToan: true,
-        btnSuccessName: 'Yêu cầu xuất',
-        btnDelete: true,
-        btnUpdate: true,
-        nextStatus: ORDER_STATUS.EXPORTED_ORDER
+        customer_info: true,
+        note_info: true,
+        order_tag_info: true,
+        price_calculator: true,
+        products_info: true,
+        transport_info: true,
+        save_btn: true,
+        update_btn: true
     },
     {
-        name: 'Yêu cầu xuất hàng',
-        ghiChu: true,
-        danhDau: false,
-        khachHang: false,
-        vanChuyen: true,
-        sanPham: false,
-        thanhToan: true,
-        btnSuccessName: 'Yêu cầu vận chuyển',
-        btnDelete: true,
-        btnUpdate: true,        
-        nextStatus: ORDER_STATUS.TRANSPORTED_ORDER
-    },
-    {
-        name: 'Yêu cầu vận chuyển',
-        ghiChu: true,
-        danhDau: false,
-        khachHang: false,
-        vanChuyen: true,
-        sanPham: false,
-        thanhToan: false,
-        btnSuccessName: 'Đang vận chuyển',
-        btnDelete: true,
-        btnUpdate: true,        
-        nextStatus: ORDER_STATUS.TRANSPORTING
-    },
-    {
-        name: 'Đang vận chuyển',
-        ghiChu: true,
-        danhDau: false,
-        khachHang: false,
-        vanChuyen: false,
-        sanPham: false,
-        thanhToan: false,
-        btnSuccessName: 'Lưu trữ đơn',
-        btnDelete: false,
-        btnUpdate: true,        
-        nextStatus: ORDER_STATUS.SAVED_ORDER,
-        statusTransport: true
-    }
-];
-
-export const statusTransport = [
-    {
-        name: 'Bưu tá đang đi phát',
-        color: ''
-    },
-    {
-        name: 'Chưa phát được',
-        color: ''
-    },
-    {
-        name: 'Hủy đơn hàng',
-        color: ''
-    },
-    {
-        name: 'Khách từ chối nhận',
-        color: ''
-    },
-    {
-        name: 'Lưu bưu cục',
-        color: ''
-    },
-    {
-        name: 'Đang hoàn về',
-        color: ''
-    },
-    {
-        name: 'Đang vận chuyển',
-        color: ''
-    },
-    {
-        name: 'Đã gửi',
-        color: ''
-    },
-    {
-        name: 'Đã đến bưu cục',
-        color: '#3ea993'
+        name: 'Lưu trữ đơn',
+        customer_info: false,
+        note_info: false,
+        order_tag_info: false,
+        price_calculator: false,
+        products_info: false,
+        transport_info: false,
+        save_btn: false,
+        update_btn: false
     }
 ];

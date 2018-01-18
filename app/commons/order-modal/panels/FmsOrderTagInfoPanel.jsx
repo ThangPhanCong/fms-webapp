@@ -47,7 +47,7 @@ class FmsOrderTagInfoPanel extends Component {
     }
 
     render() {
-        const {order_tag} = this.props;
+        const {order_tag, disabled} = this.props;
         const {orderTags} = this.state;
 
         return (
@@ -73,6 +73,7 @@ class FmsOrderTagInfoPanel extends Component {
                                 onChange={() => {
                                     this.onChangeInput('order_tag')
                                 }}
+                                disabled={disabled}
                         >
                             {
                                 orderTags.map(
@@ -92,7 +93,8 @@ class FmsOrderTagInfoPanel extends Component {
 FmsOrderTagInfoPanel.propTypes = {
     project: propTypes.object,
     order_tag: propTypes.any,
-    onChangeInput: propTypes.func
+    onChangeInput: propTypes.func,
+    disabled: propTypes.bool
 };
 
 export default FmsOrderTagInfoPanel;

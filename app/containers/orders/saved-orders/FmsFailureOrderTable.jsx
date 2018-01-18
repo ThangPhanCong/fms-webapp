@@ -10,7 +10,11 @@ class FmsFailureOrderTable extends Component {
         selectedOrder: null
     };
 
-    onCloseModal () {
+    onCloseModal (updatedOrder) {
+        if (updatedOrder) {
+            const {project} = this.props;
+            this.props.updateOrders(project);
+        }
         this.setState({isShownModal: false});
     }
 
@@ -46,8 +50,8 @@ class FmsFailureOrderTable extends Component {
                             onClick={() => {this.openModal(order)}}
                         >{order.id}</span>
                     </a></td>
-                    <td>{order.customer.name}</td>
-                    <td>{order.customer.phone}</td>
+                    <td>{order.customer_name}</td>
+                    <td>{order.customer_phone}</td>
                     <td><img src={ic_viettel}/></td>
 
                     {
@@ -92,6 +96,7 @@ class FmsFailureOrderTable extends Component {
 
     render() {
         const {isShownModal, selectedOrder} = this.state;
+        const {project} = this.props; 
 
         return (
             <div className="table-responsive">
@@ -109,6 +114,8 @@ class FmsFailureOrderTable extends Component {
                     isShown={isShownModal}
                     onClose={this.onCloseModal.bind(this)}
                     order={selectedOrder}
+                    typeModal={1}
+                    project={project}
                 />
             </div>
         )

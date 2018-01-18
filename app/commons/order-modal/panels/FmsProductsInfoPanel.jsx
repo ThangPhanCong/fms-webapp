@@ -132,7 +132,10 @@ class FmsProductsInfoPanel extends Component {
                     p => !products.find(_p => _p.id === p.id)
                 );
 
-                this.setState({productsInStock})
+                this.setState({
+                    productsInStock,
+                    searchProducts: productsInStock,
+                })
             })
             .catch(err => alert(err.message));
     }
@@ -148,7 +151,7 @@ class FmsProductsInfoPanel extends Component {
     }
 
     renderProducts() {
-        const {products} = this.props;
+        const {products, disabled} = this.props;
 
         return Array.isArray(products) ?
             products.map(
@@ -164,14 +167,20 @@ class FmsProductsInfoPanel extends Component {
                         <td>{toReadablePrice(product.price)}</td>
                         <td>{toReadablePrice(product.discount)}</td>
                         <td>{toReadablePrice(product.price * product.quantity - product.discount)}</td>
-                        <td><i
-                            className="fa fa-trash-o clickable"
-                            onClick={() => this.onDeleteProductClick(product)}
-                        /></td>
-                        <td><i
-                            className="fa fa-pencil clickable"
-                            onClick={() => this.onOpenProductDetailModal(product)}
-                        /></td>
+                        {
+                            disabled ? null :
+                            <td><i
+                                className="fa fa-trash-o clickable"
+                                onClick={() => this.onDeleteProductClick(product)}
+                            /></td>
+                        }
+                        {
+                            disabled ? null :
+                            <td><i
+                                className="fa fa-pencil clickable"
+                                onClick={() => this.onOpenProductDetailModal(product)}
+                            /></td>
+                        }
                     </tr>
                 )
             )
@@ -186,6 +195,8 @@ class FmsProductsInfoPanel extends Component {
             searchProducts
         } = this.state;
 
+        const {disabled} = this.props;
+
         const searchableProducts = searchProducts.map(
             p => (`${p.id} - ${p.name}`)
         );
@@ -199,21 +210,24 @@ class FmsProductsInfoPanel extends Component {
                 <div className="panel-body">
                     <div className="ibox none-margin-bottom">
                         <div className="row">
-                            <div className="col-sm-9">
+                            <div className="col-sm-12">
                                 <FmsSearchDropdown
+                                    className='product-search-dropdown'
+                                    placeholder='Tìm và thêm sản phẩm'
                                     items={searchableProducts}
                                     onSearchChange={this.onSearchChange.bind(this)}
                                     onSelectItem={this.onSelectItem.bind(this)}
+                                    disabled={disabled}
                                 />
                             </div>
 
-                            <div className="col-sm-3">
-                                <div className="form-group">
-                                    <button className="btn btn-primary full-width">
-                                        Thêm sản phẩm
-                                    </button>
-                                </div>
-                            </div>
+                            {/*<div className="col-sm-3">*/}
+                                {/*<div className="form-group">*/}
+                                    {/*<button className="btn btn-primary full-width">*/}
+                                        {/*Thêm sản phẩm*/}
+                                    {/*</button>*/}
+                                {/*</div>*/}
+                            {/*</div>*/}
                         </div>
 
                         <div className="table-responsive">
@@ -257,7 +271,8 @@ class FmsProductsInfoPanel extends Component {
 FmsProductsInfoPanel.propTypes = {
     products: propTypes.array,
     onChangeInput: propTypes.func,
-    project: propTypes.object
+    project: propTypes.object,
+    disabled: propTypes.bool
 };
 
 export default FmsProductsInfoPanel;

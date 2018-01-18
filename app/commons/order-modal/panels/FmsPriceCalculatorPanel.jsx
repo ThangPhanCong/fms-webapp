@@ -15,7 +15,8 @@ class FmsPriceCalculatorPanel extends Component {
             productPrice,
             totalPrice,
             transport_fee,
-            is_pay
+            is_pay,
+            disabled
         } = this.props;
 
         return (
@@ -52,6 +53,7 @@ class FmsPriceCalculatorPanel extends Component {
                         onChange={(value) => {
                             this.onChangeInput('is_pay', value)
                         }}
+                        disabled={disabled}
                     />
                 </div>
 
@@ -65,7 +67,8 @@ FmsPriceCalculatorPanel.propTypes = {
     totalPrice: propTypes.number,
     transport_fee: propTypes.number,
     is_pay: propTypes.bool,
-    onChangeInput: propTypes.func
+    onChangeInput: propTypes.func,
+    disabled: propTypes.bool
 };
 
 export default FmsPriceCalculatorPanel;

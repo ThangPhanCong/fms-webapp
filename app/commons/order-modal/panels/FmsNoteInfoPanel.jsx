@@ -13,7 +13,7 @@ class FmsNoteInfoPanel extends Component {
     }
 
     render() {
-        const {private_note} = this.props;
+        const {private_note, disabled} = this.props;
 
         return (
             <div className="form-group">
@@ -29,6 +29,7 @@ class FmsNoteInfoPanel extends Component {
                                onChange={() => {
                                    this.onChangeInput('private_note')
                                }}
+                               disabled={disabled}
                         />
                     </div>
                 </div>
@@ -39,7 +40,8 @@ class FmsNoteInfoPanel extends Component {
 
 FmsNoteInfoPanel.propTypes = {
     private_note: propTypes.string,
-    onChangeInput: propTypes.func
+    onChangeInput: propTypes.func,
+    disabled: propTypes.bool
 };
 
 export default FmsNoteInfoPanel;

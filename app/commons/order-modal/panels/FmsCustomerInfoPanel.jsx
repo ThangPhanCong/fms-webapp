@@ -16,7 +16,8 @@ class FmsCustomerInfoPanel extends Component {
         const {
             customer_name,
             customer_phone,
-            customer_facebook
+            customer_facebook,
+            disabled
         } = this.props;
 
         return (
@@ -38,6 +39,7 @@ class FmsCustomerInfoPanel extends Component {
                                        onChange={() => {
                                            this.onChangeInput('customer_name')
                                        }}
+                                       disabled={disabled}
                                 />
                             </div>
                         </div>
@@ -56,6 +58,7 @@ class FmsCustomerInfoPanel extends Component {
                                        onChange={() => {
                                            this.onChangeInput('customer_phone')
                                        }}
+                                       disabled={disabled}
                                 />
                             </div>
                         </div>
@@ -74,6 +77,7 @@ class FmsCustomerInfoPanel extends Component {
                                        onChange={() => {
                                            this.onChangeInput('customer_facebook')
                                        }}
+                                       disabled={disabled}
                                 />
                             </div>
                         </div>
@@ -89,6 +93,7 @@ FmsCustomerInfoPanel.propTypes = {
     customer_name: propTypes.string,
     customer_phone: propTypes.string,
     customer_facebook: propTypes.string,
+    disabled: propTypes.bool
 };
 
 export default FmsCustomerInfoPanel;

@@ -9,14 +9,16 @@ class FmsSearchDropdown extends Component {
         showMenuItem: false
     };
 
+    onFocusInput() {
+        this.setState({showMenuItem: true});
+    }
+
     onChangeInput(refName, newValue = this.refs[refName].value) {
         const {onSearchChange} = this.props;
         const {showMenuItem} = this.state;
         onSearchChange(newValue);
 
-        if (!newValue) {
-            this.setState({showMenuItem: false})
-        } else if (!showMenuItem) {
+        if (!showMenuItem) {
             this.setState({showMenuItem: true})
         }
     }
@@ -36,7 +38,9 @@ class FmsSearchDropdown extends Component {
         const {
             query,
             items,
-            className
+            className,
+            placeholder,
+            disabled
         } = this.props;
 
         return (
@@ -48,27 +52,32 @@ class FmsSearchDropdown extends Component {
                         type='text'
                         ref='search'
                         value={query}
+                        placeholder={placeholder || ''}
                         onChange={() => this.onChangeInput('search')}
+                        onFocus={this.onFocusInput.bind(this)}
+                        disabled={disabled}
                     />
                     {
                         showMenuItem
                             ? <i
                                 className='fa fa-times clickable'
-                                onClick={() => {this.setState({showMenuItem: false})}}
+                                onClick={() => {
+                                    this.setState({showMenuItem: false})
+                                }}
                             />
                             : null
                     }
                 </div>
                 <ul className='dropdown-menu'>
                     {
-                        items.map(
+                        items.length > 0 ? items.map(
                             (item, i) => (
                                 <li
                                     key={uuid()}
                                     onClick={() => this.onSelectItem(i)}
                                 ><a>{item}</a></li>
                             )
-                        )
+                        ) : <li><a className='none-item'>Không có sản phẩm nào để hiển thị</a></li>
                     }
                 </ul>
             </div>
@@ -82,6 +91,8 @@ FmsSearchDropdown.propTypes = {
     items: propTypes.array,
     query: propTypes.string,
     className: propTypes.string,
+    placeholder: propTypes.string,
+    disabled: propTypes.bool
 };
 
 export default FmsSearchDropdown;

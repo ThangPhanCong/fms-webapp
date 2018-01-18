@@ -16,7 +16,8 @@ class FmsTransportInfoPanel extends Component {
         const {
             transport_address,
             transport_method,
-            transport_fee
+            transport_fee,
+            disabled
         } = this.props;
 
         return (
@@ -38,6 +39,7 @@ class FmsTransportInfoPanel extends Component {
                                        onChange={() => {
                                            this.onChangeInput('transport_address')
                                        }}
+                                       disabled={disabled}
                                 />
                             </div>
                         </div>
@@ -55,6 +57,7 @@ class FmsTransportInfoPanel extends Component {
                                         onChange={() => {
                                             this.onChangeInput('transport_method')
                                         }}
+                                        disabled={disabled}
                                 >
                                     <option value="" defaultValue/>
                                     <option value="TONG_BUU_DIEN">Tổng bưu điện</option>
@@ -80,6 +83,7 @@ class FmsTransportInfoPanel extends Component {
                                        onChange={() => {
                                            this.onChangeInput('transport_fee')
                                        }}
+                                       disabled={disabled}
                                 />
                             </div>
                         </div>
@@ -95,6 +99,7 @@ FmsTransportInfoPanel.propTypes = {
     transport_address: propTypes.string,
     transport_method: propTypes.string,
     transport_fee: propTypes.string,
+    disabled: propTypes.bool
 };
 
 export default FmsTransportInfoPanel;
