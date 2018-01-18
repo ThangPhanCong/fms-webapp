@@ -12,7 +12,8 @@ import FmsProductsInfoPanel from "./panels/FmsProductsInfoPanel";
 import FmsNoteInfoPanel from "./panels/FmsNoteInfoPanel";
 import FmsOrderTagInfoPanel from "./panels/FmsOrderTagInfoPanel";
 import FmsPriceCalculatorPanel from "./panels/FmsPriceCalculatorPanel";
-import {saveSuccessOrder} from "../../api/OrderApi";
+import FmsSaveOrderModal from "./sub-modals/FmsSaveOrderModal";
+import {saveSuccessOrder, saveFailureOrder} from "../../api/OrderApi";
 
 class FmsOrderDetailModal extends Component {
 
@@ -20,7 +21,8 @@ class FmsOrderDetailModal extends Component {
         order: {},
         orderTags: [],
         isLoading: false,
-        config: {}
+        config: {},
+        isSaveOrderModalShown: false
     };
 
     updateOrder() {
@@ -92,26 +94,39 @@ class FmsOrderDetailModal extends Component {
             .then(() => this.setState({isLoading: false}));
     }
 
-    async onSavedOrder() {
-        const allowSaveSuccessful = confirm('Đơn hàng này là đơn hàng thành công?');
+    onShowSaveOrderModal() {
+        this.setState({
+            isSaveOrderModalShown: true
+        })
+    }
+
+    async onSaveOrder(status) {
+        console.log(status);
+        this.setState({
+            isSaveOrderModalShown: false
+        });
 
         const {project} = this.props;
         this.setState({isLoading: true});
-
         try {
-            if (allowSaveSuccessful) {
+            if (status==='success') {
                 await saveSuccessOrder(project.alias, this.state.order);
-            } else {
-                await saveSuccessOrder(project.alias, this.state.order);
+            } else if (status==='failure') {
+                await saveFailureOrder(project.alias, this.state.order);
             }
 
             const shouldUpdated = true;
             this.props.onClose(shouldUpdated);
         } catch (err) {
-           alert(err.message);
+            alert(err.message);
         }
+        this.setState({isLoading: false});
+    }
 
-        this.setState({isLoading: false})
+    onCloseSaveOrderModal() {
+        this.setState({
+            isSaveOrderModalShown: false
+        })
     }
 
     onCloseButtonClick() {
@@ -155,7 +170,7 @@ class FmsOrderDetailModal extends Component {
     }
 
     renderModalBody() {
-        const {order} = this.state;
+        const {order, config} = this.state;
         const {project} = this.props;
 
         return (
@@ -165,6 +180,7 @@ class FmsOrderDetailModal extends Component {
                         <FmsNoteInfoPanel
                             private_note={order.private_note}
                             onChangeInput={this.onChangeInput.bind(this)}
+                            disabled={!config.note_info}
                         />
                     </div>
 
@@ -173,6 +189,7 @@ class FmsOrderDetailModal extends Component {
                             order_tag={order.order_tag}
                             project={project}
                             onChangeInput={this.onChangeInput.bind(this)}
+                            disabled={!config.order_tag_info}
                         />
                     </div>
 
@@ -182,6 +199,7 @@ class FmsOrderDetailModal extends Component {
                             customer_phone={order.customer_phone}
                             customer_facebook={order.customer_facebook}
                             onChangeInput={this.onChangeInput.bind(this)}
+                            disabled={!config.customer_info}
                         />
                     </div>
 
@@ -191,6 +209,7 @@ class FmsOrderDetailModal extends Component {
                             transport_method={order.transport_method}
                             transport_fee={order.transport_fee}
                             onChangeInput={this.onChangeInput.bind(this)}
+                            disabled={!config.transport_info}
                         />
                     </div>
 
@@ -199,6 +218,7 @@ class FmsOrderDetailModal extends Component {
                             project={project}
                             products={order.products}
                             onChangeInput={this.onChangeInput.bind(this)}
+                            disabled={!config.products_info}
                         />
                     </div>
 
@@ -209,6 +229,7 @@ class FmsOrderDetailModal extends Component {
                             transport_fee={parseInt(order.transport_fee || 0)}
                             is_pay={order.is_pay}
                             onChangeInput={this.onChangeInput.bind(this)}
+                            disabled={!config.price_calculator}
                         />
                     </div>
 
@@ -242,7 +263,10 @@ class FmsOrderDetailModal extends Component {
 
     renderModalFooter() {
         const {
-            isLoading
+            isLoading,
+            config,
+            isSaveOrderModalShown,
+            order
         } = this.state;
 
         return (
@@ -257,15 +281,28 @@ class FmsOrderDetailModal extends Component {
                         disabled={isLoading}>Hủy
                 </button>
 
-                <button className="btn btn-success"
-                        onClick={this.onSavedOrder.bind(this)}
-                        disabled={isLoading}>Lưu trữ
-                </button>
+                {
+                    config.save_btn ?
+                    <button className="btn btn-success"
+                            onClick={this.onShowSaveOrderModal.bind(this)}
+                            disabled={isLoading}>Lưu trữ
+                    </button>
+                    : null
+                }
 
-                <button className="btn btn-primary"
-                        onClick={() => this.updateOrder()}
-                        disabled={isLoading}>Cập nhật
-                </button>
+                {
+                    config.update_btn ?
+                    <button className="btn btn-primary"
+                            onClick={() => this.updateOrder()}
+                            disabled={isLoading}>Cập nhật
+                    </button>
+                    : null
+                }
+                <FmsSaveOrderModal
+                    isShown={isSaveOrderModalShown}
+                    onClose={this.onCloseSaveOrderModal.bind(this)}
+                    onSaveOrder={this.onSaveOrder.bind(this)}
+                />
             </Modal.Footer>
         )
     }

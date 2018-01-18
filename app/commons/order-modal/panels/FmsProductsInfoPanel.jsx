@@ -151,7 +151,7 @@ class FmsProductsInfoPanel extends Component {
     }
 
     renderProducts() {
-        const {products} = this.props;
+        const {products, disabled} = this.props;
 
         return Array.isArray(products) ?
             products.map(
@@ -167,14 +167,20 @@ class FmsProductsInfoPanel extends Component {
                         <td>{toReadablePrice(product.price)}</td>
                         <td>{toReadablePrice(product.discount)}</td>
                         <td>{toReadablePrice(product.price * product.quantity - product.discount)}</td>
-                        <td><i
-                            className="fa fa-trash-o clickable"
-                            onClick={() => this.onDeleteProductClick(product)}
-                        /></td>
-                        <td><i
-                            className="fa fa-pencil clickable"
-                            onClick={() => this.onOpenProductDetailModal(product)}
-                        /></td>
+                        {
+                            disabled ? null :
+                            <td><i
+                                className="fa fa-trash-o clickable"
+                                onClick={() => this.onDeleteProductClick(product)}
+                            /></td>
+                        }
+                        {
+                            disabled ? null :
+                            <td><i
+                                className="fa fa-pencil clickable"
+                                onClick={() => this.onOpenProductDetailModal(product)}
+                            /></td>
+                        }
                     </tr>
                 )
             )
@@ -188,6 +194,8 @@ class FmsProductsInfoPanel extends Component {
             productsInStock,
             searchProducts
         } = this.state;
+
+        const {disabled} = this.props;
 
         const searchableProducts = searchProducts.map(
             p => (`${p.id} - ${p.name}`)
@@ -209,6 +217,7 @@ class FmsProductsInfoPanel extends Component {
                                     items={searchableProducts}
                                     onSearchChange={this.onSearchChange.bind(this)}
                                     onSelectItem={this.onSelectItem.bind(this)}
+                                    disabled={disabled}
                                 />
                             </div>
 
@@ -262,7 +271,8 @@ class FmsProductsInfoPanel extends Component {
 FmsProductsInfoPanel.propTypes = {
     products: propTypes.array,
     onChangeInput: propTypes.func,
-    project: propTypes.object
+    project: propTypes.object,
+    disabled: propTypes.bool
 };
 
 export default FmsProductsInfoPanel;

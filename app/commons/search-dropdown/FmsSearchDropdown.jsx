@@ -39,7 +39,8 @@ class FmsSearchDropdown extends Component {
             query,
             items,
             className,
-            placeholder
+            placeholder,
+            disabled
         } = this.props;
 
         return (
@@ -54,6 +55,7 @@ class FmsSearchDropdown extends Component {
                         placeholder={placeholder || ''}
                         onChange={() => this.onChangeInput('search')}
                         onFocus={this.onFocusInput.bind(this)}
+                        disabled={disabled}
                     />
                     {
                         showMenuItem
@@ -89,7 +91,8 @@ FmsSearchDropdown.propTypes = {
     items: propTypes.array,
     query: propTypes.string,
     className: propTypes.string,
-    placeholder: propTypes.string
+    placeholder: propTypes.string,
+    disabled: propTypes.bool
 };
 
 export default FmsSearchDropdown;
