@@ -231,17 +231,17 @@ class FmsOrdersTab extends React.Component {
         return (
             <div className="order-tab">
                 <div>
-                    <div className="notes-list">
-                        <div className="title-section">{title}</div>
-                        <a className={"add-note-button" + addNote} onClick={this.openAddNote.bind(this)}>Thêm</a>
-                        {this.renderNoteList()}
-                    </div>
                     <div className="order-area">
                         <div className="title-section">Đơn hàng</div>
                         <a className="add-note-button" onClick={() => {
                             this.openNewOrderModal()
                         }}>Thêm</a>
                         {this.renderOrders()}
+                    </div>
+                    <div className="notes-list">
+                        <div className="title-section">{title}</div>
+                        <a className={"add-note-button" + addNote} onClick={this.openAddNote.bind(this)}>Thêm</a>
+                        {this.renderNoteList()}
                     </div>
                     <div className="report-area">
                         <div className="title-section">Báo xấu</div>
