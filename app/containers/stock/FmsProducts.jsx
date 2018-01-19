@@ -14,7 +14,7 @@ class FmsProducts extends Component {
         }
 
         return (
-            <Fragment>
+            <React.Fragment>
                 <FmsPageTitle title="Sản phẩm" route={`${projectName}/Quản lí kho/Sản phẩm`}/>
 
                 {
@@ -22,7 +22,7 @@ class FmsProducts extends Component {
                         ? <FmsProductsBody project={project}/>
                         : null
                 }
-            </Fragment>
+            </React.Fragment>
         )
     }
 }

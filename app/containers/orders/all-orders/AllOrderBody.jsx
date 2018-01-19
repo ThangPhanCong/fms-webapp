@@ -81,7 +81,7 @@ class AllOrderBody extends Component {
         } = this.state;
 
         return (
-            <Fragment>
+            <React.Fragment>
                 {
                     isFirstTime
                         ? (
@@ -140,7 +140,7 @@ class AllOrderBody extends Component {
                     onClose={this.onCloseModal.bind(this)}
                     project={project}
                 />
-            </Fragment>
+            </React.Fragment>
         )
     }
 }

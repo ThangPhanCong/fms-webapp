@@ -49,7 +49,7 @@ class FmsSavedOrderBody extends Component {
         const {isFirstTime} = this.state;
 
         return (
-            <Fragment>
+            <React.Fragment>
                 {
                     isFirstTime
                         ? (
@@ -98,7 +98,7 @@ class FmsSavedOrderBody extends Component {
                             </div>
                         )
                 }
-            </Fragment>
+            </React.Fragment>
         )
     }
 }
