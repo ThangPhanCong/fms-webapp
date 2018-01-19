@@ -137,7 +137,7 @@ class FmsOrdersTab extends React.Component {
             return orders.map((order, index) => {
                 let custom = "";
                 if (index === orders.length - 1) custom = " last";
-                return <div key={order.id} className={"order-item" + custom}
+                return <div key={order._id} className={"order-item" + custom}
                             onClick={() => {this.openOrderDetailModal(order)}}>
                     <div className="order-id">
                         {order.id + ":  "}
