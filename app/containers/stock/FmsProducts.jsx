@@ -1,83 +1,12 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import FmsPageTitle from "../../commons/page-title/FmsPageTitle";
-import {getProducts} from "../../api/ProductApi";
-import FmsSpin from "../../commons/FmsSpin/FmsSpin";
-import FmsProductSearchBar from "./FmsProductSearchBar";
-import FmsProductTable from "./FmsProductTable";
-import FmsCreateNewProductModal from "./modals/FmsCreateNewProductModal";
 import {delay} from 'utils/timeout-utils';
+import FmsProductsBody from "./FmsProductsBody";
 
 class FmsProducts extends Component {
 
-    state = {
-        products: [],
-        filter: {},
-        timeoutKey: null,
-        isLoading: true,
-        isShowCreateProductModal: false
-    };
-
-    onOpenModal() {
-        this.setState({isShowCreateProductModal: true});
-    }
-
-    onCloseModal(shouldReload) {
-        if (shouldReload) {
-            const {project} = this.props;
-            this.updateProductList(project);
-        }
-
-        this.setState({isShowCreateProductModal: false});
-    }
-
-    onChangeFilter(filter) {
-        const {project} = this.props;
-        const {timeoutKey} = this.state;
-        const before = 0.5 * 1000; // 1s
-
-        if (timeoutKey) clearTimeout(timeoutKey);
-
-        const newTimeoutKey = setTimeout(() => {
-            this.updateProductList(project, filter);
-            this.setState({timeoutKey: null});
-        }, before);
-
-        this.setState({filter, timeoutKey: newTimeoutKey});
-    }
-
-    updateProductList(project, filter = this.state.filter) {
-        this.setState({isLoading: true});
-
-        getProducts(project.alias, filter)
-            .then(products => this.setState({products, isLoading: false}));
-    }
-
-    reloadProducts() {
-        const {project} = this.props;
-        this.updateProductList(project);
-    }
-
-    componentDidMount() {
-        const {project} = this.props;
-
-        if (project) {
-            this.updateProductList(project);
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.project) {
-            this.updateProductList(nextProps.project);
-        }
-    }
-
     render() {
         const {project} = this.props;
-        const {
-            products,
-            isLoading,
-            isShowCreateProductModal
-        } = this.state;
 
         let projectName = 'Cửa hàng';
         if (project) {
@@ -85,48 +14,15 @@ class FmsProducts extends Component {
         }
 
         return (
-            [
-                <FmsPageTitle key={1} title="Sản phẩm" route={`${projectName}/Quản lí kho/Sản phẩm`}/>,
+            <Fragment>
+                <FmsPageTitle title="Sản phẩm" route={`${projectName}/Quản lí kho/Sản phẩm`}/>
 
-                <div key={2} className="wrapper wrapper-content">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="ibox">
-                                <div className="ibox-content">
-
-                                    <div className="row">
-                                        <div className="col-lg-12" style={{paddingBottom: '20px'}}>
-                                            <button
-                                                className="btn btn-primary btn-sm"
-                                                onClick={this.onOpenModal.bind(this)}
-                                            >
-                                                <i className="fa fa-plus"/> Thêm sản phẩm
-                                            </button>
-                                            <br/>
-                                        </div>
-                                    </div>
-
-                                    <FmsProductSearchBar onChangeFilter={this.onChangeFilter.bind(this)}/>
-
-                                    {
-                                        isLoading ?
-                                            <FmsSpin size={25} center={true}/>
-                                            : <FmsProductTable products={products} project={project}
-                                                               onReloadProducts={this.reloadProducts.bind(this)}/>
-                                    }
-
-                                    <FmsCreateNewProductModal
-                                        isShown={isShowCreateProductModal}
-                                        onClose={this.onCloseModal.bind(this)}
-                                        project={project}
-                                    />
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            ]
+                {
+                    project
+                        ? <FmsProductsBody project={project}/>
+                        : null
+                }
+            </Fragment>
         )
     }
 }

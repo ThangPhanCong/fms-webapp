@@ -11,7 +11,7 @@ export const logIn = () => () => {
 };
 
 export const logOut = () => dispatch => {
-    store.clearAll();
+    store.clear('access_token');
     dispatch({type: LOG_OUT});
 };
 
@@ -35,7 +35,7 @@ export const verifyAccessToken = (access_token) => (dispatch) => {
             // socket.connect(access_token);
         })
         .catch(() => {
-            store.clearAll();
+            store.clear('access_token');
             dispatch({
                 type: VERIFY_ACCESS_TOKEN_LOADED,
                 isAuthenticated: false,

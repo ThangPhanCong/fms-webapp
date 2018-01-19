@@ -7,6 +7,7 @@ import FmsTableLineChart from "../../commons/charts/FmsLineChart/FmsTableLineCha
 import FmsLabelLineChart from "../../commons/charts/FmsLineChart/FmsLabelLineChart";
 import FmsLineChartCanvas from "../../commons/charts/FmsLineChartCanvas/FmsLineChartCanvas";
 import FmsStatisticTable from "./table/FmsStatisticTable";
+import FmsBlankPage from "../../commons/blank-page/FmsBlankPage";
 
 const lineData1 = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -32,6 +33,19 @@ const lineData1 = {
 
 class FmsStatistic extends Component {
     render() {
+        return (
+            <FmsBlankPage title='Bảng điều khiển'>
+                <small>
+                    Bảng điều khiển là nơi thu thập thông tin về cửa hàng, đưa những số liệu thành biểu đồ giúp bạn tiện theo dõi, đánh giá.
+                </small>
+                <div>
+                    <small>
+                        Số liệu hiện tại không đủ để hiển thị!
+                    </small>
+                </div>
+            </FmsBlankPage>
+        );
+
         return (
             <div className="wrapper wrapper-content animated fadeIn">
                 <div className="p-w-md m-t-sm">

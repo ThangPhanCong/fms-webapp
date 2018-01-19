@@ -17,7 +17,7 @@ export const set = (key, data) => {
 export const clear = (key) => {
   const realKey = NAME_SPACE + key;
 
-  return store.clear(realKey);
+  return store.remove(realKey);
 };
 
 export const clearAll = () => {
