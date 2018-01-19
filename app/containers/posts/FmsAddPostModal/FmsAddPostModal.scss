@@ -25,10 +25,11 @@
   padding: 5px 0;
   .add-post-checkbox {
     display: inline-block;
-    margin-right: 5px;
+    margin-right: 8px;
   }
   .page-name {
-    display: inline-block;
+    display: flex;
+    align-items: center;
     font-size: 15px;
     font-weight: 500;
   }

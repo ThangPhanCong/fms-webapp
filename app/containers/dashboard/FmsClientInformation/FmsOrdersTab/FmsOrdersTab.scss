@@ -39,9 +39,9 @@
     overflow: hidden;
     padding-bottom: 8px;
     border-bottom: 1px solid #dadada;
-    .btn-default {
-      border: 1px solid #cacaca;
-    }
+  }
+  .btn-default {
+    border: 1px solid #cacaca !important;
   }
   .add-note-button {
     display: block;
