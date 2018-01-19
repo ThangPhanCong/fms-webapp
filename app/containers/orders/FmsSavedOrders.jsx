@@ -14,7 +14,7 @@ class FmsSavedOrders extends Component {
         }
 
         return (
-            <React.Fragment>
+            <Fragment>
                 <FmsPageTitle
                     title="Lưu trữ đơn hàng"
                     route={`${projectName}/Quản lí đơn hàng/Lưu trữ đơn hàng`}
@@ -25,7 +25,7 @@ class FmsSavedOrders extends Component {
                         ? <FmsSavedOrderBody project={project}/>
                         : null
                 }
-            </React.Fragment>
+            </Fragment>
         )
     }
 }

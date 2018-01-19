@@ -120,7 +120,7 @@ class FmsProductsBody extends Component {
         } = this.state;
 
         return (
-            <React.Fragment>
+            <Fragment>
                 {
                     isFirstTime
                         ? (
@@ -186,7 +186,7 @@ class FmsProductsBody extends Component {
                     onClose={this.onCloseModal.bind(this)}
                     project={project}
                 />
-            </React.Fragment>
+            </Fragment>
         )
     }
 }

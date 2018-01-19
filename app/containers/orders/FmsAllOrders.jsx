@@ -14,7 +14,7 @@ class FmsAllOrders extends Component {
         console.log('FmsAllOrders project', project);
 
         return (
-            <React.Fragment>
+            <Fragment>
                 <FmsPageTitle title="Tất cả đơn hàng" route={`${projectName}/Quản lí đơn hàng/Tất cả đơn hàng`}/>
 
                 {
@@ -22,7 +22,7 @@ class FmsAllOrders extends Component {
                         ? <AllOrderBody project={project}/>
                         : null
                 }
-            </React.Fragment>
+            </Fragment>
         )
     }
 }
