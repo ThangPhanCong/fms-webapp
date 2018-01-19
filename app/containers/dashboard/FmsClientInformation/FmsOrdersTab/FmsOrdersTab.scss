@@ -20,11 +20,12 @@
         font-size: 12px;
         margin-right: 7px;
       }
-      padding: 7px 12px;
+      padding: 7px 0;
+      margin: 0 12px;
       border-bottom: 1px solid #dedede;
       &:hover {
         cursor: pointer;
-        background-color: #f2f2f2;
+        border-bottom: 1px solid #1ab394;
       }
     }
   }
@@ -46,7 +47,7 @@
   .add-note-button {
     display: block;
     float: right;
-    color: #3598DB;
+    color: #1ab394;
     padding: 8px 12px 0;
     cursor: pointer;
     font-size: 15px;
