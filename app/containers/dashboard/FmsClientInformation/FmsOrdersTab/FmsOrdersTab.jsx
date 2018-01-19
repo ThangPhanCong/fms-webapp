@@ -33,7 +33,7 @@ class FmsOrdersTab extends React.Component {
 
     closeNewOrderModal() {
         this.setState({ isShownNewOrderModal: false});
-        this.props.dispatch(getAllOrders(this.props.alias))
+        this.props.dispatch(getAllOrders(this.props.alias));
     }
 
     openOrderDetailModal(order) {
@@ -42,6 +42,7 @@ class FmsOrdersTab extends React.Component {
 
     closeOrderDetailModal() {
         this.setState({ isShownOrderDetailModal: false});
+        this.props.dispatch(getAllOrders(this.props.alias));
     }
 
     //-------------Note----------------------------
@@ -133,10 +134,18 @@ class FmsOrdersTab extends React.Component {
         let orders = this.props.orders;
         if (orders.length === 0) return <p className="no-note">Chưa có đơn hàng nào</p>;
         else {
-            return orders.map(order => {
-                return <div key={order.id} className="order-item"
+            return orders.map((order, index) => {
+                let custom = "";
+                if (index === orders.length - 1) custom = " last";
+                return <div key={order.id} className={"order-item" + custom}
                             onClick={() => {this.openOrderDetailModal(order)}}>
-                    {order.id}
+                    <div className="order-id">
+                        {order.id + ":  "}
+                        <span style={{color: order.order_tag.color}}>{order.order_tag.name}</span>
+                    </div>
+                    <div><i className="glyphicon glyphicon-usd"/> {order.transport_fee}</div>
+                    <div><i className="glyphicon glyphicon-home"/> {order.transport_address}</div>
+                    <div><i className="glyphicon glyphicon-phone"/> {order.customer_phone}</div>
                 </div>
             });
         }

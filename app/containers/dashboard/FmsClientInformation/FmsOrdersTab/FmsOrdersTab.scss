@@ -13,10 +13,18 @@
     min-height: 202px;
     border-bottom: 1px solid #dadada;
     .order-item {
-      margin: 0 12px;
-      padding: 7px 0;
+      .order-id {
+        text-align: center;
+      }
+      .glyphicon {
+        font-size: 12px;
+        margin-right: 7px;
+      }
+      padding: 7px 12px;
+      border-bottom: 1px solid #dedede;
       &:hover {
         cursor: pointer;
+        background-color: #f2f2f2;
       }
     }
   }
@@ -52,7 +60,7 @@
     word-wrap: break-word;
   }
   .last {
-    border-bottom: none;
+    border-bottom: none !important;
   }
   .order-title {
     text-align: center;
