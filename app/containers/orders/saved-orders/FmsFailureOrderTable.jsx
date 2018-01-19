@@ -37,6 +37,17 @@ class FmsFailureOrderTable extends Component {
         )
     }
 
+    renderDatetime(datetime) {
+        const date = new Date(datetime);
+        return (
+            <td>
+                {date.toLocaleDateString()}
+                <br/> 
+                {date.toLocaleTimeString()}
+            </td>
+        );
+    }
+
     renderTableRows() {
         const {orders} = this.props;
 
@@ -59,8 +70,12 @@ class FmsFailureOrderTable extends Component {
                     }
 
                     <td>{order.private_note}</td>
-                    <td>14:53 <br/> 29-11</td>
-                    <td>14:53 <br/> 30-11</td>
+                    {
+                        this.renderDatetime(order.created_time)
+                    }
+                    {
+                        this.renderDatetime(order.updated_time)
+                    }
                 </tr>
             )
         );

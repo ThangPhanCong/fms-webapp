@@ -59,6 +59,17 @@ class FmsNewOrderTable extends Component {
         )
     }
 
+    renderDatetime(datetime) {
+        const date = new Date(datetime);
+        return (
+            <td>
+                {date.toLocaleDateString()}
+                <br/> 
+                {date.toLocaleTimeString()}
+            </td>
+        );
+    }
+
     renderTableBody() {
         const {orders, onSelectItem} = this.props;
 
@@ -86,7 +97,9 @@ class FmsNewOrderTable extends Component {
                             }
 
                             <td>{order.private_note}</td>
-                            <td>14:53 <br/> 29-11</td>
+                            {
+                                this.renderDatetime(order.created_time)
+                            }
                             <td>{toReadablePrice(this.calculateTotalPrice(order))}</td>
                             <td className='text-center'>
                                 {

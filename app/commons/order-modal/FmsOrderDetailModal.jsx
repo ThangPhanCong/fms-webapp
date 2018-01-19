@@ -241,6 +241,8 @@ class FmsOrderDetailModal extends Component {
     }
 
     renderModalHeader() {
+        const {order} = this.state;
+        const date = new Date(order.created_time); 
         return (
             <Modal.Header
                 closeButton={true}
@@ -248,10 +250,12 @@ class FmsOrderDetailModal extends Component {
                     this.props.onClose();
                 }}
             >
-                <h4>Đơn hàng #{this.state.order.id}</h4>
+                <h4>Đơn hàng #{order.id}</h4>
 
                 <div>
-                    <small className="font-bold">Ngày tạo: <strong>12:49, 24-12-2017</strong></small>
+                    <small className="font-bold">Ngày tạo: 
+                        <strong>{date.toLocaleTimeString()}, {date.toLocaleDateString()}</strong>
+                    </small>
                 </div>
                 <div>
                     <small className="font-bold">Nguồn đơn: <a>fb.com/my-shop/posts/4128912312412</a></small>
