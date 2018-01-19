@@ -42,7 +42,7 @@ class FmsNewOrderTab extends Component {
         this.setState({isLoading: true});
 
         getOrders(project.alias)
-            .then(orders => this.setState({orders, isLoading: false}));
+            .then(orders => this.setState({orders: orders.reverse(), isLoading: false}));
     }
 
     componentDidMount() {
