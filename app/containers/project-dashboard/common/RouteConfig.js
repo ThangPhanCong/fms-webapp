@@ -14,13 +14,13 @@ import FmsTransporting from "../../transport/FmsTransporting";
 import FmsSetting from '../../settings/FmsSettings';
 
 const treeConfig = [
-    // {
-    //     route: 'dashboard',
-    //     title: 'Bảng điều khiển',
-    //     icon: 'fa-th-large',
-    //     headerColor: 'white',
-    //     component: (props) => <FmsStatistic {...props}/>
-    // },
+    {
+        route: 'dashboard',
+        title: 'Bảng điều khiển',
+        icon: 'fa-th-large',
+        headerColor: 'white',
+        component: (props) => <FmsStatistic {...props}/>
+    },
     {
         route: '#',
         title: 'Quản lí trang',

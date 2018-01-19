@@ -39,6 +39,7 @@ module.exports = {
             images: path.resolve(__rootdir, 'app/assets/images'),
             commons: path.resolve(__rootdir, 'app/commons'),
             api: path.resolve(__rootdir, 'app/api'),
+            helpers: path.resolve(__rootdir, 'app/helpers'),
             utils: path.resolve(__rootdir, 'app/utils')
         },
         extensions: ['.json', '.js', '.jsx']
@@ -108,7 +109,7 @@ module.exports = {
                             "targets": {
                                 "browsers": ["last 2 versions"]
                             },
-                            "useBuiltIns": true,
+                            "useBuiltIns": "entry",
                         }],
                         'react',
                         'stage-0'
