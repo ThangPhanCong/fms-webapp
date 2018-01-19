@@ -5,6 +5,12 @@ import FmsCheckbox from '../checkbox/FmsCheckbox';
 import {createOrder} from "../../api/OrderApi";
 import {getOrderTags} from "../../api/OrderTagApi";
 import {toReadablePrice} from "../../utils/price-utils";
+import FmsTransportInfoPanel from "./panels/FmsTransportInfoPanel";
+import FmsCustomerInfoPanel from "./panels/FmsCustomerInfoPanel";
+import FmsProductsInfoPanel from "./panels/FmsProductsInfoPanel";
+import FmsNoteInfoPanel from "./panels/FmsNoteInfoPanel";
+import FmsOrderTagInfoPanel from "./panels/FmsOrderTagInfoPanel";
+import FmsPriceCalculatorPanel from "./panels/FmsPriceCalculatorPanel";
 
 class FmsCreateOrderModal extends Component {
 
@@ -64,6 +70,9 @@ class FmsCreateOrderModal extends Component {
                 break;
             case 'is_pay':
                 newOrder.is_pay = newValue;
+                break;
+            case 'products':
+                newOrder.products = newValue;
                 break;
             default:
                 newOrder[refName] = newValue;
@@ -133,290 +142,60 @@ class FmsCreateOrderModal extends Component {
 
     renderModalBody() {
         const {order, orderTags} = this.state;
+        const {project} = this.props;
 
         return (
             <Modal.Body>
+                <div className='row'>
+                    <div className='col-sm-12'>
+                        <FmsNoteInfoPanel
+                            private_note={order.private_note}
+                            onChangeInput={this.onChangeInput.bind(this)}
+                        />
+                    </div>
 
-                <div className="row">
-
-                    <div className="col-sm-12">
-
-                        <div className="form-group row">
-                            <div className="col-sm-3">
-                                <label className="control-label">Ghi chú nội bộ</label>
-                            </div>
-                            <div className="col-sm-9">
-                                <input className="form-control"
-                                       type='text'
-                                       ref='private_note'
-                                       value={order.private_note || ''}
-                                       onChange={() => {
-                                           this.onChangeInput('private_note')
-                                       }}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="form-group row">
-                            <div className="col-sm-3">
-                                <label className="control-label">Đánh dấu</label>
-                            </div>
-                            <div className="col-sm-9 color-tag">
-                                <select className="form-control"
-                                        ref='order_tag'
-                                        value={
-                                            ((order) => {
-                                                if (typeof order.order_tag === 'string') {
-                                                    return order.order_tag;
-                                                } else if (order.order_tag) {
-                                                    return order.order_tag._id;
-                                                } else {
-                                                    return '';
-                                                }
-                                            })(order)
-                                        }
-                                        onChange={() => {
-                                            this.onChangeInput('order_tag')
-                                        }}
-                                >
-                                    <option value="" defaultValue/>
-                                    {
-                                        orderTags.map(
-                                            (tag, i) => (
-                                                <option key={i} value={tag._id}>{tag.name}</option>
-                                            )
-                                        )
-                                    }
-                                </select>
-                            </div>
-                        </div>
+                    <div className='col-sm-12'>
+                        <FmsOrderTagInfoPanel
+                            order_tag={order.order_tag}
+                            project={project}
+                            onChangeInput={this.onChangeInput.bind(this)}
+                        />
                     </div>
 
                     <div className="col-sm-6">
-                        <div className="panel panel-primary">
-                            <div className="panel-heading">
-                                Thông tin khách hàng
-                            </div>
-                            <div className="panel-body">
-                                <div className="form-group row">
-                                    <div className="col-sm-3">
-                                        <label className="control-label">Tên</label>
-                                    </div>
-                                    <div className="col-sm-9">
-                                        <input type="text"
-                                               className="form-control"
-                                               ref='customer_name'
-                                               value={order.customer_name || ''}
-                                               onChange={() => {
-                                                   this.onChangeInput('customer_name')
-                                               }}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="form-group row">
-                                    <div className="col-sm-3">
-                                        <label className="control-label">Điện thoại</label>
-                                    </div>
-                                    <div className="col-sm-9">
-                                        <input type="text"
-                                               className="form-control"
-                                               ref='customer_phone'
-                                               value={order.customer_phone || ''}
-                                               onChange={() => {
-                                                   this.onChangeInput('customer_phone')
-                                               }}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="form-group row">
-                                    <div className="col-sm-3">
-                                        <label className="control-label">Facebook</label>
-                                    </div>
-                                    <div className="col-sm-9">
-                                        <input type="text"
-                                               className="form-control"
-                                               ref='customer_facebook'
-                                               value={order.customer_facebook || ''}
-                                               onChange={() => {
-                                                   this.onChangeInput('customer_facebook')
-                                               }}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <FmsCustomerInfoPanel
+                            customer_name={order.customer_name}
+                            customer_phone={order.customer_phone}
+                            customer_facebook={order.customer_facebook}
+                            onChangeInput={this.onChangeInput.bind(this)}
+                        />
                     </div>
 
                     <div className="col-sm-6">
-                        <div className="panel panel-success">
-                            <div className="panel-heading">
-                                Thông tin vận chuyển
-                            </div>
-                            <div className="panel-body">
-                                <div className="form-group row">
-                                    <div className="col-sm-4">
-                                        <label className="control-label">Địa chỉ nhận</label>
-                                    </div>
-                                    <div className="col-sm-8">
-                                        <input type="text"
-                                               className="form-control"
-                                               ref='transport_address'
-                                               value={order.transport_address || ''}
-                                               onChange={() => {
-                                                   this.onChangeInput('transport_address')
-                                               }}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="form-group row">
-                                    <div className="col-sm-4">
-                                        <label className="control-label">Phương thức</label>
-                                    </div>
-                                    <div className="col-sm-8">
-                                        <select className="form-control"
-                                                ref='transport_method'
-                                                value={order.transport_method || ''}
-                                                onChange={() => {
-                                                    this.onChangeInput('transport_method')
-                                                }}
-                                        >
-                                            <option value="" defaultValue/>
-                                            <option value="TONG_BUU_DIEN">Tổng bưu điện</option>
-                                            <option value="VIETTEL_POST">Viettel Post</option>
-                                            <option value="EMS">EMS</option>
-                                            <option value="SHOPEE">Shopee</option>
-                                            <option value="SELF">Tự vận chuyển</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div className="form-group row">
-                                    <div className="col-sm-4">
-                                        <label className="control-label">Phí</label>
-                                    </div>
-                                    <div className="col-sm-8">
-                                        <input type="text"
-                                               className="form-control"
-                                               ref='transport_fee'
-                                               value={order.transport_fee || ''}
-                                               onChange={() => {
-                                                   this.onChangeInput('transport_fee')
-                                               }}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <FmsTransportInfoPanel
+                            transport_address={order.transport_address}
+                            transport_method={order.transport_method}
+                            transport_fee={order.transport_fee}
+                            onChangeInput={this.onChangeInput.bind(this)}
+                        />
                     </div>
 
                     <div className="col-sm-12">
-                        <div className="panel panel-success">
-                            <div className="panel-heading">
-                                Thông tin sản phẩm
-                            </div>
-
-                            <div className="panel-body">
-                                <div className="row">
-                                    <div className="col-lg-12">
-                                        <div className="ibox none-margin-bottom">
-                                            <div className="">
-                                                <div className="row">
-                                                    <div className="col-sm-9">
-                                                        <div className="form-group">
-                                                            <input type="text"
-                                                                   value=""
-                                                                   placeholder="Tìm và thêm sản phẩm"
-                                                                   className="form-control"/>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="col-sm-3">
-                                                        <div className="form-group">
-                                                            <button className="btn btn-primary full-width"
-                                                            >Thêm sản phẩm
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div className="table-responsive">
-                                                    <table className="table table-striped">
-
-                                                        <thead>
-                                                        <tr>
-                                                            <th>STT</th>
-                                                            <th>Mã sản phẩm</th>
-                                                            <th>Tên sản phẩm</th>
-                                                            <th>Số lượng</th>
-                                                            <th>Giá</th>
-                                                            <th>Giảm giá</th>
-                                                            <th>Tổng</th>
-                                                        </tr>
-                                                        </thead>
-
-                                                        <tbody>
-
-                                                        {
-                                                            this.renderProducts()
-                                                        }
-
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <FmsProductsInfoPanel
+                            project={project}
+                            products={order.products}
+                            onChangeInput={this.onChangeInput.bind(this)}
+                        />
                     </div>
 
-
-                    <div className='row total-price-row'>
-                        <div className="col-sm-10">
-                            <span className="pull-right">Tổng tiền sản phẩm</span>
-                        </div>
-                        <div className="col-sm-2">
-                            <label className='pull-right'>{toReadablePrice(this.calculateProductsPrice())}</label>
-                        </div>
-                    </div>
-
-                    <div className="row total-price-row">
-                        <div className="col-sm-10">
-                            <span className="pull-right">Phí vận chuyển</span>
-                        </div>
-                        <div className="col-sm-2">
-                            <label className='pull-right'>{toReadablePrice(order.transport_fee || 0)}</label>
-                        </div>
-                    </div>
-
-                    <div className="row total-price-row">
-                        <div className="col-sm-10">
-                            <span className="pull-right">Tổng cộng</span>
-                        </div>
-                        <div className="col-sm-2">
-                            <label className='pull-right'>{toReadablePrice(this.calculateTotalPrice())}</label>
-                        </div>
-                    </div>
-
-                    <div className="row total-price-row">
-                        <div className="col-sm-10 total-item">
-                            <span className="pull-right">Đã thanh toán</span>
-                        </div>
-                        <div className="col-sm-2">
-                            <FmsCheckbox className='pull-right'
-                                         ref='is_pay'
-                                         checked={order.is_pay}
-                                         onChange={(value) => {
-                                             this.onChangeInput('is_pay', value)
-                                         }}
-                            />
-                        </div>
+                    <div className="col-sm-12">
+                        <FmsPriceCalculatorPanel
+                            productPrice={this.calculateProductsPrice()}
+                            totalPrice={this.calculateTotalPrice()}
+                            transport_fee={parseInt(order.transport_fee || 0)}
+                            is_pay={order.is_pay}
+                            onChangeInput={this.onChangeInput.bind(this)}
+                        />
                     </div>
 
 

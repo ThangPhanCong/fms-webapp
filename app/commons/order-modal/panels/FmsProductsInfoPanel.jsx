@@ -39,7 +39,12 @@ class FmsProductsInfoPanel extends Component {
             onChangeInput
         } = this.props;
 
-        const newProducts = products.concat([product]);
+        let newProducts = [];
+        if (products) {
+            newProducts = products;
+        }
+        newProducts.push(product);
+        console.log(newProducts);
 
         onChangeInput('products', newProducts);
     }
@@ -53,6 +58,10 @@ class FmsProductsInfoPanel extends Component {
         const filteredProducts = products.filter(
             p => (p.id !== product.id)
         );
+        const productsInStock = this.state.productsInStock;
+        productsInStock.push(product);
+        this.setState({productsInStock});
+        this.filterSearchProducts();
 
         onChangeInput('products', filteredProducts);
     }
@@ -128,10 +137,14 @@ class FmsProductsInfoPanel extends Component {
 
         getProducts(project.alias)
             .then(ps => {
-                const productsInStock = ps.filter(
-                    p => !products.find(_p => _p.id === p.id)
-                );
-
+                let productsInStock;
+                if (products) {
+                    productsInStock = ps.filter(
+                        p => !products.find(_p => _p.id === p.id)
+                    );
+                } else {
+                    productsInStock = ps;
+                }
                 this.setState({
                     productsInStock,
                     searchProducts: productsInStock,
