@@ -11,6 +11,8 @@ class FmsAllOrders extends Component {
             projectName = project.name;
         }
 
+        console.log('FmsAllOrders project', project);
+
         return (
             <Fragment>
                 <FmsPageTitle title="Tất cả đơn hàng" route={`${projectName}/Quản lí đơn hàng/Tất cả đơn hàng`}/>
