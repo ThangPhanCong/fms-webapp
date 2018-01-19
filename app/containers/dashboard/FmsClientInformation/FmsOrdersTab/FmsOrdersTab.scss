@@ -12,6 +12,13 @@
   .order-area {
     min-height: 202px;
     border-bottom: 1px solid #dadada;
+    .order-item {
+      margin: 0 12px;
+      padding: 7px 0;
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
   .report-area {
     overflow: hidden;

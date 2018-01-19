@@ -2,9 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {
     createNote, createReport, deleteNote, deleteReport, updateNote,
-    updateReport
+    updateReport, getAllOrders
 } from '../../../../actions/dashboard/chat/createOrder';
 import FmsNewOrderModal from '../../../../commons/order-modal/FmsCreateOrderModal';
+import FmsOrderDetailModal from '../../../../commons/order-modal/FmsOrderDetailModal';
 
 class FmsOrdersTab extends React.Component {
     constructor(props) {
@@ -14,6 +15,7 @@ class FmsOrdersTab extends React.Component {
             selectedNote: null,
             typeReport: 0,
             selectedReport: null,
+            selectedOrder: {},
             isShownNewOrderModal: false,
             isShownOrderDetailModal: false
         };
@@ -24,14 +26,25 @@ class FmsOrdersTab extends React.Component {
         return "Ngày tạo: " + date.getDate() + "/" + (date.getMonth() + 1);
     }
 
+    //---------------------Order Modals-----------------------------
     openNewOrderModal() {
         this.setState({isShownNewOrderModal: true});
     }
 
     closeNewOrderModal() {
         this.setState({ isShownNewOrderModal: false});
+        this.props.dispatch(getAllOrders(this.props.alias))
     }
 
+    openOrderDetailModal(order) {
+        this.setState({isShownOrderDetailModal: true, selectedOrder: order});
+    }
+
+    closeOrderDetailModal() {
+        this.setState({ isShownOrderDetailModal: false});
+    }
+
+    //-------------Note----------------------------
     cancelAddNote() {
         this.setState({typeNote: 0, selectedNote: null});
     }
@@ -64,6 +77,7 @@ class FmsOrdersTab extends React.Component {
         this.setState({typeNote: 0, selectedNote: null});
     }
 
+    //------------------Report-------------------------------
     cancelAddReport() {
         this.setState({typeReport: 0, selectedReport: null});
     }
@@ -96,10 +110,12 @@ class FmsOrdersTab extends React.Component {
         this.setState({typeReport: 0, selectedReport: null});
     }
 
+    //------------Render views-------------------------
     renderNotes() {
-        if (this.props.notes.length === 0) return <p className="no-note">Chưa có ghi chú nào</p>;
-        return this.props.notes.map((note, index) => {
-            let custom = (index === this.props.notes.length - 1) ? " last" : "";
+        let notes = this.props.notes;
+        if (notes.length === 0) return <p className="no-note">Chưa có ghi chú nào</p>;
+        return notes.map((note, index) => {
+            let custom = (index === notes.length - 1) ? " last" : "";
             return <div key={note._id} className={"note-text" + custom}>
                 <div>{note.content}</div>
                 <div className="note-info-item">{this.convertTime(note.updated_time)}</div>
@@ -114,7 +130,16 @@ class FmsOrdersTab extends React.Component {
     }
 
     renderOrders() {
-        return <p className="no-note">Chưa có đơn hàng nào</p>
+        let orders = this.props.orders;
+        if (orders.length === 0) return <p className="no-note">Chưa có đơn hàng nào</p>;
+        else {
+            return orders.map(order => {
+                return <div key={order.id} className="order-item"
+                            onClick={() => {this.openOrderDetailModal(order)}}>
+                    {order.id}
+                </div>
+            });
+        }
     }
 
     renderNoteList() {
@@ -141,9 +166,10 @@ class FmsOrdersTab extends React.Component {
     }
 
     renderReports() {
-        if (this.props.reports.length === 0) return <p className="no-note">Chưa có báo xấu</p>;
-        return this.props.reports.map((report, index) => {
-            let custom = (index === this.props.reports.length - 1) ? " last" : "";
+        let reports = this.props.reports;
+        if (reports.length === 0) return <p className="no-note">Chưa có báo xấu</p>;
+        return reports.map((report, index) => {
+            let custom = (index === reports.length - 1) ? " last" : "";
             return <div key={report._id} className={"note-text" + custom}>
                 <div>
                     <span className="reporter">{report.from.name}</span>
@@ -211,6 +237,9 @@ class FmsOrdersTab extends React.Component {
                 </div>
                 <FmsNewOrderModal isShown={this.state.isShownNewOrderModal} project={{alias: this.props.alias}}
                                onClose={this.closeNewOrderModal.bind(this)}/>
+                <FmsOrderDetailModal isShown={this.state.isShownOrderDetailModal} typeModal={1}
+                                     onClose={this.closeOrderDetailModal.bind(this)}
+                                     project={{alias: this.props.alias}} order={this.state.selectedOrder}/>
             </div>
         );
     }
@@ -220,7 +249,8 @@ const mapStateToProps = state => {
     return {
         conversation: state.dashboard.chat.conversation,
         notes: state.dashboard.createOrder.notes,
-        reports: state.dashboard.createOrder.reports
+        reports: state.dashboard.createOrder.reports,
+        orders: state.dashboard.createOrder.orders
     }
 };
 

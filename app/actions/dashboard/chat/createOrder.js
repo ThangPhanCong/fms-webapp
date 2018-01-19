@@ -73,24 +73,6 @@ export const updateNote = (alias, note_id, content) => (dispatch, getState) => {
         });
 };
 
-export const createNewOrder = (alias, phone, address) => (dispatch, getState) => {
-    let {conversation} = getState().dashboard.chat;
-    let customer_id = (conversation.customer) ? conversation.customer._id : null;
-    let payload = {
-        phone: phone,
-        address: address,
-        page_fb_id: conversation.page_fb_id
-    };
-    createOrder(alias, customer_id, payload)
-        .then(() => {
-            noti("success", "Tạo đơn hàng thành công.");
-            dispatch(getOrders(alias));
-        }, err => {
-            console.log(err);
-            noti("danger", "Tạo đơn hàng thất bại.");
-        });
-};
-
 export const getAllOrders = (alias) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
     let customer_id = (conversation.customer) ? conversation.customer._id : null;
