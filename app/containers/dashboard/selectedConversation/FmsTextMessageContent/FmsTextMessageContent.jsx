@@ -57,7 +57,7 @@ class FmsTextMessageContent extends React.Component {
             let phone = msgItem.phone[0];
             let idx = msg.indexOf(phone);
             let before = <span>{msg.substr(0, idx)}</span>;
-            let after = <span>{msg.substr(idx + phone.length)}</span>;
+            let after = <span>{" " + msg.substr(idx + phone.length)}</span>;
             let phoneElem = <div className="phone-hightlight clickable" ref="phone"
                                  onClick={this.copyToClipboard.bind(this)}>
                 {phone}
