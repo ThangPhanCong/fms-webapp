@@ -25,7 +25,7 @@ class FmsPriceCalculatorPanel extends Component {
                     <span className="pull-right">Tổng tiền sản phẩm</span>
                 </div>
                 <div className="col-sm-2">
-                    <label className='pull-right'>{toReadablePrice(productPrice)}</label>
+                    <label className='pull-right'>{productPrice ? toReadablePrice(productPrice) : 0}</label>
                 </div>
 
                 <div className="col-sm-10">
@@ -39,7 +39,7 @@ class FmsPriceCalculatorPanel extends Component {
                     <span className="pull-right">Tổng cộng</span>
                 </div>
                 <div className="col-sm-2">
-                    <label className='pull-right'>{toReadablePrice(totalPrice)}</label>
+                    <label className='pull-right'>{totalPrice ? toReadablePrice(totalPrice) : 0}</label>
                 </div>
 
                 <div className="col-sm-10 total-item">

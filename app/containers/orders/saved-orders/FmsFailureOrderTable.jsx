@@ -2,6 +2,7 @@ import React, {Component} from "react";
 
 import ic_viettel from 'images/ic_viettel.png';
 import FmsOrderDetailModal from "../../../commons/order-modal/FmsOrderDetailModal";
+import {toReadableDatetime} from 'utils/datetime-utils';
 
 class FmsFailureOrderTable extends Component {
 
@@ -38,12 +39,12 @@ class FmsFailureOrderTable extends Component {
     }
 
     renderDatetime(datetime) {
-        const date = new Date(datetime);
+        const date = toReadableDatetime(datetime);
         return (
             <td>
-                {date.toLocaleDateString()}
+                {date.time}
                 <br/> 
-                {date.toLocaleTimeString()}
+                {date.date}
             </td>
         );
     }

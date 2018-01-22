@@ -48,9 +48,14 @@ class FmsCreateNewProductModal extends Component {
     updateDefaultProductId() {
         const {project} = this.props;
 
+        this.setState({isLoading: true});
+
         getDefaultProductId(project.alias)
             .then(({id}) => {
-                this.setState({product: {id}});
+                this.setState({
+                    product: {id},
+                    isLoading: false
+                });
             })
     }
 
@@ -90,8 +95,8 @@ class FmsCreateNewProductModal extends Component {
                             <div className="col-sm-9">
                                 <input type="text"
                                        className="form-control"
-                                       disabled
                                        ref='id'
+                                       disabled={isLoading}
                                        value={product.id || ''}
                                        onChange={() => {
                                            this.onChangeInput('id')
@@ -107,6 +112,7 @@ class FmsCreateNewProductModal extends Component {
                             <div className="col-sm-9">
                                 <input type="text"
                                        className="form-control"
+                                       disabled={isLoading}
                                        ref='name'
                                        value={product.name || ''}
                                        onChange={() => {
@@ -123,6 +129,7 @@ class FmsCreateNewProductModal extends Component {
                             <div className="col-sm-9">
                                 <input type="text"
                                        className="form-control"
+                                       disabled={isLoading}
                                        ref='price'
                                        value={product.price || ''}
                                        onChange={() => {
@@ -139,6 +146,7 @@ class FmsCreateNewProductModal extends Component {
                             <div className="col-sm-9">
                                 <input type="text"
                                        className="form-control"
+                                       disabled={isLoading}
                                        ref='quantity'
                                        value={product.quantity || ''}
                                        onChange={() => {
@@ -155,6 +163,7 @@ class FmsCreateNewProductModal extends Component {
                             <div className="col-sm-9">
                                 <input type="text"
                                        className="form-control"
+                                       disabled={isLoading}
                                        ref='unit'
                                        value={product.unit || ''}
                                        onChange={() => {

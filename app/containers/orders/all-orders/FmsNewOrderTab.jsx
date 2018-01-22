@@ -11,11 +11,25 @@ class FmsNewOrderTab extends Component {
         orders: [],
         selectedOrder: null,
         isLoading: true,
-        isShownModal: false
+        isShownModal: false,
+        search: null,
+        filter: {},
+        timeoutKey: null
     };
 
-    searchItem(searchQuery) {
-        console.log('searchQuery', searchQuery);
+    onChangeFilter(filter) {
+        const {project} = this.props;
+        const {timeoutKey} = this.state;
+        const before = 0.5 * 1000; // 0.5s
+
+        if (timeoutKey) clearTimeout(timeoutKey);
+
+        const newTimeoutKey = setTimeout(() => {
+            this.updateOrders(project, filter);
+            this.setState({timeoutKey: null});
+        }, before);
+
+        this.setState({filter, timeoutKey: newTimeoutKey});
     }
 
     onCloseModal(updatedOrder) {
@@ -38,10 +52,10 @@ class FmsNewOrderTab extends Component {
         this.openModal(order);
     }
 
-    updateOrders(project) {
+    updateOrders(project, filter = this.state.filter) {
         this.setState({isLoading: true});
 
-        getOrders(project.alias)
+        getOrders(project.alias, filter)
             .then(orders => this.setState({orders: orders.reverse(), isLoading: false}));
     }
 
@@ -75,7 +89,7 @@ class FmsNewOrderTab extends Component {
             <div className="row">
                 <div className="col-lg-12">
                     <div className="ibox">
-                        <FmsNewOrderSearchBar onSearchQueryChange={this.searchItem.bind(this)}/>
+                        <FmsNewOrderSearchBar onChangeFilter={this.onChangeFilter.bind(this)} project={project}/>
 
                         {
                             isLoading ?
