@@ -179,7 +179,7 @@ class FmsProductsInfoPanel extends Component {
                         <td>{toReadablePrice(product.quantity)}</td>
                         <td>{toReadablePrice(product.price)}</td>
                         <td>{toReadablePrice(product.discount)}</td>
-                        <td>{toReadablePrice(product.price * product.quantity - product.discount)}</td>
+                        <td>{product.price ? toReadablePrice(product.price * product.quantity - product.discount) : 0}</td>
                         {
                             disabled ? null :
                             <td><i
