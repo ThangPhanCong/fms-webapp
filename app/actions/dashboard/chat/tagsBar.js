@@ -1,8 +1,6 @@
 import TagApi from '../../../api/TagApi';
 import {setConversations} from '../conversations';
 import {setConversation} from './messages';
-import * as u from 'lodash';
-
 
 export const isSettingTagConversation = (state) => dispatch => {
   dispatch({type: 'SETTING_TAG', isSettingTag: state});
@@ -13,10 +11,10 @@ export const updateTagsConversation = (tags, conversation_id) => (dispatch, getS
   conversations.forEach((convers) => {
     if (convers.id === conversation_id) convers.tags = tags;
   });
-  dispatch(setConversations(u.clone(conversations)));
+  dispatch(setConversations([...conversations]));
   let {conversation} = getState().dashboard.chat;
   conversation.tags = tags;
-  dispatch(setConversation(u.clone(conversation)));
+  dispatch(setConversation({...conversation}));
 };
 
 export const handleTagClick = (alias, tag_id) => (dispatch, getState) => {

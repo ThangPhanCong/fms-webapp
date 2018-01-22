@@ -1,5 +1,4 @@
 import TagApi from '../../api/TagApi';
-import * as u from 'lodash';
 import {getConversations, setConversations} from './conversations';
 
 export const setFilters = (filters) => dispatch => {
@@ -34,7 +33,7 @@ export const getTagsProject = (alias) => (dispatch, getState) => {
 
 export const handleFilter = (alias, newFilters) => (dispatch) => {
   dispatch(setConversations([]));
-  if (Array.isArray(newFilters)) dispatch(setFilters(u.clone(newFilters)));
+  if (Array.isArray(newFilters)) dispatch(setFilters([...newFilters]));
   dispatch(getConversations(alias));
 };
 

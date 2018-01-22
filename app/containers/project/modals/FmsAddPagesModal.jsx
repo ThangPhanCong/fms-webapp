@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import _ from 'lodash';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
-
 import FmsPageItem from './FmsPageItem';
 import FmsSpin from '../../../commons/FmsSpin/FmsSpin';
 import projectApi from '../../../api/ProjectApi';
@@ -26,7 +24,7 @@ class FmsAddPagesModal extends Component {
 
     selectPage(page) {
         const {selectedPages} = this.state;
-        const _selectedPages = _.clone(selectedPages);
+        const _selectedPages = [...selectedPages];
         _selectedPages.push(page);
         this.setState({
             selectedPages: _selectedPages

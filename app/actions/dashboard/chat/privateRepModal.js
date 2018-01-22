@@ -1,5 +1,4 @@
 import DashboardAPI from '../../../api/DashboardApi';
-import * as u from 'lodash';
 import {setConversation} from './messages';
 
 export const openPrivateRepModal = (message) => dispatch => {
@@ -21,7 +20,7 @@ export const sendPrivateRepMsg = (msgId, content) => (dispatch, getState) => {
       conversation.children.forEach(msg => {
         if (msg._id === msgId) return msg.can_reply_privately = false;
       });
-      dispatch(setConversation(u.clone(conversation)));
+      dispatch(setConversation({...conversation}));
       dispatch(isSendingPrivateRepMsg(false));
     }, (err) => {
       dispatch(isSendingPrivateRepMsg(false));
