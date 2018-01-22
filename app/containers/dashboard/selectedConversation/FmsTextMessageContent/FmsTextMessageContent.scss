@@ -5,7 +5,7 @@
     float: left;
 }
 .action-button-message {
-    color: #3598DB;
+    color: #1ab394;
     cursor: pointer;
     font-size: 12px;
 }
@@ -15,5 +15,11 @@
     font-size: 12px;
 }
 .spinner-message-item {
+  display: inline-block;
+}
+.phone-hightlight {
+  padding: 2px 5px;
+  border-radius: 3px;
+  border: 1px solid #F44336;
   display: inline-block;
 }

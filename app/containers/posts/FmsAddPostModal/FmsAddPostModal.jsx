@@ -8,6 +8,7 @@ import fileApi from '../../../api/FileApi';
 import postsApi from '../../../api/PostsApi';
 import FmsCroppedImage from '../../../commons/FmsCroppedImage/FmsCroppedImage';
 import {noti} from "../../notification/NotificationService";
+import FmsCheckbox from "../../../commons/checkbox/FmsCheckbox";
 
 const MAX_FILE_SIZE = 2202010;
 const MAX_NUMBER_OF_FILE = 15;
@@ -192,10 +193,10 @@ class FmsAddPostModal extends React.Component {
         return this.state.pages.map((page, index) => {
             return <div key={index} className="add-post-page-item">
                 <label className="page-name">
-                    <input type="checkbox" className="add-post-checkbox" checked={page.isSelected}
-                           onChange={() => {
-                               this.onSelectPage(page)
-                           }}/>
+                    <FmsCheckbox className="add-post-checkbox" checked={page.isSelected}
+                                 onChange={() => {
+                                     this.onSelectPage(page)
+                                 }}/>
                     {page.name}
                 </label>
             </div>

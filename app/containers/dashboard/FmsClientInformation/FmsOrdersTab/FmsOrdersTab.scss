@@ -11,7 +11,7 @@
   }
   .order-area {
     min-height: 202px;
-    border-bottom: 1px solid #dadada;
+    border-bottom: 1px solid #cecece;
     .order-item {
       .order-id {
         text-align: center;
@@ -20,11 +20,12 @@
         font-size: 12px;
         margin-right: 7px;
       }
-      padding: 7px 12px;
+      padding: 7px 0;
+      margin: 0 12px;
       border-bottom: 1px solid #dedede;
       &:hover {
         cursor: pointer;
-        background-color: #f2f2f2;
+        border-bottom: 1px solid #1ab394;
       }
     }
   }
@@ -38,15 +39,15 @@
   .notes-list {
     overflow: hidden;
     padding-bottom: 8px;
-    border-bottom: 1px solid #dadada;
-    .btn-default {
-      border: 1px solid #cacaca;
-    }
+    border-bottom: 1px solid #cecece;
+  }
+  .btn-default {
+    border: 1px solid #cacaca !important;
   }
   .add-note-button {
     display: block;
     float: right;
-    color: #3598DB;
+    color: #1ab394;
     padding: 8px 12px 0;
     cursor: pointer;
     font-size: 15px;

@@ -32,7 +32,7 @@ class FmsOrdersTab extends React.Component {
     }
 
     closeNewOrderModal() {
-        this.setState({ isShownNewOrderModal: false});
+        this.setState({isShownNewOrderModal: false});
         this.props.dispatch(getAllOrders(this.props.alias));
     }
 
@@ -41,7 +41,7 @@ class FmsOrdersTab extends React.Component {
     }
 
     closeOrderDetailModal() {
-        this.setState({ isShownOrderDetailModal: false});
+        this.setState({isShownOrderDetailModal: false});
         this.props.dispatch(getAllOrders(this.props.alias));
     }
 
@@ -138,7 +138,9 @@ class FmsOrdersTab extends React.Component {
                 let custom = "";
                 if (index === orders.length - 1) custom = " last";
                 return <div key={order._id} className={"order-item" + custom}
-                            onClick={() => {this.openOrderDetailModal(order)}}>
+                            onClick={() => {
+                                this.openOrderDetailModal(order)
+                            }}>
                     <div className="order-id">
                         {order.id + ":  "}
                         <span style={{color: order.order_tag.color}}>{order.order_tag.name}</span>
@@ -201,7 +203,8 @@ class FmsOrdersTab extends React.Component {
         } else if (this.state.typeReport === 1) {
             return <div>
                 <textarea ref="report" className="add-note-content" placeholder="Nhập nội dung báo xấu"/>
-                <button className="btn button-note-option btn-primary" onClick={this.confirmAddReport.bind(this)}>Báo xấu
+                <button className="btn button-note-option btn-primary" onClick={this.confirmAddReport.bind(this)}>Báo
+                    xấu
                 </button>
                 <button className="btn button-note-option btn-default" onClick={this.cancelAddReport.bind(this)}>Hủy
                 </button>
@@ -228,15 +231,17 @@ class FmsOrdersTab extends React.Component {
         return (
             <div className="order-tab">
                 <div>
+                    <div className="order-area">
+                        <div className="title-section">Đơn hàng</div>
+                        <a className="add-note-button" onClick={() => {
+                            this.openNewOrderModal()
+                        }}>Thêm</a>
+                        {this.renderOrders()}
+                    </div>
                     <div className="notes-list">
                         <div className="title-section">{title}</div>
                         <a className={"add-note-button" + addNote} onClick={this.openAddNote.bind(this)}>Thêm</a>
                         {this.renderNoteList()}
-                    </div>
-                    <div className="order-area">
-                        <div className="title-section">Đơn hàng</div>
-                        <a className="add-note-button" onClick={() => {this.openNewOrderModal()}}>Thêm</a>
-                        {this.renderOrders()}
                     </div>
                     <div className="report-area">
                         <div className="title-section">Báo xấu</div>
@@ -245,7 +250,7 @@ class FmsOrdersTab extends React.Component {
                     </div>
                 </div>
                 <FmsNewOrderModal isShown={this.state.isShownNewOrderModal} project={{alias: this.props.alias}}
-                               onClose={this.closeNewOrderModal.bind(this)}/>
+                                  onClose={this.closeNewOrderModal.bind(this)}/>
                 <FmsOrderDetailModal isShown={this.state.isShownOrderDetailModal} typeModal={1}
                                      onClose={this.closeOrderDetailModal.bind(this)}
                                      project={{alias: this.props.alias}} order={this.state.selectedOrder}/>
