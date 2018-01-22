@@ -98,7 +98,6 @@ class FmsProductDetailModal extends Component {
                             <div className="col-sm-9">
                                 <input type="text"
                                        className="form-control"
-                                       disabled
                                        ref='id'
                                        value={product.id || ''}
                                        onChange={() => {
