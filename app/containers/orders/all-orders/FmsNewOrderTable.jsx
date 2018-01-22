@@ -6,6 +6,7 @@ import ic_viettel from 'images/ic_viettel.png';
 import ic_mobi from 'images/ic_mobi.png';
 import ic_vina from 'images/ic_vina.png';
 import {toReadablePrice} from "../../../utils/price-utils";
+import {toReadableDatetime} from 'utils/datetime-utils';
 
 class FmsNewOrderTable extends Component {
 
@@ -22,7 +23,7 @@ class FmsNewOrderTable extends Component {
     calculateTotalPrice(order) {
         if (order) {
             const transport_fee = order.transport_fee || 0;
-            const productsFee = this.calculateProductsPrice(order.products);
+            const productsFee = this.calculateProductsPrice(order.products) || 0;
 
             return parseInt(transport_fee) + productsFee;
         } else {
@@ -60,12 +61,12 @@ class FmsNewOrderTable extends Component {
     }
 
     renderDatetime(datetime) {
-        const date = new Date(datetime);
+        const date = toReadableDatetime(datetime);
         return (
             <td>
-                {date.toLocaleDateString()}
+                {date.time}
                 <br/> 
-                {date.toLocaleTimeString()}
+                {date.date}
             </td>
         );
     }
