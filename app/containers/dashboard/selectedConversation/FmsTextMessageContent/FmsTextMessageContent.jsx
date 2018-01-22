@@ -53,7 +53,7 @@ class FmsTextMessageContent extends React.Component {
 
     renderTextMsg(msg) {
         let msgItem = this.props.message;
-        if (!this.props.isSelf && msgItem.is_phone && Array.isArray(msgItem.phone)) {
+        if (!this.props.isSelf && msgItem.is_phone && Array.isArray(msgItem.phone) && msgItem.phone.length > 0) {
             let phone = msgItem.phone[0];
             let idx = msg.indexOf(phone);
             let before = <span>{msg.substr(0, idx)}</span>;
