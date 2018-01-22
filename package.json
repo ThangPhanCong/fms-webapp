@@ -40,7 +40,8 @@
     "sparkline": "^0.2.0",
     "store": "^2.0.12",
     "url-search-params-polyfill": "^2.0.1",
-    "uuid": "^3.1.0"
+    "uuid": "^3.1.0",
+    "webpack-bundle-analyzer": "^2.9.2"
   },
   "devDependencies": {
     "babel": "^6.23.0",
