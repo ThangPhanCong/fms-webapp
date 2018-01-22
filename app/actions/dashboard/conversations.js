@@ -1,5 +1,4 @@
 import DashboardApi from '../../api/DashboardApi';
-import * as u from 'lodash';
 import {setConversation, isLoadingMsgs, setPostInfo, isShownNewMsgNoti} from './chat/messages';
 import {Observable} from 'rxjs/Observable';
 import {getNotes, getAllOrders, getReports} from './chat/createOrder';
@@ -92,7 +91,7 @@ export const handleConversationClick = (alias, selectedConv, type) => (dispatch,
         selectedConv.is_seen = true;
         dispatch(postSeenCv(selectedConv));
     }
-    dispatch(setConversation(u.clone(selectedConv)));
+    dispatch(setConversation({...selectedConv}));
     if (!selectedConv.children) {
         let updateChildren = (sc, data) => {
             sc.children = data.data;
@@ -104,7 +103,7 @@ export const handleConversationClick = (alias, selectedConv, type) => (dispatch,
                 }
             });
             //this.reloadAttachment(data.data);
-            dispatch(setConversation(u.clone(sc)));
+            dispatch(setConversation({...sc}));
             dispatch(isLoadingMsgs(false));
         };
         let msg_id = (type === "comment") ? selectedConv.fb_id : selectedConv._id;

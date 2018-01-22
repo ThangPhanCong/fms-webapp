@@ -1,7 +1,5 @@
 import * as socket from '../../socket';
 import projectApi from '../../api/ProjectApi';
-import * as u from 'lodash';
-
 import {setConversation, isShownNewMsgNoti} from './chat/messages';
 import {setConversations, getConversations, postSeenCv} from './conversations';
 
@@ -51,7 +49,7 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
     let shouldAddToConversations = true;
     if (!isInFilteredConversations(msg, filters)) shouldAddToConversations = false;
     let {conversations} = getState().dashboard.conversations;
-    conversations = u.clone(conversations);
+    conversations = [...conversations]
     let _parent = conversations.filter((c) => {
         return c._id === msg.parent._id;
     });
@@ -108,12 +106,12 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
             if (shouldAddToConversations === true) newConvers.unshift(parent);
             conversations = newConvers;
             if (selectedConv && selectedConv._id === parent._id) {
-                dispatch(setConversation(u.clone(parent)));
+                dispatch(setConversation({...parent}));
                 let sl = getState().dashboard.chat.scrollList;
                 if (sl.scrollTop + sl.clientHeight + 32 > sl.scrollHeight) sl.scrollTop = sl.scrollHeight;
                 else dispatch(isShownNewMsgNoti(true));
             }
         }
     }
-    dispatch(setConversations(u.clone(conversations)));
+    dispatch(setConversations([...conversations]));
 };

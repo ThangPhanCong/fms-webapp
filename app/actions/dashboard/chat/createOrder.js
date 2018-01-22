@@ -1,7 +1,6 @@
 import NoteApi from '../../../api/NoteApi';
 import {getOrders, createOrder} from '../../../api/OrderApi';
 import ReportApi from '../../../api/ReportApi';
-import * as u from 'lodash';
 import {noti} from "../../../containers/notification/NotificationService";
 
 export const setOrders = (orders) => dispatch => {
@@ -21,7 +20,7 @@ export const createNote = (alias, content) => (dispatch, getState) => {
         .then((res) => {
             noti("success", "Tạo ghi chú thành công.");
             notes.unshift(res);
-            dispatch({type: 'SET_NOTES', notes: u.clone(notes)});
+            dispatch({type: 'SET_NOTES', notes: [...notes]});
         }, () => {
             noti("danger", "Tạo ghi chú thất bại.");
         });
@@ -101,7 +100,7 @@ export const createReport = (page_fb_id, content) => (dispatch, getState) => {
         .then((res) => {
             noti("success", "Đã báo xấu thành công.");
             reports.unshift(res);
-            dispatch(setReports(u.clone(reports)));
+            dispatch(setReports([...reports]));
         }, () => {
             noti("danger", "Báo xấu thất bại.");
         });

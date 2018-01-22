@@ -30,6 +30,7 @@
     "react-bootstrap-daterangepicker": "^3.4.1",
     "react-bs-notifier": "^4.3.2",
     "react-dom": "^16.2.0",
+    "react-loadable": "^5.3.1",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-sparklines": "^1.7.0",
@@ -39,7 +40,8 @@
     "sparkline": "^0.2.0",
     "store": "^2.0.12",
     "url-search-params-polyfill": "^2.0.1",
-    "uuid": "^3.1.0"
+    "uuid": "^3.1.0",
+    "webpack-bundle-analyzer": "^2.9.2"
   },
   "devDependencies": {
     "babel": "^6.23.0",

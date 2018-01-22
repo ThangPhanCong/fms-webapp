@@ -1,6 +1,5 @@
 import DashboardApi from '../../../api/DashboardApi';
 import PostsApi from '../../../api/PostsApi';
-import * as u from 'lodash';
 import {setConversations} from '../conversations'
 
 export const setConversation = (conversation) => dispatch => {
@@ -81,7 +80,7 @@ export const displayMoreMessages = (more, paging) => (dispatch, getState) => {
   children = children.concat(oldChildren);
   conversation.children = children;
   conversation.paging = paging;
-  dispatch(setConversation(u.clone(conversation)));
+  dispatch(setConversation({...conversation}));
   let newConversations = conversations.map(c => {
     if (c._id === conversation._id) {
       return conversation;

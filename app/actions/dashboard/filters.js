@@ -33,7 +33,7 @@ export const getTagsProject = (alias) => (dispatch, getState) => {
 
 export const handleFilter = (alias, newFilters) => (dispatch) => {
   dispatch(setConversations([]));
-  if (Array.isArray(newFilters)) dispatch(setFilters({...newFilters}));
+  if (Array.isArray(newFilters)) dispatch(setFilters([...newFilters]));
   dispatch(getConversations(alias));
 };
 

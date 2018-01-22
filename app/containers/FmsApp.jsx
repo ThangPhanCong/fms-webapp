@@ -4,17 +4,28 @@ import {Alert, AlertContainer} from "react-bs-notifier";
 import {Switch, Redirect, withRouter} from 'react-router-dom';
 import uuid from 'uuid';
 import propTypes from 'prop-types';
-
-import FmsLogin from './login/FmsLogin';
-import FmsProject from './project/FmsProject';
-import ProjectDashboard from './project-dashboard/layouts/Main';
 import FmsLoading from '../commons/FmsLoading/FmsLoading';
 import FmsRoute from '../commons/FmsRoute';
 import {ALERT_TIME_DISMIS} from '../constants/alert';
 import {verifyAccessToken} from '../actions/auth';
 import FmsProgress from "../commons/FmsProgress/FmsProgress";
 import {registerNotiCenter} from "./notification/NotificationService";
+import Loadable from 'react-loadable';
 
+const LoadableFmsLogin = Loadable({
+    loader: () => import('./login/FmsLogin'),
+    loading: () => null
+});
+
+const LoadableFmsDashboard = Loadable({
+    loader: () => import('./project-dashboard/layouts/Main'),
+    loading: () => null
+});
+
+const LoadableFmsProject = Loadable({
+    loader: () => import('./project/FmsProject'),
+    loading: () => null
+});
 class FmsApp extends Component {
     constructor(props) {
         super(props);
@@ -99,8 +110,8 @@ class FmsApp extends Component {
                         <FmsProgress/>
 
                         <Switch>
-                            <FmsRoute exact path="/shops" component={FmsProject}/>
-                            <FmsRoute path="/shops/:project_alias" component={ProjectDashboard}/>
+                            <FmsRoute exact path="/shops" component={LoadableFmsProject}/>
+                            <FmsRoute path="/shops/:project_alias" component={LoadableFmsDashboard}/>
 
                             <Redirect to="/shops"/>
                         </Switch>
@@ -110,7 +121,7 @@ class FmsApp extends Component {
             } else {
                 return (
                     <Switch>
-                        <FmsRoute exact path="/" component={FmsLogin} noti={this.noti.bind(this)}/>
+                        <FmsRoute exact path="/" component={LoadableFmsLogin} noti={this.noti.bind(this)}/>
                         <Redirect to="/"/>
                     </Switch>
                 )
