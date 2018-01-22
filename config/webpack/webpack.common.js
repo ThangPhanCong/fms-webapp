@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
 const SuppressChunksPlugin = require('suppress-chunks-webpack-plugin').default;
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const __rootdir = path.join(__dirname, '/../..');
 let configPath;
@@ -59,8 +58,7 @@ module.exports = {
             filename: 'vendor.bundle.js',
             minChunks: module => module.context && module.context.indexOf('node_modules') !== -1
         }),
-        new SuppressChunksPlugin(['index-test', 'indexHtml']),
-        new BundleAnalyzerPlugin()
+        new SuppressChunksPlugin(['index-test', 'indexHtml'])
     ],
 
     module: {
