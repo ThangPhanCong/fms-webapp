@@ -120,7 +120,7 @@ class FmsNewOrderSearchBar extends Component {
                             />
                         </div>
                     </div>
-                    <div className="col-sm-2">
+                    <div className="col-sm-3">
                         <div className="form-group">
                             <label className="control-label">Sản phẩm</label>
                             <input type="text" className="form-control"
@@ -131,7 +131,7 @@ class FmsNewOrderSearchBar extends Component {
                         </div>
                     </div>
                     
-                    <div className="col-sm-4">
+                    <div className="col-sm-3">
                         <div className="form-group">
                             <label className="control-label">Đánh dấu</label>
                             <select className="form-control"
