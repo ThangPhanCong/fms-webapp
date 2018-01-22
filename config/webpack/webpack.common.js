@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const SuppressChunksPlugin = require('suppress-chunks-webpack-plugin').default;
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const __rootdir = path.join(__dirname, '/../..');
 let configPath;
@@ -12,7 +12,6 @@ const appJs = path.join(__rootdir, 'app', 'index.js');
 const apptestJs = path.join(__rootdir, 'app', 'index-test.js');
 
 const entry = {
-    indexHtml,
     app: appJs
 };
 
@@ -50,7 +49,7 @@ module.exports = {
     entry: entry,
     output: {
         path: path.resolve(__rootdir, 'build'),
-        filename: '[name].bundle.js',
+        filename: '[name].[chunkhash].bundle.js',
         publicPath: '/'
     },
 
@@ -67,10 +66,11 @@ module.exports = {
     },
 
     plugins: plugins,
+
     module: {
         rules: [
             {
-                test: [indexHtml, indextestHtml],
+                test: [indextestHtml],
                 loaders: [
                     {
                         loader: 'file-loader',
