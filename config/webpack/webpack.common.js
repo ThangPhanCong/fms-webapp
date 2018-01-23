@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const SuppressChunksPlugin = require('suppress-chunks-webpack-plugin').default;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const __rootdir = path.join(__dirname, '/../..');
 let configPath;
@@ -21,6 +22,24 @@ let plugins = [
         'jQuery': 'jquery',
         'window.jQuery': 'jquery',
         'window.$': 'jquery'
+    }),
+    new HtmlWebpackPlugin({
+        hash: true,
+        inject: true,
+        title: 'Adsbold',
+        chunks: ['app', 'vendor'],
+        template: 'app/index.html',
+        myid: 'root',
+        filename: './index.html'
+    }),
+    new HtmlWebpackPlugin({
+        hash: true,
+        inject: true,
+        title: 'Adsbold Test',
+        chunks: ['app-test', 'vendor'],
+        template: 'app/index.html',
+        myid: 'app-test',
+        filename: './index-test.html'
     }),
 
     new webpack.optimize.CommonsChunkPlugin({
