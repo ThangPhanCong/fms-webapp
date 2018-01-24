@@ -228,8 +228,8 @@ class FmsOrdersTab extends React.Component {
         let title, typeNote = this.state.typeNote;
         let conv = this.props.conversation;
         let addNote = (typeNote !== 0) ? " hide" : "";
-        let conv_id = (conv) ? conv._id : null;
         let customer_id = (conv) ? utils.parseCustomer(conv, "_id") : null;
+        let isHide = (conv && conv.type === "inbox") ? "" : " hide";
         if (typeNote === 0) title = "Ghi chú";
         else if (typeNote === 1) title = "Thêm ghi chú";
         else if (typeNote === 2) title = "Xóa ghi chú";
@@ -238,7 +238,7 @@ class FmsOrdersTab extends React.Component {
             <div className="order-tab">
                 <div>
                     <div className="info">Thông tin</div>
-                    <div className="order-area">
+                    <div className={"order-area" + isHide}>
                         <div className="title-section">Đơn hàng</div>
                         <a className="add-note-button" onClick={() => {
                             this.openNewOrderModal()
@@ -250,7 +250,7 @@ class FmsOrdersTab extends React.Component {
                         <a className={"add-note-button" + addNote} onClick={this.openAddNote.bind(this)}>Thêm</a>
                         {this.renderNoteList()}
                     </div>
-                    <div className="report-area">
+                    <div className={"report-area" + isHide}>
                         <div className="title-section">Báo xấu</div>
                         <a className="add-note-button" onClick={this.openAddReport.bind(this)}>Thêm</a>
                         {this.renderReportsList()}
