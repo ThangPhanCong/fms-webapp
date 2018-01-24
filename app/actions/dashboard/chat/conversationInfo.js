@@ -11,13 +11,11 @@ export const blockPerson = (state) => (dispatch, getState) => {
             dispatch(updateBlockCustomer(conversation, state));
         })
         .catch(err => {
-            console.log(err);
             alert(err.message);
         })
 };
 
 export const updateBlockCustomer = (cv, is_blocked) => (dispatch, getState) => {
-    console.log(cv);
     cv = utils.parseCustomer(cv, "is_blocked", "update", is_blocked);
     let conversations = getState().dashboard.conversations.conversations.map(_cv => (cv._id === _cv._id) ? cv : _cv);
     dispatch(setConversations([...conversations]));
