@@ -100,10 +100,6 @@ class FmsCreateOrderModal extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isShown) {
-            this.setState({order: {}, isLoading: false});
-        }
-
         if (nextProps.project && nextProps.project.alias &&
             nextProps.project !== this.props.project) {
             getOrderTags(nextProps.project.alias)
@@ -223,6 +219,7 @@ class FmsCreateOrderModal extends Component {
                     <Modal.Header
                         closeButton={true}
                         onHide={() => {
+                            this.setState({order: {}, isLoading: false});
                             this.props.onClose();
                         }}
                     >
