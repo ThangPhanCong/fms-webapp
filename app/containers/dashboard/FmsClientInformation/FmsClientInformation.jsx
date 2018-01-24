@@ -6,6 +6,7 @@ import {
 } from '../../../actions/dashboard/chat/createOrder';
 import FmsNewOrderModal from '../../../commons/order-modal/FmsCreateOrderModal';
 import FmsOrderDetailModal from '../../../commons/order-modal/FmsOrderDetailModal';
+import utils from '../../../helpers/utils';
 
 class FmsOrdersTab extends React.Component {
     constructor(props) {
@@ -136,14 +137,16 @@ class FmsOrdersTab extends React.Component {
         else {
             return orders.map((order, index) => {
                 let custom = "";
+                let color = (order.order_tag) ? order.order_tag.color : "";
+                let name = (order.order_tag) ? order.order_tag.name : "";
                 if (index === orders.length - 1) custom = " last";
                 return <div key={order._id} className={"order-item" + custom}
                             onClick={() => {
                                 this.openOrderDetailModal(order)
                             }}>
-                    <div className="order-id">
+                    <div className={"order-id" + ((!name) ? " hide" : "")}>
                         {order.id + ":  "}
-                        <span style={{color: order.order_tag.color}}>{order.order_tag.name}</span>
+                        <span style={{color: color}}>{name}</span>
                     </div>
                     <div><i className="glyphicon glyphicon-usd"/> {order.transport_fee}</div>
                     <div><i className="glyphicon glyphicon-home"/> {order.transport_address}</div>
@@ -223,7 +226,10 @@ class FmsOrdersTab extends React.Component {
 
     render() {
         let title, typeNote = this.state.typeNote;
+        let conv = this.props.conversation;
         let addNote = (typeNote !== 0) ? " hide" : "";
+        let conv_id = (conv) ? conv._id : null;
+        let customer_id = (conv) ? utils.parseCustomer(conv, "_id") : null;
         if (typeNote === 0) title = "Ghi chú";
         else if (typeNote === 1) title = "Thêm ghi chú";
         else if (typeNote === 2) title = "Xóa ghi chú";
@@ -251,7 +257,7 @@ class FmsOrdersTab extends React.Component {
                     </div>
                 </div>
                 <FmsNewOrderModal isShown={this.state.isShownNewOrderModal} project={{alias: this.props.alias}}
-                                  onClose={this.closeNewOrderModal.bind(this)}/>
+                                  onClose={this.closeNewOrderModal.bind(this)} customer_id={customer_id}/>
                 <FmsOrderDetailModal isShown={this.state.isShownOrderDetailModal} typeModal={1}
                                      onClose={this.closeOrderDetailModal.bind(this)}
                                      project={{alias: this.props.alias}} order={this.state.selectedOrder}/>

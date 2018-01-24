@@ -1,7 +1,8 @@
 import NoteApi from '../../../api/NoteApi';
-import {getOrders, createOrder} from '../../../api/OrderApi';
+import {getOrders} from '../../../api/OrderApi';
 import ReportApi from '../../../api/ReportApi';
 import {noti} from "../../../containers/notification/NotificationService";
+import utils from '../../../helpers/utils';
 
 export const setOrders = (orders) => dispatch => {
     dispatch({type: 'SET_ORDERS', orders});
@@ -14,7 +15,7 @@ export const setReports = (reports) => dispatch => {
 export const createNote = (alias, content) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
     let {notes} = getState().dashboard.createOrder;
-    let customer_id = (conversation.customer) ? conversation.customer._id : null;
+    let customer_id = utils.parseCustomer(conversation, "_id");
 
     NoteApi.createNote(alias, conversation.id, customer_id, conversation.page._id, content)
         .then((res) => {
@@ -74,9 +75,9 @@ export const updateNote = (alias, note_id, content) => (dispatch, getState) => {
 
 export const getAllOrders = (alias) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
-    let customer_id = (conversation.customer) ? conversation.customer._id : null;
+    let customer_id = utils.parseCustomer(conversation, "_id");
     if (!customer_id) return;
-    getOrders(alias, customer_id, conversation.page_fb_id)
+    getOrders(alias, {customer_id})
         .then(res => {
             res.sort((a, b) => {
                 let t1 = new Date(a.updated_time);
@@ -94,7 +95,7 @@ export const getAllOrders = (alias) => (dispatch, getState) => {
 export const createReport = (page_fb_id, content) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
     let {reports} = getState().dashboard.createOrder;
-    let customer_id = (conversation.customer) ? conversation.customer._id : null;
+    let customer_id = utils.parseCustomer(conversation, "_id");
 
     ReportApi.createReport(conversation.page_fb_id, customer_id, content)
         .then((res) => {
@@ -108,7 +109,7 @@ export const createReport = (page_fb_id, content) => (dispatch, getState) => {
 
 export const getReports = () => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
-    let customer_id = (conversation.customer) ? conversation.customer._id : null;
+    let customer_id = utils.parseCustomer(conversation, "_id");
     if (!customer_id) return;
     ReportApi.getReports(customer_id)
         .then(res => {
@@ -126,7 +127,7 @@ export const getReports = () => (dispatch, getState) => {
 export const deleteReport = (report_id) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
     let {reports} = getState().dashboard.createOrder;
-    let customer_id = (conversation.customer) ? conversation.customer._id : null;
+    let customer_id = utils.parseCustomer(conversation, "_id");
     if (!customer_id) return;
     ReportApi.deleteReport(customer_id, report_id)
         .then(() => {
@@ -143,7 +144,7 @@ export const deleteReport = (report_id) => (dispatch, getState) => {
 export const updateReport = (report_id, content) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
     let {reports} = getState().dashboard.createOrder;
-    let customer_id = (conversation.customer) ? conversation.customer._id : null;
+    let customer_id = utils.parseCustomer(conversation, "_id");
     if (!customer_id) return;
     ReportApi.updateReport(customer_id, report_id, content)
         .then(res => {

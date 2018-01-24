@@ -1,5 +1,6 @@
 import DashboardApi from '../../../api/DashboardApi';
 import fileApi from '../../../api/FileApi';
+import utils from '../../../helpers/utils';
 
 import {updateMsgInConversation} from '../dashboard';
 
@@ -10,7 +11,7 @@ export const postRepMsg = (conversation, message) => (dispatch) => {
       message: msg,
       from: {
         fb_id: conversation.page_fb_id,
-        name: (conversation.customer) ? conversation.customer.name : conversation.from.name
+        name: utils.parseCustomer(conversation, "name")
       },
       updated_time: Date.now(),
       created_time: Date.now(),

@@ -9,6 +9,7 @@ import FmsToolTip from '../../../../commons/FmsToolTip/FmsToolTip';
 
 import {blockPerson} from '../../../../actions/dashboard/chat/conversationInfo';
 import FmsDate from '../../../../helpers/FmsDate';
+import utils from '../../../../helpers/utils';
 
 class FmsInfoChat extends React.Component {
   activePerson() {
@@ -27,20 +28,16 @@ class FmsInfoChat extends React.Component {
 
   render() {
     let sc = this.props.conversation;
-    let customer = sc.customer;
-    let option = "";
-    if (!customer) {
-      option = " hide";
-      customer = sc.from;
-    }
+    let is_blocked = utils.parseCustomer(sc, "is_blocked");
+    let name = utils.parseCustomer(sc, "name");
 
     return (
       <div ref="info_chat">
         <div className="info-client">
-          <div className="title-chat">{customer.name}</div>
+          <div className="title-chat">{name}</div>
           <div className="message-status">{FmsInfoChat.converTime(sc.last_seen)}</div>
         </div>
-        <div className={"option" + option}>
+        <div className={"option"}>
           {
             sc.link ?
               <FmsToolTip message="Đi tới hội thoại trên facebook" direction="bottom">
@@ -52,7 +49,7 @@ class FmsInfoChat extends React.Component {
               <span/>
           }
           {
-            customer.is_blocked ?
+            is_blocked ?
               <FmsToolTip message="Bỏ chặn" direction="bottom">
                 <img src={blockActiveImg} className="icon-option" onClick={this.activePerson.bind(this)}/>
               </FmsToolTip>
