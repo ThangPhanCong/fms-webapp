@@ -1,10 +1,13 @@
 import React, {Component} from "react";
 import {getOrderTags} from "../../../api/OrderTagApi";
+import FmsDatePicker from '../../../commons/date-picker/FmsDatePicker';
 
 class FmsNewOrderSearchBar extends Component {
     state = {
         filter: {},
-        orderTags: []
+        orderTags: [],
+        startDate: null,
+        endDate: null
     };
 
     onChangeInput(refName) {
@@ -13,7 +16,6 @@ class FmsNewOrderSearchBar extends Component {
         if (refName === 'order_tag' && newValue === 'none') {
             newFilter = this.state.filter;
             delete newFilter.order_tag;
-            console.log(newFilter);
         } else {
             newFilter = {
                 ...this.state.filter,
@@ -24,6 +26,23 @@ class FmsNewOrderSearchBar extends Component {
         this.setState({filter: newFilter});
 
         this.props.onChangeFilter(newFilter);
+    }
+
+    handleEvent(event, picker) {
+        let startDate = picker.startDate;
+        let endDate = picker.endDate;
+        const newFilter = {
+            ...this.state.filter,
+            'created_time[from]': startDate.valueOf(),
+            'created_time[to]': endDate.valueOf()
+        }
+        this.setState({
+			startDate: startDate,
+            endDate: endDate,
+            filter: newFilter
+        });
+
+        this.props.onChangeFilter(newFilter);        
     }
 
     getOrderTags(project) {
@@ -61,14 +80,14 @@ class FmsNewOrderSearchBar extends Component {
         const {orderTags} = this.state;
 
         return (
-            <div className="row">
+            <div className='row'>
                 <div className="col-sm-2">
                     <div className="form-group">
                         <label className="control-label">Mã đơn</label>
                         <input type="text" className="form-control"
-                               ref='id'
-                               value={id || ''}
-                               onChange={() => this.onChangeInput('id')}
+                            ref='id'
+                            value={id || ''}
+                            onChange={() => this.onChangeInput('id')}
                         />
                     </div>
                 </div>
@@ -76,9 +95,9 @@ class FmsNewOrderSearchBar extends Component {
                     <div className="form-group">
                         <label className="control-label">Khách hàng</label>
                         <input type="text" className="form-control"
-                               ref='customer_name'
-                               value={customer_name || ''}
-                               onChange={() => this.onChangeInput('customer_name')}
+                            ref='customer_name'
+                            value={customer_name || ''}
+                            onChange={() => this.onChangeInput('customer_name')}
                         />
                     </div>
                 </div>
@@ -86,9 +105,9 @@ class FmsNewOrderSearchBar extends Component {
                     <div className="form-group">
                         <label className="control-label">Điện thoại</label>
                         <input type="text" className="form-control"
-                               ref='customer_phone'
-                               value={customer_phone || ''}
-                               onChange={() => this.onChangeInput('customer_phone')}
+                            ref='customer_phone'
+                            value={customer_phone || ''}
+                            onChange={() => this.onChangeInput('customer_phone')}
                         />
                     </div>
                 </div>
@@ -104,9 +123,8 @@ class FmsNewOrderSearchBar extends Component {
                 </div>
                 <div className="col-sm-2">
                     <div className="form-group">
-                        <label className="control-label" htmlFor="quantity">Ngày tạo</label>
-                        <input type="text" id="quantity" name="quantity" value="" placeholder=""
-                               className="form-control"/>
+                        <label className="control-label">Ngày tạo</label>
+                        <FmsDatePicker onEvent={this.handleEvent.bind(this)}/>
                     </div>
                 </div>
                 <div className="col-sm-2">

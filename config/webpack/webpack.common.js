@@ -1,6 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
 const SuppressChunksPlugin = require('suppress-chunks-webpack-plugin').default;
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const __rootdir = path.join(__dirname, '/../..');
 let configPath;
@@ -11,9 +13,44 @@ const appJs = path.join(__rootdir, 'app', 'index.js');
 const apptestJs = path.join(__rootdir, 'app', 'index-test.js');
 
 const entry = {
-    indexHtml,
     app: appJs
 };
+
+let plugins = [
+    new webpack.ProvidePlugin({
+        '$': 'jquery',
+        'jQuery': 'jquery',
+        'window.jQuery': 'jquery',
+        'window.$': 'jquery'
+    }),
+    new HtmlWebpackPlugin({
+        hash: true,
+        inject: true,
+        title: 'Adsbold',
+        chunks: ['app', 'vendor'],
+        template: 'app/index.html',
+        myid: 'root',
+        filename: './index.html'
+    }),
+    new HtmlWebpackPlugin({
+        hash: true,
+        inject: true,
+        title: 'Adsbold Test',
+        chunks: ['app-test', 'vendor'],
+        template: 'app/index.html',
+        myid: 'app-test',
+        filename: './index-test.html'
+    }),
+
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+        filename: 'vendor.bundle.js',
+        minChunks: module => module.context && module.context.indexOf('node_modules') !== -1
+    }),
+    new SuppressChunksPlugin(['index-test', 'indexHtml']),
+    new webpack.optimize.ModuleConcatenationPlugin()
+];
+
 
 if (process.env.NODE_ENV === 'production') {
     configPath = path.resolve(__rootdir, 'config/env/config-prod.json');
@@ -23,13 +60,15 @@ if (process.env.NODE_ENV === 'production') {
     configPath = path.resolve(__rootdir, 'config.json');
     entry['index-test'] = indextestHtml;
     entry['app-test'] = apptestJs;
+    plugins = [...plugins, new BundleAnalyzerPlugin(),
+    ]
 }
 
 module.exports = {
     entry: entry,
     output: {
         path: path.resolve(__rootdir, 'build'),
-        filename: '[name].bundle.js',
+        filename: '[name].[chunkhash].bundle.js',
         publicPath: '/'
     },
 
@@ -45,26 +84,12 @@ module.exports = {
         extensions: ['.json', '.js', '.jsx']
     },
 
-    plugins: [
-        new webpack.ProvidePlugin({
-            '$': 'jquery',
-            'jQuery': 'jquery',
-            'window.jQuery': 'jquery',
-            'window.$': 'jquery'
-        }),
-
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            filename: 'vendor.bundle.js',
-            minChunks: module => module.context && module.context.indexOf('node_modules') !== -1
-        }),
-        new SuppressChunksPlugin(['index-test', 'indexHtml'])
-    ],
+    plugins: plugins,
 
     module: {
         rules: [
             {
-                test: [indexHtml, indextestHtml],
+                test: [indextestHtml],
                 loaders: [
                     {
                         loader: 'file-loader',

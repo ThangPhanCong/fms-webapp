@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import propTypes from "prop-types";
+import FmsDatePicker from '../../../commons/date-picker/FmsDatePicker';
 
 class FmsFailureOrderSearchBar extends Component {
     state = {
@@ -18,6 +19,36 @@ class FmsFailureOrderSearchBar extends Component {
         this.props.onChangeFilter(newFilter);
     }
 
+    handleEventCreatedTime(event, picker) {
+        let startDate = picker.startDate;
+        let endDate = picker.endDate;
+        const newFilter = {
+            ...this.state.filter,
+            'created_time[from]': startDate.valueOf(),
+            'created_time[to]': endDate.valueOf()
+        }
+        this.setState({
+            filter: newFilter
+        });
+
+        this.props.onChangeFilter(newFilter);        
+    }
+
+    handleEventUpdatedTime(event, picker) {
+        let startDate = picker.startDate;
+        let endDate = picker.endDate;
+        const newFilter = {
+            ...this.state.filter,
+            'updated_time[from]': startDate.valueOf(),
+            'updated_time[to]': endDate.valueOf()
+        }
+        this.setState({
+            filter: newFilter
+        });
+
+        this.props.onChangeFilter(newFilter); 
+    }
+
     render () {
         const {
             id,
@@ -32,9 +63,9 @@ class FmsFailureOrderSearchBar extends Component {
                     <div className="form-group">
                         <label className="control-label">Mã đơn</label>
                         <input type="text" className="form-control"
-                               ref='id'
-                               value={id || ''}
-                               onChange={() => this.onChangeInput('id')}
+                            ref='id'
+                            value={id || ''}
+                            onChange={() => this.onChangeInput('id')}
                         />
                     </div>
                 </div>
@@ -42,9 +73,9 @@ class FmsFailureOrderSearchBar extends Component {
                     <div className="form-group">
                         <label className="control-label">Khách hàng</label>
                         <input type="text" className="form-control"
-                               ref='customer_name'
-                               value={customer_name || ''}
-                               onChange={() => this.onChangeInput('customer_name')}
+                            ref='customer_name'
+                            value={customer_name || ''}
+                            onChange={() => this.onChangeInput('customer_name')}
                         />
                     </div>
                 </div>
@@ -52,9 +83,9 @@ class FmsFailureOrderSearchBar extends Component {
                     <div className="form-group">
                         <label className="control-label">Điện thoại</label>
                         <input type="text" className="form-control"
-                               ref='customer_phone'
-                               value={customer_phone || ''}
-                               onChange={() => this.onChangeInput('customer_phone')}
+                            ref='customer_phone'
+                            value={customer_phone || ''}
+                            onChange={() => this.onChangeInput('customer_phone')}
                         />
                     </div>
                 </div>
@@ -62,24 +93,22 @@ class FmsFailureOrderSearchBar extends Component {
                     <div className="form-group">
                         <label className="control-label">Sản phẩm</label>
                         <input type="text" className="form-control"
-                               ref='product'
-                               value={product || ''}
-                               onChange={() => this.onChangeInput('product')}
+                            ref='product'
+                            value={product || ''}
+                            onChange={() => this.onChangeInput('product')}
                         />
                     </div>
                 </div>
                 <div className="col-sm-2">
                     <div className="form-group">
                         <label className="control-label">Ngày tạo</label>
-                        <input type="text" id="quantity" name="quantity" value="" placeholder=""
-                               className="form-control"/>
+                        <FmsDatePicker onEvent={this.handleEventCreatedTime.bind(this)}/>
                     </div>
                 </div>
                 <div className="col-sm-2">
                     <div className="form-group">
-                        <label className="control-label" htmlFor="quantity">Ngày hủy</label>
-                        <input type="text" id="quantity" name="quantity" value="" placeholder=""
-                               className="form-control"/>
+                        <label className="control-label">Ngày hủy</label>
+                        <FmsDatePicker onEvent={this.handleEventUpdatedTime.bind(this)}/>
                     </div>
                 </div>
             </div>
