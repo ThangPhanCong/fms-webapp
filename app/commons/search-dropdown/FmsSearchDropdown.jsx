@@ -30,6 +30,24 @@ class FmsSearchDropdown extends Component {
         onSelectItem(index);
     }
 
+    setWrapperRef(node) {
+        this.wrapperRef = node;
+    }
+
+    handleClickOutside(event) {
+        if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+            this.setState({showMenuItem: false});
+        }
+    }
+
+    componentDidMount() {
+        document.addEventListener('mousedown', this.handleClickOutside.bind(this));
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside.bind(this));
+    }
+
     render() {
         const {
             showMenuItem
@@ -44,7 +62,7 @@ class FmsSearchDropdown extends Component {
         } = this.props;
 
         return (
-            <div
+            <div ref={this.setWrapperRef.bind(this)}
                 className={`form-group fms-searchdropdown dropdown ${showMenuItem ? 'open' : ''} ${className || ''}`}>
                 <div className='input-container'>
                     <input
