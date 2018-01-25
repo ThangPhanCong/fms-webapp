@@ -45,6 +45,10 @@ class FmsApp extends Component {
 
         dispatch(verifyAccessToken(access_token));
         registerNotiCenter(this.noti.bind(this));
+        LoadableFmsProject.preload();
+        if(access_token) {
+            LoadableFmsDashboard.preload();
+        }
     }
 
     noti(type, message) {
