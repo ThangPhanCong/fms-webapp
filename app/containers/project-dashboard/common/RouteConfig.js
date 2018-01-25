@@ -8,9 +8,6 @@ import FmsTagOrders from "../../orders/FmsOrderTags";
 import FmsColorCards from "../../cards/FmsColorCards/FmsColorCards";
 import FmsProducts from "../../stock/FmsProducts";
 import FmsStatistic from "../../statistic/FmsStatistic";
-import FmsExportOrders from "../../stock/FmsExportOrders";
-import FmsTransportOrders from "../../transport/FmsTransportOrders";
-import FmsTransporting from "../../transport/FmsTransporting";
 import FmsSetting from '../../settings/FmsSettings';
 
 const treeConfig = [
@@ -101,7 +98,7 @@ const treeConfig = [
                 component: (props) => <FmsProducts {...props}/>
             }
         ]
-    },
+    }
     // {
     //     route: '#',
     //     title: 'Quản lí vận chuyển',

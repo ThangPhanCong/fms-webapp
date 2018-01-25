@@ -1,0 +1,17 @@
+.count-info .label {
+  line-height: 12px;
+  padding: 2px 5px;
+  position: absolute;
+  right: 6px;
+  top: 12px;
+}
+
+.count-info {
+  color: #999c9e;
+}
+.label {
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}

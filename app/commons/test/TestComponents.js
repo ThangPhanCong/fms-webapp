@@ -12,6 +12,7 @@ import FmsSwitchTest from '../FmsSwitch/FmsSwitchTest';
 import FmsOrderDetailModalTest from "../order-modal/FmsOrderDetailModalTest";
 import FmsTimelineTest from '../FmsTimeline/FmsTimelineTest';
 import FmsSearchDropdownTest from "../search-dropdown/FmsSearchDropdownTest";
+import FmsListNotificationTest from "../../containers/notifimanager/notify-list-user/FmsListNotificationTest";
 
 const TestComponent = ({match}) => (
     <div>
@@ -71,6 +72,11 @@ const TestComponent = ({match}) => (
                     FmsSearchDropdownTest
                 </Link>
             </li>
+            <li>
+                <Link to={`${match.url}/fmslistnotify`}>
+                    FmsListNotificationTest
+                </Link>
+            </li>
         </ul>
 
         <Route path={`${match.url}/fmsloading`} component={FmsLoadingTest}/>
@@ -84,6 +90,7 @@ const TestComponent = ({match}) => (
         <Route path={`${match.url}/fmsdetailordermodal`} component={FmsOrderDetailModalTest}/>
         <Route path={`${match.url}/fmstimeline`} component={FmsTimelineTest}/>
         <Route path={`${match.url}/fmssearchdropdown`} component={FmsSearchDropdownTest}/>
+        <Route path={`${match.url}/fmslistnotify`} component={FmsListNotificationTest}/>
     </div>
 );
 
