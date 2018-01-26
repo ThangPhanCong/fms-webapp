@@ -39,7 +39,7 @@ class FmsApp extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, location, user} = this.props;
+        const {dispatch} = this.props;
 
         const search = this.props.location.search;
         const params = new URLSearchParams(search);
@@ -54,9 +54,7 @@ class FmsApp extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {location} = this.props;
-
-        if (nextProps.user && location.pathname !== "/" && process.env.NODE_ENV === 'staging') {
+        if (nextProps.user && process.env.NODE_ENV === 'staging') {
             trackUserBehavior(nextProps.user);
         }
     }
