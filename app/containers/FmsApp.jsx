@@ -11,6 +11,7 @@ import {verifyAccessToken} from '../actions/auth';
 import FmsProgress from "../commons/FmsProgress/FmsProgress";
 import {registerNotiCenter} from "./notification/NotificationService";
 import Loadable from 'react-loadable';
+import trackUserBehavior from 'utils/track-user-behavior';
 
 const LoadableFmsLogin = Loadable({
     loader: () => import('./login/FmsLogin'),
@@ -26,6 +27,7 @@ const LoadableFmsProject = Loadable({
     loader: () => import('./project/FmsProject'),
     loading: () => null
 });
+
 class FmsApp extends Component {
     constructor(props) {
         super(props);
@@ -37,7 +39,7 @@ class FmsApp extends Component {
     }
 
     componentDidMount() {
-        const {dispatch} = this.props;
+        const {dispatch, location} = this.props;
 
         const search = this.props.location.search;
         const params = new URLSearchParams(search);
@@ -45,8 +47,19 @@ class FmsApp extends Component {
 
         dispatch(verifyAccessToken(access_token));
         registerNotiCenter(this.noti.bind(this));
+
+        // TODO: refactor
         LoadableFmsProject.preload();
         LoadableFmsDashboard.preload();
+
+        if (location.pathname !== "/" && process.env.NODE_ENV === 'staging') {
+            this.trackUserBehavior();
+        }
+    }
+
+    trackUserBehavior() {
+        const {user} = this.props;
+        trackUserBehavior(user);
     }
 
     noti(type, message) {
