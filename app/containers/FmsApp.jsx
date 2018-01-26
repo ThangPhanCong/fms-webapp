@@ -11,6 +11,7 @@ import {verifyAccessToken} from '../actions/auth';
 import FmsProgress from "../commons/FmsProgress/FmsProgress";
 import {registerNotiCenter} from "./notification/NotificationService";
 import Loadable from 'react-loadable';
+import trackUserBehavior from 'utils/track-user-behavior';
 
 const LoadableFmsLogin = Loadable({
     loader: () => import('./login/FmsLogin'),
@@ -26,6 +27,7 @@ const LoadableFmsProject = Loadable({
     loader: () => import('./project/FmsProject'),
     loading: () => null
 });
+
 class FmsApp extends Component {
     constructor(props) {
         super(props);
@@ -45,8 +47,16 @@ class FmsApp extends Component {
 
         dispatch(verifyAccessToken(access_token));
         registerNotiCenter(this.noti.bind(this));
+
+        // TODO: refactor, only load project when location.pathname !== '/shops/ .....', so on
         LoadableFmsProject.preload();
         LoadableFmsDashboard.preload();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.user && process.env.NODE_ENV === 'production') {
+            trackUserBehavior(nextProps.user);
+        }
     }
 
     noti(type, message) {
