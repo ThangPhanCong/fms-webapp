@@ -8,11 +8,11 @@ class FmsLogin extends Component {
         isShowLoginFormModal: false
     };
 
-    onClickAdminLoginBtn() {
+    onClickManagerLoginBtn() {
         this.setState({isShowLoginFormModal: true});
     }
 
-    onClickUserLoginBtn() {
+    onClickEmployeeLoginBtn() {
         this.setState({isShowLoginFormModal: true});
     }
 
@@ -35,12 +35,12 @@ class FmsLogin extends Component {
                     <button
                         className="btn btn-primary block full-width m-b-sm"
                         disabled={isLoading}
-                        onClick={this.onClickAdminLoginBtn.bind(this)}>Admin đăng nhập
+                        onClick={this.onClickManagerLoginBtn.bind(this)}>Chủ cửa hàng đăng nhập
                     </button>
                     <button
                         className="btn btn-primary block full-width m-b-sm"
                         disabled={isLoading}
-                        onClick={this.onClickUserLoginBtn.bind(this)}>Người dùng đăng nhập
+                        onClick={this.onClickEmployeeLoginBtn.bind(this)}>Nhân viên đăng nhập
                     </button>
 
                     <FmsLoginFormModal 
@@ -49,6 +49,8 @@ class FmsLogin extends Component {
                     />
 
                     <p className="m-t">
+                        Email: <i className='fa fa-envelope'> </i> <strong><a href="mailto:support@adsbold.com">support@adsbold.com</a></strong>
+                        <br/>
                         <small>Bản quyền thuộc về Adsbold &copy; 2017</small>
                     </p>
                 </div>

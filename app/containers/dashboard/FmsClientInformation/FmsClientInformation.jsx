@@ -258,7 +258,7 @@ class FmsOrdersTab extends React.Component {
                 </div>
                 <FmsNewOrderModal isShown={this.state.isShownNewOrderModal} project={{alias: this.props.alias}}
                                   onClose={this.closeNewOrderModal.bind(this)} customer_id={customer_id}/>
-                <FmsOrderDetailModal isShown={this.state.isShownOrderDetailModal} typeModal={1}
+                <FmsOrderDetailModal isShown={this.state.isShownOrderDetailModal} typeModal={0}
                                      onClose={this.closeOrderDetailModal.bind(this)}
                                      project={{alias: this.props.alias}} order={this.state.selectedOrder}/>
             </div>

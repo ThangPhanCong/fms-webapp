@@ -29,7 +29,7 @@ class FmsLoginFormModal extends Component {
             >
                 <div className='order-detail-modal inmodal'>
                     <Modal.Header closeButton>
-                        <h4>Login</h4>
+                        <h4>Đăng nhập</h4>
                     </Modal.Header>
                     <Modal.Body>
                         {isLoading ? <FmsSpin center size={20}/> : null}
@@ -39,30 +39,30 @@ class FmsLoginFormModal extends Component {
                                     <div className="ibox-content">
                                         <div className="m-t">
                                             <div className="form-group">
-                                                <input type="email" className="form-control" placeholder="Username" required="" />
+                                                <input type="email" className="form-control" placeholder="Email" required="" />
                                             </div>
                                             <div className="form-group">
-                                                <input type="password" className="form-control" placeholder="Password" required="" />
+                                                <input type="password" className="form-control" placeholder="Mật khẩu" required="" />
                                             </div>
                                             <button type="submit" 
                                                 className="btn btn-primary block full-width m-b"
                                                 disabled={isLoading}
                                             >
-                                                Login
+                                                Đăng nhập
                                             </button>
 
                                             <a href="#">
-                                                <small>Forgot password?</small>
+                                                <small>Quên mật khẩu?</small>
                                             </a>
 
                                             <p className="text-muted text-center">
-                                                <small>Do not have an account?</small>
+                                                <small>Không có tài khoản?</small>
                                             </p>
                                             
                                             <a className="btn btn-success btn-outline btn-block btn-facebook text-center"
                                                 onClick={this.logInWithFacebook.bind(this)}
                                             >
-                                                <i className="fa fa-facebook"> </i> Sign in with Facebook
+                                                <i className="fa fa-facebook"> </i> Đăng nhập với Facebook
                                             </a>
                                         </div>
                                     </div>
