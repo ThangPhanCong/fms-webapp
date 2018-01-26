@@ -36,6 +36,8 @@ class FmsLogin extends Component {
                     </button>
 
                     <p className="m-t">
+                        Email: <i className='fa fa-envelope'> </i> <strong><a href="mailto:support@adsbold.com">support@adsbold.com</a></strong>
+                        <br/>
                         <small>Bản quyền thuộc về Adsbold &copy; 2017</small>
                     </p>
                 </div>
