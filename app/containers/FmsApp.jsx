@@ -39,7 +39,7 @@ class FmsApp extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, location} = this.props;
+        const {dispatch, location, user} = this.props;
 
         const search = this.props.location.search;
         const params = new URLSearchParams(search);
@@ -51,15 +51,14 @@ class FmsApp extends Component {
         // TODO: refactor
         LoadableFmsProject.preload();
         LoadableFmsDashboard.preload();
-
-        if (location.pathname !== "/" && process.env.NODE_ENV === 'staging') {
-            this.trackUserBehavior();
-        }
     }
 
-    trackUserBehavior() {
-        const {user} = this.props;
-        trackUserBehavior(user);
+    componentWillReceiveProps(nextProps) {
+        const {location} = this.props;
+
+        if (nextProps.user && location.pathname !== "/" && process.env.NODE_ENV === 'staging') {
+            trackUserBehavior(nextProps.user);
+        }
     }
 
     noti(type, message) {
