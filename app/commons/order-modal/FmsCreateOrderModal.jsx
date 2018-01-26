@@ -21,10 +21,10 @@ class FmsCreateOrderModal extends Component {
     };
 
     createNewOrder() {
-        const {project} = this.props;
+        const {project, customer_id} = this.props;
         this.setState({isLoading: true});
         let order = this.state.order;
-        if (this.props.customer_id) order.customer_id = this.props.customer_id;
+        if (customer_id) order.customer_id = customer_id;
 
         createOrder(project.alias, order)
             .then(order => {
@@ -111,6 +111,16 @@ class FmsCreateOrderModal extends Component {
                         alert(err.message)
                     }
                 )
+        }
+
+        const customer = nextProps.customer;
+        let {order} = this.state;
+        if (customer && customer.customer_fb_id !== this.props.customer.customer_fb_id) {
+            order.customer_name = customer.customer_name;
+            order.customer_phone = customer.customer_phone;
+            order.customer_facebook = 'fb.com/' + customer.customer_fb_id;
+
+            this.setState({order: order});
         }
     }
 
@@ -254,7 +264,8 @@ FmsCreateOrderModal.propTypes = {
     onClose: propTypes.func.isRequired,
     project: propTypes.object,
     conversation_id: propTypes.string,
-    customer_id: propTypes.string
+    customer_id: propTypes.string,
+    customer: propTypes.object
 };
 
 export default FmsCreateOrderModal;

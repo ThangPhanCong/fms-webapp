@@ -113,10 +113,12 @@ class FmsProductsInfoPanel extends Component {
     }
 
     onOpenProductDetailModal(selectedProduct) {
-        this.setState({
-            isProductDetailModalShown: true,
-            selectedProduct
-        });
+        if (!this.props.disabled) {
+            this.setState({
+                isProductDetailModalShown: true,
+                selectedProduct
+            });
+        }
     }
 
     onCloseProductDetailModal(action = '', updatedProduct) {
@@ -172,7 +174,7 @@ class FmsProductsInfoPanel extends Component {
                     <tr key={product.id}>
                         <td>{i}</td>
                         <td><a><span
-                            className="badge badge-info"
+                            className={"badge badge-info " + (disabled ? 'disabled' : '')}
                             onClick={() => this.onOpenProductDetailModal(product)}
                         >{product.id}</span></a></td>
                         <td>{product.name}</td>
