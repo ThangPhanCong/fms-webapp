@@ -1,6 +1,6 @@
 import apiSender, {post, put, get} from './ApiSender';
-import {toQueryParams} from 'utils/query-utils';
-import {delay} from 'utils/timeout-utils';
+import {toQueryParams} from '../utils/query-utils';
+import {delay} from '../utils/timeout-utils';
 
 export const ORDER_STATUS = {
     DRAFT: "DRAFT",

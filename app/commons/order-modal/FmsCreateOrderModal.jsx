@@ -23,8 +23,10 @@ class FmsCreateOrderModal extends Component {
     createNewOrder() {
         const {project} = this.props;
         this.setState({isLoading: true});
+        let order = this.state.order;
+        if (this.props.customer_id) order.customer_id = this.props.customer_id;
 
-        createOrder(project.alias, this.state.order)
+        createOrder(project.alias, order)
             .then(order => {
                     const updateUI = true;
                     this.props.onClose(updateUI);
@@ -253,7 +255,9 @@ class FmsCreateOrderModal extends Component {
 FmsCreateOrderModal.propTypes = {
     isShown: propTypes.bool.isRequired,
     onClose: propTypes.func.isRequired,
-    project: propTypes.object
+    project: propTypes.object,
+    conversation_id: propTypes.string,
+    customer_id: propTypes.string
 };
 
 export default FmsCreateOrderModal;

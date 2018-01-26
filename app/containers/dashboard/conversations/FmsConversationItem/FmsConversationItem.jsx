@@ -2,6 +2,7 @@ import React from 'react';
 import inboxImg from '../../../../assets/images/inbox.png';
 import postImg from '../../../../assets/images/post.png';
 import FmsDate from '../../../../helpers/FmsDate';
+import utils from '../../../../helpers/utils';
 
 class FmsConversationItem extends React.Component {
 
@@ -26,17 +27,13 @@ class FmsConversationItem extends React.Component {
 
     render() {
         let data = this.props.data;
-        let clientid, clientName, message;
+        let message;
         let isSelected = (this.props.isSelected) ? " selectedItem" : "";
         let tags = (data.tags.length === 0) ? " hide" : "";
 
-        if (data.type === "inbox") {
-            clientid = data.customer.fb_id;
-            clientName = data.customer.name;
-        } else {
-            clientid = data.from.fb_id;
-            clientName = data.from.name;
-        }
+        let clientid = utils.parseCustomer(data, "fb_id");
+        let clientName = utils.parseCustomer(data, "name");
+        
         message = (data.snippet === "") ? "[Attachment]" : data.snippet;
 
         let seenClass = data.is_seen ? '' : ' not-seen';
