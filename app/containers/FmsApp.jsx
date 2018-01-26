@@ -48,13 +48,13 @@ class FmsApp extends Component {
         dispatch(verifyAccessToken(access_token));
         registerNotiCenter(this.noti.bind(this));
 
-        // TODO: refactor
+        // TODO: refactor, only load project when location.pathname !== '/shops/ .....', so on
         LoadableFmsProject.preload();
         LoadableFmsDashboard.preload();
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.user && process.env.NODE_ENV === 'staging') {
+        if (nextProps.user && process.env.NODE_ENV === 'production') {
             trackUserBehavior(nextProps.user);
         }
     }
