@@ -24,7 +24,7 @@ class FmsCreateOrderModal extends Component {
         const {project} = this.props;
         this.setState({isLoading: true});
         let order = this.state.order;
-        if (this.props.customer_id) order.customer_id = this.props.customer_id;
+        if (this.props.customer && this.props.customer._id) order.customer_id = this.props.customer_id;
 
         createOrder(project.alias, order)
             .then(order => {
@@ -254,7 +254,7 @@ FmsCreateOrderModal.propTypes = {
     onClose: propTypes.func.isRequired,
     project: propTypes.object,
     conversation_id: propTypes.string,
-    customer_id: propTypes.string
+    customer: propTypes.object
 };
 
 export default FmsCreateOrderModal;
