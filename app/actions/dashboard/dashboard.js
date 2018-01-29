@@ -49,7 +49,7 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
     let shouldAddToConversations = true;
     if (!isInFilteredConversations(msg, filters)) shouldAddToConversations = false;
     let {conversations} = getState().dashboard.conversations;
-    conversations = [...conversations]
+    conversations = [...conversations];
     let _parent = conversations.filter((c) => {
         return c._id === msg.parent._id;
     });
