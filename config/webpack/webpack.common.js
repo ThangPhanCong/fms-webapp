@@ -41,7 +41,6 @@ let plugins = [
         myid: 'app-test',
         filename: './index-test.html'
     }),
-
     new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
         filename: 'vendor.bundle.js',

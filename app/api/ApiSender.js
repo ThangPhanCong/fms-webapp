@@ -16,10 +16,10 @@ exports.get = (route, access_token) => {
             if (!res.data) {
                 return Promise.reject(new Error('Something went wrong'));
             } else {
-                if (res.data.err) {
-                    return Promise.reject(new Error(res.data.msg));
-                } else {
+                if (res.data.success) {
                     return Promise.resolve(res.data.data);
+                } else {
+                    return Promise.reject(new Error(res.data.message));
                 }
             }
         });
@@ -37,10 +37,10 @@ exports.post = (route, payload) => {
             if (!res.data) {
                 return Promise.reject(new Error('Something went wrong'));
             } else {
-                if (res.data.err) {
-                    return Promise.reject(new Error(res.data.msg));
-                } else {
+                if (res.data.success) {
                     return Promise.resolve(res.data.data);
+                } else {
+                    return Promise.reject(new Error(res.data.message));
                 }
             }
         });
@@ -58,10 +58,10 @@ exports.put = (route, payload) => {
             if (!res.data) {
                 return Promise.reject(new Error('Something went wrong'));
             } else {
-                if (res.data.err) {
-                    return Promise.reject(new Error(res.data.msg));
-                } else {
+                if (res.data.success) {
                     return Promise.resolve(res.data.data);
+                } else {
+                    return Promise.reject(new Error(res.data.message));
                 }
             }
         });
@@ -81,10 +81,10 @@ exports.delete = (route, access_token) => {
             if (!res.data) {
                 return Promise.reject(new Error('Something went wrong'));
             } else {
-                if (res.data.err) {
-                    return Promise.reject(new Error(res.data.msg));
-                } else {
+                if (res.data.success) {
                     return Promise.resolve(res.data.data);
+                } else {
+                    return Promise.reject(new Error(res.data.message));
                 }
             }
         });
