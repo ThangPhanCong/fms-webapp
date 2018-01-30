@@ -88,12 +88,12 @@ const treeConfig = [
         title: 'Quản lí kho',
         icon: 'fa-cubes',
         children: [
-            // {
-            //     route: 'export-order',
-            //     title: 'Yêu cầu xuất hàng',
-            //     headerColor: '#f3f3f4',
-            //     component: (props) => <FmsExportOrders {...props}/>
-            // },
+            {
+                route: 'export-order',
+                title: 'Yêu cầu xuất hàng',
+                headerColor: '#f3f3f4',
+                component: (props) => <FmsExportOrders {...props}/>
+            },
             {
                 route: 'products',
                 title: 'Sản phẩm',

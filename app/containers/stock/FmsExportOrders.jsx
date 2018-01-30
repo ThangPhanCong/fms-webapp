@@ -98,7 +98,7 @@ class FmsExportOrders extends Component {
                                         project={project}
                                         onClose={this.onCloseDetailModal.bind(this)}
                                         isShown={isShownDetailModal}
-                                        typeModal={2}
+                                        typeModal={0}
                                     />
 
                                 </div>

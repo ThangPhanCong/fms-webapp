@@ -1,11 +1,11 @@
 module.exports = {
     parseCustomer: (conv, prop, type, value) => {
-        if (conv.type === "comment" && conv.customer && conv.customer.length > 0) {
+        if (conv.type === "comment" && conv.customers && conv.customers.length > 0) {
             if (type === "update") {
-                conv.customer[0][prop] = value;
+                conv.customers[0][prop] = value;
                 return conv;
             } else {
-                return conv.customer[0][prop];
+                return conv.customers[0][prop];
             }
         } else if (conv.customer && conv.type === "inbox") {
             if (type === "update") {
