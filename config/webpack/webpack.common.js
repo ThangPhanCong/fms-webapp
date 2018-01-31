@@ -90,6 +90,7 @@ if (process.env.NODE_ENV === 'production') {
     entry['index-test'] = indextestHtml;
     entry['app-test'] = apptestJs;
     check_env = false;
+    plugins = plugins.slice(0, -1);
 }
 
 module.exports = {
