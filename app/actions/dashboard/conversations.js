@@ -6,6 +6,12 @@ import {getNotes, getAllOrders, getReports} from './chat/createOrder';
 export const isLoadingConversations = (state) => dispatch => {
     dispatch({type: 'LOADING_CONVERSATIONS', state});
 };
+export const isUnreadComments = (state) => dispatch => {
+    dispatch({type: 'IS_UNREAD_COMMENTS', state});
+};
+export const isUnreadInboxes = (state) => dispatch => {
+    dispatch({type: 'IS_UNREAD_INBOXES', state});
+};
 export const setConversations = (conversations, pagingConversations) => (dispatch, getState) => {
     let _pagingConversations = getState().dashboard.conversations.pagingConversations;
     if (!pagingConversations) pagingConversations = _pagingConversations;
@@ -48,6 +54,24 @@ export const postSeenCv = (conversation) => () => {
     } else if (conversation.type === 'comment') {
         DashboardApi.postSeenCmt(conversation._id);
     }
+};
+
+export const checkUnreadComments = (alias) => dispatch => {
+    DashboardApi.checkUnreadComment(alias)
+        .then(res => {
+            console.log(res);
+        }, err => {
+            console.log(err);
+        });
+};
+
+export const checkUnreadInboxes = (alias) => dispatch => {
+    DashboardApi.checkUnreadInbox(alias)
+        .then(res => {
+            console.log(res);
+        }, err => {
+            console.log(err);
+        });
 };
 
 //----------------Get Conversations-----------------------------------
