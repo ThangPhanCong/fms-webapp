@@ -3,7 +3,9 @@ import {connect} from 'react-redux';
 
 
 import FmsToolTip from '../../../../commons/FmsToolTip/FmsToolTip';
-import {handleTagFilterClick} from '../../../../actions/dashboard/filters';
+import {handleTagFilterClick, handleTypeFilterClick} from '../../../../actions/dashboard/filters';
+import unreadImg from '../../../../assets/images/unread.png';
+import unreadActiveImg from '../../../../assets/images/unread_active.png';
 
 class FmsFilterTags extends React.Component {
     handleTagFilterClick(_id) {
@@ -12,7 +14,20 @@ class FmsFilterTags extends React.Component {
 
     renderFilterTag() {
         if (!this.props.tags) return;
-        return this.props.tags.map((tag) => {
+
+        let srcUnread = unreadImg;
+        this.props.filters.forEach(f => {
+            if (f.type === 'unread' && f.isActive) srcUnread = unreadActiveImg;
+        });
+
+        let unread = <FmsToolTip message="Chưa đọc" direction="top" key={12}>
+            <div onClick={() => {
+                this.props.dispatch(handleTypeFilterClick(this.props.alias, 1));
+            }} className="unread-filter clickable">
+                <img src={srcUnread}/>
+            </div>
+        </FmsToolTip>;
+        let filters = this.props.tags.map((tag) => {
             let style = {backgroundColor: tag.color};
             let opacity;
             if (Array.isArray(this.props.filters)) {
@@ -28,6 +43,8 @@ class FmsFilterTags extends React.Component {
                 }}/>
             </FmsToolTip>;
         });
+        filters.unshift(unread);
+        return filters;
     }
 
     render() {
