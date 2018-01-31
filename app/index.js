@@ -4,7 +4,7 @@ import {Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
-import '../app/composeAssets';
+import './composeAssets';
 
 import {configure} from './store/configureStore';
 import FmsApp from './containers/FmsApp';
