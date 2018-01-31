@@ -60,6 +60,7 @@ class FmsCreateOrderModal extends Component {
     }
 
     onCloseButtonClick() {
+        this.setState({order: {}});
         this.props.onClose();
     }
 
