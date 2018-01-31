@@ -5,6 +5,8 @@ import TopHeader from '../common/TopHeader';
 import {correctHeight, detectBody} from './Helpers';
 import RightSideBar from "../common/RightSideBar";
 import PageBody from "../common/PageBody";
+import * as storage from "helpers/storage";
+import {setProjectId} from "../../../helpers/token-getter";
 
 class Main extends React.Component {
 
@@ -16,8 +18,7 @@ class Main extends React.Component {
         this.setState({showRightNavbar: !this.state.showRightNavbar})
     }
 
-    componentDidMount() {
-
+    registerCorrectHeightMenu() {
         // Run correctHeight function on load and resize window event
         $(window).bind("load resize", function () {
             correctHeight();
@@ -30,6 +31,24 @@ class Main extends React.Component {
                 correctHeight();
             }, 300)
         });
+    }
+
+    verifyProjectRoute () {
+        const {match, history} = this.props;
+        const {project_alias} = match.params;
+        const projects = storage.get('projects');
+        const currentProject = projects ? projects.find(p => p.data.alias === project_alias) : null;
+        if (!currentProject) history.replace('/shops');
+        this.registerProjectTokenId(currentProject.data._id);
+    }
+
+    registerProjectTokenId(id){
+        setProjectId(id);
+    }
+
+    componentDidMount() {
+        this.registerCorrectHeightMenu();
+        this.verifyProjectRoute();
     }
 
     render() {

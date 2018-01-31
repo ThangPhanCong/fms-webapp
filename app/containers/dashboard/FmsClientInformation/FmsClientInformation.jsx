@@ -229,18 +229,6 @@ class FmsOrdersTab extends React.Component {
         let conv = this.props.conversation;
         let addNote = (typeNote !== 0) ? " hide" : "";
         let customer_id = (conv) ? utils.parseCustomer(conv, "_id") : null;
-        let customer_name = (conv) ? utils.parseCustomer(conv, "name") : null;
-        let customer_phones = (conv) ? utils.parseCustomer(conv, "phone") : null;
-        let customer_phone = '';
-        if (Array.isArray(customer_phones) && customer_phones.length > 0) {
-            customer_phone = customer_phones[0];
-        }
-        let customer_fb_id = (conv) ? utils.parseCustomer(conv, "fb_id") : null;
-        let customer_info = {
-            customer_name: customer_name,
-            customer_phone: customer_phone,
-            customer_fb_id: customer_fb_id
-        };           
         let isHide = (conv && conv.type === "inbox") ? "" : " hide";
         if (typeNote === 0) title = "Ghi chú";
         else if (typeNote === 1) title = "Thêm ghi chú";
@@ -269,8 +257,7 @@ class FmsOrdersTab extends React.Component {
                     </div>
                 </div>
                 <FmsNewOrderModal isShown={this.state.isShownNewOrderModal} project={{alias: this.props.alias}}
-                                  onClose={this.closeNewOrderModal.bind(this)} customer_id={customer_id}
-                                  customer={customer_info}/>
+                                  onClose={this.closeNewOrderModal.bind(this)} customer_id={customer_id}/>
                 <FmsOrderDetailModal isShown={this.state.isShownOrderDetailModal} typeModal={0}
                                      onClose={this.closeOrderDetailModal.bind(this)}
                                      project={{alias: this.props.alias}} order={this.state.selectedOrder}/>

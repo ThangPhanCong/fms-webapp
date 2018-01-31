@@ -1,24 +1,27 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
-import {logIn} from '../../actions/auth';
-
+import FmsLoginFormModal from './login-form-modal/FmsLoginFormModal';
 
 class FmsLogin extends Component {
 
     state = {
-        isLoading: false
+        isLoading: false,
+        isShowLoginFormModal: false
     };
 
-    onClickLoginBtn() {
-        const {dispatch} = this.props;
-        dispatch(logIn());
+    onClickManagerLoginBtn() {
+        this.setState({isShowLoginFormModal: true});
+    }
 
-        this.setState({isLoading: true});
+    onClickEmployeeLoginBtn() {
+        this.setState({isShowLoginFormModal: true});
+    }
+
+    onCloseModal() {
+        this.setState({isShowLoginFormModal: false});
     }
 
     render() {
-        const {isLoading} = this.state;
+        const {isLoading, isShowLoginFormModal} = this.state;
 
         return (
             <div className='login-form'>
@@ -30,10 +33,20 @@ class FmsLogin extends Component {
                         và các tiện ích.</p>
 
                     <button
-                        className="btn btn-primary block full-width m-b"
+                        className="btn btn-primary block full-width m-b-sm"
                         disabled={isLoading}
-                        onClick={this.onClickLoginBtn.bind(this)}>Vào bảng điều khiển
+                        onClick={this.onClickManagerLoginBtn.bind(this)}>Chủ cửa hàng đăng nhập
                     </button>
+                    <button
+                        className="btn btn-primary block full-width m-b-sm"
+                        disabled={isLoading}
+                        onClick={this.onClickEmployeeLoginBtn.bind(this)}>Nhân viên đăng nhập
+                    </button>
+
+                    <FmsLoginFormModal 
+                        isShown={isShowLoginFormModal} 
+                        onClose={this.onCloseModal.bind(this)}  
+                    />
 
                     <p className="m-t">
                         Email: <i className='fa fa-envelope'> </i> <strong><a href="mailto:support@adsbold.com">support@adsbold.com</a></strong>
@@ -46,10 +59,4 @@ class FmsLogin extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        isAuthenticated: state.auth.isAuthenticated
-    }
-};
-
-export default withRouter(connect(mapStateToProps)(FmsLogin));
+export default FmsLogin;

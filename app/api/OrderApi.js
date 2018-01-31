@@ -15,19 +15,19 @@ export const ORDER_STATUS = {
 
 export function getOrders(projectAlias, filter = {}) {
     const queryParams = toQueryParams(filter);
-    return get(`/api/projects/${projectAlias}/orders?${queryParams}`);
+    return get(`/api/o/orders?${queryParams}`);
 }
 
 export function createOrder(projectAlias, order) {
-    return post(`/api/projects/${projectAlias}/orders`, order);
+    return post(`/api/o/orders`, order);
 }
 
 export function updateOrder(projectAlias, order) {
-    return put(`/api/projects/${projectAlias}/orders/${order._id}`, order);
+    return put(`/api/o/orders/${order._id}`, order);
 }
 
 export function deleteOrder(projectAlias, order) {
-    return apiSender.delete(`/api/projects/${projectAlias}/orders/${order._id}`);
+    return apiSender.delete(`/api/o/orders/${order._id}`);
 }
 
 export function saveSuccessOrder(projectAlias, order) {
@@ -35,7 +35,7 @@ export function saveSuccessOrder(projectAlias, order) {
         ...order,
         status: ORDER_STATUS.DON_HANG_THANH_CONG
     };
-    return put(`/api/projects/${projectAlias}/orders/${order._id}`, payload);
+    return put(`/api/o/orders/${order._id}`, payload);
 }
 
 export function saveFailureOrder(projectAlias, order) {
@@ -43,7 +43,7 @@ export function saveFailureOrder(projectAlias, order) {
         ...order,
         status: ORDER_STATUS.DON_HANG_THAT_BAI
     };
-    return put(`/api/projects/${projectAlias}/orders/${order._id}`, payload);
+    return put(`/api/o/orders/${order._id}`, payload);
 }
 
 export function getSuccessOrder(projectAlias, filter = {}) {
@@ -52,7 +52,7 @@ export function getSuccessOrder(projectAlias, filter = {}) {
         status: ORDER_STATUS.DON_HANG_THANH_CONG
     };
     const queryParams = toQueryParams(successOrderFilter);
-    return get(`/api/projects/${projectAlias}/orders?${queryParams}`);
+    return get(`/api/o/orders?${queryParams}`);
 }
 
 export function getFailureOrder(projectAlias, filter = {}) {
@@ -61,7 +61,7 @@ export function getFailureOrder(projectAlias, filter = {}) {
         status: ORDER_STATUS.DON_HANG_THAT_BAI
     };
     const queryParams = toQueryParams(successOrderFilter);
-    return get(`/api/projects/${projectAlias}/orders?${queryParams}`);
+    return get(`/api/o/orders?${queryParams}`);
 }
 
 
