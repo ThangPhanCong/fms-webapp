@@ -1,13 +1,14 @@
-import * as store from '../helpers/storage';
 import axios from 'axios';
 import {BASE_URL} from 'CONFIG';
 import tokenGetter from 'helpers/token-getter';
 
+// store token scope
 const config = {
     '/api/a' : 'BASE',
     '/api/p' : 'PROJECT',
     '/api/o' : 'PROJECT',
-    '/api/n' : 'PROJECT'
+    '/api/n' : 'PROJECT',
+    '/api/ui' : 'PROJECT'
 };
 
 function getTypeToken(route) {
