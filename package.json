@@ -7,6 +7,7 @@
     "prestart": "npm i",
     "start": "node server.js",
     "dev": "npm run clean && webpack -w --progress --config config/webpack/webpack.dev.js",
+    "dev:alz": "npm run clean && webpack --progress --config config/webpack/webpack.dev-alz.js",
     "build": "webpack --progress --config config/webpack/webpack.dev.js",
     "build-prod": "NODE_ENV=production webpack --config config/webpack/webpack.prod.js",
     "build-staging": "NODE_ENV=staging webpack --config config/webpack/webpack.staging.js"

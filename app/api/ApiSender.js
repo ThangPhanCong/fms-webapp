@@ -1,11 +1,22 @@
 import * as store from '../helpers/storage';
 import axios from 'axios';
 import {BASE_URL} from 'CONFIG';
+import tokenGetter from 'helpers/token-getter';
 
-exports.get = (route, access_token) => {
-    if (!access_token) {
-        access_token = store.get('access_token');
+const config = {
+    '/api/a' : 'BASE',
+    '/api/p' : 'PROJECT',
+    '/api/o' : 'PROJECT',
+    '/api/n' : 'PROJECT'
+};
+
+function getTypeToken(route) {
+    for (let routeAlias in config) {
+        if (route.indexOf(routeAlias) !== -1) return config[routeAlias];
     }
+}
+
+exports.get = (route, access_token = tokenGetter(getTypeToken(route))) => {
     let url = `${BASE_URL}${route}`;
     let headers = {
         'authorization': access_token
@@ -25,8 +36,7 @@ exports.get = (route, access_token) => {
         });
 };
 
-exports.post = (route, payload) => {
-    let access_token = store.get('access_token');
+exports.post = (route, payload, access_token = tokenGetter(getTypeToken(route))) => {
     let url = `${BASE_URL}${route}`;
     let headers = {
         'authorization': access_token
@@ -46,8 +56,7 @@ exports.post = (route, payload) => {
         });
 };
 
-exports.put = (route, payload) => {
-    let access_token = store.get('access_token');
+exports.put = (route, payload, access_token = tokenGetter(getTypeToken(route))) => {
     let url = `${BASE_URL}${route}`;
     let headers = {
         'authorization': access_token
@@ -67,10 +76,7 @@ exports.put = (route, payload) => {
         });
 };
 
-exports.delete = (route, access_token) => {
-    if (!access_token) {
-        access_token = store.get('access_token');
-    }
+exports.delete = (route, access_token = tokenGetter(getTypeToken(route))) => {
     let url = `${BASE_URL}${route}`;
     let headers = {
         'authorization': access_token || access_token

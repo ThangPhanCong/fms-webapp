@@ -6,6 +6,7 @@ import {correctHeight, detectBody} from './Helpers';
 import RightSideBar from "../common/RightSideBar";
 import PageBody from "../common/PageBody";
 import * as storage from "helpers/storage";
+import {setProjectId} from "../../../helpers/token-getter";
 
 class Main extends React.Component {
 
@@ -38,6 +39,11 @@ class Main extends React.Component {
         const projects = storage.get('projects');
         const currentProject = projects ? projects.find(p => p.data.alias === project_alias) : null;
         if (!currentProject) history.replace('/shops');
+        this.registerProjectTokenId(currentProject.data._id);
+    }
+
+    registerProjectTokenId(id){
+        setProjectId(id);
     }
 
     componentDidMount() {
