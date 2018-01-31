@@ -4,6 +4,7 @@ import FmsSpin from '../../commons/FmsSpin/FmsSpin';
 import PageApi from '../../api/PagesApi';
 import ProjectApi from '../../api/ProjectApi';
 import addImg from '../../assets/images/add.png';
+import * as socket from '../../socket/index';
 
 class FmsSettings extends React.Component {
     constructor(props) {
@@ -27,7 +28,7 @@ class FmsSettings extends React.Component {
     }
 
     getPagesOfProject(alias) {
-        this.setState({pages: null});
+        this.setState({pages: []});
         ProjectApi.getPages(alias)
             .then(res => {
                 this.setState({pages: res.pages});
@@ -37,6 +38,46 @@ class FmsSettings extends React.Component {
             });
     }
 
+    onGetHistorySuccess(res) {
+        alert("Đã lấy lịch sử trang thành công.");
+        this.unsubscribePageChanges(res.data.page_fb_id);
+    }
+
+    onGetHistoryFail(res) {
+        alert("Lấy lịch sử thất bại");
+        this.unsubscribePageChanges(res.data.page_fb_id);
+    }
+
+    subscribePagesChanges(pages) {
+        pages.forEach(page => {
+            if (page.is_crawling) {
+                this.subscribePageChanges(page._id);
+            }
+        });
+    }
+
+    subscribePageChanges(page_id) {
+        socket.subscribePagesChanges({
+            page_id: page_id,
+            onCrawlSuccess: this.onGetHistorySuccess.bind(this),
+            onCrawlFail: this.onGetHistoryFail.bind(this)
+        });
+    }
+
+    unsubscribePagesChanges(pages) {
+        pages.forEach(page => {
+            if (page.is_crawling) {
+                this.unsubscribePageChanges(page._id);
+            }
+        });
+    }
+
+    unsubscribePageChanges(page_id) {
+        socket.unsubscribePagesChanges({
+            page_id: page_id
+        });
+    }
+
     componentWillMount() {
         this.getPages();
         if (this.props.project && this.props.project.alias) {
@@ -44,11 +85,21 @@ class FmsSettings extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevStates) {
         if ((!prevProps.project && this.props.project) ||
             (prevProps.project && this.props.project && prevProps.project.alias !== this.props.project.alias)) {
             this.getPagesOfProject(this.props.project.alias);
         }
+        if (this.state.pages && !prevStates.pages) {
+            this.subscribePagesChanges(this.state.pages);
+        }
+    }
+
+    componentWillUnmount() {
+        if (Array.isArray(this.state.pages)) {
+            this.unsubscribePagesChanges(this.state.pages);
+        }
+        socket.disconnect();
     }
 
     deletePage(page_id) {
@@ -69,8 +120,15 @@ class FmsSettings extends React.Component {
     }
 
     addPage(page_id) {
-        let aloww = confirm("Bạn có muốn thêm trang này vào cửa hàng?");
-        if (aloww && !this.state.isHandling) {
+        let allow = confirm("Bạn có muốn thêm trang này vào cửa hàng?");
+        if (allow && !this.state.isHandling) {
+            let getHistory = confirm("Bạn có muốn lấy lịch sử của trang khi thêm vào cửa hàng?");
+            if (getHistory) {
+                this.subscribePageChanges(page_id);
+                socket.getPageHistory({
+                    page_id: page_id
+                });
+            }
             this.setState({isHandling: true});
             ProjectApi.addPage(this.props.project.alias, page_id)
                 .then(() => {
