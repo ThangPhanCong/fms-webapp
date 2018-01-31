@@ -6,10 +6,7 @@ import FmsConversationList from '../conversations/FmsConversationList/FmsConvers
 import FmsClientInformation from '../FmsClientInformation/FmsClientInformation';
 import FmsVerticalNav from '../FmsVerticalNav/FmsVerticalNav';
 
-import {
-    resetConversations, cancelGetConversations,
-    checkUnreadComments, checkUnreadInboxes
-} from '../../../actions/dashboard/conversations';
+import {resetConversations, cancelGetConversations} from '../../../actions/dashboard/conversations';
 import {getProject, unSubscribeProjectChanges} from '../../../actions/dashboard/dashboard';
 import {getTagsProject, resetFilters} from '../../../actions/dashboard/filters';
 
@@ -18,8 +15,6 @@ class FmsDashBoard extends React.Component {
         const {dispatch, project} = this.props;
         dispatch(getProject(project.alias));
         dispatch(getTagsProject(project.alias));
-        // dispatch(checkUnreadComments(project.alias));
-        // dispatch(checkUnreadInboxes(project.alias));
     }
 
     closeDashboard() {

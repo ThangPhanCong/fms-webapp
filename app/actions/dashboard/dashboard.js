@@ -1,7 +1,7 @@
 import * as socket from '../../socket';
 import projectApi from '../../api/ProjectApi';
 import {setConversation, isShownNewMsgNoti} from './chat/messages';
-import {setConversations, getConversations, postSeenCv} from './conversations';
+import {setConversations, getConversations, postSeenCv, checkUnreadComments, checkUnreadInboxes} from './conversations';
 
 export const getProject = (alias) => (dispatch) => {
     const _updateMsgInConversation = (msg) => {
@@ -18,6 +18,8 @@ export const getProject = (alias) => (dispatch) => {
             }
         })
         .catch(err => alert(err));
+    // dispatch(checkUnreadComments(alias));
+    // dispatch(checkUnreadInboxes(alias));
 };
 
 export const unSubscribeProjectChanges = (alias) => () => {
