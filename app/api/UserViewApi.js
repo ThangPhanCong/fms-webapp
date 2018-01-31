@@ -1,5 +1,5 @@
 import apiSender, {post, put, get} from './ApiSender';
-import {toQueryParams} from 'utils/query-utils.js';
+import {toQueryParams} from '../utils/query-utils.js';
 
 export function getOrderView(project_id) {
     const clause = {
