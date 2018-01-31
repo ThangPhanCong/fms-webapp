@@ -28,7 +28,7 @@ class FmsSettings extends React.Component {
     }
 
     getPagesOfProject(alias) {
-        this.setState({pages: []});
+        //this.setState({pages: null});
         ProjectApi.getPages(alias)
             .then(res => {
                 this.setState({pages: res.pages});
@@ -38,14 +38,28 @@ class FmsSettings extends React.Component {
             });
     }
 
+    updatePageStatus(page_fb_id) {
+        let pages = this.state.pages.map(page => {
+            if (page.fb_id === page_fb_id) {
+                page.is_crawling = false;
+            }
+            return page;
+        });
+        this.setState({pages: pages});
+    }
+
     onGetHistorySuccess(res) {
         alert("Đã lấy lịch sử trang thành công.");
-        this.unsubscribePageChanges(res.data.page_fb_id);
+        let page_fb_id = res.data.page_fb_id;
+        this.unsubscribePageChanges(page_fb_id);
+        this.updatePageStatus(page_fb_id);
     }
 
     onGetHistoryFail(res) {
         alert("Lấy lịch sử thất bại");
-        this.unsubscribePageChanges(res.data.page_fb_id);
+        let page_fb_id = res.data.page_fb_id;
+        this.unsubscribePageChanges(page_fb_id);
+        this.updatePageStatus(page_fb_id);
     }
 
     subscribePagesChanges(pages) {
@@ -79,6 +93,7 @@ class FmsSettings extends React.Component {
     }
 
     componentWillMount() {
+        socket.connect(() => {});
         this.getPages();
         if (this.props.project && this.props.project.alias) {
             this.getPagesOfProject(this.props.project.alias);
@@ -148,13 +163,18 @@ class FmsSettings extends React.Component {
             let disabled = (this.state.isHandling) ? " disabled" : "";
             return this.state.pages.map(page => {
                 let avaUrl = `https://graph.facebook.com/v2.10/${page.fb_id}/picture`;
-                return <div className="page-item-setting" key={page.fb_id}>
+                let isCrawling = (page.is_crawling) ? " disabled" : "";
+                return <div className={"page-item-setting" + isCrawling} key={page.fb_id}>
                     <div className="avatar"><img className="avatar-image" src={avaUrl}/></div>
                     <div className="page-name">{page.name}</div>
-                    <div className={"glyphicon glyphicon-trash delete-icon clickable" + disabled}
-                         onClick={() => {
-                             this.deletePage(page._id)
-                         }}/>
+                    {!page.is_crawling ?
+                        <div className={"glyphicon glyphicon-trash delete-icon clickable" + disabled}
+                             onClick={() => {
+                                 this.deletePage(page._id)
+                             }}/>
+                        :
+                        <div className="spin-wrapper padding"><FmsSpin size={27}/></div>
+                    }
                 </div>
             });
         } else {
