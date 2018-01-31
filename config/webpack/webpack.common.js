@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const path = require('path');
 const SuppressChunksPlugin = require('suppress-chunks-webpack-plugin').default;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const __rootdir = path.join(__dirname, '/../..');
 let configPath;
@@ -60,8 +59,6 @@ if (process.env.NODE_ENV === 'production') {
     configPath = path.resolve(__rootdir, 'config.json');
     entry['index-test'] = indextestHtml;
     entry['app-test'] = apptestJs;
-    plugins = [...plugins, new BundleAnalyzerPlugin(),
-    ]
 }
 
 module.exports = {
