@@ -39,7 +39,7 @@ class FmsLoginFormModal extends Component {
                         <h4>Đăng nhập</h4>
                     </Modal.Header>
                     <Modal.Body>
-                        <FmsTabs tabActive={tabActive} onChangeHandle={this.switchTab.bind(this)}>
+                        <FmsTabs tabActive={tabActive}>
                             <FmsTab title='Chủ cửa hàng đăng nhập'>
                                 {isLoading ? <FmsSpin center size={20}/> : null}
                                 <div className="loginForm animated fadeInDown">

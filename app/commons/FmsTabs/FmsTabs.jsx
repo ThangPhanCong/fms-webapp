@@ -13,7 +13,6 @@ class FmsTabs extends React.Component {
         const {children} = this.props;
         if (children[index].props.renderBody) {
             this.setState({tabActive: index, activePanel: children[index]});
-            this.props.onChangeHandle(index);   
         }
     }
 
@@ -34,8 +33,8 @@ class FmsTabs extends React.Component {
     }
 
     render() {
-        const {children, tabActive} = this.props;
-        const {activePanel} = this.state;
+        const {children} = this.props;
+        const {activePanel, tabActive} = this.state;
         const titles = children.map(child => child.props.title);
 
         return (

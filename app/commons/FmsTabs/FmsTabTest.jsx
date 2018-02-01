@@ -13,7 +13,7 @@ class FmsTabTest extends React.Component {
 
     render() {
         return (
-            <FmsTabs tabActive={this.state.tabActive} onChangeHandle={this.handleChange.bind(this)}>
+            <FmsTabs tabActive={this.state.tabActive}>
                 <FmsTab title="ok men">
                     <p>ok men body</p>
                 </FmsTab>
