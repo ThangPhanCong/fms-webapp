@@ -176,28 +176,12 @@ class FmsOrderDetailModal extends Component {
         return (
             <Modal.Body>
                 <div className='row'>
-                    <div className='col-sm-12'>
-                        <FmsNoteInfoPanel
-                            private_note={order.private_note}
-                            onChangeInput={this.onChangeInput.bind(this)}
-                            disabled={!config.note_info}
-                        />
-                    </div>
-
-                    <div className='col-sm-12'>
-                        <FmsOrderTagInfoPanel
-                            order_tag={order.order_tag}
-                            project={project}
-                            onChangeInput={this.onChangeInput.bind(this)}
-                            disabled={!config.order_tag_info}
-                        />
-                    </div>
-
                     <div className="col-sm-6">
                         <FmsCustomerInfoPanel
                             customer_name={order.customer_name}
                             customer_phone={order.customer_phone}
                             customer_facebook={order.customer_facebook}
+                            customer_email={order.customer_email}
                             onChangeInput={this.onChangeInput.bind(this)}
                             disabled={!config.customer_info}
                         />
@@ -205,12 +189,40 @@ class FmsOrderDetailModal extends Component {
 
                     <div className="col-sm-6">
                         <FmsTransportInfoPanel
+                            province={order.province}
+                            district={order.district}
                             transport_address={order.transport_address}
                             transport_method={order.transport_method}
                             transport_fee={order.transport_fee}
                             onChangeInput={this.onChangeInput.bind(this)}
                             disabled={!config.transport_info}
                         />
+                    </div>
+
+                    <div className='col-sm-12'>
+                        <div className="panel panel-primary">
+                            <div className="panel-heading">
+                                Trạng thái đơn hàng
+                            </div>
+                            <div className="panel-body">
+                                <FmsNoteInfoPanel
+                                    private_note={order.private_note}
+                                    onChangeInput={this.onChangeInput.bind(this)}
+                                    disabled={!config.note_info}
+                                />
+
+                                <FmsOrderTagInfoPanel
+                                    order_tag={order.order_tag}
+                                    project={project}
+                                    onChangeInput={this.onChangeInput.bind(this)}
+                                    disabled={!config.order_tag_info}
+                                />
+                            </div>
+                        </div>    
+                    </div>
+
+                    <div className='col-sm-12'>
+                        
                     </div>
 
                     <div className="col-sm-12">
@@ -232,7 +244,6 @@ class FmsOrderDetailModal extends Component {
                             disabled={!config.price_calculator}
                         />
                     </div>
-
 
                 </div>
 

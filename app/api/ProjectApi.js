@@ -35,8 +35,10 @@ module.exports = {
         let route = `/api/a/projects/${alias}`;
         return apiSender.delete(route);
     },
+    // TODO: get pages of user
     getPages: (alias) => {
-        let route = `/api/a/projects/${alias}/pages`;
+        // let route = `/api/a/projects/${alias}/pages`;
+        let route = `/api/a/users`
         return apiSender.get(route);
     },
     addPage: (project_alias, page_fb_id) => {
