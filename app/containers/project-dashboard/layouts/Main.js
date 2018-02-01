@@ -33,8 +33,7 @@ class Main extends React.Component {
         });
     }
 
-    verifyProjectRoute () {
-        const {match, history} = this.props;
+    verifyProjectRoute (match, history) {
         const {project_alias} = match.params;
         const projects = storage.get('projects');
         const currentProject = projects ? projects.find(p => p.data.alias === project_alias) : null;
@@ -47,8 +46,16 @@ class Main extends React.Component {
     }
 
     componentDidMount() {
+        const {match, history} = this.props;
         this.registerCorrectHeightMenu();
-        this.verifyProjectRoute();
+        this.verifyProjectRoute(match, history);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const {history} = this.props;
+        if (nextProps.match) {
+            this.verifyProjectRoute(nextProps.match, history);
+        }
     }
 
     render() {

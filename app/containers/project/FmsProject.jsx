@@ -157,7 +157,7 @@ class FmsProject extends Component {
                     <div className="row button-project-wrapper">
                         <div className="col-md-2">
                             <button
-                                className="btn btn-primary"
+                                className="btn btn-primary btn-open-project-modal"
                                 onClick={this.openCreateProjectModal.bind(this)}
                             >
                                 <i className='fa fa-plus'/>&nbsp; Tạo cửa hàng mới
