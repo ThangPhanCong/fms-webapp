@@ -35,9 +35,9 @@ class FmsStatistic extends Component {
     render() {
         return (
             <FmsBlankPage title='Bảng điều khiển'>
-                <small>
+                <p>
                     Bảng điều khiển là nơi thu thập thông tin về cửa hàng, đưa những số liệu thành biểu đồ giúp bạn tiện theo dõi, đánh giá.
-                </small>
+                </p>
                 <div>
                     <small>
                         Số liệu hiện tại không đủ để hiển thị!
