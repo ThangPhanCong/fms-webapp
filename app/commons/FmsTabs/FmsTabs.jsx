@@ -5,26 +5,36 @@ import FmsTabPanel from "./FmsTabPanel";
 class FmsTabs extends React.Component {
 
     state = {
-        tabActive: 0
+        tabActive: 0,
+        activePanel: null
     };
 
     activeTab(index) {
         const {children} = this.props;
         if (children[index].props.renderBody) {
-            this.setState({tabActive: index});
+            this.setState({tabActive: index, activePanel: children[index]});
         }
     }
 
-    renderTabPanels(panels) {
-        const {tabActive} = this.state;
-        const activePanel = panels[tabActive];
+    componentWillMount() {
+        const {tabActive, children} = this.props;
+        this.setState({tabActive: tabActive, activePanel: children[tabActive]});
+    }
 
-        return <FmsTabPanel active={true} content={activePanel}/>;
+    componentWillReceiveProps(nextProps) {
+        const {tabActive} = this.state;
+        const {children} = this.props;
+        if (nextProps && nextProps.tabActive !== tabActive) {
+            this.setState({
+                tabActive: nextProps.tabActive, 
+                activePanel: children[nextProps.tabActive]}
+            );
+        }
     }
 
     render() {
         const {children} = this.props;
-        const {tabActive} = this.state;
+        const {activePanel, tabActive} = this.state;
         const titles = children.map(child => child.props.title);
 
         return (
@@ -32,9 +42,7 @@ class FmsTabs extends React.Component {
                 <FmsTabHeader titles={titles} tabActive={tabActive} onSelectTab={this.activeTab.bind(this)}/>
 
                 <div className='tab-content'>
-                    {
-                        this.renderTabPanels(children)
-                    }
+                    <FmsTabPanel active={true} content={activePanel}/>
                 </div>
             </div>
         )
