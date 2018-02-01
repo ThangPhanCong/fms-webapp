@@ -67,7 +67,7 @@ class FmsStaffs extends Component {
                 <div className="wrapper wrapper-content">
                     <div className="row">
                         <div className="col-lg-12">
-                            <FmsTabs>
+                            <FmsTabs tabActive={0}>
 
                                 <FmsTab title='Tất cả nhân viên'>
                                     <div className='row'>

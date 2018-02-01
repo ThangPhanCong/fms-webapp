@@ -68,7 +68,7 @@ class FmsSavedOrderBody extends Component {
                             <div className="wrapper wrapper-content">
                                 <div className="row">
                                     <div className="col-lg-12">
-                                        <FmsTabs>
+                                        <FmsTabs tabActive={0}>
                                             <FmsTab
                                                 title={{
                                                     content: 'Đơn giao thành công',

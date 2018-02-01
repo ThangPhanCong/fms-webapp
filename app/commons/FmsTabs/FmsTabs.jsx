@@ -10,15 +10,21 @@ class FmsTabs extends React.Component {
     };
 
     activeTab(index) {
-        const {children} = this.props;
+        const {children, onHandleChange} = this.props;
         if (children[index].props.renderBody) {
             this.setState({tabActive: index, activePanel: children[index]});
+            if (!!onHandleChange) onHandleChange(index);
         }
     }
 
     componentWillMount() {
         const {tabActive, children} = this.props;
-        this.setState({tabActive: tabActive, activePanel: children[tabActive]});
+        const currentTab = this.state.tabActive;
+        if (tabActive !== undefined) {
+            this.setState({tabActive: tabActive, activePanel: children[tabActive]});
+        } else {
+            this.setState({activePanel: children[currentTab]});
+        }
     }
 
     componentWillReceiveProps(nextProps) {
