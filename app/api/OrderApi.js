@@ -1,6 +1,7 @@
 import apiSender, {post, put, get} from './ApiSender';
 import {toQueryParams} from '../utils/query-utils';
 import {delay} from '../utils/timeout-utils';
+import {getByProjectId} from "../helpers/token-getter";
 
 export const ORDER_STATUS = {
     DRAFT: "DRAFT",
@@ -16,6 +17,11 @@ export const ORDER_STATUS = {
 export function getOrders(projectAlias, filter = {}) {
     const queryParams = toQueryParams(filter);
     return get(`/api/o/orders?${queryParams}`);
+}
+
+export function countOrders(project_id, filter = {}) {
+    const queryParams = toQueryParams(filter);
+    return get(`/api/o/orders/count?${queryParams}`, getByProjectId(project_id));
 }
 
 export function createOrder(projectAlias, order) {

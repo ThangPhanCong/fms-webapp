@@ -15,6 +15,8 @@ function getTypeToken(route) {
     for (let routeAlias in config) {
         if (route.indexOf(routeAlias) !== -1) return config[routeAlias];
     }
+
+    return 'BASE';
 }
 
 exports.get = (route, access_token = tokenGetter(getTypeToken(route))) => {

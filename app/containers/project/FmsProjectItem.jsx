@@ -1,7 +1,29 @@
 import React from 'react';
 import uuid from 'uuid';
+import {countOrders} from "../../api/OrderApi";
+import {countProducts} from "../../api/ProductApi";
+import {countStaffs} from "../../api/StaffApi";
 
 class FmsProjectItem extends React.Component {
+
+    state = {
+        countOrders: null,
+        countProducts: null,
+        countStaffs: null
+    };
+
+    componentDidMount() {
+        const {data} = this.props;
+
+        countOrders(data._id)
+            .then(payload => this.setState({countOrders: payload.total}));
+
+        countProducts(data._id)
+            .then(payload => this.setState({countProducts: payload.total}));
+
+        countStaffs(data._id)
+            .then(payload => this.setState({countStaffs: payload.total}));
+    }
 
     renderPageItem() {
         let project = this.props.data;
@@ -34,6 +56,7 @@ class FmsProjectItem extends React.Component {
     }
 
     render() {
+        const {countOrders, countProducts, countStaffs} = this.state;
         const project = this.props.data;
 
         return (
@@ -45,14 +68,14 @@ class FmsProjectItem extends React.Component {
 
                         <h2>{project.name}</h2>
                         <p className="small">
-                            <span>Sản phẩm: </span>
-                            <strong>{project.total_product}</strong>
-                            &nbsp;&nbsp;&nbsp;
                             <span>Đơn hàng: </span>
-                            <strong>{project.total_order}</strong>
+                            <strong>{countOrders === null ? '' : countOrders}</strong>
+                            &nbsp;&nbsp;&nbsp;
+                            <span>Sản phẩm: </span>
+                            <strong>{countProducts === null ? '' : countProducts}</strong>
                             &nbsp;&nbsp;&nbsp;
                             <span>Nhân viên: </span>
-                            <strong>0</strong>
+                            <strong>{countStaffs === null ? '' : countStaffs}</strong>
                         </p>
 
                         <div className="">
