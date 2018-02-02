@@ -17,7 +17,6 @@ class FmsCustomerInfoPanel extends Component {
             customer_name,
             customer_phone,
             customer_facebook,
-            customer_email,
             disabled
         } = this.props;
 
@@ -83,25 +82,6 @@ class FmsCustomerInfoPanel extends Component {
                             </div>
                         </div>
                     </div>
-
-                    <div className="form-group">
-                        <div className="row">
-                            <div className="col-sm-3">
-                                <label className="control-label">Email</label>
-                            </div>
-                            <div className="col-sm-9">
-                                <input type="text"
-                                       className="form-control"
-                                       ref='customer_email'
-                                       value={customer_email || ''}
-                                       onChange={() => {
-                                           this.onChangeInput('customer_email')
-                                       }}
-                                       disabled={disabled}
-                                />
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         )
@@ -113,7 +93,6 @@ FmsCustomerInfoPanel.propTypes = {
     customer_name: propTypes.string,
     customer_phone: propTypes.string,
     customer_facebook: propTypes.string,
-    customer_email: propTypes.string,
     disabled: propTypes.bool
 };
 

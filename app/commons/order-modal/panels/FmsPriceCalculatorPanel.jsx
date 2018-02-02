@@ -56,6 +56,14 @@ class FmsPriceCalculatorPanel extends Component {
                         disabled={disabled}
                     />
                 </div>
+                <div className="col-sm-4 col-sm-offset-8 m-t-xs">
+                    <select className='form-control pull-right'>
+                        <option value="0">Chọn phương thức thanh toán</option>
+                        <option value="1">Thẻ ngân hàng</option>
+                        <option value="2">Thanh toán COD</option>
+                        <option value="4">Trực tiếp</option>
+                    </select>
+                </div>
 
             </div>
         )

@@ -176,12 +176,28 @@ class FmsOrderDetailModal extends Component {
         return (
             <Modal.Body>
                 <div className='row'>
+                    <div className='col-sm-12'>
+                        <FmsNoteInfoPanel
+                            private_note={order.private_note}
+                            onChangeInput={this.onChangeInput.bind(this)}
+                            disabled={!config.note_info}
+                        />
+                    </div>
+
+                    <div className='col-sm-12'>
+                        <FmsOrderTagInfoPanel
+                            order_tag={order.order_tag}
+                            project={project}
+                            onChangeInput={this.onChangeInput.bind(this)}
+                            disabled={!config.order_tag_info}
+                        />
+                    </div>
+
                     <div className="col-sm-6">
                         <FmsCustomerInfoPanel
                             customer_name={order.customer_name}
                             customer_phone={order.customer_phone}
                             customer_facebook={order.customer_facebook}
-                            customer_email={order.customer_email}
                             onChangeInput={this.onChangeInput.bind(this)}
                             disabled={!config.customer_info}
                         />
@@ -197,32 +213,6 @@ class FmsOrderDetailModal extends Component {
                             onChangeInput={this.onChangeInput.bind(this)}
                             disabled={!config.transport_info}
                         />
-                    </div>
-
-                    <div className='col-sm-12'>
-                        <div className="panel panel-primary">
-                            <div className="panel-heading">
-                                Trạng thái đơn hàng
-                            </div>
-                            <div className="panel-body">
-                                <FmsNoteInfoPanel
-                                    private_note={order.private_note}
-                                    onChangeInput={this.onChangeInput.bind(this)}
-                                    disabled={!config.note_info}
-                                />
-
-                                <FmsOrderTagInfoPanel
-                                    order_tag={order.order_tag}
-                                    project={project}
-                                    onChangeInput={this.onChangeInput.bind(this)}
-                                    disabled={!config.order_tag_info}
-                                />
-                            </div>
-                        </div>    
-                    </div>
-
-                    <div className='col-sm-12'>
-                        
                     </div>
 
                     <div className="col-sm-12">
@@ -254,6 +244,7 @@ class FmsOrderDetailModal extends Component {
     renderModalHeader() {
         const {order} = this.state;
         const date = new Date(order.created_time); 
+        let time = date.toLocaleTimeString().split(':');
         return (
             <Modal.Header
                 closeButton={true}
@@ -261,11 +252,28 @@ class FmsOrderDetailModal extends Component {
                     this.props.onClose();
                 }}
             >
-                <h4>Đơn hàng #{order.id}</h4>
+                <h4>Đơn hàng #{order.id}
+                    {
+                        order.order_tag ? 
+                        (   
+                            <span> {'  '} 
+                                <span
+                                    className="label tag-label"
+                                    style={{
+                                        backgroundColor: order.order_tag.color,
+                                        color: 'white',
+                                        paddingBottom: '0'
+                                    }}
+                                >{order.order_tag.name}</span>
+                            </span>
+                        )
+                        : null
+                    }     
+                </h4>
 
                 <div>
                     <small className="font-bold">Ngày tạo: 
-                        <strong>{date.toLocaleTimeString()}, {date.toLocaleDateString()}</strong>
+                        <strong>{time[0] + ':' + time[1]}, {date.toLocaleDateString()}</strong>
                     </small>
                 </div>
                 <div>

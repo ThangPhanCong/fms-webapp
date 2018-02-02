@@ -16,14 +16,22 @@ class FmsTransportInfoPanel extends Component {
         onChangeInput(refName, newValue);
     }
 
-    onChangeProvince(refName) {
-        let province = locations.find((item) => {
-            return item.name === this.refs[refName].value;
-        });
-        let districts = Object.values(province.districts);
-        this.setState({districts: districts});
+    onChangeProvince() {
+        const {onChangeInput} = this.props;
 
-        this.props.onChangeInput(refName, province.name);
+        if (this.refs['province'].value === '') {
+            this.setState({districts: []});
+            
+            onChangeInput('province', '');
+        } else {
+            let province = locations.find((item) => {
+                return item.name === this.refs['province'].value;
+            });
+            let districts = Object.values(province.districts);
+            this.setState({districts: districts});
+    
+            onChangeInput('province', province.name);
+        }
     }
 
     render() {
@@ -52,7 +60,7 @@ class FmsTransportInfoPanel extends Component {
                                        ref='province'
                                        value={province || ''}
                                        onChange={() => {
-                                           this.onChangeProvince('province')
+                                           this.onChangeProvince()
                                        }}
                                        disabled={disabled}
                                 >
@@ -81,6 +89,7 @@ class FmsTransportInfoPanel extends Component {
                                        }}
                                        disabled={disabled}
                                 >
+                                    <option value=""></option>
                                     {
                                         this.state.districts.map(item => {
                                             return <option value={item} key={item}>{item}</option>   
@@ -94,7 +103,7 @@ class FmsTransportInfoPanel extends Component {
                     <div className="form-group">
                         <div className="row">
                             <div className="col-sm-4">
-                                <label className="control-label">Địa chỉ nhận</label>
+                                <label className="control-label">Địa chỉ (số nhà, đường,...)</label>
                             </div>
                             <div className="col-sm-8">
                                 <input type="text"
@@ -115,7 +124,7 @@ class FmsTransportInfoPanel extends Component {
                             <div className="col-sm-4">
                                 <label className="control-label">Phương thức</label>
                             </div>
-                            <div className="col-sm-8">
+                            <div className="col-sm-5">
                                 <select className="form-control"
                                         ref='transport_method'
                                         value={transport_method || ''}
@@ -132,6 +141,11 @@ class FmsTransportInfoPanel extends Component {
                                     <option value="SELF">Tự vận chuyển</option>
                                 </select>
                             </div>
+                            <div className="col-sm-3">
+                                <button className='btn btn-success'>
+                                    Thêm   
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -140,7 +154,7 @@ class FmsTransportInfoPanel extends Component {
                             <div className="col-sm-4">
                                 <label className="control-label">Phí</label>
                             </div>
-                            <div className="col-sm-5">
+                            <div className="col-sm-8">
                                 <input type="text"
                                        className="form-control"
                                        ref='transport_fee'
@@ -150,11 +164,6 @@ class FmsTransportInfoPanel extends Component {
                                        }}
                                        disabled={disabled}
                                 />
-                            </div>
-                            <div className="col-sm-3">
-                                <button className='btn btn-success'>
-                                    Thêm   
-                                </button>
                             </div>
                         </div>
                     </div>

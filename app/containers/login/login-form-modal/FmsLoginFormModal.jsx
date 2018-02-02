@@ -15,10 +15,9 @@ class FmsLoginFormModal extends Component {
     };
 
     logInWithFacebook() {
+        this.setState({isLoading: true});
         const {dispatch} = this.props;
         dispatch(logIn());
-
-        this.setState({isLoading: true});
     }
 
     switchTab(value) {
@@ -39,7 +38,7 @@ class FmsLoginFormModal extends Component {
                         <h4>Đăng nhập</h4>
                     </Modal.Header>
                     <Modal.Body>
-                        <FmsTabs tabActive={tabActive}>
+                        <FmsTabs tabActive={tabActive} onHandleChange={this.switchTab.bind(this)}>
                             <FmsTab title='Chủ cửa hàng đăng nhập'>
                                 {isLoading ? <FmsSpin center size={20}/> : null}
                                 <div className="loginForm animated fadeInDown">
