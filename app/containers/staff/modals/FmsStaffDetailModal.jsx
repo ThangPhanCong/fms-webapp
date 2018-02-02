@@ -1,27 +1,58 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
+import {getRoles} from '../../../api/RoleApi';
+import {updateStaff, deleteStaff} from '../../../api/StaffApi';
 
 class FmsStaffDetailModal extends Component {
 
     state = {
-        staff: {}
+        staff: {},
+        roles: [],
+        isLoading: false
     };
 
     onUpdateStaff() {
-
+        const {project} = this.props;
+        const {staff}  = this.state;
+        this.setState({isLoading: true});
+        updateStaff(project._id, staff)
+            .then(
+                staff => {
+                    const shouldUpdate = true;
+                    this.closeModal(shouldUpdate);
+                },
+                err => {
+                    alert(err.message);
+                }
+            )
+            .then(() => this.setState({isLoading: false}));
     }
 
     onDeleteStaff() {
+        const {project} = this.props;
+        const {staff} = this.state;
+
         const allow = confirm('Bạn có chắc chắn muốn xóa nhân viên này?');
 
         if (allow) {
-            this.props.onClose();
+            this.setState({isLoading: true});
+
+            deleteStaff(project._id, staff._id)
+                .then(staff => {
+                    const shouldUpdate = true;
+                    this.closeModal(shouldUpdate);
+                })
         }
     }
 
     onCloseButtonClick() {
         this.props.onClose();
+    }
+
+    closeModal(shouldUpdate) {
+        this.setState({staff: {}, isLoading: false});
+        this.props.onClose(shouldUpdate);
     }
 
     onChangeInput(refName) {
@@ -33,13 +64,29 @@ class FmsStaffDetailModal extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps && nextProps.staff !== this.state.staff) {
+        if (nextProps.staff && nextProps.staff !== this.state.staff) {
             this.setState({staff: nextProps.staff});
         }
     }
 
+    componentDidMount() {
+        const {project} = this.props;
+        getRoles(project._id)
+            .then(roles => {
+                this.setState({roles: roles});
+            })
+    }
+
+    componentWillUnmount() {
+        this.setState({
+            staff: {},
+            roles: [],
+            isLoading: false
+        })
+    }
+
     renderBody() {
-        const { staff } = this.state;
+        const { staff, roles } = this.state;
 
         return (
             <Modal.Body>
@@ -80,9 +127,9 @@ class FmsStaffDetailModal extends Component {
                         <div className="col-sm-8">
                             <input type="text"
                                 className="form-control"
-                                ref='userName'
-                                value={staff.userName || ''}
-                                onChange={() => {this.onChangeInput('userName')}}
+                                ref='name'
+                                value={staff.name || ''}
+                                onChange={() => {this.onChangeInput('name')}}
                             />
                         </div>
                     </div>
@@ -107,7 +154,7 @@ class FmsStaffDetailModal extends Component {
                             <label className="control-label">Mật khẩu:</label>
                         </div>
                         <div className="col-sm-8">
-                            <input type="text"
+                            <input type="password"
                                 className="form-control"
                                 ref='password'
                                 value={staff.password || ''}
@@ -120,7 +167,7 @@ class FmsStaffDetailModal extends Component {
                             <label className="control-label">Gõ lại mật khẩu:</label>
                         </div>
                         <div className="col-sm-8">
-                            <input type="text"
+                            <input type="password"
                                 className="form-control"
                                 ref='passwordConfirm'
                                 value={staff.passwordConfirm || ''}
@@ -138,11 +185,15 @@ class FmsStaffDetailModal extends Component {
                         <div className="col-sm-8">
                             <select className="form-control"
                                 ref='role'
-                                value={staff.role || ''}
-                                onChange={() => {this.onChangeInput('role')}}
+                                value={staff.role_id || ''}
+                                onChange={() => {this.onChangeInput('role_id')}}
                             >
                                 <option value=""></option>
-                                <option value="1">Quản lý trang</option>
+                                {
+                                    roles.map(role => {
+                                        return <option value={role._id}>{role.name}</option>
+                                    })
+                                }
                             </select>
                         </div>
                     </div>

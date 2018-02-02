@@ -146,6 +146,10 @@ class FmsOrderDetailModal extends Component {
             case 'products':
                 newOrder.products = newValue;
                 break;
+            case 'province':
+                newOrder.province = newValue;
+                newOrder.district = '';
+                break;
             default:
                 newOrder[refName] = newValue;
         }

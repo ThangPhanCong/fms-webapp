@@ -1,20 +1,42 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
+import {getRoles} from '../../../api/RoleApi';
+import {createNewStaff} from '../../../api/StaffApi';
 
 class FmsCreateNewStaffModal extends Component {
 
     state = {
-        staff: {}
+        staff: {},
+        roles: [],
+        isLoading: false
     };
 
     onCreateStaff() {
-
+        const {project} = this.props;
+        const {staff}  = this.state;
+        this.setState({isLoading: true});
+        createNewStaff(project._id, staff)
+            .then(
+                staff => {
+                    const shouldUpdate = true;
+                    this.closeModal(shouldUpdate);
+                },
+                err => {
+                    alert(err.message);
+                }
+            )
+            .then(() => this.setState({isLoading: false}));
     }
 
     onCloseButtonClick() {
         this.setState({staff: {}});
         this.props.onClose();
+    }
+
+    closeModal(shouldUpdate) {
+        this.setState({staff: {}});
+        this.props.onClose(shouldUpdate);
     }
 
     onChangeInput(refName) {
@@ -25,8 +47,16 @@ class FmsCreateNewStaffModal extends Component {
         this.setState({staff: newStaff});
     }
 
+    componentDidMount() {
+        const {project} = this.props;
+        getRoles(project._id)
+            .then(roles => {
+                this.setState({roles: roles});
+            })
+    }
+
     renderBody() {
-        const { staff } = this.state;
+        const { staff, roles } = this.state;
 
         return (
             <Modal.Body>
@@ -67,9 +97,9 @@ class FmsCreateNewStaffModal extends Component {
                         <div className="col-sm-8">
                             <input type="text"
                                 className="form-control"
-                                ref='userName'
-                                value={staff.userName || ''}
-                                onChange={() => {this.onChangeInput('userName')}}
+                                ref='name'
+                                value={staff.name || ''}
+                                onChange={() => {this.onChangeInput('name')}}
                             />
                         </div>
                     </div>
@@ -94,7 +124,7 @@ class FmsCreateNewStaffModal extends Component {
                             <label className="control-label">Mật khẩu:</label>
                         </div>
                         <div className="col-sm-8">
-                            <input type="text"
+                            <input type="password"
                                 className="form-control"
                                 ref='password'
                                 value={staff.password || ''}
@@ -107,7 +137,7 @@ class FmsCreateNewStaffModal extends Component {
                             <label className="control-label">Gõ lại mật khẩu:</label>
                         </div>
                         <div className="col-sm-8">
-                            <input type="text"
+                            <input type="password"
                                 className="form-control"
                                 ref='passwordConfirm'
                                 value={staff.passwordConfirm || ''}
@@ -124,12 +154,16 @@ class FmsCreateNewStaffModal extends Component {
                         </div>
                         <div className="col-sm-8">
                             <select className="form-control"
-                                ref='role'
-                                value={staff.role || ''}
-                                onChange={() => {this.onChangeInput('role')}}
+                                ref='role_id'
+                                value={staff.role_id || ''}
+                                onChange={() => {this.onChangeInput('role_id')}}
                             >
                                 <option value=""></option>
-                                <option value="1">Quản lý trang</option>
+                                {
+                                    roles.map(role => {
+                                        return <option value={role._id}>{role.name}</option>
+                                    })
+                                }
                             </select>
                         </div>
                     </div>

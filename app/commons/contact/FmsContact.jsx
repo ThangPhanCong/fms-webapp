@@ -25,6 +25,7 @@ class FmsContact extends Component {
                         Ngày sinh: <strong>{data.dateOfBirth}</strong><br/>
                         Điện thoại: <strong>{data.phone}</strong>
                     </address>
+                    <button className='btn btn-primary' onClick={this.props.handleClick.bind(this, data)}>Chi tiết</button>
                 </div>
                 <div className="clearfix"></div>
             </div>
