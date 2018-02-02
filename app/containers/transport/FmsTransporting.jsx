@@ -103,7 +103,7 @@ class FmsTransporting extends Component {
                                         project={project}
                                         onClose={this.onCloseDetailModal.bind(this)}
                                         isShown={isShownDetailModal}
-                                        typeModal={4}
+                                        typeModal={1}
                                     />
 
                                 </div>

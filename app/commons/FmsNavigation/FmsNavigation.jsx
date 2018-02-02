@@ -5,21 +5,12 @@ import {withRouter} from 'react-router-dom';
 import {Image} from 'react-bootstrap';
 
 import {logOut} from '../../actions/auth';
-import trackUserBehavior from './track-user-behavior';
 
 class FmsNavigation extends React.Component {
 
     onLogoutBtnClick() {
         const {dispatch} = this.props;
         dispatch(logOut());
-    }
-
-    componentDidMount() {
-        const {user} = this.props;
-
-        if (process.env.NODE_ENV === 'production') {
-            trackUserBehavior(user);
-        }
     }
 
     render() {

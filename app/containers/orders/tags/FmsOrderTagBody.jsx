@@ -3,7 +3,7 @@ import {deleteOrderTag, getOrderTags} from "../../../api/OrderTagApi";
 import FmsSpin from "commons/FmsSpin/FmsSpin";
 import FmsCreateOrderTagModal from "../modals/FmsCreateOrderTagModal";
 import FmsDetailOrderTagModal from "../modals/FmsDetailOrderTagModal";
-import {MAX_TAG_ITEMS, TAG_COLORS} from "../../../constants/tag";
+import {TAG_COLORS} from "../../../constants/tag";
 import uuid from 'uuid';
 
 class FmsOrderTagBody extends Component {
@@ -178,7 +178,6 @@ class FmsOrderTagBody extends Component {
             project,
             selectedTag
         } = this.state;
-        let isDisabled = this.state.tags.length >= MAX_TAG_ITEMS || this.state.isLoading;
 
         return (
             <div className="wrapper wrapper-content">
@@ -192,12 +191,11 @@ class FmsOrderTagBody extends Component {
                                         <button
                                             className="btn btn-primary btn-sm"
                                             onClick={this.onOpenCreateTagModal.bind(this)}
-                                            disabled={isDisabled}
                                         >
                                             <i className="fa fa-plus"/> Thêm thẻ màu
                                         </button>
                                         <div className="count-cards">Số
-                                            lượng: {this.state.tags.length + " / " + MAX_TAG_ITEMS}</div>
+                                            lượng: {this.state.tags.length}</div>
                                         <br/>
                                     </div>
                                 </div>

@@ -7,11 +7,12 @@ export const VERIFY_ACCESS_TOKEN_LOADED = 'VERIFY_ACCESS_TOKEN_LOADED';
 export const LOG_OUT = 'LOG_OUT';
 
 export const logIn = () => () => {
-    window.location = `${BASE_URL}/api/fb/oauth?redirect_to=${REDIRECT_TO}`;
+    window.location = `${BASE_URL}/api/a/user/oauth/fb?redirect_to=${REDIRECT_TO}`;
 };
 
 export const logOut = () => dispatch => {
     store.clear('access_token');
+    store.clear('projects');
     dispatch({type: LOG_OUT});
 };
 

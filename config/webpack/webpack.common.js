@@ -2,15 +2,44 @@ const webpack = require('webpack');
 const path = require('path');
 const SuppressChunksPlugin = require('suppress-chunks-webpack-plugin').default;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const __rootdir = path.join(__dirname, '/../..');
 let configPath;
+let check_env = true;
 
 const indexHtml = path.join(__rootdir, 'app', 'index.html');
 const indextestHtml = path.join(__rootdir, 'app', 'index-test.html');
 const appJs = path.join(__rootdir, 'app', 'index.js');
 const apptestJs = path.join(__rootdir, 'app', 'index-test.js');
+
+const splitCss = ExtractTextPlugin.extract({
+    fallback: 'style-loader',
+    use: [
+        {loader: 'css-loader'},
+        {loader: 'sass-loader'},
+        {
+            loader: "sass-loader",
+            options: {
+                data: '@import "bootstrap/variables"; @import "bootstrap/mixins";',
+                includePaths: [
+                    path.join(__rootdir, 'app/assets/styles')
+                ]
+            }
+        }],
+});
+
+const unsplitCss = ['style-loader', 'css-loader',
+    {
+        loader: "sass-loader",
+        options: {
+            data: '@import "bootstrap/variables"; @import "bootstrap/mixins";',
+            includePaths: [
+                path.join(__rootdir, 'app/assets/styles')
+            ]
+        }
+    }
+];
 
 const entry = {
     app: appJs
@@ -41,16 +70,15 @@ let plugins = [
         myid: 'app-test',
         filename: './index-test.html'
     }),
-
     new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
         filename: 'vendor.bundle.js',
         minChunks: module => module.context && module.context.indexOf('node_modules') !== -1
     }),
     new SuppressChunksPlugin(['index-test', 'indexHtml']),
-    new webpack.optimize.ModuleConcatenationPlugin()
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    new ExtractTextPlugin("styles-app.css")
 ];
-
 
 if (process.env.NODE_ENV === 'production') {
     configPath = path.resolve(__rootdir, 'config/env/config-prod.json');
@@ -60,8 +88,8 @@ if (process.env.NODE_ENV === 'production') {
     configPath = path.resolve(__rootdir, 'config.json');
     entry['index-test'] = indextestHtml;
     entry['app-test'] = apptestJs;
-    plugins = [...plugins, new BundleAnalyzerPlugin(),
-    ]
+    check_env = false;
+    plugins = plugins.slice(0, -1);
 }
 
 module.exports = {
@@ -108,17 +136,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                use: ['style-loader', 'css-loader',
-                    {
-                        loader: "sass-loader",
-                        options: {
-                            data: '@import "bootstrap/variables"; @import "bootstrap/mixins";',
-                            includePaths: [
-                                path.join(__rootdir, 'app/assets/styles')
-                            ]
-                        }
-                    }
-                ]
+                use: check_env ? splitCss : unsplitCss
             }, {
                 test: /\.css$/,
                 loaders: [

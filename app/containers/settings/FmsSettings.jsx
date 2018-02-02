@@ -19,19 +19,19 @@ class FmsSettings extends React.Component {
     getPages() {
         this.setState({all: null});
         PageApi.getPages()
-            .then(pages => {
-                this.setState({all: pages});
+            .then(res => {
+                this.setState({all: res});
             })
             .catch(err => {
                 alert(err.message);
             })
     }
 
-    getPagesOfProject(alias) {
+    getPagesOfProject() {
         //this.setState({pages: null});
-        ProjectApi.getPages(alias)
+        ProjectApi.getPages()
             .then(res => {
-                this.setState({pages: res.pages});
+                this.setState({pages: res});
             })
             .catch(err => {
                 alert(err.message);
@@ -95,15 +95,12 @@ class FmsSettings extends React.Component {
     componentWillMount() {
         socket.connect(() => {});
         this.getPages();
-        if (this.props.project && this.props.project.alias) {
-            this.getPagesOfProject(this.props.project.alias);
-        }
+        this.getPagesOfProject();
     }
 
     componentDidUpdate(prevProps, prevStates) {
-        if ((!prevProps.project && this.props.project) ||
-            (prevProps.project && this.props.project && prevProps.project.alias !== this.props.project.alias)) {
-            this.getPagesOfProject(this.props.project.alias);
+        if (prevProps.path !== this.props.path) {
+            this.getPagesOfProject();
         }
         if (this.state.pages && !prevStates.pages) {
             this.subscribePagesChanges(this.state.pages);
@@ -125,7 +122,7 @@ class FmsSettings extends React.Component {
                 .then(() => {
                     this.setState({isHandling: false});
                     this.getPages();
-                    this.getPagesOfProject(this.props.project.alias);
+                    this.getPagesOfProject();
                 })
                 .catch(err => {
                     alert(err.message);
@@ -149,7 +146,7 @@ class FmsSettings extends React.Component {
                 .then(() => {
                     this.setState({isHandling: false});
                     this.getPages();
-                    this.getPagesOfProject(this.props.project.alias);
+                    this.getPagesOfProject();
                 })
                 .catch(err => {
                     alert(err.message);

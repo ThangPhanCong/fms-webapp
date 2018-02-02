@@ -12,6 +12,8 @@ import FmsExportOrders from "../../stock/FmsExportOrders";
 import FmsTransportOrders from "../../transport/FmsTransportOrders";
 import FmsTransporting from "../../transport/FmsTransporting";
 import FmsSetting from '../../settings/FmsSettings';
+import FmsStaffs from '../../staff/FmsStaffs';
+import FmsAddRole from '../../staff/FmsAddRole';
 
 const treeConfig = [
     {
@@ -88,12 +90,12 @@ const treeConfig = [
         title: 'Quản lí kho',
         icon: 'fa-cubes',
         children: [
-            // {
-            //     route: 'export-order',
-            //     title: 'Yêu cầu xuất hàng',
-            //     headerColor: '#f3f3f4',
-            //     component: (props) => <FmsExportOrders {...props}/>
-            // },
+            {
+                route: 'export-order',
+                title: 'Yêu cầu xuất hàng',
+                headerColor: '#f3f3f4',
+                component: (props) => <FmsExportOrders {...props}/>
+            },
             {
                 route: 'products',
                 title: 'Sản phẩm',
@@ -102,33 +104,60 @@ const treeConfig = [
             }
         ]
     },
-    // {
-    //     route: '#',
-    //     title: 'Quản lí vận chuyển',
-    //     icon: 'fa-truck',
-    //     children: [
-    //         {
-    //             route: 'transport-orders',
-    //             title: 'Yêu cầu vận chuyển',
-    //             headerColor: '#f3f3f4',
-    //             component: (props) => <FmsTransportOrders {...props} />
-    //         },
-    //         {
-    //             route: 'transporting-orders',
-    //             title: 'Đang vận chuyển',
-    //             headerColor: '#f3f3f4',
-    //             component: (props) => <FmsTransporting {...props}/>
-    //         },
-    //         {
-    //             route: 'waiting-orders',
-    //             title: 'Đối soát vận chuyển',
-    //             headerColor: '#f3f3f4',
-    //             component: () => {
-    //                 return <p>Đối soát vận chuyển</p>
-    //             }
-    //         }
-    //     ]
-    // },
+    {
+        route: '#',
+        title: 'Quản lí vận chuyển',
+        icon: 'fa-truck',
+        children: [
+            {
+                route: 'transport-orders',
+                title: 'Yêu cầu vận chuyển',
+                headerColor: '#f3f3f4',
+                component: (props) => <FmsTransportOrders {...props} />
+            },
+            {
+                route: 'transporting-orders',
+                title: 'Đang vận chuyển',
+                headerColor: '#f3f3f4',
+                component: (props) => <FmsTransporting {...props}/>
+            },
+            {
+                route: 'waiting-orders',
+                title: 'Hàng chờ hoàn lại',
+                headerColor: '#f3f3f4',
+                component: () => {
+                    return <p>Hàng chờ hoàn lại</p>
+                }
+            },
+            {
+                route: 'pay-cod-orders',
+                title: 'Thanh toán COD',
+                headerColor: '#f3f3f4',
+                component: () => {
+                    return <p>Thanh toán COD</p>
+                }
+            }
+        ]
+    },
+    {
+        route: '#',
+        title: 'Quản lí nhân viên',
+        icon: 'fa-users',
+        children: [
+            {
+                route: 'staffs',
+                title: 'Tất cả nhân viên',
+                headerColor: '#f3f3f4',
+                component: (props) => <FmsStaffs {...props}/>
+            },
+            {
+                route: 'add-role',
+                title: 'Thêm vai trò',
+                headerColor: '#f3f3f4',
+                component: (props) => <FmsAddRole {...props}/>
+            }
+        ]
+    },
 
 ];
 

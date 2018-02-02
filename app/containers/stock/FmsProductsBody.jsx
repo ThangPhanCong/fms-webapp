@@ -127,10 +127,10 @@ class FmsProductsBody extends Component {
                             <FmsBlankPage
                                 title="Quản lí sản phẩm"
                             >
-                                <small>
+                                <p>
                                     Tất cả đơn hàng là nơi quản lí đơn hàng đang trong quá trình xử lí. Bạn có thể tạo mới,
                                     sửa đổi trạng thái đơn hàng bằng những thẻ màu.
-                                </small>
+                                </p>
                                 <div>
                                     <button
                                         className='btn btn-primary'
