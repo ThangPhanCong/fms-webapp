@@ -7,9 +7,8 @@ export const getProject = (alias) => (dispatch) => {
     const _updateMsgInConversation = (msg) => {
         dispatch(updateMsgInConversation(msg));
     };
-    projectApi.getProject(alias)
-        .then(project => {
-            let pages = project.pages;
+    projectApi.getPages()
+        .then(pages => {
             if (pages && Array.isArray(pages) && pages.length > 0) {
                 dispatch(getConversations(alias));
                 socket.subscribeProjectChanges({project_alias: alias, onUpdateChanges: _updateMsgInConversation});
