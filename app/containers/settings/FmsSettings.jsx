@@ -28,7 +28,7 @@ class FmsSettings extends React.Component {
     }
 
     getPagesOfProject() {
-        //this.setState({pages: null});
+        this.setState({pages: null});
         ProjectApi.getPages()
             .then(res => {
                 this.setState({pages: res});
@@ -92,14 +92,16 @@ class FmsSettings extends React.Component {
         });
     }
 
-    componentWillMount() {
+    componentDidMount() {
         socket.connect(() => {});
         this.getPages();
-        this.getPagesOfProject();
+        if (this.props.project) {
+            this.getPagesOfProject();
+        }
     }
 
     componentDidUpdate(prevProps, prevStates) {
-        if (prevProps.path !== this.props.path) {
+        if ((!prevProps.project && this.props.project) || (prevProps.path !== this.props.path)) {
             this.getPagesOfProject();
         }
         if (this.state.pages && !prevStates.pages) {
@@ -118,7 +120,7 @@ class FmsSettings extends React.Component {
         let aloww = confirm("Bạn có chắc muốn xóa trang này khỏi cửa hàng?");
         if (aloww && !this.state.isHandling) {
             this.setState({isHandling: true});
-            ProjectApi.deletePage(this.props.project.alias, page_id)
+            ProjectApi.deletePage(page_id)
                 .then(() => {
                     this.setState({isHandling: false});
                     this.getPages();
@@ -142,7 +144,7 @@ class FmsSettings extends React.Component {
                 });
             }
             this.setState({isHandling: true});
-            ProjectApi.addPage(this.props.project.alias, page_id)
+            ProjectApi.addPage(page_id)
                 .then(() => {
                     this.setState({isHandling: false});
                     this.getPages();
@@ -167,7 +169,7 @@ class FmsSettings extends React.Component {
                     {!page.is_crawling ?
                         <div className={"glyphicon glyphicon-trash delete-icon clickable" + disabled}
                              onClick={() => {
-                                 this.deletePage(page._id)
+                                 this.deletePage(page.fb_id)
                              }}/>
                         :
                         <div className="spin-wrapper padding"><FmsSpin size={27}/></div>
@@ -194,7 +196,7 @@ class FmsSettings extends React.Component {
                     <div className="page-name">{page.name}</div>
                     <img className={"add-icon clickable" + disabled} src={addImg}
                          onClick={() => {
-                             this.addPage(page._id)
+                             this.addPage(page.fb_id)
                          }}/>
                 </div>
             })

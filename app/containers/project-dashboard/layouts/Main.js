@@ -38,7 +38,6 @@ class Main extends React.Component {
         const projects = storage.get('projects');
         const currentProject = projects ? projects.find(p => p.data.alias === project_alias) : null;
         if (!currentProject) history.replace('/shops');
-        debugger;
         this.registerProjectTokenId(currentProject.data._id);
     }
 
