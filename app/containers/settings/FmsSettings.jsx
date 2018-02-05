@@ -136,13 +136,13 @@ class FmsSettings extends React.Component {
     addPage(page_id) {
         let allow = confirm("Bạn có muốn thêm trang này vào cửa hàng?");
         if (allow && !this.state.isHandling) {
-            let getHistory = confirm("Bạn có muốn lấy lịch sử của trang khi thêm vào cửa hàng?");
-            if (getHistory) {
-                this.subscribePageChanges(page_id);
-                socket.getPageHistory({
-                    page_id: page_id
-                });
-            }
+            // let getHistory = confirm("Bạn có muốn lấy lịch sử của trang khi thêm vào cửa hàng?");
+            // if (getHistory) {
+            //     this.subscribePageChanges(page_id);
+            //     socket.getPageHistory({
+            //         page_id: page_id
+            //     });
+            // }
             this.setState({isHandling: true});
             ProjectApi.addPage(page_id)
                 .then(() => {
