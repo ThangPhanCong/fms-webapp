@@ -4,6 +4,7 @@ import FmsSpin from '../../commons/FmsSpin/FmsSpin';
 import PageApi from '../../api/PagesApi';
 import ProjectApi from '../../api/ProjectApi';
 import addImg from '../../assets/images/add.png';
+import * as socket from '../../socket/index';
 
 class FmsSettings extends React.Component {
     constructor(props) {
@@ -18,48 +19,112 @@ class FmsSettings extends React.Component {
     getPages() {
         this.setState({all: null});
         PageApi.getPages()
-            .then(pages => {
-                this.setState({all: pages});
+            .then(res => {
+                this.setState({all: res});
             })
             .catch(err => {
                 alert(err.message);
             })
     }
 
-    getPagesOfProject(alias) {
+    getPagesOfProject() {
         this.setState({pages: null});
-        ProjectApi.getPages(alias)
+        ProjectApi.getPages()
             .then(res => {
-                this.setState({pages: res.pages});
+                this.setState({pages: res});
             })
             .catch(err => {
                 alert(err.message);
             });
     }
 
-    componentWillMount() {
+    updatePageStatus(page_fb_id) {
+        let pages = this.state.pages.map(page => {
+            if (page.fb_id === page_fb_id) {
+                page.is_crawling = false;
+            }
+            return page;
+        });
+        this.setState({pages: pages});
+    }
+
+    onGetHistorySuccess(res) {
+        alert("Đã lấy lịch sử trang thành công.");
+        let page_fb_id = res.data.page_fb_id;
+        this.unsubscribePageChanges(page_fb_id);
+        this.updatePageStatus(page_fb_id);
+    }
+
+    onGetHistoryFail(res) {
+        alert("Lấy lịch sử thất bại");
+        let page_fb_id = res.data.page_fb_id;
+        this.unsubscribePageChanges(page_fb_id);
+        this.updatePageStatus(page_fb_id);
+    }
+
+    subscribePagesChanges(pages) {
+        pages.forEach(page => {
+            if (page.is_crawling) {
+                this.subscribePageChanges(page._id);
+            }
+        });
+    }
+
+    subscribePageChanges(page_id) {
+        socket.subscribePagesChanges({
+            page_id: page_id,
+            onCrawlSuccess: this.onGetHistorySuccess.bind(this),
+            onCrawlFail: this.onGetHistoryFail.bind(this)
+        });
+    }
+
+    unsubscribePagesChanges(pages) {
+        pages.forEach(page => {
+            if (page.is_crawling) {
+                this.unsubscribePageChanges(page._id);
+            }
+        });
+    }
+
+    unsubscribePageChanges(page_id) {
+        socket.unsubscribePagesChanges({
+            page_id: page_id
+        });
+    }
+
+    componentDidMount() {
+        socket.connect(() => {});
         this.getPages();
-        if (this.props.project && this.props.project.alias) {
-            this.getPagesOfProject(this.props.project.alias);
+        if (this.props.project) {
+            this.getPagesOfProject();
         }
     }
 
-    componentDidUpdate(prevProps) {
-        if ((!prevProps.project && this.props.project) ||
-            (prevProps.project && this.props.project && prevProps.project.alias !== this.props.project.alias)) {
-            this.getPagesOfProject(this.props.project.alias);
+    componentDidUpdate(prevProps, prevStates) {
+        if ((!prevProps.project && this.props.project) || (prevProps.path !== this.props.path)) {
+            this.getPagesOfProject();
         }
+        if (this.state.pages && !prevStates.pages) {
+            this.subscribePagesChanges(this.state.pages);
+        }
+    }
+
+    componentWillUnmount() {
+        if (Array.isArray(this.state.pages)) {
+            this.unsubscribePagesChanges(this.state.pages);
+        }
+        socket.disconnect();
     }
 
     deletePage(page_id) {
         let aloww = confirm("Bạn có chắc muốn xóa trang này khỏi cửa hàng?");
         if (aloww && !this.state.isHandling) {
             this.setState({isHandling: true});
-            ProjectApi.deletePage(this.props.project.alias, page_id)
+            ProjectApi.deletePage(page_id)
                 .then(() => {
                     this.setState({isHandling: false});
                     this.getPages();
-                    this.getPagesOfProject(this.props.project.alias);
+                    this.getPagesOfProject();
                 })
                 .catch(err => {
                     alert(err.message);
@@ -69,14 +134,21 @@ class FmsSettings extends React.Component {
     }
 
     addPage(page_id) {
-        let aloww = confirm("Bạn có muốn thêm trang này vào cửa hàng?");
-        if (aloww && !this.state.isHandling) {
+        let allow = confirm("Bạn có muốn thêm trang này vào cửa hàng?");
+        if (allow && !this.state.isHandling) {
+            // let getHistory = confirm("Bạn có muốn lấy lịch sử của trang khi thêm vào cửa hàng?");
+            // if (getHistory) {
+            //     this.subscribePageChanges(page_id);
+            //     socket.getPageHistory({
+            //         page_id: page_id
+            //     });
+            // }
             this.setState({isHandling: true});
-            ProjectApi.addPage(this.props.project.alias, page_id)
+            ProjectApi.addPage(page_id)
                 .then(() => {
                     this.setState({isHandling: false});
                     this.getPages();
-                    this.getPagesOfProject(this.props.project.alias);
+                    this.getPagesOfProject();
                 })
                 .catch(err => {
                     alert(err.message);
@@ -90,13 +162,18 @@ class FmsSettings extends React.Component {
             let disabled = (this.state.isHandling) ? " disabled" : "";
             return this.state.pages.map(page => {
                 let avaUrl = `https://graph.facebook.com/v2.10/${page.fb_id}/picture`;
-                return <div className="page-item-setting" key={page.fb_id}>
+                let isCrawling = (page.is_crawling) ? " disabled" : "";
+                return <div className={"page-item-setting" + isCrawling} key={page.fb_id}>
                     <div className="avatar"><img className="avatar-image" src={avaUrl}/></div>
                     <div className="page-name">{page.name}</div>
-                    <div className={"glyphicon glyphicon-trash delete-icon clickable" + disabled}
-                         onClick={() => {
-                             this.deletePage(page._id)
-                         }}/>
+                    {!page.is_crawling ?
+                        <div className={"glyphicon glyphicon-trash delete-icon clickable" + disabled}
+                             onClick={() => {
+                                 this.deletePage(page.fb_id)
+                             }}/>
+                        :
+                        <div className="spin-wrapper padding"><FmsSpin size={27}/></div>
+                    }
                 </div>
             });
         } else {
@@ -119,7 +196,7 @@ class FmsSettings extends React.Component {
                     <div className="page-name">{page.name}</div>
                     <img className={"add-icon clickable" + disabled} src={addImg}
                          onClick={() => {
-                             this.addPage(page._id)
+                             this.addPage(page.fb_id)
                          }}/>
                 </div>
             })

@@ -24,7 +24,6 @@ class FmsCreateOrderModal extends Component {
         const {project, customer_id} = this.props;
         this.setState({isLoading: true});
         let order = this.state.order;
-        if (customer_id) order.customer_id = customer_id;
 
         createOrder(project.alias, order)
             .then(
@@ -84,7 +83,6 @@ class FmsCreateOrderModal extends Component {
             default:
                 newOrder[refName] = newValue;
         }
-
         this.setState({order: newOrder});
     }
 
@@ -105,6 +103,15 @@ class FmsCreateOrderModal extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if (nextProps.isShown) {
+            let newOrder = {...this.state.order};
+            let c = this.props.customer;
+            newOrder.customer_name = c.name;
+            newOrder.customer_facebook = `facebook.com/${c.fb_id}`;
+            newOrder.customer_phone = (c.phone.length > 0) ? c.phone[c.phone.length-1] : '';
+            newOrder.customer_id = c._id;
+            this.setState({order: newOrder});
+        }
         if (nextProps.project && nextProps.project.alias &&
             nextProps.project !== this.props.project) {
             getOrderTags(nextProps.project.alias)
@@ -180,6 +187,7 @@ class FmsCreateOrderModal extends Component {
                             customer_name={order.customer_name}
                             customer_phone={order.customer_phone}
                             customer_facebook={order.customer_facebook}
+                            customer={this.props.customer}
                             onChangeInput={this.onChangeInput.bind(this)}
                         />
                     </div>
@@ -269,7 +277,6 @@ FmsCreateOrderModal.propTypes = {
     onClose: propTypes.func.isRequired,
     project: propTypes.object,
     conversation_id: propTypes.string,
-    customer_id: propTypes.string,
     customer: propTypes.object
 };
 

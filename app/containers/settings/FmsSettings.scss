@@ -1,6 +1,8 @@
 .settings {
   .ibox-title {
     border-style: none;
+    border-bottom: 1px solid #dcdcdc;
+    padding: 13px 15px 7px;
   }
   .title {
     font-weight: 600;
@@ -45,6 +47,9 @@
         width: 27px;
         height: 27px;
         padding: 6px 0 0 10px;
+      }
+      .spin-wrapper {
+        padding: 0;
       }
     }
   }

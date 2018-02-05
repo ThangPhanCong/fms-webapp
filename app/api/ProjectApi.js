@@ -36,18 +36,18 @@ module.exports = {
         return apiSender.delete(route);
     },
     // TODO: get pages of user
-    getPages: (alias) => {
+    getPages: () => {
         // let route = `/api/a/projects/${alias}/pages`;
-        let route = `/api/a/users`
+        let route = `/api/p/pages`;
         return apiSender.get(route);
     },
-    addPage: (project_alias, page_fb_id) => {
-        let route = `/api/a/projects/${project_alias}/pages`;
-        let payload = {page_id: page_fb_id};
+    addPage: (page_fb_id) => {
+        let route = `/api/p/pages`;
+        let payload = {page_fb_id: page_fb_id};
         return apiSender.post(route, payload);
     },
-    deletePage: (project_alias, page_id) => {
-        let route = `/api/a/projects/${project_alias}/pages/${page_id}`;
+    deletePage: (page_id) => {
+        let route = `/api/p/pages/${page_id}`;
         return apiSender.delete(route);
     }
 };

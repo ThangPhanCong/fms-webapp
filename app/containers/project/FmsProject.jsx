@@ -149,7 +149,7 @@ class FmsProject extends Component {
         const unActivePages = pages.filter(page => !page.is_active);
 
         return (
-            <div style={{backgroundColor: '#f3f2f2', height: '100vh'}}>
+            <div style={{backgroundColor: '#f3f2f2', minHeight: '100vh'}}>
                 <FmsNavigation/>
 
                 <div className="container project-wrapper">

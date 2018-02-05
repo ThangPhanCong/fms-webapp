@@ -57,7 +57,9 @@ export default class FmsDate {
         this.day = dayInWeek;
         this.hour = hour;
         this.minute = minute;
-        this.different = cday - day;
+        this.differentDay = cday - day;
+        this.differentMonth = cmonth - month;
+        this.differentYear = cyear - year;
         this.getTimeChatArea = this.getTimeChatArea.bind(this);
     }
 
@@ -66,8 +68,12 @@ export default class FmsDate {
     }
 
     getTimeConversationItem() {
-        if (this.different === 0) return this.hour + ":" + this.minute;
-        else if (this.different < 7 && this.different > 0) return this.day;
+        if (this.differentDay === 0 && this.differentMonth === 0 && this.differentYear === 0) {
+            return this.hour + ":" + this.minute;
+        }
+        else if (this.differentDay < 7 && this.differentDay > 0 && this.differentMonth === 0 && this.differentYear === 0) {
+            return this.day;
+        }
         else return this.date + "/" + this.month;
     }
 

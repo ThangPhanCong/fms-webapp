@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 
 import DashboardApi from '../../../../api/DashboardApi';
@@ -32,14 +31,13 @@ class FmsTextMessageContent extends React.Component {
         });
     }
 
-    copyToClipboard() {
-        let text = ReactDOM.findDOMNode(this.refs.phone);
+    copyToClipboard(phone) {
         let textarea = document.createElement('textarea');
         textarea.id = 't';
         textarea.style.height = "0";
         textarea.style.width = "0";
         document.body.appendChild(textarea);
-        textarea.value = text.innerText;
+        textarea.value = phone;
         document.querySelector('#t').select();
         document.execCommand('copy');
         document.body.removeChild(textarea);
@@ -53,16 +51,25 @@ class FmsTextMessageContent extends React.Component {
 
     renderTextMsg(msg) {
         let msgItem = this.props.message;
-        if (!this.props.isSelf && msgItem.is_phone && Array.isArray(msgItem.phone) && msgItem.phone.length > 0) {
-            let phone = msgItem.phone[0];
-            let idx = msg.indexOf(phone);
-            let before = <span>{msg.substr(0, idx)}</span>;
-            let after = <span>{" " + msg.substr(idx + phone.length)}</span>;
-            let phoneElem = <div className="phone-hightlight clickable" ref="phone"
-                                 onClick={this.copyToClipboard.bind(this)}>
-                {phone}
-            </div>;
-            return <div>{before}{phoneElem}{after}</div>
+        if (!this.props.isSelf && Array.isArray(msgItem.phone) && msgItem.phone.length > 0) {
+            let phoneIdx = msgItem.phone.map(phone => {
+                return msg.indexOf(phone);
+            });
+            let phoneEles = phoneIdx.map((idx, index) => {
+                return <div className="phone-hightlight clickable" ref="phone"
+                            onClick={() => {this.copyToClipboard(msgItem.phone[index])}}>{msgItem.phone[index]}</div>;
+            });
+            let msgElement = <span/>, cIndex = 0;
+            phoneEles.forEach((ele, index) => {
+                let before = <span>{msg.substr(cIndex, phoneIdx[index] - cIndex)}</span>;
+                msgElement = <span>{msgElement}{before}{ele}</span>;
+                cIndex = phoneIdx[index] + msgItem.phone[index].length;
+                if (index === phoneIdx.length - 1) {
+                    let after = <span>{msg.substr(cIndex)}</span>;
+                    msgElement = <span>{msgElement}{after}</span>;
+                }
+            });
+            return <div>{msgElement}</div>
         } else {
             return <p>{msg}</p>;
         }

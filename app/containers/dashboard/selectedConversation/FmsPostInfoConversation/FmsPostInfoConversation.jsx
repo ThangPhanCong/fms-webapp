@@ -27,10 +27,10 @@ class FmsPostInfoConversation extends React.Component {
 
     renderPost() {
         let pf = this.props.postInfo;
-        if (pf && pf.message) {
+        if (pf) {
             return (
                 <div>
-                    <p>{this.props.postInfo.message}</p>
+                    {pf.message ? <p>{pf.message}</p> : null}
                     {this.renderAttachments(this.props.postInfo.attachments)}
                 </div>
             )

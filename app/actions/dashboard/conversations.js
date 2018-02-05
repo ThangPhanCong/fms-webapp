@@ -6,6 +6,12 @@ import {getNotes, getAllOrders, getReports} from './chat/createOrder';
 export const isLoadingConversations = (state) => dispatch => {
     dispatch({type: 'LOADING_CONVERSATIONS', state});
 };
+export const isUnreadComments = (state) => dispatch => {
+    dispatch({type: 'IS_UNREAD_COMMENTS', state});
+};
+export const isUnreadInboxes = (state) => dispatch => {
+    dispatch({type: 'IS_UNREAD_INBOXES', state});
+};
 export const setConversations = (conversations, pagingConversations) => (dispatch, getState) => {
     let _pagingConversations = getState().dashboard.conversations.pagingConversations;
     if (!pagingConversations) pagingConversations = _pagingConversations;
@@ -50,6 +56,24 @@ export const postSeenCv = (conversation) => () => {
     }
 };
 
+export const checkUnreadComments = (alias) => dispatch => {
+    DashboardApi.checkUnreadComment(alias)
+        .then(res => {
+            console.log(res);
+        }, err => {
+            console.log(err);
+        });
+};
+
+export const checkUnreadInboxes = (alias) => dispatch => {
+    DashboardApi.checkUnreadInbox(alias)
+        .then(res => {
+            console.log(res);
+        }, err => {
+            console.log(err);
+        });
+};
+
 //----------------Get Conversations-----------------------------------
 let query, alias, conversations, paging, subscription;
 let observable = Observable.create(observer => {
@@ -91,27 +115,28 @@ export const handleConversationClick = (alias, selectedConv, type) => (dispatch,
         selectedConv.is_seen = true;
         dispatch(postSeenCv(selectedConv));
     }
+    selectedConv.children = [];
     dispatch(setConversation({...selectedConv}));
-    if (!selectedConv.children) {
-        let updateChildren = (sc, data) => {
-            sc.children = data.data;
-            sc.paging = (data.paging) ? data.paging.next : null;
-            conversations.forEach(c => {
-                if (c._id === sc._id) {
-                    c.children = data.data;
-                    c.paging = sc.paging;
-                }
-            });
-            //this.reloadAttachment(data.data);
-            dispatch(setConversation({...sc}));
-            dispatch(isLoadingMsgs(false));
-        };
-        let msg_id = (type === "comment") ? selectedConv.fb_id : selectedConv._id;
-        DashboardApi.getMessages(type, msg_id)
-            .then(data => updateChildren(selectedConv, data));
-    } else {
+    // if (!selectedConv.children) {
+    let updateChildren = (sc, data) => {
+        sc.children = data.data;
+        sc.paging = (data.paging) ? data.paging.next : null;
+        conversations.forEach(c => {
+            if (c._id === sc._id) {
+                c.children = data.data;
+                c.paging = sc.paging;
+            }
+        });
+        //this.reloadAttachment(data.data);
+        dispatch(setConversation({...sc}));
         dispatch(isLoadingMsgs(false));
-    }
+    };
+    let msg_id = (type === "comment") ? selectedConv.fb_id : selectedConv._id;
+    DashboardApi.getMessages(type, msg_id)
+        .then(data => updateChildren(selectedConv, data));
+    // } else {
+    //     dispatch(isLoadingMsgs(false));
+    // }
     dispatch(getNotes(alias));
     dispatch(getAllOrders(alias));
     dispatch(getReports());
