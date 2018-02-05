@@ -1,16 +1,28 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
+import {getPermissions} from '../../../api/RoleApi';
+import {parse_permissions} from '../../../utils/permission-utils';
+import FmsCheckbox from '../../../commons/checkbox/FmsCheckbox';
 
 class FmsCreateNewRoleModal extends Component {
 
     state = {
         role: {},
-        isLoading: false
+        isLoading: false,
+        perms: {}
     };
 
     onCreateRole() {
 
+    }
+
+    getPerms() {
+        getPermissions()
+            .then((res) => {
+                const perms = parse_permissions(res);
+                this.setState({perms: perms});
+            })
     }
 
     onCloseButtonClick() {
@@ -26,8 +38,45 @@ class FmsCreateNewRoleModal extends Component {
         this.setState({role: newRole});
     }
 
+    componentWillMount() {
+        this.getPerms();
+    }
+    
+    renderPerms() {
+        const {perms} = this.state;
+        return (
+            Object.keys(perms).map(key => {
+                return (
+                    <div className='col-md-12' key={key}>
+                        <label className="control-label-collapse" 
+                            data-toggle="collapse" 
+                            href={'#'+key} 
+                            aria-expanded="false" 
+                            aria-controls={key}
+                        >
+                            <i className="fa fa-caret-right"> </i> {key}
+                        </label>
+                        <div className="collapse in" id={key}>
+                            {
+                                perms[key].map(perm => {
+                                    return (
+                                        <label className='col-sm-3 checkbox-inline' key={perm} style={{marginLeft: '0px', padding: '5px'}}>
+                                            <input type="checkbox" /> {perm}
+                                        </label>
+                                            
+                                    );
+                                })
+                            }
+                                
+                        </div>
+                    </div>
+                );
+            })
+        )
+    }
+
     renderBody() {
-        const { role } = this.state;
+        const { role, perms } = this.state;
 
         return (
             <Modal.Body>
@@ -50,13 +99,13 @@ class FmsCreateNewRoleModal extends Component {
                         <label className="control-label">Các quyền:</label>
                     </div>
                     <div className="col-sm-8">
-                        <input type="text"
-                            className="form-control"
-                            ref='permissions'
-                            value={role.permissions || ''}
-                            onChange={() => {this.onChangeInput('permissions')}}
-                        />
                     </div>
+                </div>
+
+                <div className="row form-group">
+                    {
+                        this.renderPerms()
+                    }
                 </div>
 
             </Modal.Body>
