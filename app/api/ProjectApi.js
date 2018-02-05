@@ -43,7 +43,7 @@ module.exports = {
     },
     addPage: (page_fb_id) => {
         let route = `/api/p/pages`;
-        let payload = {page_fb_ids: [page_fb_id]};
+        let payload = {page_fb_id: page_fb_id};
         return apiSender.post(route, payload);
     },
     deletePage: (page_id) => {

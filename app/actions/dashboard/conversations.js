@@ -79,7 +79,6 @@ let query, alias, conversations, paging, subscription;
 let observable = Observable.create(observer => {
     DashboardApi.getConversations(alias, null, query).then((data) => {
         conversations = data.data;
-        console.log(data);
         conversations = conversations.sort((a, b) => {
             let t1 = new Date(a.updated_time);
             let t2 = new Date(b.updated_time);
