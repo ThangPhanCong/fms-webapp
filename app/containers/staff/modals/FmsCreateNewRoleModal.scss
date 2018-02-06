@@ -2,5 +2,11 @@
     cursor: pointer;
     padding: 5px;
     color: rgb(0, 82, 204);
-    margin-left: 30px;
+}
+
+.collapse {
+    .checkbox-inline {
+        margin-left: 0;
+        margin-bottom: 5px;
+    }
 }
