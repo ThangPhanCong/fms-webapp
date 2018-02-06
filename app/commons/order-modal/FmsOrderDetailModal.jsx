@@ -14,6 +14,7 @@ import FmsOrderTagInfoPanel from "./panels/FmsOrderTagInfoPanel";
 import FmsPriceCalculatorPanel from "./panels/FmsPriceCalculatorPanel";
 import FmsSaveOrderModal from "./sub-modals/FmsSaveOrderModal";
 import {saveSuccessOrder, saveFailureOrder} from "../../api/OrderApi";
+import FmsPaymentMethodPanel from './panels/FmsPaymentMethodPanel';
 
 class FmsOrderDetailModal extends Component {
 
@@ -216,6 +217,12 @@ class FmsOrderDetailModal extends Component {
                             transport_fee={order.transport_fee}
                             onChangeInput={this.onChangeInput.bind(this)}
                             disabled={!config.transport_info}
+                        />
+                    </div>
+
+                    <div className='col-sm-12'>
+                        <FmsPaymentMethodPanel
+                            onChangeInput={this.onChangeInput.bind(this)}
                         />
                     </div>
 
