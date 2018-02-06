@@ -5,21 +5,21 @@ import {BASE_URL} from 'CONFIG';
 
 let socket = null;
 
-export const subscribeProjectChanges = ({project_alias, onUpdateChanges}) => {
-    console.log('subscribeProjectChanges', project_alias);
+export const subscribeProjectChanges = ({project_id, onUpdateChanges}) => {
+    console.log('subscribeProjectChanges', project_id);
     if (socket) {
         socket.on(event.PROJECTS_CHANGES_EVENT, onUpdateChanges);
-        socket.emit(event.SUBSCRIBE_PROJECTS_CHANGES_EVENT, project_alias);
+        socket.emit(event.SUBSCRIBE_PROJECTS_CHANGES_EVENT, project_id);
     } else {
-        retry(subscribeProjectChanges, {project_alias, onUpdateChanges});
+        retry(subscribeProjectChanges, {project_id, onUpdateChanges});
     }
 }
 
-export const unSubscribeProjectChanges = ({project_alias}) => {
-    console.log('unSubscribeProjectChanges', project_alias);
+export const unSubscribeProjectChanges = ({project_id}) => {
+    console.log('unSubscribeProjectChanges', project_id);
     if (socket) {
         socket.off(event.PROJECTS_CHANGES_EVENT);
-        socket.emit(event.UN_SUBSCRIBE_PROJECTS_CHANGES_EVENT, project_alias);
+        socket.emit(event.UN_SUBSCRIBE_PROJECTS_CHANGES_EVENT, project_id);
     }
     // else {
     //   retry(unSubscribeProjectChanges, {project_alias});
