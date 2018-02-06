@@ -6,12 +6,27 @@
   top: 12px;
 }
 
+//.list-noti {
+//  border-bottom: solid 0.5px #E5E5E5;
+//}
+
 .count-info {
   color: #999c9e;
 }
+
+.item-content {
+  word-break: break-all;
+  text-align: left;
+}
+
 .label {
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: .25em;
+}
+
+.none_notifi {
+  font-family: $font-family-sans-serif;
+  font-size: 12px;
 }

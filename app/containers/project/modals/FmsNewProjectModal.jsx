@@ -2,10 +2,7 @@ import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 
-import FmsPageItem from './FmsPageItem';
 import FmsSpin from '../../../commons/FmsSpin/FmsSpin';
-import projectApi from '../../../api/ProjectApi';
-import pagesApi from '../../../api/PagesApi';
 import ic_verify from '../../../assets/images/ic_verify.png';
 import ic_cancel from '../../../assets/images/ic_cancel.png';
 
@@ -77,7 +74,7 @@ class FmsCreateNewProjectModal extends Component {
                             className={"btn btn-primary active-btn"}
                             onClick={this.onCloseButtonClick.bind(this)}
                             disabled={!isProjectNameVerified || isLoading}
-                        >Tiếp tục
+                        >Tạo mới
                         </button>
                     </Modal.Footer>
 

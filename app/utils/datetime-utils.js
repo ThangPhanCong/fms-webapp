@@ -1,5 +1,6 @@
 export function toReadableDatetime(datetime) {
     const date = new Date(datetime);
+    let year = date.getFullYear().toString();
     let month = (1 + date.getMonth()).toString();
     month = month.length > 1 ? month : '0' + month;
     let day = date.getDate().toString();
@@ -12,6 +13,6 @@ export function toReadableDatetime(datetime) {
     
     return {
         time: hour + ':' + min,
-        date: day + '/' + month
+        date: day + '/' + month + '/' + year
     };
 }

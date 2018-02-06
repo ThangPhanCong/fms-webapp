@@ -1,5 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux';
 
 import profileMockup from '../../../assets/images/mockup/profile_small.jpg';
 import {smoothlyMenu} from '../layouts/Helpers';
@@ -9,11 +8,15 @@ import {flatConfig} from "./RouteConfig";
 import {getRouteNameAtLevel} from "../../../utils/route-utils";
 import {setAlias} from "../../../actions/dashboard/conversations";
 import FmsNotificationPopup from "../../notifimanager/notify-popup/FmsNotificationPopup";
+import * as tokenApi from "../../../api/TokenApi";
+import * as store from "../../../helpers/storage";
 
 class TopHeader extends React.Component {
 
     state = {
         projects: [],
+        users: [],
+        _id: null,
         color: 'white',
         hasBorderBottom: false
     };
@@ -26,7 +29,25 @@ class TopHeader extends React.Component {
             .catch(err => console.log(err));
 
         this.updateColorByLocation();
+        this.getIdCurrentUser();
+
     }
+
+    getIdCurrentUser() {
+        tokenApi.verifyAccessToken(store.get('access_token'))
+            .then(userData => {
+                this.setState({
+                    _id: userData._id
+                })
+            })
+            .catch((err) => {
+                alert(err.message)
+            })
+    }
+
+    componentWillMount() {
+    }
+
 
     componentWillReceiveProps(nextProps) {
         this.updateColorByLocation(nextProps.location);
@@ -66,24 +87,24 @@ class TopHeader extends React.Component {
         }
 
         const {project_alias} = this.props.match.params;
-        const currProject = projects.find(project => project.alias === project_alias);
-        projects = projects.filter(p => p.alias !== project_alias);
+        const currProject = projects.find(project => project.data.alias === project_alias);
+        projects = projects.filter(p => p.data.alias !== project_alias);
         const currRoute = this.props.location.pathname.split('/').pop();
 
         return (
             <ul className="nav navbar-top-links navbar-left">
                 <li className="dropdown">
                     <a className="dropdown-toggle" data-toggle="dropdown" href="#" style={{color: 'gray'}}>
-                        {currProject.name} <i className="fa fa-caret-down"/>
+                        {currProject.data.name} <i className="fa fa-caret-down"/>
                     </a>
                     <ul className="dropdown-menu dropdown-header-with-text">
                         {
                             projects.map(
                                 (project, i) =>
                                     (
-                                        <li key={i} className="">
-                                            <Link to={`/shops/${project.alias}/${currRoute}`}
-                                                  replace>{project.name}
+                                        <li key={project.data._id} className="">
+                                            <Link to={`/shops/${project.data.alias}/${currRoute}`}
+                                                  replace>{project.data.name}
                                             </Link>
                                         </li>
                                     )
@@ -96,9 +117,16 @@ class TopHeader extends React.Component {
     }
 
     renderRightNavItem() {
+        const {
+            users,
+            _id
+        } = this.state;
+
         return (
             <ul className="nav navbar-top-links navbar-right">
-                <FmsNotificationPopup/>
+                <FmsNotificationPopup users={users}
+                                      _id={_id}
+                />
                 {/*<li>*/}
                 {/*<a className="right-sidebar-toggle" onClick={() => {*/}
                 {/*this.props.onToggleRightNavbar()*/}

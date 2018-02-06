@@ -54,9 +54,9 @@ class FmsSavedOrderBody extends Component {
                     isFirstTime
                         ? (
                             <FmsBlankPage title='Lưu trữ đơn hàng'>
-                                <small>
+                                <p>
                                     Bạn có thể cất giữ những đơn hàng không cần xử lí nữa vào đây.
-                                </small>
+                                </p>
                                 {/*<div>*/}
                                     {/*<small>*/}
                                         {/*Không có đơn hàng nào để hiển thị!*/}
@@ -68,7 +68,7 @@ class FmsSavedOrderBody extends Component {
                             <div className="wrapper wrapper-content">
                                 <div className="row">
                                     <div className="col-lg-12">
-                                        <FmsTabs>
+                                        <FmsTabs tabActive={0}>
                                             <FmsTab
                                                 title={{
                                                     content: 'Đơn giao thành công',

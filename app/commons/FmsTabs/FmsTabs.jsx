@@ -9,17 +9,25 @@ class FmsTabs extends React.Component {
     };
 
     activeTab(index) {
-        const {children} = this.props;
+        const {children, onHandleChange} = this.props;
         if (children[index].props.renderBody) {
             this.setState({tabActive: index});
+            if (!!onHandleChange) onHandleChange(index);
         }
     }
 
-    renderTabPanels(panels) {
-        const {tabActive} = this.state;
-        const activePanel = panels[tabActive];
+    componentWillMount() {
+        const {tabActive} = this.props;
+        if (tabActive !== undefined) {
+            this.setState({tabActive: tabActive});
+        }
+    }
 
-        return <FmsTabPanel active={true} content={activePanel}/>;
+    componentWillReceiveProps(nextProps) {
+        const {tabActive} = this.state;
+        if (nextProps && nextProps.tabActive !== tabActive) {
+            this.setState({tabActive: nextProps.tabActive});
+        }
     }
 
     render() {
@@ -32,9 +40,7 @@ class FmsTabs extends React.Component {
                 <FmsTabHeader titles={titles} tabActive={tabActive} onSelectTab={this.activeTab.bind(this)}/>
 
                 <div className='tab-content'>
-                    {
-                        this.renderTabPanels(children)
-                    }
+                    <FmsTabPanel active={true} content={children[tabActive]}/>
                 </div>
             </div>
         )

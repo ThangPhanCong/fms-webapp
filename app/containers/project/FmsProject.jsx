@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
 import propTypes from 'prop-types';
 import {Observable} from 'rxjs/Observable';
 
@@ -9,7 +8,6 @@ import FmsProjectItem from './FmsProjectItem';
 import FmsNewProjectModal from './modals/FmsNewProjectModal';
 import FmsAddPagesModal from './modals/FmsAddPagesModal';
 import {getProjects, createNewProject} from '../../actions/project/project';
-import {getPages} from '../../actions/page';
 import projectApi from '../../api/ProjectApi';
 import FmsNavigation from "../../commons/FmsNavigation/FmsNavigation";
 
@@ -87,13 +85,15 @@ class FmsProject extends Component {
         this.setState({
             isCreateProjectModalShown: false,
             isProjectNameVerified: false,
-            projectName: projectName,
+            projectName: '',
 
-            isAddPagesModalShown: true,
-            activePages: []
+            // isAddPagesModalShown: true,
+            // activePages: []
         });
 
-        this.props.dispatch(getPages());
+        this.props.dispatch(createNewProject(projectName));
+
+        // this.props.dispatch(getPages());
     }
 
     onAddPagesModalClose(selectedPages) {
@@ -123,9 +123,9 @@ class FmsProject extends Component {
         if (projects.length > 0) {
             return projects.map((project, i) => (
                 <FmsProjectItem
-                    key={i}
-                    data={project}
-                    onClick={() => this.navigateToProject(project.alias)}
+                    key={project.data._id}
+                    data={project.data}
+                    onClick={() => this.navigateToProject(project.data.alias)}
                 />
             ))
         } else {
@@ -157,7 +157,7 @@ class FmsProject extends Component {
                     <div className="row button-project-wrapper">
                         <div className="col-md-2">
                             <button
-                                className="btn btn-primary"
+                                className="btn btn-primary btn-open-project-modal"
                                 onClick={this.openCreateProjectModal.bind(this)}
                             >
                                 <i className='fa fa-plus'/>&nbsp; Tạo cửa hàng mới

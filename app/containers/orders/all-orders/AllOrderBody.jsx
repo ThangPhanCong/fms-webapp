@@ -86,10 +86,10 @@ class AllOrderBody extends Component {
                     isFirstTime
                         ? (
                             <FmsBlankPage title='Tất cả đơn hàng'>
-                                <small>
+                                <p>
                                     Tất cả đơn hàng là nơi quản lí đơn hàng đang trong quá trình xử lí. Bạn có thể tạo mới,
                                     sửa đổi trạng thái đơn hàng bằng những thẻ màu.
-                                </small>
+                                </p>
                                 <div>
                                     <button
                                         className='btn btn-primary'
@@ -108,7 +108,7 @@ class AllOrderBody extends Component {
                             <div className="wrapper wrapper-content">
                                 <div className="row">
                                     <div className="col-lg-12">
-                                        <FmsTabs>
+                                        <FmsTabs tabActive={0}>
 
                                             <FmsTab title='Đơn hàng mới'>
                                                 <FmsNewOrderTab project={project} version={version}/>

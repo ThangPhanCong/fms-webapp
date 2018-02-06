@@ -1,11 +1,25 @@
-import * as store from '../helpers/storage';
 import axios from 'axios';
 import {BASE_URL} from 'CONFIG';
+import tokenGetter from 'helpers/token-getter';
 
-exports.get = (route, access_token) => {
-    if (!access_token) {
-        access_token = store.get('access_token');
+// store token scope
+const config = {
+    '/api/a' : 'BASE',
+    '/api/p' : 'PROJECT',
+    '/api/o' : 'PROJECT',
+    '/api/n' : 'PROJECT',
+    '/api/ui' : 'PROJECT'
+};
+
+function getTypeToken(route) {
+    for (let routeAlias in config) {
+        if (route.indexOf(routeAlias) !== -1) return config[routeAlias];
     }
+
+    return 'BASE';
+}
+
+exports.get = (route, access_token = tokenGetter(getTypeToken(route))) => {
     let url = `${BASE_URL}${route}`;
     let headers = {
         'authorization': access_token
@@ -16,17 +30,16 @@ exports.get = (route, access_token) => {
             if (!res.data) {
                 return Promise.reject(new Error('Something went wrong'));
             } else {
-                if (res.data.err) {
-                    return Promise.reject(new Error(res.data.msg));
-                } else {
+                if (res.data.success) {
                     return Promise.resolve(res.data.data);
+                } else {
+                    return Promise.reject(new Error(res.data.message));
                 }
             }
         });
 };
 
-exports.post = (route, payload) => {
-    let access_token = store.get('access_token');
+exports.post = (route, payload, access_token = tokenGetter(getTypeToken(route))) => {
     let url = `${BASE_URL}${route}`;
     let headers = {
         'authorization': access_token
@@ -37,17 +50,16 @@ exports.post = (route, payload) => {
             if (!res.data) {
                 return Promise.reject(new Error('Something went wrong'));
             } else {
-                if (res.data.err) {
-                    return Promise.reject(new Error(res.data.msg));
-                } else {
+                if (res.data.success) {
                     return Promise.resolve(res.data.data);
+                } else {
+                    return Promise.reject(new Error(res.data.message));
                 }
             }
         });
 };
 
-exports.put = (route, payload) => {
-    let access_token = store.get('access_token');
+exports.put = (route, payload, access_token = tokenGetter(getTypeToken(route))) => {
     let url = `${BASE_URL}${route}`;
     let headers = {
         'authorization': access_token
@@ -58,19 +70,16 @@ exports.put = (route, payload) => {
             if (!res.data) {
                 return Promise.reject(new Error('Something went wrong'));
             } else {
-                if (res.data.err) {
-                    return Promise.reject(new Error(res.data.msg));
-                } else {
+                if (res.data.success) {
                     return Promise.resolve(res.data.data);
+                } else {
+                    return Promise.reject(new Error(res.data.message));
                 }
             }
         });
 };
 
-exports.delete = (route, access_token) => {
-    if (!access_token) {
-        access_token = store.get('access_token');
-    }
+exports.delete = (route, access_token = tokenGetter(getTypeToken(route))) => {
     let url = `${BASE_URL}${route}`;
     let headers = {
         'authorization': access_token || access_token
@@ -81,10 +90,10 @@ exports.delete = (route, access_token) => {
             if (!res.data) {
                 return Promise.reject(new Error('Something went wrong'));
             } else {
-                if (res.data.err) {
-                    return Promise.reject(new Error(res.data.msg));
-                } else {
+                if (res.data.success) {
                     return Promise.resolve(res.data.data);
+                } else {
+                    return Promise.reject(new Error(res.data.message));
                 }
             }
         });

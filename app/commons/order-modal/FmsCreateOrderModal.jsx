@@ -27,11 +27,15 @@ class FmsCreateOrderModal extends Component {
         if (customer_id) order.customer_id = customer_id;
 
         createOrder(project.alias, order)
-            .then(order => {
-                    const updateUI = true;
-                    this.props.onClose(updateUI);
+            .then(
+                () => {
+                    this.setState({order: {}});
+                    const shouldUpdated = true;
+                    this.props.onClose(shouldUpdated);
                 },
-                err => alert(err.message)
+                err => {
+                    alert(err.message);
+                }
             )
             .then(() => this.setState({isLoading: false}))
     }
@@ -60,6 +64,7 @@ class FmsCreateOrderModal extends Component {
     }
 
     onCloseButtonClick() {
+        this.setState({order: {}});
         this.props.onClose();
     }
 
@@ -248,7 +253,7 @@ class FmsCreateOrderModal extends Component {
                         </button>
 
                         <button className="btn btn-primary"
-                                onClick={() => this.createNewOrder()}
+                                onClick={this.createNewOrder.bind(this)}
                                 disabled={isLoading}>Tạo mới
                         </button>
                     </Modal.Footer>

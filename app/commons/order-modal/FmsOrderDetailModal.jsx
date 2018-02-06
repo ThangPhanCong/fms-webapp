@@ -146,6 +146,10 @@ class FmsOrderDetailModal extends Component {
             case 'products':
                 newOrder.products = newValue;
                 break;
+            case 'province':
+                newOrder.province = newValue;
+                newOrder.district = '';
+                break;
             default:
                 newOrder[refName] = newValue;
         }
@@ -205,6 +209,8 @@ class FmsOrderDetailModal extends Component {
 
                     <div className="col-sm-6">
                         <FmsTransportInfoPanel
+                            province={order.province}
+                            district={order.district}
                             transport_address={order.transport_address}
                             transport_method={order.transport_method}
                             transport_fee={order.transport_fee}
@@ -233,7 +239,6 @@ class FmsOrderDetailModal extends Component {
                         />
                     </div>
 
-
                 </div>
 
             </Modal.Body>
@@ -243,6 +248,7 @@ class FmsOrderDetailModal extends Component {
     renderModalHeader() {
         const {order} = this.state;
         const date = new Date(order.created_time); 
+        let time = date.toLocaleTimeString().split(':');
         return (
             <Modal.Header
                 closeButton={true}
@@ -250,11 +256,28 @@ class FmsOrderDetailModal extends Component {
                     this.props.onClose();
                 }}
             >
-                <h4>Đơn hàng #{order.id}</h4>
+                <h4>Đơn hàng #{order.id}
+                    {
+                        order.order_tag ? 
+                        (   
+                            <span> {'  '} 
+                                <span
+                                    className="label tag-label"
+                                    style={{
+                                        backgroundColor: order.order_tag.color,
+                                        color: 'white',
+                                        paddingBottom: '0'
+                                    }}
+                                >{order.order_tag.name}</span>
+                            </span>
+                        )
+                        : null
+                    }     
+                </h4>
 
                 <div>
                     <small className="font-bold">Ngày tạo: 
-                        <strong>{date.toLocaleTimeString()}, {date.toLocaleDateString()}</strong>
+                        <strong>{time[0] + ':' + time[1]}, {date.toLocaleDateString()}</strong>
                     </small>
                 </div>
                 <div>
