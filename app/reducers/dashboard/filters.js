@@ -48,7 +48,8 @@ const filters = (state = initState, action) => {
                     },
                     {
                         type: 'unread',
-                        isActive: false
+                        isActive: false,
+                        isTag: true
                     },
                     {
                         type: 'comment',
