@@ -69,23 +69,25 @@ class FmsMessageForm extends React.Component {
 
     deleteSample(sample_id) {
         SampleApi.deleteSampleMessage(sample_id)
-            .then(res => {
-                console.log(res);
+            .then(() => {
                 noti("success", "Đã xóa một tin nhắn mẫu");
+                let newSamples = this.state.samples.filter(s => s._id !== sample_id);
+                this.setState({samples: newSamples});
             }, err => {
-                console.log(err);
+                alert(err);
             });
     }
 
     renderSampleMessages() {
         if (!this.state.samples) return;
         return this.state.samples.map(sample => {
-            return <li className="sample clickable" key={sample._id}
-                       onClick={() => {
-                           this.copySampleMessage(sample.message)
-                       }}>
-                <span>{sample.message}</span>
-                <i className="glyphicon glyphicon-remove" onClick={() => {this.deleteSample(sample._id)}}/>
+            return <li className="sample" key={sample._id}>
+                <span className="clickable" onClick={() => {
+                    this.copySampleMessage(sample.message)
+                }}>{sample.message}</span>
+                <i className="glyphicon glyphicon-remove clickable" onClick={() => {
+                    this.deleteSample(sample._id)
+                }}/>
             </li>;
         });
     }
