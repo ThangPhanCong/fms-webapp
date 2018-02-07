@@ -97,7 +97,7 @@ class FmsOrdersTab extends React.Component {
     }
 
     deleteReport(report) {
-        let allow = confirm("Bạn có muốn xóa ghi chú này?");
+        let allow = confirm("Bạn có muốn xóa báo x này?");
         if (allow) {
             this.props.dispatch(deleteReport(report._id));
         }

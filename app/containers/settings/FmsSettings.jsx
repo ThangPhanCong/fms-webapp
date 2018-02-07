@@ -12,6 +12,7 @@ class FmsSettings extends React.Component {
         this.state = {
             all: null,
             pages: null,
+            states: null,
             isHandling: false
         }
     }
@@ -106,6 +107,15 @@ class FmsSettings extends React.Component {
         }
         if (this.state.pages && !prevStates.pages) {
             this.subscribePagesChanges(this.state.pages);
+        }
+        if (this.state.all && this.state.all !== prevStates.all) {
+            let page_fb_ids = this.state.all.map(page => page.fb_id);
+            ProjectApi.checkActivePage(page_fb_ids)
+                .then(res => {
+                    console.log(res);
+                }, err => {
+                    console.log(err);
+                });
         }
     }
 

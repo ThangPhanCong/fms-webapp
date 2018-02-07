@@ -49,5 +49,9 @@ module.exports = {
     deletePage: (page_id) => {
         let route = `/api/p/pages/${page_id}`;
         return apiSender.delete(route);
+    },
+    checkActivePage: (page_fb_ids) => {
+        let route = `/api/p/pages/check-active`;
+        return apiSender.post(route, {page_fb_ids});
     }
 };
