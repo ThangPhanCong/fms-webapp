@@ -71,7 +71,7 @@ class FmsMessageForm extends React.Component {
     }
 
     copySampleMessage(message) {
-        this.refs.message.value = message;
+        this.refs.message.value += message;
         this.setState({isShownDropdown: false});
         this.refs.message.focus();
     }
