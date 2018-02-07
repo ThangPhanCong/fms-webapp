@@ -14,14 +14,16 @@ class FmsMessageForm extends React.Component {
         super(props);
         this.state = {
             isShownDropdown: false,
-            samples: []
+            samples: [],
+            filteredSamples: [],
+            isAddingSample: false
         }
     }
 
     componentDidMount() {
         SampleApi.getSampleMessages()
             .then(res => {
-                this.setState({samples: res});
+                this.setSamples(res);
             }, err => {
                 console.log(err);
             });
@@ -38,6 +40,28 @@ class FmsMessageForm extends React.Component {
         this.props.dispatch(handleFormSubmit(e, this.refs.message));
     }
 
+    setSamples(samples) {
+        if (!samples) samples = this.state.samples;
+        let text = this.refs.sample.value, filteredSamples;
+        if (text) {
+            filteredSamples = samples.filter(s => {
+                return s.message.includes(text);
+            });
+        } else {
+            filteredSamples = samples;
+        }
+        this.setState({samples, filteredSamples});
+    }
+
+    handleSearch() {
+        if (!this.state.isAddingSample) this.setSamples();
+    }
+
+    handleAddSample(newState) {
+        this.setState({isAddingSample: newState});
+        this.refs.sample.focus();
+    }
+
     openDropdown() {
         let state = this.state.isShownDropdown;
         this.setState({isShownDropdown: !state});
@@ -47,20 +71,23 @@ class FmsMessageForm extends React.Component {
     }
 
     copySampleMessage(message) {
-        this.refs.message.value = message;
+        this.refs.message.value += message;
         this.setState({isShownDropdown: false});
         this.refs.message.focus();
     }
 
     saveSample(e) {
         e.preventDefault();
+        if (!this.state.isAddingSample) return;
         let text = this.refs.sample.value;
         if (!text) return;
         SampleApi.addSampleMessage(text)
             .then(res => {
                 let newSamples = this.state.samples;
                 newSamples.push(res);
-                this.setState({samples: newSamples});
+                this.setSamples(newSamples);
+                this.setState({isAddingSample: false});
+                noti("success", "Đã tạo một tin nhắn mẫu");
             }, err => {
                 console.log(err);
             });
@@ -69,37 +96,47 @@ class FmsMessageForm extends React.Component {
 
     deleteSample(sample_id) {
         SampleApi.deleteSampleMessage(sample_id)
-            .then(res => {
-                console.log(res);
+            .then(() => {
                 noti("success", "Đã xóa một tin nhắn mẫu");
+                let newSamples = this.state.samples.filter(s => s._id !== sample_id);
+                this.setSamples(newSamples);
             }, err => {
-                console.log(err);
+                alert(err);
             });
     }
 
     renderSampleMessages() {
-        if (!this.state.samples) return;
-        return this.state.samples.map(sample => {
-            return <li className="sample clickable" key={sample._id}
-                       onClick={() => {
-                           this.copySampleMessage(sample.message)
-                       }}>
-                <span>{sample.message}</span>
-                <i className="glyphicon glyphicon-remove" onClick={() => {this.deleteSample(sample._id)}}/>
+        if (!this.state.filteredSamples) return;
+        return this.state.filteredSamples.map(sample => {
+            return <li className="sample" key={sample._id}>
+                <span className="clickable" onClick={() => {
+                    this.copySampleMessage(sample.message)
+                }}>{sample.message}</span>
+                <i className="glyphicon glyphicon-remove clickable" onClick={() => {
+                    this.deleteSample(sample._id)
+                }}/>
             </li>;
         });
     }
 
     render() {
         let dropdown = this.state.isShownDropdown ? "" : " hide";
+        let placeholder = this.state.isAddingSample ? "Nhập tin nhắn" : "Tìm kiếm";
+        let button = this.state.isAddingSample ? "Hủy" : "Thêm";
         return (
             <div className="message-form">
                 <ul className={"dropdown-menu" + dropdown}>
                     <form onSubmit={this.saveSample.bind(this)} className="sample-form">
-                        <input ref="sample" placeholder="Nhập tin nhắn mẫu rồi nhấn Enter để lưu"/>
+                        <input ref="sample" placeholder={placeholder} onChange={this.handleSearch.bind(this)}/>
+                        <span className="clickable" onClick={() => {
+                            this.handleAddSample(!this.state.isAddingSample)
+                        }}>{button}</span>
                     </form>
                     <div className="sample-list">
-                        {this.renderSampleMessages()}
+                        {!this.state.isAddingSample ?
+                            this.renderSampleMessages() :
+                            <div>Soạn tin nhắn mẫu rồi nhấn Enter để lưu</div>
+                        }
                     </div>
                 </ul>
                 <form onSubmit={this.handleFormSubmit.bind(this)} className="input-wrapper">

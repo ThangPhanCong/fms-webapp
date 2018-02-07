@@ -11,7 +11,7 @@ export const blockPerson = (state) => (dispatch, getState) => {
             dispatch(updateBlockCustomer(conversation, state));
         })
         .catch(err => {
-            alert(err.message);
+            alert(err);
         })
 };
 
