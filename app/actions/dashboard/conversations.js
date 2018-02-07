@@ -34,7 +34,7 @@ export const generateQueryParams = (f) => {
     let query = {}, tags = [];
     for (let i = 1; i < filters.length; i++) {
         let f = filters[i];
-        if (f.isTag) {
+        if (f.isTag && f.type !== 'unread') {
             if (f.isActive === true) tags.push(f.type);
         } else {
             if (f.type === 'unread' && f.isActive === true) query.status = 'unread';

@@ -62,7 +62,7 @@ class FmsTextMessageContent extends React.Component {
             let msgElement = <span/>, cIndex = 0;
             phoneEles.forEach((ele, index) => {
                 let before = <span>{msg.substr(cIndex, phoneIdx[index] - cIndex)}</span>;
-                msgElement = <span>{msgElement}{before}{ele}</span>;
+                msgElement = <span>{msgElement}{before}{ele}<span>{" "}</span></span>;
                 cIndex = phoneIdx[index] + msgItem.phone[index].length;
                 if (index === phoneIdx.length - 1) {
                     let after = <span>{msg.substr(cIndex)}</span>;

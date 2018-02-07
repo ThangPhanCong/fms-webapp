@@ -22,7 +22,7 @@ class FmsFilterTags extends React.Component {
 
         let unread = <FmsToolTip message="Chưa đọc" direction="top" key={12}>
             <div onClick={() => {
-                this.props.dispatch(handleTypeFilterClick(this.props.alias, 1));
+                this.props.dispatch(handleTagFilterClick(this.props.alias, 'unread'));
             }} className="unread-filter clickable">
                 <img src={srcUnread}/>
             </div>

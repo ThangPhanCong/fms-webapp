@@ -18,8 +18,9 @@
   display: inline-block;
 }
 .phone-hightlight {
-  padding: 2px 5px;
-  border-radius: 3px;
-  border: 1px solid #F44336;
+  padding: 2px 0;
+  border-radius: 2px;
+  background-color: lightgray;
   display: inline-block;
+  cursor: copy;
 }

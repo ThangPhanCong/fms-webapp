@@ -37,14 +37,6 @@ export const handleFilter = (alias, newFilters) => (dispatch) => {
     dispatch(getConversations(alias));
 };
 
-const isShowAll = (filters) => {
-    let isShowAll = true;
-    filters.forEach((filter) => {
-        if (filter.isActive === true && filter.type !== 'all') isShowAll = false;
-    });
-    return isShowAll;
-};
-
 export const handleTagFilterClick = (alias, _id) => (dispatch, getState) => {
     let {filters} = getState().dashboard.filters;
     filters.forEach((filter) => {
@@ -52,26 +44,15 @@ export const handleTagFilterClick = (alias, _id) => (dispatch, getState) => {
             filter.isActive = !filter.isActive;
         }
     });
-    filters[0].isActive = isShowAll(filters);
     dispatch(handleFilter(alias, filters));
 };
 
-export const handleTypeFilterClick = (alias, position) => (dispatch, getState) => {
+export const handleTypeFilterClick = (alias, type) => (dispatch, getState) => {
     let {filters} = getState().dashboard.filters;
-    if (position === 0) {
-        filters.forEach(f => {
-            f.isActive = f.type === 'all';
-        });
-    } else {
-        for (let i = 0; i < filters.length; i++) {
-            if (filters[i].isTag) continue;
-            if (i === position) filters[i].isActive = !filters[i].isActive;
-            else {
-                if (position === 2 && i === 3) filters[i].isActive = false;
-                else if (position === 3 && i === 2) filters[i].isActive = false;
-            }
+    filters.forEach(filter => {
+        if (!filter.isTag) {
+            filter.isActive = filter.type === type;
         }
-        filters[0].isActive = isShowAll(filters);
-    }
+    });
     dispatch(handleFilter(alias, filters));
 };
