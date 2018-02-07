@@ -13,15 +13,19 @@
     padding: 8px;
   }
   .sample-form {
+    display: flex;
+    border-bottom: 1px solid #cacaca;
     input {
       &:focus {
         outline: none;
-        border-bottom: 1px solid #1ab394;
       }
       border: none;
-      width: 100%;
-      border-bottom: 1px solid #cacaca;
+      flex: 1;
       padding: 5px;
+    }
+    span {
+      margin-top: 4px;
+      color: #1ab394;
     }
   }
   .sample-list {
@@ -30,6 +34,11 @@
     overflow-y: scroll;
     &::-webkit-scrollbar {
       display: none;
+    }
+    div {
+      text-align: center;
+      font-size: 14px;
+      padding-top: 10px;
     }
     .sample {
       font-size: 12px;
@@ -43,10 +52,11 @@
         background-color: #efefef;
         .glyphicon {
           display: inline-block;
+          opacity: 1;
         }
       }
       .glyphicon {
-        display: none;
+        opacity: 0;
         float: right;
         color: #888888;
         font-size: 11px;
