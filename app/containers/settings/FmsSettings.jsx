@@ -94,7 +94,8 @@ class FmsSettings extends React.Component {
     }
 
     componentDidMount() {
-        socket.connect(() => {});
+        socket.connect(() => {
+        });
         this.getPages();
         if (this.props.project) {
             this.getPagesOfProject();
@@ -112,7 +113,7 @@ class FmsSettings extends React.Component {
             let page_fb_ids = this.state.all.map(page => page.fb_id);
             ProjectApi.checkActivePage(page_fb_ids)
                 .then(res => {
-                    console.log(res);
+                    this.setState({states: res});
                 }, err => {
                     console.log(err);
                 });
@@ -168,7 +169,7 @@ class FmsSettings extends React.Component {
     }
 
     renderShopPages() {
-        if (this.state.all && this.state.pages) {
+        if (this.state.all && this.state.pages && this.state.states) {
             let disabled = (this.state.isHandling) ? " disabled" : "";
             return this.state.pages.map(page => {
                 let avaUrl = `https://graph.facebook.com/v2.10/${page.fb_id}/picture`;
@@ -191,12 +192,12 @@ class FmsSettings extends React.Component {
         }
     }
 
-    renderOtherPages() {
-        if (this.state.all && this.state.pages) {
+    renderOtherPages(is_active) {
+        if (this.state.all && this.state.pages && this.state.states) {
             let pages = this.state.pages;
             let filtered = this.state.all.filter(page => {
                 let same = pages.filter(p => p.fb_id === page.fb_id);
-                return same.length === 0 && !page.is_active;
+                return same.length === 0 && this.state.states[page.fb_id] === is_active;
             });
             let disabled = (this.state.isHandling) ? " disabled" : "";
             return filtered.map(page => {
@@ -204,10 +205,14 @@ class FmsSettings extends React.Component {
                 return <div className="page-item-setting" key={page.fb_id}>
                     <div className="avatar"><img className="avatar-image" src={avaUrl}/></div>
                     <div className="page-name">{page.name}</div>
-                    <img className={"add-icon clickable" + disabled} src={addImg}
-                         onClick={() => {
-                             this.addPage(page.fb_id)
-                         }}/>
+                    {!is_active ?
+                        <img className={"add-icon clickable" + disabled} src={addImg}
+                             onClick={() => {
+                                 this.addPage(page.fb_id)
+                             }}/>
+                        :
+                        null
+                    }
                 </div>
             })
         } else {
@@ -243,7 +248,17 @@ class FmsSettings extends React.Component {
                                 </div>
                                 <div>
                                     <div className="ibox-content no-padding border-left-right">
-                                        {this.renderOtherPages()}
+                                        {this.renderOtherPages(false)}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="ibox float-e-margins">
+                                <div className="ibox-title title">
+                                    Các trang đã được kích hoạt ở cửa hàng khác
+                                </div>
+                                <div>
+                                    <div className="ibox-content no-padding border-left-right">
+                                        {this.renderOtherPages(true)}
                                     </div>
                                 </div>
                             </div>
