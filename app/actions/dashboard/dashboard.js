@@ -3,15 +3,15 @@ import projectApi from '../../api/ProjectApi';
 import {setConversation, isShownNewMsgNoti} from './chat/messages';
 import {setConversations, getConversations, postSeenCv, checkUnreadComments, checkUnreadInboxes} from './conversations';
 
-export const getProject = (alias) => (dispatch) => {
+export const getProject = (project_id) => (dispatch) => {
     const _updateMsgInConversation = (msg) => {
         dispatch(updateMsgInConversation(msg));
     };
     projectApi.getPages()
         .then(pages => {
             if (pages && Array.isArray(pages) && pages.length > 0) {
-                dispatch(getConversations(alias));
-                socket.subscribeProjectChanges({project_alias: alias, onUpdateChanges: _updateMsgInConversation});
+                dispatch(getConversations());
+                socket.subscribeProjectChanges({project_id: project_id, onUpdateChanges: _updateMsgInConversation});
             } else {
                 dispatch(setConversations([]));
             }
@@ -21,8 +21,8 @@ export const getProject = (alias) => (dispatch) => {
     // dispatch(checkUnreadInboxes(alias));
 };
 
-export const unSubscribeProjectChanges = (alias) => () => {
-    socket.unSubscribeProjectChanges({project_alias: alias});
+export const unSubscribeProjectChanges = (project_id) => () => {
+    socket.unSubscribeProjectChanges({project_id: project_id});
     socket.disconnect();
 };
 

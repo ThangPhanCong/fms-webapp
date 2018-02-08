@@ -32,7 +32,7 @@ export const handleTagClick = (alias, tag_id) => (dispatch, getState) => {
         dispatch(isSettingTagConversation(false));
       }, (err) => {
         dispatch(isSettingTagConversation(false));
-        alert('Xóa tag thất bại');
+        alert('Tạo tag thất bại');
         throw new Error(err);
       });
   } else {
