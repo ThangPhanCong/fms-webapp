@@ -13,7 +13,6 @@ import FmsTransportOrders from "../../transport/FmsTransportOrders";
 import FmsTransporting from "../../transport/FmsTransporting";
 import FmsSetting from '../../settings/FmsSettings';
 import FmsStaffs from '../../staff/FmsStaffs';
-import FmsAddRole from '../../staff/FmsAddRole';
 
 const treeConfig = [
     {
@@ -140,23 +139,11 @@ const treeConfig = [
         ]
     },
     {
-        route: '#',
+        route: 'staffs',
         title: 'Quản lí nhân viên',
         icon: 'fa-users',
-        children: [
-            {
-                route: 'staffs',
-                title: 'Tất cả nhân viên',
-                headerColor: '#f3f3f4',
-                component: (props) => <FmsStaffs {...props}/>
-            },
-            {
-                route: 'add-role',
-                title: 'Thêm vai trò',
-                headerColor: '#f3f3f4',
-                component: (props) => <FmsAddRole {...props}/>
-            }
-        ]
+        headerColor: '#f3f3f4',
+        component: (props) => <FmsStaffs {...props}/>
     },
 
 ];

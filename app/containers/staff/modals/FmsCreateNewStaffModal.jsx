@@ -68,35 +68,6 @@ class FmsCreateNewStaffModal extends Component {
                         <div className="col-sm-8">
                             <input type="text"
                                 className="form-control"
-                                ref='fullName'
-                                value={staff.fullName || ''}
-                                onChange={() => {this.onChangeInput('fullName')}}
-                            />
-                        </div>
-                    </div>
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Email:</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="text"
-                                className="form-control"
-                                ref='email'
-                                value={staff.email || ''}
-                                onChange={() => {this.onChangeInput('email')}}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Tên đăng nhập:</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="text"
-                                className="form-control"
                                 ref='name'
                                 value={staff.name || ''}
                                 onChange={() => {this.onChangeInput('name')}}
@@ -121,10 +92,23 @@ class FmsCreateNewStaffModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
+                            <label className="control-label">Email:</label>
+                        </div>
+                        <div className="col-sm-8">
+                            <input type="text"
+                                className="form-control"
+                                ref='email'
+                                value={staff.email || ''}
+                                onChange={() => {this.onChangeInput('email')}}
+                            />
+                        </div>
+                    </div>
+                    <div className="form-group col-sm-6">
+                        <div className="col-sm-4">
                             <label className="control-label">Mật khẩu:</label>
                         </div>
                         <div className="col-sm-8">
-                            <input type="password"
+                            <input type="text"
                                 className="form-control"
                                 ref='password'
                                 value={staff.password || ''}
@@ -132,16 +116,32 @@ class FmsCreateNewStaffModal extends Component {
                             />
                         </div>
                     </div>
+                </div>
+
+                <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Gõ lại mật khẩu:</label>
+                            <label className="control-label">Điện thoại:</label>
                         </div>
                         <div className="col-sm-8">
-                            <input type="password"
+                            <input type="text"
                                 className="form-control"
-                                ref='passwordConfirm'
-                                value={staff.passwordConfirm || ''}
-                                onChange={() => {this.onChangeInput('passwordConfirm')}}
+                                ref='phone'
+                                value={staff.phone || ''}
+                                onChange={() => {this.onChangeInput('phone')}}
+                            />
+                        </div>
+                    </div>
+                    <div className="form-group col-sm-6">
+                        <div className="col-sm-4">
+                            <label className="control-label">Ngày sinh:</label>
+                        </div>
+                        <div className="col-sm-8">
+                            <input type="date"
+                                className="form-control"
+                                ref='birthday'
+                                value={staff.birthday || ''}
+                                onChange={() => {this.onChangeInput('birthday')}}
                             />
                         </div>
                     </div>
@@ -164,51 +164,6 @@ class FmsCreateNewStaffModal extends Component {
                                         return <option value={role._id} key={role._id}>{role.name}</option>
                                     })
                                 }
-                            </select>
-                        </div>
-                    </div>
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Ngày sinh:</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="date"
-                                className="form-control"
-                                ref='dateOfBirth'
-                                value={staff.dateOfBirth || ''}
-                                onChange={() => {this.onChangeInput('dateOfBirth')}}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Điện thoại:</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="text"
-                                className="form-control"
-                                ref='phone'
-                                value={staff.phone || ''}
-                                onChange={() => {this.onChangeInput('phone')}}
-                            />
-                        </div>
-                    </div>
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Ngôn ngữ:</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <select className="form-control"
-                                ref='language'
-                                value={staff.language || ''}
-                                onChange={() => {this.onChangeInput('language')}}
-                            >
-                                <option value=""></option>
-                                <option value="1">Tiếng Việt</option>
-                                <option value="2">English</option>
                             </select>
                         </div>
                     </div>

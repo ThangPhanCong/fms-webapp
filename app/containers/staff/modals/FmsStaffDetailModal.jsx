@@ -69,6 +69,7 @@ class FmsStaffDetailModal extends Component {
         if (nextProps.staff && nextProps.staff !== staff) {
             staff = nextProps.staff;
             staff.role_id = staff.role._id;
+            staff.birthday = staff.birthday.split('T')[0];
             this.setState({staff});
         }
     }
@@ -90,35 +91,6 @@ class FmsStaffDetailModal extends Component {
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
                             <label className="control-label">Tên nhân viên:</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="text"
-                                className="form-control"
-                                ref='fullName'
-                                value={staff.fullName || ''}
-                                onChange={() => {this.onChangeInput('fullName')}}
-                            />
-                        </div>
-                    </div>
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Email:</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="text"
-                                className="form-control"
-                                ref='email'
-                                value={staff.email || ''}
-                                onChange={() => {this.onChangeInput('email')}}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Tên đăng nhập:</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
@@ -147,33 +119,27 @@ class FmsStaffDetailModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Vai trò:</label>
+                            <label className="control-label">Email:</label>
                         </div>
                         <div className="col-sm-8">
-                            <select className="form-control"
-                                ref='role_id'
-                                value={staff.role_id || ''}
-                                onChange={() => {this.onChangeInput('role_id')}}
-                            >
-                                <option value=""></option>
-                                {
-                                    roles.map(role => {
-                                        return <option value={role._id} key={role._id}>{role.name}</option>
-                                    })
-                                }
-                            </select>
+                            <input type="text"
+                                className="form-control"
+                                ref='email'
+                                value={staff.email || ''}
+                                onChange={() => {this.onChangeInput('email')}}
+                            />
                         </div>
                     </div>
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Ngày sinh:</label>
+                            <label className="control-label">Mật khẩu mới:</label>
                         </div>
                         <div className="col-sm-8">
-                            <input type="date"
+                            <input type="text"
                                 className="form-control"
-                                ref='dateOfBirth'
-                                value={staff.dateOfBirth || ''}
-                                onChange={() => {this.onChangeInput('dateOfBirth')}}
+                                ref='password'
+                                value={staff.password || ''}
+                                onChange={() => {this.onChangeInput('password')}}
                             />
                         </div>
                     </div>
@@ -195,17 +161,36 @@ class FmsStaffDetailModal extends Component {
                     </div>
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Ngôn ngữ:</label>
+                            <label className="control-label">Ngày sinh:</label>
+                        </div>
+                        <div className="col-sm-8">
+                            <input type="date"
+                                className="form-control"
+                                ref='birthday'
+                                value={staff.birthday || ''}
+                                onChange={() => {this.onChangeInput('birthday')}}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="form-group col-sm-6">
+                        <div className="col-sm-4">
+                            <label className="control-label">Vai trò:</label>
                         </div>
                         <div className="col-sm-8">
                             <select className="form-control"
-                                ref='language'
-                                value={staff.language || ''}
-                                onChange={() => {this.onChangeInput('language')}}
+                                ref='role_id'
+                                value={staff.role_id || ''}
+                                onChange={() => {this.onChangeInput('role_id')}}
                             >
                                 <option value=""></option>
-                                <option value="1">Tiếng Việt</option>
-                                <option value="2">English</option>
+                                {
+                                    roles.map(role => {
+                                        return <option value={role._id} key={role._id}>{role.name}</option>
+                                    })
+                                }
                             </select>
                         </div>
                     </div>
