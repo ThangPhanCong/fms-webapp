@@ -3,8 +3,8 @@ const initState = {
     isLoadingConversations: true,
     conversations: [],
     pagingConversations: null,
-    isUnreadComments: false,
-    isUnreadInboxes: false
+    countUnreadComments: 0,
+    countUnreadInboxes: 0
 };
 
 const conversations = (state = initState, action) => {
@@ -14,15 +14,15 @@ const conversations = (state = initState, action) => {
                 ...state,
                 isLoadingConversations: action.state
             };
-        case 'IS_UNREAD_COMMENTS':
+        case 'SET_UNREAD_COMMENTS':
             return {
                 ...state,
-                isUnreadComments: action.state,
+                countUnreadComments: action.state,
             };
-        case 'IS_UNREAD_INBOXES':
+        case 'SET_UNREAD_INBOXES':
             return {
                 ...state,
-                isUnreadInboxes: action.state
+                countUnreadInboxes: action.state
             };
         case 'SET_CONVERSATIONS':
             return {
