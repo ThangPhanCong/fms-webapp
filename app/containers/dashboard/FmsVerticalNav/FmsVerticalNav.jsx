@@ -35,26 +35,39 @@ class FmsVerticalNav extends React.Component {
                  counter++;
              }
         });
+        let {unreadComment, unreadInbox} = this.props;
+        if (unreadComment > 9) unreadComment = "9+";
+        if (unreadInbox > 9) unreadInbox = "9+";
         return (
             <div ref="vertical_nav">
                 <FmsToolTip message="Hiển thị tất cả" direction="right">
-                    <div onClick={() => {
+                    <div className="filter-item" onClick={() => {
                         this.handleTypeFilterClick('all')
                     }}>
                         <img src={src[0]} className={"vertical-nav-item" + className[0]}/>
                     </div>
                 </FmsToolTip>
                 <FmsToolTip message="Bình luận" direction="right">
-                    <div onClick={() => {
+                    <div className="filter-item" onClick={() => {
                         this.handleTypeFilterClick('comment')
                     }}>
+                        {this.props.unreadComment ?
+                            <span>{unreadComment}</span>
+                            :
+                            null
+                        }
                         <img src={src[1]} className={"vertical-nav-item" + className[1]}/>
                     </div>
                 </FmsToolTip>
                 <FmsToolTip message="Tin nhắn" direction="right">
-                    <div onClick={() => {
+                    <div className="filter-item" onClick={() => {
                         this.handleTypeFilterClick('inbox')
                     }}>
+                        {this.props.unreadInbox ?
+                            <span>{unreadInbox}</span>
+                            :
+                            null
+                        }
                         <img src={src[2]} className={"vertical-nav-item" + className[2]}/>
                     </div>
                 </FmsToolTip>
@@ -65,7 +78,9 @@ class FmsVerticalNav extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        filters: state.dashboard.filters.filters
+        filters: state.dashboard.filters.filters,
+        unreadComment: state.dashboard.conversations.countUnreadComments,
+        unreadInbox: state.dashboard.conversations.countUnreadInboxes
     }
 };
 

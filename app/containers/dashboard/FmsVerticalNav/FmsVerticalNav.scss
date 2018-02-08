@@ -5,6 +5,20 @@
   height: 100%;
   float: left;
   border-right: 1px solid #cacaca;
+  .filter-item {
+    position: relative;
+    span {
+      display: inline-block;
+      position: absolute;
+      top: 12px;
+      right: 8px;
+      font-size: 10px;
+      padding: 0 4px;
+      color: white;
+      background-color: #f03d25;
+      border-radius: 4px;
+    }
+  }
 }
 .vertical-nav-item {
   cursor: pointer;

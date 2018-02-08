@@ -17,8 +17,8 @@ export const getProject = (project_id) => (dispatch) => {
             }
         })
         .catch(err => alert(err));
-    // dispatch(checkUnreadComments(alias));
-    // dispatch(checkUnreadInboxes(alias));
+    dispatch(checkUnreadComments());
+    dispatch(checkUnreadInboxes());
 };
 
 export const unSubscribeProjectChanges = (project_id) => () => {

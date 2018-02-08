@@ -6,11 +6,11 @@ import {getNotes, getAllOrders, getReports} from './chat/createOrder';
 export const isLoadingConversations = (state) => dispatch => {
     dispatch({type: 'LOADING_CONVERSATIONS', state});
 };
-export const isUnreadComments = (state) => dispatch => {
-    dispatch({type: 'IS_UNREAD_COMMENTS', state});
+export const setUnreadComment = (state) => dispatch => {
+    dispatch({type: 'SET_UNREAD_COMMENTS', state});
 };
-export const isUnreadInboxes = (state) => dispatch => {
-    dispatch({type: 'IS_UNREAD_INBOXES', state});
+export const setUnreadInbox = (state) => dispatch => {
+    dispatch({type: 'SET_UNREAD_INBOXES', state});
 };
 export const setConversations = (conversations, pagingConversations) => (dispatch, getState) => {
     let _pagingConversations = getState().dashboard.conversations.pagingConversations;
@@ -20,9 +20,6 @@ export const setConversations = (conversations, pagingConversations) => (dispatc
 };
 export const completeGetConversations = (conversations, pagingConversations) => dispatch => {
     dispatch({type: 'COMPLETE_GET_CONVERSATIONS', conversations, pagingConversations});
-};
-export const setAlias = (alias) => dispatch => {
-    dispatch({type: 'SET_ALIAS', alias});
 };
 export const resetConversations = () => dispatch => {
     dispatch({type: 'RESET_INIT_STATE_CONVERSATIONS'});
@@ -56,19 +53,19 @@ export const postSeenCv = (conversation) => () => {
     }
 };
 
-export const checkUnreadComments = (alias) => dispatch => {
-    DashboardApi.checkUnreadComment(alias)
+export const checkUnreadComments = () => dispatch => {
+    DashboardApi.checkUnreadComment()
         .then(res => {
-            console.log(res);
+            dispatch(setUnreadComment(res.counts));
         }, err => {
             console.log(err);
         });
 };
 
-export const checkUnreadInboxes = (alias) => dispatch => {
-    DashboardApi.checkUnreadInbox(alias)
+export const checkUnreadInboxes = () => dispatch => {
+    DashboardApi.checkUnreadInbox()
         .then(res => {
-            console.log(res);
+            dispatch(setUnreadInbox(res.counts));
         }, err => {
             console.log(err);
         });

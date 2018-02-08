@@ -12,12 +12,12 @@ module.exports = {
         }
         return apiSender.get(route);
     },
-    checkUnreadComment: function (alias) {
-        let route = `/api/projects/${alias}/comments/has-unread`;
+    checkUnreadComment: function () {
+        let route = `/api/p/comments/has-unread`;
         return apiSender.get(route);
     },
-    checkUnreadInbox: function (alias) {
-        let route = `/api/projects/${alias}/inboxes/has-unread`;
+    checkUnreadInbox: function () {
+        let route = `/api/p/inboxes/has-unread`;
         return apiSender.get(route);
     },
     getMessages: function (type, msg_id, next) {
