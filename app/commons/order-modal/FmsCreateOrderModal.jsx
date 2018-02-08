@@ -81,9 +81,14 @@ class FmsCreateOrderModal extends Component {
             case 'products':
                 newOrder.products = newValue;
                 break;
-            case 'province':
+                case 'province':
                 newOrder.province = newValue;
                 newOrder.district = '';
+                newOrder.ward = '';
+                break;
+            case 'district':
+                newOrder.district = newValue;
+                newOrder.ward = '';
                 break;
             default:
                 newOrder[refName] = newValue;
@@ -201,7 +206,8 @@ class FmsCreateOrderModal extends Component {
                         <FmsTransportInfoPanel
                             province={order.province}
                             district={order.district}
-                            transport_address={order.transport_address}
+                            ward={order.ward}
+                            full_address={order.full_address}
                             transport_method={order.transport_method}
                             transport_fee={order.transport_fee}
                             onChangeInput={this.onChangeInput.bind(this)}

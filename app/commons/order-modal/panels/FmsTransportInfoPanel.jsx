@@ -5,8 +5,10 @@ import {locations} from '../../../constants/location';
 class FmsTransportInfoPanel extends Component {
 
     state = {
-        districts: []
+        districts: [],
+        wards: []
     }
+
     onChangeInput(refName) {
         const newValue = this.refs[refName].value;
         const {
@@ -27,22 +29,60 @@ class FmsTransportInfoPanel extends Component {
             let province = locations.find((item) => {
                 return item.name === this.refs['province'].value;
             });
-            let districts = Object.values(province.districts);
+            let districts = province.districts;
             this.setState({districts: districts});
     
             onChangeInput('province', province.name);
+        }
+
+    }
+
+    onChangeDistrict() {
+        const {onChangeInput} = this.props;
+
+        if (this.refs['district'].value === '') {
+            this.setState({wards: []});
+            
+            onChangeInput('district', '');
+        } else {
+            let district = this.state.districts.find((item) => {
+                return item.name === this.refs['district'].value;
+            });
+            this.setState({wards: district.wards});
+    
+            onChangeInput('district', district.name);
+        }
+
+    }
+
+    componentDidMount() {
+        if (this.props.province) {
+            const province = locations.find((item) => {
+                return item.name === this.props.province;
+            });
+            const districts = province.districts;
+            let district = '';
+            if (this.props.district) {
+                district = districts.find((item) => {
+                    return item.name === this.props.district;
+                });
+            }
+            this.setState({districts: districts, wards: district.wards});
         }
     }
 
     render() {
         const {
-            transport_address,
+            full_address,
             transport_method,
             transport_fee,
             province,
             district,
+            ward,
             disabled
         } = this.props;
+
+        const {districts, wards} = this.state;
 
         return (
             <div className="panel panel-success">
@@ -85,13 +125,38 @@ class FmsTransportInfoPanel extends Component {
                                        ref='district'
                                        value={district || ''}
                                        onChange={() => {
-                                           this.onChangeInput('district')
+                                           this.onChangeDistrict()
                                        }}
                                        disabled={disabled}
                                 >
                                     <option value=""></option>
                                     {
-                                        this.state.districts.map(item => {
+                                        districts.map(item => {
+                                            return <option value={item.name} key={item.name}>{item.name}</option>   
+                                        })
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="form-group">
+                        <div className="row">
+                            <div className="col-sm-4">
+                                <label className="control-label">Phường/xã</label>
+                            </div>
+                            <div className="col-sm-8">
+                                <select className="form-control"
+                                       ref='ward'
+                                       value={ward || ''}
+                                       onChange={() => {
+                                           this.onChangeInput('ward')
+                                       }}
+                                       disabled={disabled}
+                                >
+                                    <option value=""></option>
+                                    {
+                                        wards.map(item => {
                                             return <option value={item} key={item}>{item}</option>   
                                         })
                                     }
@@ -108,10 +173,10 @@ class FmsTransportInfoPanel extends Component {
                             <div className="col-sm-8">
                                 <input type="text"
                                        className="form-control"
-                                       ref='transport_address'
-                                       value={transport_address || ''}
+                                       ref='full_address'
+                                       value={full_address || ''}
                                        onChange={() => {
-                                           this.onChangeInput('transport_address')
+                                           this.onChangeInput('full_address')
                                        }}
                                        disabled={disabled}
                                 />
@@ -119,7 +184,7 @@ class FmsTransportInfoPanel extends Component {
                         </div>
                     </div>
 
-                    <div className="form-group">
+                    {/* <div className="form-group">
                         <div className="row">
                             <div className="col-sm-4">
                                 <label className="control-label">Phương thức</label>
@@ -142,14 +207,14 @@ class FmsTransportInfoPanel extends Component {
                                 </select>
                             </div>
                             <div className="col-sm-3">
-                                <button className='btn btn-success'>
+                                <button className='btn btn-success' onClick={this.onOpenModal.bind(this)}>
                                     Thêm   
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
-                    <div className="form-group">
+                    {/* <div className="form-group">
                         <div className="row">
                             <div className="col-sm-4">
                                 <label className="control-label">Phí</label>
@@ -166,7 +231,7 @@ class FmsTransportInfoPanel extends Component {
                                 />
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         )
@@ -175,7 +240,10 @@ class FmsTransportInfoPanel extends Component {
 
 FmsTransportInfoPanel.propTypes = {
     onChangeInput: propTypes.func,
-    transport_address: propTypes.string,
+    province: propTypes.string,
+    district: propTypes.string,
+    ward: propTypes.string,
+    full_address: propTypes.string,
     transport_method: propTypes.string,
     transport_fee: propTypes.string,
     disabled: propTypes.bool
