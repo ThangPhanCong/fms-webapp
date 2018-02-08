@@ -161,7 +161,7 @@ class FmsCreateNewStaffModal extends Component {
                                 <option value=""></option>
                                 {
                                     roles.map(role => {
-                                        return <option value={role._id}>{role.name}</option>
+                                        return <option value={role._id} key={role._id}>{role.name}</option>
                                     })
                                 }
                             </select>

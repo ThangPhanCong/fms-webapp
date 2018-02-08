@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import FmsRoleDetailModal from './modals/FmsRoleDetailModal';
 import FmsSpin from "commons/FmsSpin/FmsSpin";
+import {deleteRole} from '../../api/RoleApi';
 
 class FmsAddRole extends Component {
 
@@ -15,13 +16,28 @@ class FmsAddRole extends Component {
         this.setState({selectedRole: role, isShownDetailRoleModal: true});
     }
 
-    onCloseDetailRoleModal() {
+    onCloseDetailRoleModal(shouldUpdate) {
+        if (shouldUpdate) {
+            this.props.updateRoles();
+        }
         this.setState({selectedRole: {}, isShownDetailRoleModal: false});
     }
 
     onDeleteRole(role) {
-        console.log(role);
+        const {project_id} = this.props;
+        const role_id = role._id;
+        this.setState({isLoading: true});
         const allow = confirm('Bạn có chắc chắn muốn xóa vai trò này?');
+
+        if (allow) {
+            deleteRole(project_id, role_id)
+                .then(
+                    res => {
+                        this.props.updateRoles();
+                    }
+                )
+                .then(this.setState({role: {}, isLoading: false}))
+        }
     }
 
     componentDidMount() {
@@ -46,12 +62,13 @@ class FmsAddRole extends Component {
                     <td>{i+1}</td>
                     <td>{role.name}</td>
                     <td>
-                        {role.permissions.map((p, i) => {
-                            if (i !== role.permissions.length-1) {
-                                return p + ', '
-                            } 
-                            return p + '.'
-                        })}
+                        {role.permissions.map((perm, index) => {
+                            if (index === role.permissions.length - 1) {
+                                return <span key={perm}>{perm + '.'}</span>
+                            }
+                            return <span key={perm}>{perm + ', '}</span>
+                        })
+                        }
                     </td>
                     <td>
                         <i className="fa fa-trash-o clickable"
@@ -70,7 +87,7 @@ class FmsAddRole extends Component {
 
     render() {
         const {isShownDetailRoleModal, selectedRole, isLoading} = this.state;
-        const {roles} = this.props;
+        const {roles, project_id} = this.props;
             
         return (
             <Fragment>
@@ -108,6 +125,7 @@ class FmsAddRole extends Component {
                     isShown={isShownDetailRoleModal}
                     onClose={this.onCloseDetailRoleModal.bind(this)}
                     role={selectedRole}
+                    project_id={project_id}
                 />
             </Fragment>
         )

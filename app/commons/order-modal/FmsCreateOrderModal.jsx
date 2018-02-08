@@ -11,6 +11,7 @@ import FmsProductsInfoPanel from "./panels/FmsProductsInfoPanel";
 import FmsNoteInfoPanel from "./panels/FmsNoteInfoPanel";
 import FmsOrderTagInfoPanel from "./panels/FmsOrderTagInfoPanel";
 import FmsPriceCalculatorPanel from "./panels/FmsPriceCalculatorPanel";
+import FmsPaymentMethodPanel from './panels/FmsPaymentMethodPanel';
 
 class FmsCreateOrderModal extends Component {
 
@@ -80,6 +81,10 @@ class FmsCreateOrderModal extends Component {
             case 'products':
                 newOrder.products = newValue;
                 break;
+            case 'province':
+                newOrder.province = newValue;
+                newOrder.district = '';
+                break;
             default:
                 newOrder[refName] = newValue;
         }
@@ -103,7 +108,7 @@ class FmsCreateOrderModal extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isShown) {
+        if (nextProps.isShown && nextProps.customer) {
             let newOrder = {...this.state.order};
             let c = this.props.customer;
             newOrder.customer_name = c.name;
@@ -194,9 +199,17 @@ class FmsCreateOrderModal extends Component {
 
                     <div className="col-sm-6">
                         <FmsTransportInfoPanel
+                            province={order.province}
+                            district={order.district}
                             transport_address={order.transport_address}
                             transport_method={order.transport_method}
                             transport_fee={order.transport_fee}
+                            onChangeInput={this.onChangeInput.bind(this)}
+                        />
+                    </div>
+
+                    <div className='col-sm-12'>
+                        <FmsPaymentMethodPanel
                             onChangeInput={this.onChangeInput.bind(this)}
                         />
                     </div>

@@ -16,7 +16,10 @@ class FmsAddRole extends Component {
         this.setState({isShownCreateRoleModal: true});
     }
 
-    onCloseCreateRoleModal() {
+    onCloseCreateRoleModal(shouldUpdate) {
+        if (shouldUpdate) {
+            this.getRolesOfProject();
+        }
         this.setState({isShownCreateRoleModal: false});
     }
 
@@ -68,7 +71,9 @@ class FmsAddRole extends Component {
                                         </div>
                                     </div>
 
-                                    <FmsRoleTable roles={roles}/>
+                                    <FmsRoleTable roles={roles} project_id={project._id}
+                                        updateRoles={this.getRolesOfProject.bind(this)}
+                                    />
 
                                 </div>
                             </div>
@@ -77,6 +82,7 @@ class FmsAddRole extends Component {
                         <FmsCreateNewRoleModal
                             isShown={isShownCreateRoleModal}
                             onClose={this.onCloseCreateRoleModal.bind(this)}
+                            project_id={project._id}
                         />
 
                     </div>

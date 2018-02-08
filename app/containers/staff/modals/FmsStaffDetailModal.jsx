@@ -26,7 +26,7 @@ class FmsStaffDetailModal extends Component {
                     alert(err.message);
                 }
             )
-            .then(() => this.setState({isLoading: false}));
+            .then(this.setState({staff: {}, isLoading: false}));
     }
 
     onDeleteStaff() {
@@ -43,15 +43,16 @@ class FmsStaffDetailModal extends Component {
                     const shouldUpdate = true;
                     this.closeModal(shouldUpdate);
                 })
+                .then(this.setState({staff: {}, isLoading: false}))
         }
     }
 
     onCloseButtonClick() {
+        this.setState({staff: {}, isLoading: false});
         this.props.onClose();
     }
 
     closeModal(shouldUpdate) {
-        this.setState({staff: {}, isLoading: false});
         this.props.onClose(shouldUpdate);
     }
 
@@ -64,8 +65,11 @@ class FmsStaffDetailModal extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.staff && nextProps.staff !== this.state.staff) {
-            this.setState({staff: nextProps.staff});
+        let staff = this.state.staff;
+        if (nextProps.staff && nextProps.staff !== staff) {
+            staff = nextProps.staff;
+            staff.role_id = staff.role._id;
+            this.setState({staff});
         }
     }
 
@@ -75,14 +79,6 @@ class FmsStaffDetailModal extends Component {
             .then(roles => {
                 this.setState({roles: roles});
             })
-    }
-
-    componentWillUnmount() {
-        this.setState({
-            staff: {},
-            roles: [],
-            isLoading: false
-        })
     }
 
     renderBody() {
@@ -151,47 +147,18 @@ class FmsStaffDetailModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Mật khẩu:</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="password"
-                                className="form-control"
-                                ref='password'
-                                value={staff.password || ''}
-                                onChange={() => {this.onChangeInput('password')}}
-                            />
-                        </div>
-                    </div>
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Gõ lại mật khẩu:</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="password"
-                                className="form-control"
-                                ref='passwordConfirm'
-                                value={staff.passwordConfirm || ''}
-                                onChange={() => {this.onChangeInput('passwordConfirm')}}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
                             <label className="control-label">Vai trò:</label>
                         </div>
                         <div className="col-sm-8">
                             <select className="form-control"
-                                ref='role'
+                                ref='role_id'
                                 value={staff.role_id || ''}
                                 onChange={() => {this.onChangeInput('role_id')}}
                             >
                                 <option value=""></option>
                                 {
                                     roles.map(role => {
-                                        return <option value={role._id}>{role.name}</option>
+                                        return <option value={role._id} key={role._id}>{role.name}</option>
                                     })
                                 }
                             </select>

@@ -1,27 +1,63 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
+import {getPermissions, updateRole, deleteRole} from '../../../api/RoleApi';
+import {parse_permissions} from '../../../utils/permission-utils';
 
 class FmsRoleDetailModal extends Component {
 
     state = {
         role: {},
-        isLoading: false
+        isLoading: false,
+        perms: {},
+        selectedPerms: []
     };
 
     onUpdateRole() {
-
+        const {project_id} = this.props;
+        const {selectedPerms} = this.state;
+        this.setState({isLoading: true});
+        
+        let role = this.state.role;
+        role.permissions = selectedPerms;
+        updateRole(project_id, role)
+            .then(
+                res => {
+                    let shouldUpdate = true;
+                    this.props.onClose(shouldUpdate);
+                }
+            )
+            .then(this.setState({role: {}, selectedPerms: [], isLoading: false}))
     }
 
     onDeleteRole() {
+        const {project_id} = this.props;
+        const role_id = this.state.role._id;
+        this.setState({isLoading: true});
         const allow = confirm('Bạn có chắc chắn muốn xóa vai trò này?');
 
         if (allow) {
-            this.props.onClose();
+            deleteRole(project_id, role_id)
+                .then(
+                    res => {
+                        let shouldUpdate = true;
+                        this.props.onClose(shouldUpdate);
+                    }
+                )
+                .then(this.setState({role: {}, selectedPerms: [], isLoading: false}))
         }
     }
 
+    getPerms() {
+        getPermissions()
+            .then((res) => {
+                const perms = parse_permissions(res);
+                this.setState({perms: perms});
+            })
+    }
+
     onCloseButtonClick() {
+        this.setState({role: {}, selectedPerms: []});
         this.props.onClose();
     }
 
@@ -33,22 +69,101 @@ class FmsRoleDetailModal extends Component {
         this.setState({role: newRole});
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps && nextProps.role !== this.state.role) {
-            this.setState({role: nextProps.role});
+    onChangeAllCheck(key) {
+        const {perms} = this.state;
+        let selectedPerms = this.state.selectedPerms;
+        if (this.refs[key].checked) {
+            perms[key].map(perm => {
+                if (selectedPerms.findIndex(p => p === perm) === -1) {
+                    selectedPerms.push(perm);
+                }
+            })
+            this.setState({selectedPerms});
+        } else {
+            selectedPerms = selectedPerms.filter(perm => perm.split('_')[0] !== key);
+            this.setState({selectedPerms});
         }
     }
 
+    onChangeCheckbox(perm) {
+        let selectedPerms = this.state.selectedPerms;
+        let index = selectedPerms.findIndex(p => p === perm);
+        if (this.refs[perm].checked) {
+            if ( index === -1) {
+                selectedPerms.push(perm);
+            }
+        } else {
+            if (index !== -1) {
+                selectedPerms.splice(index, 1);
+            }
+        }
+        this.setState({selectedPerms});
+    }
+
+    componentWillMount() {
+        this.getPerms();
+        const {role} = this.state;
+        this.setState({selectedPerms: role.permissions});
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps && nextProps.role !== this.state.role) {
+            this.setState({role: nextProps.role, selectedPerms: nextProps.role.permissions});
+        }
+    }
+
+    renderPerms() {
+        const {perms, selectedPerms} = this.state;
+        return (
+            Object.keys(perms).map(key => {
+                return (
+                    <div className='col-md-12' key={key}>
+                        <label className="control-label-collapse" 
+                            data-toggle="collapse" 
+                            href={'#'+key} 
+                            aria-expanded="false" 
+                            aria-controls={key}
+                        >
+                            <i className="fa fa-caret-right"> </i> {key}
+                        </label>
+                        
+                        <div className="collapse in" id={key}>
+                            <label className='col-sm-3 checkbox-inline' onChange={() => this.onChangeAllCheck(key)}>
+                                <input type="checkbox" ref={key}/> Tất cả
+                            </label>
+                            {
+                                perms[key].map(perm => {
+                                    let index = selectedPerms ? selectedPerms.findIndex((p) => p === perm) : 0;
+                                    return (
+                                        <label className='col-sm-3 checkbox-inline' 
+                                            key={perm} 
+                                            onChange={() => this.onChangeCheckbox(perm)}
+                                        >
+                                            <input type="checkbox" ref={perm} 
+                                                onChange={() => this.onChangeCheckbox(perm)}
+                                                checked={selectedPerms ? selectedPerms[index] === perm : false}/> {perm}
+                                        </label>
+                                    );
+                                })
+                            }
+                                
+                        </div>
+                    </div>
+                );
+            })
+        )
+    }
+
     renderBody() {
-        const { role } = this.state;
+        const { role, perms } = this.state;
 
         return (
             <Modal.Body>
                 <div className="row form-group">
-                    <div className="col-sm-4">
+                    <div className="col-sm-3">
                         <label className="control-label">Tên vai trò:</label>
                     </div>
-                    <div className="col-sm-8">
+                    <div className="col-sm-9">
                         <input type="text"
                             className="form-control"
                             ref='name'
@@ -59,17 +174,17 @@ class FmsRoleDetailModal extends Component {
                 </div>
 
                 <div className="row form-group">
-                    <div className="col-sm-4">
+                    <div className="col-sm-3">
                         <label className="control-label">Các quyền:</label>
                     </div>
-                    <div className="col-sm-8">
-                        <input type="text"
-                            className="form-control"
-                            ref='permissions'
-                            value={role.permissions || ''}
-                            onChange={() => {this.onChangeInput('permissions')}}
-                        />
+                    <div className="col-sm-9">
                     </div>
+                </div>
+
+                <div className="row form-group">
+                    {
+                        this.renderPerms()
+                    }
                 </div>
 
             </Modal.Body>
@@ -119,7 +234,8 @@ class FmsRoleDetailModal extends Component {
 
 FmsRoleDetailModal.propTypes = {
     isShown: propTypes.bool.isRequired,
-    onClose: propTypes.func.isRequired
+    onClose: propTypes.func.isRequired,
+    project_id: propTypes.string
 };
 
 export default FmsRoleDetailModal;
