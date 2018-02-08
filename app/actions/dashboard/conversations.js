@@ -12,6 +12,16 @@ export const setUnreadComment = (state) => dispatch => {
 export const setUnreadInbox = (state) => dispatch => {
     dispatch({type: 'SET_UNREAD_INBOXES', state});
 };
+export const setUnreadMsg = (type, isIncrease) => (dispatch, getState) => {
+    let {countUnreadComments, countUnreadInboxes} = getState().dashboard.conversations;
+    if (isIncrease) {
+        if (type === "comment") dispatch(setUnreadComment(countUnreadComments + 1));
+        else dispatch(setUnreadInbox(countUnreadInboxes + 1));
+    } else {
+        if (type === "comment") dispatch(setUnreadComment(countUnreadComments - 1));
+        else dispatch(setUnreadInbox(countUnreadInboxes - 1));
+    }
+};
 export const setConversations = (conversations, pagingConversations) => (dispatch, getState) => {
     let _pagingConversations = getState().dashboard.conversations.pagingConversations;
     if (!pagingConversations) pagingConversations = _pagingConversations;
@@ -111,6 +121,7 @@ export const handleConversationClick = (alias, selectedConv, type) => (dispatch,
     if (!selectedConv.is_seen) {
         selectedConv.is_seen = true;
         dispatch(postSeenCv(selectedConv));
+        dispatch(setUnreadMsg(selectedConv.type, false));
     }
     selectedConv.children = [];
     dispatch(setConversation({...selectedConv}));
