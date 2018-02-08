@@ -82,7 +82,7 @@ class FmsNotificationPopup extends Component {
         getNotifications(_id, 'BASE')
             .then((data) => {
                 this.setState({
-                    notifications: data.reverse().splice(0, 4)
+                    notifications: data.reverse().slice(0, 3)
                 })
             })
             .catch(() => {
@@ -140,7 +140,7 @@ class FmsNotificationPopup extends Component {
                     }</span>
                 </a>
                 <ul className="dropdown-menu dropdown-alerts"
-                    style={see_all ? {height: '214px', width: '313px'} :
+                    style={see_all ? {maxHeight: '214px', width: '313px'} :
                         {height: '47px', overflowY: 'hidden', width: '300px'}}>
                     {notifications.map((noti, i) => {
                         if (!noti.is_archived) {
