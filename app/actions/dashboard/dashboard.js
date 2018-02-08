@@ -1,7 +1,10 @@
 import * as socket from '../../socket';
 import projectApi from '../../api/ProjectApi';
 import {setConversation, isShownNewMsgNoti} from './chat/messages';
-import {setConversations, getConversations, postSeenCv, checkUnreadComments, checkUnreadInboxes} from './conversations';
+import {
+    setConversations, getConversations, postSeenCv, checkUnreadComments, checkUnreadInboxes,
+    setUnreadMsg
+} from './conversations';
 
 export const getProject = (project_id) => (dispatch) => {
     const _updateMsgInConversation = (msg) => {
@@ -64,6 +67,7 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
         // if conversation is not found in current conversations -> create as new conversation and push to first
         parent = msg.parent;
         if (shouldAddToConversations === true) conversations.unshift(parent);
+        dispatch(setUnreadMsg(parent.type, true));
     } else {
         parent = _parent.pop();
 
@@ -96,6 +100,7 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
                 dispatch(postSeenCv(parent));
             } else {
                 parent.is_seen = false;
+                dispatch(setUnreadMsg(parent.type, true));
             }
             if (Array.isArray(parent.children)) {
                 parent.children.push(msg);
