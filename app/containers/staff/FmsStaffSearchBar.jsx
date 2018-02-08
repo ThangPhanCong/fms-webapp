@@ -20,17 +20,25 @@ class FmsStaffSearchBar extends Component {
                     </div>
                 </div>
 
-                <div className="col-sm-3">
+                <div className="col-sm-2">
                     <div className="form-group">
-                        <label className="control-label" htmlFor="price">Tên đăng nhập</label>
+                        <label className="control-label" htmlFor="price">Vai trò</label>
                         <input type="text" name="price" value="" placeholder=""
                                className="form-control"/>
                     </div>
                 </div>
 
-                <div className="col-sm-3">
+                <div className="col-sm-2">
                     <div className="form-group">
-                        <label className="control-label" htmlFor="price">Vai trò</label>
+                        <label className="control-label" htmlFor="price">Email</label>
+                        <input type="text" name="price" value="" placeholder=""
+                               className="form-control"/>
+                    </div>
+                </div>
+
+                <div className="col-sm-2">
+                    <div className="form-group">
+                        <label className="control-label" htmlFor="price">Số điện thoại</label>
                         <input type="text" name="price" value="" placeholder=""
                                className="form-control"/>
                     </div>

@@ -26,13 +26,13 @@ export const handleTagClick = (alias, tag_id) => (dispatch, getState) => {
   });
   dispatch(isSettingTagConversation(true));
   if (selectedTag.length === 0) {
-    TagApi.createTagConversation(alias, conversation.id, tag_id)
+    TagApi.createTagConversation(conversation.id, tag_id)
       .then((res) => {
         dispatch(updateTagsConversation(res.tags, conversation.id));
         dispatch(isSettingTagConversation(false));
       }, (err) => {
         dispatch(isSettingTagConversation(false));
-        alert('Xóa tag thất bại');
+        alert('Tạo tag thất bại');
         throw new Error(err);
       });
   } else {

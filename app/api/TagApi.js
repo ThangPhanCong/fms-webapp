@@ -1,11 +1,11 @@
 const apiSender = require('./ApiSender');
 
 module.exports = {
-    getProjectTags: (project_alias) => {
+    getProjectTags: () => {
         let route = `/api/p/tags`;
         return apiSender.get(route);
     },
-    createTagConversation: (alias, conversation_id, tag_id) => {
+    createTagConversation: (conversation_id, tag_id) => {
         let route = `/api/p/conversations/${conversation_id}/tags`;
         let payload = {tag_id: tag_id};
         return apiSender.post(route, payload);
@@ -14,7 +14,7 @@ module.exports = {
         let route = `/api/p/conversations/${conversation_id}/tags/${tag_id}`;
         return apiSender.delete(route);
     },
-    create: (project_alias, tag_name, tag_color, tag_description) => {
+    create: (tag_name, tag_color, tag_description) => {
         let route = `/api/p/tags`;
         let payload = {
             name: tag_name,
@@ -23,11 +23,11 @@ module.exports = {
         };
         return apiSender.post(route, payload);
     },
-    remove: (project_alias, tag_id) => {
+    remove: (tag_id) => {
         let route = `/api/p/tags/${tag_id}`;
         return apiSender.delete(route);
     },
-    update: (project_alias, tag_id, tag_name, tag_color, tag_description) => {
+    update: (tag_id, tag_name, tag_color, tag_description) => {
         let route = `/api/p/tags/${tag_id}`;
         let payload = {
             name: tag_name,

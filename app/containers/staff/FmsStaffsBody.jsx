@@ -102,6 +102,11 @@ class FmsStaffsBody extends Component {
             )
     }
 
+    updateRoles() {
+        this.getRolesOfProject();
+        this.setState({tabActive: 1});
+    }
+
     componentDidMount() {
         const {project} = this.props;
 
@@ -191,10 +196,13 @@ class FmsStaffsBody extends Component {
                                                 </div>
                                             </div>
 
-                                            <FmsRoleTable roles={roles}/>
+                                            <FmsRoleTable roles={roles} project_id={project._id}
+                                                updateRoles={this.updateRoles.bind(this)}
+                                            />
                                             <FmsCreateNewRoleModal
                                                 isShown={isShownCreateRoleModal}
                                                 onClose={this.onCloseCreateRoleModal.bind(this)}
+                                                project_id={project._id}
                                             />
                                         </FmsTab>
 

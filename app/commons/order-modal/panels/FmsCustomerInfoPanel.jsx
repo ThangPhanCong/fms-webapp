@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import propTypes from 'prop-types';
+import FmsEditableDropdown from '../../../commons/editable-dropdown/FmsEditableDropdown';
 
 class FmsCustomerInfoPanel extends Component {
 
@@ -12,13 +13,24 @@ class FmsCustomerInfoPanel extends Component {
         onChangeInput(refName, newValue);
     }
 
-    render () {
+    onPhoneChange(newPhone) {
+        this.props.onChangeInput('customer_phone', newPhone);
+    }
+
+    onSelectPhone(index) {
+        if (this.props.customer && Array.isArray(this.props.customer.phone)) {
+            this.props.onChangeInput('customer_phone', this.props.customer.phone[index]);
+        }
+    }
+
+    render() {
         const {
             customer_name,
             customer_phone,
             customer_facebook,
             disabled
         } = this.props;
+        let customer = this.props.customer || {};
 
         return (
             <div className="panel panel-primary">
@@ -51,15 +63,12 @@ class FmsCustomerInfoPanel extends Component {
                                 <label className="control-label">Điện thoại</label>
                             </div>
                             <div className="col-sm-9">
-                                <input type="text"
-                                       className="form-control"
-                                       ref='customer_phone'
-                                       value={customer_phone || ''}
-                                       onChange={() => {
-                                           this.onChangeInput('customer_phone')
-                                       }}
-                                       disabled={disabled}
-                                />
+                                <FmsEditableDropdown items={customer.phone}
+                                                     value={customer_phone || ''}
+                                                     onSearchChange={this.onPhoneChange.bind(this)}
+                                                     noItemNoti="Không tìm thấy số điện thoại nào"
+                                                     disabled={disabled}
+                                                     onSelectItem={this.onSelectPhone.bind(this)}/>
                             </div>
                         </div>
                     </div>

@@ -9,11 +9,10 @@ class FmsStaffTable extends Component {
     };
 
     onCloseModal(shouldReloadData) {
+        this.setState({isShowDetailModal: false});
         if (shouldReloadData) {
             this.props.onReloadStaffs();
         }
-
-        this.setState({isShowDetailModal: false});
     }
 
     onOpenModal(selectedStaff) {
@@ -26,7 +25,6 @@ class FmsStaffTable extends Component {
                 <tr>
                     <th>STT</th>
                     <th>Họ tên</th>
-                    <th>Tên đăng nhập</th>
                     <th>Vai trò</th>
                     <th>Email</th>
                     <th>Số điện thoại</th>
@@ -45,9 +43,8 @@ class FmsStaffTable extends Component {
                     (staff, i) => (
                         <tr key={i}>
                             <td>{i + 1}</td>
-                            <td>{staff.fullName}</td>
                             <td>{staff.name}</td>
-                            <td>{staff.role}</td>
+                            <td>{staff.role.name}</td>
                             <td>{staff.email}</td>
                             <td>{staff.phone}</td>
                             <td>

@@ -225,10 +225,10 @@ class FmsProductsInfoPanel extends Component {
                 <div className="panel-body">
                     <div className="ibox none-margin-bottom">
                         <div className="row">
-                            <div className="col-sm-12">
+                            <div className="col-sm-9">
                                 <FmsSearchDropdown
                                     className='product-search-dropdown'
-                                    placeholder='Tìm và thêm sản phẩm'
+                                    placeholder='Tìm sản phẩm'
                                     items={searchableProducts}
                                     onSearchChange={this.onSearchChange.bind(this)}
                                     onSelectItem={this.onSelectItem.bind(this)}
@@ -236,13 +236,13 @@ class FmsProductsInfoPanel extends Component {
                                 />
                             </div>
 
-                            {/*<div className="col-sm-3">*/}
-                                {/*<div className="form-group">*/}
-                                    {/*<button className="btn btn-primary full-width">*/}
-                                        {/*Thêm sản phẩm*/}
-                                    {/*</button>*/}
-                                {/*</div>*/}
-                            {/*</div>*/}
+                            <div className="col-sm-3">
+                                <div className="form-group">
+                                    <button className="btn btn-success pull-right">
+                                        Thêm sản phẩm
+                                    </button>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="table-responsive">

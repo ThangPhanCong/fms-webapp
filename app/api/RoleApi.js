@@ -27,3 +27,7 @@ export function deleteRole(project_id, role_id) {
 export function getRoleById(project_id, role_id) {
     return get(`/api/a/roles/${role_id}`, getByProjectId(project_id));
 }
+
+export function getPermissions() {
+    return get(`/api/a/permissions`);
+}
