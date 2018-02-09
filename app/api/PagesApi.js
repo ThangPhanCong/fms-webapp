@@ -2,7 +2,7 @@ let APISender = require('./ApiSender');
 
 module.exports = {
   getPages: function () {
-    let route = `/api/p/pages`;
+    let route = `/api/a/pages`;
     return APISender.get(route);
   },
   activePage: function (pageid) {

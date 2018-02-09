@@ -19,9 +19,9 @@ class FmsColorCards extends React.Component {
         }
     }
 
-    getTags(alias) {
+    getTags() {
         this.setState({isLoading: true});
-        TagApi.getProjectTags(alias)
+        TagApi.getProjectTags()
             .then(tags => {
                 if (tags) this.setState({tags: tags});
                 else alert("Something went wrong.");
@@ -34,14 +34,14 @@ class FmsColorCards extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.project && this.props.project.alias) {
-            this.getTags(this.props.project.alias);
+        if (this.props.project) {
+            this.getTags();
         }
     }
 
     componentDidUpdate(prevProps) {
-        if ((!prevProps.project && this.props.project) || prevProps.project.alias !== this.props.project.alias) {
-            this.getTags(this.props.project.alias);
+        if ((!prevProps.project && this.props.project) || (prevProps.path !== this.props.path)) {
+            this.getTags();
         }
     }
 
@@ -55,9 +55,9 @@ class FmsColorCards extends React.Component {
 
     addNewTag(tag) {
         this.setState({isEditting: true});
-        TagApi.create(this.props.project.alias, tag.name, tag.color, tag.description)
+        TagApi.create(tag.name, tag.color, tag.description)
             .then(() => {
-                this.getTags(this.props.project.alias);
+                this.getTags();
                 this.setState({isEditting: false, isShownModal: false});
             })
             .catch(err => {
@@ -68,9 +68,9 @@ class FmsColorCards extends React.Component {
 
     updateTag(tag) {
         this.setState({isEditting: true});
-        TagApi.update(this.props.project.alias, tag._id, tag.name, tag.color, tag.description)
+        TagApi.update(tag._id, tag.name, tag.color, tag.description)
             .then(() => {
-                this.getTags(this.props.project.alias);
+                this.getTags();
                 this.setState({isEditting: false, isShownModal: false});
             })
             .catch(err => {
@@ -83,9 +83,9 @@ class FmsColorCards extends React.Component {
         let allowDelete = confirm("Bạn có chắc muốn xóa thẻ màu?");
         if (allowDelete) {
             this.setState({isEditting: true});
-            TagApi.remove(this.props.project.alias, tag._id)
+            TagApi.remove(tag._id)
                 .then(() => {
-                    this.getTags(this.props.project.alias);
+                    this.getTags();
                     this.setState({isEditting: false, isShownModal: false});
                 })
                 .catch(err => {

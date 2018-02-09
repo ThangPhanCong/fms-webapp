@@ -6,6 +6,22 @@ import {getNotes, getAllOrders, getReports} from './chat/createOrder';
 export const isLoadingConversations = (state) => dispatch => {
     dispatch({type: 'LOADING_CONVERSATIONS', state});
 };
+export const setUnreadComment = (state) => dispatch => {
+    dispatch({type: 'SET_UNREAD_COMMENTS', state});
+};
+export const setUnreadInbox = (state) => dispatch => {
+    dispatch({type: 'SET_UNREAD_INBOXES', state});
+};
+export const setUnreadMsg = (type, isIncrease) => (dispatch, getState) => {
+    let {countUnreadComments, countUnreadInboxes} = getState().dashboard.conversations;
+    if (isIncrease) {
+        if (type === "comment") dispatch(setUnreadComment(countUnreadComments + 1));
+        else dispatch(setUnreadInbox(countUnreadInboxes + 1));
+    } else {
+        if (type === "comment") dispatch(setUnreadComment(countUnreadComments - 1));
+        else dispatch(setUnreadInbox(countUnreadInboxes - 1));
+    }
+};
 export const setConversations = (conversations, pagingConversations) => (dispatch, getState) => {
     let _pagingConversations = getState().dashboard.conversations.pagingConversations;
     if (!pagingConversations) pagingConversations = _pagingConversations;
@@ -14,9 +30,6 @@ export const setConversations = (conversations, pagingConversations) => (dispatc
 };
 export const completeGetConversations = (conversations, pagingConversations) => dispatch => {
     dispatch({type: 'COMPLETE_GET_CONVERSATIONS', conversations, pagingConversations});
-};
-export const setAlias = (alias) => dispatch => {
-    dispatch({type: 'SET_ALIAS', alias});
 };
 export const resetConversations = () => dispatch => {
     dispatch({type: 'RESET_INIT_STATE_CONVERSATIONS'});
@@ -28,7 +41,7 @@ export const generateQueryParams = (f) => {
     let query = {}, tags = [];
     for (let i = 1; i < filters.length; i++) {
         let f = filters[i];
-        if (f.isTag) {
+        if (f.isTag && f.type !== 'unread') {
             if (f.isActive === true) tags.push(f.type);
         } else {
             if (f.type === 'unread' && f.isActive === true) query.status = 'unread';
@@ -48,6 +61,24 @@ export const postSeenCv = (conversation) => () => {
     } else if (conversation.type === 'comment') {
         DashboardApi.postSeenCmt(conversation._id);
     }
+};
+
+export const checkUnreadComments = () => dispatch => {
+    DashboardApi.checkUnreadComment()
+        .then(res => {
+            dispatch(setUnreadComment(res.counts));
+        }, err => {
+            console.log(err);
+        });
+};
+
+export const checkUnreadInboxes = () => dispatch => {
+    DashboardApi.checkUnreadInbox()
+        .then(res => {
+            dispatch(setUnreadInbox(res.counts));
+        }, err => {
+            console.log(err);
+        });
 };
 
 //----------------Get Conversations-----------------------------------
@@ -90,28 +121,30 @@ export const handleConversationClick = (alias, selectedConv, type) => (dispatch,
     if (!selectedConv.is_seen) {
         selectedConv.is_seen = true;
         dispatch(postSeenCv(selectedConv));
+        dispatch(setUnreadMsg(selectedConv.type, false));
     }
+    selectedConv.children = [];
     dispatch(setConversation({...selectedConv}));
-    if (!selectedConv.children) {
-        let updateChildren = (sc, data) => {
-            sc.children = data.data;
-            sc.paging = (data.paging) ? data.paging.next : null;
-            conversations.forEach(c => {
-                if (c._id === sc._id) {
-                    c.children = data.data;
-                    c.paging = sc.paging;
-                }
-            });
-            //this.reloadAttachment(data.data);
-            dispatch(setConversation({...sc}));
-            dispatch(isLoadingMsgs(false));
-        };
-        let msg_id = (type === "comment") ? selectedConv.fb_id : selectedConv._id;
-        DashboardApi.getMessages(type, msg_id)
-            .then(data => updateChildren(selectedConv, data));
-    } else {
+    // if (!selectedConv.children) {
+    let updateChildren = (sc, data) => {
+        sc.children = data.data;
+        sc.paging = (data.paging) ? data.paging.next : null;
+        conversations.forEach(c => {
+            if (c._id === sc._id) {
+                c.children = data.data;
+                c.paging = sc.paging;
+            }
+        });
+        //this.reloadAttachment(data.data);
+        dispatch(setConversation({...sc}));
         dispatch(isLoadingMsgs(false));
-    }
+    };
+    let msg_id = (type === "comment") ? selectedConv.fb_id : selectedConv._id;
+    DashboardApi.getMessages(type, msg_id)
+        .then(data => updateChildren(selectedConv, data));
+    // } else {
+    //     dispatch(isLoadingMsgs(false));
+    // }
     dispatch(getNotes(alias));
     dispatch(getAllOrders(alias));
     dispatch(getReports());

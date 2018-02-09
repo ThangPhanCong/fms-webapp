@@ -20,21 +20,21 @@ class FmsPosts extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.project && this.props.project.alias) {
-            this.getPosts(this.props.project.alias);
+        if (this.props.project) {
+            this.getPosts();
         }
     }
 
     componentDidUpdate(prevProps) {
-        if ((!prevProps.project && this.props.project) || prevProps.project.alias !== this.props.project.alias) {
-            this.getPosts(this.props.project.alias);
+        if ((!prevProps.project && this.props.project) || prevProps.path !== this.props.path) {
+            this.getPosts();
         }
     }
 
-    getPosts(alias, paging) {
+    getPosts(paging) {
         if (paging) {
             this.setState({isLoadMore: true});
-            PostsApi.getPostsOfProject(alias, paging)
+            PostsApi.getPostsOfProject(paging)
                 .then(data => {
                     if (data) {
                         let paging = data.paging ? data.paging : null;
@@ -44,10 +44,10 @@ class FmsPosts extends React.Component {
                         throw new Error("Posts not found");
                     }
                 })
-                .catch(err => alert(err.message));
+                .catch(err => alert(err));
         } else {
             this.setState({isLoading: true});
-            PostsApi.getPostsOfProject(alias)
+            PostsApi.getPostsOfProject()
                 .then(data => {
                     if (data) {
                         let paging = data.paging ? data.paging : null;
@@ -56,7 +56,7 @@ class FmsPosts extends React.Component {
                         throw new Error("Posts not found");
                     }
                 })
-                .catch(err => alert(err.message));
+                .catch(err => alert(err));
         }
     }
 
@@ -96,7 +96,7 @@ class FmsPosts extends React.Component {
     }
 
     loadMorePosts() {
-        this.getPosts(this.props.project.alias, this.state.paging.next);
+        this.getPosts(this.state.paging.next);
     }
 
     renderPosts() {
@@ -152,7 +152,7 @@ class FmsPosts extends React.Component {
 
                     </div>
                     <FmsAddPostModal isShown={this.state.isShownModal} closeModal={this.closeModal.bind(this)}
-                                     alias={alias}/>
+                                     project={this.props.project}/>
                 </Grid>
             </div>
         );

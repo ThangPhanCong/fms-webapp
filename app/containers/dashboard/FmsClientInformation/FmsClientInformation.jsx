@@ -97,7 +97,7 @@ class FmsOrdersTab extends React.Component {
     }
 
     deleteReport(report) {
-        let allow = confirm("Bạn có muốn xóa ghi chú này?");
+        let allow = confirm("Bạn có muốn xóa báo x này?");
         if (allow) {
             this.props.dispatch(deleteReport(report._id));
         }
@@ -227,8 +227,8 @@ class FmsOrdersTab extends React.Component {
     render() {
         let title, typeNote = this.state.typeNote;
         let conv = this.props.conversation;
+        if (!conv) return <span/>;
         let addNote = (typeNote !== 0) ? " hide" : "";
-        let customer_id = (conv) ? utils.parseCustomer(conv, "_id") : null;
         let isHide = (conv && conv.type === "inbox") ? "" : " hide";
         if (typeNote === 0) title = "Ghi chú";
         else if (typeNote === 1) title = "Thêm ghi chú";
@@ -238,29 +238,43 @@ class FmsOrdersTab extends React.Component {
             <div className="order-tab">
                 <div>
                     <div className="info">Thông tin</div>
-                    <div className={"order-area" + isHide}>
-                        <div className="title-section">Đơn hàng</div>
-                        <a className="add-note-button" onClick={() => {
-                            this.openNewOrderModal()
-                        }}>Thêm</a>
-                        {this.renderOrders()}
-                    </div>
+                    {conv.type === "inbox" ?
+                        <div className={"order-area" + isHide}>
+                            <div className="title-section">Đơn hàng</div>
+                            <a className="add-note-button" onClick={() => {
+                                this.openNewOrderModal()
+                            }}>Thêm</a>
+                            {this.renderOrders()}
+                        </div>
+                        :
+                        null
+                    }
                     <div className="notes-list">
                         <div className="title-section">{title}</div>
                         <a className={"add-note-button" + addNote} onClick={this.openAddNote.bind(this)}>Thêm</a>
                         {this.renderNoteList()}
                     </div>
-                    <div className={"report-area" + isHide}>
-                        <div className="title-section">Báo xấu</div>
-                        <a className="add-note-button" onClick={this.openAddReport.bind(this)}>Thêm</a>
-                        {this.renderReportsList()}
-                    </div>
+                    {conv.type === "inbox" ?
+                        <div className={"report-area" + isHide}>
+                            <div className="title-section">Báo xấu</div>
+                            <a className="add-note-button" onClick={this.openAddReport.bind(this)}>Thêm</a>
+                            {this.renderReportsList()}
+                        </div>
+                        :
+                        null
+                    }
                 </div>
-                <FmsNewOrderModal isShown={this.state.isShownNewOrderModal} project={{alias: this.props.alias}}
-                                  onClose={this.closeNewOrderModal.bind(this)} customer_id={customer_id}/>
-                <FmsOrderDetailModal isShown={this.state.isShownOrderDetailModal} typeModal={0}
-                                     onClose={this.closeOrderDetailModal.bind(this)}
-                                     project={{alias: this.props.alias}} order={this.state.selectedOrder}/>
+                {conv.type === "inbox" ?
+                    <div>
+                        <FmsNewOrderModal isShown={this.state.isShownNewOrderModal} project={{alias: this.props.alias}}
+                                          onClose={this.closeNewOrderModal.bind(this)} customer={conv.customer}/>
+                        <FmsOrderDetailModal isShown={this.state.isShownOrderDetailModal} typeModal={1}
+                                             onClose={this.closeOrderDetailModal.bind(this)}
+                                             project={{alias: this.props.alias}} order={this.state.selectedOrder}/>
+                    </div>
+                    :
+                    null
+                }
             </div>
         );
     }

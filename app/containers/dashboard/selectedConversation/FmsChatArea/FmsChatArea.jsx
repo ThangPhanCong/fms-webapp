@@ -129,7 +129,7 @@ class FmsChatArea extends React.Component {
     renderInfoChat() {
         let sc = this.props.conversation;
         if (sc && Array.isArray(sc.children)) {
-            return <FmsInfoChat/>
+            return <FmsInfoChat post_id={this.props.postInfo ? this.props.postInfo.fb_id : null}/>
         }
     }
 

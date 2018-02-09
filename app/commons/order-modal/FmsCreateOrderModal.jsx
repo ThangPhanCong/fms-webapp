@@ -11,6 +11,7 @@ import FmsProductsInfoPanel from "./panels/FmsProductsInfoPanel";
 import FmsNoteInfoPanel from "./panels/FmsNoteInfoPanel";
 import FmsOrderTagInfoPanel from "./panels/FmsOrderTagInfoPanel";
 import FmsPriceCalculatorPanel from "./panels/FmsPriceCalculatorPanel";
+import FmsPaymentMethodPanel from './panels/FmsPaymentMethodPanel';
 
 class FmsCreateOrderModal extends Component {
 
@@ -24,7 +25,6 @@ class FmsCreateOrderModal extends Component {
         const {project, customer_id} = this.props;
         this.setState({isLoading: true});
         let order = this.state.order;
-        if (customer_id) order.customer_id = customer_id;
 
         createOrder(project.alias, order)
             .then(
@@ -81,10 +81,18 @@ class FmsCreateOrderModal extends Component {
             case 'products':
                 newOrder.products = newValue;
                 break;
+                case 'province':
+                newOrder.province = newValue;
+                newOrder.district = '';
+                newOrder.ward = '';
+                break;
+            case 'district':
+                newOrder.district = newValue;
+                newOrder.ward = '';
+                break;
             default:
                 newOrder[refName] = newValue;
         }
-
         this.setState({order: newOrder});
     }
 
@@ -105,6 +113,15 @@ class FmsCreateOrderModal extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if (nextProps.isShown && nextProps.customer) {
+            let newOrder = {...this.state.order};
+            let c = this.props.customer;
+            newOrder.customer_name = c.name;
+            newOrder.customer_facebook = `facebook.com/${c.fb_id}`;
+            newOrder.customer_phone = (c.phone.length > 0) ? c.phone[c.phone.length-1] : '';
+            newOrder.customer_id = c._id;
+            this.setState({order: newOrder});
+        }
         if (nextProps.project && nextProps.project.alias &&
             nextProps.project !== this.props.project) {
             getOrderTags(nextProps.project.alias)
@@ -180,15 +197,25 @@ class FmsCreateOrderModal extends Component {
                             customer_name={order.customer_name}
                             customer_phone={order.customer_phone}
                             customer_facebook={order.customer_facebook}
+                            customer={this.props.customer}
                             onChangeInput={this.onChangeInput.bind(this)}
                         />
                     </div>
 
                     <div className="col-sm-6">
                         <FmsTransportInfoPanel
-                            transport_address={order.transport_address}
+                            province={order.province}
+                            district={order.district}
+                            ward={order.ward}
+                            full_address={order.full_address}
                             transport_method={order.transport_method}
                             transport_fee={order.transport_fee}
+                            onChangeInput={this.onChangeInput.bind(this)}
+                        />
+                    </div>
+
+                    <div className='col-sm-12'>
+                        <FmsPaymentMethodPanel
                             onChangeInput={this.onChangeInput.bind(this)}
                         />
                     </div>
@@ -269,7 +296,6 @@ FmsCreateOrderModal.propTypes = {
     onClose: propTypes.func.isRequired,
     project: propTypes.object,
     conversation_id: propTypes.string,
-    customer_id: propTypes.string,
     customer: propTypes.object
 };
 

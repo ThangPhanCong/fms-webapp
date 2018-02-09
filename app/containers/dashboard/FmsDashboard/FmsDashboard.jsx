@@ -13,7 +13,7 @@ import {getTagsProject, resetFilters} from '../../../actions/dashboard/filters';
 class FmsDashBoard extends React.Component {
     startDashboard() {
         const {dispatch, project} = this.props;
-        dispatch(getProject(project.alias));
+        dispatch(getProject(project._id));
         dispatch(getTagsProject(project.alias));
     }
 
@@ -22,7 +22,7 @@ class FmsDashBoard extends React.Component {
         dispatch(resetFilters());
         dispatch(resetConversations());
         dispatch(cancelGetConversations());
-        dispatch(unSubscribeProjectChanges(project.alias));
+        dispatch(unSubscribeProjectChanges(project._id));
     }
 
     componentDidMount() {

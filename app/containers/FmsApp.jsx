@@ -18,6 +18,11 @@ const LoadableFmsLogin = Loadable({
     loading: () => null
 });
 
+const LoadableFmsListNotification = Loadable({
+    loader: () => import('./notifimanager/notify-list-user/FmsListNotification'),
+    loading: () => null
+});
+
 const LoadableFmsDashboard = Loadable({
     loader: () => import('./project-dashboard/layouts/Main'),
     loading: () => null
@@ -123,6 +128,7 @@ class FmsApp extends Component {
 
                         <Switch>
                             <FmsRoute exact path="/shops" component={LoadableFmsProject}/>
+                            <FmsRoute path="/notifications" component={LoadableFmsListNotification}/>
                             <FmsRoute path="/shops/:project_alias" component={LoadableFmsDashboard}/>
 
                             <Redirect to="/shops"/>

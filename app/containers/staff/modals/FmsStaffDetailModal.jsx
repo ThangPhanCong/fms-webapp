@@ -1,27 +1,59 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
+import {getRoles} from '../../../api/RoleApi';
+import {updateStaff, deleteStaff} from '../../../api/StaffApi';
 
 class FmsStaffDetailModal extends Component {
 
     state = {
-        staff: {}
+        staff: {},
+        roles: [],
+        isLoading: false
     };
 
     onUpdateStaff() {
-
+        const {project} = this.props;
+        const {staff} = this.state;
+        this.setState({isLoading: true});
+        updateStaff(project._id, staff)
+            .then(
+                staff => {
+                    const shouldUpdate = true;
+                    this.closeModal(shouldUpdate);
+                },
+                err => {
+                    alert(err.message);
+                }
+            )
+            .then(this.setState({staff: {}, isLoading: false}));
     }
 
     onDeleteStaff() {
+        const {project} = this.props;
+        const {staff} = this.state;
+
         const allow = confirm('Bạn có chắc chắn muốn xóa nhân viên này?');
 
         if (allow) {
-            this.props.onClose();
+            this.setState({isLoading: true});
+
+            deleteStaff(project._id, staff._id)
+                .then(staff => {
+                    const shouldUpdate = true;
+                    this.closeModal(shouldUpdate);
+                })
+                .then(this.setState({staff: {}, isLoading: false}))
         }
     }
 
     onCloseButtonClick() {
+        this.setState({staff: {}, isLoading: false});
         this.props.onClose();
+    }
+
+    closeModal(shouldUpdate) {
+        this.props.onClose(shouldUpdate);
     }
 
     onChangeInput(refName) {
@@ -33,13 +65,25 @@ class FmsStaffDetailModal extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps && nextProps.staff !== this.state.staff) {
-            this.setState({staff: nextProps.staff});
+        let staff = this.state.staff;
+        if (nextProps.staff && nextProps.staff !== staff) {
+            staff = nextProps.staff;
+            staff.role_id = staff.role._id;
+            staff.birthday = staff.birthday.split('T')[0];
+            this.setState({staff});
         }
     }
 
+    componentDidMount() {
+        const {project} = this.props;
+        getRoles(project._id)
+            .then(roles => {
+                this.setState({roles: roles});
+            })
+    }
+
     renderBody() {
-        const { staff } = this.state;
+        const {staff, roles} = this.state;
 
         return (
             <Modal.Body>
@@ -50,39 +94,12 @@ class FmsStaffDetailModal extends Component {
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
-                                className="form-control"
-                                ref='fullName'
-                                value={staff.fullName || ''}
-                                onChange={() => {this.onChangeInput('fullName')}}
-                            />
-                        </div>
-                    </div>
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Email:</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="text"
-                                className="form-control"
-                                ref='email'
-                                value={staff.email || ''}
-                                onChange={() => {this.onChangeInput('email')}}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Tên đăng nhập:</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="text"
-                                className="form-control"
-                                ref='userName'
-                                value={staff.userName || ''}
-                                onChange={() => {this.onChangeInput('userName')}}
+                                   className="form-control"
+                                   ref='name'
+                                   value={staff.name || ''}
+                                   onChange={() => {
+                                       this.onChangeInput('name')
+                                   }}
                             />
                         </div>
                     </div>
@@ -92,10 +109,12 @@ class FmsStaffDetailModal extends Component {
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
-                                className="form-control"
-                                ref='address'
-                                value={staff.address || ''}
-                                onChange={() => {this.onChangeInput('address')}}
+                                   className="form-control"
+                                   ref='address'
+                                   value={staff.address || ''}
+                                   onChange={() => {
+                                       this.onChangeInput('address')
+                                   }}
                             />
                         </div>
                     </div>
@@ -104,58 +123,31 @@ class FmsStaffDetailModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Mật khẩu:</label>
+                            <label className="control-label">Email:</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
-                                className="form-control"
-                                ref='password'
-                                value={staff.password || ''}
-                                onChange={() => {this.onChangeInput('password')}}
+                                   className="form-control"
+                                   ref='email'
+                                   value={staff.email || ''}
+                                   onChange={() => {
+                                       this.onChangeInput('email')
+                                   }}
                             />
                         </div>
                     </div>
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Gõ lại mật khẩu:</label>
+                            <label className="control-label">Mật khẩu mới:</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
-                                className="form-control"
-                                ref='passwordConfirm'
-                                value={staff.passwordConfirm || ''}
-                                onChange={() => {this.onChangeInput('passwordConfirm')}}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Vai trò:</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <select className="form-control"
-                                ref='role'
-                                value={staff.role || ''}
-                                onChange={() => {this.onChangeInput('role')}}
-                            >
-                                <option value=""></option>
-                                <option value="1">Quản lý trang</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Ngày sinh:</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="date"
-                                className="form-control"
-                                ref='dateOfBirth'
-                                value={staff.dateOfBirth || ''}
-                                onChange={() => {this.onChangeInput('dateOfBirth')}}
+                                   className="form-control"
+                                   ref='password'
+                                   value={staff.password || ''}
+                                   onChange={() => {
+                                       this.onChangeInput('password')
+                                   }}
                             />
                         </div>
                     </div>
@@ -168,26 +160,51 @@ class FmsStaffDetailModal extends Component {
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
-                                className="form-control"
-                                ref='phone'
-                                value={staff.phone || ''}
-                                onChange={() => {this.onChangeInput('phone')}}
+                                   className="form-control"
+                                   ref='phone'
+                                   value={staff.phone || ''}
+                                   onChange={() => {
+                                       this.onChangeInput('phone')
+                                   }}
                             />
                         </div>
                     </div>
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Ngôn ngữ:</label>
+                            <label className="control-label">Ngày sinh:</label>
+                        </div>
+                        <div className="col-sm-8">
+                            <input type="date"
+                                   className="form-control"
+                                   ref='birthday'
+                                   value={staff.birthday || ''}
+                                   onChange={() => {
+                                       this.onChangeInput('birthday')
+                                   }}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="form-group col-sm-6">
+                        <div className="col-sm-4">
+                            <label className="control-label">Vai trò:</label>
                         </div>
                         <div className="col-sm-8">
                             <select className="form-control"
-                                ref='language'
-                                value={staff.language || ''}
-                                onChange={() => {this.onChangeInput('language')}}
+                                    ref='role_id'
+                                    value={staff.role_id || ''}
+                                    onChange={() => {
+                                        this.onChangeInput('role_id')
+                                    }}
                             >
                                 <option value=""></option>
-                                <option value="1">Tiếng Việt</option>
-                                <option value="2">English</option>
+                                {
+                                    roles.map(role => {
+                                        return <option value={role._id} key={role._id}>{role.name}</option>
+                                    })
+                                }
                             </select>
                         </div>
                     </div>

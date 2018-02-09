@@ -10,6 +10,7 @@ import FmsAddPagesModal from './modals/FmsAddPagesModal';
 import {getProjects, createNewProject} from '../../actions/project/project';
 import projectApi from '../../api/ProjectApi';
 import FmsNavigation from "../../commons/FmsNavigation/FmsNavigation";
+import {Redirect} from 'react-router-dom';
 
 let timeout, name, subscription;
 let observable = Observable.create(observer => {
@@ -38,8 +39,10 @@ class FmsProject extends Component {
     }
 
     componentDidMount() {
-        const {dispatch} = this.props;
-        dispatch(getProjects());
+        const {dispatch, user, projects} = this.props;
+        if (user && user.role === 'SHOP_OWNER') {
+            dispatch(getProjects());
+        }
     }
 
     openCreateProjectModal() {
@@ -138,7 +141,7 @@ class FmsProject extends Component {
     }
 
     render() {
-        const {pages, isPagesLoading} = this.props;
+        const {pages, isPagesLoading, projects} = this.props;
         const {
             isCreateProjectModalShown,
             isNewProjectLoading,
@@ -146,48 +149,54 @@ class FmsProject extends Component {
             isAddPagesModalShown,
             projectName
         } = this.state;
+        const role = this.props.user.role;
         const unActivePages = pages.filter(page => !page.is_active);
 
-        return (
-            <div style={{backgroundColor: '#f3f2f2', height: '100vh'}}>
-                <FmsNavigation/>
-
-                <div className="container project-wrapper">
-
-                    <div className="row button-project-wrapper">
-                        <div className="col-md-2">
-                            <button
-                                className="btn btn-primary btn-open-project-modal"
-                                onClick={this.openCreateProjectModal.bind(this)}
-                            >
-                                <i className='fa fa-plus'/>&nbsp; Tạo cửa hàng mới
-                            </button>
+        if (role === 'SHOP_OWNER') {
+            return (
+                <div style={{backgroundColor: '#f3f2f2', minHeight: '100vh'}}>
+                    <FmsNavigation/>
+    
+                    <div className="container project-wrapper">
+    
+                        <div className="row button-project-wrapper">
+                            <div className="col-md-2">
+                                <button
+                                    className="btn btn-primary btn-open-project-modal"
+                                    onClick={this.openCreateProjectModal.bind(this)}
+                                >
+                                    <i className='fa fa-plus'/>&nbsp; Tạo cửa hàng mới
+                                </button>
+                            </div>
                         </div>
+    
+                        <div className="row">
+                            {this.renderProjects()}
+                        </div>
+    
+                        <FmsNewProjectModal
+                            isShown={isCreateProjectModalShown}
+                            isLoading={isNewProjectLoading}
+                            isProjectNameVerified={isProjectNameVerified}
+                            onProjectNameChange={this.onProjectNameChange.bind(this)}
+                            onClose={this.onProjectModalClose.bind(this)}
+                        />
+    
+                        <FmsAddPagesModal
+                            isShown={isAddPagesModalShown}
+                            isLoading={isPagesLoading}
+                            pages={unActivePages}
+                            projectName={projectName}
+                            onClose={this.onAddPagesModalClose.bind(this)}
+                        />
+    
                     </div>
-
-                    <div className="row">
-                        {this.renderProjects()}
-                    </div>
-
-                    <FmsNewProjectModal
-                        isShown={isCreateProjectModalShown}
-                        isLoading={isNewProjectLoading}
-                        isProjectNameVerified={isProjectNameVerified}
-                        onProjectNameChange={this.onProjectNameChange.bind(this)}
-                        onClose={this.onProjectModalClose.bind(this)}
-                    />
-
-                    <FmsAddPagesModal
-                        isShown={isAddPagesModalShown}
-                        isLoading={isPagesLoading}
-                        pages={unActivePages}
-                        projectName={projectName}
-                        onClose={this.onAddPagesModalClose.bind(this)}
-                    />
-
                 </div>
-            </div>
-        );
+            );
+        } else {
+            return <Redirect to={'/shops/' + projects[0].data.alias} project={projects[0]}/>
+        }
+        
     }
 }
 
@@ -195,13 +204,15 @@ FmsProject.propTypes = {
     isProjectLoading: propTypes.bool.isRequired,
     isPagesLoading: propTypes.bool.isRequired,
     projects: propTypes.array,
-    pages: propTypes.array
+    pages: propTypes.array,
+    user: propTypes.object
 };
 
 const mapStateToProps = state => {
     return {
         projects: state.project.projects,
         pages: state.page.pages,
+        user: state.auth.user,
         isProjectLoading: state.project.isProjectLoading,
         isPagesLoading: state.page.isPagesLoading
     }

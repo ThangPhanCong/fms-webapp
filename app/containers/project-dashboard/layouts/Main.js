@@ -60,7 +60,6 @@ class Main extends React.Component {
 
     render() {
         const {showRightNavbar} = this.state;
-
         return (
             <div id="wrapper">
                 <Navigation

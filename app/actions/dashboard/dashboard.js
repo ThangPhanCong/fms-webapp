@@ -1,27 +1,31 @@
 import * as socket from '../../socket';
 import projectApi from '../../api/ProjectApi';
 import {setConversation, isShownNewMsgNoti} from './chat/messages';
-import {setConversations, getConversations, postSeenCv} from './conversations';
+import {
+    setConversations, getConversations, postSeenCv, checkUnreadComments, checkUnreadInboxes,
+    setUnreadMsg
+} from './conversations';
 
-export const getProject = (alias) => (dispatch) => {
+export const getProject = (project_id) => (dispatch) => {
     const _updateMsgInConversation = (msg) => {
         dispatch(updateMsgInConversation(msg));
     };
-    projectApi.getProject(alias)
-        .then(project => {
-            let pages = project.pages;
+    projectApi.getPages()
+        .then(pages => {
             if (pages && Array.isArray(pages) && pages.length > 0) {
-                dispatch(getConversations(alias));
-                socket.subscribeProjectChanges({project_alias: alias, onUpdateChanges: _updateMsgInConversation});
+                dispatch(getConversations());
+                socket.subscribeProjectChanges({project_id: project_id, onUpdateChanges: _updateMsgInConversation});
             } else {
                 dispatch(setConversations([]));
             }
         })
         .catch(err => alert(err));
+    dispatch(checkUnreadComments());
+    dispatch(checkUnreadInboxes());
 };
 
-export const unSubscribeProjectChanges = (alias) => () => {
-    socket.unSubscribeProjectChanges({project_alias: alias});
+export const unSubscribeProjectChanges = (project_id) => () => {
+    socket.unSubscribeProjectChanges({project_id: project_id});
     socket.disconnect();
 };
 
@@ -49,7 +53,7 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
     let shouldAddToConversations = true;
     if (!isInFilteredConversations(msg, filters)) shouldAddToConversations = false;
     let {conversations} = getState().dashboard.conversations;
-    conversations = [...conversations]
+    conversations = [...conversations];
     let _parent = conversations.filter((c) => {
         return c._id === msg.parent._id;
     });
@@ -63,6 +67,7 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
         // if conversation is not found in current conversations -> create as new conversation and push to first
         parent = msg.parent;
         if (shouldAddToConversations === true) conversations.unshift(parent);
+        dispatch(setUnreadMsg(parent.type, true));
     } else {
         parent = _parent.pop();
 
@@ -95,6 +100,7 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
                 dispatch(postSeenCv(parent));
             } else {
                 parent.is_seen = false;
+                dispatch(setUnreadMsg(parent.type, true));
             }
             if (Array.isArray(parent.children)) {
                 parent.children.push(msg);

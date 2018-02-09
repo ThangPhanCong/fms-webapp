@@ -7,7 +7,7 @@ module.exports = {
 
         return apiSender.get(route);
     },
-    getPostsOfProject: (project_alias, next) => {
+    getPostsOfProject: (next) => {
         let route = `/api/p/posts`;
         if (next) route += `?next=${next}`;
 

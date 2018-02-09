@@ -12,6 +12,14 @@ module.exports = {
         }
         return apiSender.get(route);
     },
+    checkUnreadComment: function () {
+        let route = `/api/p/comments/has-unread`;
+        return apiSender.get(route);
+    },
+    checkUnreadInbox: function () {
+        let route = `/api/p/inboxes/has-unread`;
+        return apiSender.get(route);
+    },
     getMessages: function (type, msg_id, next) {
         let route;
         if (type === "comment") route = `/api/p/comments/${msg_id}/reply-comments`;

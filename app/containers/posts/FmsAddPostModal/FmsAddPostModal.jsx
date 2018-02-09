@@ -36,14 +36,14 @@ class FmsAddPostModal extends React.Component {
     }
 
     onChangeAlias() {
-        if (!this.props.alias) return;
+        if (!this.props.project) return;
         this.setState({isHandling: true});
-        ProjectApi.getProject(this.props.alias)
-            .then(res => {
-                res.pages.forEach(p => {
+        ProjectApi.getPages()
+            .then(pages => {
+                pages.forEach(p => {
                     p.isSelected = false
                 });
-                this.setState({pages: res.pages, isHandling: false});
+                this.setState({pages: pages, isHandling: false});
             }, () => {
                 alert("Something went wrong.");
             });
@@ -149,7 +149,7 @@ class FmsAddPostModal extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.alias !== this.props.alias) {
+        if (prevProps.project !== this.props.project) {
             this.onChangeAlias();
         }
     }

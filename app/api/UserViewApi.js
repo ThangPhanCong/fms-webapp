@@ -34,3 +34,20 @@ export function postProductView(project_id) {
     };
     return post(`/api/ui/user-view`, payload);
 }
+
+export function getStaffView(project_id) {
+    const clause = {
+        project_id,
+        name: 'ALL_STAFF_VIEW'
+    };
+    const queryParams = toQueryParams(clause);
+    return get(`/api/ui/user-view?${queryParams}`);
+}
+
+export function postStaffView(project_id) {
+    const payload = {
+        project_id,
+        name: 'ALL_STAFF_VIEW'
+    };
+    return post(`/api/ui/user-view`, payload);
+}
