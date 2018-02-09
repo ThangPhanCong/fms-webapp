@@ -29,3 +29,8 @@ export function updateStaff(project_id, staff) {
 export function deleteStaff(project_id, staff_id) {
     return apiSender.delete(`/api/a/staffs/${staff_id}`, getByProjectId(project_id));
 }
+
+export function StaffLogIn(staff) {
+    const payload = {...staff};
+    return apiSender.post('/api/a/staff-login', payload);
+}
