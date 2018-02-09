@@ -27,4 +27,4 @@ module.exports = merge(common, {
       }
     }),
   ]
-})
+});
