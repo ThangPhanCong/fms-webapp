@@ -99,8 +99,8 @@ export const updateMsgInConversation = (msg) => (dispatch, getState) => {
                 parent.is_seen = true;
                 dispatch(postSeenCv(parent));
             } else {
+                if (parent.is_seen) dispatch(setUnreadMsg(parent.type, true));
                 parent.is_seen = false;
-                dispatch(setUnreadMsg(parent.type, true));
             }
             if (Array.isArray(parent.children)) {
                 parent.children.push(msg);

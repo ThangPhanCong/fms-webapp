@@ -1,5 +1,4 @@
 const initState = {
-    alias: null,
     isLoadingConversations: true,
     conversations: [],
     pagingConversations: null,
@@ -17,12 +16,12 @@ const conversations = (state = initState, action) => {
         case 'SET_UNREAD_COMMENTS':
             return {
                 ...state,
-                countUnreadComments: action.state,
+                countUnreadComments: action.state < 0 ? 0 : action.state
             };
         case 'SET_UNREAD_INBOXES':
             return {
                 ...state,
-                countUnreadInboxes: action.state
+                countUnreadInboxes: action.state < 0 ? 0 : action.state
             };
         case 'SET_CONVERSATIONS':
             return {
@@ -38,17 +37,13 @@ const conversations = (state = initState, action) => {
                 conversations: action.conversations,
                 isLoadingConversations: false
             };
-        case 'SET_ALIAS':
-            return {
-                ...state,
-                alias: action.alias
-            };
         case 'RESET_INIT_STATE_CONVERSATIONS':
             return {
-                ...state,
                 isLoadingConversations: true,
                 conversations: [],
-                pagingConversations: null
+                pagingConversations: null,
+                countUnreadComments: 0,
+                countUnreadInboxes: 0
             };
         default:
             return state;
