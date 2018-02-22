@@ -175,7 +175,7 @@ class FmsStaffsBody extends Component {
                                     <FmsTabs tabActive={tabActive}>
 
                                         <FmsTab title='Nhân viên'>
-                                            <FmsStaffSearchBar/>
+                                            {/*<FmsStaffSearchBar/>*/}
                                             {
                                                 isLoading ?
                                                     <FmsSpin size={25} center={true}/>

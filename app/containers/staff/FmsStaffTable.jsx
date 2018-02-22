@@ -44,7 +44,7 @@ class FmsStaffTable extends Component {
                         <tr key={i}>
                             <td>{i + 1}</td>
                             <td>{staff.name}</td>
-                            <td>{staff.role.name}</td>
+                            <td>{staff.role && staff.role.name}</td>
                             <td>{staff.email}</td>
                             <td>{staff.phone}</td>
                             <td>

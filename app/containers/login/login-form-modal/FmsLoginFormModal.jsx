@@ -71,11 +71,13 @@ class FmsLoginFormModal extends Component {
                                         <div className="col-md-8 col-md-offset-2">
                                             <div className="ibox-content">
                                                 <div className="m-t">
-                                                    <a className="btn btn-success btn-outline btn-block btn-facebook text-center"
+                                                    <button
+                                                        className="btn btn-success btn-outline btn-block btn-facebook text-center"
                                                         onClick={this.logInWithFacebook.bind(this)}
+                                                        disabled={isLoading}
                                                     >
                                                         <i className="fa fa-facebook"> </i> Đăng nhập với Facebook
-                                                    </a>
+                                                    </button>
                                                     <br/>
                                                     <p className="text-muted text-center">
                                                         <small>Bạn là nhân viên? </small>
