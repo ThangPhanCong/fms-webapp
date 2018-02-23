@@ -3,12 +3,11 @@ import FmsRoleDetailModal from './modals/FmsRoleDetailModal';
 import FmsSpin from "commons/FmsSpin/FmsSpin";
 import {deleteRole} from '../../api/RoleApi';
 
-class FmsAddRole extends Component {
+class FmsRoleTable extends Component {
 
     state = {
-        roles: [],
         selectedRole: {},
-        isLoading: true,
+        isLoading: false,
         isShownDetailRoleModal: false
     }
 
@@ -36,21 +35,8 @@ class FmsAddRole extends Component {
                         this.props.updateRoles();
                     }
                 )
-                .then(this.setState({role: {}, isLoading: false}))
+                .then(this.setState({isLoading: false}))
         }
-    }
-
-    componentDidMount() {
-        const {roles} = this.props;
-        this.setState({roles: roles, isLoading: false});
-    }
-
-    componentWillUnmount() {
-        this.setState({
-            roles: [],
-            selectedRole: {},
-            isLoading: false
-        });
     }
 
     renderRolesItem() {
@@ -114,7 +100,7 @@ class FmsAddRole extends Component {
                                         </tbody>
                                     </table>
                                 )
-                                : <p className='text-center'>Không có chức danh nào</p>
+                                : <p className='text-center'>Không có vai trò nào</p>
                             
                         }
                     </div>
@@ -132,4 +118,4 @@ class FmsAddRole extends Component {
     }
 }
 
-export default FmsAddRole;
+export default FmsRoleTable;

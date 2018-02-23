@@ -16,17 +16,22 @@ class FmsStaffDetailModal extends Component {
         const {project} = this.props;
         const {staff} = this.state;
         this.setState({isLoading: true});
-        updateStaff(project._id, staff)
-            .then(
-                staff => {
-                    const shouldUpdate = true;
-                    this.closeModal(shouldUpdate);
-                },
-                err => {
-                    alert(err.message);
-                }
-            )
-            .then(this.setState({staff: {}, isLoading: false}));
+        if (!!staff.name && !!staff.email) {
+            updateStaff(project._id, staff)
+                .then(
+                    staff => {
+                        const shouldUpdate = true;
+                        this.closeModal(shouldUpdate);
+                    },
+                    err => {
+                        alert(err.message);
+                    }
+                )
+                .then(this.setState({staff: {}, isLoading: false}));
+        } else {
+            this.setState({isLoading: false});
+            alert('Cần điền đầy đủ các trường Tên nhân viên, Email');
+        } 
     }
 
     onDeleteStaff() {
@@ -60,6 +65,9 @@ class FmsStaffDetailModal extends Component {
         const newValue = this.refs[refName].value;
         const newStaff = {...this.state.staff};
         newStaff[refName] = newValue;
+        if (refName === 'role_id' && newValue === '') {
+            newStaff.role_id = null;
+        }
 
         this.setState({staff: newStaff});
     }
@@ -68,8 +76,8 @@ class FmsStaffDetailModal extends Component {
         let staff = this.state.staff;
         if (nextProps.staff && nextProps.staff !== staff) {
             staff = nextProps.staff;
-            staff.role_id = staff.role._id;
-            staff.birthday = staff.birthday.split('T')[0];
+            if (staff.role) staff.role_id = staff.role._id;
+            if (staff.birthday && staff.birthday !== null) staff.birthday = staff.birthday.split('T')[0];
             this.setState({staff});
         }
     }
@@ -90,7 +98,7 @@ class FmsStaffDetailModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Tên nhân viên:</label>
+                            <label className="control-label">Tên nhân viên: *</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
@@ -123,7 +131,7 @@ class FmsStaffDetailModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Email:</label>
+                            <label className="control-label">Email: *</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"

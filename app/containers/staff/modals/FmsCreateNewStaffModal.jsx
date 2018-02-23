@@ -16,17 +16,22 @@ class FmsCreateNewStaffModal extends Component {
         const {project} = this.props;
         const {staff}  = this.state;
         this.setState({isLoading: true});
-        createNewStaff(project._id, staff)
-            .then(
-                staff => {
-                    const shouldUpdate = true;
-                    this.closeModal(shouldUpdate);
-                },
-                err => {
-                    alert(err.message);
-                }
-            )
-            .then(() => this.setState({isLoading: false}));
+        if (!!staff.name && !!staff.email && !!staff.password) {
+            createNewStaff(project._id, staff)
+                .then(
+                    staff => {
+                        const shouldUpdate = true;
+                        this.closeModal(shouldUpdate);
+                    },
+                    err => {
+                        alert(err);
+                    }
+                )
+                .then(() => this.setState({isLoading: false}));
+        } else {
+            this.setState({isLoading: false});
+            alert('Cần điền đầy đủ các trường Tên nhân viên, Email, Mật khẩu');
+        } 
     }
 
     onCloseButtonClick() {
@@ -63,7 +68,7 @@ class FmsCreateNewStaffModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Tên nhân viên:</label>
+                            <label className="control-label">Tên nhân viên: *</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
@@ -92,7 +97,7 @@ class FmsCreateNewStaffModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Email:</label>
+                            <label className="control-label">Email: *</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
@@ -105,7 +110,7 @@ class FmsCreateNewStaffModal extends Component {
                     </div>
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Mật khẩu:</label>
+                            <label className="control-label">Mật khẩu: *</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"

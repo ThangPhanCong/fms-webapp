@@ -1,12 +1,13 @@
 .control-label-collapse {
-    cursor: pointer;
     padding: 5px;
+    margin-left: 0;
     color: rgb(0, 82, 204);
 }
 
-.collapse {
+.perm-select {
+    font-size: 12px;
     .checkbox-inline {
-        margin-left: 0;
+        margin-left: 10px;
         margin-bottom: 5px;
     }
 }

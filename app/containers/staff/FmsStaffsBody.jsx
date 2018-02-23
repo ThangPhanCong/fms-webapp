@@ -188,7 +188,7 @@ class FmsStaffsBody extends Component {
                                             <div className="row">
                                                 <div className="col-lg-12">
                                                     <button
-                                                        className="btn btn-primary btn-sm"
+                                                        className="btn btn-success btn-sm"
                                                         onClick={this.onOpenCreateRoleModal.bind(this)}
                                                     >
                                                         <i className="fa fa-plus"/> Thêm vai trò
