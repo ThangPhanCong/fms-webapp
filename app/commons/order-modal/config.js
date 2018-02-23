@@ -1,5 +1,5 @@
-export const typesModal = {
-    "TAT_CA_DON_HANG": {
+export const typesModal = [
+    {
         name: 'Tất cả đơn hàng',
         customer_info: true,
         note_info: true,
@@ -10,8 +10,7 @@ export const typesModal = {
         save_btn: true,
         update_btn: true
     },
-
-    "LUU_TRU_DON": {
+    {
         name: 'Lưu trữ đơn',
         customer_info: false,
         note_info: false,
@@ -22,4 +21,4 @@ export const typesModal = {
         save_btn: false,
         update_btn: false
     }
-};
+];
