@@ -65,7 +65,7 @@ class FmsLoginFormModal extends Component {
                     <Modal.Body>
                         <FmsTabs tabActive={tabActive} onHandleChange={this.switchTab.bind(this)}>
                             <FmsTab title='Chủ cửa hàng đăng nhập'>
-                                {isLoading ? <FmsSpin center size={20}/> : null}
+                                {/*{isLoading ? <FmsSpin center size={20}/> : null}*/}
                                 <div className="loginForm animated fadeInDown">
                                     <div className="row">
                                         <div className="col-md-8 col-md-offset-2">
@@ -93,27 +93,36 @@ class FmsLoginFormModal extends Component {
                             </FmsTab>
 
                             <FmsTab title='Nhân viên đăng nhập'>
-                                {isLoading ? <FmsSpin center size={20}/> : null}
+                                {/*{isLoading ? <FmsSpin center size={20}/> : null}*/}
+                                {
+                                    error ?
+                                        <p className="help-block help-block-login">{error}</p>
+                                        : null
+                                }
                                 <div className="loginForm animated fadeInDown">
                                     <div className="row">
                                         <div className="col-md-8 col-md-offset-2">
                                             <div className="ibox-content">
-                                                <div className={"m-t " + (error!=='' ? 'has-error' : null)}>
-                                                    <div className="form-group">
-                                                        <input type="email" className="form-control" ref='email'
+                                                <form className={"m-t " + (error!=='' ? 'has-error' : null)}>
+                                                    <fieldset className="form-group">
+                                                        <input
+                                                            className="form-control"
+                                                            type="email"
+                                                            ref='email'
                                                             placeholder='Email'
-                                                            onChange={() => this.onChangeInput('email')}/>
-                                                    </div>
-                                                    <div className="form-group">
+                                                            onChange={() => {
+                                                                this.setState({error: null});
+                                                                this.onChangeInput('email');
+                                                            }}/>
+                                                    </fieldset>
+                                                    <fieldset className="form-group">
                                                         <input type="password" className="form-control" ref='password'
                                                             placeholder='Mật khẩu'
-                                                            onChange={() => this.onChangeInput('password')}/>
-                                                    </div>
-                                                    {
-                                                        error ? 
-                                                        <p className="help-block">{error}</p>
-                                                        : null                                                        
-                                                    }
+                                                            onChange={() => {
+                                                                this.setState({error: null});
+                                                                this.onChangeInput('password')
+                                                            }}/>
+                                                    </fieldset>
                                                     <button type="submit" 
                                                         className="btn btn-primary block full-width m-b"
                                                         onClick={() => this.staffLogIn()}
@@ -127,7 +136,7 @@ class FmsLoginFormModal extends Component {
                                                             <small>Quên mật khẩu?</small>
                                                         </a>
                                                     </p>
-                                                </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>

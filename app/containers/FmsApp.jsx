@@ -65,20 +65,18 @@ class FmsApp extends Component {
     }
 
     noti(type, message) {
-        let self = this;
+        const {alerts} = this.state;
 
-        let alert = {
+        const alert = {
             id: uuid(),
             type: type,
             message: message
         };
 
-        let alerts = self.state.alerts;
-        alerts.push(alert);
-        self.setState({alerts: alerts});
+        this.setState({alerts: alerts.concat([alert])});
 
         setTimeout(() => {
-            self.removeNoti(alert.id);
+            this.removeNoti(alert.id);
         }, ALERT_TIME_DISMIS);
     }
 

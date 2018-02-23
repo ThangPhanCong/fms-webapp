@@ -13,6 +13,7 @@ import FmsTransportOrders from "../../transport/FmsTransportOrders";
 import FmsTransporting from "../../transport/FmsTransporting";
 import FmsSetting from '../../settings/FmsSettings';
 import FmsStaffs from '../../staff/FmsStaffs';
+import FmsTransportingProviders from "../../transport/transporting-providers/FmsTransportingProviders";
 
 const treeConfig = [
     {
@@ -109,32 +110,16 @@ const treeConfig = [
         icon: 'fa-truck',
         children: [
             {
-                route: 'transport-orders',
-                title: 'Yêu cầu vận chuyển',
-                headerColor: '#f3f3f4',
-                component: (props) => <FmsTransportOrders {...props} />
-            },
-            {
                 route: 'transporting-orders',
                 title: 'Đang vận chuyển',
                 headerColor: '#f3f3f4',
-                component: (props) => <FmsTransporting {...props}/>
+                component: (props) => <FmsTrans porting {...props}/>
             },
             {
-                route: 'waiting-orders',
-                title: 'Hàng chờ hoàn lại',
+                route: 'transporting-providers',
+                title: 'Đơn vị vận chuyển',
                 headerColor: '#f3f3f4',
-                component: () => {
-                    return <p>Hàng chờ hoàn lại</p>
-                }
-            },
-            {
-                route: 'pay-cod-orders',
-                title: 'Thanh toán COD',
-                headerColor: '#f3f3f4',
-                component: () => {
-                    return <p>Thanh toán COD</p>
-                }
+                component: (props) => <FmsTransportingProviders {...props}/>
             }
         ]
     },
