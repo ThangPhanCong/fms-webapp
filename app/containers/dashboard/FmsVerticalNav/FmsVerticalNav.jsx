@@ -36,8 +36,8 @@ class FmsVerticalNav extends React.Component {
              }
         });
         let {unreadComment, unreadInbox} = this.props;
-        if (unreadComment > 9) unreadComment = "9+";
-        if (unreadInbox > 9) unreadInbox = "9+";
+        if (unreadComment > 999) unreadComment = "999+";
+        if (unreadInbox > 999) unreadInbox = "999+";
         return (
             <div ref="vertical_nav">
                 <FmsToolTip message="Hiển thị tất cả" direction="right">
