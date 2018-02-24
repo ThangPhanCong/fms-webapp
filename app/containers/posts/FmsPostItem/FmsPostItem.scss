@@ -8,18 +8,50 @@
   max-height: 345px;
   display: flex;
   flex-direction: column;
+  position: relative;
+  .dropdown {
+    position: absolute;
+    top: 12px;
+    right: 5px;
+    i {
+      color: #acacac;
+      font-size: 16px;
+    }
+    ul {
+      left: -200px;
+      width: 220px;
+      padding: 5px 0;
+      .clickable {
+        padding: 10px 15px;
+        span {
+          margin-right: 5px;
+        }
+        i {
+          display: inline;
+          font-size: 13px;
+        }
+        &:hover {
+          background-color: #efefef;
+        }
+        a {
+          padding: 0;
+          margin: 0;
+          line-height: 1.42857;
+          &:hover {
+            background-color: #efefef;
+          }
+        }
+      }
+    }
+  }
   .content-wrapper {
     flex: 1;
     overflow: hidden;
-    max-height: 243px;
-    min-height: 243px;
+    max-height: 273px;
+    min-height: 273px;
   }
   .content {
     overflow: hidden;
-  }
-  .checkbox {
-    margin: 0;
-    padding-top: 10px;
   }
   .page-info {
     padding: 0 0 10px 0;
@@ -31,6 +63,7 @@
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
+      margin-right: 9px;
     }
     .avatar-wrapper {
       width: 40px;

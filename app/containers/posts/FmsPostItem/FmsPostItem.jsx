@@ -27,7 +27,7 @@ class FmsPostItem extends React.Component {
     }
 
     render() {
-        let {page, message, hide_comment} = this.props.data;
+        let {page, message, hide_comment, fb_id} = this.props.data;
         let avaUrl = `https://graph.facebook.com/v2.10/${page.fb_id}/picture`;
         let pageFb = `https://facebook.com/${page.fb_id}`;
         let attachments = (this.props.data.attachments) ? "" : " hide";
@@ -51,10 +51,29 @@ class FmsPostItem extends React.Component {
                         {this.renderImgs()}
                     </div>
                 </FmsScrollableDiv>
-                <div>
-                    <Checkbox type="checkbox"
-                              checked={hide_comment}
-                              onChange={this.onToggleChange.bind(this)}> Ẩn bình luận</Checkbox>
+                <div className="dropdown">
+                    <i className="glyphicon glyphicon-option-vertical clickable dropdown-toggle"
+                       data-toggle="dropdown"/>
+                    <ul className="dropdown-menu">
+                        <li className="clickable">
+                            <a href={"https://facebook.com/" + fb_id} target="_blank">
+                                Đi tới bài đăng trên facebook
+                            </a>
+                        </li>
+                        <li className='divider'/>
+                        <li className='dropdown-header'>Tùy chọn</li>
+                        <li className="clickable" onClick={this.onToggleChange.bind(this)}>
+                            <span>Ẩn bình luận</span>
+                            {hide_comment ?
+                                <i className="glyphicon glyphicon-ok"/> :
+                                null
+                            }
+                        </li>
+                        <li className="clickable">
+                            <span>Ẩn bình luận có số điện thoại</span>
+                            <i className="glyphicon glyphicon-ok"/>
+                        </li>
+                    </ul>
                 </div>
             </div>
         );
