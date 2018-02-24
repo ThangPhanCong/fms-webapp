@@ -95,7 +95,7 @@ export const getAllOrders = (alias) => (dispatch, getState) => {
 export const createReport = (page_fb_id, content) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
     let {reports} = getState().dashboard.createOrder;
-    let customer_id = utils.parseCustomer(conversation, "_id");
+    let customer_id = utils.parseCustomer(conversation, "fb_id");
 
     ReportApi.createReport(conversation.page_fb_id, customer_id, content)
         .then((res) => {
@@ -109,7 +109,7 @@ export const createReport = (page_fb_id, content) => (dispatch, getState) => {
 
 export const getReports = () => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
-    let customer_id = utils.parseCustomer(conversation, "_id");
+    let customer_id = utils.parseCustomer(conversation, "fb_id");
     if (!customer_id) return;
     ReportApi.getReports(customer_id)
         .then(res => {
@@ -127,7 +127,7 @@ export const getReports = () => (dispatch, getState) => {
 export const deleteReport = (report_id) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
     let {reports} = getState().dashboard.createOrder;
-    let customer_id = utils.parseCustomer(conversation, "_id");
+    let customer_id = utils.parseCustomer(conversation, "fb_id");
     if (!customer_id) return;
     ReportApi.deleteReport(customer_id, report_id)
         .then(() => {
@@ -144,7 +144,7 @@ export const deleteReport = (report_id) => (dispatch, getState) => {
 export const updateReport = (report_id, content) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
     let {reports} = getState().dashboard.createOrder;
-    let customer_id = utils.parseCustomer(conversation, "_id");
+    let customer_id = utils.parseCustomer(conversation, "fb_id");
     if (!customer_id) return;
     ReportApi.updateReport(customer_id, report_id, content)
         .then(res => {
