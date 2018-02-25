@@ -92,6 +92,7 @@ class FmsStaffsBody extends Component {
     reloadStaffs() {
         const {project} = this.props;
         this.updateStaffList(project);
+        this.setState({tabActive: 0});
     }
 
     getRolesOfProject() {

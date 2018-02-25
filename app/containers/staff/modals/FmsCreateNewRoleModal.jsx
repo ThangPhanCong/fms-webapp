@@ -2,7 +2,6 @@ import React, {Component, Fragment} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 import {getPermissions, createNewRole} from '../../../api/RoleApi';
-import {parse_permissions} from '../../../utils/permission-utils';
 
 class FmsCreateNewRoleModal extends Component {
 
@@ -37,9 +36,8 @@ class FmsCreateNewRoleModal extends Component {
 
     getPerms() {
         getPermissions()
-            .then((res) => {
-                const perms = parse_permissions(res);
-                this.setState({perms: perms});
+            .then((perms) => {
+                this.setState({perms});
             })
     }
 
@@ -56,23 +54,25 @@ class FmsCreateNewRoleModal extends Component {
         this.setState({role: newRole});
     }
 
-    onChangeAllCheck(key) {
+    onChangeAllCheck(idx) {
         const {perms} = this.state;
         let selectedPerms = this.state.selectedPerms;
-        if (this.refs[key].checked) {
-            perms[key].map(perm => {
-                if (selectedPerms.findIndex(p => p === perm) === -1) {
-                    selectedPerms.push(perm);
+        if (this.refs[idx].checked) {
+            perms[idx].permissions.map(perm => {
+                if (selectedPerms.findIndex(p => p === perm.key) === -1) {
+                    selectedPerms.push(perm.key);
                 }
             })
             this.setState({selectedPerms});
         } else {
-            selectedPerms = selectedPerms.filter(perm => perm.split('_')[0] !== key);
+            perms[idx].permissions.map(perm => {
+                selectedPerms = selectedPerms.filter(p => p !== perm.key);
+            })
             this.setState({selectedPerms});
         }
     }
 
-    onChangeCheckbox(perm, key) {
+    onChangeCheckbox(perm, idx) {
         let selectedPerms = this.state.selectedPerms;
         let index = selectedPerms.findIndex(p => p === perm);
         if (this.refs[perm].checked) {
@@ -80,7 +80,7 @@ class FmsCreateNewRoleModal extends Component {
                 selectedPerms.push(perm);
             }
         } else {
-            this.refs[key].checked = false;
+            this.refs[idx].checked = false;
             if (index !== -1) {
                 selectedPerms.splice(index, 1);
             }
@@ -95,33 +95,33 @@ class FmsCreateNewRoleModal extends Component {
     renderPerms() {
         const {perms, selectedPerms} = this.state;
         return (
-            Object.keys(perms).map(key => {
+            Array.isArray(perms) && perms.map((item, idx) => {
                 return (
-                    <div className='col-md-12' key={key}>
+                    <div className='col-md-12' key={item.name + idx}>
                         <label className="control-label-collapse" 
                             // data-toggle="collapse" 
                             // href={'#'+key} 
                             // aria-expanded="false" 
                             // aria-controls={key}
                         >
-                            <i className="fa fa-caret-right"> </i> {key}
+                            <i className="fa fa-caret-right"> </i> {item.name}
                         </label>
                         
-                        <div className="perm-select" id={key}>
-                            <label className='col-sm-3 checkbox-inline' onChange={() => this.onChangeAllCheck(key)}>
-                                <input type="checkbox" ref={key}/> Tất cả
+                        <div className="perm-select" id={item.name}>
+                            <label className='col-sm-3 checkbox-inline' onChange={() => this.onChangeAllCheck(idx)}>
+                                <input type="checkbox" ref={idx}/> Tất cả
                             </label>
                             {
-                                perms[key].map(perm => {
-                                    let index = selectedPerms.findIndex((p) => p === perm);
+                                Array.isArray(item.permissions) && item.permissions.map(perm => {
+                                    let index = selectedPerms.findIndex((p) => p === perm.key);
                                     return (
                                         <label className='col-sm-3 checkbox-inline' 
-                                            key={perm} 
-                                            onChange={() => this.onChangeCheckbox(perm, key)}
+                                            key={perm.key} 
+                                            onChange={() => this.onChangeCheckbox(perm.key, idx)}
                                         >
-                                            <input type="checkbox" ref={perm} 
-                                                onChange={() => this.onChangeCheckbox(perm, key)}
-                                                checked={selectedPerms[index] === perm}/> {perm}
+                                            <input type="checkbox" ref={perm.key} 
+                                                onChange={() => this.onChangeCheckbox(perm.key, idx)}
+                                                checked={selectedPerms[index] === perm.key}/> {perm.name}
                                         </label>
                                     );
                                 })

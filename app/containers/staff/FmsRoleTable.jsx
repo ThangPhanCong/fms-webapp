@@ -25,10 +25,12 @@ class FmsRoleTable extends Component {
     onDeleteRole(role) {
         const {project_id} = this.props;
         const role_id = role._id;
-        this.setState({isLoading: true});
+        
         const allow = confirm('Bạn có chắc chắn muốn xóa vai trò này?');
 
         if (allow) {
+            this.setState({isLoading: true});
+
             deleteRole(project_id, role_id)
                 .then(
                     res => {
@@ -50,7 +52,7 @@ class FmsRoleTable extends Component {
                     <td>
                         {role.permissions.map((perm, index) => {
                             if (index === role.permissions.length - 1) {
-                                return <span key={perm}>{perm + '.'}</span>
+                                return <span key={perm}>{perm}</span>
                             }
                             return <span key={perm}>{perm + ', '}</span>
                         })
