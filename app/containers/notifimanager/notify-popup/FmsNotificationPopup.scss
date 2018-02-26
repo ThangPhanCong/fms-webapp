@@ -6,10 +6,6 @@
   top: 12px;
 }
 
-//.list-noti {
-//  border-bottom: solid 0.5px #E5E5E5;
-//}
-
 .count-info {
   color: #999c9e;
 }
@@ -26,7 +22,19 @@
   border-radius: .25em;
 }
 
-.none_notifi {
+.none_notify {
   font-family: $font-family-sans-serif;
   font-size: 12px;
+  a {
+    color: #676A6C;
+  }
+}
+
+.text-notify {
+  margin-top: 8px;
+}
+
+.seeall-notify {
+  position: relative;
+  bottom: 10px;
 }

@@ -57,7 +57,7 @@ class FmsListNotification extends Component {
                 <div className="ibox-content mailbox-content">
                     <div className="file-manager">
                         <a className="btn btn-block btn-primary"
-                           onClick={() => this.navigateToProject('ad')}>
+                           onClick={() => this.navigateToProject('/')}>
                             <i className="fa fa-home" aria-hidden="true"></i>
                             Trang chủ
                         </a>

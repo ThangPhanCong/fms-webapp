@@ -93,6 +93,7 @@ class FmsNotificationPopup extends Component {
     renderCount() {
         const {notifications} = this.state;
         let sum = 0;
+
         notifications.map((noti, i) => {
             if (!noti.is_seen) {
                 sum += 1;
@@ -128,7 +129,19 @@ class FmsNotificationPopup extends Component {
             </div>
         </li>;
 
-        const none_notification = <p className="text-center none_notifi">Không có thông báo nào được hiển thị!</p>
+        const none_notification = <div className="text-center none_notify">
+            <p className="text-notify">
+                Không có thông báo nào được hiển thị!
+            </p>
+            <li className="divider"></li>
+            <br/>
+            <div className="seeall-notify">
+                <a href="/notifications">
+                    <strong>Xem tất cả </strong>
+                    <i className="fa fa-angle-right"></i>
+                </a>
+            </div>
+        </div>
 
         return (
             <li className="dropdown">
@@ -141,7 +154,7 @@ class FmsNotificationPopup extends Component {
                 </a>
                 <ul className="dropdown-menu dropdown-alerts"
                     style={see_all ? {maxHeight: '214px', width: '313px'} :
-                        {height: '47px', overflowY: 'hidden', width: '300px'}}>
+                        {height: '90px', overflowY: 'hidden', width: '300px'}}>
                     {notifications.map((noti, i) => {
                         if (!noti.is_archived) {
                             return (
