@@ -33,7 +33,7 @@ class Main extends React.Component {
         });
     }
 
-    verifyProjectRoute (match, history) {
+    verifyProjectRoute(match, history) {
         const {project_alias} = match.params;
         const projects = storage.get('projects');
         const currentProject = projects ? projects.find(p => p.data.alias === project_alias) : null;
@@ -41,7 +41,7 @@ class Main extends React.Component {
         this.registerProjectTokenId(currentProject.data._id);
     }
 
-    registerProjectTokenId(id){
+    registerProjectTokenId(id) {
         setProjectId(id);
     }
 
