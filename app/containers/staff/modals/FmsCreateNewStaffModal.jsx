@@ -54,7 +54,19 @@ class FmsCreateNewStaffModal extends Component {
 
     componentDidMount() {
         const {project} = this.props;
-        getRoles(project._id)
+        this.getRolesOfProject(project._id);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const {isShown, project} = this.props;
+
+        if (nextProps.isShown !== isShown && nextProps.isShown === true) {
+            this.getRolesOfProject(project._id);
+        }
+    }
+
+    getRolesOfProject(project_id) {
+        getRoles(project_id)
             .then(roles => {
                 this.setState({roles: roles});
             })
@@ -68,7 +80,7 @@ class FmsCreateNewStaffModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Tên nhân viên: *</label>
+                            <label className="control-label">Tên nhân viên <span className='required-text'>*</span></label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
@@ -81,7 +93,7 @@ class FmsCreateNewStaffModal extends Component {
                     </div>
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Địa chỉ:</label>
+                            <label className="control-label">Địa chỉ</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
@@ -97,7 +109,7 @@ class FmsCreateNewStaffModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Email: *</label>
+                            <label className="control-label">Email <span className='required-text'>*</span></label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
@@ -110,7 +122,7 @@ class FmsCreateNewStaffModal extends Component {
                     </div>
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Mật khẩu: *</label>
+                            <label className="control-label">Mật khẩu <span className='required-text'>*</span></label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
@@ -126,7 +138,7 @@ class FmsCreateNewStaffModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Điện thoại:</label>
+                            <label className="control-label">Điện thoại</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
@@ -139,7 +151,7 @@ class FmsCreateNewStaffModal extends Component {
                     </div>
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Ngày sinh:</label>
+                            <label className="control-label">Ngày sinh</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="date"
@@ -155,7 +167,7 @@ class FmsCreateNewStaffModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Vai trò:</label>
+                            <label className="control-label">Vai trò</label>
                         </div>
                         <div className="col-sm-8">
                             <select className="form-control"

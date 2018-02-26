@@ -11,7 +11,7 @@ import FmsStaffTable from './FmsStaffTable';
 import FmsSpin from "../../commons/FmsSpin/FmsSpin";
 import FmsStaffSearchBar from './FmsStaffSearchBar';
 import FmsRoleTable from './FmsRoleTable';
-import {getRoles} from '../../api/RoleApi';
+import {getRoles, getPermissions} from '../../api/RoleApi';
 import FmsCreateNewRoleModal from './modals/FmsCreateNewRoleModal';
 
 class FmsStaffsBody extends Component {
@@ -104,14 +104,24 @@ class FmsStaffsBody extends Component {
     }
 
     updateRoles() {
+        const {project} = this.props;
         this.getRolesOfProject();
+        this.updateStaffList(project);
         this.setState({tabActive: 1});
+    }
+
+    getPerms() {
+        getPermissions()
+            .then((perms) => {
+                this.setState({perms});
+            })
     }
 
     componentDidMount() {
         const {project} = this.props;
 
         this.getRolesOfProject();
+        this.getPerms();
         if (project) {
             this.updateStaffList(project);
         }
@@ -134,6 +144,7 @@ class FmsStaffsBody extends Component {
             isLoading, 
             staffs, 
             roles, 
+            perms,
             tabActive
         } = this.state;
         const {project} = this.props;
@@ -199,11 +210,13 @@ class FmsStaffsBody extends Component {
 
                                             <FmsRoleTable roles={roles} project_id={project._id}
                                                 updateRoles={this.updateRoles.bind(this)}
+                                                perms={perms}
                                             />
                                             <FmsCreateNewRoleModal
                                                 isShown={isShownCreateRoleModal}
                                                 onClose={this.onCloseCreateRoleModal.bind(this)}
                                                 project_id={project._id}
+                                                perms={perms}
                                             />
                                         </FmsTab>
 

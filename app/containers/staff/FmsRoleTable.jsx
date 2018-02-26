@@ -46,7 +46,7 @@ class FmsRoleTable extends Component {
 
         return roles.map(
             (role, i) => (
-                <tr key={i}>
+                <tr key={role._id}>
                     <td>{i+1}</td>
                     <td>{role.name}</td>
                     <td>
@@ -75,7 +75,7 @@ class FmsRoleTable extends Component {
 
     render() {
         const {isShownDetailRoleModal, selectedRole, isLoading} = this.state;
-        const {roles, project_id} = this.props;
+        const {roles, project_id, perms} = this.props;
 
         return (
             <Fragment>
@@ -114,6 +114,7 @@ class FmsRoleTable extends Component {
                     onClose={this.onCloseDetailRoleModal.bind(this)}
                     role={selectedRole}
                     project_id={project_id}
+                    perms={perms}
                 />
             </Fragment>
         )
