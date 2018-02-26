@@ -11,8 +11,16 @@ import {setProjectId} from "../../../helpers/token-getter";
 class Main extends React.Component {
 
     state = {
-        showRightNavbar: false
+        showRightNavbar: false,
+        project: null
     };
+
+    constructor(props) {
+        super(props);
+
+        const {match, history} = props;
+        this.verifyProjectRoute(match, history);
+    }
 
     toggleRightNavbar() {
         this.setState({showRightNavbar: !this.state.showRightNavbar})
@@ -38,7 +46,9 @@ class Main extends React.Component {
         const projects = storage.get('projects');
         const currentProject = projects ? projects.find(p => p.data.alias === project_alias) : null;
         if (!currentProject) history.replace('/shops');
+
         this.registerProjectTokenId(currentProject.data._id);
+        this.setState({project: currentProject});
     }
 
     registerProjectTokenId(id) {
@@ -46,9 +56,7 @@ class Main extends React.Component {
     }
 
     componentDidMount() {
-        const {match, history} = this.props;
         this.registerCorrectHeightMenu();
-        this.verifyProjectRoute(match, history);
     }
 
     componentWillReceiveProps(nextProps) {

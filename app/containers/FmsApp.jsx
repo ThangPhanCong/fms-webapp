@@ -5,6 +5,7 @@ import {Switch, Redirect, withRouter} from 'react-router-dom';
 import uuid from 'uuid';
 import propTypes from 'prop-types';
 import FmsLoading from '../commons/FmsLoading/FmsLoading';
+import FmsSpin from '../commons/FmsSpin/FmsSpin';
 import FmsRoute from '../commons/FmsRoute';
 import {ALERT_TIME_DISMIS} from '../constants/alert';
 import {verifyAccessToken} from '../actions/auth';
@@ -15,22 +16,22 @@ import trackUserBehavior from 'utils/track-user-behavior';
 
 const LoadableFmsLogin = Loadable({
     loader: () => import('./login/FmsLogin'),
-    loading: () => null
+    loading: FmsLoading
 });
 
 const LoadableFmsListNotification = Loadable({
     loader: () => import('./notifimanager/notify-list-user/FmsListNotification'),
-    loading: () => null
+    loading: FmsLoading
 });
 
 const LoadableFmsDashboard = Loadable({
     loader: () => import('./project-dashboard/layouts/Main'),
-    loading: () => null
+    loading: FmsLoading
 });
 
 const LoadableFmsProject = Loadable({
     loader: () => import('./project/FmsProject'),
-    loading: () => null
+    loading: FmsLoading
 });
 
 class FmsApp extends Component {
