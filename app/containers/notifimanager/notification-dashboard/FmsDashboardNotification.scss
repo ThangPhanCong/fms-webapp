@@ -1,0 +1,58 @@
+.admin-avatar {
+  width: 29px;
+  padding: 2px;
+}
+
+.back-dashboard {
+  border: solid 0.1px #C6C6C6;
+  width: 72px;
+  background: #F4F4F4;
+  height: 29px;
+  margin-top: 7px;
+  margin-left: 1px;
+}
+
+.archive-noti {
+  border: solid 0.1px #C6C6C6;
+  width: 72px;
+  background: #F4F4F4;
+  height: 29px;
+  margin-top: 7px;
+  margin-left: 1px;
+  color: #4B4B4B;
+  &:hover {
+    color: black;
+  }
+}
+
+.fa-sort-desc {
+  margin-left: 4px;
+  border: solid 1px;
+  padding: 1px;
+}
+
+.noti-avatar {
+  float: right;
+  padding: 1px;
+  margin-right: 24px;
+  margin-top: 13px;
+  width: 35px;
+}
+
+.navbar-noti {
+  padding-top: 1px;
+  list-style: none;
+  position: relative;
+  right: 12px;
+  li {
+    &:hover {
+      background: #F5F5F5;
+      cursor: pointer;
+    }
+  }
+
+}
+
+.user-receive {
+  padding-left: 27px;
+}

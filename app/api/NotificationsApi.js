@@ -1,10 +1,16 @@
-import apiSender from './ApiSender';
+import apiSender, {get} from './ApiSender';
 import getToken from '../helpers/token-getter';
+import {toQueryParams} from "../utils/query-utils";
 
 export function getNotifications(user_id, scope) {
     let route = `/api/n/users/${user_id}/notifications`;
     return apiSender.get(route, getToken(scope));
 };
+
+export function getNotify(user_id, filter = {}) {
+    const queryParams = toQueryParams(filter);
+    return get(`/api/n/users/${user_id}/notifications?${queryParams}`, getToken('BASE'));
+}
 
 export function updateSeen(is_seen, user_id, noti_id, scope) {
     let route = `/api/n/users/${user_id}/notifications/${noti_id}`;

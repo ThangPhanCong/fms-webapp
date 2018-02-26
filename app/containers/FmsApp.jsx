@@ -12,6 +12,8 @@ import FmsProgress from "../commons/FmsProgress/FmsProgress";
 import {registerNotiCenter} from "./notification/NotificationService";
 import Loadable from 'react-loadable';
 import trackUserBehavior from 'utils/track-user-behavior';
+import FmsDashboardNotification from "./notifimanager/notification-dashboard/FmsDashboardNotification";
+import FmsArchiveNotification from "./notifimanager/notification-dashboard/FmsArchiveNotification";
 
 const LoadableFmsLogin = Loadable({
     loader: () => import('./login/FmsLogin'),
@@ -126,11 +128,12 @@ class FmsApp extends Component {
 
                         <Switch>
                             <FmsRoute exact path="/shops" component={LoadableFmsProject}/>
-                            <FmsRoute path="/notifications" component={LoadableFmsListNotification}/>
+                            <FmsRoute path="/notifications" component={FmsDashboardNotification}/>
                             <FmsRoute path="/shops/:project_alias" component={LoadableFmsDashboard}/>
 
                             <Redirect to="/shops"/>
                         </Switch>
+
 
                     </div>
                 )
