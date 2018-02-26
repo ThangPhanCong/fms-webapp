@@ -5,7 +5,6 @@ import {Switch, Redirect, withRouter} from 'react-router-dom';
 import uuid from 'uuid';
 import propTypes from 'prop-types';
 import FmsLoading from '../commons/FmsLoading/FmsLoading';
-import FmsSpin from '../commons/FmsSpin/FmsSpin';
 import FmsRoute from '../commons/FmsRoute';
 import {ALERT_TIME_DISMIS} from '../constants/alert';
 import {verifyAccessToken} from '../actions/auth';
@@ -54,9 +53,9 @@ class FmsApp extends Component {
         dispatch(verifyAccessToken(access_token));
         registerNotiCenter(this.noti.bind(this));
 
-        // TODO: refactor, only load project when location.pathname !== '/shops/ .....', so on
         LoadableFmsProject.preload();
         LoadableFmsDashboard.preload();
+        LoadableFmsListNotification.preload();
     }
 
     componentWillReceiveProps(nextProps) {

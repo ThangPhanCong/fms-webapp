@@ -2,7 +2,6 @@ import React from 'react';
 
 import profileMockup from '../../../assets/images/mockup/profile_small.jpg';
 import {smoothlyMenu} from '../layouts/Helpers';
-import {getAllProjects} from "../../../api/ProjectApi";
 import {Link} from "react-router-dom";
 import {flatConfig} from "./RouteConfig";
 import {getRouteNameAtLevel} from "../../../utils/route-utils";
@@ -14,7 +13,6 @@ import * as store from "../../../helpers/storage";
 class TopHeader extends React.Component {
 
     state = {
-        projects: [],
         users: [],
         _id: null,
         color: 'white',
@@ -22,15 +20,8 @@ class TopHeader extends React.Component {
     };
 
     componentDidMount() {
-        getAllProjects()
-            .then(projects => {
-                this.setState({projects});
-            })
-            .catch(err => console.log(err));
-
         this.updateColorByLocation();
         this.getIdCurrentUser();
-
     }
 
     getIdCurrentUser() {
@@ -44,10 +35,6 @@ class TopHeader extends React.Component {
                 alert(err.message)
             })
     }
-
-    componentWillMount() {
-    }
-
 
     componentWillReceiveProps(nextProps) {
         this.updateColorByLocation(nextProps.location);
@@ -80,7 +67,7 @@ class TopHeader extends React.Component {
     }
 
     renderProjectItems() {
-        let {projects} = this.state;
+        let projects = store.get('projects');
 
         if (projects.length === 0) {
             return null;
@@ -95,7 +82,12 @@ class TopHeader extends React.Component {
             <ul className="nav navbar-top-links navbar-left">
                 <li className="dropdown">
                     <a className="dropdown-toggle" data-toggle="dropdown" href="#" style={{color: 'gray'}}>
-                        {currProject.data.name} <i className="fa fa-caret-down"/>
+                        {currProject.data.name}
+                        <span> </span>
+                        {
+                            projects.length > 0 ? <i className="fa fa-caret-down"/>
+                                : null
+                        }
                     </a>
                     <ul className="dropdown-menu dropdown-header-with-text">
                         {

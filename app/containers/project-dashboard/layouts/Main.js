@@ -18,8 +18,8 @@ class Main extends React.Component {
     constructor(props) {
         super(props);
 
-        const {match, history} = props;
-        this.verifyProjectRoute(match, history);
+        // const {match, history} = props;
+        // this.verifyProjectRoute(match, history);
     }
 
     toggleRightNavbar() {
@@ -57,34 +57,47 @@ class Main extends React.Component {
 
     componentDidMount() {
         this.registerCorrectHeightMenu();
+
+        const {match, history} = this.props;
+        this.verifyProjectRoute(match, history);
     }
 
     componentWillReceiveProps(nextProps) {
         const {history} = this.props;
+
         if (nextProps.match) {
             this.verifyProjectRoute(nextProps.match, history);
         }
     }
 
     render() {
-        const {showRightNavbar} = this.state;
+        const {
+            showRightNavbar,
+            project
+        } = this.state;
+
         return (
             <div id="wrapper">
                 <Navigation
                     location={this.props.location}
+                    project={project}
                 />
 
                 <div id="page-wrapper" className='gray-bg'>
 
                     <TopHeader
                         {...this.props}
+                        project={project}
 
                         onToggleRightNavbar={() => {
                             this.toggleRightNavbar()
                         }}
                     />
 
-                    <PageBody {...this.props}/>
+                    <PageBody
+                        {...this.props}
+                        project={project}
+                    />
 
                     {/*<Footer/>*/}
 
