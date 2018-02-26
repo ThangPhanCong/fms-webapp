@@ -78,6 +78,20 @@ export const treeConfig = [
                 component: (props) => <FmsAllOrders {...props}/>
             },
             {
+                route: 'export-order',
+                required: 'allorder_view',
+                title: 'Yêu cầu xuất hàng',
+                headerColor: '#f3f3f4',
+                component: (props) => <FmsExportOrders {...props}/>
+            },
+            {
+                route: 'transporting-orders',
+                required: 'allorder_view',
+                title: 'Đang vận chuyển',
+                headerColor: '#f3f3f4',
+                component: (props) => <FmsTrans porting {...props}/>
+            },
+            {
                 route: 'saved-orders',
                 required: 'savedorder_view',
                 title: 'Lưu trữ đơn',
@@ -99,12 +113,6 @@ export const treeConfig = [
         icon: 'fa-cubes',
         children: [
             {
-                route: 'export-order',
-                title: 'Yêu cầu xuất hàng',
-                headerColor: '#f3f3f4',
-                component: (props) => <FmsExportOrders {...props}/>
-            },
-            {
                 route: 'products',
                 required: 'product_view',
                 title: 'Sản phẩm',
@@ -119,13 +127,8 @@ export const treeConfig = [
         icon: 'fa-truck',
         children: [
             {
-                route: 'transporting-orders',
-                title: 'Đang vận chuyển',
-                headerColor: '#f3f3f4',
-                component: (props) => <FmsTrans porting {...props}/>
-            },
-            {
                 route: 'transporting-providers',
+                required: 'transportunit_view',
                 title: 'Đơn vị vận chuyển',
                 headerColor: '#f3f3f4',
                 component: (props) => <FmsTransportingProviders {...props}/>

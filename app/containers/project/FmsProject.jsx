@@ -7,7 +7,7 @@ import FmsSpin from '../../commons/FmsSpin/FmsSpin';
 import FmsProjectItem from './FmsProjectItem';
 import FmsNewProjectModal from './modals/FmsNewProjectModal';
 import FmsAddPagesModal from './modals/FmsAddPagesModal';
-import {getProjects, createNewProject} from '../../actions/project/project';
+import {getProjects, createNewProject, ADD_NEW_PROJECT} from '../../actions/project/project';
 import projectApi from '../../api/ProjectApi';
 import FmsNavigation from "../../commons/FmsNavigation/FmsNavigation";
 import {Redirect} from 'react-router-dom';
@@ -65,6 +65,20 @@ class FmsProject extends Component {
         this.setState({projects, isProjectLoading: false});
     }
 
+    createNewProject(projectName) {
+        // this.setState({isProjectLoading: true});
+
+        projectApi.createNewProject(projectName)
+            .then(project => {
+                const storeProjects = storage.get('projects');
+                storage.set('projects', storeProjects.concat([project]));
+
+                // this.loadStoreProjects();
+                window.location = '/';
+            })
+            .catch(err => console.log(err));
+    }
+
     openCreateProjectModal() {
         this.setState({
             isCreateProjectModalShown: true
@@ -114,7 +128,8 @@ class FmsProject extends Component {
             // activePages: []
         });
 
-        this.props.dispatch(createNewProject(projectName));
+        // this.props.dispatch(createNewProject(projectName));
+        this.createNewProject(projectName);
 
         // this.props.dispatch(getPages());
     }
