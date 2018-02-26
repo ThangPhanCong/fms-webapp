@@ -108,7 +108,7 @@ class FmsRoleDetailModal extends Component {
         this.setState({selectedPerms});
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getPerms();
         const {role} = this.state;
         this.setState({selectedPerms: role.permissions});

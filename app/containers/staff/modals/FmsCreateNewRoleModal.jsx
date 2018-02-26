@@ -88,7 +88,7 @@ class FmsCreateNewRoleModal extends Component {
         this.setState({selectedPerms});
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getPerms();
     }
     
