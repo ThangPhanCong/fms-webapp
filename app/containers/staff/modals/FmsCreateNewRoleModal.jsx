@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
-import {getPermissions, createNewRole} from '../../../api/RoleApi';
+import {createNewRole} from '../../../api/RoleApi';
 
 class FmsCreateNewRoleModal extends Component {
 
@@ -32,13 +32,6 @@ class FmsCreateNewRoleModal extends Component {
             this.setState({isLoading: false});
             alert('Cần điền Tên vai trò');
         }
-    }
-
-    getPerms() {
-        getPermissions()
-            .then((perms) => {
-                this.setState({perms});
-            })
     }
 
     onCloseButtonClick() {
@@ -88,8 +81,10 @@ class FmsCreateNewRoleModal extends Component {
         this.setState({selectedPerms});
     }
 
-    componentDidMount() {
-        this.getPerms();
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.perms && nextProps.perms !== this.state.perms) {
+            this.setState({perms: nextProps.perms});
+        }
     }
 
     renderPerms() {
@@ -101,15 +96,15 @@ class FmsCreateNewRoleModal extends Component {
         return (
             Array.isArray(perms) && perms.map((item, idx) => {
                 return (
-                    <div className='col-md-12' key={item.name + idx}>
+                    <div className='col-md-12 perm-group' key={item.name + idx}>
                         <label
                             // className="control-label-collapse"
-                            // data-toggle="collapse" 
-                            // href={'#'+key} 
-                            // aria-expanded="false" 
+                            // data-toggle="collapse"
+                            // href={'#'+key}
+                            // aria-expanded="false"
                             // aria-controls={key}
                         >
-                            {/*<i className="fa fa-caret-right"> </i> */}
+                            {/* <i className="fa fa-caret-right"> </i>  */}
                             {item.name}
                         </label>
 
@@ -147,7 +142,7 @@ class FmsCreateNewRoleModal extends Component {
             <Modal.Body>
                 <div className="row form-group">
                     <div className="col-sm-2">
-                        <label className="control-label">Tên vai trò: *</label>
+                        <label className="control-label">Tên vai trò <span className='required-text'>*</span></label>
                     </div>
                     <div className="col-sm-10">
                         <input type="text"
@@ -163,7 +158,7 @@ class FmsCreateNewRoleModal extends Component {
 
                 <div className="row form-group">
                     <div className="col-sm-2">
-                        <label className="control-label">Các quyền:</label>
+                        <label className="control-label">Các quyền</label>
                     </div>
                     <div className="col-sm-10">
                         {
@@ -215,7 +210,8 @@ class FmsCreateNewRoleModal extends Component {
 FmsCreateNewRoleModal.propTypes = {
     isShown: propTypes.bool.isRequired,
     onClose: propTypes.func.isRequired,
-    project_id: propTypes.string
+    project_id: propTypes.string,
+    perms: propTypes.array
 };
 
 export default FmsCreateNewRoleModal;

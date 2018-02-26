@@ -28,6 +28,7 @@ class FmsStaffTable extends Component {
                     <th>Vai trò</th>
                     <th>Email</th>
                     <th>Số điện thoại</th>
+                    <th>Trạng thái</th>
                 </tr>
             </thead>
         )
@@ -41,12 +42,13 @@ class FmsStaffTable extends Component {
             {
                 staffs.map(
                     (staff, i) => (
-                        <tr key={i}>
+                        <tr key={staff._id}>
                             <td>{i + 1}</td>
                             <td>{staff.name}</td>
                             <td>{staff.role && staff.role.name}</td>
                             <td>{staff.email}</td>
                             <td>{staff.phone}</td>
+                            <td><span className="label label-info">Active</span></td>
                             <td>
                                 <i className='fa fa-pencil clickable'
                                    onClick={() => {
