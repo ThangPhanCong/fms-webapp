@@ -5,6 +5,7 @@ import PageApi from '../../api/PagesApi';
 import ProjectApi from '../../api/ProjectApi';
 import addImg from '../../assets/images/add.png';
 import * as socket from '../../socket/index';
+import FmsAddPageModal from "./FmsAddPageModal";
 
 class FmsSettings extends React.Component {
     constructor(props) {
@@ -13,7 +14,9 @@ class FmsSettings extends React.Component {
             all: null,
             pages: null,
             states: null,
-            isHandling: false
+            isHandling: false,
+            isShownModal: false,
+            selectedPage: null
         }
     }
 
@@ -144,28 +147,35 @@ class FmsSettings extends React.Component {
         }
     }
 
-    addPage(page_id) {
-        let allow = confirm("Bạn có muốn thêm trang này vào cửa hàng?");
-        if (allow && !this.state.isHandling) {
-            // let getHistory = confirm("Bạn có muốn lấy lịch sử của trang khi thêm vào cửa hàng?");
-            // if (getHistory) {
-            //     this.subscribePageChanges(page_id);
-            //     socket.getPageHistory({
-            //         page_id: page_id
-            //     });
-            // }
-            this.setState({isHandling: true});
-            ProjectApi.addPage(page_id)
-                .then(() => {
-                    this.setState({isHandling: false});
-                    this.getPages();
-                    this.getPagesOfProject();
-                })
-                .catch(err => {
-                    alert(err.message);
-                    this.setState({isHandling: false});
-                })
+    openModal(page_id) {
+        this.setState({isShownModal: true, selectedPage: page_id});
+    }
+
+    closeModal() {
+        this.setState({isShownModal: false});
+    }
+
+    addPage(getHistory, since) {
+        let page_id = this.state.selectedPage;
+        let unixTime = (new Date(since)).getTime() / 1000;
+        if (getHistory) {
+            this.subscribePageChanges(page_id);
+            socket.getPageHistory({
+                page_id: page_id,
+                since: unixTime
+            });
         }
+        this.setState({isHandling: true});
+        ProjectApi.addPage(page_id)
+            .then(() => {
+                this.setState({isHandling: false});
+                this.getPages();
+                this.getPagesOfProject();
+            })
+            .catch(err => {
+                alert(err.message);
+                this.setState({isHandling: false});
+            })
     }
 
     renderShopPages() {
@@ -208,7 +218,7 @@ class FmsSettings extends React.Component {
                     {!is_active ?
                         <img className={"add-icon clickable" + disabled} src={addImg}
                              onClick={() => {
-                                 this.addPage(page.fb_id)
+                                 this.openModal(page.fb_id)
                              }}/>
                         :
                         null
@@ -265,6 +275,8 @@ class FmsSettings extends React.Component {
                         </div>
                     </div>
                 </div>
+                <FmsAddPageModal isShown={this.state.isShownModal} onClose={this.closeModal.bind(this)}
+                                 addPage={this.addPage.bind(this)}/>
             </div>
         );
     }

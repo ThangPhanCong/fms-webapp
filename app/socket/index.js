@@ -46,12 +46,12 @@ export const unsubscribePagesChanges = ({page_id}) => {
     }
 }
 
-export const getPageHistory = ({page_id}) => {
+export const getPageHistory = ({page_id, since}) => {
     console.log('getPageHistory ', page_id);
     if (socket) {
-        socket.emit(event.GET_HISTORY_PAGE_EVENT, page_id);
+        socket.emit(event.GET_HISTORY_PAGE_EVENT, page_id, since);
     } else {
-        retry(getPageHistory, {page_id});
+        retry(getPageHistory, {page_id, since});
     }
 }
 
