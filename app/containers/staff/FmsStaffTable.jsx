@@ -48,7 +48,7 @@ class FmsStaffTable extends Component {
                             <td>{staff.role && staff.role.name}</td>
                             <td>{staff.email}</td>
                             <td>{staff.phone}</td>
-                            <td><span className="label label-info">Active</span></td>
+                            <td><span className="label label-info">Hoạt động</span></td>
                             <td>
                                 <i className='fa fa-pencil clickable'
                                    onClick={() => {
