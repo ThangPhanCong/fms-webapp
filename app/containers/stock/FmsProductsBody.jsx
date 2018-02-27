@@ -69,7 +69,7 @@ class FmsProductsBody extends Component {
     onChangeFilter(filter) {
         const {project} = this.props;
         const {timeoutKey} = this.state;
-        const before = 0.5 * 1000; // 1s
+        const before = 0.5 * 1000;
 
         if (timeoutKey) clearTimeout(timeoutKey);
 

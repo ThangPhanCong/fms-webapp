@@ -11,8 +11,16 @@ import {setProjectId} from "../../../helpers/token-getter";
 class Main extends React.Component {
 
     state = {
-        showRightNavbar: false
+        showRightNavbar: false,
+        project: null
     };
+
+    constructor(props) {
+        super(props);
+
+        // const {match, history} = props;
+        // this.verifyProjectRoute(match, history);
+    }
 
     toggleRightNavbar() {
         this.setState({showRightNavbar: !this.state.showRightNavbar})
@@ -33,50 +41,63 @@ class Main extends React.Component {
         });
     }
 
-    verifyProjectRoute (match, history) {
+    verifyProjectRoute(match, history) {
         const {project_alias} = match.params;
         const projects = storage.get('projects');
         const currentProject = projects ? projects.find(p => p.data.alias === project_alias) : null;
         if (!currentProject) history.replace('/shops');
+
         this.registerProjectTokenId(currentProject.data._id);
+        this.setState({project: currentProject});
     }
 
-    registerProjectTokenId(id){
+    registerProjectTokenId(id) {
         setProjectId(id);
     }
 
     componentDidMount() {
-        const {match, history} = this.props;
         this.registerCorrectHeightMenu();
+
+        const {match, history} = this.props;
         this.verifyProjectRoute(match, history);
     }
 
     componentWillReceiveProps(nextProps) {
         const {history} = this.props;
+
         if (nextProps.match) {
             this.verifyProjectRoute(nextProps.match, history);
         }
     }
 
     render() {
-        const {showRightNavbar} = this.state;
+        const {
+            showRightNavbar,
+            project
+        } = this.state;
+
         return (
             <div id="wrapper">
                 <Navigation
                     location={this.props.location}
+                    project={project}
                 />
 
                 <div id="page-wrapper" className='gray-bg'>
 
                     <TopHeader
                         {...this.props}
+                        project={project}
 
                         onToggleRightNavbar={() => {
                             this.toggleRightNavbar()
                         }}
                     />
 
-                    <PageBody {...this.props}/>
+                    <PageBody
+                        {...this.props}
+                        project={project}
+                    />
 
                     {/*<Footer/>*/}
 
