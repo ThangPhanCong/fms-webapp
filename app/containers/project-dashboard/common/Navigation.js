@@ -13,16 +13,17 @@ class Navigation extends Component {
         dispatch(logOut());
     }
 
-    componentDidMount() {
+    updateMenu() {
         const {menu} = this.refs;
         $(menu).metisMenu();
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.project) {
-            const {menu} = this.refs;
-            $(menu).metisMenu();
-        }
+    componentDidMount() {
+        this.updateMenu();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        this.updateMenu();
     }
 
     renderHeaderNavItem() {
