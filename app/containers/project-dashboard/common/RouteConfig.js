@@ -89,7 +89,7 @@ export const treeConfig = [
                 required: 'allorder_view',
                 title: 'Đang vận chuyển',
                 headerColor: '#f3f3f4',
-                component: (props) => <FmsTrans porting {...props}/>
+                component: (props) => <FmsTransporting {...props}/>
             },
             {
                 route: 'saved-orders',
