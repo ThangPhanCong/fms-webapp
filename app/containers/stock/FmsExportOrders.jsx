@@ -10,34 +10,12 @@ import FmsOrderDetailModal from "../../commons/order-modal/FmsOrderDetailModal";
 class FmsExportOrders extends Component {
 
     state = {
-        project: null,
         orders: [],
         selectedOrder: null,
         isLoading: true,
-        isShownDetailModal: false
+        isShownDetailModal: false,
+        isShownCreateTransportOrderModal: false,
     };
-
-    onCloseDetailModal(updatedOrder) {
-        if (updatedOrder) {
-            const {project} = this.state;
-            this.updateOrderList(project);
-        }
-
-        this.setState({isShownDetailModal: false});
-    }
-
-    onOpenDetailModal(selectedOrder) {
-        console.log('ok men', selectedOrder)
-        this.setState({selectedOrder, isShownDetailModal: true});
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const {project} = this.state;
-        if (!project || (nextProps.project && nextProps.project.alias !== project.alias)) {
-            this.setState({project: nextProps.project});
-            this.updateOrderList(nextProps.project);
-        }
-    }
 
     updateOrderList(project) {
         project = project || this.props.project;
@@ -54,6 +32,42 @@ class FmsExportOrders extends Component {
         this.updateOrderList(project);
     }
 
+    onCloseDetailModal(updatedOrder) {
+        if (updatedOrder) {
+            const {project} = this.state;
+            this.updateOrderList(project);
+        }
+
+        this.setState({isShownDetailModal: false});
+    }
+
+    onOpenDetailModal(selectedOrder) {
+        this.setState({selectedOrder, isShownDetailModal: true});
+    }
+
+    onCloseCreateTransportOrderModal(updatedOrder) {
+        if (updatedOrder) {
+            const {project} = this.state;
+            this.updateOrderList(project);
+        }
+
+        this.setState({isShownCreateTransportOrderModal: false});
+    }
+
+    onOpenCreateTransportOrderModal(selectedOrder) {
+        this.setState({selectedOrder, isShownCreateTransportOrderModal: true});
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.project) {
+            this.updateOrderList(nextProps.project);
+        }
+    }
+
+    componentDidMount() {
+        this.updateOrderList();
+    }
+
     render() {
         const {project} = this.props;
         const {
@@ -63,15 +77,10 @@ class FmsExportOrders extends Component {
             isShownDetailModal
         } = this.state;
 
-        let projectName = 'Cửa hàng';
-        if (project) {
-            projectName = project.name;
-        }
-
         return (
             [
                 <FmsPageTitle key={1} title="Yêu cầu xuất hàng"
-                              route={`${projectName}/Quản lí kho/Yêu cầu xuất hàng`}/>,
+                              route={`${project.name}/Quản lí đơn hàng/Yêu cầu xuất hàng`}/>,
 
                 <div key={2} className="wrapper wrapper-content">
                     <div className="row">
@@ -90,8 +99,17 @@ class FmsExportOrders extends Component {
                                                 project={project}
                                                 onReloadOrders={this.reloadOrders.bind(this)}
                                                 onSelectItem={this.onOpenDetailModal.bind(this)}
+                                                isShownCreateTransportOrderModal={this.onOpenCreateTransportOrderModal.bind(this)}
                                             />
                                     }
+
+                                    <FmsOrderDetailModal
+                                        order={selectedOrder}
+                                        project={project}
+                                        onClose={this.onCloseDetailModal.bind(this)}
+                                        isShown={isShownDetailModal}
+                                        typeModal={0}
+                                    />
 
                                     <FmsOrderDetailModal
                                         order={selectedOrder}
