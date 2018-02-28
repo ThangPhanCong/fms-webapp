@@ -208,6 +208,7 @@ class FmsOrderDetailModal extends Component {
                             customer_name={order.customer_name}
                             customer_phone={order.customer_phone}
                             customer_facebook={order.customer_facebook}
+                            customer_email={order.customer_email}
                             onChangeInput={this.onChangeInput.bind(this)}
                             disabled={!config.customer_info}
                         />
@@ -226,11 +227,11 @@ class FmsOrderDetailModal extends Component {
                         />
                     </div>
 
-                    <div className='col-sm-12'>
-                        <FmsPaymentMethodPanel
-                            onChangeInput={this.onChangeInput.bind(this)}
-                        />
-                    </div>
+                    {/*<div className='col-sm-12'>*/}
+                        {/*<FmsPaymentMethodPanel*/}
+                            {/*onChangeInput={this.onChangeInput.bind(this)}*/}
+                        {/*/>*/}
+                    {/*</div>*/}
 
                     <div className="col-sm-12">
                         <FmsProductsInfoPanel
