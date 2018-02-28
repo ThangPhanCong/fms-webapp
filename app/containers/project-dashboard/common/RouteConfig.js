@@ -9,9 +9,8 @@ import FmsColorCards from "../../cards/FmsColorCards/FmsColorCards";
 import FmsProducts from "../../stock/FmsProducts";
 import FmsStatistic from "../../statistic/FmsStatistic";
 import FmsExportOrders from "../../stock/FmsExportOrders";
-import FmsTransportOrders from "../../transport/FmsTransportOrders";
-import FmsTransporting from "../../transport/FmsTransporting";
-import FmsSetting from '../../settings/FmsSettings';
+import FmsSettings from '../../settings/FmsProjectSettings';
+import FmsConversationSettings from '../../conversation-settings/FmsConversationSettings';
 import FmsStaffs from '../../staff/FmsStaffs';
 import FmsTransportingProviders from "../../transport/transporting-providers/FmsTransportingProviders";
 
@@ -60,7 +59,7 @@ export const treeConfig = [
                 title: 'Cài đặt',
                 headerColor: '#f3f3f4',
                 component: (props) => {
-                    return <FmsSetting {...props}/>
+                    return <FmsConversationSettings {...props}/>
                 }
             }
         ]
@@ -142,6 +141,13 @@ export const treeConfig = [
         icon: 'fa-users',
         headerColor: '#f3f3f4',
         component: (props) => <FmsStaffs {...props}/>
+    },
+    {
+        route: 'settings',
+        title: 'Cài đặt chung',
+        icon: 'fa-cog',
+        headerColor: '#f3f3f4',
+        component: (props) => <FmsSettings {...props}/>
     },
 
 ];

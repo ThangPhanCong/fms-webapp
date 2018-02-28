@@ -73,12 +73,15 @@ class FmsOrderTagBody extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        const {project} = this.state;
+    componentDidMount() {
+        this.updateTags({});
+        this.setState({project: this.props.project});
+    }
 
-        if (!project || (nextProps.project && nextProps.project.alias !== project.alias)) {
-            this.updateTags(nextProps.project);
-            this.setState({project: nextProps.project});
+    componentDidUpdate(prevProps) {
+        if ((!prevProps.project && this.props.project) || (prevProps.project && this.props.project && prevProps.project.alias !== this.props.project.alias)) {
+            this.updateTags({});
+            this.setState({project: this.props.project});
         }
     }
 
@@ -86,7 +89,7 @@ class FmsOrderTagBody extends Component {
         let tags = this.state.tags;
         let colors = TAG_COLORS.map(color => {
             let same = tags.filter(tag => {
-               return color === tag.color;
+                return color === tag.color;
             });
             if (same.length === 0) return color;
         });
@@ -99,7 +102,7 @@ class FmsOrderTagBody extends Component {
         return tags.map(
             (tag, i) => (
                 <tr key={i}>
-                    <td>{i+1}</td>
+                    <td>{i + 1}</td>
                     <td className="color-tag">
                         <a>
                             <span

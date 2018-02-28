@@ -69,8 +69,6 @@ class Navigation extends Component {
 
         const authNavItems = filterConfigByPerms(treeConfig, project.role.permissions);
 
-        console.log('authNavItems', authNavItems)
-
         return (
             <nav className="navbar-default navbar-static-side" role="navigation">
                 <ul className="nav metismenu" id="side-menu" ref="menu">

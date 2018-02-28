@@ -1,0 +1,14 @@
+.form-group {
+  .shop-name {
+    display: flex;
+    span {
+      flex: 1;
+    }
+    div {
+      font-weight: 500;
+      &:hover {
+        color: #1ab394;
+      }
+    }
+  }
+}
