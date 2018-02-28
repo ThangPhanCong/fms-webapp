@@ -8,7 +8,8 @@ const config = {
     '/api/p' : 'PROJECT',
     '/api/o' : 'PROJECT',
     '/api/n' : 'PROJECT',
-    '/api/ui' : 'PROJECT'
+    '/api/ui' : 'PROJECT',
+    '/api/t' : 'PROJECT'
 };
 
 function getTypeToken(route) {
@@ -26,17 +27,7 @@ exports.get = (route, access_token = tokenGetter(getTypeToken(route))) => {
     };
 
     return axios.get(url, {headers})
-        .then(res => {
-            if (!res.data) {
-                return Promise.reject(new Error('Something went wrong'));
-            } else {
-                if (res.data.success) {
-                    return Promise.resolve(res.data.data);
-                } else {
-                    return Promise.reject(new Error(res.data.message));
-                }
-            }
-        });
+        .then(handleResponse);
 };
 
 exports.post = (route, payload, access_token = tokenGetter(getTypeToken(route))) => {
@@ -46,17 +37,7 @@ exports.post = (route, payload, access_token = tokenGetter(getTypeToken(route)))
     };
 
     return axios.post(url, payload, {headers})
-        .then(res => {
-            if (!res.data) {
-                return Promise.reject(new Error('Something went wrong'));
-            } else {
-                if (res.data.success) {
-                    return Promise.resolve(res.data.data);
-                } else {
-                    return Promise.reject(new Error(res.data.message));
-                }
-            }
-        });
+        .then(handleResponse);
 };
 
 exports.put = (route, payload, access_token = tokenGetter(getTypeToken(route))) => {
@@ -66,17 +47,7 @@ exports.put = (route, payload, access_token = tokenGetter(getTypeToken(route))) 
     };
 
     return axios.put(url, payload, {headers})
-        .then(res => {
-            if (!res.data) {
-                return Promise.reject(new Error('Something went wrong'));
-            } else {
-                if (res.data.success) {
-                    return Promise.resolve(res.data.data);
-                } else {
-                    return Promise.reject(new Error(res.data.message));
-                }
-            }
-        });
+        .then(handleResponse);
 };
 
 exports.delete = (route, access_token = tokenGetter(getTypeToken(route))) => {
@@ -86,17 +57,19 @@ exports.delete = (route, access_token = tokenGetter(getTypeToken(route))) => {
     };
 
     return axios.delete(url, {headers})
-        .then(res => {
-            if (!res.data) {
-                return Promise.reject(new Error('Something went wrong'));
-            } else {
-                if (res.data.success) {
-                    return Promise.resolve(res.data.data);
-                } else {
-                    return Promise.reject(new Error(res.data.message));
-                }
-            }
-        });
+        .then(handleResponse);
+};
+
+function handleResponse(res) {
+    if (!res.data) {
+        return Promise.reject(new Error('Something went wrong'));
+    } else {
+        if (res.data.success) {
+            return Promise.resolve(res.data.data);
+        } else {
+            return Promise.reject(new Error(res.data.reason));
+        }
+    };
 };
 
 exports.getWithoutAuth = (route) => {
