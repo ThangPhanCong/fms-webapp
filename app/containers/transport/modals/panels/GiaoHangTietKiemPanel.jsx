@@ -14,26 +14,21 @@ class GiaoHangTietKiemPanel extends Component {
 
     render() {
         return (
-            <div className="panel panel-success">
-                <div className="panel-heading">
-                    Tạo tài khoản Giao hàng tiết kiệm
-                </div>
-                <div className="panel-body">
-                    <div className="form-group">
-                        <div className='row'>
-                            <div className="col-sm-3">
-                                <label className="control-label"></label>
-                            </div>
-                            <div className="col-sm-9">
-                                <input className="form-control"
-                                    type='text'
-                                    ref='private_note'
-                                    value={''}
-                                    onChange={() => {
-                                        this.onChangeInput('private_note')
-                                    }}
-                                />
-                            </div>
+            <div>
+                <div className="form-group">
+                    <div className='row'>
+                        <div className="col-sm-3">
+                            <label className="control-label"></label>
+                        </div>
+                        <div className="col-sm-9">
+                            <input className="form-control"
+                                type='text'
+                                ref='private_note'
+                                value={''}
+                                onChange={() => {
+                                    this.onChangeInput('private_note')
+                                }}
+                            />
                         </div>
                     </div>
                 </div>

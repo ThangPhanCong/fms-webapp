@@ -103,6 +103,9 @@ class FmsTransportingProviderDetailModal extends Component {
         if (nextProps.project_id && nextProps.project_id !== this.props.project_id) {
             this.getProviderInfoAccount(nextProps.provider.name_slug);
         }
+        if (nextProps.isShown) {
+            this.getProviderInfoAccount(nextProps.provider.name_slug);
+        }
     }
 
     render() {
@@ -135,46 +138,11 @@ class FmsTransportingProviderDetailModal extends Component {
                         closeButton={true}
                         onHide={this.onCloseButtonClick.bind(this)}
                     >
-                        <h4 className='modal-title'>Đơn vị vận chuyển: {provider.name}</h4>
+                        <h4 className='modal-title'>Cấu hình tài khoản {provider.name}</h4>
 
                     </Modal.Header>
 
                     <Modal.Body>
-                        <div className="form-group row">
-                            <div className="col-sm-3">
-                                <label className="control-label">Tên đơn vị</label>
-                            </div>
-                            <div className="col-sm-9">
-                                <input type="text"
-                                       className="form-control"
-                                       ref='name'
-                                       disabled={isLoading}
-                                       value={provider.name || ''}
-                                       onChange={() => {
-                                           this.onChangeInput('name')
-                                       }}
-                                />
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <div className="col-sm-3">
-                                <label className="control-label">Trạng thái</label>
-                            </div>
-                            <div className="col-sm-9">
-                                <select
-                                       className="form-control"
-                                       ref='status'
-                                       disabled={isLoading}
-                                       value={provider.status || 'active'}
-                                       onChange={() => {
-                                           this.onChangeInput('status')
-                                       }}
-                                >
-                                    <option value="active">Hoạt động</option>
-                                    <option value="inactive">Dừng hoạt động</option>                                    
-                                </select>
-                            </div>
-                        </div>
                         {panel}
                     </Modal.Body>
 
@@ -200,7 +168,8 @@ class FmsTransportingProviderDetailModal extends Component {
 FmsTransportingProviderDetailModal.propTypes = {
     isShown: propTypes.bool.isRequired,
     onClose: propTypes.func.isRequired,
-    provider: propTypes.object
+    provider: propTypes.object,
+    project_id: propTypes.string.isRequired
 };
 
 export default FmsTransportingProviderDetailModal;
