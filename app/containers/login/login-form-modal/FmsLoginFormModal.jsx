@@ -58,7 +58,7 @@ class FmsLoginFormModal extends Component {
                 show={isShown}
                 onHide={onClose}
             >
-                <div className='order-detail-modal inmodal'>
+                <div className='fms-login-modal inmodal'>
                     <Modal.Header closeButton>
                         <h4>Đăng nhập</h4>
                     </Modal.Header>

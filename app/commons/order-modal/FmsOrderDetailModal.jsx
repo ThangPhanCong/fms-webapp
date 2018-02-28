@@ -13,8 +13,10 @@ import FmsNoteInfoPanel from "./panels/FmsNoteInfoPanel";
 import FmsOrderTagInfoPanel from "./panels/FmsOrderTagInfoPanel";
 import FmsPriceCalculatorPanel from "./panels/FmsPriceCalculatorPanel";
 import FmsSaveOrderModal from "./sub-modals/FmsSaveOrderModal";
-import {saveSuccessOrder, saveFailureOrder} from "../../api/OrderApi";
+import {saveSuccessOrder, saveFailureOrder, ORDER_STATUS} from "../../api/OrderApi";
 import FmsPaymentMethodPanel from './panels/FmsPaymentMethodPanel';
+import FmsTabs from "../FmsTabs/FmsTabs";
+import FmsTab from "../FmsTabs/FmsTab";
 
 class FmsOrderDetailModal extends Component {
 
@@ -93,6 +95,27 @@ class FmsOrderDetailModal extends Component {
                 }
             )
             .then(() => this.setState({isLoading: false}));
+    }
+
+    onExportOrderButtonClick() {
+        const allowExport = confirm('Bạn có chắc chắn muốn yêu cầu xuất đơn hàng này?');
+        if (!allowExport) return;
+
+        const {project} = this.props;
+        const diffOrder = cloneDiff({...this.props.order}, {...this.state.order});
+        diffOrder._id = this.props.order._id;
+        diffOrder.status = ORDER_STATUS.EXPORTED_ORDER;
+
+        this.setState({isLoading: true});
+
+        updateOrder(project.alias, diffOrder)
+            .then(order => {
+                this.props.onClose(order);
+            })
+            .catch(err => {
+                alert(err.message);
+                this.setState({isLoading: false})
+            })
     }
 
     onShowSaveOrderModal() {
@@ -203,44 +226,51 @@ class FmsOrderDetailModal extends Component {
                         />
                     </div>
 
-                    <div className="col-sm-6">
-                        <FmsCustomerInfoPanel
-                            customer_name={order.customer_name}
-                            customer_phone={order.customer_phone}
-                            customer_facebook={order.customer_facebook}
-                            customer_email={order.customer_email}
-                            onChangeInput={this.onChangeInput.bind(this)}
-                            disabled={!config.customer_info}
-                        />
+                    <div className="col-lg-12">
+                        <FmsTabs>
+                            <FmsTab title='Thông tin chung'>
+                                <div className="row">
+                                    <div className="col-sm-6">
+                                        <FmsCustomerInfoPanel
+                                            customer_name={order.customer_name}
+                                            customer_phone={order.customer_phone}
+                                            customer_facebook={order.customer_facebook}
+                                            customer_email={order.customer_email}
+                                            onChangeInput={this.onChangeInput.bind(this)}
+                                            disabled={!config.customer_info}
+                                        />
+                                    </div>
+
+                                    <div className="col-sm-6">
+                                        <FmsTransportInfoPanel
+                                            province={order.province}
+                                            district={order.district}
+                                            ward={order.ward}
+                                            full_address={order.full_address}
+                                            transport_method={order.transport_method}
+                                            transport_fee={order.transport_fee}
+                                            onChangeInput={this.onChangeInput.bind(this)}
+                                            disabled={!config.transport_info}
+                                        />
+                                    </div>
+
+                                    <div className="col-sm-12">
+                                        <FmsProductsInfoPanel
+                                            project={project}
+                                            products={order.products}
+                                            onChangeInput={this.onChangeInput.bind(this)}
+                                            disabled={!config.products_info}
+                                        />
+                                    </div>
+                                </div>
+                            </FmsTab>
+
+                            <FmsTab title='Vận đơn'>
+                                <p>Vận đơn</p>
+                            </FmsTab>
+                        </FmsTabs>
                     </div>
 
-                    <div className="col-sm-6">
-                        <FmsTransportInfoPanel
-                            province={order.province}
-                            district={order.district}
-                            ward={order.ward}
-                            full_address={order.full_address}
-                            transport_method={order.transport_method}
-                            transport_fee={order.transport_fee}
-                            onChangeInput={this.onChangeInput.bind(this)}
-                            disabled={!config.transport_info}
-                        />
-                    </div>
-
-                    {/*<div className='col-sm-12'>*/}
-                        {/*<FmsPaymentMethodPanel*/}
-                            {/*onChangeInput={this.onChangeInput.bind(this)}*/}
-                        {/*/>*/}
-                    {/*</div>*/}
-
-                    <div className="col-sm-12">
-                        <FmsProductsInfoPanel
-                            project={project}
-                            products={order.products}
-                            onChangeInput={this.onChangeInput.bind(this)}
-                            disabled={!config.products_info}
-                        />
-                    </div>
 
                     <div className="col-sm-12">
                         <FmsPriceCalculatorPanel
@@ -291,7 +321,7 @@ class FmsOrderDetailModal extends Component {
 
                 <div>
                     <small className="font-bold">Ngày tạo: 
-                        <strong>{time[0] + ':' + time[1]}, {date.toLocaleDateString()}</strong>
+                        <strong> {time[0] + ':' + time[1]}, {date.toLocaleDateString()}</strong>
                     </small>
                 </div>
                 <div>
@@ -317,19 +347,24 @@ class FmsOrderDetailModal extends Component {
                         disabled={isLoading}>Xóa
                 </button>
 
+                {
+                    config.save_btn ?
+                        <button className="btn btn-success btn-outline pull-left"
+                                onClick={this.onShowSaveOrderModal.bind(this)}
+                                disabled={isLoading}>Lưu trữ
+                        </button>
+                        : null
+                }
+
                 <button className="btn btn-white"
                         onClick={this.onCloseButtonClick.bind(this)}
                         disabled={isLoading}>Hủy
                 </button>
 
-                {
-                    config.save_btn ?
-                    <button className="btn btn-success"
-                            onClick={this.onShowSaveOrderModal.bind(this)}
-                            disabled={isLoading}>Lưu trữ
-                    </button>
-                    : null
-                }
+                <button className="btn btn-success"
+                        onClick={this.onExportOrderButtonClick.bind(this)}
+                        disabled={isLoading}>Yêu cầu xuất
+                </button>
 
                 {
                     config.update_btn ?
