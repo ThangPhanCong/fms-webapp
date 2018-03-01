@@ -4,10 +4,10 @@ import {delay} from '../utils/timeout-utils';
 import {getByProjectId} from "../helpers/token-getter";
 
 export const ORDER_STATUS = {
-    DRAFT: "DRAFT",
-    EXPORTED_ORDER: "EXPORTED_ORDER",
-    TRANSPORTED_ORDER: "TRANSPORTED_ORDER",
-    TRANSPORTING: "TRANSPORTING",
+    DRAFT: "DRAFT", // don hang moi
+    EXPORTED_ORDER: "EXPORTED_ORDER", // de nghi xuat
+    // TRANSPORTED_ORDER: "TRANSPORTED_ORDER", // yeu cau van chuyen
+    TRANSPORTING: "TRANSPORTING", // dang van chuyen
 
     // luu tru don hang
     DON_HANG_THANH_CONG: "DON_HANG_THANH_CONG",

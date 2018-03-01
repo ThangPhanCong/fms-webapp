@@ -68,15 +68,10 @@ class FmsTransporting extends Component {
             isShownDetailModal
         } = this.state;
 
-        let projectName = 'Cửa hàng';
-        if (project) {
-            projectName = project.name;
-        }
-
         return (
             [
                 <FmsPageTitle key={1} title="Đang vận chuyển"
-                              route={`${projectName}/Quản lí vận chuyển/Đang vận chuyển`}/>,
+                              route={`${project.name}/Quản lí vận chuyển/Đang vận chuyển`}/>,
 
                 <div key={2} className="wrapper wrapper-content">
                     <div className="row">
@@ -103,7 +98,7 @@ class FmsTransporting extends Component {
                                         project={project}
                                         onClose={this.onCloseDetailModal.bind(this)}
                                         isShown={isShownDetailModal}
-                                        typeModal={1}
+                                        typeModalName='TRANSPORTING'
                                     />
 
                                 </div>

@@ -8,23 +8,14 @@ class FmsSavedOrders extends Component {
     render() {
         const {project} = this.props;
 
-        let projectName = 'Cửa hàng';
-        if (project) {
-            projectName = project.name;
-        }
-
         return (
             <Fragment>
                 <FmsPageTitle
                     title="Lưu trữ đơn hàng"
-                    route={`${projectName}/Quản lí đơn hàng/Lưu trữ đơn hàng`}
+                    route={`${project.name}/Quản lí đơn hàng/Lưu trữ đơn hàng`}
                 />
 
-                {
-                    project
-                        ? <FmsSavedOrderBody project={project}/>
-                        : null
-                }
+                <FmsSavedOrderBody project={project}/>
             </Fragment>
         )
     }

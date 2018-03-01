@@ -97,7 +97,6 @@ class FmsTransportOrders extends Component {
                                         project={project}
                                         onClose={this.onCloseDetailModal.bind(this)}
                                         isShown={isShownDetailModal}
-                                        typeModal={1}
                                     />
 
                                 </div>
