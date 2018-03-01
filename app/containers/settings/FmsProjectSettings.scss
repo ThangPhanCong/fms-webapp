@@ -1,0 +1,21 @@
+.form-group {
+  .shop-name {
+    display: flex;
+    span {
+      flex: 1;
+    }
+    div {
+      font-weight: 500;
+      &:hover {
+        color: #1ab394;
+      }
+    }
+  }
+  .shop-name-option {
+    margin-top: 8px;
+    margin-right: 8px;
+    padding: 2px 25px;
+    font-size: 12px;
+    margin-left: 0;
+  }
+}

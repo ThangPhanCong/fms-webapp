@@ -58,7 +58,7 @@ class FmsLoginFormModal extends Component {
                 show={isShown}
                 onHide={onClose}
             >
-                <div className='order-detail-modal inmodal'>
+                <div className='fms-login-modal inmodal'>
                     <Modal.Header closeButton>
                         <h4>Đăng nhập</h4>
                     </Modal.Header>
@@ -79,12 +79,12 @@ class FmsLoginFormModal extends Component {
                                                         <i className="fa fa-facebook"> </i> Đăng nhập với Facebook
                                                     </button>
                                                     <br/>
-                                                    <p className="text-muted text-center">
-                                                        <small>Bạn là nhân viên? </small>
-                                                        <a className='text-center' onClick={this.switchTab.bind(this, 1)}>
-                                                            <small>Đăng nhập</small>
-                                                        </a>
-                                                    </p>
+                                                    {/*<p className="text-muted text-center">*/}
+                                                        {/*<small>Bạn là nhân viên? </small>*/}
+                                                        {/*<a className='text-center' onClick={this.switchTab.bind(this, 1)}>*/}
+                                                            {/*<small>Đăng nhập</small>*/}
+                                                        {/*</a>*/}
+                                                    {/*</p>*/}
                                                 </div>
                                             </div>
                                         </div>

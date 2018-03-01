@@ -105,7 +105,7 @@ class FmsNewOrderTab extends Component {
                             isShown={isShownModal}
                             onClose={this.onCloseModal.bind(this)}
                             order={selectedOrder}
-                            typeModal={0}
+                            typeModalName='ALL_ORDER'
                             project={project}
                         />
                     </div>

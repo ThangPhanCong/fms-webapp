@@ -225,10 +225,10 @@ class FmsProductsInfoPanel extends Component {
                 <div className="panel-body">
                     <div className="ibox none-margin-bottom">
                         <div className="row">
-                            <div className="col-sm-9">
+                            <div className="col-sm-12">
                                 <FmsSearchDropdown
                                     className='product-search-dropdown'
-                                    placeholder='Tìm sản phẩm'
+                                    placeholder='Tìm và thêm sản phẩm'
                                     items={searchableProducts}
                                     onSearchChange={this.onSearchChange.bind(this)}
                                     onSelectItem={this.onSelectItem.bind(this)}
@@ -236,13 +236,13 @@ class FmsProductsInfoPanel extends Component {
                                 />
                             </div>
 
-                            <div className="col-sm-3">
-                                <div className="form-group">
-                                    <button className="btn btn-success pull-right">
-                                        Thêm sản phẩm
-                                    </button>
-                                </div>
-                            </div>
+                            {/*<div className="col-sm-3">*/}
+                                {/*<div className="form-group">*/}
+                                    {/*<button className="btn btn-success pull-right">*/}
+                                        {/*Thêm sản phẩm*/}
+                                    {/*</button>*/}
+                                {/*</div>*/}
+                            {/*</div>*/}
                         </div>
 
                         <div className="table-responsive">
@@ -254,9 +254,9 @@ class FmsProductsInfoPanel extends Component {
                                     <th>Mã sản phẩm</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Số lượng</th>
-                                    <th>Giá</th>
+                                    <th>Giá bán</th>
                                     <th>Giảm giá</th>
-                                    <th>Tổng</th>
+                                    <th>Thành tiền</th>
                                 </tr>
                                 </thead>
 

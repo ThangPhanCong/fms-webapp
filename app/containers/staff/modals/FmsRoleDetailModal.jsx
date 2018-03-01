@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
-import {getPermissions, updateRole, deleteRole} from '../../../api/RoleApi';
+import {updateRole, deleteRole} from '../../../api/RoleApi';
 
 class FmsRoleDetailModal extends Component {
 
@@ -53,13 +53,6 @@ class FmsRoleDetailModal extends Component {
         }
     }
 
-    getPerms() {
-        getPermissions()
-            .then((perms) => {
-                this.setState({perms});
-            })
-    }
-
     onCloseButtonClick() {
         this.setState({role: {}, selectedPerms: []});
         let shouldUpdate = true;
@@ -82,12 +75,12 @@ class FmsRoleDetailModal extends Component {
                 if (selectedPerms.findIndex(p => p === perm.key) === -1) {
                     selectedPerms.push(perm.key);
                 }
-            })
+            });
             this.setState({selectedPerms});
         } else {
             perms[idx].permissions.map(perm => {
                 selectedPerms = selectedPerms.filter(p => p !== perm.key);
-            })
+            });
             this.setState({selectedPerms});
         }
     }
@@ -108,8 +101,7 @@ class FmsRoleDetailModal extends Component {
         this.setState({selectedPerms});
     }
 
-    componentWillMount() {
-        this.getPerms();
+    componentDidMount() {
         const {role} = this.state;
         this.setState({selectedPerms: role.permissions});
     }
@@ -118,6 +110,9 @@ class FmsRoleDetailModal extends Component {
         if (nextProps && nextProps.role !== this.state.role) {
             this.setState({role: nextProps.role, selectedPerms: nextProps.role.permissions});
         }
+        if (nextProps.perms && nextProps.perms !== this.state.perms) {
+            this.setState({perms: nextProps.perms});
+        }
     }
 
     renderPerms() {
@@ -125,14 +120,16 @@ class FmsRoleDetailModal extends Component {
         return (
             Array.isArray(perms) && perms.map((item, idx) => {
                 return (
-                    <div className='col-md-12' key={item.name + idx}>
-                        <label className="control-label-collapse" 
+                    <div className='col-md-12 perm-group' key={item.name + idx}>
+                        <label 
+                            // className="control-label-collapse" 
                             // data-toggle="collapse" 
                             // href={'#'+key} 
                             // aria-expanded="false" 
                             // aria-controls={key}
                         >
-                            <i className="fa fa-caret-right"> </i> {item.name}
+                            {/* <i className="fa fa-caret-right"> </i>  */}
+                            {item.name}
                         </label>
                         
                         <div className="perm-select" id={item.name}>
@@ -169,7 +166,7 @@ class FmsRoleDetailModal extends Component {
             <Modal.Body>
                 <div className="row form-group">
                     <div className="col-sm-2">
-                        <label className="control-label">Tên vai trò: *</label>
+                        <label className="control-label">Tên vai trò <span className='required-text'>*</span></label>
                     </div>
                     <div className="col-sm-10">
                         <input type="text"
@@ -183,7 +180,7 @@ class FmsRoleDetailModal extends Component {
 
                 <div className="row form-group">
                     <div className="col-sm-2">
-                        <label className="control-label">Các quyền:</label>
+                        <label className="control-label">Các quyền</label>
                     </div>
                     <div className="col-sm-10">
                         {
@@ -240,7 +237,8 @@ class FmsRoleDetailModal extends Component {
 FmsRoleDetailModal.propTypes = {
     isShown: propTypes.bool.isRequired,
     onClose: propTypes.func.isRequired,
-    project_id: propTypes.string
+    project_id: propTypes.string,
+    perms: propTypes.array
 };
 
 export default FmsRoleDetailModal;

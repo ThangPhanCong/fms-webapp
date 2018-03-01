@@ -15,22 +15,22 @@ import trackUserBehavior from 'utils/track-user-behavior';
 
 const LoadableFmsLogin = Loadable({
     loader: () => import('./login/FmsLogin'),
-    loading: () => null
+    loading: FmsLoading
 });
 
 const LoadableFmsListNotification = Loadable({
     loader: () => import('./notifimanager/notify-list-user/FmsListNotification'),
-    loading: () => null
+    loading: FmsLoading
 });
 
 const LoadableFmsDashboard = Loadable({
     loader: () => import('./project-dashboard/layouts/Main'),
-    loading: () => null
+    loading: FmsLoading
 });
 
 const LoadableFmsProject = Loadable({
     loader: () => import('./project/FmsProject'),
-    loading: () => null
+    loading: FmsLoading
 });
 
 class FmsApp extends Component {
@@ -53,9 +53,9 @@ class FmsApp extends Component {
         dispatch(verifyAccessToken(access_token));
         registerNotiCenter(this.noti.bind(this));
 
-        // TODO: refactor, only load project when location.pathname !== '/shops/ .....', so on
         LoadableFmsProject.preload();
         LoadableFmsDashboard.preload();
+        LoadableFmsListNotification.preload();
     }
 
     componentWillReceiveProps(nextProps) {

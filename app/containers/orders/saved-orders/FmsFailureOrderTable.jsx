@@ -130,7 +130,7 @@ class FmsFailureOrderTable extends Component {
                     isShown={isShownModal}
                     onClose={this.onCloseModal.bind(this)}
                     order={selectedOrder}
-                    typeModal={1}
+                    typeModalName='SAVED_ORDER'
                     project={project}
                 />
             </div>

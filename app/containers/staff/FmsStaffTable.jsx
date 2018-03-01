@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import FmsStaffDetailModal from "./modals/FmsStaffDetailModal";
+import {toReadableDatetime} from '../../utils/datetime-utils';
 
 class FmsStaffTable extends Component {
 
@@ -28,25 +29,37 @@ class FmsStaffTable extends Component {
                     <th>Vai trò</th>
                     <th>Email</th>
                     <th>Số điện thoại</th>
+                    <th>Ngày sinh</th>
+                    <th>Trạng thái</th>
                 </tr>
             </thead>
         )
     }
 
+    parseDate(date) {
+        if (date) {
+            let birthday = toReadableDatetime(date);
+            return birthday.date;
+        }
+        return '';
+    }
+
     renderTableBody() {
         const {staffs} = this.props;
-
+        
         return (
             <tbody>
             {
                 staffs.map(
                     (staff, i) => (
-                        <tr key={i}>
+                        <tr key={staff._id}>
                             <td>{i + 1}</td>
                             <td>{staff.name}</td>
                             <td>{staff.role && staff.role.name}</td>
                             <td>{staff.email}</td>
                             <td>{staff.phone}</td>
+                            <td>{this.parseDate(staff.birthday)}</td>
+                            <td><span className="label label-info">Hoạt động</span></td>
                             <td>
                                 <i className='fa fa-pencil clickable'
                                    onClick={() => {

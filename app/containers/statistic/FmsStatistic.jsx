@@ -38,75 +38,70 @@ class FmsStatistic extends Component {
                 <p>
                     Bảng điều khiển là nơi thu thập thông tin về cửa hàng, đưa những số liệu thành biểu đồ giúp bạn tiện theo dõi, đánh giá.
                 </p>
-                <div>
-                    <small>
-                        Số liệu hiện tại không đủ để hiển thị!
-                    </small>
-                </div>
             </FmsBlankPage>
         );
 
-        return (
-            <div className="wrapper wrapper-content animated fadeIn">
-                <div className="p-w-md m-t-sm">
-                    <Row>
-                        <Col sm={4}>
-                            <FmsTitleLineChart countSales="26,900" title="Sales in current month"/>
-                            <FmsLineChart data={[34, 43, 43, 35, 44, 32, 44, 52]} id={uuid()}/>
-                            <FmsLabelLineChart/>
-                        </Col>
-
-                        <Col sm={4}>
-                            <FmsTitleLineChart countSales="98,100" title="Sales in last 24h"/>
-                            <FmsLineChart data={[32, 11, 25, 37, 41, 32, 34, 42]} id={uuid()}/>
-                            <FmsLabelLineChart/>
-                        </Col>
-
-                        <Col sm={4}>
-                            <FmsTableLineChart/>
-
-                            <table className="table small m-t-sm">
-                                <tbody>
-                                <tr>
-                                    <td><strong>142</strong> Projects</td>
-                                    <td><strong>22</strong> Messages</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>61</strong> Comments</td>
-                                    <td><strong>54</strong> Articles</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>154</strong> Companies</td>
-                                    <td><strong>32</strong> Clients</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <Col lg={12}>
-                            <Col className="small pull-left m-l-lg m-t-md" md={3}>
-                                <strong>Sales char</strong> have evolved over the years sometimes.
-                            </Col>
-
-                            <Col className="small pull-right m-t-md text-right" md={3}>
-                                <strong>There are many</strong> variations of passages of Lorem Ipsum available, but the
-                                majority have suffered.
-                            </Col>
-                        </Col>
-                    </Row>
-
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <FmsLineChartCanvas lineData={lineData1}/>
-                        </div>
-                    </div>
-
-                    <FmsStatisticTable />
-                </div>
-            </div>
-        )
+        // return (
+        //     <div className="wrapper wrapper-content animated fadeIn">
+        //         <div className="p-w-md m-t-sm">
+        //             <Row>
+        //                 <Col sm={4}>
+        //                     <FmsTitleLineChart countSales="26,900" title="Sales in current month"/>
+        //                     <FmsLineChart data={[34, 43, 43, 35, 44, 32, 44, 52]} id={uuid()}/>
+        //                     <FmsLabelLineChart/>
+        //                 </Col>
+        //
+        //                 <Col sm={4}>
+        //                     <FmsTitleLineChart countSales="98,100" title="Sales in last 24h"/>
+        //                     <FmsLineChart data={[32, 11, 25, 37, 41, 32, 34, 42]} id={uuid()}/>
+        //                     <FmsLabelLineChart/>
+        //                 </Col>
+        //
+        //                 <Col sm={4}>
+        //                     <FmsTableLineChart/>
+        //
+        //                     <table className="table small m-t-sm">
+        //                         <tbody>
+        //                         <tr>
+        //                             <td><strong>142</strong> Projects</td>
+        //                             <td><strong>22</strong> Messages</td>
+        //                         </tr>
+        //                         <tr>
+        //                             <td><strong>61</strong> Comments</td>
+        //                             <td><strong>54</strong> Articles</td>
+        //                         </tr>
+        //                         <tr>
+        //                             <td><strong>154</strong> Companies</td>
+        //                             <td><strong>32</strong> Clients</td>
+        //                         </tr>
+        //                         </tbody>
+        //                     </table>
+        //                 </Col>
+        //             </Row>
+        //
+        //             <Row>
+        //                 <Col lg={12}>
+        //                     <Col className="small pull-left m-l-lg m-t-md" md={3}>
+        //                         <strong>Sales char</strong> have evolved over the years sometimes.
+        //                     </Col>
+        //
+        //                     <Col className="small pull-right m-t-md text-right" md={3}>
+        //                         <strong>There are many</strong> variations of passages of Lorem Ipsum available, but the
+        //                         majority have suffered.
+        //                     </Col>
+        //                 </Col>
+        //             </Row>
+        //
+        //             <div className="row">
+        //                 <div className="col-lg-12">
+        //                     <FmsLineChartCanvas lineData={lineData1}/>
+        //                 </div>
+        //             </div>
+        //
+        //             <FmsStatisticTable />
+        //         </div>
+        //     </div>
+        // )
     }
 }
 
