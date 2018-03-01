@@ -7,6 +7,7 @@ class FmsSettings extends React.Component {
         this.state = {
             name: null,
             isEdittingName: false,
+            isDeleteShop: false,
             isHandling: false
         }
     }
@@ -16,15 +17,25 @@ class FmsSettings extends React.Component {
         this.setState({name});
     }
 
-    saveShopName() {
+    saveShopName(saved) {
         if (this.state.isHandling) return;
-        let rename = confirm("Bạn có chắc muốn đổi tên cửa hàng?");
-        if (rename) {
+        if (saved) {
             let name = this.refs.shopName.value;
-            this.setState({isHandling: true});
+            this.setState({name: name});
 
+        } else {
+            this.setState({name: (this.props.project) ? this.props.project.alias : ""});
         }
         this.setState({isEdittingName: false});
+    }
+
+    deleteShop(deleted) {
+        if (this.state.isHandling) return;
+        if (deleted) {
+            alert("Deleted!!!");
+
+        }
+        this.setState({isDeleteShop: false});
     }
 
     render() {
@@ -39,11 +50,11 @@ class FmsSettings extends React.Component {
                 <div className="wrapper wrapper-content">
                     <div className="row">
                         <div className="col-sm-8">
-                            <div className="form-group">
+                            <div className="form-group" style={{width: "400px"}}>
                                 <label className="control-label shop-name">
                                     <span>Tên cửa hàng</span>
                                     {this.state.isEdittingName ?
-                                        <div className="clickable" onClick={this.saveShopName.bind(this)}>Lưu</div>
+                                        null
                                         :
                                         <div className="clickable" onClick={() => {
                                             this.setState({isEdittingName: true});
@@ -52,7 +63,53 @@ class FmsSettings extends React.Component {
                                 </label>
                                 <input type="text" className="form-control" value={shopName} ref="shopName"
                                        onChange={this.onChangeName.bind(this)}
-                                disabled={!this.state.isEdittingName}/>
+                                       disabled={!this.state.isEdittingName}/>
+                                {this.state.isEdittingName ?
+                                    <div>
+                                        <button className="btn btn-default shop-name-option"
+                                                onClick={() => {
+                                                    this.saveShopName(false)
+                                                }}>Hủy
+                                        </button>
+                                        <button className="btn btn-primary shop-name-option"
+                                                onClick={() => {
+                                                    this.saveShopName(true)
+                                                }}>Lưu
+                                        </button>
+                                    </div>
+                                    :
+                                    null
+                                }
+                            </div>
+                            <br/>
+                            <div className="form-group" style={{width: "400px"}}>
+                                <label className="control-label shop-name">
+                                    <span>Xóa cửa hàng</span>
+                                    {this.state.isDeleteShop ?
+                                        null
+                                        :
+                                        <div className="clickable" onClick={() => {
+                                            this.setState({isDeleteShop: true});
+                                        }}>Xóa</div>
+                                    }
+                                </label>
+                                {this.state.isDeleteShop ?
+                                    <div>
+                                        <div>Hành động không thể khôi phục. Bạn có chắc?</div>
+                                        <button className="btn btn-default shop-name-option"
+                                                onClick={() => {
+                                                    this.deleteShop(false)
+                                                }}>Hủy
+                                        </button>
+                                        <button className="btn btn-danger shop-name-option"
+                                                onClick={() => {
+                                                    this.deleteShop(true)
+                                                }}>Xóa
+                                        </button>
+                                    </div>
+                                    :
+                                    null
+                                }
                             </div>
                         </div>
                         <div className="col-sm-4"/>
