@@ -6,7 +6,6 @@ import {
 } from '../../../actions/dashboard/chat/createOrder';
 import FmsNewOrderModal from '../../../commons/order-modal/FmsCreateOrderModal';
 import FmsOrderDetailModal from '../../../commons/order-modal/FmsOrderDetailModal';
-import utils from '../../../helpers/utils';
 
 class FmsOrdersTab extends React.Component {
     constructor(props) {
@@ -25,6 +24,23 @@ class FmsOrdersTab extends React.Component {
     convertTime(time) {
         let date = new Date(time);
         return "Ngày tạo: " + date.getDate() + "/" + (date.getMonth() + 1);
+    }
+
+    calFee(products) {
+        let fee = 0;
+        products.forEach(p => {
+            fee += p.price * p.quantity - p.discount;
+        });
+        return fee;
+    }
+
+    orderAddress(order) {
+        let addr = [];
+        if (order.full_address) addr.push(order.full_address);
+        if (order.ward) addr.push(order.ward);
+        if (order.district) addr.push(order.district);
+        if (order.province) addr.push(order.province);
+        return addr.join(", ");
     }
 
     //---------------------Order Modals-----------------------------
@@ -146,11 +162,23 @@ class FmsOrdersTab extends React.Component {
                             }}>
                     <div className={"order-id" + ((!name) ? " hide" : "")}>
                         {order.id + ":  "}
-                        <span style={{color: color}}>{name}</span>
+                        <span style={{backgroundColor: color}} className="order-tag">{name}</span>
                     </div>
-                    <div><i className="glyphicon glyphicon-usd"/> {order.transport_fee}</div>
-                    <div><i className="glyphicon glyphicon-home"/> {order.transport_address}</div>
-                    <div><i className="glyphicon glyphicon-phone"/> {order.customer_phone}</div>
+                    <div><span className="order-detail-title">Tổng tiền: </span>
+                        {this.calFee(order.products)}
+                    </div>
+                    <div><span className="order-detail-title">Địa chỉ: </span>
+                        {this.orderAddress(order)}
+                    </div>
+                    <div><span className="order-detail-title">SĐT: </span>
+                        {order.customer_phone}
+                    </div>
+                    <div><span className="order-detail-title">Trạng thái: </span>
+                        {order.is_pay ? "Đã thanh toán" : "Chưa thanh toán"}
+                    </div>
+                    <div><span className="order-detail-title">Sản phẩm: </span>
+                        {"SP10224"}
+                    </div>
                 </div>
             });
         }
@@ -239,7 +267,7 @@ class FmsOrdersTab extends React.Component {
                 <div>
                     <div className="info">Thông tin</div>
                     {conv.type === "inbox" ?
-                        <div className={"order-area" + isHide}>
+                        <div className={"order-area section" + isHide}>
                             <div className="title-section">Đơn hàng</div>
                             <a className="add-note-button" onClick={() => {
                                 this.openNewOrderModal()
@@ -249,13 +277,13 @@ class FmsOrdersTab extends React.Component {
                         :
                         null
                     }
-                    <div className="notes-list">
+                    <div className="notes-list section">
                         <div className="title-section">{title}</div>
                         <a className={"add-note-button" + addNote} onClick={this.openAddNote.bind(this)}>Thêm</a>
                         {this.renderNoteList()}
                     </div>
                     {conv.type === "inbox" ?
-                        <div className={"report-area" + isHide}>
+                        <div className={"report-area section" + isHide}>
                             <div className="title-section">Báo xấu</div>
                             <a className="add-note-button" onClick={this.openAddReport.bind(this)}>Thêm</a>
                             {this.renderReportsList()}
