@@ -108,15 +108,7 @@ class FmsExportOrders extends Component {
                                         project={project}
                                         onClose={this.onCloseDetailModal.bind(this)}
                                         isShown={isShownDetailModal}
-                                        typeModal={0}
-                                    />
-
-                                    <FmsOrderDetailModal
-                                        order={selectedOrder}
-                                        project={project}
-                                        onClose={this.onCloseDetailModal.bind(this)}
-                                        isShown={isShownDetailModal}
-                                        typeModal={0}
+                                        typeModalName='EXPORT_ORDER'
                                     />
 
                                 </div>

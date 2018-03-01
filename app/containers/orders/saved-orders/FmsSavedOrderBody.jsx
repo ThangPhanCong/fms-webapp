@@ -57,11 +57,6 @@ class FmsSavedOrderBody extends Component {
                                 <p>
                                     Bạn có thể cất giữ những đơn hàng không cần xử lí nữa vào đây.
                                 </p>
-                                {/*<div>*/}
-                                    {/*<small>*/}
-                                        {/*Không có đơn hàng nào để hiển thị!*/}
-                                    {/*</small>*/}
-                                {/*</div>*/}
                             </FmsBlankPage>
                         )
                         : (

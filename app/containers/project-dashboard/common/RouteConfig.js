@@ -13,6 +13,7 @@ import FmsSettings from '../../settings/FmsProjectSettings';
 import FmsConversationSettings from '../../conversation-settings/FmsConversationSettings';
 import FmsStaffs from '../../staff/FmsStaffs';
 import FmsTransportingProviders from "../../transport/transporting-providers/FmsTransportingProviders";
+import FmsTransporting from "../../transport/FmsTransporting";
 
 export const treeConfig = [
     {

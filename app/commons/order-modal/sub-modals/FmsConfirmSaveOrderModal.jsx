@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 
-class FmsSaveOrderModal extends Component {
+class FmsConfirmSaveOrderModal extends Component {
+
     state = {
         statusSaveOrder: null
-    }
+    };
 
     setSatusSaveOrder(e) {
         this.setState({statusSaveOrder: e.target.value});
@@ -66,10 +67,10 @@ class FmsSaveOrderModal extends Component {
     }
 }
 
-FmsSaveOrderModal.propTypes = {
+FmsConfirmSaveOrderModal.propTypes = {
     isShown: propTypes.bool.isRequired,
     onClose: propTypes.func,
     onSaveOrder: propTypes.func
 };
 
-export default FmsSaveOrderModal;
+export default FmsConfirmSaveOrderModal;

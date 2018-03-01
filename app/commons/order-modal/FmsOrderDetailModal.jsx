@@ -5,18 +5,15 @@ import {deleteOrder, updateOrder, createOrder} from "api/OrderApi";
 import {cloneDiff} from "utils/object-utils";
 import {getOrderTags} from "api/OrderTagApi";
 import {toReadablePrice} from "utils/price-utils";
-import {typesModal} from "./config";
+import {getConfigByName, typesModal} from "./config";
 import FmsTransportInfoPanel from "./panels/FmsTransportInfoPanel";
 import FmsCustomerInfoPanel from "./panels/FmsCustomerInfoPanel";
 import FmsProductsInfoPanel from "./panels/FmsProductsInfoPanel";
 import FmsNoteInfoPanel from "./panels/FmsNoteInfoPanel";
 import FmsOrderTagInfoPanel from "./panels/FmsOrderTagInfoPanel";
 import FmsPriceCalculatorPanel from "./panels/FmsPriceCalculatorPanel";
-import FmsSaveOrderModal from "./sub-modals/FmsSaveOrderModal";
+import FmsConfirmSaveOrderModal from "./sub-modals/FmsConfirmSaveOrderModal";
 import {saveSuccessOrder, saveFailureOrder, ORDER_STATUS} from "../../api/OrderApi";
-import FmsPaymentMethodPanel from './panels/FmsPaymentMethodPanel';
-import FmsTabs from "../FmsTabs/FmsTabs";
-import FmsTab from "../FmsTabs/FmsTab";
 
 class FmsOrderDetailModal extends Component {
 
@@ -118,6 +115,27 @@ class FmsOrderDetailModal extends Component {
             })
     }
 
+    onTransportingOrderButtonClick() {
+        const allowTransporting = confirm('Bạn có chắc chắn muốn chuyển sang mục đang vận chuyển?');
+        if (!allowTransporting) return;
+
+        const {project} = this.props;
+        const diffOrder = cloneDiff({...this.props.order}, {...this.state.order});
+        diffOrder._id = this.props.order._id;
+        diffOrder.status = ORDER_STATUS.TRANSPORTING;
+
+        this.setState({isLoading: true});
+
+        updateOrder(project.alias, diffOrder)
+            .then(order => {
+                this.props.onClose(order);
+            })
+            .catch(err => {
+                alert(err.message);
+                this.setState({isLoading: false})
+            })
+    }
+
     onShowSaveOrderModal() {
         this.setState({
             isSaveOrderModalShown: true
@@ -133,9 +151,9 @@ class FmsOrderDetailModal extends Component {
         const {project} = this.props;
         this.setState({isLoading: true});
         try {
-            if (status==='success') {
+            if (status === 'success') {
                 await saveSuccessOrder(project.alias, this.state.order);
-            } else if (status==='failure') {
+            } else if (status === 'failure') {
                 await saveFailureOrder(project.alias, this.state.order);
             }
 
@@ -187,8 +205,9 @@ class FmsOrderDetailModal extends Component {
     }
 
     componentDidMount() {
-        const {order, typeModal} = this.props;
-        let config = typesModal[typeModal];
+        const {order, typeModalName} = this.props;
+        const config = getConfigByName(typeModalName || 'ALL_ORDER');
+
         if (!order) {
             this.setState({config});
         } else {
@@ -198,7 +217,7 @@ class FmsOrderDetailModal extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.order) {
-            this.setState({order: nextProps.order, isLoading: false, config: typesModal[nextProps.typeModal]});
+            this.setState({order: nextProps.order, isLoading: false});
         }
     }
 
@@ -226,51 +245,38 @@ class FmsOrderDetailModal extends Component {
                         />
                     </div>
 
-                    <div className="col-lg-12">
-                        <FmsTabs>
-                            <FmsTab title='Thông tin chung'>
-                                <div className="row">
-                                    <div className="col-sm-6">
-                                        <FmsCustomerInfoPanel
-                                            customer_name={order.customer_name}
-                                            customer_phone={order.customer_phone}
-                                            customer_facebook={order.customer_facebook}
-                                            customer_email={order.customer_email}
-                                            onChangeInput={this.onChangeInput.bind(this)}
-                                            disabled={!config.customer_info}
-                                        />
-                                    </div>
-
-                                    <div className="col-sm-6">
-                                        <FmsTransportInfoPanel
-                                            province={order.province}
-                                            district={order.district}
-                                            ward={order.ward}
-                                            full_address={order.full_address}
-                                            transport_method={order.transport_method}
-                                            transport_fee={order.transport_fee}
-                                            onChangeInput={this.onChangeInput.bind(this)}
-                                            disabled={!config.transport_info}
-                                        />
-                                    </div>
-
-                                    <div className="col-sm-12">
-                                        <FmsProductsInfoPanel
-                                            project={project}
-                                            products={order.products}
-                                            onChangeInput={this.onChangeInput.bind(this)}
-                                            disabled={!config.products_info}
-                                        />
-                                    </div>
-                                </div>
-                            </FmsTab>
-
-                            <FmsTab title='Vận đơn'>
-                                <p>Vận đơn</p>
-                            </FmsTab>
-                        </FmsTabs>
+                    <div className="col-sm-6">
+                        <FmsCustomerInfoPanel
+                            customer_name={order.customer_name}
+                            customer_phone={order.customer_phone}
+                            customer_facebook={order.customer_facebook}
+                            customer_email={order.customer_email}
+                            onChangeInput={this.onChangeInput.bind(this)}
+                            disabled={!config.customer_info}
+                        />
                     </div>
 
+                    <div className="col-sm-6">
+                        <FmsTransportInfoPanel
+                            province={order.province}
+                            district={order.district}
+                            ward={order.ward}
+                            full_address={order.full_address}
+                            transport_method={order.transport_method}
+                            transport_fee={order.transport_fee}
+                            onChangeInput={this.onChangeInput.bind(this)}
+                            disabled={!config.transport_info}
+                        />
+                    </div>
+
+                    <div className="col-sm-12">
+                        <FmsProductsInfoPanel
+                            project={project}
+                            products={order.products}
+                            onChangeInput={this.onChangeInput.bind(this)}
+                            disabled={!config.products_info}
+                        />
+                    </div>
 
                     <div className="col-sm-12">
                         <FmsPriceCalculatorPanel
@@ -291,7 +297,7 @@ class FmsOrderDetailModal extends Component {
 
     renderModalHeader() {
         const {order} = this.state;
-        const date = new Date(order.created_time); 
+        const date = new Date(order.created_time);
         let time = date.toLocaleTimeString().split(':');
         return (
             <Modal.Header
@@ -302,25 +308,25 @@ class FmsOrderDetailModal extends Component {
             >
                 <h4>Đơn hàng #{order.id}
                     {
-                        order.order_tag ? 
-                        (   
-                            <span> {'  '} 
-                                <span
-                                    className="label tag-label"
-                                    style={{
-                                        backgroundColor: order.order_tag.color,
-                                        color: 'white',
-                                        paddingBottom: '0'
-                                    }}
-                                >{order.order_tag.name}</span>
+                        order.order_tag ?
+                            (
+                                <span> {'  '}
+                                    <span
+                                        className="label tag-label"
+                                        style={{
+                                            backgroundColor: order.order_tag.color,
+                                            color: 'white',
+                                            paddingBottom: '0'
+                                        }}
+                                    >{order.order_tag.name}</span>
                             </span>
-                        )
-                        : null
-                    }     
+                            )
+                            : null
+                    }
                 </h4>
 
                 <div>
-                    <small className="font-bold">Ngày tạo: 
+                    <small className="font-bold">Ngày tạo:
                         <strong> {time[0] + ':' + time[1]}, {date.toLocaleDateString()}</strong>
                     </small>
                 </div>
@@ -342,10 +348,14 @@ class FmsOrderDetailModal extends Component {
 
         return (
             <Modal.Footer>
-                <button className="btn btn-danger btn-outline pull-left"
-                        onClick={this.onDeleteOrder.bind(this)}
-                        disabled={isLoading}>Xóa
-                </button>
+                {
+                    config.delete_btn ?
+                        <button className="btn btn-danger btn-outline pull-left"
+                                onClick={this.onDeleteOrder.bind(this)}
+                                disabled={isLoading}>Xóa
+                        </button>
+                        : null
+                }
 
                 {
                     config.save_btn ?
@@ -361,20 +371,34 @@ class FmsOrderDetailModal extends Component {
                         disabled={isLoading}>Hủy
                 </button>
 
-                <button className="btn btn-success"
-                        onClick={this.onExportOrderButtonClick.bind(this)}
-                        disabled={isLoading}>Yêu cầu xuất
-                </button>
+                {
+                    config.export_btn ?
+                        <button className="btn btn-success"
+                                onClick={this.onExportOrderButtonClick.bind(this)}
+                                disabled={isLoading}>Yêu cầu xuất
+                        </button>
+                        : null
+                }
+
+                {
+                    config.transporting_btn ?
+                        <button className="btn btn-success"
+                                onClick={this.onTransportingOrderButtonClick.bind(this)}
+                                disabled={isLoading}>Đang vận chuyển
+                        </button>
+                        : null
+                }
 
                 {
                     config.update_btn ?
-                    <button className="btn btn-primary"
-                            onClick={() => this.updateOrder()}
-                            disabled={isLoading}>Cập nhật
-                    </button>
-                    : null
+                        <button className="btn btn-primary"
+                                onClick={() => this.updateOrder()}
+                                disabled={isLoading}>Cập nhật
+                        </button>
+                        : null
                 }
-                <FmsSaveOrderModal
+
+                <FmsConfirmSaveOrderModal
                     isShown={isSaveOrderModalShown}
                     onClose={this.onCloseSaveOrderModal.bind(this)}
                     onSaveOrder={this.onSaveOrder.bind(this)}
@@ -408,7 +432,7 @@ class FmsOrderDetailModal extends Component {
 
 FmsOrderDetailModal.propTypes = {
     isShown: propTypes.bool.isRequired,
-    typeModal: propTypes.number.isRequired,
+    typeModalName: propTypes.string,
     onClose: propTypes.func.isRequired,
     project: propTypes.object,
     order: propTypes.object
