@@ -22,8 +22,20 @@ export function createViettelAccount(account) {
     return post(`/api/t/providers/viettel`, payload);
 }
 
-export function calculatePrice(order) {
+export function calculatePriceViettel(order) {
     const payload = {...order}
 
     return post(`/api/t/providers/viettel/calculate-price`, payload);
+}
+
+export function getViettelInventories() {
+    return get(`/api/t/providers/viettel/inventories`);
+}
+
+export function getViettelServices() {
+    return get(`/api/t/providers/viettel/services`);
+}
+
+export function getViettelExtraServices() {
+    return get(`/api/t/providers/viettel/extra-services`);
 }
