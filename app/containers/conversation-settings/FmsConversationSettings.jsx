@@ -131,6 +131,7 @@ class FmsSettings extends React.Component {
     }
 
     deletePage(page_id) {
+        if (this.state.isHandling) return;
         let aloww = confirm("Bạn có chắc muốn xóa trang này khỏi cửa hàng?");
         if (aloww && !this.state.isHandling) {
             this.setState({isHandling: true});
@@ -148,6 +149,7 @@ class FmsSettings extends React.Component {
     }
 
     openModal(page_id) {
+        if (this.state.isHandling) return;
         this.setState({isShownModal: true, selectedPage: page_id});
     }
 

@@ -55,7 +55,7 @@ class FmsNewOrderTab extends Component {
     updateOrders(project, filter = this.state.filter) {
         this.setState({isLoading: true});
 
-        getOrders(project.alias, filter)
+        getOrders(filter)
             .then(response => this.setState({orders: response.orders.reverse(), isLoading: false}));
     }
 

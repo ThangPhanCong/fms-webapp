@@ -14,7 +14,7 @@ export const ORDER_STATUS = {
     DON_HANG_THAT_BAI: "DON_HANG_THAT_BAI",
 };
 
-export function getOrders(projectAlias, filter = {}) {
+export function getOrders(filter = {}) {
     const queryParams = toQueryParams(filter);
     return get(`/api/o/orders?${queryParams}`);
 }

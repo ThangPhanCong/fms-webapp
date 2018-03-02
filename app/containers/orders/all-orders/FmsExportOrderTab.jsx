@@ -54,7 +54,7 @@ class FmsExportOrderTab extends Component {
     updateOrders(project) {
         this.setState({isLoading: true});
 
-        getOrders(project.alias, {status: ORDER_STATUS.EXPORTED_ORDER})
+        getOrders({status: ORDER_STATUS.EXPORTED_ORDER})
             .then(res => this.setState({orders: res.orders, isLoading: false}))
             .catch(err => alert(err.message));
     }
