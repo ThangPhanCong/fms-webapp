@@ -41,9 +41,9 @@ module.exports = {
         let route = `/api/p/pages`;
         return apiSender.get(route);
     },
-    addPage: (page_fb_id) => {
+    addPage: (page_fb_id, is_get_history, since) => {
         let route = `/api/p/pages`;
-        let payload = {page_fb_id: page_fb_id};
+        let payload = {page_fb_id, is_get_history, since};
         return apiSender.post(route, payload);
     },
     deletePage: (page_id) => {
