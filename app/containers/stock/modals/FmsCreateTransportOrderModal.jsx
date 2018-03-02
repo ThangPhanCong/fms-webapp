@@ -29,7 +29,20 @@ class FmsCreateTransportOrderModal extends Component {
 
     onChangeInput(refName, newValue) {
         const newTransportOrder = {...this.state.transportOrder};
-        newTransportOrder[refName] = newValue;
+
+        switch (refName) {
+            case 'RECEIVER_PROVINCE':
+                newTransportOrder.RECEIVER_PROVINCE = newValue;
+                newTransportOrder.RECEIVER_DISTRICT = '';
+                newTransportOrder.RECEIVER_WARD = '';
+                break;
+            case 'RECEIVER_DISTRICT':
+                newTransportOrder.RECEIVER_DISTRICT = newValue;
+                newTransportOrder.RECEIVER_WARD = '';
+                break;
+            default:
+                newTransportOrder[refName] = newValue;
+        }
 
         this.setState({transportOrder: newTransportOrder});
     }
@@ -78,11 +91,11 @@ class FmsCreateTransportOrderModal extends Component {
         switch(transportingProvider) {
             case 'viettel-post':
                 panel = <ViettelPostPanel onChangeInput={this.onChangeInput.bind(this)} 
-                                            transportOrder={transportOrder} order={order} />;
+                                            transportOrder={transportOrder} />;
                 break;
             case 'giao-hang-tiet-kiem':
                 panel = <GiaoHangTietKiemPanel onChangeInput={this.onChangeInput.bind(this)}
-                                                transportOrder={transportOrder} order={order} />;
+                                                transportOrder={transportOrder} />;
                 break;
             default:
                 break;
