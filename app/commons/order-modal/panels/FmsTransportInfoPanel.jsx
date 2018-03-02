@@ -8,7 +8,7 @@ class FmsTransportInfoPanel extends Component {
         provinces: [],
         districts: [],
         wards: []
-    }
+    };
 
     onChangeInput(refName) {
         const newValue = this.refs[refName].value;

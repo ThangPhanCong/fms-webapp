@@ -14,6 +14,7 @@ import FmsOrderTagInfoPanel from "./panels/FmsOrderTagInfoPanel";
 import FmsPriceCalculatorPanel from "./panels/FmsPriceCalculatorPanel";
 import FmsConfirmSaveOrderModal from "./sub-modals/FmsConfirmSaveOrderModal";
 import {saveSuccessOrder, saveFailureOrder, ORDER_STATUS} from "../../api/OrderApi";
+import {cloneDeep} from "../../utils/object-utils";
 
 class FmsOrderDetailModal extends Component {
 
@@ -32,7 +33,7 @@ class FmsOrderDetailModal extends Component {
 
         // if has no different => do nothing
         if (Object.keys(diffOrder).length === 1) {
-            console.log('order has no different');
+            console.log('order has no different', diffOrder);
             this.props.onClose();
             return;
         }
@@ -211,13 +212,13 @@ class FmsOrderDetailModal extends Component {
         if (!order) {
             this.setState({config});
         } else {
-            this.setState({order, config});
+            this.setState({order: cloneDeep(order), config});
         }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.order) {
-            this.setState({order: nextProps.order, isLoading: false});
+            this.setState({order: cloneDeep(nextProps.order), isLoading: false});
         }
     }
 
