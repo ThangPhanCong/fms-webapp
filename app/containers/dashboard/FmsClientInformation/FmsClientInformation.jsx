@@ -192,7 +192,7 @@ class FmsOrdersTab extends React.Component {
             let ordersView = [];
             temp.forEach((ov, idx) => {
                  if (idx !== 0) {
-                     ordersView.push(<div className="divider"/>);
+                     ordersView.push(<div className="divider" key={1234 * idx}/>);
                  }
                  ordersView.push(ov);
             });

@@ -1,5 +1,6 @@
 import React from 'react';
 import FmsPageTitle from "../../commons/page-title/FmsPageTitle";
+import * as ProjectApi from "../../api/ProjectApi";
 
 class FmsSettings extends React.Component {
     constructor(props) {
@@ -20,20 +21,26 @@ class FmsSettings extends React.Component {
     saveShopName(saved) {
         if (this.state.isHandling) return;
         if (saved) {
+            this.setState({isHandling: true});
             let name = this.refs.shopName.value;
-            this.setState({name: name});
-
+            ProjectApi.updateProject(this.props.project._id, name)
+                .then(() => {
+                    this.setState({isHandling: false, name: name, isEdittingName: false});
+                    alert("Đổi tên cửa hàng thành công.");
+                    window.location = "/";
+                }, err => {
+                    alert(err.message);
+                    this.setState({name: (this.props.project) ? this.props.project.alias : "", isHandling: false, isEdittingName: false});
+                });
         } else {
-            this.setState({name: (this.props.project) ? this.props.project.alias : ""});
+            this.setState({name: (this.props.project) ? this.props.project.alias : "", isEdittingName: false});
         }
-        this.setState({isEdittingName: false});
     }
 
     deleteShop(deleted) {
         if (this.state.isHandling) return;
         if (deleted) {
             alert("Deleted!!!");
-
         }
         this.setState({isDeleteShop: false});
     }
@@ -52,7 +59,7 @@ class FmsSettings extends React.Component {
                         <div className="col-sm-8">
                             <div className="form-group" style={{width: "400px"}}>
                                 <label className="control-label shop-name">
-                                    <span>Tên cửa hàng</span>
+                                    <span>Tên cửa hàng:</span>
                                     {this.state.isEdittingName ?
                                         null
                                         :
@@ -69,12 +76,14 @@ class FmsSettings extends React.Component {
                                         <button className="btn btn-default shop-name-option"
                                                 onClick={() => {
                                                     this.saveShopName(false)
-                                                }}>Hủy
+                                                }}
+                                                disabled={this.state.isHandling}>Hủy
                                         </button>
                                         <button className="btn btn-primary shop-name-option"
                                                 onClick={() => {
                                                     this.saveShopName(true)
-                                                }}>Lưu
+                                                }}
+                                                disabled={this.state.isHandling}>Lưu
                                         </button>
                                     </div>
                                     :
@@ -84,7 +93,7 @@ class FmsSettings extends React.Component {
                             <br/>
                             <div className="form-group" style={{width: "400px"}}>
                                 <label className="control-label shop-name">
-                                    <span>Xóa cửa hàng</span>
+                                    <span>Xóa cửa hàng:</span>
                                     {this.state.isDeleteShop ?
                                         null
                                         :
