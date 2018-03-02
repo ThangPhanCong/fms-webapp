@@ -14,7 +14,7 @@ class FmsExportOrders extends Component {
         selectedOrder: null,
         isLoading: true,
         isShownDetailModal: false,
-        isShownCreateTransportOrderModal: false,
+        isShownCreateTransportOrderModal: false
     };
 
     updateOrderList(project) {
@@ -23,7 +23,7 @@ class FmsExportOrders extends Component {
 
         if (project) {
             getOrders(project.alias, {status: ORDER_STATUS.EXPORTED_ORDER})
-                .then(orders => this.setState({orders, isLoading: false}));
+                .then(res => this.setState({orders: res.orders, isLoading: false}));
         }
     }
 
