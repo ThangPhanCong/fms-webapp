@@ -5,7 +5,7 @@ import FmsExportOrderSearchBar from "../orders/all-orders/FmsExportOrderSearchBa
 import FmsExportOrderTable from "./FmsExportOrderTable";
 import {getOrders, ORDER_STATUS} from "../../api/OrderApi";
 import FmsOrderDetailModal from "../../commons/order-modal/FmsOrderDetailModal";
-
+import FmsCreateTransportOrderModal from './modals/FmsCreateTransportOrderModal';
 
 class FmsExportOrders extends Component {
 
@@ -74,7 +74,8 @@ class FmsExportOrders extends Component {
             orders,
             selectedOrder,
             isLoading,
-            isShownDetailModal
+            isShownDetailModal,
+            isShownCreateTransportOrderModal
         } = this.state;
 
         return (
@@ -99,7 +100,7 @@ class FmsExportOrders extends Component {
                                                 project={project}
                                                 onReloadOrders={this.reloadOrders.bind(this)}
                                                 onSelectItem={this.onOpenDetailModal.bind(this)}
-                                                isShownCreateTransportOrderModal={this.onOpenCreateTransportOrderModal.bind(this)}
+                                                onSelectCreateTransportOrderModal={this.onOpenCreateTransportOrderModal.bind(this)}
                                             />
                                     }
 
@@ -109,6 +110,13 @@ class FmsExportOrders extends Component {
                                         onClose={this.onCloseDetailModal.bind(this)}
                                         isShown={isShownDetailModal}
                                         typeModalName='EXPORT_ORDER'
+                                    />
+
+                                    <FmsCreateTransportOrderModal 
+                                        order={selectedOrder}
+                                        project={project}
+                                        onClose={this.onCloseCreateTransportOrderModal.bind(this)}
+                                        isShown={isShownCreateTransportOrderModal}
                                     />
 
                                 </div>

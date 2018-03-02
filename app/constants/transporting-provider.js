@@ -18,7 +18,7 @@ export const providers = [
         name: 'Viettel Post',
         name_slug: 'viettel-post',
         created_time: '27/02/2018',
-        status: 'active',
+        status: 'inactive',
     },
     {
         id: 4,
