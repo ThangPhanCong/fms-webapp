@@ -26,12 +26,20 @@ class FmsOrdersTab extends React.Component {
         return "Ngày tạo: " + date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
     }
 
-    calFee(products) {
+    calFee(order) {
         let fee = 0;
-        products.forEach(p => {
+        order.products.forEach(p => {
             fee += p.price * p.quantity - p.discount;
         });
+        if (order.is_pay) fee += " (Đã thanh toán)";
+        else fee += " (Chưa thanh toán)";
         return fee;
+    }
+
+    showProducts(order) {
+        if (!order.products || order.products.length === 0) return "Chưa có sản phẩm nào";
+        let ids = order.products.map(p => p.id);
+        return ids.join(", ");
     }
 
     orderAddress(order) {
@@ -151,7 +159,7 @@ class FmsOrdersTab extends React.Component {
         let orders = this.props.orders;
         if (orders.length === 0) return <p className="no-note">Chưa có đơn hàng nào</p>;
         else {
-            return orders.map((order, index) => {
+            let temp = orders.map((order, index) => {
                 let custom = "";
                 let color = (order.order_tag) ? order.order_tag.color : "";
                 let name = (order.order_tag) ? order.order_tag.name : "";
@@ -160,12 +168,15 @@ class FmsOrdersTab extends React.Component {
                             onClick={() => {
                                 this.openOrderDetailModal(order)
                             }}>
-                    <div className={"order-id" + ((!name) ? " hide" : "")}>
-                        {order.id + ":  "}
-                        <span style={{backgroundColor: color}} className="order-tag">{name}</span>
+                    <div className={"order-header" + ((!name) ? " hide" : "")}>
+                        <span className="order-id">{order.id}</span>
+
+                    </div>
+                    <div><span className="order-detail-title">Trạng thái: </span>
+                        <span style={{color: color, fontWeight: "600"}} className="order-tag">{name}</span>
                     </div>
                     <div><span className="order-detail-title">Tổng tiền: </span>
-                        {this.calFee(order.products)}
+                        {this.calFee(order)}
                     </div>
                     <div><span className="order-detail-title">Địa chỉ: </span>
                         {this.orderAddress(order)}
@@ -173,14 +184,19 @@ class FmsOrdersTab extends React.Component {
                     <div><span className="order-detail-title">SĐT: </span>
                         {order.customer_phone}
                     </div>
-                    <div><span className="order-detail-title">Trạng thái: </span>
-                        {order.is_pay ? "Đã thanh toán" : "Chưa thanh toán"}
-                    </div>
                     <div><span className="order-detail-title">Sản phẩm: </span>
-                        {"SP10224"}
+                        {this.showProducts(order)}
                     </div>
                 </div>
             });
+            let ordersView = [];
+            temp.forEach((ov, idx) => {
+                 if (idx !== 0) {
+                     ordersView.push(<div className="divider"/>);
+                 }
+                 ordersView.push(ov);
+            });
+            return ordersView;
         }
     }
 
