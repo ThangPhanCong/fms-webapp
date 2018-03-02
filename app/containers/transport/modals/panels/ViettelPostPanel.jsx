@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-import {getProvinces, getDistricts, getWards, getViettelInfoAccount} from '../../../../api/ViettelPostApi';
+import {getProvincesCache, getDistrictsCache, getWardsCache, getViettelInfoAccount} from '../../../../api/ViettelPostApi';
 
 class ViettelPostPanel extends Component {
     state = {
         provinces: [],
         districts: [],
-        wards: [],
-        districtfilter: [],
-        wardfilter: []
+        wards: []
     }
 
     onChangeInput(refName) {
@@ -22,62 +20,47 @@ class ViettelPostPanel extends Component {
 
     onChangeProvince() {
         const {onChangeInput} = this.props;
-        let districts = this.state.districts;
         const newValue = this.refs['PROVINCE_ID'].value;
 
         if (newValue === '') {
-            this.setState({districtfilter: []});
+            this.setState({districts: []});
             
             onChangeInput('PROVINCE_ID', '');
         } else {
-            let districtfilter = districts.filter(d => d.PROVINCE_ID === newValue);
-            this.setState({districtfilter});
-    
             onChangeInput('PROVINCE_ID', newValue);
         }
     }
 
     onChangeDistrict() {
         const {onChangeInput} = this.props;
-        let wards = this.state.wards;
         const newValue = this.refs['DISTRICT_ID'].value;
 
         if (newValue === '') {
-            this.setState({wardfilter: []});
+            this.setState({wards: []});
             
             onChangeInput('DISTRICT_ID', '');
         } else {
-            let wardfilter = wards.filter(w => w.DISTRICT_ID === newValue);
-            this.setState({wardfilter});
-            
             onChangeInput('DISTRICT_ID', newValue);
         }
-
     }
 
     componentDidMount() {
-        getWards()
-            .then(wards => {
-                if (this.refs['DISTRICT_ID'] && this.refs['DISTRICT_ID'].value !== '') {
-                    let wardfilter = wards.filter(w => w.DISTRICT_ID === this.refs['DISTRICT_ID'].value);
-                    this.setState({wards, wardfilter});
-                } else {
-                    this.setState({wards});
-                }
-            });
-
-        getDistricts()
-            .then(districts => {
-                if (this.refs['PROVINCE_ID'] && this.refs['PROVINCE_ID'].value !== '') {
-                    let districtfilter = districts.filter(d => d.PROVINCE_ID === this.refs['PROVINCE_ID'].value);
-                    this.setState({districts, districtfilter});
-                } else {
-                    this.setState({districts});
-                }
-            });
-
-        getProvinces()
+        getProvincesCache()
             .then(provinces => this.setState({provinces}));
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const {PROVINCE_ID, DISTRICT_ID} = nextProps.providerInfo;
+        if (nextProps.providerInfo && nextProps.providerInfo !== this.props.providerInfo) {
+            if (PROVINCE_ID !== '' && PROVINCE_ID !== undefined) {
+                getDistrictsCache(PROVINCE_ID)
+                    .then(res => this.setState({districts: res}));
+            }
+            if (DISTRICT_ID !== '' && DISTRICT_ID !== undefined) {
+                getWardsCache(DISTRICT_ID)
+                    .then(res => this.setState({wards: res}));
+            }
+        }   
     }
 
     render() {
@@ -89,9 +72,7 @@ class ViettelPostPanel extends Component {
         const {
             provinces,
             districts,
-            wards,
-            districtfilter,
-            wardfilter,
+            wards
         } = this.state;
 
         return (
@@ -245,7 +226,7 @@ class ViettelPostPanel extends Component {
                             >
                                 <option value=""></option>
                                 {
-                                    districtfilter.length > 0 && districtfilter.map(d => {
+                                    districts.length > 0 && districts.map(d => {
                                         return <option value={d.DISTRICT_ID} key={d.DISTRICT_ID}>
                                                 {d.DISTRICT_NAME}
                                                 </option>
@@ -267,7 +248,7 @@ class ViettelPostPanel extends Component {
                             >
                                 <option value=""></option>
                                 {
-                                    wardfilter.length > 0 && wardfilter.map(w => {
+                                    wards.length > 0 && wards.map(w => {
                                         return <option value={w.WARDS_ID} key={w.WARDS_ID}>
                                                 {w.WARDS_NAME}
                                                 </option>
