@@ -23,7 +23,7 @@ class FmsOrdersTab extends React.Component {
 
     convertTime(time) {
         let date = new Date(time);
-        return "Ngày tạo: " + date.getDate() + "/" + (date.getMonth() + 1);
+        return "Ngày tạo: " + date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
     }
 
     calFee(products) {
@@ -218,12 +218,17 @@ class FmsOrdersTab extends React.Component {
                     {": " + report.content}
                 </div>
                 <div className="note-info-item">{this.convertTime(report.updated_time)}</div>
-                <a className="note-info-item note-option" onClick={() => {
-                    this.updateReport(report)
-                }}>Sửa</a>
-                <a className="note-info-item note-option" onClick={() => {
-                    this.deleteReport(report)
-                }}>Xóa</a>
+                {this.props.conversation.page_fb_id === report.from.fb_id ?
+                    <span>
+                        <a className="note-info-item note-option" onClick={() => {
+                            this.updateReport(report)
+                        }}>Sửa</a>
+                        <a className="note-info-item note-option" onClick={() => {
+                            this.deleteReport(report)
+                        }}>Xóa</a>
+                    </span> :
+                    null
+                }
             </div>
         });
     }
