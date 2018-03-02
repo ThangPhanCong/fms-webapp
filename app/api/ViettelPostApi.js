@@ -12,6 +12,18 @@ export function getWards() {
     return get(`/api/t/providers/viettel/wards`);
 }
 
+export function getProvincesCache() {
+    return get(`/api/t/providers/viettel/cache-provinces`);
+}
+
+export function getDistrictsCache(province_id) {
+    return get(`/api/t/providers/viettel/cache-provinces/${province_id}/cache-districts`);
+}
+
+export function getWardsCache(district_id) {
+    return get(`/api/t/providers/viettel/cache-districts/${district_id}/cache-wards`);
+}
+
 export function getViettelInfoAccount() {
     return get(`/api/t/providers/viettel`);
 }

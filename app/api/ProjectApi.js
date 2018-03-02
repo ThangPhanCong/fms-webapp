@@ -26,13 +26,13 @@ module.exports = {
         const payload = {name, page_ids};
         return apiSender.post(route, payload);
     },
-    updateProject: (alias, project) => {
-        let route = `/api/a/projects/${alias}`;
-        let payload = {project};
+    updateProject: (project_id, name) => {
+        let route = `/api/a/projects/${project_id}`;
+        let payload = {name};
         return apiSender.put(route, payload);
     },
-    deleteProject: (alias) => {
-        let route = `/api/a/projects/${alias}`;
+    deleteProject: (project_id) => {
+        let route = `/api/a/projects/${project_id}`;
         return apiSender.delete(route);
     },
     // TODO: get pages of user

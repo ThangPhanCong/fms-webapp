@@ -60,31 +60,54 @@ class FmsPosts extends React.Component {
         }
     }
 
-    onToggleChange(post_id) {
+    onToggleChange(post_id, hide_phone) {
         let {posts} = this.state;
         let postChange = posts.find((post) => {
             return post._id === post_id;
         });
-        PostsApi.hideComment(post_id, !postChange.hide_comment)
-            .then(() => {
-                postChange.hide_comment = !postChange.hide_comment;
+        if (hide_phone) {
+            PostsApi.hidePhoneComment(post_id, !postChange.hide_phone)
+                .then(() => {
+                    postChange.hide_phone = !postChange.hide_phone;
 
-                for (let post of posts) {
-                    if (post._id === post_id) {
-                        if (post.hide_comment) {
-                            noti('success', 'Ẩn bình luận thành công');
-                        } else {
-                            noti('success', 'Bỏ ẩn bình luận thành công');
+                    for (let post of posts) {
+                        if (post._id === post_id) {
+                            if (post.hide_phone) {
+                                noti('success', 'Đã ẩn bình luận có số điện thoại');
+                            } else {
+                                noti('success', 'Bỏ ẩn bình luận có số điện thoại');
+                            }
                         }
                     }
-                }
-                let newPosts = posts.map(post => {
-                    if (post_id === post._id) return postChange;
-                    else return post;
-                });
-                this.setState({posts: newPosts});
-            })
-            .catch(err => alert(err.message));
+                    let newPosts = posts.map(post => {
+                        if (post_id === post._id) return postChange;
+                        else return post;
+                    });
+                    this.setState({posts: newPosts});
+                })
+                .catch(err => alert(err.message));
+        } else {
+            PostsApi.hideComment(post_id, !postChange.hide_comment)
+                .then(() => {
+                    postChange.hide_comment = !postChange.hide_comment;
+
+                    for (let post of posts) {
+                        if (post._id === post_id) {
+                            if (post.hide_comment) {
+                                noti('success', 'Ẩn bình luận thành công');
+                            } else {
+                                noti('success', 'Bỏ ẩn bình luận thành công');
+                            }
+                        }
+                    }
+                    let newPosts = posts.map(post => {
+                        if (post_id === post._id) return postChange;
+                        else return post;
+                    });
+                    this.setState({posts: newPosts});
+                })
+                .catch(err => alert(err.message));
+        }
     }
 
     openModal() {
