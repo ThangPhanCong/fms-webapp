@@ -62,7 +62,7 @@ class FmsPostItem extends React.Component {
                         </li>
                         <li className='divider'/>
                         <li className="clickable" onClick={() => {this.onToggleChange(false)}}>
-                            <span>Ẩn bình luận</span>
+                            <span>Ẩn tất cả bình luận</span>
                             {hide_comment ?
                                 <i className="glyphicon glyphicon-ok"/> :
                                 null
