@@ -2,10 +2,17 @@ import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 import {providers} from '../../../constants/transporting-provider';
-import ViettelPostPanel from './panels/ViettelPostPanel';
-import GiaoHangTietKiemPanel from './panels/GiaoHangTietKiemPanel';
+import ViettelPostPanel from './panels/viettel-post/ViettelPostPanel';
+import GiaoHangTietKiemPanel from './panels/giao-hang-tiet-kiem/GiaoHangTietKiemPanel';
 
-import {getViettelInventories} from '../../../api/ViettelPostApi';
+import {
+    getProvincesCache, 
+    getDistrictsCache, 
+    getWardsCache, 
+    getViettelInventories, 
+    createViettelTransportOrder
+} from '../../../api/ViettelPostApi';
+import {toReadableDatetime} from 'utils/datetime-utils.js';
 
 class FmsCreateTransportOrderModal extends Component {
 
@@ -16,10 +23,31 @@ class FmsCreateTransportOrderModal extends Component {
     };
 
     onCreateTransportOrder() {
-        
+        const type = this.state.transportingProvider;
+        switch(type) {
+            case 'viettel-post':
+                this.createViettelPostTransportOrder();
+                break;
+            case 'giao-hang-tiet-kiem':
+                break;
+        }
+    }
+
+    createViettelPostTransportOrder() {
+        const order_id = this.props.order._id;
+        const {transportOrder} = this.state;
+
+        createViettelTransportOrder(transportOrder, order_id)
+            .then(res => {
+                console.log(res);
+                let shouldUpdate = true;
+                this.closeModal(shouldUpdate);
+            })
+            .catch(err => alert(err));
     }
 
     onCloseButtonClick() {
+        this.setState({transportOrder: {}});
         this.closeModal();
     }
 
@@ -40,6 +68,10 @@ class FmsCreateTransportOrderModal extends Component {
                 newTransportOrder.RECEIVER_DISTRICT = newValue;
                 newTransportOrder.RECEIVER_WARD = '';
                 break;
+            case 'DELIVERY_DATE':
+                const datetime = toReadableDatetime(newValue);
+                newTransportOrder.DELIVERY_DATE = datetime.date + ' ' + datetime.time + ':00';
+                break;
             default:
                 newTransportOrder[refName] = newValue;
         }
@@ -47,31 +79,54 @@ class FmsCreateTransportOrderModal extends Component {
         this.setState({transportOrder: newTransportOrder});
     }
 
-    async onChangeTransportingProvider(e) {
+    onChangeTransportingProvider(e) {
         this.setState({transportingProvider: e.target.value});
-
-        if (e.target.value === 'viettel-post') {
-            const {order} = this.props;
-            let transportOrder = this.state.transportOrder;
-
-            transportOrder.RECEIVER_FULLNAME = order.customer_name || '';
-            transportOrder.RECEIVER_PHONE = order.customer_phone || '';
-            transportOrder.RECEIVER_ADDRESS = order.full_address || '';
-            transportOrder.RECEIVER_EMAIL = order.customer_email || '';
-
-            await getViettelInventories()
-            .then(res => {
-                transportOrder.CUS_ID = res[0].CUS_ID;
-                transportOrder.GROUPADDRESS_ID = res[0].GROUPADDRESS_ID;
-            })
-            
-            this.setState({transportOrder});
+        const type = e.target.value;
+        switch(type) {
+            case 'viettel-post':
+                this.onSelectViettelPost();
+                break;
+            case 'giao-hang-tiet-kiem':
+                break;
         }
+    }
+
+    async onSelectViettelPost() {
+        const {order} = this.props;
+
+        const viettelInventoriesResponse = await getViettelInventories();
+        const transportOrder = {
+            ...this.state.transportOrder,
+            CUS_ID: viettelInventoriesResponse[0].CUS_ID,
+            GROUPADDRESS_ID: viettelInventoriesResponse[0].GROUPADDRESS_ID,
+            RECEIVER_FULLNAME: order.customer_name || '',
+            RECEIVER_PHONE: order.customer_phone || '',
+            RECEIVER_ADDRESS: order.full_address || '',
+            RECEIVER_EMAIL: order.customer_email || ''
+        }
+
+        if (order.province) {
+            const cacheProvinces = await getProvincesCache();
+            const findProvince = cacheProvinces.find(p => p.PROVINCE_NAME === order.province);
+            transportOrder.RECEIVER_PROVINCE = findProvince.PROVINCE_ID;
+            if (findProvince) {
+                const cacheDistricts = await getDistrictsCache(findProvince.PROVINCE_ID);
+                const findDistrict = cacheDistricts.find(d => d.DISTRICT_NAME === order.district);
+                transportOrder.RECEIVER_DISTRICT = findDistrict.DISTRICT_ID;
+                if (findDistrict) {
+                    const cacheWards = await getWardsCache(findDistrict.DISTRICT_ID);
+                    const findWard = cacheWards.find(w => w.WARDS_NAME === order.ward);
+                    transportOrder.RECEIVER_WARD = findWard.WARDS_ID;
+                }
+            }
+        }
+
+        this.setState({transportOrder});
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.isShown) {
-            this.setState({transportOrder: {}, isLoading: false});
+            this.setState({transportingProvider: '', isLoading: false});
         }
     }
 
@@ -90,7 +145,7 @@ class FmsCreateTransportOrderModal extends Component {
         let panel = null;
         switch(transportingProvider) {
             case 'viettel-post':
-                panel = <ViettelPostPanel onChangeInput={this.onChangeInput.bind(this)} 
+                panel = <ViettelPostPanel onChangeInput={this.onChangeInput.bind(this)}
                                             transportOrder={transportOrder} />;
                 break;
             case 'giao-hang-tiet-kiem':

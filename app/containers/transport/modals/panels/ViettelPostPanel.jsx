@@ -23,10 +23,11 @@ class ViettelPostPanel extends Component {
         const newValue = this.refs['PROVINCE_ID'].value;
 
         if (newValue === '') {
-            this.setState({districts: []});
+            this.setState({districts: [], wards: []});
             
             onChangeInput('PROVINCE_ID', '');
         } else {
+            this.setState({wards: []});
             onChangeInput('PROVINCE_ID', newValue);
         }
     }

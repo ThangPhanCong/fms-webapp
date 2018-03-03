@@ -39,11 +39,12 @@ class FmsTransporting extends Component {
     updateOrderList(project) {
         this.setState({isLoading: true});
 
-        getOrders(project.alias, {status: ORDER_STATUS.TRANSPORTING})
-            .then(orders => this.setState({
-                orders,
+        getOrders({status: ORDER_STATUS.TRANSPORTING})
+            .then(res => this.setState({
+                orders: res.orders,
                 isLoading: false
-            }));
+            }))
+            .catch(err => alert(err.message));
     }
 
     componentDidMount() {

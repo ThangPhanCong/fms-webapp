@@ -4,6 +4,7 @@ import FmsSpin from "../../../commons/FmsSpin/FmsSpin";
 import FmsOrderDetailModal from "../../../commons/order-modal/FmsOrderDetailModal";
 import FmsExportOrderSearchBar from "./FmsExportOrderSearchBar";
 import FmsExportOrderTable from "../../stock/FmsExportOrderTable";
+import FmsCreateTransportOrderModal from '../../stock/modals/FmsCreateTransportOrderModal';
 
 class FmsExportOrderTab extends Component {
 
@@ -11,38 +12,51 @@ class FmsExportOrderTab extends Component {
         orders: [],
         selectedOrder: null,
         isLoading: true,
-        isShownModal: false
+        isShownDetailModal: false,
+        isShownCreateTransportOrderModal: false
     };
 
     searchItem(searchQuery) {
         console.log('searchQuery', searchQuery);
     }
 
-    onCloseModal(updatedOrder) {
+    reloadOrders() {
+        const {project} = this.props;
+        this.updateOrderList(project);
+    }
+
+    onCloseDetailModal(updatedOrder) {
         if (updatedOrder) {
-            const {project} = this.props;
-            this.updateOrders(project);
+            const {project} = this.state;
+            this.updateOrderList(project);
         }
 
-        this.setState({isShownModal: false});
+        this.setState({isShownDetailModal: false});
     }
 
-    openModal(order) {
-        this.setState({
-            selectedOrder: order,
-            isShownModal: true,
-        })
+    onOpenDetailModal(selectedOrder) {
+        this.setState({selectedOrder, isShownDetailModal: true});
     }
 
-    onSelectItem(order) {
-        this.openModal(order);
+    onCloseCreateTransportOrderModal(updatedOrder) {
+        if (updatedOrder) {
+            const {project} = this.state;
+            this.updateOrderList(project);
+        }
+
+        this.setState({isShownCreateTransportOrderModal: false});
+    }
+
+    onOpenCreateTransportOrderModal(selectedOrder) {
+        this.setState({selectedOrder, isShownCreateTransportOrderModal: true});
     }
 
     updateOrders(project) {
         this.setState({isLoading: true});
 
-        getOrders(project.alias, {status: ORDER_STATUS.EXPORTED_ORDER})
-            .then(orders => this.setState({orders, isLoading: false}));
+        getOrders({status: ORDER_STATUS.EXPORTED_ORDER})
+            .then(res => this.setState({orders: res.orders, isLoading: false}))
+            .catch(err => alert(err.message));
     }
 
     componentDidMount() {
@@ -66,7 +80,8 @@ class FmsExportOrderTab extends Component {
         const {
             orders,
             isLoading,
-            isShownModal,
+            isShownDetailModal,
+            isShownCreateTransportOrderModal,
             selectedOrder
         } = this.state;
         const {project} = this.props;
@@ -83,16 +98,25 @@ class FmsExportOrderTab extends Component {
                                 <FmsExportOrderTable
                                     orders={orders}
                                     project={project}
-                                    onSelectItem={this.onSelectItem.bind(this)}
+                                    onSelectItem={this.onOpenDetailModal.bind(this)}
+                                    onSelectCreateTransportOrderModal={this.onOpenCreateTransportOrderModal.bind(this)}
+                                    onReloadOrders={this.reloadOrders.bind(this)}
                                 />
                         }
 
                         <FmsOrderDetailModal
-                            isShown={isShownModal}
-                            onClose={this.onCloseModal.bind(this)}
+                            isShown={isShownDetailModal}
+                            onClose={this.onCloseDetailModal.bind(this)}
                             order={selectedOrder}
                             typeModalName="EXPORT_ORDER"
                             project={project}
+                        />
+
+                        <FmsCreateTransportOrderModal 
+                            order={selectedOrder}
+                            project={project}
+                            onClose={this.onCloseCreateTransportOrderModal.bind(this)}
+                            isShown={isShownCreateTransportOrderModal}
                         />
                     </div>
                 </div>

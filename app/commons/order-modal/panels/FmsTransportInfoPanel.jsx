@@ -24,14 +24,14 @@ class FmsTransportInfoPanel extends Component {
         const {provinces} = this.state;
         const newValue = this.refs['province'].value;
         if (newValue === '') {
-            this.setState({districts: []});
+            this.setState({districts: [], wards: []});
             
             onChangeInput('province', '');
         } else {
             provinces.map(p => {
                 if (p.PROVINCE_NAME === newValue) {
                     getDistrictsCache(p.PROVINCE_ID)
-                        .then(districts => this.setState({districts}))
+                        .then(districts => this.setState({districts, wards: []}))
                 }
             })
     
@@ -60,31 +60,23 @@ class FmsTransportInfoPanel extends Component {
 
     }
 
-    componentDidMount() {
-        let provinces = [];
-        const {province, district, ward} = this.props;
+    async componentDidMount() {
+        const {province, district} = this.props;
 
-        getProvincesCache()
-        .then(provinces => {
-            this.setState({provinces});
-            province && provinces.map(p => {
-                if (p.PROVINCE_NAME === province) {
-                    getDistrictsCache(p.PROVINCE_ID)
-                    .then(districts => {
-                        this.setState({districts});
-                        district && districts.map(d => {
-                            if (d.DISTRICT_NAME === district) {
-                                getWardsCache(d.DISTRICT_ID)
-                                .then(wards => {
-                                    this.setState({wards});
-                                });
-                            }
-                        })
-                    });
+        const cacheProvinces = await getProvincesCache();
+        this.setState({provinces: cacheProvinces});
+        if (province) {
+            const findProvince = cacheProvinces.find(p => p.PROVINCE_NAME === province);
+            if (findProvince) {
+                const cacheDistricts = await getDistrictsCache(findProvince.PROVINCE_ID);
+                this.setState({districts: cacheDistricts});
+                const findDistrict = cacheDistricts.find(d => d.DISTRICT_NAME === district);
+                if (findDistrict) {
+                    const cacheWards = await getWardsCache(findDistrict.DISTRICT_ID);
+                    this.setState({wards: cacheWards});
                 }
-            })
-        });
-        
+            }
+        }
     }
 
     render() {
