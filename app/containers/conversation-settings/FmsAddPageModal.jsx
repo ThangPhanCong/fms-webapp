@@ -7,7 +7,7 @@ class FmsAddPageModal extends React.Component {
         super(props);
         this.state = {
             selectedDate: null,
-            getHistory: false
+            options: [false, false, false]
         }
     }
 
@@ -16,8 +16,35 @@ class FmsAddPageModal extends React.Component {
         this.setState({selectedDate: date});
     }
 
-    onSelectOption() {
-        this.setState({getHistory: !this.state.getHistory});
+    onSelectOption(option) {
+        let newOptions = this.state.options;
+        for (let i = 0; i < newOptions.length; i++) {
+            if (i === option) newOptions[i] = !newOptions[i];
+            else newOptions[i] = false;
+        }
+        this.setState({options: newOptions});
+    }
+
+    addPage() {
+        let isValid = false, getHistory = false, selectedDate = this.state.selectedDate;
+        if (this.state.options[0]) {
+            getHistory = true;
+            isValid = true;
+        }
+        if (this.state.options[1]) {
+            getHistory = true;
+            selectedDate = this.state.selectedDate;
+            isValid = !!selectedDate;
+        }
+        if (this.state.options[2]) {
+            getHistory = false;
+            isValid = true;
+        }
+        if (!isValid) alert("Vui lòng chọn đầy đủ thông tin");
+        else {
+            this.props.onClose();
+            this.props.addPage(getHistory, selectedDate);
+        }
     }
 
     render() {
@@ -36,24 +63,34 @@ class FmsAddPageModal extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <label>
-                            <FmsCheckbox className="add-page-checkbox" checked={this.state.getHistory}
+                            <FmsCheckbox className="add-page-checkbox" checked={this.state.options[0]}
                                          onChange={() => {
-                                             this.onSelectOption()
+                                             this.onSelectOption(0)
                                          }}/>
-                            Lấy lịch sử của trang
+                            Lấy tất cả lịch sử của trang
                         </label>
-                        {this.state.getHistory ?
-                            <div className="form-group date-picker-wrapper row">
-                                <div className="col-sm-5"><div className="control-label instruction">Chọn ngày bắt đầu lấy lịch sử: </div></div>
-                                <div className="col-sm-7"><input type="date"
-                                       className="form-control"
-                                       ref='since'
-                                       value={this.state.selectedDate || ''}
-                                       onChange={() => {this.handleDayChange()}}
-                                /></div>
-                            </div>
-                            : null
-                        }
+                        <div className="row" style={{marginTop: "8px", marginBottom: "8px"}}>
+                            <label className="col-sm-5" style={{marginTop: "3px"}}>
+                                <FmsCheckbox className="add-page-checkbox" checked={this.state.options[1]}
+                                             onChange={() => {
+                                                 this.onSelectOption(1)
+                                             }}/>
+                                <div className="start-date">Lấy lịch sử bắt đầu từ ngày</div>
+                            </label>
+                            <div className="col-sm-7"><input type="date"
+                                                             className="form-control"
+                                                             ref='since'
+                                                             value={this.state.selectedDate || ''}
+                                                             onChange={() => {this.handleDayChange()}}
+                            /></div>
+                        </div>
+                        <label>
+                            <FmsCheckbox className="add-page-checkbox" checked={this.state.options[2]}
+                                         onChange={() => {
+                                             this.onSelectOption(2)
+                                         }}/>
+                            Không lấy lịch sử trang
+                        </label>
                     </Modal.Body>
                     <Modal.Footer>
                         <button className="btn btn-default"
@@ -63,10 +100,7 @@ class FmsAddPageModal extends React.Component {
                             Hủy
                         </button>
                         <button className="btn btn-primary"
-                                onClick={() => {
-                                    this.props.onClose();
-                                    this.props.addPage(this.state.getHistory, this.state.selectedDate);
-                                }}
+                                onClick={this.addPage.bind(this)}
                                 disabled={!(!this.state.getHistory || this.state.selectedDate)}>
                             Thêm
                         </button>

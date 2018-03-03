@@ -6,6 +6,8 @@ import ProjectApi from '../../api/ProjectApi';
 import addImg from '../../assets/images/add.png';
 import FmsAddPageModal from "./FmsAddPageModal";
 
+let timeout;
+
 class FmsSettings extends React.Component {
     constructor(props) {
         super(props);
@@ -17,6 +19,30 @@ class FmsSettings extends React.Component {
             isShownModal: false,
             selectedPage: null
         }
+    }
+    checkGetHistoryState() {
+        ProjectApi.getPages()
+            .then(res => {
+                let done = true;
+                res.forEach(p => {
+                    if (p.is_crawling) done = false;
+                });
+                if (done) clearTimeout(timeout);
+                this.setState({pages: res});
+            })
+            .catch(err => {
+                alert(err.message);
+            });
+    }
+
+    setTimeoutGetHistory(pages) {
+        pages.forEach(page => {
+            if (page.is_crawling) {
+                timeout = setTimeout(() => {
+                    this.checkGetHistoryState();
+                }, 12000);
+            }
+        });
     }
 
     getPages() {
@@ -35,6 +61,7 @@ class FmsSettings extends React.Component {
         ProjectApi.getPages()
             .then(res => {
                 this.setState({pages: res});
+                this.setTimeoutGetHistory(res);
             })
             .catch(err => {
                 alert(err.message);
@@ -56,6 +83,10 @@ class FmsSettings extends React.Component {
         if (this.props.project) {
             this.getPagesOfProject();
         }
+    }
+
+    componentWillUnmount() {
+        if (timeout) clearTimeout(timeout);
     }
 
     componentDidUpdate(prevProps, prevStates) {
@@ -102,7 +133,7 @@ class FmsSettings extends React.Component {
 
     addPage(getHistory, since) {
         let page_id = this.state.selectedPage;
-        let unixTime = getHistory ? (new Date(since)).getTime() / 1000 : -1;
+        let unixTime = getHistory && since ? (new Date(since)).getTime() / 1000 : null;
         this.setState({isHandling: true});
         ProjectApi.addPage(page_id, getHistory, unixTime)
             .then(() => {
