@@ -15,7 +15,6 @@ class FmsTransportingProviderDetailModal extends Component {
     };
 
     onCloseButtonClick() {
-        this.setState({providerInfo: {}});
         this.closeModal();
     }
 
@@ -100,10 +99,10 @@ class FmsTransportingProviderDetailModal extends Component {
             this.setState({provider: nextProps.provider});
             this.getProviderInfoAccount(nextProps.provider.name_slug);
         }
-        if (nextProps.project_id && nextProps.project_id !== this.props.project_id) {
+        if (nextProps.project_id && nextProps.project_id !== this.props.project_id && nextProps.provider) {
             this.getProviderInfoAccount(nextProps.provider.name_slug);
         }
-        if (nextProps.isShown) {
+        if (nextProps.isShown && nextProps.provider) {
             this.getProviderInfoAccount(nextProps.provider.name_slug);
         }
     }

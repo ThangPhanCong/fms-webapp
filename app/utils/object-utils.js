@@ -12,3 +12,7 @@ export function cloneDiff(obj1, obj2) {
 
     return diff;
 }
+
+export function cloneDeep(obj) {
+    return JSON.parse(JSON.stringify(obj));
+}

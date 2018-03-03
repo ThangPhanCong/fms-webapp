@@ -26,13 +26,13 @@ module.exports = {
         const payload = {name, page_ids};
         return apiSender.post(route, payload);
     },
-    updateProject: (alias, project) => {
-        let route = `/api/a/projects/${alias}`;
-        let payload = {project};
+    updateProject: (project_id, name) => {
+        let route = `/api/a/projects/${project_id}`;
+        let payload = {name};
         return apiSender.put(route, payload);
     },
-    deleteProject: (alias) => {
-        let route = `/api/a/projects/${alias}`;
+    deleteProject: (project_id) => {
+        let route = `/api/a/projects/${project_id}`;
         return apiSender.delete(route);
     },
     // TODO: get pages of user
@@ -41,9 +41,15 @@ module.exports = {
         let route = `/api/p/pages`;
         return apiSender.get(route);
     },
-    addPage: (page_fb_id) => {
+    addPage: (page_fb_id, is_get_history, since) => {
         let route = `/api/p/pages`;
-        let payload = {page_fb_id: page_fb_id};
+        let payload;
+        if (is_get_history) {
+            if (!since) payload = {page_fb_id, is_get_history};
+            else payload = {page_fb_id, is_get_history, since};
+        } else {
+            payload = {page_fb_id, is_get_history};
+        }
         return apiSender.post(route, payload);
     },
     deletePage: (page_id) => {

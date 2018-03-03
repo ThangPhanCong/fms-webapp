@@ -6,8 +6,8 @@ import FmsScrollableDiv from '../../../commons/scroll-bar/FmsScrollableDiv';
 import FmsDate from '../../../helpers/FmsDate';
 
 class FmsPostItem extends React.Component {
-    onToggleChange() {
-        this.props.onToggleChange(this.props.data._id);
+    onToggleChange(hide_phone) {
+        this.props.onToggleChange(this.props.data._id, hide_phone);
     }
 
     getCreatedTime() {
@@ -27,7 +27,7 @@ class FmsPostItem extends React.Component {
     }
 
     render() {
-        let {page, message, hide_comment, fb_id} = this.props.data;
+        let {page, message, hide_comment, fb_id, hide_phone} = this.props.data;
         let avaUrl = `https://graph.facebook.com/v2.10/${page.fb_id}/picture`;
         let pageFb = `https://facebook.com/${page.fb_id}`;
         let attachments = (this.props.data.attachments) ? "" : " hide";
@@ -61,17 +61,19 @@ class FmsPostItem extends React.Component {
                             </a>
                         </li>
                         <li className='divider'/>
-                        <li className='dropdown-header'>Tùy chọn</li>
-                        <li className="clickable" onClick={this.onToggleChange.bind(this)}>
-                            <span>Ẩn bình luận</span>
+                        <li className="clickable" onClick={() => {this.onToggleChange(false)}}>
+                            <span>Ẩn tất cả bình luận</span>
                             {hide_comment ?
                                 <i className="glyphicon glyphicon-ok"/> :
                                 null
                             }
                         </li>
-                        <li className="clickable">
+                        <li className="clickable" onClick={() => {this.onToggleChange(true)}}>
                             <span>Ẩn bình luận có số điện thoại</span>
-                            <i className="glyphicon glyphicon-ok"/>
+                            {hide_phone ?
+                                <i className="glyphicon glyphicon-ok"/> :
+                                null
+                            }
                         </li>
                     </ul>
                 </div>

@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import propTypes from 'prop-types';
-import {locations} from '../../../constants/location';
+import {getProvincesCache, getDistrictsCache, getWardsCache} from '../../../api/ViettelPostApi';
 
 class FmsTransportInfoPanel extends Component {
 
     state = {
+        provinces: [],
         districts: [],
         wards: []
-    }
+    };
 
     onChangeInput(refName) {
         const newValue = this.refs[refName].value;
@@ -20,53 +21,61 @@ class FmsTransportInfoPanel extends Component {
 
     onChangeProvince() {
         const {onChangeInput} = this.props;
-
-        if (this.refs['province'].value === '') {
-            this.setState({districts: []});
+        const {provinces} = this.state;
+        const newValue = this.refs['province'].value;
+        if (newValue === '') {
+            this.setState({districts: [], wards: []});
             
             onChangeInput('province', '');
         } else {
-            let province = locations.find((item) => {
-                return item.name === this.refs['province'].value;
-            });
-            let districts = province.districts;
-            this.setState({districts: districts});
+            provinces.map(p => {
+                if (p.PROVINCE_NAME === newValue) {
+                    getDistrictsCache(p.PROVINCE_ID)
+                        .then(districts => this.setState({districts, wards: []}))
+                }
+            })
     
-            onChangeInput('province', province.name);
+            onChangeInput('province', newValue);
         }
     }
 
     onChangeDistrict() {
         const {onChangeInput} = this.props;
-
-        if (this.refs['district'].value === '') {
+        const {districts} = this.state;
+        const newValue = this.refs['district'].value;
+        if (newValue === '') {
             this.setState({wards: []});
             
             onChangeInput('district', '');
         } else {
-            let district = this.state.districts.find((item) => {
-                return item.name === this.refs['district'].value;
-            });
-            this.setState({wards: district.wards});
+            districts.map(d => {
+                if (d.DISTRICT_NAME === newValue) {
+                    getWardsCache(d.DISTRICT_ID) 
+                        .then(wards => this.setState({wards}))
+                }
+            })
     
-            onChangeInput('district', district.name);
+            onChangeInput('district', newValue);
         }
 
     }
 
-    componentDidMount() {
-        if (this.props.province) {
-            const province = locations.find((item) => {
-                return item.name === this.props.province;
-            });
-            const districts = province.districts;
-            let district = '';
-            if (this.props.district) {
-                district = districts.find((item) => {
-                    return item.name === this.props.district;
-                });
+    async componentDidMount() {
+        const {province, district} = this.props;
+
+        const cacheProvinces = await getProvincesCache();
+        this.setState({provinces: cacheProvinces});
+        if (province) {
+            const findProvince = cacheProvinces.find(p => p.PROVINCE_NAME === province);
+            if (findProvince) {
+                const cacheDistricts = await getDistrictsCache(findProvince.PROVINCE_ID);
+                this.setState({districts: cacheDistricts});
+                const findDistrict = cacheDistricts.find(d => d.DISTRICT_NAME === district);
+                if (findDistrict) {
+                    const cacheWards = await getWardsCache(findDistrict.DISTRICT_ID);
+                    this.setState({wards: cacheWards});
+                }
             }
-            this.setState({districts: districts, wards: district.wards});
         }
     }
 
@@ -81,7 +90,7 @@ class FmsTransportInfoPanel extends Component {
             disabled
         } = this.props;
 
-        const {districts, wards} = this.state;
+        const {provinces, districts, wards} = this.state;
 
         return (
             <div className="panel panel-success">
@@ -105,8 +114,8 @@ class FmsTransportInfoPanel extends Component {
                                 >
                                     <option value=""></option>
                                     {
-                                        locations.map(item => {
-                                            return <option value={item.name} key={item.name}>{item.name}</option>
+                                        provinces.length > 0 && provinces.map(p => {
+                                            return <option value={p.PROVINCE_NAME} key={p.PROVINCE_ID}>{p.PROVINCE_NAME}</option>
                                         })
                                     }
                                 </select>
@@ -130,8 +139,8 @@ class FmsTransportInfoPanel extends Component {
                                 >
                                     <option value=""></option>
                                     {
-                                        districts.map(item => {
-                                            return <option value={item.name} key={item.name}>{item.name}</option>   
+                                        districts.length > 0 && districts.map(d => {
+                                            return <option value={d.DISTRICT_NAME} key={d.DISTRICT_ID}>{d.DISTRICT_NAME}</option>   
                                         })
                                     }
                                 </select>
@@ -155,8 +164,8 @@ class FmsTransportInfoPanel extends Component {
                                 >
                                     <option value=""></option>
                                     {
-                                        wards.map(item => {
-                                            return <option value={item} key={item}>{item}</option>
+                                        wards.length > 0 && wards.map(w => {
+                                            return <option value={w.WARDS_NAME} key={w.WARDS_ID}>{w.WARDS_NAME}</option>
                                         })
                                     }
                                 </select>

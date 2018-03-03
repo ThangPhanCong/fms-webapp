@@ -196,6 +196,7 @@ class FmsCreateOrderModal extends Component {
                             customer_name={order.customer_name}
                             customer_phone={order.customer_phone}
                             customer_facebook={order.customer_facebook}
+                            customer_email={order.customer_email}
                             customer={this.props.customer}
                             onChangeInput={this.onChangeInput.bind(this)}
                         />

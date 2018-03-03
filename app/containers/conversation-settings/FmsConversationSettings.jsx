@@ -4,8 +4,9 @@ import FmsSpin from '../../commons/FmsSpin/FmsSpin';
 import PageApi from '../../api/PagesApi';
 import ProjectApi from '../../api/ProjectApi';
 import addImg from '../../assets/images/add.png';
-import * as socket from '../../socket/index';
 import FmsAddPageModal from "./FmsAddPageModal";
+
+let timeout;
 
 class FmsSettings extends React.Component {
     constructor(props) {
@@ -18,6 +19,30 @@ class FmsSettings extends React.Component {
             isShownModal: false,
             selectedPage: null
         }
+    }
+    checkGetHistoryState() {
+        ProjectApi.getPages()
+            .then(res => {
+                let done = true;
+                res.forEach(p => {
+                    if (p.is_crawling) done = false;
+                });
+                if (done) clearTimeout(timeout);
+                this.setState({pages: res});
+            })
+            .catch(err => {
+                alert(err.message);
+            });
+    }
+
+    setTimeoutGetHistory(pages) {
+        pages.forEach(page => {
+            if (page.is_crawling) {
+                timeout = setTimeout(() => {
+                    this.checkGetHistoryState();
+                }, 12000);
+            }
+        });
     }
 
     getPages() {
@@ -36,6 +61,7 @@ class FmsSettings extends React.Component {
         ProjectApi.getPages()
             .then(res => {
                 this.setState({pages: res});
+                this.setTimeoutGetHistory(res);
             })
             .catch(err => {
                 alert(err.message);
@@ -52,65 +78,20 @@ class FmsSettings extends React.Component {
         this.setState({pages: pages});
     }
 
-    onGetHistorySuccess(res) {
-        alert("Đã lấy lịch sử trang thành công.");
-        let page_fb_id = res.data.page_fb_id;
-        this.unsubscribePageChanges(page_fb_id);
-        this.updatePageStatus(page_fb_id);
-    }
-
-    onGetHistoryFail(res) {
-        alert("Lấy lịch sử thất bại");
-        let page_fb_id = res.data.page_fb_id;
-        this.unsubscribePageChanges(page_fb_id);
-        this.updatePageStatus(page_fb_id);
-    }
-
-    subscribePagesChanges(pages) {
-        pages.forEach(page => {
-            if (page.is_crawling) {
-                this.subscribePageChanges(page._id);
-            }
-        });
-    }
-
-    subscribePageChanges(page_id) {
-        socket.subscribePagesChanges({
-            page_id: page_id,
-            onCrawlSuccess: this.onGetHistorySuccess.bind(this),
-            onCrawlFail: this.onGetHistoryFail.bind(this)
-        });
-    }
-
-    unsubscribePagesChanges(pages) {
-        pages.forEach(page => {
-            if (page.is_crawling) {
-                this.unsubscribePageChanges(page._id);
-            }
-        });
-    }
-
-    unsubscribePageChanges(page_id) {
-        socket.unsubscribePagesChanges({
-            page_id: page_id
-        });
-    }
-
     componentDidMount() {
-        socket.connect(() => {
-        });
         this.getPages();
         if (this.props.project) {
             this.getPagesOfProject();
         }
     }
 
+    componentWillUnmount() {
+        if (timeout) clearTimeout(timeout);
+    }
+
     componentDidUpdate(prevProps, prevStates) {
         if ((!prevProps.project && this.props.project) || (prevProps.path !== this.props.path)) {
             this.getPagesOfProject();
-        }
-        if (this.state.pages && !prevStates.pages) {
-            this.subscribePagesChanges(this.state.pages);
         }
         if (this.state.all && this.state.all !== prevStates.all) {
             let page_fb_ids = this.state.all.map(page => page.fb_id);
@@ -123,14 +104,8 @@ class FmsSettings extends React.Component {
         }
     }
 
-    componentWillUnmount() {
-        if (Array.isArray(this.state.pages)) {
-            this.unsubscribePagesChanges(this.state.pages);
-        }
-        socket.disconnect();
-    }
-
     deletePage(page_id) {
+        if (this.state.isHandling) return;
         let aloww = confirm("Bạn có chắc muốn xóa trang này khỏi cửa hàng?");
         if (aloww && !this.state.isHandling) {
             this.setState({isHandling: true});
@@ -148,6 +123,7 @@ class FmsSettings extends React.Component {
     }
 
     openModal(page_id) {
+        if (this.state.isHandling) return;
         this.setState({isShownModal: true, selectedPage: page_id});
     }
 
@@ -157,16 +133,9 @@ class FmsSettings extends React.Component {
 
     addPage(getHistory, since) {
         let page_id = this.state.selectedPage;
-        let unixTime = (new Date(since)).getTime() / 1000;
-        if (getHistory) {
-            this.subscribePageChanges(page_id);
-            socket.getPageHistory({
-                page_id: page_id,
-                since: unixTime
-            });
-        }
+        let unixTime = getHistory && since ? (new Date(since)).getTime() / 1000 : null;
         this.setState({isHandling: true});
-        ProjectApi.addPage(page_id)
+        ProjectApi.addPage(page_id, getHistory, unixTime)
             .then(() => {
                 this.setState({isHandling: false});
                 this.getPages();

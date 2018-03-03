@@ -6,7 +6,6 @@ import {
 } from '../../../actions/dashboard/chat/createOrder';
 import FmsNewOrderModal from '../../../commons/order-modal/FmsCreateOrderModal';
 import FmsOrderDetailModal from '../../../commons/order-modal/FmsOrderDetailModal';
-import utils from '../../../helpers/utils';
 
 class FmsOrdersTab extends React.Component {
     constructor(props) {
@@ -24,7 +23,32 @@ class FmsOrdersTab extends React.Component {
 
     convertTime(time) {
         let date = new Date(time);
-        return "Ngày tạo: " + date.getDate() + "/" + (date.getMonth() + 1);
+        return "Ngày tạo: " + date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+    }
+
+    calFee(order) {
+        let fee = 0;
+        order.products.forEach(p => {
+            fee += p.price * p.quantity - p.discount;
+        });
+        if (order.is_pay) fee += " (Đã thanh toán)";
+        else fee += " (Chưa thanh toán)";
+        return fee;
+    }
+
+    showProducts(order) {
+        if (!order.products || order.products.length === 0) return "Chưa có sản phẩm nào";
+        let ids = order.products.map(p => p.id);
+        return ids.join(", ");
+    }
+
+    orderAddress(order) {
+        let addr = [];
+        if (order.full_address) addr.push(order.full_address);
+        if (order.ward) addr.push(order.ward);
+        if (order.district) addr.push(order.district);
+        if (order.province) addr.push(order.province);
+        return addr.join(", ");
     }
 
     //---------------------Order Modals-----------------------------
@@ -135,7 +159,7 @@ class FmsOrdersTab extends React.Component {
         let orders = this.props.orders;
         if (orders.length === 0) return <p className="no-note">Chưa có đơn hàng nào</p>;
         else {
-            return orders.map((order, index) => {
+            let temp = orders.map((order, index) => {
                 let custom = "";
                 let color = (order.order_tag) ? order.order_tag.color : "";
                 let name = (order.order_tag) ? order.order_tag.name : "";
@@ -144,15 +168,35 @@ class FmsOrdersTab extends React.Component {
                             onClick={() => {
                                 this.openOrderDetailModal(order)
                             }}>
-                    <div className={"order-id" + ((!name) ? " hide" : "")}>
-                        {order.id + ":  "}
-                        <span style={{color: color}}>{name}</span>
+                    <div className={"order-header" + ((!name) ? " hide" : "")}>
+                        <span className="order-id">{order.id}</span>
+
                     </div>
-                    <div><i className="glyphicon glyphicon-usd"/> {order.transport_fee}</div>
-                    <div><i className="glyphicon glyphicon-home"/> {order.transport_address}</div>
-                    <div><i className="glyphicon glyphicon-phone"/> {order.customer_phone}</div>
+                    <div><span className="order-detail-title">Trạng thái: </span>
+                        <span style={{color: color, fontWeight: "600"}} className="order-tag">{name}</span>
+                    </div>
+                    <div><span className="order-detail-title">Tổng tiền: </span>
+                        {this.calFee(order)}
+                    </div>
+                    <div><span className="order-detail-title">Địa chỉ: </span>
+                        {this.orderAddress(order)}
+                    </div>
+                    <div><span className="order-detail-title">SĐT: </span>
+                        {order.customer_phone}
+                    </div>
+                    <div><span className="order-detail-title">Sản phẩm: </span>
+                        {this.showProducts(order)}
+                    </div>
                 </div>
             });
+            let ordersView = [];
+            temp.forEach((ov, idx) => {
+                 if (idx !== 0) {
+                     ordersView.push(<div className="divider" key={1234 * idx}/>);
+                 }
+                 ordersView.push(ov);
+            });
+            return ordersView;
         }
     }
 
@@ -190,12 +234,17 @@ class FmsOrdersTab extends React.Component {
                     {": " + report.content}
                 </div>
                 <div className="note-info-item">{this.convertTime(report.updated_time)}</div>
-                <a className="note-info-item note-option" onClick={() => {
-                    this.updateReport(report)
-                }}>Sửa</a>
-                <a className="note-info-item note-option" onClick={() => {
-                    this.deleteReport(report)
-                }}>Xóa</a>
+                {this.props.conversation.page_fb_id === report.from.fb_id ?
+                    <span>
+                        <a className="note-info-item note-option" onClick={() => {
+                            this.updateReport(report)
+                        }}>Sửa</a>
+                        <a className="note-info-item note-option" onClick={() => {
+                            this.deleteReport(report)
+                        }}>Xóa</a>
+                    </span> :
+                    null
+                }
             </div>
         });
     }
@@ -239,7 +288,7 @@ class FmsOrdersTab extends React.Component {
                 <div>
                     <div className="info">Thông tin</div>
                     {conv.type === "inbox" ?
-                        <div className={"order-area" + isHide}>
+                        <div className={"order-area section" + isHide}>
                             <div className="title-section">Đơn hàng</div>
                             <a className="add-note-button" onClick={() => {
                                 this.openNewOrderModal()
@@ -249,13 +298,13 @@ class FmsOrdersTab extends React.Component {
                         :
                         null
                     }
-                    <div className="notes-list">
+                    <div className="notes-list section">
                         <div className="title-section">{title}</div>
                         <a className={"add-note-button" + addNote} onClick={this.openAddNote.bind(this)}>Thêm</a>
                         {this.renderNoteList()}
                     </div>
                     {conv.type === "inbox" ?
-                        <div className={"report-area" + isHide}>
+                        <div className={"report-area section" + isHide}>
                             <div className="title-section">Báo xấu</div>
                             <a className="add-note-button" onClick={this.openAddReport.bind(this)}>Thêm</a>
                             {this.renderReportsList()}
