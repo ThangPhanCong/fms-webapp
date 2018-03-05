@@ -16,7 +16,11 @@ class FmsNavigation extends React.Component {
 
     render() {
         let self = this;
-        const {user, show_noti} = this.props;
+        const {
+            user,
+            show_noti,
+            redirect_shop
+        } = this.props;
         const {_id} = user;
 
         let userId = user ? user.fb_id : '';
@@ -31,7 +35,7 @@ class FmsNavigation extends React.Component {
                          style={{marginBottom: 0, backgroundColor: 'white'}}>
 
                         <div className="navbar-header">
-                            <a className='navbar-brand' href='#'>
+                            <a className='navbar-brand' href={redirect_shop ? "/shops" : "#"}>
                                 Adsbold
                             </a>
                         </div>
