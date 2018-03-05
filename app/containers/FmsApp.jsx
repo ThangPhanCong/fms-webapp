@@ -55,7 +55,7 @@ class FmsApp extends Component {
 
         LoadableFmsProject.preload();
         LoadableFmsDashboard.preload();
-        LoadableFmsListNotification.preload();
+        LoadableFmsDashboardNotification.preload();
     }
 
     componentWillReceiveProps(nextProps) {
