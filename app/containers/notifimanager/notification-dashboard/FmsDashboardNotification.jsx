@@ -8,7 +8,7 @@ class FmsDashboardNotification extends Component {
     render() {
         return (
             <div>
-                <FmsNavigation/>
+                <FmsNavigation show_noti={false} />
                 <div className="row">
                     <FmsNavLeftNotification/>
                     <div className="col-sm-10">

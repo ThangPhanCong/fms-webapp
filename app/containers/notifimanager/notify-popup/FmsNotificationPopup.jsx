@@ -68,14 +68,23 @@ class FmsNotificationPopup extends Component {
 
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps._id && nextProps._id != this.props._id) {
-            this.getListNotifications(nextProps._id);
-            this.setState({
-                userid: nextProps._id
-            })
-        }
+    componentWillMount() {
+        const {_id} = this.props;
+
+        this.getListNotifications(_id)
+        this.setState({
+            userid: _id
+        })
     }
+
+    // componentWillReceiveProps(nextProps) {
+    //     if (nextProps._id && nextProps._id != this.props._id) {
+    //         this.getListNotifications(nextProps._id);
+    //         this.setState({
+    //             userid: nextProps._id
+    //         })
+    //     }
+    // }
 
     getListNotifications(_id) {
         getNotifications(_id, 'BASE')
@@ -111,7 +120,7 @@ class FmsNotificationPopup extends Component {
 
         const none_notification = <div className="text-center none_notify">
             <p className="text-notify">
-                Không có thông báo nào được hiển thị!
+                Không có thông báo nào mới!
             </p>
             <li className="divider"></li>
             <br/>

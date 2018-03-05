@@ -30,10 +30,9 @@ class FmsDetailNotificationItem extends Component {
         })
     }
 
-    onGoback() {
-        this.props.history.goBack();
-    }
-
+    // onGoback() {
+    //     this.props.history.goBack();
+    // }
     async onUpdateArchived(is_archived) {
         const {_id} = this.props.user;
         const {id} = this.props.match.params;
@@ -52,32 +51,6 @@ class FmsDetailNotificationItem extends Component {
 
         return (
             <div>
-                <div style={{height: "48px", borderBottom: "solid 1px #F3F3F4"}}>
-                    <div>
-                        <FmsTooltip text_tooltip="Quay lại"
-                                    position="bottom">
-                            <button className="back-dashboard link-noti" onClick={() => this.onGoback()}>
-                                <i className="fa fa-reply-all"/>
-                            </button>
-                        </FmsTooltip>
-                        {current_notifi.is_archived ? <FmsTooltip text_tooltip="Bỏ lưu" position="bottom">
-                            <button className="archive-noti"
-                                    onClick={() => this.onUpdateArchived(false)}
-                                    style={{marginLeft: "4px"}}>
-                                <i className="fa fa-window-close"/>
-                            </button>
-                        </FmsTooltip> : <FmsTooltip text_tooltip="Lưu trữ" position="bottom">
-                            <button className="archive-noti"
-                                    onClick={() => this.onUpdateArchived(true)}
-                                    style={{marginLeft: "4px"}}>
-                                <i className="fa fa-download"/>
-                            </button>
-                        </FmsTooltip>}
-
-                    </div>
-
-                </div>
-
                 <div style={{
                     height: "47px", borderBottom: "solid 1px #E5E5E5"
                 }}>
@@ -90,10 +63,22 @@ class FmsDetailNotificationItem extends Component {
                         <img className="admin-avatar"
                              src="https://graph.facebook.com/v2.10/596938700697551/picture"/>
                         Admin
-                    </span>
+                        <span className="edit-archive">
+                            {current_notifi.is_archived ?
+                                <FmsTooltip text_tooltip="Bỏ lưu" position="bottom">
+                                    <i className="fa fa-window-close"
+                                       onClick={() => this.onUpdateArchived(false)}
+                                       style={{paddingLeft: "3px"}}/>
+                                </FmsTooltip> : <FmsTooltip text_tooltip="Lưu trữ" position="bottom">
+                                    <i className="fa fa-download"
+                                       onClick={() => this.onUpdateArchived(true)}
+                                       style={{paddingLeft: "3px"}}/>
+                                </FmsTooltip>}
+                        </span>
+
+                        </span>
                     <p className="user-receive">
                         tới {user.name}
-                        <i className="fa fa-sort-desc"/>
                     </p>
                     <p className="content-noti">
                         {current_notifi.content}
@@ -110,6 +95,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-const FmsShowNotificationItem = connect(mapStateToProps)(FmsDetailNotificationItem)
-
-export default FmsShowNotificationItem;
+export default connect(mapStateToProps)(FmsDetailNotificationItem);

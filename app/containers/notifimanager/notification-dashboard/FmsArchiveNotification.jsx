@@ -3,7 +3,7 @@ import {getNotifications} from "../../../api/NotificationsApi";
 import {connect} from "react-redux";
 import FmsNotificationItem from "./FmsNotificationItem";
 
-class ArchiveNotification extends Component {
+class FmsArchiveNotification extends Component {
     state = {
         notifications: []
     };
@@ -36,14 +36,6 @@ class ArchiveNotification extends Component {
 
         return (
             <div>
-                <div style={{height: "48px", borderBottom: "solid 1px #F3F3F4"}}>
-                    <button className="back-dashboard link-noti">
-                        <i className="fa fa-reply-all"/>
-                    </button>
-                    <button className="archive-noti link-noti" style={{marginLeft: "4px"}}>
-                        <i className="fa fa-refresh"/>
-                    </button>
-                </div>
                 <table className="table table-mail table-hover">
                     <tbody>
                     {notifications.map((noti, i) => {
@@ -52,7 +44,6 @@ class ArchiveNotification extends Component {
                         )
 
                     })}
-
                     </tbody>
                 </table>
             </div>
@@ -66,6 +57,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-const FmsArchiveNotification = connect(mapStateToProps)(ArchiveNotification)
-
-export default FmsArchiveNotification;
+export default connect(mapStateToProps)(FmsArchiveNotification);

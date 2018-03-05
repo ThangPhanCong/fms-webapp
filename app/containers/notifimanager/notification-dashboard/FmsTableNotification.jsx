@@ -34,14 +34,6 @@ class FmsTableNotification extends Component {
 
         return (
             <div>
-                <div style={{height: "48px", borderBottom: "solid 1px #F3F3F4"}}>
-                    <button className="back-dashboard link-noti">
-                        <i className="fa fa-reply-all"/>
-                    </button>
-                    <button className="archive-noti link-noti" style={{marginLeft: "4px"}}>
-                        <i className="fa fa-refresh"/>
-                    </button>
-                </div>
                 <table className="table table-mail table-hover">
                     <tbody>
                     {notifications.map((noti, i) => {

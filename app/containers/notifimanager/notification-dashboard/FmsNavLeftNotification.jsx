@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
-class NavLeftNotification extends Component {
+class FmsNavLeftNotification extends Component {
     state = {
         focus_tab: true
     };
@@ -48,6 +48,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-const FmsNavLeftNotification = connect(mapStateToProps)(NavLeftNotification)
-
-export default FmsNavLeftNotification;
+export default connect(mapStateToProps)(FmsNavLeftNotification);

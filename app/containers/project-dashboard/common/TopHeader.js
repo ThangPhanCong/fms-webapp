@@ -9,31 +9,17 @@ import {setAlias} from "../../../actions/dashboard/conversations";
 import FmsNotificationPopup from "../../notifimanager/notify-popup/FmsNotificationPopup";
 import * as tokenApi from "../../../api/TokenApi";
 import * as store from "../../../helpers/storage";
+import {connect} from "react-redux";
 
 class TopHeader extends React.Component {
 
     state = {
-        users: [],
-        _id: null,
         color: 'white',
         hasBorderBottom: false
     };
 
     componentDidMount() {
         this.updateColorByLocation();
-        this.getIdCurrentUser();
-    }
-
-    getIdCurrentUser() {
-        tokenApi.verifyAccessToken(store.get('access_token'))
-            .then(userData => {
-                this.setState({
-                    _id: userData._id
-                })
-            })
-            .catch((err) => {
-                alert(err.message)
-            })
     }
 
     componentWillReceiveProps(nextProps) {
@@ -110,22 +96,13 @@ class TopHeader extends React.Component {
 
     renderRightNavItem() {
         const {
-            users,
             _id
-        } = this.state;
+        } = this.props.user;
 
         return (
             <ul className="nav navbar-top-links navbar-right">
-                <FmsNotificationPopup users={users}
-                                      _id={_id}
+                <FmsNotificationPopup _id={_id}
                 />
-                {/*<li>*/}
-                {/*<a className="right-sidebar-toggle" onClick={() => {*/}
-                {/*this.props.onToggleRightNavbar()*/}
-                {/*}}>*/}
-                {/*<i className="fa fa-tasks"></i>*/}
-                {/*</a>*/}
-                {/*</li>*/}
             </ul>
         )
     }
@@ -162,4 +139,12 @@ class TopHeader extends React.Component {
 
 }
 
-export default TopHeader;
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user
+    }
+};
+
+
+export default connect(mapStateToProps)(TopHeader);

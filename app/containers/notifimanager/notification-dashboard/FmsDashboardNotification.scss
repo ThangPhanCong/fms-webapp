@@ -29,10 +29,12 @@
   padding-left: 27px;
 }
 
-.fa-sort-desc {
-  margin-left: 4px;
-  border: solid 1px;
-  padding: 1px;
+.edit-archive {
+  color: #a29c9c;
+  &:hover {
+    cursor: pointer;
+    color:#666666;
+  }
 }
 
 .noti-avatar {
@@ -61,7 +63,6 @@
   font-size: 17px;
   position: relative;
   top: 10px;
-  padding-left: 15px;
 }
 
 .user-receive {

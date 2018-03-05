@@ -1,6 +1,6 @@
 import React from 'react';
 import FmsTableNotification from "./FmsTableNotification";
-import FmsShowNotificationItem from "./FmsDetailNotificationItem";
+import FmsDetailNotificationItem from "./FmsDetailNotificationItem";
 import FmsArchiveNotification from "./FmsArchiveNotification";
 
 const routesNoti = [
@@ -15,7 +15,7 @@ const routesNoti = [
     },
     {
         path: "/notifications/:id",
-        main: (props) => <FmsShowNotificationItem {...props} />
+        main: (props) => <FmsDetailNotificationItem {...props} />
     }
 ];
 
