@@ -168,15 +168,9 @@ class FmsOrdersTab extends React.Component {
                             onClick={() => {
                                 this.openOrderDetailModal(order)
                             }}>
-                    <div className={"order-header" + ((!name) ? " hide" : "")}>
-                        <span className="order-id">{order.id}</span>
-
-                    </div>
-                    <div><span className="order-detail-title">Trạng thái: </span>
-                        <span style={{color: color, fontWeight: "600"}} className="order-tag">{name}</span>
-                    </div>
-                    <div><span className="order-detail-title">Tổng tiền: </span>
-                        {this.calFee(order)}
+                    <div className={"order-header"}>
+                        <span style={{fontWeight: 700}}>{"#" + order.id + " "}</span>
+                        <span style={{backgroundColor: color}} className="order-tag">{name}</span>
                     </div>
                     <div><span className="order-detail-title">Địa chỉ: </span>
                         {this.orderAddress(order)}
@@ -186,6 +180,9 @@ class FmsOrdersTab extends React.Component {
                     </div>
                     <div><span className="order-detail-title">Sản phẩm: </span>
                         {this.showProducts(order)}
+                    </div>
+                    <div><span className="order-detail-title">Thành tiền: </span>
+                        {this.calFee(order)}
                     </div>
                 </div>
             });
