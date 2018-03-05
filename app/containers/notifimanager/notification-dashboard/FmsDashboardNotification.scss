@@ -16,15 +16,6 @@
   }
 }
 
-.back-dashboard {
-  border: solid 0.1px #C6C6C6;
-  width: 72px;
-  background: #F4F4F4;
-  height: 29px;
-  margin-top: 7px;
-  margin-left: 1px;
-}
-
 .content-noti {
   padding-left: 27px;
 }
@@ -56,6 +47,10 @@
       cursor: pointer;
     }
   }
+}
+
+.nav-tab {
+  padding: 6px;
 }
 
 .title-noti {
