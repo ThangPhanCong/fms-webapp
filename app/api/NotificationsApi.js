@@ -1,4 +1,4 @@
-import apiSender from './ApiSender';
+import apiSender, {get} from './ApiSender';
 import getToken from '../helpers/token-getter';
 
 export function getNotifications(user_id, scope) {
@@ -21,4 +21,4 @@ export function updateArchived(is_archived, user_id, noti_id, scope) {
 export function deleteNotification(user_id, noti_id, scope) {
     let route = `/api/n/users/${user_id}/notifications/${noti_id}`;
     return apiSender.delete(route, getToken(scope));
-}
+};

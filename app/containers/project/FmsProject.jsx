@@ -189,7 +189,7 @@ class FmsProject extends Component {
 
         return (
             <div style={{backgroundColor: '#f3f2f2', minHeight: '100vh'}}>
-                <FmsNavigation/>
+                <FmsNavigation show_noti={true}/>
 
                 <div className="container project-wrapper">
 

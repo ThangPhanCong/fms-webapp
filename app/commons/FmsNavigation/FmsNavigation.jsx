@@ -5,6 +5,7 @@ import {withRouter} from 'react-router-dom';
 import {Image} from 'react-bootstrap';
 
 import {logOut} from '../../actions/auth';
+import FmsNotificationPopup from "../../containers/notifimanager/notify-popup/FmsNotificationPopup";
 
 class FmsNavigation extends React.Component {
 
@@ -15,7 +16,13 @@ class FmsNavigation extends React.Component {
 
     render() {
         let self = this;
-        const {user} = this.props;
+        const {
+            user,
+            show_noti,
+            redirect_shop
+        } = this.props;
+        const {_id} = user;
+
         let userId = user ? user.fb_id : '';
         let username = user ? user.name : '';
         let avaUser = `https://graph.facebook.com/v2.10/${userId}/picture`;
@@ -28,12 +35,14 @@ class FmsNavigation extends React.Component {
                          style={{marginBottom: 0, backgroundColor: 'white'}}>
 
                         <div className="navbar-header">
-                            <a className='navbar-brand' href='#'>
+                            <a className='navbar-brand' href={redirect_shop ? "/shops" : "#"}>
                                 Adsbold
                             </a>
                         </div>
 
                         <ul className="nav navbar-top-links navbar-right pull-right">
+                            {show_noti ? <FmsNotificationPopup _id={_id}/> : null
+                            }
                             <li className="dropdown" style={{marginRight: 0}}>
                                 <a className="dropdown-toggle" data-toggle="dropdown" href="#"
                                    style={{color: 'gray', padding: '10px 10px'}}>
