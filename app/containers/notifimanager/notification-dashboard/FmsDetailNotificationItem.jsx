@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {getNotifications, updateArchived} from "../../../api/NotificationsApi";
 import FmsTooltip from "../../../commons/tooltip/FmsTooltip";
-
+import {noti} from "../../notification/NotificationService";
 
 class FmsDetailNotificationItem extends Component {
     state = {
@@ -36,13 +36,22 @@ class FmsDetailNotificationItem extends Component {
     async onUpdateArchived(is_archived) {
         const {_id} = this.props.user;
         const {id} = this.props.match.params;
+        let data;
 
         try {
-            await updateArchived(is_archived, _id, id, 'BASE')
+            await updateArchived(is_archived, _id, id, 'BASE');
+            data = await getNotifications(_id, 'BASE');
+            if (is_archived) {
+                noti('success', 'Đã lưu trữ thông báo này!')
+            } else {
+                noti('danger', 'Đã bỏ lưu thông báo này!')
+            }
         } catch (err) {
             alert(err.message);
         }
-        this.props.history.goBack();
+        this.setState({
+            current_notifi: data.find(noti => noti._id === id)
+        })
     }
 
     render() {

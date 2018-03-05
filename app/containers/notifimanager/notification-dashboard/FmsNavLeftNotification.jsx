@@ -28,7 +28,7 @@ class FmsNavLeftNotification extends Component {
                     <Link to="/notifications"
                           onClick={() => this.onChangeTabAll()}
                           style={focus_tab ? {color: "#18A689", fontWeight: "bold"} : {color: "black"}}>
-                        <li>Thông báo (781)</li>
+                        <li>Thông báo</li>
                     </Link>
                     <Link to="/notifications/archived"
                           onClick={() => this.onChangeTabArchived()}

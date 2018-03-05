@@ -16,7 +16,8 @@ class FmsNotiItem extends Component {
             <li key={position} className="list-noti">
                 <Link to={`/notifications/${noti._id}`}>
                     <div
-                        onMouseEnter={onShowArchived}>
+                        onMouseEnter={onShowArchived}
+                        >
                         <i className="fa fa-user-circle-o"
                            aria-hidden="true"></i>
                         <span style={{paddingLeft: '5px'}}>{truncateString(capitalize(noti.title), 25)}</span>

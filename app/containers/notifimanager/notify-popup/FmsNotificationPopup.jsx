@@ -22,20 +22,6 @@ class FmsNotificationPopup extends Component {
         })
     }
 
-    onArchiveNotification(is_archived, user_id, noti_id) {
-        updateArchived(!is_archived, user_id, noti_id, 'BASE')
-            .then(() => {
-                console.log("Successfully!")
-            })
-            .catch((err) => {
-                alert(err.message)
-            })
-            .then(() => {
-                this.getListNotifications(user_id)
-            })
-
-    }
-
     onSeenNotification(is_seen, user_id) {
         const {notifications} = this.state;
 
@@ -152,7 +138,6 @@ class FmsNotificationPopup extends Component {
                                              position={i}
                                              user_id={userid}
                                              onShowArchived={() => this.onShowArchived(i)}
-                                             onArchiveNotification={() => this.onArchiveNotification(noti.is_archived, this.state.userid, noti._id)}
                                              selectedArchive={selectedArchive}/>
                             )
                         }
