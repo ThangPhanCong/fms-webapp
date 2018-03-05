@@ -112,9 +112,9 @@ class FmsSettings extends React.Component {
         }
     }
 
-    openModal(page_id) {
+    openModal(page) {
         if (this.state.isHandling) return;
-        this.setState({isShownModal: true, selectedPage: page_id});
+        this.setState({isShownModal: true, selectedPage: page});
     }
 
     closeModal() {
@@ -122,7 +122,7 @@ class FmsSettings extends React.Component {
     }
 
     addPage(getHistory, since) {
-        let page_id = this.state.selectedPage;
+        let page_id = this.state.selectedPage.fb_id;
         this.setState({isHandling: true});
         ProjectApi.addPage(page_id, getHistory, since)
             .then(() => {
@@ -176,7 +176,7 @@ class FmsSettings extends React.Component {
                     {!is_active ?
                         <img className={"add-icon clickable" + disabled} src={addImg}
                              onClick={() => {
-                                 this.openModal(page.fb_id)
+                                 this.openModal(page)
                              }}/>
                         :
                         null
@@ -234,7 +234,7 @@ class FmsSettings extends React.Component {
                     </div>
                 </div>
                 <FmsAddPageModal isShown={this.state.isShownModal} onClose={this.closeModal.bind(this)}
-                                 addPage={this.addPage.bind(this)}/>
+                                 addPage={this.addPage.bind(this)} page={this.state.selectedPage}/>
             </div>
         );
     }

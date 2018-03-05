@@ -79,47 +79,49 @@ class FmsAddPageModal extends React.Component {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                        <div style={{fontSize: "14px", margin: "0 0 10px 20px"}}>Tên
+                            trang: {this.props.page ? this.props.page.name : ""}</div>
                         <label className="get-history-option">
                             <input type="radio" className="add-page-checkbox" checked={this.state.options[0]}
-                                         onChange={() => {
-                                             this.onSelectOption(0)
-                                         }}/>
+                                   onChange={() => {
+                                       this.onSelectOption(0)
+                                   }}/>
                             Không lấy dữ liệu cũ
                         </label>
                         <label className="get-history-option">
                             <input type="radio" className="add-page-checkbox" checked={this.state.options[1]}
-                                         onChange={() => {
-                                             this.onSelectOption(1)
-                                         }}/>
+                                   onChange={() => {
+                                       this.onSelectOption(1)
+                                   }}/>
                             Lấy dữ liệu của 1 tuần gần nhất
                         </label>
                         <label className="get-history-option">
                             <input type="radio" className="add-page-checkbox" checked={this.state.options[2]}
-                                         onChange={() => {
-                                             this.onSelectOption(2)
-                                         }}/>
+                                   onChange={() => {
+                                       this.onSelectOption(2)
+                                   }}/>
                             Lấy dữ liệu của 1 tháng gần nhất
                         </label>
                         <label className="get-history-option">
                             <input type="radio" className="add-page-checkbox" checked={this.state.options[3]}
-                                         onChange={() => {
-                                             this.onSelectOption(3)
-                                         }}/>
+                                   onChange={() => {
+                                       this.onSelectOption(3)
+                                   }}/>
                             Lấy dữ liệu của 6 tháng gần nhất
                         </label>
                         <label className="get-history-option">
                             <input type="radio" className="add-page-checkbox" checked={this.state.options[4]}
-                                         onChange={() => {
-                                             this.onSelectOption(4)
-                                         }}/>
+                                   onChange={() => {
+                                       this.onSelectOption(4)
+                                   }}/>
                             Lấy dữ liệu của 1 năm gần nhất
                         </label>
                         <div className="row" style={{marginTop: "8px", marginBottom: "8px"}}>
                             <label className="col-sm-5" style={{marginTop: "3px"}}>
                                 <input type="radio" className="add-page-checkbox" checked={this.state.options[5]}
-                                             onChange={() => {
-                                                 this.onSelectOption(5)
-                                             }}/>
+                                       onChange={() => {
+                                           this.onSelectOption(5)
+                                       }}/>
                                 <div className="start-date" style={{fontWeight: 500}}>Lấy dữ liệu tùy chọn</div>
                             </label>
                             <div className="col-sm-7 custom-date-picker">

@@ -40,7 +40,16 @@ class FmsSettings extends React.Component {
     deleteShop(deleted) {
         if (this.state.isHandling) return;
         if (deleted) {
-            alert("Deleted!!!");
+            this.setState({isHandling: true});
+            ProjectApi.deleteProject(this.props.project._id)
+                .then(() => {
+                    alert(`Đã xóa thành công cửa hàng ${this.props.project.alias}`);
+                    this.setState({isHandling: false});
+                    window.location = "/";
+                }, err => {
+                    alert(err.message);
+                    this.setState({isHandling: false});
+                });
         }
         this.setState({isDeleteShop: false});
     }
