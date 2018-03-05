@@ -1,5 +1,6 @@
 let apiSender = require('./ApiSender');
 let project_access_token;
+import {getByProjectId} from "../helpers/token-getter";
 
 module.exports = {
     setProjectToken: (token) => {
@@ -32,8 +33,8 @@ module.exports = {
         return apiSender.put(route, payload);
     },
     deleteProject: (project_id) => {
-        let route = `/api/a/projects/${project_id}`;
-        return apiSender.delete(route);
+        let route = `/api/a/projects`;
+        return apiSender.delete(route, getByProjectId(project_id));
     },
     // TODO: get pages of user
     getPages: () => {

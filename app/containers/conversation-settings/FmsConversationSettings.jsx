@@ -190,8 +190,8 @@ class FmsSettings extends React.Component {
 
     render() {
         if (!this.props.project) return <div/>;
-        let alias = (this.props.project) ? this.props.project.alias : null;
-        let route = (alias) ? `${alias}/Quản lý trang/Cài đặt` : "";
+        let name = (this.props.project) ? this.props.project.name : null;
+        let route = (name) ? `${name}/Quản lý trang/Cài đặt` : "";
         return (
             <div className="settings">
                 <FmsPageTitle title="Cài đặt" route={route}/>
