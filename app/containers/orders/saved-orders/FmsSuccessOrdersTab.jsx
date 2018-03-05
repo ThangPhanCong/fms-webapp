@@ -32,8 +32,8 @@ class FmsSuccessOrdersTab extends Component {
     updateOrders(project, filter = this.state.filter) {
         this.setState({isLoading: true});
 
-        getSuccessOrder(project.alias, filter)
-            .then(orders => this.setState({orders: orders.reverse(), isLoading: false}));
+        getSuccessOrder(filter)
+            .then(res => this.setState({orders: res.orders.reverse(), isLoading: false}));
     }
 
     componentDidMount() {

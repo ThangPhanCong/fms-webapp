@@ -153,9 +153,9 @@ class FmsOrderDetailModal extends Component {
         this.setState({isLoading: true});
         try {
             if (status === 'success') {
-                await saveSuccessOrder(project.alias, this.state.order);
+                await saveSuccessOrder(this.state.order);
             } else if (status === 'failure') {
-                await saveFailureOrder(project.alias, this.state.order);
+                await saveFailureOrder(this.state.order);
             }
 
             const shouldUpdated = true;

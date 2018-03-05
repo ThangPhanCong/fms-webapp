@@ -33,8 +33,8 @@ class FmsFailureOrderTab extends Component {
     updateOrders(project, filter = this.state.filter) {
         this.setState({isLoading: true});
 
-        getFailureOrder(project.alias, filter)
-            .then(orders => this.setState({orders: orders.reverse(), isLoading: false}));
+        getFailureOrder(filter)
+            .then(res => this.setState({orders: res.orders.reverse(), isLoading: false}));
     }
 
     componentDidMount() {

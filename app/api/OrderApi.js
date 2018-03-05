@@ -36,7 +36,7 @@ export function deleteOrder(projectAlias, order) {
     return apiSender.delete(`/api/o/orders/${order._id}`);
 }
 
-export function saveSuccessOrder(projectAlias, order) {
+export function saveSuccessOrder(order) {
     const payload = {
         ...order,
         status: ORDER_STATUS.DON_HANG_THANH_CONG
@@ -44,7 +44,7 @@ export function saveSuccessOrder(projectAlias, order) {
     return put(`/api/o/orders/${order._id}`, payload);
 }
 
-export function saveFailureOrder(projectAlias, order) {
+export function saveFailureOrder(order) {
     const payload = {
         ...order,
         status: ORDER_STATUS.DON_HANG_THAT_BAI
@@ -52,7 +52,7 @@ export function saveFailureOrder(projectAlias, order) {
     return put(`/api/o/orders/${order._id}`, payload);
 }
 
-export function getSuccessOrder(projectAlias, filter = {}) {
+export function getSuccessOrder(filter = {}) {
     const successOrderFilter = {
         ...filter,
         status: ORDER_STATUS.DON_HANG_THANH_CONG
@@ -61,7 +61,7 @@ export function getSuccessOrder(projectAlias, filter = {}) {
     return get(`/api/o/orders?${queryParams}`);
 }
 
-export function getFailureOrder(projectAlias, filter = {}) {
+export function getFailureOrder(filter = {}) {
     const successOrderFilter = {
         ...filter,
         status: ORDER_STATUS.DON_HANG_THAT_BAI
