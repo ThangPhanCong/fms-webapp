@@ -4,17 +4,17 @@ import {delay} from '../utils/timeout-utils';
 import {getByProjectId} from "../helpers/token-getter";
 
 export const ORDER_STATUS = {
-    DRAFT: "DRAFT",
-    EXPORTED_ORDER: "EXPORTED_ORDER",
-    TRANSPORTED_ORDER: "TRANSPORTED_ORDER",
-    TRANSPORTING: "TRANSPORTING",
+    DRAFT: "DRAFT", // don hang moi
+    EXPORTED_ORDER: "EXPORTED_ORDER", // de nghi xuat
+    // TRANSPORTED_ORDER: "TRANSPORTED_ORDER", // yeu cau van chuyen
+    TRANSPORTING: "TRANSPORTING", // dang van chuyen
 
     // luu tru don hang
     DON_HANG_THANH_CONG: "DON_HANG_THANH_CONG",
     DON_HANG_THAT_BAI: "DON_HANG_THAT_BAI",
 };
 
-export function getOrders(projectAlias, filter = {}) {
+export function getOrders(filter = {}) {
     const queryParams = toQueryParams(filter);
     return get(`/api/o/orders?${queryParams}`);
 }
@@ -36,7 +36,7 @@ export function deleteOrder(projectAlias, order) {
     return apiSender.delete(`/api/o/orders/${order._id}`);
 }
 
-export function saveSuccessOrder(projectAlias, order) {
+export function saveSuccessOrder(order) {
     const payload = {
         ...order,
         status: ORDER_STATUS.DON_HANG_THANH_CONG
@@ -44,7 +44,7 @@ export function saveSuccessOrder(projectAlias, order) {
     return put(`/api/o/orders/${order._id}`, payload);
 }
 
-export function saveFailureOrder(projectAlias, order) {
+export function saveFailureOrder(order) {
     const payload = {
         ...order,
         status: ORDER_STATUS.DON_HANG_THAT_BAI
@@ -52,7 +52,7 @@ export function saveFailureOrder(projectAlias, order) {
     return put(`/api/o/orders/${order._id}`, payload);
 }
 
-export function getSuccessOrder(projectAlias, filter = {}) {
+export function getSuccessOrder(filter = {}) {
     const successOrderFilter = {
         ...filter,
         status: ORDER_STATUS.DON_HANG_THANH_CONG
@@ -61,7 +61,7 @@ export function getSuccessOrder(projectAlias, filter = {}) {
     return get(`/api/o/orders?${queryParams}`);
 }
 
-export function getFailureOrder(projectAlias, filter = {}) {
+export function getFailureOrder(filter = {}) {
     const successOrderFilter = {
         ...filter,
         status: ORDER_STATUS.DON_HANG_THAT_BAI

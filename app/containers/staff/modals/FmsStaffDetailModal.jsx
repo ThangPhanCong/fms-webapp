@@ -74,17 +74,22 @@ class FmsStaffDetailModal extends Component {
 
     componentWillReceiveProps(nextProps) {
         let staff = this.state.staff;
+        const {isShown, project} = this.props;
+
         if (nextProps.staff && nextProps.staff !== staff) {
             staff = nextProps.staff;
             if (staff.role) staff.role_id = staff.role._id;
             if (staff.birthday && staff.birthday !== null) staff.birthday = staff.birthday.split('T')[0];
             this.setState({staff});
         }
+
+        if (nextProps.isShown !== isShown && nextProps.isShown === true) {
+            this.getRolesOfProject(project._id);
+        }
     }
 
-    componentDidMount() {
-        const {project} = this.props;
-        getRoles(project._id)
+    getRolesOfProject(project_id) {
+        getRoles(project_id)
             .then(roles => {
                 this.setState({roles: roles});
             })
@@ -98,7 +103,7 @@ class FmsStaffDetailModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Tên nhân viên: *</label>
+                            <label className="control-label">Tên nhân viên <span className='required-text'>*</span></label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
@@ -113,7 +118,7 @@ class FmsStaffDetailModal extends Component {
                     </div>
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Địa chỉ:</label>
+                            <label className="control-label">Địa chỉ</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
@@ -131,7 +136,7 @@ class FmsStaffDetailModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Email: *</label>
+                            <label className="control-label">Email <span className='required-text'>*</span></label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
@@ -146,7 +151,7 @@ class FmsStaffDetailModal extends Component {
                     </div>
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Mật khẩu mới:</label>
+                            <label className="control-label">Mật khẩu mới</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
@@ -164,7 +169,7 @@ class FmsStaffDetailModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Điện thoại:</label>
+                            <label className="control-label">Điện thoại</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
@@ -179,7 +184,7 @@ class FmsStaffDetailModal extends Component {
                     </div>
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Ngày sinh:</label>
+                            <label className="control-label">Ngày sinh</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="date"
@@ -197,7 +202,7 @@ class FmsStaffDetailModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Vai trò:</label>
+                            <label className="control-label">Vai trò</label>
                         </div>
                         <div className="col-sm-8">
                             <select className="form-control"

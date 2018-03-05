@@ -5,7 +5,7 @@ import FmsTabs from "./FmsTabs";
 class FmsTabTest extends React.Component {
     state = {
         tabActive: 1
-    }
+    };
 
     handleChange(value) {
         this.setState({tabActive: value});

@@ -5,17 +5,32 @@ import FmsExportOrderSearchBar from "../orders/all-orders/FmsExportOrderSearchBa
 import FmsExportOrderTable from "./FmsExportOrderTable";
 import {getOrders, ORDER_STATUS} from "../../api/OrderApi";
 import FmsOrderDetailModal from "../../commons/order-modal/FmsOrderDetailModal";
-
+import FmsCreateTransportOrderModal from './modals/FmsCreateTransportOrderModal';
 
 class FmsExportOrders extends Component {
 
     state = {
-        project: null,
         orders: [],
         selectedOrder: null,
         isLoading: true,
-        isShownDetailModal: false
+        isShownDetailModal: false,
+        isShownCreateTransportOrderModal: false
     };
+
+    updateOrderList(project) {
+        project = project || this.props.project;
+        this.setState({isLoading: true});
+
+        if (project) {
+            getOrders({status: ORDER_STATUS.EXPORTED_ORDER})
+                .then(res => this.setState({orders: res.orders, isLoading: false}));
+        }
+    }
+
+    reloadOrders() {
+        const {project} = this.props;
+        this.updateOrderList(project);
+    }
 
     onCloseDetailModal(updatedOrder) {
         if (updatedOrder) {
@@ -27,31 +42,30 @@ class FmsExportOrders extends Component {
     }
 
     onOpenDetailModal(selectedOrder) {
-        console.log('ok men', selectedOrder)
         this.setState({selectedOrder, isShownDetailModal: true});
     }
 
+    onCloseCreateTransportOrderModal(updatedOrder) {
+        if (updatedOrder) {
+            const {project} = this.state;
+            this.updateOrderList(project);
+        }
+
+        this.setState({isShownCreateTransportOrderModal: false});
+    }
+
+    onOpenCreateTransportOrderModal(selectedOrder) {
+        this.setState({selectedOrder, isShownCreateTransportOrderModal: true});
+    }
+
     componentWillReceiveProps(nextProps) {
-        const {project} = this.state;
-        if (!project || (nextProps.project && nextProps.project.alias !== project.alias)) {
-            this.setState({project: nextProps.project});
+        if (nextProps.project) {
             this.updateOrderList(nextProps.project);
         }
     }
 
-    updateOrderList(project) {
-        project = project || this.props.project;
-        this.setState({isLoading: true});
-
-        if (project) {
-            getOrders(project.alias, {status: ORDER_STATUS.EXPORTED_ORDER})
-                .then(orders => this.setState({orders, isLoading: false}));
-        }
-    }
-
-    reloadOrders() {
-        const {project} = this.props;
-        this.updateOrderList(project);
+    componentDidMount() {
+        this.updateOrderList();
     }
 
     render() {
@@ -60,18 +74,14 @@ class FmsExportOrders extends Component {
             orders,
             selectedOrder,
             isLoading,
-            isShownDetailModal
+            isShownDetailModal,
+            isShownCreateTransportOrderModal
         } = this.state;
-
-        let projectName = 'Cửa hàng';
-        if (project) {
-            projectName = project.name;
-        }
 
         return (
             [
                 <FmsPageTitle key={1} title="Yêu cầu xuất hàng"
-                              route={`${projectName}/Quản lí kho/Yêu cầu xuất hàng`}/>,
+                              route={`${project.name}/Quản lí đơn hàng/Yêu cầu xuất hàng`}/>,
 
                 <div key={2} className="wrapper wrapper-content">
                     <div className="row">
@@ -90,6 +100,7 @@ class FmsExportOrders extends Component {
                                                 project={project}
                                                 onReloadOrders={this.reloadOrders.bind(this)}
                                                 onSelectItem={this.onOpenDetailModal.bind(this)}
+                                                onSelectCreateTransportOrderModal={this.onOpenCreateTransportOrderModal.bind(this)}
                                             />
                                     }
 
@@ -98,7 +109,14 @@ class FmsExportOrders extends Component {
                                         project={project}
                                         onClose={this.onCloseDetailModal.bind(this)}
                                         isShown={isShownDetailModal}
-                                        typeModal={0}
+                                        typeModalName='EXPORT_ORDER'
+                                    />
+
+                                    <FmsCreateTransportOrderModal 
+                                        order={selectedOrder}
+                                        project={project}
+                                        onClose={this.onCloseCreateTransportOrderModal.bind(this)}
+                                        isShown={isShownCreateTransportOrderModal}
                                     />
 
                                 </div>

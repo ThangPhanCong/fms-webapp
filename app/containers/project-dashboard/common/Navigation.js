@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Location} from 'react-router-dom';
 import NavItem from "./NavItem";
 
-import navItems from './RouteConfig'
+import {treeConfig, filterConfigByPerms} from './RouteConfig'
 import {connect} from "react-redux";
 import {logOut} from "../../../actions/auth";
 
@@ -13,13 +13,23 @@ class Navigation extends Component {
         dispatch(logOut());
     }
 
-    componentDidMount() {
+    updateMenu() {
         const {menu} = this.refs;
         $(menu).metisMenu();
     }
 
+    componentDidMount() {
+        this.updateMenu();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        this.updateMenu();
+    }
+
     renderHeaderNavItem() {
-        const {user} = this.props;
+        const {
+            user, project
+        } = this.props;
         const avaUser = `https://graph.facebook.com/v2.10/${user.fb_id}/picture`;
 
         return (
@@ -29,11 +39,10 @@ class Navigation extends Component {
                     <a data-toggle="dropdown" className="dropdown-toggle" href="#">
                             <span className="clear">
                                 <span className="block m-t-xs">
-                                <strong className="font-bold">{user.name}</strong>
-                             </span>
-                                <span className="text-muted text-xs block">Chủ cửa hàng
-                                <b className="caret"/>
-                            </span>
+                                <strong className="font-bold">{user.name}</strong></span>
+                                <span className="text-muted text-xs block">
+                                    {project ? project.role.name : null}
+                                    <b className="caret"/></span>
                             </span>
                     </a>
                     <ul className="dropdown-menu animated fadeInRight m-t-xs">
@@ -54,6 +63,12 @@ class Navigation extends Component {
     }
 
     render() {
+        const {project} = this.props;
+
+        if (!project) return null;
+
+        const authNavItems = filterConfigByPerms(treeConfig, project.role.permissions);
+
         return (
             <nav className="navbar-default navbar-static-side" role="navigation">
                 <ul className="nav metismenu" id="side-menu" ref="menu">
@@ -62,7 +77,7 @@ class Navigation extends Component {
                     }
 
                     {
-                        this.renderNavItems(navItems)
+                        this.renderNavItems(authNavItems)
                     }
                 </ul>
 
@@ -77,4 +92,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps)(Navigation)
+export default connect(mapStateToProps)(Navigation);

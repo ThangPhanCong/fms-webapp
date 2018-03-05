@@ -1,21 +1,29 @@
-.loginForm {
-    padding: 0;
-}
+.fms-login-modal {
+  .modal-header h4 {
+    margin: 0;
+    line-height: 1.42857143;
+    font-size: 26px;
+  }
 
-.ibox-content {
+  .loginForm {
+    padding: 0;
+  }
+
+  .ibox-content {
     border: none;
-}
-.modal-body {
+  }
+  .modal-body {
     .tabs-container .nav-tabs > li {
-        width: 50%;
+      width: 50%;
     }
     .loginForm {
-        button {
-            margin-left: 0;
-        }
+      button {
+        margin-left: 0;
+      }
     }
-}
+  }
 
-.nav-tabs > li > a {
+  .nav-tabs > li > a {
     margin-right: 0;
+  }
 }

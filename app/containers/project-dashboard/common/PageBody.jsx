@@ -1,36 +1,19 @@
 import React, {Component} from "react";
-import {flatConfig} from "./RouteConfig";
+import {treeConfig, filterConfigByPerms} from "./RouteConfig";
 import {Redirect, Switch} from "react-router-dom";
-import {getProject} from "../../../api/ProjectApi";
 import FmsRoute from "../../../commons/FmsRoute";
+import {flatStructure} from "../../../utils/data-structure-utils";
 
 class PageBody extends Component {
 
-    state = {
-        project: null
-    };
-
-    updateProjectInfo(project_alias) {
-        getProject(project_alias)
-            .then(project => {
-                this.setState({project});
-            })
-    }
-
-    componentDidMount() {
-        const {project_alias} = this.props.match.params;
-        this.updateProjectInfo(project_alias);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const {project_alias} = nextProps.match.params;
-        if (project_alias) {
-            this.updateProjectInfo(project_alias);
-        }
-    }
-
     render() {
-        const {project} = this.state;
+        const {project} = this.props;
+
+        if (!project) return null;
+
+        const flatConfig = flatStructure(filterConfigByPerms(treeConfig, project.role.permissions));
+
+        // console.log('flatConfig', flatConfig)
 
         return (
             <Switch>
@@ -40,13 +23,13 @@ class PageBody extends Component {
                             <FmsRoute
                                 key={i}
                                 path={this.props.match.url + "/" + container.route}
-                                project={project}
+                                project={project.data}
                                 component={container.component}
                             />
                     )
                 }
 
-                <Redirect to={this.props.match.url + "/dashboard"}/>
+                <Redirect to={this.props.match.url + '/' + flatConfig[0].route}/>
 
             </Switch>
         )

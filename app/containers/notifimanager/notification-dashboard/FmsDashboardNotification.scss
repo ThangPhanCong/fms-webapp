@@ -3,15 +3,6 @@
   padding: 2px;
 }
 
-.back-dashboard {
-  border: solid 0.1px #C6C6C6;
-  width: 72px;
-  background: #F4F4F4;
-  height: 29px;
-  margin-top: 7px;
-  margin-left: 1px;
-}
-
 .archive-noti {
   border: solid 0.1px #C6C6C6;
   width: 72px;
@@ -23,6 +14,19 @@
   &:hover {
     color: black;
   }
+}
+
+.back-dashboard {
+  border: solid 0.1px #C6C6C6;
+  width: 72px;
+  background: #F4F4F4;
+  height: 29px;
+  margin-top: 7px;
+  margin-left: 1px;
+}
+
+.content-noti {
+  padding-left: 27px;
 }
 
 .fa-sort-desc {
@@ -50,9 +54,18 @@
       cursor: pointer;
     }
   }
+}
 
+.title-noti {
+  color: black;
+  font-size: 17px;
+  position: relative;
+  top: 10px;
+  padding-left: 15px;
 }
 
 .user-receive {
   padding-left: 27px;
 }
+
+

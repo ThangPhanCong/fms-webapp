@@ -79,7 +79,7 @@ class FmsNewOrderTable extends Component {
             {
                 orders.map(
                     (order, i) => (
-                        <tr key={i}>
+                        <tr key={order.id}>
                             <td>{i}</td>
                             <td><a>
                         <span
@@ -141,7 +141,7 @@ class FmsNewOrderTable extends Component {
                 <th>Sản phẩm</th>
                 <th>Ghi chú</th>
                 <th>Ngày tạo</th>
-                <th>Tổng cộng</th>
+                <th>Thành tiền</th>
                 <th className='text-center'>Đã thanh toán</th>
                 <th>Đánh dấu</th>
             </tr>

@@ -55,8 +55,8 @@ class FmsNewOrderTab extends Component {
     updateOrders(project, filter = this.state.filter) {
         this.setState({isLoading: true});
 
-        getOrders(project.alias, filter)
-            .then(orders => this.setState({orders: orders.reverse(), isLoading: false}));
+        getOrders(filter)
+            .then(response => this.setState({orders: response.orders.reverse(), isLoading: false}));
     }
 
     componentDidMount() {
@@ -105,7 +105,7 @@ class FmsNewOrderTab extends Component {
                             isShown={isShownModal}
                             onClose={this.onCloseModal.bind(this)}
                             order={selectedOrder}
-                            typeModal={0}
+                            typeModalName='ALL_ORDER'
                             project={project}
                         />
                     </div>

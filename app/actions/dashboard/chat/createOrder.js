@@ -77,14 +77,15 @@ export const getAllOrders = (alias) => (dispatch, getState) => {
     let {conversation} = getState().dashboard.chat;
     let customer_id = utils.parseCustomer(conversation, "_id");
     if (!customer_id) return;
-    getOrders(alias, {customer_id})
+    getOrders({customer_id})
         .then(res => {
-            res.sort((a, b) => {
+            const orders = [...res.orders];
+            orders.sort((a, b) => {
                 let t1 = new Date(a.updated_time);
                 let t2 = new Date(b.updated_time);
                 return t2 - t1;
             });
-            dispatch(setOrders(res));
+            dispatch(setOrders(orders));
         }, err => {
             console.log(err);
         });

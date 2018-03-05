@@ -11,7 +11,6 @@ import FmsProductsInfoPanel from "./panels/FmsProductsInfoPanel";
 import FmsNoteInfoPanel from "./panels/FmsNoteInfoPanel";
 import FmsOrderTagInfoPanel from "./panels/FmsOrderTagInfoPanel";
 import FmsPriceCalculatorPanel from "./panels/FmsPriceCalculatorPanel";
-import FmsPaymentMethodPanel from './panels/FmsPaymentMethodPanel';
 
 class FmsCreateOrderModal extends Component {
 
@@ -197,6 +196,7 @@ class FmsCreateOrderModal extends Component {
                             customer_name={order.customer_name}
                             customer_phone={order.customer_phone}
                             customer_facebook={order.customer_facebook}
+                            customer_email={order.customer_email}
                             customer={this.props.customer}
                             onChangeInput={this.onChangeInput.bind(this)}
                         />
@@ -210,12 +210,6 @@ class FmsCreateOrderModal extends Component {
                             full_address={order.full_address}
                             transport_method={order.transport_method}
                             transport_fee={order.transport_fee}
-                            onChangeInput={this.onChangeInput.bind(this)}
-                        />
-                    </div>
-
-                    <div className='col-sm-12'>
-                        <FmsPaymentMethodPanel
                             onChangeInput={this.onChangeInput.bind(this)}
                         />
                     </div>

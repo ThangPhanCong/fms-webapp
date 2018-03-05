@@ -22,6 +22,11 @@ module.exports = {
         let payload = {hide_comment: hide};
         return apiSender.put(route, payload);
     },
+    hidePhoneComment: (post_id, hide) => {
+        let route = `/api/p/posts/${post_id}`;
+        let payload = {hide_phone: hide};
+        return apiSender.put(route, payload);
+    },
     updateExpiredAttachmentPost: (post_id) => {
         let route = `/api/p/posts/${post_id}`;
         let payload = {attachments: true};

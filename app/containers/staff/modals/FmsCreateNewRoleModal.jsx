@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
-import {getPermissions, createNewRole} from '../../../api/RoleApi';
+import {createNewRole} from '../../../api/RoleApi';
 
 class FmsCreateNewRoleModal extends Component {
 
@@ -16,7 +16,7 @@ class FmsCreateNewRoleModal extends Component {
         const {project_id} = this.props;
         const {selectedPerms} = this.state;
         this.setState({isLoading: true});
-        
+
         let role = this.state.role;
         role.permissions = selectedPerms;
         if (!!role.name) {
@@ -32,13 +32,6 @@ class FmsCreateNewRoleModal extends Component {
             this.setState({isLoading: false});
             alert('Cần điền Tên vai trò');
         }
-    }
-
-    getPerms() {
-        getPermissions()
-            .then((perms) => {
-                this.setState({perms});
-            })
     }
 
     onCloseButtonClick() {
@@ -62,12 +55,12 @@ class FmsCreateNewRoleModal extends Component {
                 if (selectedPerms.findIndex(p => p === perm.key) === -1) {
                     selectedPerms.push(perm.key);
                 }
-            })
+            });
             this.setState({selectedPerms});
         } else {
             perms[idx].permissions.map(perm => {
                 selectedPerms = selectedPerms.filter(p => p !== perm.key);
-            })
+            });
             this.setState({selectedPerms});
         }
     }
@@ -76,7 +69,7 @@ class FmsCreateNewRoleModal extends Component {
         let selectedPerms = this.state.selectedPerms;
         let index = selectedPerms.findIndex(p => p === perm);
         if (this.refs[perm].checked) {
-            if ( index === -1) {
+            if (index === -1) {
                 selectedPerms.push(perm);
             }
         } else {
@@ -88,25 +81,33 @@ class FmsCreateNewRoleModal extends Component {
         this.setState({selectedPerms});
     }
 
-    componentWillMount() {
-        this.getPerms();
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.perms && nextProps.perms !== this.state.perms) {
+            this.setState({perms: nextProps.perms});
+        }
     }
-    
+
     renderPerms() {
-        const {perms, selectedPerms} = this.state;
+        const {
+            perms,
+            selectedPerms
+        } = this.state;
+
         return (
             Array.isArray(perms) && perms.map((item, idx) => {
                 return (
-                    <div className='col-md-12' key={item.name + idx}>
-                        <label className="control-label-collapse" 
-                            // data-toggle="collapse" 
-                            // href={'#'+key} 
-                            // aria-expanded="false" 
+                    <div className='col-md-12 perm-group' key={item.name + idx}>
+                        <label
+                            // className="control-label-collapse"
+                            // data-toggle="collapse"
+                            // href={'#'+key}
+                            // aria-expanded="false"
                             // aria-controls={key}
                         >
-                            <i className="fa fa-caret-right"> </i> {item.name}
+                            {/* <i className="fa fa-caret-right"> </i>  */}
+                            {item.name}
                         </label>
-                        
+
                         <div className="perm-select" id={item.name}>
                             <label className='col-sm-3 checkbox-inline' onChange={() => this.onChangeAllCheck(idx)}>
                                 <input type="checkbox" ref={idx}/> Tất cả
@@ -115,18 +116,18 @@ class FmsCreateNewRoleModal extends Component {
                                 Array.isArray(item.permissions) && item.permissions.map(perm => {
                                     let index = selectedPerms.findIndex((p) => p === perm.key);
                                     return (
-                                        <label className='col-sm-3 checkbox-inline' 
-                                            key={perm.key} 
-                                            onChange={() => this.onChangeCheckbox(perm.key, idx)}
+                                        <label className='col-sm-3 checkbox-inline'
+                                               key={perm.key}
+                                               onChange={() => this.onChangeCheckbox(perm.key, idx)}
                                         >
-                                            <input type="checkbox" ref={perm.key} 
-                                                onChange={() => this.onChangeCheckbox(perm.key, idx)}
-                                                checked={selectedPerms[index] === perm.key}/> {perm.name}
+                                            <input type="checkbox" ref={perm.key}
+                                                   onChange={() => this.onChangeCheckbox(perm.key, idx)}
+                                                   checked={selectedPerms[index] === perm.key}/> {perm.name}
                                         </label>
                                     );
                                 })
                             }
-                                
+
                         </div>
                     </div>
                 );
@@ -135,27 +136,29 @@ class FmsCreateNewRoleModal extends Component {
     }
 
     renderBody() {
-        const { role, perms } = this.state;
+        const {role, perms} = this.state;
 
         return (
             <Modal.Body>
                 <div className="row form-group">
                     <div className="col-sm-2">
-                        <label className="control-label">Tên vai trò: *</label>
+                        <label className="control-label">Tên vai trò <span className='required-text'>*</span></label>
                     </div>
                     <div className="col-sm-10">
                         <input type="text"
-                            className="form-control"
-                            ref='name'
-                            value={role.name || ''}
-                            onChange={() => {this.onChangeInput('name')}}
+                               className="form-control"
+                               ref='name'
+                               value={role.name || ''}
+                               onChange={() => {
+                                   this.onChangeInput('name')
+                               }}
                         />
                     </div>
                 </div>
 
                 <div className="row form-group">
                     <div className="col-sm-2">
-                        <label className="control-label">Các quyền:</label>
+                        <label className="control-label">Các quyền</label>
                     </div>
                     <div className="col-sm-10">
                         {
@@ -207,7 +210,8 @@ class FmsCreateNewRoleModal extends Component {
 FmsCreateNewRoleModal.propTypes = {
     isShown: propTypes.bool.isRequired,
     onClose: propTypes.func.isRequired,
-    project_id: propTypes.string
+    project_id: propTypes.string,
+    perms: propTypes.array
 };
 
 export default FmsCreateNewRoleModal;

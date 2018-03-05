@@ -43,8 +43,8 @@ class FmsTransportOrders extends Component {
         this.setState({isLoading: true});
 
         if (project) {
-            getOrders(project.alias, {status: ORDER_STATUS.TRANSPORTED_ORDER})
-                .then(orders => this.setState({orders, isLoading: false}));
+            getOrders({status: ORDER_STATUS.TRANSPORTED_ORDER})
+                .then(res => this.setState({orders: res.orders, isLoading: false}));
         }
     }
 
@@ -97,7 +97,6 @@ class FmsTransportOrders extends Component {
                                         project={project}
                                         onClose={this.onCloseDetailModal.bind(this)}
                                         isShown={isShownDetailModal}
-                                        typeModal={1}
                                     />
 
                                 </div>
