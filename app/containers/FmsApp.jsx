@@ -12,21 +12,19 @@ import FmsProgress from "../commons/FmsProgress/FmsProgress";
 import {registerNotiCenter} from "./notification/NotificationService";
 import Loadable from 'react-loadable';
 import trackUserBehavior from 'utils/track-user-behavior';
-import FmsDashboardNotification from "./notifimanager/notification-dashboard/FmsDashboardNotification";
-import FmsArchiveNotification from "./notifimanager/notification-dashboard/FmsArchiveNotification";
 
 const LoadableFmsLogin = Loadable({
     loader: () => import('./login/FmsLogin'),
     loading: FmsLoading
 });
 
-const LoadableFmsListNotification = Loadable({
-    loader: () => import('./notifimanager/notify-list-user/FmsListNotification'),
+const LoadableFmsDashboard = Loadable({
+    loader: () => import('./project-dashboard/layouts/Main'),
     loading: FmsLoading
 });
 
-const LoadableFmsDashboard = Loadable({
-    loader: () => import('./project-dashboard/layouts/Main'),
+const LoadableFmsDashboardNotification = Loadable({
+    loader: () => import('./notifimanager/notification-dashboard/FmsDashboardNotification'),
     loading: FmsLoading
 });
 
@@ -128,7 +126,7 @@ class FmsApp extends Component {
 
                         <Switch>
                             <FmsRoute exact path="/shops" component={LoadableFmsProject}/>
-                            <FmsRoute path="/notifications" component={FmsDashboardNotification}/>
+                            <FmsRoute path="/notifications" component={LoadableFmsDashboardNotification}/>
                             <FmsRoute path="/shops/:project_alias" component={LoadableFmsDashboard}/>
 
                             <Redirect to="/shops"/>

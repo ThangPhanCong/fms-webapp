@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {getNotifications} from "../../../api/NotificationsApi";
 import {connect} from "react-redux";
 import FmsNotificationItem from "./FmsNotificationItem";
-import {Route, Router} from "react-router-dom";
 
 class FmsTableNotification extends Component {
     state = {
@@ -49,9 +48,7 @@ class FmsTableNotification extends Component {
                         return (
                             <FmsNotificationItem noti={noti} key={i}/>
                         )
-
                     })}
-
                     </tbody>
                 </table>
             </div>

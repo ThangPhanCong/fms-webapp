@@ -15,7 +15,7 @@ const routesNoti = [
     },
     {
         path: "/notifications/:id",
-        main: (props) => <FmsShowNotificationItem {...props } />
+        main: (props) => <FmsShowNotificationItem {...props} />
     }
 ];
 
