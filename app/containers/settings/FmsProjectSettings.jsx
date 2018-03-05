@@ -30,10 +30,10 @@ class FmsSettings extends React.Component {
                     window.location = "/";
                 }, err => {
                     alert(err.message);
-                    this.setState({name: (this.props.project) ? this.props.project.alias : "", isHandling: false, isEdittingName: false});
+                    this.setState({name: (this.props.project) ? this.props.project.name : "", isHandling: false, isEdittingName: false});
                 });
         } else {
-            this.setState({name: (this.props.project) ? this.props.project.alias : "", isEdittingName: false});
+            this.setState({name: (this.props.project) ? this.props.project.name : "", isEdittingName: false});
         }
     }
 
@@ -43,7 +43,7 @@ class FmsSettings extends React.Component {
             this.setState({isHandling: true});
             ProjectApi.deleteProject(this.props.project._id)
                 .then(() => {
-                    alert(`Đã xóa thành công cửa hàng ${this.props.project.alias}`);
+                    alert(`Đã xóa thành công cửa hàng ${this.props.project.name}`);
                     this.setState({isHandling: false});
                     window.location = "/";
                 }, err => {
