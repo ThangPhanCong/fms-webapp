@@ -61,34 +61,38 @@ class FmsDetailNotificationItem extends Component {
         return (
             <div>
                 <div style={{
-                    height: "47px", borderBottom: "solid 1px #E5E5E5"
+                    height: "75px"
                 }}>
                     <span className="title-noti">
                         {current_notifi.title}
                     </span>
                 </div>
-                <div>
-                    <span style={{fontWeight: "bold", color: "black"}}>
+                <div style={{height: "75px", border: "solid 0.2px #EEEEEE", borderLeft: "none"}}>
+                    <span>
                         <img className="admin-avatar"
                              src="https://graph.facebook.com/v2.10/596938700697551/picture"/>
-                        Admin
+                        <span className="text-admin">Admin</span>
+                        <span>&lt;admin@adsbold.com&gt; </span>
                         <span className="edit-archive">
                             {current_notifi.is_archived ?
                                 <FmsTooltip text_tooltip="Bỏ lưu" position="bottom">
-                                    <i className="fa fa-window-close"
-                                       onClick={() => this.onUpdateArchived(false)}
-                                       style={{paddingLeft: "3px"}}/>
+                                    <button className="btn btn-primary pull-right button-archive"
+                                            onClick={() => this.onUpdateArchived(false)}>Bỏ lưu
+                                    </button>
                                 </FmsTooltip> : <FmsTooltip text_tooltip="Lưu trữ" position="bottom">
-                                    <i className="fa fa-download"
-                                       onClick={() => this.onUpdateArchived(true)}
-                                       style={{paddingLeft: "3px"}}/>
+                                    <button className="btn btn-danger pull-right button-archive"
+                                            onClick={() => this.onUpdateArchived(true)}>Lưu trữ
+                                    </button>
                                 </FmsTooltip>}
                         </span>
 
                         </span>
-                    <p className="user-receive">
+                    <span className="user-receive">
                         tới {user.name}
-                    </p>
+                    </span>
+
+                </div>
+                <div>
                     <p className="content-noti">
                         {current_notifi.content}
                     </p>

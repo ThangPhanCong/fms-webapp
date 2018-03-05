@@ -1,6 +1,5 @@
 import React from 'react';
 
-import {Checkbox} from 'react-bootstrap';
 import FmsCroppedImage from '../../../commons/FmsCroppedImage/FmsCroppedImage';
 import FmsScrollableDiv from '../../../commons/scroll-bar/FmsScrollableDiv';
 import FmsDate from '../../../helpers/FmsDate';

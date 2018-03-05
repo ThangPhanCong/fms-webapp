@@ -19,6 +19,21 @@ class FmsNavLeftNotification extends Component {
         })
     }
 
+    componentWillMount() {
+        switch (window.location.pathname) {
+            case "/notifications/archived":
+                this.setState({
+                    focus_tab: false
+                });
+                break;
+            case "/notifications":
+                this.setState({
+                    focus_tab: true
+                });
+                break;
+        }
+    }
+
     render() {
         const {focus_tab} = this.state;
 
@@ -35,6 +50,7 @@ class FmsNavLeftNotification extends Component {
                         } : {color: "black"}}>Thông báo
                         </li>
                     </Link>
+
                     <Link to="/notifications/archived"
                           onClick={() => this.onChangeTabArchived()}>
                         <li className="nav-tab" style={!focus_tab ? {

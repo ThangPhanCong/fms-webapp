@@ -16,21 +16,19 @@ class FmsNotificationItem extends Component {
                 </td>
 
                 <td>
-                    <Link to={`/notifications/${noti._id}`}>
-                        {noti.is_archived ?
-                            <span className="label label-info">Đã lưu</span> :
-                            <span className="label label-danger">Chưa lưu</span>}
-                    </Link>
-                </td>
-
-                <td>
-
                     <Link to={`/notifications/${noti._id}`}>{noti.title}</Link>
                 </td>
 
                 <td>
                     <Link to={`/notifications/${noti._id}`}>
                         {noti.content}
+                    </Link>
+                </td>
+                <td>
+                    <Link to={`/notifications/${noti._id}`}>
+                        {noti.is_archived ?
+                            <span className="label label-info">Đã lưu</span> :
+                            <span className="label label-danger">Chưa lưu</span>}
                     </Link>
                 </td>
             </tr>
