@@ -168,15 +168,9 @@ class FmsOrdersTab extends React.Component {
                             onClick={() => {
                                 this.openOrderDetailModal(order)
                             }}>
-                    <div className={"order-header" + ((!name) ? " hide" : "")}>
-                        <span className="order-id">{order.id}</span>
-
-                    </div>
-                    <div><span className="order-detail-title">Trạng thái: </span>
-                        <span style={{color: color, fontWeight: "600"}} className="order-tag">{name}</span>
-                    </div>
-                    <div><span className="order-detail-title">Tổng tiền: </span>
-                        {this.calFee(order)}
+                    <div className={"order-header"}>
+                        <span>{"#" + order.id}</span>
+                        <span style={{backgroundColor: color}} className="order-tag">{name}</span>
                     </div>
                     <div><span className="order-detail-title">Địa chỉ: </span>
                         {this.orderAddress(order)}
@@ -186,6 +180,9 @@ class FmsOrdersTab extends React.Component {
                     </div>
                     <div><span className="order-detail-title">Sản phẩm: </span>
                         {this.showProducts(order)}
+                    </div>
+                    <div><span className="order-detail-title">Thành tiền: </span>
+                        {this.calFee(order)}
                     </div>
                 </div>
             });
@@ -287,17 +284,13 @@ class FmsOrdersTab extends React.Component {
             <div className="order-tab">
                 <div>
                     <div className="info">Thông tin</div>
-                    {conv.type === "inbox" ?
-                        <div className={"order-area section" + isHide}>
-                            <div className="title-section">Đơn hàng</div>
-                            <a className="add-note-button" onClick={() => {
-                                this.openNewOrderModal()
-                            }}>Thêm</a>
-                            {this.renderOrders()}
-                        </div>
-                        :
-                        null
-                    }
+                    <div className={"order-area section"}>
+                        <div className="title-section">Đơn hàng</div>
+                        <a className="add-note-button" onClick={() => {
+                            this.openNewOrderModal()
+                        }}>Thêm</a>
+                        {this.renderOrders()}
+                    </div>
                     <div className="notes-list section">
                         <div className="title-section">{title}</div>
                         <a className={"add-note-button" + addNote} onClick={this.openAddNote.bind(this)}>Thêm</a>

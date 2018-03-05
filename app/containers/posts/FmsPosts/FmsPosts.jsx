@@ -149,14 +149,14 @@ class FmsPosts extends React.Component {
 
     render() {
         let {isLoading, isLoadMore, paging} = this.state;
-        let alias = (this.props.project) ? this.props.project.alias : null;
-        let route = (alias) ? `${alias}/Quản lý trang/Bài viết` : "";
+        let name = (this.props.project) ? this.props.project.name : null;
+        let route = (name) ? `${name}/Quản lý trang/Bài viết` : "";
         return (
             <div>
                 <FmsPageTitle title={"Bài viết"} route={route}/>
                 <Grid bsClass={"page posts"}>
                     {
-                        alias ?
+                        name ?
                             <button className="btn btn-primary add-post-btn" onClick={this.openModal.bind(this)}>
                                 Đăng bài mới
                             </button>

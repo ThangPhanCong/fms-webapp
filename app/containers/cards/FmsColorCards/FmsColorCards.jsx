@@ -105,8 +105,8 @@ class FmsColorCards extends React.Component {
     }
 
     render() {
-        let alias = (this.props.project) ? this.props.project.alias : null;
-        let route = (alias) ? `${alias}/Quản lý trang/Thẻ màu` : "";
+        let name = (this.props.project) ? this.props.project.name : null;
+        let route = (name) ? `${name}/Quản lý trang/Thẻ màu` : "";
         let isDisabled = this.state.tags.length >= MAX_TAG_ITEMS || this.state.isLoading;
         return (
             <div className="row">

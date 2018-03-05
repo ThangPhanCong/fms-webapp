@@ -40,17 +40,26 @@ class FmsSettings extends React.Component {
     deleteShop(deleted) {
         if (this.state.isHandling) return;
         if (deleted) {
-            alert("Deleted!!!");
+            this.setState({isHandling: true});
+            ProjectApi.deleteProject(this.props.project._id)
+                .then(() => {
+                    alert(`Đã xóa thành công cửa hàng ${this.props.project.alias}`);
+                    this.setState({isHandling: false});
+                    window.location = "/";
+                }, err => {
+                    alert(err.message);
+                    this.setState({isHandling: false});
+                });
         }
         this.setState({isDeleteShop: false});
     }
 
     render() {
         if (!this.props.project) return <div/>;
-        let alias = (this.props.project) ? this.props.project.alias : null;
-        let route = (alias) ? `${alias}/Cài đặt chung` : "";
+        let name = (this.props.project) ? this.props.project.name : null;
+        let route = (name) ? `${name}/Cài đặt chung` : "";
 
-        let shopName = typeof(this.state.name) === "string" ? this.state.name : (alias || "");
+        let shopName = typeof(this.state.name) === "string" ? this.state.name : (name || "");
         return (
             <div>
                 <FmsPageTitle title="Cài đặt chung" route={route}/>

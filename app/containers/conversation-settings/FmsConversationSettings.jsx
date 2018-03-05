@@ -23,11 +23,7 @@ class FmsSettings extends React.Component {
     checkGetHistoryState() {
         ProjectApi.getPages()
             .then(res => {
-                let done = true;
-                res.forEach(p => {
-                    if (p.is_crawling) done = false;
-                });
-                if (done) clearTimeout(timeout);
+                this.setTimeoutGetHistory(res);
                 this.setState({pages: res});
             })
             .catch(err => {
@@ -36,13 +32,17 @@ class FmsSettings extends React.Component {
     }
 
     setTimeoutGetHistory(pages) {
+        let isCrawling = false;
         pages.forEach(page => {
-            if (page.is_crawling) {
-                timeout = setTimeout(() => {
-                    this.checkGetHistoryState();
-                }, 12000);
-            }
+            isCrawling = page.is_crawling;
         });
+        if (isCrawling) {
+            timeout = setTimeout(() => {
+                this.checkGetHistoryState();
+            }, 12000);
+        } else {
+            if (timeout) clearTimeout(timeout);
+        }
     }
 
     getPages() {
@@ -66,16 +66,6 @@ class FmsSettings extends React.Component {
             .catch(err => {
                 alert(err.message);
             });
-    }
-
-    updatePageStatus(page_fb_id) {
-        let pages = this.state.pages.map(page => {
-            if (page.fb_id === page_fb_id) {
-                page.is_crawling = false;
-            }
-            return page;
-        });
-        this.setState({pages: pages});
     }
 
     componentDidMount() {
@@ -122,9 +112,9 @@ class FmsSettings extends React.Component {
         }
     }
 
-    openModal(page_id) {
+    openModal(page) {
         if (this.state.isHandling) return;
-        this.setState({isShownModal: true, selectedPage: page_id});
+        this.setState({isShownModal: true, selectedPage: page});
     }
 
     closeModal() {
@@ -132,10 +122,9 @@ class FmsSettings extends React.Component {
     }
 
     addPage(getHistory, since) {
-        let page_id = this.state.selectedPage;
-        let unixTime = getHistory && since ? (new Date(since)).getTime() / 1000 : null;
+        let page_id = this.state.selectedPage.fb_id;
         this.setState({isHandling: true});
-        ProjectApi.addPage(page_id, getHistory, unixTime)
+        ProjectApi.addPage(page_id, getHistory, since)
             .then(() => {
                 this.setState({isHandling: false});
                 this.getPages();
@@ -187,7 +176,7 @@ class FmsSettings extends React.Component {
                     {!is_active ?
                         <img className={"add-icon clickable" + disabled} src={addImg}
                              onClick={() => {
-                                 this.openModal(page.fb_id)
+                                 this.openModal(page)
                              }}/>
                         :
                         null
@@ -201,25 +190,13 @@ class FmsSettings extends React.Component {
 
     render() {
         if (!this.props.project) return <div/>;
-        let alias = (this.props.project) ? this.props.project.alias : null;
-        let route = (alias) ? `${alias}/Quản lý trang/Cài đặt` : "";
+        let name = (this.props.project) ? this.props.project.name : null;
+        let route = (name) ? `${name}/Quản lý trang/Cài đặt` : "";
         return (
             <div className="settings">
                 <FmsPageTitle title="Cài đặt" route={route}/>
                 <div className="wrapper wrapper-content">
                     <div className="row">
-                        <div className="col-md-6">
-                            <div className="ibox float-e-margins">
-                                <div className="ibox-title title">
-                                    Các trang thuộc cửa hàng
-                                </div>
-                                <div>
-                                    <div className="ibox-content no-padding border-left-right">
-                                        {this.renderShopPages()}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div className="col-md-6">
                             <div className="ibox float-e-margins">
                                 <div className="ibox-title title">
@@ -242,10 +219,22 @@ class FmsSettings extends React.Component {
                                 </div>
                             </div>
                         </div>
+                        <div className="col-md-6">
+                            <div className="ibox float-e-margins">
+                                <div className="ibox-title title">
+                                    Các trang thuộc cửa hàng
+                                </div>
+                                <div>
+                                    <div className="ibox-content no-padding border-left-right">
+                                        {this.renderShopPages()}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <FmsAddPageModal isShown={this.state.isShownModal} onClose={this.closeModal.bind(this)}
-                                 addPage={this.addPage.bind(this)}/>
+                                 addPage={this.addPage.bind(this)} page={this.state.selectedPage}/>
             </div>
         );
     }
