@@ -53,9 +53,10 @@ class FmsNavLeftNotification extends Component {
 
                     <Link to="/notifications/archived"
                           onClick={() => this.onChangeTabArchived()}>
-                        <li className="nav-tab" style={!focus_tab ? {
+                        <li className="nav-tab-archive" style={!focus_tab ? {
                             color: "#18A689",
                             fontWeight: "bold",
+                            paddingLeft: "6px",
                             borderLeft: "solid"
                         } : {color: "black"}}>Lưu trữ
                         </li>
