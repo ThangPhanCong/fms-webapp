@@ -11,7 +11,7 @@ class FmsDashboardNotification extends Component {
                 <FmsNavigation show_noti={false} redirect_shop={true}/>
                 <div className="row">
                     <FmsNavLeftNotification/>
-                    <div className="col-sm-10" style={{border: "solid 0.2px #EEEEEE"}}>
+                    <div className="col-sm-10">
                         <Switch>
                             {notiRoute("main")}
                         </Switch>

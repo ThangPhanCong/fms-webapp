@@ -24,6 +24,10 @@
 
 .content-noti {
   padding-top: 20px;
+  padding-left: 10px;
+  height: 500px;
+  border-top: none;
+  border: solid 1px #EEEEEE;
 }
 
 .edit-archive {
@@ -65,6 +69,7 @@
 .title-noti {
   color: black;
   font-size: 22px;
+  padding-left: 10px;
   position: relative;
   top: 20px;
 }

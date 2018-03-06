@@ -67,8 +67,8 @@ class FmsDetailNotificationItem extends Component {
                         {current_notifi.title}
                     </span>
                 </div>
-                <div style={{height: "75px", border: "solid 0.2px #EEEEEE", borderLeft: "none"}}>
-                    <span>
+                <div style={{height: "75px", border: "solid 0.2px #EEEEEE", borderLeft: "none", borderBottom: "none"}}>
+                    <span style={{paddingLeft: "10px"}}>
                         <img className="admin-avatar"
                              src="https://graph.facebook.com/v2.10/596938700697551/picture"/>
                         <span className="text-admin">Admin</span>
