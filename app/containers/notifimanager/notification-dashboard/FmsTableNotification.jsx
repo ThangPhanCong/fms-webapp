@@ -33,7 +33,8 @@ class FmsTableNotification extends Component {
         const {notifications} = this.state;
 
         return (
-            <table className="table table-mail table-hover">
+            <table className="table table-mail table-hover"
+                   style={notifications.length != 0 ? {border: "solid 0.2px #EEEEEE"} : null}>
                 <tbody>
                 {notifications.map((noti, i) => {
                     return (

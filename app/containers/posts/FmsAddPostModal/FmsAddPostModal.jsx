@@ -9,6 +9,7 @@ import postsApi from '../../../api/PostsApi';
 import FmsCroppedImage from '../../../commons/FmsCroppedImage/FmsCroppedImage';
 import {noti} from "../../notification/NotificationService";
 import FmsCheckbox from "../../../commons/checkbox/FmsCheckbox";
+import uuid from 'uuid';
 
 const MAX_FILE_SIZE = 2202010;
 const MAX_NUMBER_OF_FILE = 15;
@@ -77,14 +78,14 @@ class FmsAddPostModal extends React.Component {
         if (!isValid) alert("Kích thước ảnh tối đa là 2Mb. Một số ảnh quá lớn đã bị bỏ qua.");
         isValid = true;
 
-        files.forEach((file, index) => {
+        files.forEach((file) => {
             if (newFiles.length >= MAX_NUMBER_OF_FILE) {
                 isValid = false;
                 return;
             }
             newStates.push("uploading");
             newFiles.push(file);
-            fileApi.getS3SigningRequest(index, file.type)
+            fileApi.getS3SigningRequest(uuid().replace(/\D/g,''), file.type)
                 .then(data => {
                     let signedRequest = data.signedRequest;
                     let newFiles = this.state.files;
