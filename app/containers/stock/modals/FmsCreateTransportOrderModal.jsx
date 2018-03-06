@@ -3,7 +3,7 @@ import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 import ViettelPostPanel from './panels/viettel-post/ViettelPostPanel';
 import OtherProviderPanel from './panels/other-provider/OtherProviderPanel';
-import {getAllProviders, createTransportOrder} from '../../../api/TransportProviderApi';
+import {createTransportOrder} from '../../../api/TransportProviderApi';
 import {
     getProvincesCache, 
     getDistrictsCache, 
@@ -16,7 +16,6 @@ import {toReadableDatetime} from 'utils/datetime-utils.js';
 class FmsCreateTransportOrderModal extends Component {
 
     state = {
-        providers: [],
         transportOrder: {},
         isLoading: false,
         transportingProvider: ''
@@ -169,27 +168,20 @@ class FmsCreateTransportOrderModal extends Component {
         this.setState({transportOrder});
     }
 
-    componentDidMount() {
-        getAllProviders()
-            .then(res => this.setState({providers: res}));
-    }
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.isShown) {
             this.setState({transportingProvider: '', isLoading: false});
-            getAllProviders()
-                .then(res => this.setState({providers: res}));
         }
     }
 
     render() {
         const {
             isShown,
-            order
+            order,
+            providers
         } = this.props;
 
         const {
-            providers,
             isLoading,
             transportOrder,
             transportingProvider
@@ -233,7 +225,7 @@ class FmsCreateTransportOrderModal extends Component {
                                 >
                                     <option value=""></option>
                                     {
-                                        providers.map(p => {
+                                        Array.isArray(providers) && providers.map(p => {
                                             return <option value={p.provider_name} key={p._id} >{p.provider_display_name}</option>;
                                         })
                                     }
@@ -264,7 +256,9 @@ class FmsCreateTransportOrderModal extends Component {
 
 FmsCreateTransportOrderModal.propTypes = {
     isShown: propTypes.bool.isRequired,
-    onClose: propTypes.func.isRequired
+    onClose: propTypes.func.isRequired,
+    providers: propTypes.array,
+    order: propTypes.object
 };
 
 export default FmsCreateTransportOrderModal;

@@ -4,6 +4,7 @@ import FmsSpin from "../../commons/FmsSpin/FmsSpin";
 import FmsExportOrderSearchBar from "../orders/all-orders/FmsExportOrderSearchBar";
 import FmsExportOrderTable from "./FmsExportOrderTable";
 import {getOrders, ORDER_STATUS} from "../../api/OrderApi";
+import {getAllProviders} from '../../api/TransportProviderApi';
 import FmsOrderDetailModal from "../../commons/order-modal/FmsOrderDetailModal";
 import FmsCreateTransportOrderModal from './modals/FmsCreateTransportOrderModal';
 import FmsTransportOrderDetailModal from './modals/FmsTransportOrderDetailModal';
@@ -17,7 +18,8 @@ class FmsExportOrders extends Component {
         isLoading: true,
         isShownDetailModal: false,
         isShownCreateTransportOrderModal: false,
-        isShownTransportOrderDetailModal: false
+        isShownTransportOrderDetailModal: false,
+        providers: []
     };
 
     updateOrderList() {
@@ -66,11 +68,15 @@ class FmsExportOrders extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.project) {
             this.updateOrderList();
+            getAllProviders()
+                .then(res => this.setState({providers: res}));
         }
     }
 
     componentDidMount() {
         this.updateOrderList();
+        getAllProviders()
+            .then(res => this.setState({providers: res}));
     }
 
     render() {
@@ -82,7 +88,8 @@ class FmsExportOrders extends Component {
             isLoading,
             isShownDetailModal,
             isShownCreateTransportOrderModal,
-            isShownTransportOrderDetailModal
+            isShownTransportOrderDetailModal,
+            providers
         } = this.state;
 
         return (
@@ -124,12 +131,14 @@ class FmsExportOrders extends Component {
                                         order={selectedOrder}
                                         onClose={this.onCloseCreateTransportOrderModal.bind(this)}
                                         isShown={isShownCreateTransportOrderModal}
+                                        providers={providers}
                                     />
 
                                     <FmsTransportOrderDetailModal
                                         order_id={selectedOrderId}
                                         onClose={this.onCloseTransportOrderDetailModal.bind(this)}
                                         isShown={isShownTransportOrderDetailModal}
+                                        providers={providers}
                                     />
                                 </div>
                             </div>
@@ -140,6 +149,5 @@ class FmsExportOrders extends Component {
         )
     }
 }
-
 
 export default FmsExportOrders;

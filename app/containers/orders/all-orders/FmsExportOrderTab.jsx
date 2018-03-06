@@ -6,6 +6,7 @@ import FmsExportOrderSearchBar from "./FmsExportOrderSearchBar";
 import FmsExportOrderTable from "../../stock/FmsExportOrderTable";
 import FmsCreateTransportOrderModal from '../../stock/modals/FmsCreateTransportOrderModal';
 import FmsTransportOrderDetailModal from '../../stock/modals/FmsTransportOrderDetailModal';
+import {getAllProviders} from '../../../api/TransportProviderApi';
 
 class FmsExportOrderTab extends Component {
 
@@ -16,7 +17,8 @@ class FmsExportOrderTab extends Component {
         isLoading: true,
         isShownDetailModal: false,
         isShownCreateTransportOrderModal: false,
-        isShownTransportOrderDetailModal: false
+        isShownTransportOrderDetailModal: false,
+        providers: []
     };
 
     searchItem(searchQuery) {
@@ -71,12 +73,16 @@ class FmsExportOrderTab extends Component {
         const {project} = this.props;
         if (project) {
             this.updateOrderList();
+            getAllProviders()
+                .then(res => this.setState({providers: res}));
         }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.project && nextProps.project !== this.props.project) {
             this.updateOrderList();
+            getAllProviders()
+                .then(res => this.setState({providers: res}));
         }
 
         if (nextProps.version !== this.props.version) {
@@ -92,7 +98,8 @@ class FmsExportOrderTab extends Component {
             isShownCreateTransportOrderModal,
             selectedOrder,
             selectedOrderId,
-            isShownTransportOrderDetailModal
+            isShownTransportOrderDetailModal,
+            providers
         } = this.state;
         const {project} = this.props;
 
@@ -128,12 +135,14 @@ class FmsExportOrderTab extends Component {
                             project={project}
                             onClose={this.onCloseCreateTransportOrderModal.bind(this)}
                             isShown={isShownCreateTransportOrderModal}
+                            providers={providers}
                         />
 
                         <FmsTransportOrderDetailModal
                             order_id={selectedOrderId}
                             onClose={this.onCloseTransportOrderDetailModal.bind(this)}
                             isShown={isShownTransportOrderDetailModal}
+                            providers={providers}
                         />
                     </div>
                 </div>

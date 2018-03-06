@@ -11,7 +11,7 @@ class FmsTimeline extends React.Component {
         this.updatePaddingDotsEvent();
     }
     updatePaddingDotsEvent() {
-        this.setState({padding: this.refs.events.offsetWidth/8});
+        this.setState({padding: this.refs.events.offsetWidth/4});
     }
     componentWillMount() {
         this.setState({items: this.props.items});
@@ -37,7 +37,7 @@ class FmsTimeline extends React.Component {
                                 <li key={i} className={item.myClass}>
                                     {/* <h2>{item.title}</h2>
                                     <em>{item.subtitle}</em> */}
-                                    <p> {item.desc}</p>
+                                    <p className='text-center'> {item.desc}</p>
                                 </li>
                             )
                         })}
@@ -53,7 +53,7 @@ class FmsTimeline extends React.Component {
                                 {this.state.items.map((item, i) => {
                                     return (
                                         <li key={i} style={{padding: this.state.padding*i+'px'}}>
-                                            <a className={item.myClass} data-desc={item.desc}>              {item.dataDate}
+                                            <a className={item.myClass} data-desc={item.desc}>{item.dataDate}
                                             </a>
                                         </li>
                                     )
