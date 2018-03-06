@@ -31,3 +31,7 @@ export function getRoleById(project_id, role_id) {
 export function getPermissions() {
     return get(`/api/a/permissions`);
 }
+
+export function getFormatedPermissions() {
+    return get(`/api/a/formated-permissions`);
+}

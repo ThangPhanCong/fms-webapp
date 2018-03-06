@@ -1,11 +1,12 @@
 import React, {Component, Fragment} from 'react';
 import FmsRoleDetailModal from './modals/FmsRoleDetailModal';
 import FmsSpin from "commons/FmsSpin/FmsSpin";
-import {deleteRole} from '../../api/RoleApi';
+import {deleteRole, getFormatedPermissions} from '../../api/RoleApi';
 
 class FmsRoleTable extends Component {
 
     state = {
+        formattedPerms: [],
         selectedRole: {},
         isLoading: false,
         isShownDetailRoleModal: false
@@ -20,6 +21,11 @@ class FmsRoleTable extends Component {
             this.props.updateRoles();
         }
         this.setState({selectedRole: {}, isShownDetailRoleModal: false});
+    }
+
+    componentDidMount() {
+        getFormatedPermissions()
+            .then(res => this.setState({formattedPerms: res}));
     }
 
     onDeleteRole(role) {
@@ -43,6 +49,7 @@ class FmsRoleTable extends Component {
 
     renderRolesItem() {
         const {roles} = this.props;
+        const {formattedPerms} = this.state;
 
         return roles.map(
             (role, i) => (
@@ -51,10 +58,13 @@ class FmsRoleTable extends Component {
                     <td>{role.name}</td>
                     <td>
                         {role.permissions.map((perm, index) => {
-                            if (index === role.permissions.length - 1) {
-                                return <span key={perm}>{perm}</span>
+                            let findPerm = formattedPerms.find(p => p.key === perm);
+                            if (findPerm) {
+                                if (index === role.permissions.length-1) {
+                                    return <span key={perm}>{findPerm.name}</span>
+                                }
+                                return <span key={perm}>{findPerm.name + ', '}</span>
                             }
-                            return <span key={perm}>{perm + ', '}</span>
                         })
                         }
                     </td>
