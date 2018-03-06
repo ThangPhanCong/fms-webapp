@@ -106,7 +106,7 @@ class FmsNotificationPopup extends Component {
 
         const none_notification = <div className="text-center none_notify">
             <p className="text-notify">
-                Không có thông báo nào mới!
+                Không có thông báo mới!
             </p>
             <li className="divider"></li>
             <br/>
