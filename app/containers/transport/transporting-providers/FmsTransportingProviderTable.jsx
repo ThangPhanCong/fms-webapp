@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import FmsTransportingProviderDetailModal from "../modals/FmsTransportingProviderDetailModal";
-import {providers} from '../../../constants/transporting-provider';
-import giaohangtietkiem from 'images/giaohangtietkiem.png';
 import viettelpost from 'images/viettelpost.png';
+import {getViettelInfoAccount} from '../../../api/ViettelPostApi';
+import {toReadableDatetime} from 'utils/datetime-utils';
 
 class FmsTransportingProviderTable extends Component {
 
@@ -28,40 +28,41 @@ class FmsTransportingProviderTable extends Component {
                     <th>Logo</th>
                     <th>Ngày tạo</th>
                     <th>Trạng thái</th>
-                    <th>Cài đặt</th>
+                    <th>Chi tiết</th>
                 </tr>
             </thead>
         )
     }
 
-    getProviderLogo(name_slug) {
-        switch (name_slug) {
-            case 'viettel-post':
+    getProviderLogo(name) {
+        switch (name) {
+            case 'VIETTEL':
                 return viettelpost;
-            case 'giao-hang-tiet-kiem':
-                return giaohangtietkiem;
         }
 
         return null;
     }
 
     renderTableBody() {
+        const {providers} = this.props;
+
         return (
             <tbody>
             {
                 providers.map(
                     (provider, i) => (
-                        <tr key={provider.id}>
+                        <tr key={provider._id}>
                             <td>{i + 1}</td>
-                            <td>{provider.name}</td>
+                            <td>{provider.provider_display_name}</td>
                             <td>
-                                <img src={this.getProviderLogo(provider.name_slug)}/>
+                                <img src={this.getProviderLogo(provider.provider_name)}/>
                             </td>
-                            <td>{provider.created_time}</td>
-                            <td>{
-                                    provider.status === 'active' ? 
+                            <td>{toReadableDatetime(provider.created_time).date}</td>
+                            <td>
+                                {
+                                    provider.provider_register ? 
                                     <span className="label label-info">Hoạt động</span>
-                                    : <span className="label label-danger">Dừng hoạt động</span>
+                                    : null
                                 }
                             </td>
                             <td>
@@ -85,7 +86,6 @@ class FmsTransportingProviderTable extends Component {
             isShownDetailModal
         } = this.state;
 
-        const {project_id} = this.props;
         return (
             <div className="table-responsive">
                 <table className="table table-striped">
@@ -103,7 +103,6 @@ class FmsTransportingProviderTable extends Component {
                     onClose={this.onCloseDetailModal.bind(this)}
                     isShown={isShownDetailModal}
                     provider={selectedProvider}
-                    project_id={project_id}
                 />
             </div>
         );

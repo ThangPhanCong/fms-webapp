@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-import {getProvincesCache, getDistrictsCache, getWardsCache, getViettelInfoAccount} from '../../../../api/ViettelPostApi';
+import {getProvincesCache, getDistrictsCache, getWardsCache} from '../../../../api/ViettelPostApi';
 import {convert_case} from 'utils/location-string-utils';
 
-class ViettelPostPanel extends Component {
+class OtherProviderPanel extends Component {
     state = {
         provinces: [],
         districts: [],
@@ -82,112 +82,16 @@ class ViettelPostPanel extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Tên</label>
+                            <label className="control-label">Tên đơn vị vận chuyển</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
                                 className="form-control"
-                                ref='FIRSTNAME'
-                                value={providerInfo.FIRSTNAME || ''}
-                                onChange={() => {this.onChangeInput('FIRSTNAME')}}
+                                ref='provider_display_name'
+                                value={providerInfo.provider_display_name || ''}
+                                onChange={() => {this.onChangeInput('provider_display_name')}}
                                 disabled={disabled}
                             />
-                        </div>
-                    </div>
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Họ</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="text"
-                                className="form-control"
-                                ref='LASTNAME'
-                                value={providerInfo.LASTNAME || ''}
-                                onChange={() => {this.onChangeInput('LASTNAME')}}
-                                disabled={disabled}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Email</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="text"
-                                className="form-control"
-                                ref='EMAIL'
-                                value={providerInfo.EMAIL || ''}
-                                onChange={() => {this.onChangeInput('EMAIL')}}
-                                disabled={disabled}
-                            />
-                        </div>
-                    </div>
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Mật khẩu</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="text"
-                                className="form-control"
-                                ref='PASSWORD'
-                                value={providerInfo.PASSWORD || ''}
-                                onChange={() => {this.onChangeInput('PASSWORD')}}
-                                disabled={disabled}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Điện thoại</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="text"
-                                className="form-control"
-                                ref='PHONE'
-                                value={providerInfo.PHONE || ''}
-                                onChange={() => {this.onChangeInput('PHONE')}}
-                                disabled={disabled}
-                            />
-                        </div>
-                    </div>
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Tên hiển thị</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="text"
-                                className="form-control"
-                                ref='DISPLAYNAME'
-                                value={providerInfo.DISPLAYNAME || ''}
-                                onChange={() => {this.onChangeInput('DISPLAYNAME')}}
-                                disabled={disabled}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Giới tính</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <select className="form-control"
-                                ref='SEX'
-                                value={providerInfo.SEX || ''}
-                                onChange={() => {this.onChangeInput('SEX')}}
-                                disabled={disabled}
-                            >
-                                <option value=""></option>
-                                <option value="1">Nam</option>
-                                <option value="0">Nữ</option>
-                            </select>
                         </div>
                     </div>
                     <div className="form-group col-sm-6">
@@ -217,19 +121,18 @@ class ViettelPostPanel extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Giới thiệu</label>
+                            <label className="control-label">Họ tên</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
                                 className="form-control"
-                                ref='INTRODUCTION'
-                                value={providerInfo.INTRODUCTION || ''}
-                                onChange={() => {this.onChangeInput('INTRODUCTION')}}
+                                ref='fullname'
+                                value={providerInfo.fullname || ''}
+                                onChange={() => {this.onChangeInput('fullname')}}
                                 disabled={disabled}
                             />
                         </div>
                     </div>
-                    
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
                             <label className="control-label">Quận/Huyện</label>
@@ -257,14 +160,14 @@ class ViettelPostPanel extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Địa chỉ</label>
+                            <label className="control-label">Điện thoại</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
                                 className="form-control"
-                                ref='ADDRESS'
-                                value={providerInfo.ADDRESS || ''}
-                                onChange={() => {this.onChangeInput('ADDRESS')}}
+                                ref='phone'
+                                value={providerInfo.phone || ''}
+                                onChange={() => {this.onChangeInput('phone')}}
                                 disabled={disabled}
                             />
                         </div>
@@ -292,15 +195,46 @@ class ViettelPostPanel extends Component {
                         </div>
                     </div>
                 </div>
+
+                <div className="row">
+                    <div className="form-group col-sm-6">
+                        <div className="col-sm-4">
+                            <label className="control-label">Giới thiệu</label>
+                        </div>
+                        <div className="col-sm-8">
+                            <input type="text"
+                                className="form-control"
+                                ref='INTRODUCTION'
+                                value={providerInfo.INTRODUCTION || ''}
+                                onChange={() => {this.onChangeInput('INTRODUCTION')}}
+                                disabled={disabled}
+                            />
+                        </div>
+                    </div>
+                    <div className="form-group col-sm-6">
+                        <div className="col-sm-4">
+                            <label className="control-label">Địa chỉ</label>
+                        </div>
+                        <div className="col-sm-8">
+                            <input type="text"
+                                className="form-control"
+                                ref='ADDRESS'
+                                value={providerInfo.ADDRESS || ''}
+                                onChange={() => {this.onChangeInput('ADDRESS')}}
+                                disabled={disabled}
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }
 }
 
-ViettelPostPanel.propTypes = {
+OtherProviderPanel.propTypes = {
     providerInfo: propTypes.object,
     onChangeInput: propTypes.func,
     disabled: propTypes.bool
 };
 
-export default ViettelPostPanel;
+export default OtherProviderPanel;
