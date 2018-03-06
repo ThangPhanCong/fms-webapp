@@ -1,10 +1,11 @@
 .admin-avatar {
-  width: 29px;
-  padding: 2px;
+  width: 45px;
+  margin-top: 5px;
+  border-radius: 50%;
 }
 
 .archive-noti {
-  border: solid 0.1px #C6C6C6;
+  border: solid 0.1px #EEEEEE;
   width: 72px;
   background: #F4F4F4;
   height: 29px;
@@ -16,24 +17,20 @@
   }
 }
 
-.back-dashboard {
-  border: solid 0.1px #C6C6C6;
-  width: 72px;
-  background: #F4F4F4;
-  height: 29px;
-  margin-top: 7px;
-  margin-left: 1px;
+.button-archive {
+  margin-right: 30px;
+  margin-top: 5px;
 }
 
 .content-noti {
-  padding-left: 27px;
+  padding-top: 20px;
 }
 
 .edit-archive {
   color: #a29c9c;
   &:hover {
     cursor: pointer;
-    color:#666666;
+    color: #666666;
   }
 }
 
@@ -50,6 +47,9 @@
   list-style: none;
   position: relative;
   right: 12px;
+  width: 157px;
+  height: 400px;
+  border: solid 1px #EEEEEE;
   li {
     &:hover {
       background: #F5F5F5;
@@ -58,15 +58,19 @@
   }
 }
 
+.nav-tab {
+  padding: 6px;
+}
+
 .title-noti {
   color: black;
-  font-size: 17px;
+  font-size: 22px;
   position: relative;
-  top: 10px;
+  top: 20px;
 }
 
-.user-receive {
-  padding-left: 27px;
+.text-admin {
+  font-weight: bold;
+  color: #878787;
+  padding-left: 7px;
 }
-
-

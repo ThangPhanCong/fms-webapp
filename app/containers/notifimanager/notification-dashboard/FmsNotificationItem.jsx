@@ -5,15 +5,17 @@ class FmsNotificationItem extends Component {
 
     render() {
         const {
-            noti
+            noti,
+            position
         } = this.props;
 
         return (
             <tr className="read">
                 <td>
-                    {noti.is_archived ?
-                        <i className="fa fa-star" style={{fontSize: "14px", paddingRight: "7px", color: "yellow"}}/> :
-                        <i className="fa fa-star-o" style={{fontSize: "14px", paddingRight: "7px"}}/>}
+                    <i className="fa fa-bell" style={{color: "#18A68F"}}/>
+                </td>
+
+                <td>
                     <Link to={`/notifications/${noti._id}`}>{noti.title}</Link>
                 </td>
 
@@ -24,7 +26,9 @@ class FmsNotificationItem extends Component {
                 </td>
                 <td>
                     <Link to={`/notifications/${noti._id}`}>
-                        21:35
+                        {noti.is_archived ?
+                            <span className="label label-info">Đã lưu</span> :
+                            <span className="label label-danger">Chưa lưu</span>}
                     </Link>
                 </td>
             </tr>

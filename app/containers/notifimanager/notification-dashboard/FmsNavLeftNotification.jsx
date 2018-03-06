@@ -19,6 +19,21 @@ class FmsNavLeftNotification extends Component {
         })
     }
 
+    componentWillMount() {
+        switch (window.location.pathname) {
+            case "/notifications/archived":
+                this.setState({
+                    focus_tab: false
+                });
+                break;
+            case "/notifications":
+                this.setState({
+                    focus_tab: true
+                });
+                break;
+        }
+    }
+
     render() {
         const {focus_tab} = this.state;
 
@@ -27,13 +42,23 @@ class FmsNavLeftNotification extends Component {
                 <ul className="navbar-noti">
                     <Link to="/notifications"
                           onClick={() => this.onChangeTabAll()}
-                          style={focus_tab ? {color: "#18A689", fontWeight: "bold"} : {color: "black"}}>
-                        <li>Thông báo</li>
+                    >
+                        <li className="nav-tab" style={focus_tab ? {
+                            color: "#18A689",
+                            fontWeight: "bold",
+                            borderLeft: "solid"
+                        } : {color: "black"}}>Thông báo
+                        </li>
                     </Link>
+
                     <Link to="/notifications/archived"
-                          onClick={() => this.onChangeTabArchived()}
-                          style={!focus_tab ? {color: "#18A689", fontWeight: "bold"} : {color: "black"}}>
-                        <li>Lưu trữ</li>
+                          onClick={() => this.onChangeTabArchived()}>
+                        <li className="nav-tab" style={!focus_tab ? {
+                            color: "#18A689",
+                            fontWeight: "bold",
+                            borderLeft: "solid"
+                        } : {color: "black"}}>Lưu trữ
+                        </li>
                     </Link>
                 </ul>
             </div>

@@ -40,7 +40,7 @@ class FmsArchiveNotification extends Component {
                     <tbody>
                     {notifications.map((noti, i) => {
                         return (
-                            <FmsNotificationItem noti={noti} key={i}/>
+                            <FmsNotificationItem noti={noti} key={i} position={i}/>
                         )
 
                     })}

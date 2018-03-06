@@ -33,17 +33,15 @@ class FmsTableNotification extends Component {
         const {notifications} = this.state;
 
         return (
-            <div>
-                <table className="table table-mail table-hover">
-                    <tbody>
-                    {notifications.map((noti, i) => {
-                        return (
-                            <FmsNotificationItem noti={noti} key={i}/>
-                        )
-                    })}
-                    </tbody>
-                </table>
-            </div>
+            <table className="table table-mail table-hover">
+                <tbody>
+                {notifications.map((noti, i) => {
+                    return (
+                        <FmsNotificationItem noti={noti} key={i} position={i}/>
+                    )
+                })}
+                </tbody>
+            </table>
         )
     }
 }
