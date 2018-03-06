@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import propTypes from 'prop-types';
 import {getProvincesCache, getDistrictsCache, getWardsCache} from '../../../api/ViettelPostApi';
+import {convert_case} from 'utils/location-string-utils';
 
 class FmsTransportInfoPanel extends Component {
 
@@ -140,7 +141,7 @@ class FmsTransportInfoPanel extends Component {
                                     <option value=""></option>
                                     {
                                         districts.length > 0 && districts.map(d => {
-                                            return <option value={d.DISTRICT_NAME} key={d.DISTRICT_ID}>{d.DISTRICT_NAME}</option>   
+                                            return <option value={d.DISTRICT_NAME} key={d.DISTRICT_ID}>{convert_case(d.DISTRICT_NAME)}</option>   
                                         })
                                     }
                                 </select>
@@ -165,7 +166,7 @@ class FmsTransportInfoPanel extends Component {
                                     <option value=""></option>
                                     {
                                         wards.length > 0 && wards.map(w => {
-                                            return <option value={w.WARDS_NAME} key={w.WARDS_ID}>{w.WARDS_NAME}</option>
+                                            return <option value={w.WARDS_NAME} key={w.WARDS_ID}>{convert_case(w.WARDS_NAME)}</option>
                                         })
                                     }
                                 </select>

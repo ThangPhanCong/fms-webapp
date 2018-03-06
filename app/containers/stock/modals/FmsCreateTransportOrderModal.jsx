@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
-import {providers} from '../../../constants/transporting-provider';
 import ViettelPostPanel from './panels/viettel-post/ViettelPostPanel';
-import GiaoHangTietKiemPanel from './panels/giao-hang-tiet-kiem/GiaoHangTietKiemPanel';
-
+import OtherProviderPanel from './panels/other-provider/OtherProviderPanel';
+import {getAllProviders, createTransportOrder} from '../../../api/TransportProviderApi';
 import {
     getProvincesCache, 
     getDistrictsCache, 
@@ -17,6 +16,7 @@ import {toReadableDatetime} from 'utils/datetime-utils.js';
 class FmsCreateTransportOrderModal extends Component {
 
     state = {
+        providers: [],
         transportOrder: {},
         isLoading: false,
         transportingProvider: ''
@@ -25,10 +25,11 @@ class FmsCreateTransportOrderModal extends Component {
     onCreateTransportOrder() {
         const type = this.state.transportingProvider;
         switch(type) {
-            case 'viettel-post':
+            case 'VIETTEL':
                 this.createViettelPostTransportOrder();
                 break;
-            case 'giao-hang-tiet-kiem':
+            default:
+                this.createOtherTransportOrder();
                 break;
         }
     }
@@ -38,6 +39,19 @@ class FmsCreateTransportOrderModal extends Component {
         const {transportOrder} = this.state;
 
         createViettelTransportOrder(transportOrder, order_id)
+            .then(res => {
+                console.log(res);
+                let shouldUpdate = true;
+                this.closeModal(shouldUpdate);
+            })
+            .catch(err => alert(err));
+    }
+
+    createOtherTransportOrder() {
+        const order_id = this.props.order._id;
+        const {transportOrder, transportingProvider} = this.state;
+
+        createTransportOrder(transportOrder, order_id, transportingProvider)
             .then(res => {
                 console.log(res);
                 let shouldUpdate = true;
@@ -83,10 +97,11 @@ class FmsCreateTransportOrderModal extends Component {
         this.setState({transportingProvider: e.target.value});
         const type = e.target.value;
         switch(type) {
-            case 'viettel-post':
+            case 'VIETTEL':
                 this.onSelectViettelPost();
                 break;
-            case 'giao-hang-tiet-kiem':
+            default:
+                this.onSelectOtherProvider();
                 break;
         }
     }
@@ -124,9 +139,46 @@ class FmsCreateTransportOrderModal extends Component {
         this.setState({transportOrder});
     }
 
+    async onSelectOtherProvider() {
+        const {order} = this.props;
+
+        const transportOrder = {
+            ...this.state.transportOrder,
+            RECEIVER_FULLNAME: order.customer_name || '',
+            RECEIVER_PHONE: order.customer_phone || '',
+            RECEIVER_ADDRESS: order.full_address || '',
+            RECEIVER_EMAIL: order.customer_email || ''
+        }
+
+        if (order.province) {
+            const cacheProvinces = await getProvincesCache();
+            const findProvince = cacheProvinces.find(p => p.PROVINCE_NAME === order.province);
+            transportOrder.RECEIVER_PROVINCE = findProvince.PROVINCE_ID;
+            if (findProvince) {
+                const cacheDistricts = await getDistrictsCache(findProvince.PROVINCE_ID);
+                const findDistrict = cacheDistricts.find(d => d.DISTRICT_NAME === order.district);
+                transportOrder.RECEIVER_DISTRICT = findDistrict.DISTRICT_ID;
+                if (findDistrict) {
+                    const cacheWards = await getWardsCache(findDistrict.DISTRICT_ID);
+                    const findWard = cacheWards.find(w => w.WARDS_NAME === order.ward);
+                    transportOrder.RECEIVER_WARD = findWard.WARDS_ID;
+                }
+            }
+        }
+
+        this.setState({transportOrder});
+    }
+
+    componentDidMount() {
+        getAllProviders()
+            .then(res => this.setState({providers: res}));
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.isShown) {
             this.setState({transportingProvider: '', isLoading: false});
+            getAllProviders()
+                .then(res => this.setState({providers: res}));
         }
     }
 
@@ -137,6 +189,7 @@ class FmsCreateTransportOrderModal extends Component {
         } = this.props;
 
         const {
+            providers,
             isLoading,
             transportOrder,
             transportingProvider
@@ -144,19 +197,19 @@ class FmsCreateTransportOrderModal extends Component {
 
         let panel = null;
         switch(transportingProvider) {
-            case 'viettel-post':
+            case 'VIETTEL':
                 panel = <ViettelPostPanel onChangeInput={this.onChangeInput.bind(this)}
                                             transportOrder={transportOrder} />;
                 break;
-            case 'giao-hang-tiet-kiem':
-                panel = <GiaoHangTietKiemPanel onChangeInput={this.onChangeInput.bind(this)}
-                                                transportOrder={transportOrder} />;
+            case '':
                 break;
             default:
+                panel = <OtherProviderPanel onChangeInput={this.onChangeInput.bind(this)}
+                transportOrder={transportOrder} />;
                 break;
         }
         return (
-            <Modal show={isShown} backdrop='static' keyboard={false}bsSize='large'>
+            <Modal show={isShown} backdrop='static' keyboard={false} bsSize='large'>
                 <div className='inmodal'>
                     <Modal.Header
                         closeButton={true}
@@ -181,8 +234,7 @@ class FmsCreateTransportOrderModal extends Component {
                                     <option value=""></option>
                                     {
                                         providers.map(p => {
-                                            if (p.status === 'active')
-                                            return <option value={p.name_slug} key={p.id} >{p.name}</option>;
+                                            return <option value={p.provider_name} key={p._id} >{p.provider_display_name}</option>;
                                         })
                                     }
                                 </select>
