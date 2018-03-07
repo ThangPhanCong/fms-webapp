@@ -11,7 +11,8 @@ class FmsTimeline extends React.Component {
         this.updatePaddingDotsEvent();
     }
     updatePaddingDotsEvent() {
-        this.setState({padding: this.refs.events.offsetWidth/4});
+        const length = this.props.items.length;
+        this.setState({padding: this.refs.events.offsetWidth/length});
     }
     componentWillMount() {
         this.setState({items: this.props.items});
@@ -22,26 +23,20 @@ class FmsTimeline extends React.Component {
     }
 
     render() {
-        let width = 0;
-        this.state.items.map((item, i) => {
-            if (item.myClass === 'selected') {
-                width = this.state.padding*i+60;
-            }
-        })
+        const {padding, items} = this.state;
+        let width = (items.length - 1) * padding + 90;
         return (
             <section className="cd-horizontal-timeline">
                 <div className="events-content">
                     <ol>
-                        {this.state.items.map((item, i) => {
+                        {items.map((item, i) => {
                             return (
-                                <li key={i} className={item.myClass}>
-                                    {/* <h2>{item.title}</h2>
-                                    <em>{item.subtitle}</em> */}
-                                    <p className='text-center'> {item.desc}</p>
+                                <li key={i} className={item.class + (i === items.length-1 ? ' selected' : ' older-event')}>
+                                    <p> {item.note}</p>
+                                    <em>{item.created_time}</em>
                                 </li>
                             )
                         })}
-
                     </ol>
                 </div>
 
@@ -50,10 +45,13 @@ class FmsTimeline extends React.Component {
                         <div className="events" ref="events">
                             <span aria-hidden="true" className="timeline-eventline" style={{width: width+'px'}}></span>
                             <ol>
-                                {this.state.items.map((item, i) => {
+                                {items.map((item, i) => {
                                     return (
-                                        <li key={i} style={{padding: this.state.padding*i+'px'}}>
-                                            <a className={item.myClass} data-desc={item.desc}>{item.dataDate}
+                                        <li key={i} style={{padding: padding*i+'px'}}>
+                                            <a className={item.class + (i === items.length-1 ? ' selected' : ' older-event')} data-desc={item.desc}>
+                                                {item.created_time}
+                                                <br/>
+                                                {item.content}
                                             </a>
                                         </li>
                                     )

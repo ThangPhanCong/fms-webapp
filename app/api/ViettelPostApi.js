@@ -57,3 +57,9 @@ export function createViettelTransportOrder(transportOrder, order_id) {
 
     return post(`/api/t/orders/${order_id}/transport-order/viettel`, payload);
 }
+
+export function updateShopNoteViettel(note, order_id) {
+    const payload = {...note};
+
+    return post(`/api/t/orders/${order_id}/transport-order/viettel/shop-note`, payload);
+}

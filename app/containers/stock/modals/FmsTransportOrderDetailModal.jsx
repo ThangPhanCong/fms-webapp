@@ -2,39 +2,63 @@ import React, { Component } from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 import {getTransportOrderInfo} from '../../../api/TransportProviderApi';
-import ViettelTransportInfoPanel from './panels/viettel-post/ViettelTransportInfoPanel';
-import ViettelProductInfoPanel from './panels/viettel-post/ViettelProductInfoPanel';
-import {toReadableDatetime} from 'utils/datetime-utils.js';
-import {getViettelServices, getViettelExtraServices} from '../../../api/ViettelPostApi';
+import {updateShopNoteViettel} from '../../../api/ViettelPostApi';
+import FmsTimeline from '../../../commons/FmsTimeline/FmsTimeline';
+import {toReadableDatetime, toDatetimeLocal} from 'utils/datetime-utils.js';
+import {cloneDeep} from 'utils/object-utils.js';
 
 class FmsTransportOrderDetailModal extends Component {
     state = {
         transportOrder: null,
         isLoading: false,
         transportProvider: '',
-        services: [],
-        extraServices: []
+        shop_note: {}
     };
 
-    onUpdateTransportOrder() {
+    onChangeInput(refName) {
+        const newValue = this.refs[refName].value;
+        const shop_note = {...this.state.shop_note};
         
+        switch (refName) {
+            case 'TYPE':
+                shop_note.TYPE = parseInt(newValue);
+                break;
+            case 'DATE':
+                const datetime = toReadableDatetime(newValue);
+                shop_note.DATE = datetime.date + ' ' + datetime.time + ':00';
+                break;
+            default:
+                shop_note[refName] = newValue;
+        }
+
+        this.setState({shop_note});
+    }
+
+    onUpdateTransportOrder() {
+        const {order_id} = this.props;
+        const {shop_note} = this.state;
+        this.setState({isLoading: true});
+
+        updateShopNoteViettel(shop_note, order_id)
+            .then(
+                res => {
+                    const shouldUpdate = true;
+                    this.closeModal(shouldUpdate);
+                },
+                err => {
+                    alert(err.message);
+                }
+            )
+            .then(() => this.setState({isLoading: false}));
     }
 
     onCloseButtonClick() {
-        this.setState({transportOrder: null});
         this.closeModal();
     }
 
     closeModal(shouldUpdate) {
+        this.setState({shop_note: {}, transportOrder: null});
         this.props.onClose(shouldUpdate);
-    }
-
-    componentDidMount() {
-        getViettelServices()
-            .then(services => this.setState({services}));
-        
-        getViettelExtraServices()
-            .then(extraServices => this.setState({extraServices}));
     }
 
     componentWillReceiveProps(nextProps) {
@@ -56,16 +80,32 @@ class FmsTransportOrderDetailModal extends Component {
             transportOrder, 
             isLoading, 
             transportProvider,
-            services,
-            extraServices
+            shop_note
         } = this.state;
 
-        const disabled = true;
         let created_time = '';
-        let transportProviderInfo = null;
+        let timelineItems = [];
         if (transportOrder) {
             created_time = toReadableDatetime(transportOrder.created_time);
-            transportProviderInfo = transportOrder.transport_provider_info;
+
+            let transport_shop_notes = cloneDeep(transportOrder.transport_shop_notes);
+            transport_shop_notes.forEach(item => {
+                item.class = 'shop_note';
+                let datetime = toReadableDatetime(item.created_time);
+                item.created_time = datetime.date + ' ' + datetime.time;
+            });
+
+            let transport_status = cloneDeep(transportOrder.transport_status);
+            transport_status.forEach(item => {
+                item.class = 'status';
+                let datetime = toReadableDatetime(item.created_time);
+                item.created_time = datetime.date + ' ' + datetime.time;
+            });
+
+            timelineItems = transport_shop_notes.concat(transport_status);
+            timelineItems.sort((a,b) => {
+                return new Date(a.created_time) - new Date(b.created_time);
+            });
         }
 
         return (
@@ -83,140 +123,74 @@ class FmsTransportOrderDetailModal extends Component {
 
                     <Modal.Body>
                         {
-                            transportProviderInfo ? (
+                            timelineItems.length > 0 ? (
                                 <div className='row'>
-                                    <ViettelTransportInfoPanel 
-                                        RECEIVER_FULLNAME={transportProviderInfo.RECEIVER_FULLNAME}
-                                        RECEIVER_PHONE={transportProviderInfo.RECEIVER_PHONE}
-                                        RECEIVER_EMAIL={transportProviderInfo.RECEIVER_EMAIL}
-                                        RECEIVER_PROVINCE={transportProviderInfo.RECEIVER_PROVINCE}
-                                        RECEIVER_DISTRICT={transportProviderInfo.RECEIVER_DISTRICT}
-                                        RECEIVER_WARD={transportProviderInfo.RECEIVER_WARD}
-                                        RECEIVER_ADDRESS={transportProviderInfo.RECEIVER_ADDRESS}
-                                        DELIVERY_DATE={transportProviderInfo.DELIVERY_DATE}
-                                        disabled={disabled}
-                                    />
+                                    <FmsTimeline items={timelineItems} />
 
-                                    <ViettelProductInfoPanel 
-                                        PRODUCT_NAME={transportProviderInfo.PRODUCT_NAME}
-                                        PRODUCT_DESCRIPTION={transportProviderInfo.PRODUCT_DESCRIPTION}
-                                        PRODUCT_QUANTITY={transportProviderInfo.PRODUCT_QUANTITY}
-                                        PRODUCT_PRICE={transportProviderInfo.PRODUCT_PRICE}
-                                        PRODUCT_WEIGHT={transportProviderInfo.PRODUCT_WEIGHT}
-                                        PRODUCT_LENGTH={transportProviderInfo.PRODUCT_LENGTH}
-                                        PRODUCT_WIDTH={transportProviderInfo.PRODUCT_WIDTH}
-                                        PRODUCT_HEIGHT={transportProviderInfo.PRODUCT_HEIGHT}
-                                        disabled={disabled}
-                                    />
+                                    <div className='m-l-xl'>
+                                        
+                                        <span className='m-l-lg'>
+                                            <i className="fa fa-circle" style={{color: '#7b9d6f'}}></i>
+                                            {' '} Trạng thái đơn hàng
+                                        </span>
 
-                                    <div className="form-group row">
-                                        <div className="col-md-6">
-                                            <div className="col-sm-4">
-                                                <label className="control-label">Loại vận đơn</label>
-                                            </div>
-                                            <div className="col-sm-8">
-                                                <select className="form-control"
-                                                        disabled={disabled}
-                                                        ref='ORDER_PAYMENT'
-                                                        value={transportProviderInfo.ORDER_PAYMENT || ''}
-                                                >
-                                                    <option value=""></option>
-                                                    <option value="1">Không thu tiền</option>
-                                                    <option value="2">Thu hộ tiền cước và tiền hàng</option>
-                                                    <option value="3">Thu hộ tiền hàng</option>
-                                                    <option value="4">Thu hộ tiền cước</option>
-                                                </select>
-                                            </div>
-                                        </div>   
-                                        <div className="col-md-6">
-                                            <div className="col-sm-4">
-                                                <label className="control-label">Dịch vụ</label>
-                                            </div>
-                                            <div className="col-sm-8">
-                                                <select className="form-control"
-                                                        disabled={disabled}
-                                                        ref='ORDER_SERVICE'
-                                                        value={transportProviderInfo.ORDER_SERVICE || ''}
-                                                >
-                                                    <option value=""></option>
-                                                    {
-                                                        services.length > 0 && services.map(s => {
-                                                            return <option value={s.SERVICE_CODE} key={s.SERVICE_CODE}>{s.SERVICE_NAME}</option>
-                                                        })
-                                                    }
-                                                </select>
-                                            </div>
-                                        </div>
+                                        <span className='m-l-lg'>
+                                            <i className="fa fa-circle" style={{color: '#e91b3d'}}></i>
+                                            {' '} Yêu cầu của shop
+                                        </span>
                                     </div>
-
-                                    <div className="form-group row"> 
-                                        <div className="col-md-6">
-                                            <div className="col-sm-4">
-                                                <label className="control-label">Dịch vụ cộng thêm</label>
-                                            </div>
-                                            <div className="col-sm-8">
-                                                <select className="form-control"
-                                                        disabled={disabled}
-                                                        ref='ORDER_SERVICE_ADD'
-                                                        value={transportProviderInfo.ORDER_SERVICE_ADD || ''}
-                                                >
-                                                    <option value=""></option>
-                                                    {
-                                                        extraServices.length > 0 && extraServices.map(s => {
-                                                            return <option value={s.SERVICE_CODE} key={s.SERVICE_CODE}>{s.SERVICE_NAME}</option>
-                                                        })
-                                                    }
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div className="col-md-6">
-                                            <div className="col-sm-4">
-                                                <label className="control-label">Ghi chú</label>
-                                            </div>
-                                            <div className="col-sm-8">
-                                                <input type='text'
-                                                        className="form-control"
-                                                        disabled={disabled}
-                                                        ref='ORDER_NOTE'
-                                                        value={transportProviderInfo.ORDER_NOTE || ''}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="form-group row">
-                                        <div className="col-md-6">
-                                            <div className="col-sm-4">
-                                                <label className="control-label">Phí vận chuyển</label>
-                                            </div>
-                                            <div className="col-sm-8">
-                                                <input type='number'
-                                                        className="form-control"
-                                                        disabled={disabled}
-                                                        ref='MONEY_TRANSPORT'
-                                                        value={transportProviderInfo.MONEY_TRANSPORT || ''}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="col-sm-4">
-                                                <label className="control-label">Tiền thu hộ</label>
-                                            </div>
-                                            <div className="col-sm-8">
-                                                <input type='number'
-                                                        className="form-control"
-                                                        disabled={disabled}
-                                                        ref='MONEY_COLLECTION'
-                                                        value={transportProviderInfo.MONEY_COLLECTION || ''}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <br/>
+                                    <hr/>
                                 </div>
                             ) : null
                         }
                         
+                        <div className="row form-group">
+                            <div className="col-sm-2">
+                                <label className="control-label">Trạng thái</label>
+                            </div>
+                            <div className="col-sm-4">
+                                <select className="form-control"
+                                        ref='TYPE'
+                                        value={shop_note.TYPE || ''}
+                                        onChange={() => {this.onChangeInput('TYPE')}}
+                                >
+                                    <option value=""></option>
+                                    <option value="1">Duyệt đơn hàng</option>
+                                    <option value="2">Duyệt chuyển hoàn</option>
+                                    <option value="3">Phát tiếp</option>
+                                    <option value="4">Hủy đơn hàng</option>
+                                    <option value="5">Lấy lại đơn hàng</option>
+                                </select>
+                            </div>
+
+                            <div className="col-sm-2">
+                                <label className="control-label">Ngày tháng</label>
+                            </div>
+                            <div className="col-sm-4">
+                                <input type='datetime-local'
+                                        className="form-control"
+                                        ref='DATE'
+                                        value={toDatetimeLocal(shop_note.DATE) || ''}
+                                        onChange={() => {this.onChangeInput('DATE')}}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="row form-group">
+                            <div className="col-sm-2">
+                                <label className="control-label">Yêu cầu</label>
+                            </div>
+                            <div className="col-sm-10">
+                                <textarea className="form-control"
+                                        ref='NOTE'
+                                        value={shop_note.NOTE || ''}
+                                        onChange={() => {this.onChangeInput('NOTE')}}
+                                        rows='2'
+                                >
+                                </textarea>
+                            </div>
+                        </div>
 
                     </Modal.Body>
 

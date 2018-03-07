@@ -3,24 +3,40 @@ import FmsTimeline from './FmsTimeline.jsx';
 
 const items = [
     {
-        myClass: "older-event",
-        dataDate: "16/01",
-        desc: "Đang vận chuyển"
+        content: "Đang nhận hàng",
+        created_time: "2018-03-06 10:00",
+        note : "Đang nhận hàng",
+        class: 'status'
     },
     {
-        myClass: "older-event",
-        dataDate: "28/02",
-        desc: "Lưu bưu cục"
+        content: "Đang giao hàng",
+        created_time: "2018-03-06 10:00",
+        note : "Đang giao hàng",
+        class: 'status'
     },
     {
-        myClass: "older-event",
-        dataDate: "01/03",
-        desc: "Chưa phát được"
+        content: "Lưu bưu cục",
+        created_time: "2018-03-06 10:00",
+        note : "Lưu bưu cục",
+        class: 'shop_note'
     },
     {
-        myClass: "selected",
-        dataDate: "12/03",
-        desc: "Đã đến bưu cục"
+        content: "Lưu bưu cục",
+        created_time: "2018-03-06 10:00",
+        note : "Giao lại vào 22h cho khách",
+        class: 'status'
+    },
+    {
+        content: "Lưu bưu cục",
+        created_time: "2018-03-06 10:00",
+        note : "Lưu bưu cục",
+        class: 'shop_note'
+    },
+    {
+        content: "Lưu bưu cục",
+        created_time: "2018-03-06 10:00",
+        note : "Giao lại vào 22h cho khách",
+        class: 'status'
     }
 ];
  

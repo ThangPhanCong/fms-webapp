@@ -21,7 +21,7 @@
         position: relative;
         height: 100px;
         width: 100%;
-        max-width: 800px;
+        // max-width: 800px;
         margin: 0 auto;
     }
     .events-wrapper {
@@ -103,31 +103,39 @@
             &.selected {
                 pointer-events: none;
             }
-            &.selected::after {
+            &.status.selected::after {
                 background-color: #7b9d6f;
                 border-color: #7b9d6f;
             }
-            &.older-event::after {
+            &.status.older-event::after {
                 border-color: #7b9d6f;
             }
-            &:hover::after {
-                content: attr(data-desc);
-                width: 120px;
-                height: 40px;
-                text-align: center;
-                //border-radius: 6px;
-                padding: 15px 0 0 15px;
-                border: none;
-                background-color: #f8fafb;
-                color: #1c84c6;
-                // /* Position the tooltip */
-                position: absolute;
-                z-index: 1;
-                top: 100%;
-                border: none;
-                left: 50%; 
-                //margin-left: -60px;
+
+            &.shop_note.selected::after {
+                background-color: #e91b3d;
+                border-color: #e91b3d;
             }
+            &.shop_note.older-event::after {
+                border-color: #e91b3d;
+            }
+            // &:hover::after {
+            //     content: attr(data-desc);
+            //     width: 120px;
+            //     height: 40px;
+            //     text-align: center;
+            //     //border-radius: 6px;
+            //     padding: 15px 0 0 15px;
+            //     border: none;
+            //     background-color: #f8fafb;
+            //     color: #1c84c6;
+            //     // /* Position the tooltip */
+            //     position: absolute;
+            //     z-index: 1;
+            //     top: 100%;
+            //     border: none;
+            //     left: 50%; 
+            //     //margin-left: -60px;
+            // }
         }
     }
     .events-content {
@@ -169,7 +177,7 @@
                 transform: translateX(0);
             }
             >* {
-                max-width: 800px;
+                // max-width: 800px;
                 margin: 0 auto;
             }
         }
@@ -184,6 +192,7 @@
             display: block;
             font-style: italic;
             margin: 10px auto;
+            font-size: 1rem;
         }
         p {
             font-size: 1.4rem;

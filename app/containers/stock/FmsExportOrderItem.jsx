@@ -95,7 +95,7 @@ class FmsExportOrderItem extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.order) {
+        if (nextProps.order && nextProps.order !== this.props.order) {
             this.getTransportOrderInfo(nextProps.order._id);
         }
     } 
