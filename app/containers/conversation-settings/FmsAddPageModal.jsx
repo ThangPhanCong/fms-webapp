@@ -6,7 +6,7 @@ class FmsAddPageModal extends React.Component {
         super(props);
         this.state = {
             selectedDate: null,
-            options: [false, false, false, false, false, false]
+            options: [true, false, false, false, false, false]
         }
     }
 
