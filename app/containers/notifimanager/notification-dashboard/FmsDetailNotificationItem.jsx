@@ -41,11 +41,11 @@ class FmsDetailNotificationItem extends Component {
         try {
             await updateArchived(is_archived, _id, id, 'BASE');
             data = await getNotifications(_id, 'BASE');
-            if (is_archived) {
-                noti('success', 'Đã lưu trữ thông báo này!')
-            } else {
-                noti('danger', 'Đã bỏ lưu thông báo này!')
-            }
+            // if (is_archived) {
+            //     noti('success', 'Đã lưu trữ thông báo này!')
+            // } else {
+            //     noti('danger', 'Đã bỏ lưu thông báo này!')
+            // }
         } catch (err) {
             alert(err.message);
         }
@@ -60,43 +60,15 @@ class FmsDetailNotificationItem extends Component {
 
         return (
             <div>
-                <div style={{
-                    height: "75px"
-                }}>
-                    <span className="title-noti">
-                        {current_notifi.title}
-                    </span>
-                </div>
-                <div style={{height: "75px", border: "solid 0.2px #EEEEEE", borderLeft: "none", borderBottom: "none"}}>
-                    <span style={{paddingLeft: "10px"}}>
-                        <img className="admin-avatar"
-                             src="https://graph.facebook.com/v2.10/596938700697551/picture"/>
-                        <span className="text-admin">Admin</span>
-                        <span>&lt;admin@adsbold.com&gt; </span>
-                        <span className="edit-archive">
-                            {current_notifi.is_archived ?
-                                <FmsTooltip text_tooltip="Bỏ lưu" position="bottom">
-                                    <button className="btn btn-primary pull-right button-archive"
-                                            onClick={() => this.onUpdateArchived(false)}>Bỏ lưu
-                                    </button>
-                                </FmsTooltip> : <FmsTooltip text_tooltip="Lưu trữ" position="bottom">
-                                    <button className="btn btn-danger pull-right button-archive"
-                                            onClick={() => this.onUpdateArchived(true)}>Lưu trữ
-                                    </button>
-                                </FmsTooltip>}
-                        </span>
+                {!current_notifi.is_archived ?
+                    <button className="btn btn-outline btn-sm btn-white button-archive"
+                            onClick={() => this.onUpdateArchived(true)}
+                    >Lưu trữ</button> : null
+                }
 
-                        </span>
-                    <span className="user-receive">
-                        tới {user.name}
-                    </span>
+                <h3>{current_notifi.title}</h3>
 
-                </div>
-                <div>
-                    <p className="content-noti">
-                        {current_notifi.content}
-                    </p>
-                </div>
+                <p>{current_notifi.content}</p>
             </div>
         )
     }

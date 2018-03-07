@@ -1,86 +1,80 @@
-.admin-avatar {
-  width: 45px;
-  margin-top: 5px;
-  border-radius: 50%;
-}
+.noti-page-wrapper {
 
-.archive-noti {
-  border: solid 0.1px #EEEEEE;
-  width: 72px;
-  background: #F4F4F4;
-  height: 29px;
-  margin-top: 7px;
-  margin-left: 1px;
-  color: #4B4B4B;
-  &:hover {
-    color: black;
+  padding-top: 30px;
+
+  .admin-avatar {
+    width: 45px;
+    margin-top: 5px;
+    border-radius: 50%;
   }
-}
 
-.button-archive {
-  margin-right: 30px;
-  margin-top: 5px;
-}
-
-.content-noti {
-  padding-top: 20px;
-  padding-left: 10px;
-  height: 500px;
-  border-top: none;
-  border: solid 1px #EEEEEE;
-}
-
-.edit-archive {
-  color: #a29c9c;
-  &:hover {
-    cursor: pointer;
-    color: #666666;
-  }
-}
-
-.noti-avatar {
-  float: right;
-  padding: 1px;
-  margin-right: 24px;
-  margin-top: 13px;
-  width: 35px;
-}
-
-.navbar-noti {
-  padding-top: 1px;
-  list-style: none;
-  position: relative;
-  right: 12px;
-  width: 157px;
-  height: 400px;
-  border: solid 1px #EEEEEE;
-  li {
+  .archive-noti {
+    border: solid 0.1px #EEEEEE;
+    width: 72px;
+    background: #F4F4F4;
+    height: 29px;
+    margin-top: 7px;
+    margin-left: 1px;
+    color: #4B4B4B;
     &:hover {
-      background: #F5F5F5;
-      cursor: pointer;
+      color: black;
     }
   }
-}
 
-.nav-tab {
-  padding: 6px;
-}
+  .button-archive {
+    margin-bottom: 30px;
+  }
 
-.nav-tab-archive {
-  padding: 6px;
-  padding-left: 11px;
-}
+  .content-noti {
+    padding-top: 20px;
+    padding-left: 10px;
+    height: 500px;
+    border-top: none;
+    border: solid 1px #EEEEEE;
+  }
 
-.title-noti {
-  color: black;
-  font-size: 22px;
-  padding-left: 10px;
-  position: relative;
-  top: 20px;
-}
+  .edit-archive {
+    color: #a29c9c;
+    &:hover {
+      cursor: pointer;
+      color: #666666;
+    }
+  }
 
-.text-admin {
-  font-weight: bold;
-  color: #878787;
-  padding-left: 7px;
+  .noti-avatar {
+    float: right;
+    padding: 1px;
+    margin-right: 24px;
+    margin-top: 13px;
+    width: 35px;
+  }
+
+  .navbar-noti {
+    list-style: none;
+
+    li {
+      &:hover {
+        background: #F5F5F5;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .nav-tab {
+    padding: 8px;
+  }
+
+  .title-noti {
+    color: black;
+    font-size: 22px;
+    padding-left: 10px;
+    position: relative;
+    top: 20px;
+  }
+
+  .text-admin {
+    font-weight: bold;
+    color: #878787;
+    padding-left: 7px;
+  }
 }

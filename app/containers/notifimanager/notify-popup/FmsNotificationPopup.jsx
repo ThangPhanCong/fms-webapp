@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import {
     getNotifications,
     updateSeen,
@@ -97,10 +98,10 @@ class FmsNotificationPopup extends Component {
 
         const button_seeall = <li>
             <div className="text-center link-block">
-                <a href="/notifications" target="_blank">
+                <Link to="/notifications">
                     <strong>Xem tất cả </strong>
                     <i className="fa fa-angle-right"></i>
-                </a>
+                </Link>
             </div>
         </li>;
 
@@ -111,10 +112,10 @@ class FmsNotificationPopup extends Component {
             <li className="divider"></li>
             <br/>
             <div className="seeall-notify">
-                <a href="/notifications" target="_blank">
+                <Link to="/notifications">
                     <strong>Xem tất cả </strong>
                     <i className="fa fa-angle-right"></i>
-                </a>
+                </Link>
             </div>
         </div>
 

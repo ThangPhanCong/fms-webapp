@@ -17,16 +17,15 @@ class FmsNotiItem extends Component {
                 <Link to={`/notifications/${noti._id}`}>
                     <div
                         onMouseEnter={onShowArchived}
-                        >
-                        <i className="fa fa-user-circle-o"
-                           aria-hidden="true"></i>
+                    >
+                        <i className="fa fa-user-circle-o" aria-hidden="true"/>
                         <span style={{paddingLeft: '5px'}}>{truncateString(capitalize(noti.title), 25)}</span>
                         <span style={{paddingLeft: '5px', position: 'relative'}}>
                             <span className="pull-right text-muted small">4 phút trước</span>
                         </span>
                     </div>
                 </Link>
-                <p className="divider"></p>
+                <p className="divider"/>
             </li>
         )
     }

@@ -9,28 +9,28 @@ class FmsTableNotification extends Component {
     };
 
     componentDidMount() {
-        setTimeout(() => {
-            this.getNotification();
-        }, 100)
+        this.getNotification();
     }
 
     async getNotification() {
         const {_id} = this.props.user;
-        let data;
 
         try {
-            data = await getNotifications(_id, 'BASE');
+            const data = await getNotifications(_id, 'BASE');
+            this.setState({
+                notifications: data.filter(n => !n.is_archived).reverse()
+            })
         } catch (err) {
-            aler(err.message)
+            alert(err.message)
         }
-
-        this.setState({
-            notifications: data.reverse()
-        })
     }
 
     render() {
         const {notifications} = this.state;
+
+        if (notifications.length === 0) {
+            return <p>Không có thông báo mới!</p>
+        }
 
         return (
             <table className="table table-mail table-hover"
