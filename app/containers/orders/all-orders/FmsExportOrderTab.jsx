@@ -18,11 +18,23 @@ class FmsExportOrderTab extends Component {
         isShownDetailModal: false,
         isShownCreateTransportOrderModal: false,
         isShownTransportOrderDetailModal: false,
-        providers: []
+        providers: [],
+        filter: {},
+        timeoutKey: null
     };
 
-    searchItem(searchQuery) {
-        console.log('searchQuery', searchQuery);
+    onChangeFilter(filter) {
+        const {timeoutKey} = this.state;
+        const before = 0.5 * 1000; // 0.5s
+
+        if (timeoutKey) clearTimeout(timeoutKey);
+
+        const newTimeoutKey = setTimeout(() => {
+            this.updateOrderList(filter);
+            this.setState({timeoutKey: null});
+        }, before);
+
+        this.setState({filter, timeoutKey: newTimeoutKey});
     }
 
     reloadOrders() {
@@ -61,10 +73,10 @@ class FmsExportOrderTab extends Component {
         this.setState({isShownTransportOrderDetailModal: false});
     }
 
-    updateOrderList() {
+    updateOrderList(filter = this.state.filter) {
         this.setState({isLoading: true});
 
-        getOrders({status: ORDER_STATUS.EXPORTED_ORDER})
+        getOrders({status: ORDER_STATUS.EXPORTED_ORDER, ...filter})
             .then(res => this.setState({orders: res.orders, isLoading: false}))
             .catch(err => alert(err.message));
     }
@@ -107,7 +119,7 @@ class FmsExportOrderTab extends Component {
             <div className="row">
                 <div className="col-lg-12">
                     <div className="ibox">
-                        <FmsExportOrderSearchBar onSearchQueryChange={this.searchItem.bind(this)}/>
+                        <FmsExportOrderSearchBar onChangeFilter={this.onChangeFilter.bind(this)}/>
 
                         {
                             isLoading ?
