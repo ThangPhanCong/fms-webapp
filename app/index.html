@@ -10,6 +10,13 @@
 <body>
 <div id=<%= htmlWebpackPlugin.options.myid %>></div>
 
+<div class="fb-customerchat"
+     page_id="157362188216742"
+     logged_in_greeting="Xin chào! Bạn muốn hỗ trợ điều gì?"
+     logged_out_greeting="Xin chào! Bạn muốn hỗ trợ điều gì?"
+>
+</div>
+
 <script>
     window.fbAsyncInit = function() {
         FB.init({
@@ -27,12 +34,6 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 </script>
-<div class="fb-customerchat"
-     page_id="157362188216742"
-     logged_in_greeting="Xin chào! Bạn muốn hỗ trợ điều gì?"
-     logged_out_greeting="Xin chào! Bạn muốn hỗ trợ điều gì?"
->
-</div>
 
 </body>
 
