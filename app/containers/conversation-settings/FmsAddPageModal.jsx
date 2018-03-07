@@ -80,7 +80,10 @@ class FmsAddPageModal extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <div style={{fontSize: "14px", margin: "0 0 10px 20px"}}>Tên
-                            trang: {this.props.page ? this.props.page.name : ""}</div>
+                            trang: <strong>{this.props.page ? this.props.page.name : ""}</strong></div>
+
+                        <br/>
+
                         <label className="get-history-option">
                             <input type="radio" className="add-page-checkbox" checked={this.state.options[0]}
                                    onChange={() => {
@@ -116,6 +119,7 @@ class FmsAddPageModal extends React.Component {
                                    }}/>
                             Lấy dữ liệu của 1 năm gần nhất
                         </label>
+
                         <div className="row" style={{marginTop: "8px", marginBottom: "8px"}}>
                             <label className="col-sm-5" style={{marginTop: "3px"}}>
                                 <input type="radio" className="add-page-checkbox" checked={this.state.options[5]}

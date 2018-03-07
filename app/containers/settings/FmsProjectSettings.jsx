@@ -26,7 +26,7 @@ class FmsSettings extends React.Component {
             ProjectApi.updateProject(this.props.project._id, name)
                 .then(() => {
                     this.setState({isHandling: false, name: name, isEdittingName: false});
-                    alert("Đổi tên cửa hàng thành công.");
+                    // alert("Đổi tên cửa hàng thành công.");
                     window.location = "/";
                 }, err => {
                     alert(err.message);
@@ -43,7 +43,7 @@ class FmsSettings extends React.Component {
             this.setState({isHandling: true});
             ProjectApi.deleteProject(this.props.project._id)
                 .then(() => {
-                    alert(`Đã xóa thành công cửa hàng ${this.props.project.name}`);
+                    // alert(`Đã xóa thành công cửa hàng ${this.props.project.name}`);
                     this.setState({isHandling: false});
                     window.location = "/";
                 }, err => {

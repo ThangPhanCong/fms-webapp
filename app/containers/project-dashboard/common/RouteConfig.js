@@ -145,6 +145,7 @@ export const treeConfig = [
     },
     {
         route: 'settings',
+        required: 'settings_view',
         title: 'Cài đặt chung',
         icon: 'fa-cog',
         headerColor: '#f3f3f4',

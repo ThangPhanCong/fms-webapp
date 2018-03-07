@@ -48,6 +48,14 @@ class FmsStaffsBody extends Component {
             })
     }
 
+    skipFirstView() {
+        delay(1000).then(() => this.setState({isFirstTime: false}));
+
+        const project_id = this.props.project._id;
+        storage.set(project_id + '_' + 'ALL_STAFF_VIEW', true);
+        postStaffView(project_id);
+    }
+
     openCreateNewStaffModal() {
         this.setState({tabActive: 0, isShownCreateStaffModal: true});
     }
@@ -64,11 +72,7 @@ class FmsStaffsBody extends Component {
             this.updateStaffList(project);
 
             if (isFirstTime) {
-                delay(1000).then(() => this.setState({isFirstTime: false}));
-
-                const project_id = this.props.project._id;
-                storage.set(project_id + '_' + 'ALL_STAFF_VIEW', true);
-                postStaffView(project_id);
+                this.skipFirstView();
             }
         }
 
@@ -166,16 +170,21 @@ class FmsStaffsBody extends Component {
                                     Tất cả nhân viên là nơi quản lí nhân viên, các vai trò trong dự án. Bạn có thể thêm mới,
                                     sửa đổi thông tin, cấp quyền cho nhân viên.
                                 </p>
-                                <div>
+                                <div style={{marginTop: 20}}>
                                     <button
                                         className='btn btn-primary'
-                                        style={{marginTop: 20}}
                                         onClick={this.openCreateNewStaffModal.bind(this)}
                                     >
                                         <i className='fa fa-plus'
                                            style={{marginRight: 5}}
                                         />
                                         Thêm nhân viên
+                                    </button>
+                                    <button
+                                        className='btn btn-outline btn-white'
+                                        onClick={() => this.skipFirstView()}
+                                    >
+                                        Bỏ qua
                                     </button>
                                 </div>
                             </FmsBlankPage>

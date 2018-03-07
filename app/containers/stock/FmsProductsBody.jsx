@@ -43,6 +43,15 @@ class FmsProductsBody extends Component {
             })
     }
 
+    skipFirstView() {
+        delay(1000).then(() => this.setState({isFirstTime: false}));
+
+        const project_id = this.props.project._id;
+        storage.set(project_id + '_' + 'ALL_PRODUCT_VIEW', true);
+
+        postProductView(project_id);
+    }
+
     onOpenModal() {
         this.setState({isShowCreateProductModal: true});
     }
@@ -55,11 +64,7 @@ class FmsProductsBody extends Component {
             this.updateProductList(project);
 
             if (isFirstTime) {
-                delay(1000).then(() => this.setState({isFirstTime: false}));
-
-                const project_id = this.props.project._id;
-                storage.set(project_id + '_' + 'ALL_PRODUCT_VIEW', true);
-                postProductView(project_id);
+                this.skipFirstView();
             }
         }
 
@@ -110,7 +115,7 @@ class FmsProductsBody extends Component {
         }
     }
 
-    render () {
+    render() {
         const {project} = this.props;
         const {
             products,
@@ -131,16 +136,21 @@ class FmsProductsBody extends Component {
                                     Tất cả đơn hàng là nơi quản lí đơn hàng đang trong quá trình xử lí. Bạn có thể tạo mới,
                                     sửa đổi trạng thái đơn hàng bằng những thẻ màu.
                                 </p>
-                                <div>
+                                <div style={{marginTop: 20}}>
                                     <button
                                         className='btn btn-primary'
-                                        style={{marginTop: 20}}
                                         onClick={this.onOpenModal.bind(this)}
                                     >
                                         <i className='fa fa-plus'
                                            style={{marginRight: 5}}
                                         />
                                         Thêm sản phẩm
+                                    </button>
+                                    <button
+                                        className="btn btn-outline btn-white"
+                                        onClick={() => this.skipFirstView()}
+                                    >
+                                        Bỏ qua
                                     </button>
                                 </div>
                             </FmsBlankPage>
