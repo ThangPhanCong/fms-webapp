@@ -3,6 +3,18 @@ import propTypes from 'prop-types';
 import FmsEditableDropdown from '../../../commons/editable-dropdown/FmsEditableDropdown';
 
 class FmsCustomerInfoPanel extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedCustomer: null
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!this.state.selectedCustomer && nextProps.customer.length > 0) {
+            this.setState({selectedCustomer: nextProps.customer[0]});
+        }
+    }
 
     onChangeInput(refName) {
         const newValue = this.refs[refName].value;
@@ -17,10 +29,22 @@ class FmsCustomerInfoPanel extends Component {
         this.props.onChangeInput('customer_phone', newPhone);
     }
 
+    onNameChange(newName) {
+        this.props.onChangeInput('customer_name', newName);
+    }
+
     onSelectPhone(index) {
-        if (this.props.customer && Array.isArray(this.props.customer.phone)) {
-            this.props.onChangeInput('customer_phone', this.props.customer.phone[index]);
+        if (this.state.selectedCustomer && Array.isArray(this.state.selectedCustomer.phone)) {
+            this.props.onChangeInput('customer_phone', this.state.selectedCustomer.phone[index]);
         }
+    }
+
+    onSelectName(index) {
+        let customer = this.props.customer[index];
+        this.props.onChangeInput(['customer_name', 'customer_phone', 'customer_facebook'],
+            [customer.name, customer.phone.length > 0 ? customer.phone[0] : " ",
+                `facebook.com/${customer.fb_id}`], true);
+        this.setState({selectedCustomer: customer})
     }
 
     render() {
@@ -31,7 +55,9 @@ class FmsCustomerInfoPanel extends Component {
             customer_email,
             disabled
         } = this.props;
-        let customer = this.props.customer || {};
+        let customer = this.props.customer || [];
+        let names = customer.map(c => c.name);
+        let phones = this.state.selectedCustomer ? this.state.selectedCustomer.phone : [];
 
         return (
             <div className="panel panel-primary">
@@ -45,15 +71,21 @@ class FmsCustomerInfoPanel extends Component {
                                 <label className="control-label">Tên</label>
                             </div>
                             <div className="col-sm-9">
-                                <input type="text"
-                                       className="form-control"
-                                       ref='customer_name'
-                                       value={customer_name || ''}
-                                       onChange={() => {
-                                           this.onChangeInput('customer_name')
-                                       }}
-                                       disabled={disabled}
-                                />
+                                <FmsEditableDropdown items={names}
+                                                     value={customer_name || ''}
+                                                     onSearchChange={this.onNameChange.bind(this)}
+                                                     noItemNoti="Không tìm thấy khách hàng nào"
+                                                     disabled={disabled}
+                                                     onSelectItem={this.onSelectName.bind(this)}/>
+                                {/*<input type="text"*/}
+                                       {/*className="form-control"*/}
+                                       {/*ref='customer_name'*/}
+                                       {/*value={customer_name || ''}*/}
+                                       {/*onChange={() => {*/}
+                                           {/*this.onChangeInput('customer_name')*/}
+                                       {/*}}*/}
+                                       {/*disabled={disabled}*/}
+                                {/*/>*/}
                             </div>
                         </div>
                     </div>
@@ -64,7 +96,7 @@ class FmsCustomerInfoPanel extends Component {
                                 <label className="control-label">Điện thoại</label>
                             </div>
                             <div className="col-sm-9">
-                                <FmsEditableDropdown items={customer.phone}
+                                <FmsEditableDropdown items={phones}
                                                      value={customer_phone || ''}
                                                      onSearchChange={this.onPhoneChange.bind(this)}
                                                      noItemNoti="Không tìm thấy số điện thoại nào"

@@ -176,8 +176,16 @@ class FmsOrderDetailModal extends Component {
         this.props.onClose();
     }
 
-    onChangeInput(refName, newValue = this.refs[refName].value) {
+    onChangeInput(refName, newValue = this.refs[refName].value, inputIsArray = false) {
         const newOrder = {...this.state.order};
+
+        if (inputIsArray) {
+            refName.forEach((rn, idx) => {
+                newOrder[rn] =  newValue[idx];
+            });
+            this.setState({order: newOrder});
+            return;
+        }
 
         switch (refName) {
             case 'order_tag':
@@ -253,6 +261,7 @@ class FmsOrderDetailModal extends Component {
                             customer_facebook={order.customer_facebook}
                             customer_email={order.customer_email}
                             onChangeInput={this.onChangeInput.bind(this)}
+                            customer={this.props.customer}
                             disabled={!config.customer_info}
                         />
                     </div>

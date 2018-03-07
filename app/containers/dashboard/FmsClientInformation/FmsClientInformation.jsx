@@ -169,7 +169,7 @@ class FmsOrdersTab extends React.Component {
                                 this.openOrderDetailModal(order)
                             }}>
                     <div className={"order-header"}>
-                        <span>{"#" + order.id}</span>
+                        <span style={{fontWeight:600, marginRight: "5px"}}>{"#" + order.id}</span>
                         <span style={{backgroundColor: color}} className="order-tag">{name}</span>
                     </div>
                     <div><span className="order-detail-title">Địa chỉ: </span>
@@ -188,10 +188,10 @@ class FmsOrdersTab extends React.Component {
             });
             let ordersView = [];
             temp.forEach((ov, idx) => {
-                 if (idx !== 0) {
-                     ordersView.push(<div className="divider" key={1234 * idx}/>);
-                 }
-                 ordersView.push(ov);
+                if (idx !== 0) {
+                    ordersView.push(<div className="divider" key={1234 * idx}/>);
+                }
+                ordersView.push(ov);
             });
             return ordersView;
         }
@@ -280,6 +280,7 @@ class FmsOrdersTab extends React.Component {
         else if (typeNote === 1) title = "Thêm ghi chú";
         else if (typeNote === 2) title = "Xóa ghi chú";
         else title = "Sửa ghi chú";
+        let customer = conv.type === "inbox" ? [conv.customer] : conv.customers;
         return (
             <div className="order-tab">
                 <div>
@@ -306,17 +307,13 @@ class FmsOrdersTab extends React.Component {
                         null
                     }
                 </div>
-                {conv.type === "inbox" ?
-                    <div>
-                        <FmsNewOrderModal isShown={this.state.isShownNewOrderModal} project={{alias: this.props.alias}}
-                                          onClose={this.closeNewOrderModal.bind(this)} customer={conv.customer}/>
-                        <FmsOrderDetailModal isShown={this.state.isShownOrderDetailModal} typeModal={1}
-                                             onClose={this.closeOrderDetailModal.bind(this)}
-                                             project={{alias: this.props.alias}} order={this.state.selectedOrder}/>
-                    </div>
-                    :
-                    null
-                }
+                <div>
+                    <FmsNewOrderModal isShown={this.state.isShownNewOrderModal} project={{alias: this.props.alias}}
+                                      onClose={this.closeNewOrderModal.bind(this)} customer={customer}/>
+                    <FmsOrderDetailModal isShown={this.state.isShownOrderDetailModal} typeModal={1}
+                                         onClose={this.closeOrderDetailModal.bind(this)} customer={customer}
+                                         project={{alias: this.props.alias}} order={this.state.selectedOrder}/>
+                </div>
             </div>
         );
     }
