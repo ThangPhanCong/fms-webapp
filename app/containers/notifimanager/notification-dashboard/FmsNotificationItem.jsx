@@ -12,7 +12,7 @@ class FmsNotificationItem extends Component {
         return (
             <tr className="read">
                 <td>
-                    <i className="fa fa-bell" style={{color: "#18A68F"}}/>
+                    <i className="fa fa-bell"/>
                 </td>
 
                 <td>
