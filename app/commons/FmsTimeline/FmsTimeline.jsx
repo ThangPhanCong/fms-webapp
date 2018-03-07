@@ -27,7 +27,7 @@ class FmsTimeline extends React.Component {
         let width = (items.length - 1) * padding + 90;
         return (
             <section className="cd-horizontal-timeline">
-                <div className="events-content">
+                {/* <div className="events-content">
                     <ol>
                         {items.map((item, i) => {
                             return (
@@ -38,7 +38,7 @@ class FmsTimeline extends React.Component {
                             )
                         })}
                     </ol>
-                </div>
+                </div> */}
 
                 <div className="timeline">
                     <div className="events-wrapper">
@@ -48,7 +48,8 @@ class FmsTimeline extends React.Component {
                                 {items.map((item, i) => {
                                     return (
                                         <li key={i} style={{padding: padding*i+'px'}}>
-                                            <a className={item.class + (i === items.length-1 ? ' selected' : ' older-event')} data-desc={item.desc}>
+                                            <a className={item.class + (i === items.length-1 ? ' selected' : ' older-event')}
+                                                data-note={item.note}>
                                                 {item.created_time}
                                                 <br/>
                                                 {item.content}

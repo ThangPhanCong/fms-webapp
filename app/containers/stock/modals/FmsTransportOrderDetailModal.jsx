@@ -139,57 +139,71 @@ class FmsTransportOrderDetailModal extends Component {
                                             {' '} Yêu cầu của shop
                                         </span>
                                     </div>
-                                    <br/>
                                     <hr/>
                                 </div>
                             ) : null
                         }
                         
-                        <div className="row form-group">
-                            <div className="col-sm-2">
-                                <label className="control-label">Trạng thái</label>
-                            </div>
-                            <div className="col-sm-4">
-                                <select className="form-control"
-                                        ref='TYPE'
-                                        value={shop_note.TYPE || ''}
-                                        onChange={() => {this.onChangeInput('TYPE')}}
-                                >
-                                    <option value=""></option>
-                                    <option value="1">Duyệt đơn hàng</option>
-                                    <option value="2">Duyệt chuyển hoàn</option>
-                                    <option value="3">Phát tiếp</option>
-                                    <option value="4">Hủy đơn hàng</option>
-                                    <option value="5">Lấy lại đơn hàng</option>
-                                </select>
+                        <label
+                            className='btn btn-success'
+                            data-toggle="collapse"
+                            href={'#toogle'}>Gửi yêu cầu
+                        </label>
+                        <br/>
+                        <div id='toogle' className='collapse' style={{marginTop: '20px'}}>
+                            <div className="row form-group">
+                                <div className="col-sm-2">
+                                    <label className="control-label">Trạng thái</label>
+                                </div>
+                                <div className="col-sm-4">
+                                    <select className="form-control"
+                                            ref='TYPE'
+                                            value={shop_note.TYPE || ''}
+                                            onChange={() => {this.onChangeInput('TYPE')}}
+                                    >
+                                        <option value=""></option>
+                                        <option value="1">Duyệt đơn hàng</option>
+                                        <option value="2">Duyệt chuyển hoàn</option>
+                                        <option value="3">Phát tiếp</option>
+                                        <option value="4">Hủy đơn hàng</option>
+                                        <option value="5">Lấy lại đơn hàng</option>
+                                    </select>
+                                </div>
+
+                                <div className="col-sm-2">
+                                    <label className="control-label">Ngày tháng</label>
+                                </div>
+                                <div className="col-sm-4">
+                                    <input type='datetime-local'
+                                            className="form-control"
+                                            ref='DATE'
+                                            value={toDatetimeLocal(shop_note.DATE) || ''}
+                                            onChange={() => {this.onChangeInput('DATE')}}
+                                    />
+                                </div>
                             </div>
 
-                            <div className="col-sm-2">
-                                <label className="control-label">Ngày tháng</label>
+                            <div className="row form-group">
+                                <div className="col-sm-2">
+                                    <label className="control-label">Yêu cầu</label>
+                                </div>
+                                <div className="col-sm-10">
+                                    <textarea className="form-control"
+                                            ref='NOTE'
+                                            value={shop_note.NOTE || ''}
+                                            onChange={() => {this.onChangeInput('NOTE')}}
+                                            rows='2'
+                                    >
+                                    </textarea>
+                                </div>
                             </div>
-                            <div className="col-sm-4">
-                                <input type='datetime-local'
-                                        className="form-control"
-                                        ref='DATE'
-                                        value={toDatetimeLocal(shop_note.DATE) || ''}
-                                        onChange={() => {this.onChangeInput('DATE')}}
-                                />
-                            </div>
-                        </div>
 
-                        <div className="row form-group">
-                            <div className="col-sm-2">
-                                <label className="control-label">Yêu cầu</label>
-                            </div>
-                            <div className="col-sm-10">
-                                <textarea className="form-control"
-                                        ref='NOTE'
-                                        value={shop_note.NOTE || ''}
-                                        onChange={() => {this.onChangeInput('NOTE')}}
-                                        rows='2'
-                                >
-                                </textarea>
-                            </div>
+                            <button
+                                className='btn btn-primary pull-right'
+                                onClick={this.onUpdateTransportOrder.bind(this)}
+                                disabled={isLoading}>Gửi
+                            </button>
+                            <br/>
                         </div>
 
                     </Modal.Body>
@@ -198,13 +212,7 @@ class FmsTransportOrderDetailModal extends Component {
                         <button
                             className='btn btn-white'
                             onClick={this.onCloseButtonClick.bind(this)}
-                            disabled={isLoading}>Hủy
-                        </button>
-
-                        <button
-                            className='btn btn-primary'
-                            onClick={this.onUpdateTransportOrder.bind(this)}
-                            disabled={isLoading}>Cập nhật
+                            disabled={isLoading}>Đóng
                         </button>
                     </Modal.Footer>
                 </div>

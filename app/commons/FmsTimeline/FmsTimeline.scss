@@ -100,42 +100,36 @@
                 -moz-transition: background-color 0.3s, border-color 0.3s;
                 transition: background-color 0.3s, border-color 0.3s;
             }
-            &.selected {
-                pointer-events: none;
-            }
-            &.status.selected::after {
+            // &.selected {
+            //     pointer-events: none;
+            // }
+            &.status::after {
                 background-color: #7b9d6f;
                 border-color: #7b9d6f;
             }
-            &.status.older-event::after {
-                border-color: #7b9d6f;
-            }
 
-            &.shop_note.selected::after {
+            &.shop_note::after {
                 background-color: #e91b3d;
                 border-color: #e91b3d;
             }
-            &.shop_note.older-event::after {
-                border-color: #e91b3d;
+
+            &.shop_note:hover::after, &.status:hover::after {
+                content: attr(data-note);
+                width: 120px;
+                height: 40px;
+                text-align: center;
+                border-radius: 0px;
+                // padding: 15px 0 0 15px;
+                border: none;
+                background-color: #f8fafb;
+                color: #1c84c6;
+                // /* Position the tooltip */
+                position: absolute;
+                z-index: 1;
+                top: 100%;
+                left: 50%; 
+                //margin-left: -60px;
             }
-            // &:hover::after {
-            //     content: attr(data-desc);
-            //     width: 120px;
-            //     height: 40px;
-            //     text-align: center;
-            //     //border-radius: 6px;
-            //     padding: 15px 0 0 15px;
-            //     border: none;
-            //     background-color: #f8fafb;
-            //     color: #1c84c6;
-            //     // /* Position the tooltip */
-            //     position: absolute;
-            //     z-index: 1;
-            //     top: 100%;
-            //     border: none;
-            //     left: 50%; 
-            //     //margin-left: -60px;
-            // }
         }
     }
     .events-content {
