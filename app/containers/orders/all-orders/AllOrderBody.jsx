@@ -40,6 +40,15 @@ class AllOrderBody extends Component {
             })
     }
 
+    skipFirstView() {
+        delay(1000).then(() => this.setState({isFirstTime: false}));
+
+        const project_id = this.props.project._id;
+
+        storage.set(project_id + '_' + 'ALL_ORDER_VIEW', true);
+        postOrderView(project_id);
+    }
+
     openCreateOrderModal() {
         this.setState({isShownCreateOrderModal: true});
     }
@@ -50,11 +59,7 @@ class AllOrderBody extends Component {
             this.setState({version: this.state.version + 1});
 
             if (isFirstTime) {
-                delay(1000).then(() => this.setState({isFirstTime: false}));
-
-                const project_id = this.props.project._id;
-                storage.set(project_id + '_' + 'ALL_ORDER_VIEW', true);
-                postOrderView(project_id);
+                this.skipFirstView();
             }
         }
 
@@ -90,16 +95,21 @@ class AllOrderBody extends Component {
                                     Tất cả đơn hàng là nơi quản lí đơn hàng đang trong quá trình xử lí. Bạn có thể tạo mới,
                                     sửa đổi trạng thái đơn hàng bằng những thẻ màu.
                                 </p>
-                                <div>
+                                <div style={{marginTop: 20}}>
                                     <button
                                         className='btn btn-primary'
-                                        style={{marginTop: 20}}
                                         onClick={this.openCreateOrderModal.bind(this)}
                                     >
                                         <i className='fa fa-pencil'
                                            style={{marginRight: 5}}
                                         />
                                         Tạo đơn hàng
+                                    </button>
+                                    <button
+                                        className='btn btn-outline btn-white'
+                                        onClick={() => this.skipFirstView()}
+                                    >
+                                        Bỏ qua
                                     </button>
                                 </div>
                             </FmsBlankPage>
@@ -115,7 +125,7 @@ class AllOrderBody extends Component {
                                             </FmsTab>
 
                                             <FmsTab title='Yêu cầu xuất'>
-                                            <FmsExportOrderTab project={project} version={version}/>
+                                                <FmsExportOrderTab project={project} version={version}/>
                                             </FmsTab>
 
                                             <FmsTab
