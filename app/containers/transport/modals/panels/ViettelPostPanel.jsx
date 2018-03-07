@@ -144,20 +144,6 @@ class ViettelPostPanel extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Điện thoại</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="text"
-                                className="form-control"
-                                ref='PHONE'
-                                value={providerInfo.PHONE || ''}
-                                onChange={() => {this.onChangeInput('PHONE')}}
-                                disabled={disabled}
-                            />
-                        </div>
-                    </div>
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
                             <label className="control-label">Tên hiển thị</label>
                         </div>
                         <div className="col-sm-8">
@@ -170,26 +156,7 @@ class ViettelPostPanel extends Component {
                             />
                         </div>
                     </div>
-                </div>
-
-                <div className="row">
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Giới tính</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <select className="form-control"
-                                ref='SEX'
-                                value={providerInfo.SEX || ''}
-                                onChange={() => {this.onChangeInput('SEX')}}
-                                disabled={disabled}
-                            >
-                                <option value=""></option>
-                                <option value="1">Nam</option>
-                                <option value="0">Nữ</option>
-                            </select>
-                        </div>
-                    </div>
+                    
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
                             <label className="control-label">Tỉnh/Thành phố</label>
@@ -217,19 +184,18 @@ class ViettelPostPanel extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Giới thiệu</label>
+                            <label className="control-label">Điện thoại</label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
                                 className="form-control"
-                                ref='INTRODUCTION'
-                                value={providerInfo.INTRODUCTION || ''}
-                                onChange={() => {this.onChangeInput('INTRODUCTION')}}
+                                ref='PHONE'
+                                value={providerInfo.PHONE || ''}
+                                onChange={() => {this.onChangeInput('PHONE')}}
                                 disabled={disabled}
                             />
                         </div>
                     </div>
-                    
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
                             <label className="control-label">Quận/Huyện</label>
@@ -257,16 +223,19 @@ class ViettelPostPanel extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Địa chỉ</label>
+                            <label className="control-label">Giới tính</label>
                         </div>
                         <div className="col-sm-8">
-                            <input type="text"
-                                className="form-control"
-                                ref='ADDRESS'
-                                value={providerInfo.ADDRESS || ''}
-                                onChange={() => {this.onChangeInput('ADDRESS')}}
+                            <select className="form-control"
+                                ref='SEX'
+                                value={providerInfo.SEX || ''}
+                                onChange={() => {this.onChangeInput('SEX')}}
                                 disabled={disabled}
-                            />
+                            >
+                                <option value=""></option>
+                                <option value="1">Nam</option>
+                                <option value="0">Nữ</option>
+                            </select>
                         </div>
                     </div>
                     <div className="form-group col-sm-6">
@@ -291,6 +260,38 @@ class ViettelPostPanel extends Component {
                             </select>
                         </div>
                     </div>
+                </div>
+
+                <div className="row">
+                    <div className="form-group col-sm-6">
+                        <div className="col-sm-4">
+                            <label className="control-label">Giới thiệu</label>
+                        </div>
+                        <div className="col-sm-8">
+                            <input type="text"
+                                className="form-control"
+                                ref='INTRODUCTION'
+                                value={providerInfo.INTRODUCTION || ''}
+                                onChange={() => {this.onChangeInput('INTRODUCTION')}}
+                                disabled={disabled}
+                            />
+                        </div>
+                    </div>
+                    <div className="form-group col-sm-6">
+                        <div className="col-sm-4">
+                            <label className="control-label">Địa chỉ</label>
+                        </div>
+                        <div className="col-sm-8">
+                            <input type="text"
+                                className="form-control"
+                                ref='ADDRESS'
+                                value={providerInfo.ADDRESS || ''}
+                                onChange={() => {this.onChangeInput('ADDRESS')}}
+                                disabled={disabled}
+                            />
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         )

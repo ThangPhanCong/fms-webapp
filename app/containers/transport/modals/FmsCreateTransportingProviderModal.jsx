@@ -15,11 +15,11 @@ class FmsCreateTransportingProviderModal extends Component {
     };
 
     onCloseButtonClick() {
-        this.setState({typeProvider: '', providerInfo: {}});
         this.closeModal();
     }
 
     closeModal(shouldUpdate) {
+        this.setState({typeProvider: '', providerInfo: {}});
         this.props.onClose(shouldUpdate);
     }
 
@@ -46,7 +46,8 @@ class FmsCreateTransportingProviderModal extends Component {
             createViettelAccount(providerInfo)
                 .then(res => {
                     this.setState({providerInfo: {}, isLoading: false});
-                    this.closeModal();
+                    let shouldUpdate = true;
+                    this.closeModal(shouldUpdate);
                 })
                 .catch(err => {
                     alert(err);
