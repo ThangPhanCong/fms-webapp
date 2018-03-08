@@ -46,9 +46,9 @@ class FmsInfoChat extends React.Component {
                                 </a>
                             </FmsToolTip>
                             :
-                            (this.props.post_id ?
+                            (sc.parent_fb_id ?
                                     <FmsToolTip message="Đi tới bài đăng trên facebook" direction="bottom">
-                                        <a href={"https://facebook.com/" + this.props.post_id} target="_blank">
+                                        <a href={"https://facebook.com/" + sc.parent_fb_id} target="_blank">
                                             <img src={fbImg} className="icon-option"/>
                                         </a>
                                     </FmsToolTip>

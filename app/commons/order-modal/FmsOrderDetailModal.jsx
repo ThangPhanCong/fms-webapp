@@ -15,6 +15,7 @@ import FmsPriceCalculatorPanel from "./panels/FmsPriceCalculatorPanel";
 import FmsConfirmSaveOrderModal from "./sub-modals/FmsConfirmSaveOrderModal";
 import {saveSuccessOrder, saveFailureOrder, ORDER_STATUS} from "../../api/OrderApi";
 import {cloneDeep} from "../../utils/object-utils";
+import FmsSourcePostPanel from "./panels/FmsSourcePostPanel";
 
 class FmsOrderDetailModal extends Component {
 
@@ -252,6 +253,13 @@ class FmsOrderDetailModal extends Component {
                             onChangeInput={this.onChangeInput.bind(this)}
                             disabled={!config.order_tag_info}
                         />
+                    </div>
+
+                    <div className="col-sm-12">
+                        <FmsSourcePostPanel
+                            posts={this.props.posts}
+                            source={order.source}
+                            onChangeInput={this.onChangeInput.bind(this)}/>
                     </div>
 
                     <div className="col-sm-6">

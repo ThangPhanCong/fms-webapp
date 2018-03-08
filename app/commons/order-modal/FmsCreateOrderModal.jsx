@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
-import FmsCheckbox from '../checkbox/FmsCheckbox';
 import {createOrder} from "../../api/OrderApi";
 import {getOrderTags} from "../../api/OrderTagApi";
 import {toReadablePrice} from "../../utils/price-utils";
@@ -11,7 +10,7 @@ import FmsProductsInfoPanel from "./panels/FmsProductsInfoPanel";
 import FmsNoteInfoPanel from "./panels/FmsNoteInfoPanel";
 import FmsOrderTagInfoPanel from "./panels/FmsOrderTagInfoPanel";
 import FmsPriceCalculatorPanel from "./panels/FmsPriceCalculatorPanel";
-
+import FmsSourcePostPanel from "./panels/FmsSourcePostPanel";
 class FmsCreateOrderModal extends Component {
 
     state = {
@@ -21,7 +20,7 @@ class FmsCreateOrderModal extends Component {
     };
 
     createNewOrder() {
-        const {project, customer_id} = this.props;
+        const {project} = this.props;
         this.setState({isLoading: true});
         let order = this.state.order;
 
@@ -126,6 +125,7 @@ class FmsCreateOrderModal extends Component {
             newOrder.customer_facebook = `facebook.com/${c.fb_id}`;
             newOrder.customer_phone = (c.phone && c.phone.length > 0) ? c.phone[c.phone.length-1] : '';
             newOrder.customer_id = c._id;
+            newOrder.source = this.props.posts.length > 0 ? this.props.posts[0] : "";
             this.setState({order: newOrder});
         }
         if (nextProps.project && nextProps.project.alias &&
@@ -177,7 +177,7 @@ class FmsCreateOrderModal extends Component {
     }
 
     renderModalBody() {
-        const {order, orderTags} = this.state;
+        const {order} = this.state;
         const {project} = this.props;
 
         return (
@@ -196,6 +196,13 @@ class FmsCreateOrderModal extends Component {
                             project={project}
                             onChangeInput={this.onChangeInput.bind(this)}
                         />
+                    </div>
+
+                    <div className="col-sm-12">
+                        <FmsSourcePostPanel
+                            posts={this.props.posts}
+                            source={order.source}
+                            onChangeInput={this.onChangeInput.bind(this)}/>
                     </div>
 
                     <div className="col-sm-6">
@@ -252,7 +259,6 @@ class FmsCreateOrderModal extends Component {
         } = this.props;
 
         const {
-            order,
             isLoading
         } = this.state;
 

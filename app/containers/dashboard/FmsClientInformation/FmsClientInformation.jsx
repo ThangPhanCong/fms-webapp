@@ -276,11 +276,16 @@ class FmsOrdersTab extends React.Component {
         if (!conv) return <span/>;
         let addNote = (typeNote !== 0) ? " hide" : "";
         let isHide = (conv && conv.type === "inbox") ? "" : " hide";
+
         if (typeNote === 0) title = "Ghi chú";
         else if (typeNote === 1) title = "Thêm ghi chú";
         else if (typeNote === 2) title = "Xóa ghi chú";
         else title = "Sửa ghi chú";
+
         let customer = conv.type === "inbox" ? [conv.customer] : conv.customers;
+        let posts = conv.type === "inbox" ? conv.customer.posts : [conv.parent_fb_id];
+        posts = posts.map(p => `facebook.com/${p}`);
+
         return (
             <div className="order-tab">
                 <div>
@@ -309,10 +314,12 @@ class FmsOrdersTab extends React.Component {
                 </div>
                 <div>
                     <FmsNewOrderModal isShown={this.state.isShownNewOrderModal} project={{alias: this.props.alias}}
-                                      onClose={this.closeNewOrderModal.bind(this)} customer={customer}/>
+                                      onClose={this.closeNewOrderModal.bind(this)} customer={customer}
+                                      posts={posts}/>
                     <FmsOrderDetailModal isShown={this.state.isShownOrderDetailModal} typeModal={1}
                                          onClose={this.closeOrderDetailModal.bind(this)} customer={customer}
-                                         project={{alias: this.props.alias}} order={this.state.selectedOrder}/>
+                                         project={{alias: this.props.alias}} order={this.state.selectedOrder}
+                                         posts={posts}/>
                 </div>
             </div>
         );
