@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import FmsTransportingProviderDetailModal from "../modals/FmsTransportingProviderDetailModal";
 import viettelpost from 'images/viettelpost.png';
+import icGHTK from 'images/ic_ghtk.png';
 import {getViettelInfoAccount} from '../../../api/ViettelPostApi';
 import {toReadableDatetime} from 'utils/datetime-utils';
 
@@ -9,8 +10,8 @@ class FmsTransportingProviderTable extends Component {
     state = {
         selectedProvider: null,
         isShownDetailModal: false
-    }
-    
+    };
+
     onCloseDetailModal() {
         this.setState({isShownDetailModal: false});
     }
@@ -22,14 +23,14 @@ class FmsTransportingProviderTable extends Component {
     renderTableHeader() {
         return (
             <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Tên đơn vị</th>
-                    <th>Logo</th>
-                    <th>Ngày tạo</th>
-                    <th>Trạng thái</th>
-                    <th>Chi tiết</th>
-                </tr>
+            <tr>
+                <th>STT</th>
+                <th>Tên đơn vị</th>
+                <th>Logo</th>
+                <th>Ngày tạo</th>
+                <th>Trạng thái</th>
+                <th>Chi tiết</th>
+            </tr>
             </thead>
         )
     }
@@ -38,6 +39,8 @@ class FmsTransportingProviderTable extends Component {
         switch (name) {
             case 'VIETTEL':
                 return viettelpost;
+            case 'GHTK':
+                return icGHTK;
         }
 
         return null;
@@ -55,14 +58,14 @@ class FmsTransportingProviderTable extends Component {
                             <td>{i + 1}</td>
                             <td>{provider.provider_display_name}</td>
                             <td>
-                                <img src={this.getProviderLogo(provider.provider_name)}/>
+                                <img height={30} src={this.getProviderLogo(provider.provider_name)}/>
                             </td>
-                            <td>{toReadableDatetime(provider.created_time).date}</td>
+                            <td>{provider.created_time ? toReadableDatetime(provider.created_time).date : ''}</td>
                             <td>
                                 {
-                                    provider.provider_register ? 
-                                    <span className="label label-info">Hoạt động</span>
-                                    : null
+                                    provider.provider_register ?
+                                        <span className="label label-info">Hoạt động</span>
+                                        : null
                                 }
                             </td>
                             <td>
@@ -98,7 +101,7 @@ class FmsTransportingProviderTable extends Component {
                         this.renderTableBody()
                     }
                 </table>
-                
+
                 <FmsTransportingProviderDetailModal
                     onClose={this.onCloseDetailModal.bind(this)}
                     isShown={isShownDetailModal}

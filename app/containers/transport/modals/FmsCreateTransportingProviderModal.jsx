@@ -4,7 +4,9 @@ import propTypes from 'prop-types';
 import ViettelPostPanel from './panels/ViettelPostPanel';
 import OtherProviderPanel from './panels/OtherProviderPanel';
 import {createViettelAccount, getViettelInfoAccount} from '../../../api/ViettelPostApi';
+import * as ghtkApi from '../../../api/GiaoHangTietKiemApi';
 import {createOtherProvider} from '../../../api/TransportProviderApi';
+import GiaoHangTietKiemPanel from "./panels/GiaoHangTietKiemPanel";
 
 class FmsCreateTransportingProviderModal extends Component {
 
@@ -29,9 +31,12 @@ class FmsCreateTransportingProviderModal extends Component {
 
     onCreateProvider() {
         const type = this.state.typeProvider;
-        switch(type) {
+        switch (type) {
             case 'VIETTEL':
                 this.createViettelPost();
+                break;
+            case 'GHTK':
+                this.createGHTK();
                 break;
             case 'OTHER':
                 this.createOtherProvider();
@@ -56,6 +61,21 @@ class FmsCreateTransportingProviderModal extends Component {
         } else {
             alert('Mật khẩu phải lớn hơn 7 ký tự');
         }
+    }
+
+    createGHTK() {
+        const providerInfo = this.state.providerInfo;
+
+        ghtkApi.createNewAccount(providerInfo)
+            .then(res => {
+                this.setState({providerInfo: {}, isLoading: false});
+                let shouldUpdate = true;
+                this.closeModal(shouldUpdate);
+            })
+            .catch(err => {
+                alert(err);
+                this.setState({isLoading: false});
+            });
     }
 
     createOtherProvider() {
@@ -105,13 +125,17 @@ class FmsCreateTransportingProviderModal extends Component {
         } = this.state;
 
         let panel = null;
-        switch(typeProvider) {
+        switch (typeProvider) {
             case 'VIETTEL':
-                panel = <ViettelPostPanel onChangeInput={this.onChangeInput.bind(this)} 
-                                            providerInfo={providerInfo}/>;
+                panel = <ViettelPostPanel onChangeInput={this.onChangeInput.bind(this)}
+                                          providerInfo={providerInfo}/>;
+                break;
+            case 'GHTK':
+                panel = <GiaoHangTietKiemPanel onChangeInput={this.onChangeInput.bind(this)}
+                                          providerInfo={providerInfo}/>;
                 break;
             case 'OTHER':
-                panel = <OtherProviderPanel onChangeInput={this.onChangeInput.bind(this)} 
+                panel = <OtherProviderPanel onChangeInput={this.onChangeInput.bind(this)}
                                             providerInfo={providerInfo}/>;
                 break;
         }
@@ -123,20 +147,21 @@ class FmsCreateTransportingProviderModal extends Component {
                         onHide={this.onCloseButtonClick.bind(this)}
                     >
                         <h4 className='modal-title'>
-                            Tạo đơn vị vận chuyển 
+                            Tạo đơn vị vận chuyển
                             <select value={typeProvider || ''}
                                     onChange={this.onChangeTypeProvider.bind(this)}
                                     style={{fontSize: '15px', marginLeft: '15px'}}
                             >
-                                <option value=""></option>
+                                <option value=""/>
                                 <option value="VIETTEL">Viettel Post</option>
+                                <option value="GHTK">Giao Hàng Tiết Kiệm</option>
                                 <option value="OTHER">Đơn vị khác</option>
                             </select>
                         </h4>
                     </Modal.Header>
 
                     <Modal.Body>
-                        
+
                         {panel}
                     </Modal.Body>
 
