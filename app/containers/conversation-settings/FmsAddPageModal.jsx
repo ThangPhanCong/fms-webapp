@@ -24,6 +24,12 @@ class FmsAddPageModal extends React.Component {
         this.setState({options: newOptions});
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (!this.props.isShown && nextProps.isShown) {
+            this.setState({selectedDate: null, options: [true, false, false, false, false, false]});
+        }
+    }
+
     addPage() {
         let isValid = false, getHistory = false, selectedDate = this.state.selectedDate;
         let today = new Date();
