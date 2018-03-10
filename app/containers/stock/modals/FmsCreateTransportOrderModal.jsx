@@ -5,10 +5,10 @@ import ViettelPostPanel from './panels/viettel-post/ViettelPostPanel';
 import OtherProviderPanel from './panels/other-provider/OtherProviderPanel';
 import {createTransportOrder} from '../../../api/TransportProviderApi';
 import {
-    getProvincesCache, 
-    getDistrictsCache, 
-    getWardsCache, 
-    getViettelInventories, 
+    getProvincesCache,
+    getDistrictsCache,
+    getWardsCache,
+    getViettelInventories,
     createViettelTransportOrder
 } from '../../../api/ViettelPostApi';
 import {toReadableDatetime} from 'utils/datetime-utils.js';
@@ -23,7 +23,7 @@ class FmsCreateTransportOrderModal extends Component {
 
     onCreateTransportOrder() {
         const type = this.state.transportingProvider;
-        switch(type) {
+        switch (type) {
             case 'VIETTEL':
                 this.createViettelPostTransportOrder();
                 break;
@@ -95,7 +95,7 @@ class FmsCreateTransportOrderModal extends Component {
     onChangeTransportingProvider(e) {
         this.setState({transportingProvider: e.target.value});
         const type = e.target.value;
-        switch(type) {
+        switch (type) {
             case 'VIETTEL':
                 this.onSelectViettelPost();
                 break;
@@ -117,7 +117,7 @@ class FmsCreateTransportOrderModal extends Component {
             RECEIVER_PHONE: order.customer_phone || '',
             RECEIVER_ADDRESS: order.full_address || '',
             RECEIVER_EMAIL: order.customer_email || ''
-        }
+        };
 
         if (order.province) {
             const cacheProvinces = await getProvincesCache();
@@ -147,7 +147,7 @@ class FmsCreateTransportOrderModal extends Component {
             RECEIVER_PHONE: order.customer_phone || '',
             RECEIVER_ADDRESS: order.full_address || '',
             RECEIVER_EMAIL: order.customer_email || ''
-        }
+        };
 
         if (order.province) {
             const cacheProvinces = await getProvincesCache();
@@ -188,16 +188,16 @@ class FmsCreateTransportOrderModal extends Component {
         } = this.state;
 
         let panel = null;
-        switch(transportingProvider) {
+        switch (transportingProvider) {
             case 'VIETTEL':
                 panel = <ViettelPostPanel onChangeInput={this.onChangeInput.bind(this)}
-                                            transportOrder={transportOrder} />;
+                                          transportOrder={transportOrder}/>;
                 break;
             case '':
                 break;
             default:
                 panel = <OtherProviderPanel onChangeInput={this.onChangeInput.bind(this)}
-                transportOrder={transportOrder} />;
+                                            transportOrder={transportOrder}/>;
                 break;
         }
         return (
@@ -218,15 +218,16 @@ class FmsCreateTransportOrderModal extends Component {
                             </div>
                             <div className="col-sm-9">
                                 <select
-                                       className="form-control"
-                                       disabled={isLoading}
-                                       value={transportingProvider}
-                                       onChange={this.onChangeTransportingProvider.bind(this)}
+                                    className="form-control"
+                                    disabled={isLoading}
+                                    value={transportingProvider}
+                                    onChange={this.onChangeTransportingProvider.bind(this)}
                                 >
-                                    <option value=""></option>
+                                    <option value=""/>
                                     {
                                         Array.isArray(providers) && providers.map(p => {
-                                            return <option value={p.provider_name} key={p._id} >{p.provider_display_name}</option>;
+                                            return <option value={p.provider_name}
+                                                           key={p._id}>{p.provider_display_name}</option>;
                                         })
                                     }
                                 </select>
@@ -245,7 +246,7 @@ class FmsCreateTransportOrderModal extends Component {
                         <button
                             className='btn btn-primary'
                             onClick={this.onCreateTransportOrder.bind(this)}
-                            disabled={isLoading}>Thêm mới
+                            disabled={isLoading}>Tạo mới
                         </button>
                     </Modal.Footer>
                 </div>
