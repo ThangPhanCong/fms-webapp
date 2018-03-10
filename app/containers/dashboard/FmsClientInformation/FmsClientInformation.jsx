@@ -6,6 +6,8 @@ import {
 } from '../../../actions/dashboard/chat/createOrder';
 import FmsNewOrderModal from '../../../commons/order-modal/FmsCreateOrderModal';
 import FmsOrderDetailModal from '../../../commons/order-modal/FmsOrderDetailModal';
+import {getConversations} from "../../../actions/dashboard/conversations";
+import * as DashboardApi from "../../../api/DashboardApi";
 
 class FmsOrdersTab extends React.Component {
     constructor(props) {
@@ -17,7 +19,9 @@ class FmsOrdersTab extends React.Component {
             selectedReport: null,
             selectedOrder: {},
             isShownNewOrderModal: false,
-            isShownOrderDetailModal: false
+            isShownOrderDetailModal: false,
+            customers: [],
+            posts: []
         };
     }
 
@@ -54,6 +58,14 @@ class FmsOrdersTab extends React.Component {
     //---------------------Order Modals-----------------------------
     openNewOrderModal() {
         this.setState({isShownNewOrderModal: true});
+        DashboardApi.getConversation(this.props.conversation.id)
+            .then(conv => {
+                let customers = conv.customer ? [conv.customer] : conv.customers;
+                let posts = conv.customer ? conv.customer.posts : [conv.parent_fb_id];
+                this.setState({customers, posts});
+            }, err => {
+                console.log(err);
+            })
     }
 
     closeNewOrderModal() {
@@ -282,10 +294,6 @@ class FmsOrdersTab extends React.Component {
         else if (typeNote === 2) title = "Xóa ghi chú";
         else title = "Sửa ghi chú";
 
-        let customer = conv.type === "inbox" ? [conv.customer] : conv.customers;
-        let posts = conv.type === "inbox" ? conv.customer.posts : [conv.parent_fb_id];
-        posts = posts.map(p => `facebook.com/${p}`);
-
         return (
             <div className="order-tab">
                 <div>
@@ -314,12 +322,12 @@ class FmsOrdersTab extends React.Component {
                 </div>
                 <div>
                     <FmsNewOrderModal isShown={this.state.isShownNewOrderModal} project={{alias: this.props.alias}}
-                                      onClose={this.closeNewOrderModal.bind(this)} customer={customer}
-                                      posts={posts}/>
+                                      onClose={this.closeNewOrderModal.bind(this)} customer={this.state.customers}
+                                      posts={this.state.posts}/>
                     <FmsOrderDetailModal isShown={this.state.isShownOrderDetailModal} typeModal={1}
-                                         onClose={this.closeOrderDetailModal.bind(this)} customer={customer}
+                                         onClose={this.closeOrderDetailModal.bind(this)} customer={this.state.customers}
                                          project={{alias: this.props.alias}} order={this.state.selectedOrder}
-                                         posts={posts}/>
+                                         posts={this.state.posts}/>
                 </div>
             </div>
         );
