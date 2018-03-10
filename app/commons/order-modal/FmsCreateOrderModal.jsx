@@ -27,15 +27,15 @@ class FmsCreateOrderModal extends Component {
         createOrder(project.alias, order)
             .then(
                 () => {
-                    this.setState({order: {}});
+                    this.setState({order: {}, isLoading: false});
                     const shouldUpdated = true;
                     this.props.onClose(shouldUpdated);
                 },
                 err => {
                     alert(err.message);
+                    this.setState({isLoading: false});
                 }
             )
-            .then(() => this.setState({isLoading: false}))
     }
 
     calculateProductsPrice() {
@@ -128,8 +128,7 @@ class FmsCreateOrderModal extends Component {
             newOrder.source = nextProps.posts[0];
             this.setState({order: newOrder});
         }
-        if (nextProps.project && nextProps.project.alias &&
-            nextProps.project !== this.props.project) {
+        if (nextProps.isShown && !this.props.isShown) {
             getOrderTags(nextProps.project.alias)
                 .then(
                     orderTags => {
@@ -185,6 +184,7 @@ class FmsCreateOrderModal extends Component {
                             order_tag={order.order_tag}
                             project={project}
                             onChangeInput={this.onChangeInput.bind(this)}
+                            isShown={this.props.isShown}
                         />
                     </div>
 
@@ -223,6 +223,7 @@ class FmsCreateOrderModal extends Component {
                             project={project}
                             products={order.products}
                             onChangeInput={this.onChangeInput.bind(this)}
+                            isShown={this.props.isShown}
                         />
                     </div>
 

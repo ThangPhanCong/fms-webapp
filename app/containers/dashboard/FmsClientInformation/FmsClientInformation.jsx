@@ -6,7 +6,6 @@ import {
 } from '../../../actions/dashboard/chat/createOrder';
 import FmsNewOrderModal from '../../../commons/order-modal/FmsCreateOrderModal';
 import FmsOrderDetailModal from '../../../commons/order-modal/FmsOrderDetailModal';
-import {getConversations} from "../../../actions/dashboard/conversations";
 import * as DashboardApi from "../../../api/DashboardApi";
 
 class FmsOrdersTab extends React.Component {
@@ -52,12 +51,12 @@ class FmsOrdersTab extends React.Component {
         if (order.ward) addr.push(order.ward);
         if (order.district) addr.push(order.district);
         if (order.province) addr.push(order.province);
-        return addr.join(", ");
+        let ret = addr.join(", ");
+        return ret || "Chưa có";
     }
 
     //---------------------Order Modals-----------------------------
-    openNewOrderModal() {
-        this.setState({isShownNewOrderModal: true});
+    getConversation() {
         DashboardApi.getConversation(this.props.conversation.id)
             .then(conv => {
                 let customers = conv.customer ? [conv.customer] : conv.customers;
@@ -68,6 +67,11 @@ class FmsOrdersTab extends React.Component {
             })
     }
 
+    openNewOrderModal() {
+        this.setState({isShownNewOrderModal: true});
+        this.getConversation();
+    }
+
     closeNewOrderModal() {
         this.setState({isShownNewOrderModal: false});
         this.props.dispatch(getAllOrders(this.props.alias));
@@ -75,6 +79,7 @@ class FmsOrdersTab extends React.Component {
 
     openOrderDetailModal(order) {
         this.setState({isShownOrderDetailModal: true, selectedOrder: order});
+        this.getConversation();
     }
 
     closeOrderDetailModal() {
@@ -188,7 +193,7 @@ class FmsOrdersTab extends React.Component {
                         {this.orderAddress(order)}
                     </div>
                     <div><span className="order-detail-title">SĐT: </span>
-                        {order.customer_phone}
+                        {order.customer_phone ? order.customer_phone : "Chưa có"}
                     </div>
                     <div><span className="order-detail-title">Sản phẩm: </span>
                         {this.showProducts(order)}
