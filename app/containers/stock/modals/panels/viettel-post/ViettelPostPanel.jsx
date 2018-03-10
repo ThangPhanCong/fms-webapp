@@ -8,7 +8,7 @@ class ViettelPostPanel extends Component {
     state = {
         services: [],
         extraServices: []
-    }
+    };
 
     onChangeInput(refName, newValue = this.refs[refName].value) {
         const {

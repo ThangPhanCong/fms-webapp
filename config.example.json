@@ -1,0 +1,4 @@
+{
+  "BASE_URL" : "https://adsbold.com",
+  "REDIRECT_TO" : "http://localhost:3000"
+}

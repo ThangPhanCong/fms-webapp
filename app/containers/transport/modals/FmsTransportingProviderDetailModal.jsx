@@ -3,6 +3,7 @@ import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 import ViettelPostPanel from './panels/ViettelPostPanel';
 import OtherProviderPanel from './panels/OtherProviderPanel';
+import GiaoHangTietKiemPanel from "./panels/GiaoHangTietKiemPanel";
 
 class FmsTransportingProviderDetailModal extends Component {
 
@@ -43,6 +44,9 @@ class FmsTransportingProviderDetailModal extends Component {
         switch(provider.provider_name) {
             case 'VIETTEL':
                 panel = <ViettelPostPanel providerInfo={providerInfo} disabled={disabled} />;
+                break;
+            case 'GHTK':
+                panel = <GiaoHangTietKiemPanel providerInfo={providerInfo} disabled={disabled} />;
                 break;
             default:
                 panel = <OtherProviderPanel providerInfo={providerInfo} disabled={disabled} />;
