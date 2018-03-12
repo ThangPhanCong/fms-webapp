@@ -50,8 +50,8 @@ class FmsTransportingProviders extends Component {
 
         return (
             <Fragment>
-                <FmsPageTitle key={1} title="Đơn vị vận chuyển"
-                    route={`${projectName}/Quản lí vận chuyển/Đơn vị vận chuyển`}/>
+                <FmsPageTitle key={1} title="Quản lí vận chuyển"
+                    route={`${projectName}/Quản lí vận chuyển`}/>
 
                 <div key={2} className="wrapper wrapper-content">
                     <div className="row">

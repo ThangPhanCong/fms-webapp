@@ -122,18 +122,12 @@ export const treeConfig = [
         ]
     },
     {
-        route: '#',
+        route: 'transport-providers',
         title: 'Quản lí vận chuyển',
         icon: 'fa-truck',
-        children: [
-            {
-                route: 'transporting-providers',
-                required: 'transportunit_view',
-                title: 'Đơn vị vận chuyển',
-                headerColor: '#f3f3f4',
-                component: (props) => <FmsTransportingProviders {...props}/>
-            }
-        ]
+        required: 'transportunit_view',
+        headerColor: '#f3f3f4',
+        component: (props) => <FmsTransportingProviders {...props}/>
     },
     {
         route: 'staffs',
