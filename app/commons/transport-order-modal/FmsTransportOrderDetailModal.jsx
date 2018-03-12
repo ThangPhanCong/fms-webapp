@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
-import {getTransportOrderInfo} from '../../../api/TransportProviderApi';
-import {updateShopNoteViettel} from '../../../api/ViettelPostApi';
-import FmsTimeline from '../../../commons/FmsTimeline/FmsTimeline';
+import {getTransportOrderInfo} from '../../api/TransportProviderApi';
+import {updateShopNoteViettel} from '../../api/ViettelPostApi';
+import FmsTimeline from '../FmsTimeline/FmsTimeline';
 import {toReadableDatetime, toDatetimeLocal} from 'utils/datetime-utils.js';
 import {cloneDeep} from 'utils/object-utils.js';
 

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-import ViettelTransportInfoPanel from './ViettelTransportInfoPanel';
-import ViettelProductInfoPanel from './ViettelProductInfoPanel';
-import {getViettelServices, getViettelExtraServices} from '../../../../../api/ViettelPostApi';
+import ViettelTransportInfoPanel from '../viettel-post/ViettelTransportInfoPanel';
+import OtherProviderProductInfoPanel from './OtherProviderProductInfoPanel';
+import {getViettelServices} from '../../../../api/ViettelPostApi';
 
-class ViettelPostPanel extends Component {
+class OtherProviderPanel extends Component {
     state = {
-        services: [],
-        extraServices: []
-    };
+        services: []
+    }
 
     onChangeInput(refName, newValue = this.refs[refName].value) {
         const {
@@ -21,9 +20,6 @@ class ViettelPostPanel extends Component {
     componentDidMount() {
         getViettelServices()
             .then(services => this.setState({services}));
-        
-        getViettelExtraServices()
-            .then(extraServices => this.setState({extraServices}));
     }
 
     render() {
@@ -31,11 +27,8 @@ class ViettelPostPanel extends Component {
             disabled,
             transportOrder
         } = this.props;
-        const {
-            services,
-            extraServices
-        } = this.state;
-        
+        const {services} = this.state;
+
         return (
             <div className='row'>
                 <ViettelTransportInfoPanel 
@@ -51,15 +44,12 @@ class ViettelPostPanel extends Component {
                     disabled={disabled}
                 />
 
-                <ViettelProductInfoPanel 
+                <OtherProviderProductInfoPanel 
                     PRODUCT_NAME={transportOrder.PRODUCT_NAME}
                     PRODUCT_DESCRIPTION={transportOrder.PRODUCT_DESCRIPTION}
                     PRODUCT_QUANTITY={transportOrder.PRODUCT_QUANTITY}
                     PRODUCT_PRICE={transportOrder.PRODUCT_PRICE}
                     PRODUCT_WEIGHT={transportOrder.PRODUCT_WEIGHT}
-                    PRODUCT_LENGTH={transportOrder.PRODUCT_LENGTH}
-                    PRODUCT_WIDTH={transportOrder.PRODUCT_WIDTH}
-                    PRODUCT_HEIGHT={transportOrder.PRODUCT_HEIGHT}
                     onChangeInput={this.onChangeInput.bind(this)}
                     disabled={disabled}
                 />
@@ -110,27 +100,6 @@ class ViettelPostPanel extends Component {
                 <div className="form-group row"> 
                     <div className="col-md-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Dịch vụ cộng thêm</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <select className="form-control"
-                                    disabled={disabled}
-                                    ref='ORDER_SERVICE_ADD'
-                                    value={transportOrder.ORDER_SERVICE_ADD || ''}
-                                    onChange={() => {this.onChangeInput('ORDER_SERVICE_ADD')}}
-                            >
-                                <option value=""></option>
-                                {
-                                    extraServices.length > 0 && extraServices.map(s => {
-                                        return <option value={s.SERVICE_CODE} key={s.SERVICE_CODE}>{s.SERVICE_NAME}</option>
-                                    })
-                                }
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className="col-md-6">
-                        <div className="col-sm-4">
                             <label className="control-label">Ghi chú</label>
                         </div>
                         <div className="col-sm-8">
@@ -140,6 +109,20 @@ class ViettelPostPanel extends Component {
                                     ref='ORDER_NOTE'
                                     value={transportOrder.ORDER_NOTE || ''}
                                     onChange={() => {this.onChangeInput('ORDER_NOTE')}}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <div className="col-sm-4">
+                            <label className="control-label">Phí vận chuyển</label>
+                        </div>
+                        <div className="col-sm-8">
+                            <input type='number'
+                                    className="form-control"
+                                    disabled={disabled}
+                                    ref='MONEY_TRANSPORT'
+                                    value={transportOrder.MONEY_TRANSPORT || ''}
+                                    onChange={() => {this.onChangeInput('MONEY_TRANSPORT')}}
                             />
                         </div>
                     </div>
@@ -166,10 +149,10 @@ class ViettelPostPanel extends Component {
     }
 }
 
-ViettelPostPanel.propTypes = {
+OtherProviderPanel.propTypes = {
     transportOrder: propTypes.object,
     onChangeInput: propTypes.func,
     disabled: propTypes.bool
 };
 
-export default ViettelPostPanel;
+export default OtherProviderPanel;

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import propTypes from 'prop-types';
-import {getProvincesCache, getDistrictsCache, getWardsCache} from '../../../../../api/ViettelPostApi';
+import {getProvincesCache, getDistrictsCache, getWardsCache} from '../../../../api/ViettelPostApi';
 import {toDatetimeLocal} from 'utils/datetime-utils';
 import {convert_case} from 'utils/location-string-utils';
 
@@ -9,7 +9,7 @@ class ViettelTransportInfoPanel extends Component {
         provinces: [],
         districts: [],
         wards: []
-    }
+    };
 
     onChangeInput(refName) {
         const newValue = this.refs[refName].value;
@@ -128,7 +128,7 @@ class ViettelTransportInfoPanel extends Component {
                                     onChange={() => {this.onChangeProvince()}}
                                     disabled={disabled}
                                 >
-                                    <option value=""></option>
+                                    <option value=""/>
                                     {
                                         provinces.length > 0 && provinces.map(p => {
                                             return <option value={p.PROVINCE_ID} key={p.PROVINCE_ID}>{p.PROVINCE_NAME}</option>
@@ -166,7 +166,7 @@ class ViettelTransportInfoPanel extends Component {
                                     onChange={() => {this.onChangeDistrict()}}
                                     disabled={disabled}
                                 >
-                                    <option value=""></option>
+                                    <option value=""/>
                                     {
                                         districts.length > 0 && districts.map(d => {
                                             return <option value={d.DISTRICT_ID} key={d.DISTRICT_ID}>{convert_case(d.DISTRICT_NAME)}</option>
@@ -203,7 +203,7 @@ class ViettelTransportInfoPanel extends Component {
                                     onChange={() => {this.onChangeInput('RECEIVER_WARD')}}
                                     disabled={disabled}
                                 >
-                                    <option value=""></option>
+                                    <option value=""/>
                                     {
                                         wards.length > 0 && wards.map(w => {
                                             return <option value={w.WARDS_ID} key={w.WARDS_ID}>{convert_case(w.WARDS_NAME)}</option>
@@ -253,6 +253,7 @@ class ViettelTransportInfoPanel extends Component {
 ViettelTransportInfoPanel.propTypes = {
     onChangeInput: propTypes.func,
     disabled: propTypes.bool,
+
     RECEIVER_FULLNAME: propTypes.string,
     RECEIVER_PHONE: propTypes.string,
     RECEIVER_EMAIL: propTypes.string,

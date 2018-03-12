@@ -6,8 +6,8 @@ import FmsExportOrderTable from "./FmsExportOrderTable";
 import {getOrders, ORDER_STATUS} from "../../api/OrderApi";
 import {getAllProviders} from '../../api/TransportProviderApi';
 import FmsOrderDetailModal from "../../commons/order-modal/FmsOrderDetailModal";
-import FmsCreateTransportOrderModal from './modals/FmsCreateTransportOrderModal';
-import FmsTransportOrderDetailModal from './modals/FmsTransportOrderDetailModal';
+import FmsCreateTransportOrderModal from '../../commons/transport-order-modal/FmsCreateTransportOrderModal';
+import FmsTransportOrderDetailModal from '../../commons/transport-order-modal/FmsTransportOrderDetailModal';
 
 class FmsExportOrders extends Component {
 
