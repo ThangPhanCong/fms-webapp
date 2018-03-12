@@ -193,8 +193,8 @@ class FmsCreateTransportOrderModal extends Component {
                 panel = <ViettelPostPanel onChangeInput={this.onChangeInput.bind(this)}
                                           transportOrder={transportOrder}/>;
                 break;
-            case '':
-                break;
+            // case '':
+            //     break;
             default:
                 panel = <OtherProviderPanel onChangeInput={this.onChangeInput.bind(this)}
                                             transportOrder={transportOrder}/>;
