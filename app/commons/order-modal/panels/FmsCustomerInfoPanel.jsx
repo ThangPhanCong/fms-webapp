@@ -11,7 +11,7 @@ class FmsCustomerInfoPanel extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!this.state.selectedCustomer && (nextProps.customer && nextProps.customer.length > 0)) {
+        if (nextProps.customer && nextProps.customer.length > 0 && nextProps.customer[0] !== this.state.selectedCustomer) {
             this.setState({selectedCustomer: nextProps.customer[0]});
         }
     }

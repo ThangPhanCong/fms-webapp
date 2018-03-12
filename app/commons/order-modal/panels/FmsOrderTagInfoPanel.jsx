@@ -41,7 +41,7 @@ class FmsOrderTagInfoPanel extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.project !== this.props.project) {
+        if (!this.props.isShown && nextProps.isShown) {
             this.getOrderTags(nextProps.project);
         }
     }

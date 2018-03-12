@@ -161,8 +161,7 @@ class FmsProductsInfoPanel extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {project} = this.props;
-        if (!project || project !== nextProps.project) this.getProductsInStock(nextProps.project);
+        if (!this.props.isShown && nextProps.isShown) this.getProductsInStock(nextProps.project);
     }
 
     renderProducts() {

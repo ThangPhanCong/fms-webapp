@@ -27,15 +27,15 @@ class FmsCreateOrderModal extends Component {
         createOrder(project.alias, order)
             .then(
                 () => {
-                    this.setState({order: {}});
+                    this.setState({order: {}, isLoading: false});
                     const shouldUpdated = true;
                     this.props.onClose(shouldUpdated);
                 },
                 err => {
                     alert(err.message);
+                    this.setState({isLoading: false});
                 }
             )
-            .then(() => this.setState({isLoading: false}))
     }
 
     calculateProductsPrice() {
@@ -118,18 +118,17 @@ class FmsCreateOrderModal extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isShown && nextProps.customer && nextProps.customer.length > 0) {
+        if (this.props.customer !== nextProps.customer && nextProps.customer && nextProps.customer.length > 0) {
             let newOrder = {...this.state.order};
-            let c = this.props.customer[0];
+            let c = nextProps.customer[0];
             newOrder.customer_name = c.name;
             newOrder.customer_facebook = `facebook.com/${c.fb_id}`;
             newOrder.customer_phone = (c.phone && c.phone.length > 0) ? c.phone[c.phone.length-1] : '';
             newOrder.customer_id = c._id;
-            newOrder.source = this.props.posts.length > 0 ? this.props.posts[0] : "";
+            newOrder.source = nextProps.posts[0];
             this.setState({order: newOrder});
         }
-        if (nextProps.project && nextProps.project.alias &&
-            nextProps.project !== this.props.project) {
+        if (nextProps.isShown && !this.props.isShown) {
             getOrderTags(nextProps.project.alias)
                 .then(
                     orderTags => {
@@ -139,16 +138,6 @@ class FmsCreateOrderModal extends Component {
                         alert(err.message)
                     }
                 )
-        }
-
-        const customer = nextProps.customer;
-        let {order} = this.state;
-        if (customer && customer.customer_fb_id !== this.props.customer.customer_fb_id) {
-            order.customer_name = customer.customer_name;
-            order.customer_phone = customer.customer_phone;
-            order.customer_facebook = 'fb.com/' + customer.customer_fb_id;
-
-            this.setState({order: order});
         }
     }
 
@@ -195,6 +184,7 @@ class FmsCreateOrderModal extends Component {
                             order_tag={order.order_tag}
                             project={project}
                             onChangeInput={this.onChangeInput.bind(this)}
+                            isShown={this.props.isShown}
                         />
                     </div>
 
@@ -233,6 +223,7 @@ class FmsCreateOrderModal extends Component {
                             project={project}
                             products={order.products}
                             onChangeInput={this.onChangeInput.bind(this)}
+                            isShown={this.props.isShown}
                         />
                     </div>
 

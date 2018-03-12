@@ -6,6 +6,7 @@ import {
 } from '../../../actions/dashboard/chat/createOrder';
 import FmsNewOrderModal from '../../../commons/order-modal/FmsCreateOrderModal';
 import FmsOrderDetailModal from '../../../commons/order-modal/FmsOrderDetailModal';
+import * as DashboardApi from "../../../api/DashboardApi";
 
 class FmsOrdersTab extends React.Component {
     constructor(props) {
@@ -17,7 +18,9 @@ class FmsOrdersTab extends React.Component {
             selectedReport: null,
             selectedOrder: {},
             isShownNewOrderModal: false,
-            isShownOrderDetailModal: false
+            isShownOrderDetailModal: false,
+            customers: [],
+            posts: []
         };
     }
 
@@ -48,12 +51,25 @@ class FmsOrdersTab extends React.Component {
         if (order.ward) addr.push(order.ward);
         if (order.district) addr.push(order.district);
         if (order.province) addr.push(order.province);
-        return addr.join(", ");
+        let ret = addr.join(", ");
+        return ret || "Chưa có";
     }
 
     //---------------------Order Modals-----------------------------
+    getConversation() {
+        DashboardApi.getConversation(this.props.conversation.id)
+            .then(conv => {
+                let customers = conv.customer ? [conv.customer] : conv.customers;
+                let posts = conv.customer ? conv.customer.posts : [conv.parent_fb_id];
+                this.setState({customers, posts});
+            }, err => {
+                console.log(err);
+            })
+    }
+
     openNewOrderModal() {
         this.setState({isShownNewOrderModal: true});
+        this.getConversation();
     }
 
     closeNewOrderModal() {
@@ -63,6 +79,7 @@ class FmsOrdersTab extends React.Component {
 
     openOrderDetailModal(order) {
         this.setState({isShownOrderDetailModal: true, selectedOrder: order});
+        this.getConversation();
     }
 
     closeOrderDetailModal() {
@@ -176,7 +193,7 @@ class FmsOrdersTab extends React.Component {
                         {this.orderAddress(order)}
                     </div>
                     <div><span className="order-detail-title">SĐT: </span>
-                        {order.customer_phone}
+                        {order.customer_phone ? order.customer_phone : "Chưa có"}
                     </div>
                     <div><span className="order-detail-title">Sản phẩm: </span>
                         {this.showProducts(order)}
@@ -282,10 +299,6 @@ class FmsOrdersTab extends React.Component {
         else if (typeNote === 2) title = "Xóa ghi chú";
         else title = "Sửa ghi chú";
 
-        let customer = conv.type === "inbox" ? [conv.customer] : conv.customers;
-        let posts = conv.type === "inbox" ? conv.customer.posts : [conv.parent_fb_id];
-        posts = posts.map(p => `facebook.com/${p}`);
-
         return (
             <div className="order-tab">
                 <div>
@@ -314,12 +327,12 @@ class FmsOrdersTab extends React.Component {
                 </div>
                 <div>
                     <FmsNewOrderModal isShown={this.state.isShownNewOrderModal} project={{alias: this.props.alias}}
-                                      onClose={this.closeNewOrderModal.bind(this)} customer={customer}
-                                      posts={posts}/>
+                                      onClose={this.closeNewOrderModal.bind(this)} customer={this.state.customers}
+                                      posts={this.state.posts}/>
                     <FmsOrderDetailModal isShown={this.state.isShownOrderDetailModal} typeModal={1}
-                                         onClose={this.closeOrderDetailModal.bind(this)} customer={customer}
+                                         onClose={this.closeOrderDetailModal.bind(this)} customer={this.state.customers}
                                          project={{alias: this.props.alias}} order={this.state.selectedOrder}
-                                         posts={posts}/>
+                                         posts={this.state.posts}/>
                 </div>
             </div>
         );

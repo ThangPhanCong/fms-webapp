@@ -22,7 +22,7 @@ class FmsSourcePostPanel extends Component {
                         <FmsEditableDropdown items={this.props.posts}
                                              value={this.props.source || ''}
                                              onSearchChange={this.onChangeSource.bind(this)}
-                                             noItemNoti="Không tìm thấy nguồn bài viết nào"
+                                             noItemNoti="Không có nguồn bài viết để hiển thị"
                                              onSelectItem={this.onSelectSource.bind(this)}/>
                     </div>
                 </div>

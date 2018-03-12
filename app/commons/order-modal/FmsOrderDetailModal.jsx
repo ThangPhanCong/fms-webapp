@@ -46,6 +46,7 @@ class FmsOrderDetailModal extends Component {
         updateOrder(project.alias, diffOrder)
             .then(order => {
                 this.props.onClose(order);
+                this.setState({isLoading: false});
             })
             .catch(err => {
                 alert(err.message);
@@ -86,14 +87,15 @@ class FmsOrderDetailModal extends Component {
         deleteOrder(project.alias, this.state.order)
             .then(
                 () => {
+                    this.setState({isLoading: false});
                     const shouldUpdated = true;
                     this.props.onClose(shouldUpdated);
                 },
                 err => {
                     alert(err.message);
+                    this.setState({isLoading: false});
                 }
             )
-            .then(() => this.setState({isLoading: false}));
     }
 
     onExportOrderButtonClick() {
@@ -109,6 +111,7 @@ class FmsOrderDetailModal extends Component {
 
         updateOrder(project.alias, diffOrder)
             .then(order => {
+                this.setState({isLoading: false});
                 this.props.onClose(order);
             })
             .catch(err => {
@@ -130,6 +133,7 @@ class FmsOrderDetailModal extends Component {
 
         updateOrder(project.alias, diffOrder)
             .then(order => {
+                this.setState({isLoading: false});
                 this.props.onClose(order);
             })
             .catch(err => {
@@ -182,7 +186,7 @@ class FmsOrderDetailModal extends Component {
 
         if (inputIsArray) {
             refName.forEach((rn, idx) => {
-                newOrder[rn] =  newValue[idx];
+                newOrder[rn] = newValue[idx];
             });
             this.setState({order: newOrder});
             return;
@@ -226,7 +230,7 @@ class FmsOrderDetailModal extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.order) {
+        if (nextProps.order !== this.props.order) {
             this.setState({order: cloneDeep(nextProps.order), isLoading: false});
         }
     }
@@ -349,7 +353,12 @@ class FmsOrderDetailModal extends Component {
                     </small>
                 </div>
                 <div>
-                    <small className="font-bold">Nguồn đơn: <a>fb.com/my-shop/posts/4128912312412</a></small>
+                    {order.source ?
+                        <small className="font-bold">Nguồn đơn: <a href={"https://facebook.com/" + order.source}
+                                                                   target="_blank">facebook.com/{order.source}</a>
+                        </small>
+                        : null
+                    }
                 </div>
 
             </Modal.Header>

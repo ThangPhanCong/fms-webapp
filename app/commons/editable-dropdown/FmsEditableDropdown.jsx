@@ -83,7 +83,7 @@ class FmsSearchDropdown extends Component {
                                     onClick={() => this.onSelectItem(i)}
                                 ><a>{item}</a></li>
                             )
-                        ) : <li><a className='none-item'>{this.props.noItemNoti ? this.props.noItemNoti : ''}</a></li>
+                        ) : <li><a className='none-item' style={{cursor: "not-allowed"}}>{this.props.noItemNoti ? this.props.noItemNoti : ''}</a></li>
                     }
                 </ul>
             </div>

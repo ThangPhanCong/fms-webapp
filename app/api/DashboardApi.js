@@ -76,5 +76,9 @@ module.exports = {
             payload = {attachments: true};
         }
         return apiSender.put(route, payload);
+    },
+    getConversation: (conv_id) => {
+        let route = `/api/p/conversations/${conv_id}`;
+        return apiSender.get(route);
     }
 };
