@@ -17,7 +17,7 @@ class FmsCreateTransportOrderModal extends Component {
     };
 
     onCreateTransportOrder() {
-        const {transportingProvider} = this.state.;
+        const {transportingProvider} = this.state;
 
         switch (transportingProvider) {
             case 'VIETTEL':
