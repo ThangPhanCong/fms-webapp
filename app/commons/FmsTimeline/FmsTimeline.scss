@@ -57,7 +57,7 @@
         width: 100%;
         z-index: 1;
         left: 0;
-        top: 49px;
+        top: 70px;
         height: 2px;
         /* width will be set using JavaScript */
         background: #dfdfdf;
@@ -113,23 +113,23 @@
                 border-color: #e91b3d;
             }
 
-            &.shop_note:hover::after, &.status:hover::after {
-                content: attr(data-note);
-                width: 120px;
-                height: 40px;
-                text-align: center;
-                border-radius: 0px;
-                // padding: 15px 0 0 15px;
-                border: none;
-                background-color: #f8fafb;
-                color: #1c84c6;
-                // /* Position the tooltip */
-                position: absolute;
-                z-index: 1;
-                top: 100%;
-                left: 50%; 
-                //margin-left: -60px;
-            }
+            //&.shop_note:hover::after, &.status:hover::after {
+            //    content: attr(data-note);
+            //    width: 120px;
+            //    height: 40px;
+            //    text-align: center;
+            //    border-radius: 0px;
+            //    // padding: 15px 0 0 15px;
+            //    border: none;
+            //    background-color: #f8fafb;
+            //    color: #1c84c6;
+            //    // /* Position the tooltip */
+            //    position: absolute;
+            //    z-index: 1;
+            //    top: 100%;
+            //    left: 50%;
+            //    //margin-left: -60px;
+            //}
         }
     }
     .events-content {

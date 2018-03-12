@@ -1,23 +1,28 @@
 import React from 'react';
 import propTypes from 'prop-types';
+
 // import './FmsTimeline.scss';
 
 class FmsTimeline extends React.Component {
     state = {
         items: [],
         padding: 0
-    }
+    };
+
     componentDidMount() {
         this.updatePaddingDotsEvent();
     }
+
     updatePaddingDotsEvent() {
         const length = this.props.items.length;
-        this.setState({padding: this.refs.events.offsetWidth/length});
+        this.setState({padding: this.refs.events.offsetWidth / length});
     }
+
     componentWillMount() {
         this.setState({items: this.props.items});
         window.addEventListener("resize", this.updatePaddingDotsEvent.bind(this));
     }
+
     componentWillUnmount() {
         window.removeEventListener("resize", this.updatePaddingDotsEvent.bind(this));
     }
@@ -43,16 +48,17 @@ class FmsTimeline extends React.Component {
                 <div className="timeline">
                     <div className="events-wrapper">
                         <div className="events" ref="events">
-                            <span aria-hidden="true" className="timeline-eventline" style={{width: width+'px'}}></span>
+                            <span aria-hidden="true" className="timeline-eventline" style={{width: width + 'px'}}/>
                             <ol>
                                 {items.map((item, i) => {
                                     return (
-                                        <li key={i} style={{padding: padding*i+'px'}}>
-                                            <a className={item.class + (i === items.length-1 ? ' selected' : ' older-event')}
-                                                data-note={item.note}>
-                                                {item.created_time}
+                                        <li key={i} style={{padding: padding * i + 'px'}}>
+                                            <a className={item.class + (i === items.length - 1 ? ' selected' : ' older-event')}>
+                                                {item.created_time || ""}
                                                 <br/>
-                                                {item.content}
+                                                {item.content || ""}
+                                                <br/>
+                                                {item.note || ""}
                                             </a>
                                         </li>
                                     )

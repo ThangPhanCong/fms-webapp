@@ -80,7 +80,7 @@ class FmsTransportOrderDetailModal extends Component {
             transportOrder, 
             isLoading, 
             transportProvider,
-            shop_note
+            shop_note,
         } = this.state;
 
         let created_time = '';
@@ -115,13 +115,31 @@ class FmsTransportOrderDetailModal extends Component {
                         closeButton={true}
                         onHide={this.onCloseButtonClick.bind(this)}
                     >
-                        <h4 className='modal-title'>Thông tin vận đơn đơn hàng {transportProvider}</h4>
+                        <h4 className='modal-title'>Vận đơn #{transportOrder ? transportOrder.transport_tracking_id : ''}</h4>
                         <small className="font-bold">Ngày tạo:
                             <strong> {created_time.date + ' ' + created_time.time}</strong>
                         </small>
                     </Modal.Header>
 
                     <Modal.Body>
+                        <div className="form-group row">
+                            <div className="col-sm-3">
+                                <label className='control-label'>Đơn vị vận chuyển</label>
+                            </div>
+                            <div className="col-sm-9">
+                                <input type="text" className='form-control' value={transportProvider} disabled={true}/>
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <div className="col-sm-3">
+                                <label className='control-label'>Mã vận chuyển</label>
+                            </div>
+                            <div className="col-sm-9">
+                                <input type="text" className='form-control' value={transportOrder ? transportOrder.transport_tracking_id : ''} disabled={true}/>
+                            </div>
+                        </div>
+
                         {
                             timelineItems.length > 0 ? (
                                 <div className='row'>
@@ -161,7 +179,7 @@ class FmsTransportOrderDetailModal extends Component {
                                             value={shop_note.TYPE || ''}
                                             onChange={() => {this.onChangeInput('TYPE')}}
                                     >
-                                        <option value=""></option>
+                                        <option value=""/>
                                         <option value="1">Duyệt đơn hàng</option>
                                         <option value="2">Duyệt chuyển hoàn</option>
                                         <option value="3">Phát tiếp</option>
