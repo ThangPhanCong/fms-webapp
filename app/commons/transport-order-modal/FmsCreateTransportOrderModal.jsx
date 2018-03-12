@@ -5,6 +5,7 @@ import ViettelPostPanel from './panels/viettel-post/ViettelPostPanel';
 import OtherProviderPanel from './panels/other-provider/OtherProviderPanel';
 import {createTransportOrder} from '../../api/TransportProviderApi';
 import {createViettelTransportOrder} from '../../api/ViettelPostApi';
+import * as ghtkApi from '../../api/GiaoHangTietKiemApi';
 import {toReadableDatetime} from 'utils/datetime-utils.js';
 import GiaoHangTietKiemPanel from "./panels/giao-hang-tiet-kiem/GiaoHangTietKiemPanel";
 
@@ -23,6 +24,9 @@ class FmsCreateTransportOrderModal extends Component {
             case 'VIETTEL':
                 this.createViettelPostTransportOrder();
                 break;
+            case 'GHTK':
+                this.createGhtkTransportOrder();
+                break;
             default:
                 this.createOtherTransportOrder();
                 break;
@@ -36,6 +40,21 @@ class FmsCreateTransportOrderModal extends Component {
         this.setState({isLoading: true});
 
         createViettelTransportOrder(transportOrder, order_id)
+            .then(res => {
+                let shouldUpdate = true;
+                this.closeModal(shouldUpdate);
+            })
+            .catch(err => alert(err))
+            .then(() => this.setState({isLoading: false}));
+    }
+
+    createGhtkTransportOrder() {
+        const order_id = this.props.order._id;
+        const {transportOrder} = this.state;
+
+        this.setState({isLoading: true});
+
+        ghtkApi.createTransportOrder(transportOrder, order_id)
             .then(res => {
                 let shouldUpdate = true;
                 this.closeModal(shouldUpdate);
@@ -147,7 +166,8 @@ class FmsCreateTransportOrderModal extends Component {
                                 <label className='control-label'>Mã đơn hàng</label>
                             </div>
                             <div className="col-sm-9">
-                                <input className='form-control' type="text" disabled={true} value={order ? order.id : ''}/>
+                                <input className='form-control' type="text" disabled={true}
+                                       value={order ? order.id : ''}/>
                             </div>
                         </div>
 

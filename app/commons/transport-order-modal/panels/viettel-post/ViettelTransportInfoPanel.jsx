@@ -52,17 +52,18 @@ class ViettelTransportInfoPanel extends Component {
         }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         const {RECEIVER_PROVINCE, RECEIVER_DISTRICT} = this.props;
-        await getProvincesCache()
+
+        getProvincesCache()
             .then(provinces => this.setState({provinces}));
 
         if (RECEIVER_PROVINCE) {
-            await getDistrictsCache(RECEIVER_PROVINCE)
+            getDistrictsCache(RECEIVER_PROVINCE)
                 .then(districts => this.setState({districts}));
         }
         if (RECEIVER_DISTRICT) {
-            await getWardsCache(RECEIVER_DISTRICT)
+            getWardsCache(RECEIVER_DISTRICT)
                 .then(wards => this.setState({wards}));
         }
     }
