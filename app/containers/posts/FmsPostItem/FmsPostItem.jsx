@@ -1,5 +1,5 @@
 import React from 'react';
-
+import $ from 'jquery';
 import FmsCroppedImage from '../../../commons/FmsCroppedImage/FmsCroppedImage';
 import FmsScrollableDiv from '../../../commons/scroll-bar/FmsScrollableDiv';
 import FmsDate from '../../../helpers/FmsDate';
@@ -7,6 +7,12 @@ import FmsDate from '../../../helpers/FmsDate';
 class FmsPostItem extends React.Component {
     onToggleChange(hide_phone) {
         this.props.onToggleChange(this.props.data._id, hide_phone);
+    }
+
+    componentDidMount() {
+        const parse_message = twemoji.parse(this.props.data.message);
+        const message = $.parseHTML(parse_message);
+        $("#content").replaceWith(message)
     }
 
     getCreatedTime() {
@@ -45,7 +51,9 @@ class FmsPostItem extends React.Component {
                     </div>
                 </div>
                 <FmsScrollableDiv className="content-wrapper">
-                    <p className="content">{message}</p>
+                    <div className="list-content">
+                        <p id="content"></p>
+                    </div>
                     <div className={"image-wrapper" + attachments}>
                         {this.renderImgs()}
                     </div>
@@ -60,14 +68,18 @@ class FmsPostItem extends React.Component {
                             </a>
                         </li>
                         <li className='divider'/>
-                        <li className="clickable" onClick={() => {this.onToggleChange(false)}}>
+                        <li className="clickable" onClick={() => {
+                            this.onToggleChange(false)
+                        }}>
                             <span>Ẩn tất cả bình luận</span>
                             {hide_comment ?
                                 <i className="glyphicon glyphicon-ok"/> :
                                 null
                             }
                         </li>
-                        <li className="clickable" onClick={() => {this.onToggleChange(true)}}>
+                        <li className="clickable" onClick={() => {
+                            this.onToggleChange(true)
+                        }}>
                             <span>Ẩn bình luận có số điện thoại</span>
                             {hide_phone ?
                                 <i className="glyphicon glyphicon-ok"/> :

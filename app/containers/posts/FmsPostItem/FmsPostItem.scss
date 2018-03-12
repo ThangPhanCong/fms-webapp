@@ -50,8 +50,12 @@
     max-height: 273px;
     min-height: 273px;
   }
-  .content {
+  .list-content {
     overflow: hidden;
+    white-space: pre-wrap;
+    img {
+      height: 20px;
+    }
   }
   .page-info {
     padding: 0 0 10px 0;
