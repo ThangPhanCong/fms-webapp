@@ -12,8 +12,8 @@ class FmsTimeline extends React.Component {
     }
 
     updatePaddingDotsEvent() {
-        // const length = this.props.items.length;
-        // this.setState({padding: this.refs.events.offsetWidth / length});
+        const length = this.props.items.length;
+        this.setState({padding: this.refs.events.offsetWidth / length});
     }
 
     componentWillMount() {
