@@ -1,148 +1,110 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import propTypes from 'prop-types';
-import ViettelTransportInfoPanel from '../viettel-post/ViettelTransportInfoPanel';
-import OtherProviderProductInfoPanel from './OtherProviderProductInfoPanel';
-import {getViettelServices} from '../../../../api/ViettelPostApi';
+import * as ghtkApi from 'api/GiaoHangTietKiemApi';
+import {toReadableDatetime} from "../../../../utils/datetime-utils";
+import OtherTransportInfoPanel from "./OtherTransportInfoPanel";
+import OtherServiceInfoPanel from "./OtherServiceInfoPanel";
 
 class OtherProviderPanel extends Component {
-    state = {
-        services: []
-    }
 
-    onChangeInput(refName, newValue = this.refs[refName].value) {
+    state = {
+        transportOrder: {}
+    };
+
+    onChangeInput(refName, newValue) {
+        const newTransportOrder = {...this.state.transportOrder};
+
+        switch (refName) {
+            default:
+                newTransportOrder[refName] = newValue;
+        }
+
+        this.setState({transportOrder: newTransportOrder});
+
         const {
-            onChangeInput
+            onChangeTransportOrderInfo
         } = this.props;
 
-        onChangeInput(refName, newValue);
+        onChangeTransportOrderInfo(newTransportOrder);
     }
 
-    componentDidMount() {
-        getViettelServices()
-            .then(services => this.setState({services}));
+    async componentDidMount() {
+        const {order} = this.props;
+        const transportOrder = {...this.state.transportOrder};
+
+        if (order.customer_name) {
+            transportOrder.receiver_fullname = order.customer_name;
+        }
+
+        if (order.customer_phone) {
+            transportOrder.receiver_phone = order.customer_phone;
+        }
+
+        if (order.full_address) {
+            transportOrder.receiver_address = order.full_address;
+        }
+
+        if (order.province) {
+            const cacheProvinces = await ghtkApi.getProvinces();
+            const findProvince = cacheProvinces.find(p => p.PROVINCE_NAME === order.province);
+            transportOrder.receiver_province = findProvince.PROVINCE_NAME;
+
+            if (findProvince) {
+                const cacheDistricts = await ghtkApi.getAllDistricts(findProvince.PROVINCE_NAME);
+                const findDistrict = cacheDistricts.find(d => d.DISTRICT_NAME === order.district);
+                transportOrder.receiver_district = findDistrict.DISTRICT_NAME;
+
+                if (findDistrict) {
+                    const cacheWards = await ghtkApi.getAllWards(findDistrict.DISTRICT_NAME);
+                    const findWard = cacheWards.find(w => w.WARDS_NAME === order.ward);
+                    transportOrder.receiver_ward = findWard.WARDS_NAME;
+                }
+            }
+        }
+
+        this.setState({transportOrder});
+
+        const {
+            onChangeTransportOrderInfo
+        } = this.props;
+
+        onChangeTransportOrderInfo(transportOrder);
     }
 
     render() {
         const {
-            disabled,
-            transportOrder
+            disabled
         } = this.props;
-        const {services} = this.state;
+
+        const {
+            transportOrder
+        } = this.state;
 
         return (
             <div className='row'>
-                <ViettelTransportInfoPanel 
-                    RECEIVER_FULLNAME={transportOrder.RECEIVER_FULLNAME}
-                    RECEIVER_PHONE={transportOrder.RECEIVER_PHONE}
-                    RECEIVER_EMAIL={transportOrder.RECEIVER_EMAIL}
-                    RECEIVER_PROVINCE={transportOrder.RECEIVER_PROVINCE}
-                    RECEIVER_DISTRICT={transportOrder.RECEIVER_DISTRICT}
-                    RECEIVER_WARD={transportOrder.RECEIVER_WARD}
-                    RECEIVER_ADDRESS={transportOrder.RECEIVER_ADDRESS}
-                    DELIVERY_DATE={transportOrder.DELIVERY_DATE}
-                    onChangeInput={this.onChangeInput.bind(this)}
-                    disabled={disabled}
-                />
+                <div className="col-sm-12">
+                    <OtherTransportInfoPanel
+                        receiver_fullname={transportOrder.receiver_fullname}
+                        receiver_phone={transportOrder.receiver_phone}
+                        receiver_province={transportOrder.receiver_province}
+                        receiver_district={transportOrder.receiver_district}
+                        receiver_ward={transportOrder.receiver_ward}
+                        receiver_address={transportOrder.receiver_address}
 
-                <OtherProviderProductInfoPanel 
-                    PRODUCT_NAME={transportOrder.PRODUCT_NAME}
-                    PRODUCT_DESCRIPTION={transportOrder.PRODUCT_DESCRIPTION}
-                    PRODUCT_QUANTITY={transportOrder.PRODUCT_QUANTITY}
-                    PRODUCT_PRICE={transportOrder.PRODUCT_PRICE}
-                    PRODUCT_WEIGHT={transportOrder.PRODUCT_WEIGHT}
-                    onChangeInput={this.onChangeInput.bind(this)}
-                    disabled={disabled}
-                />
-
-                <div className="form-group row">
-                    <div className="col-md-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Loại vận đơn</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <select className="form-control"
-                                    disabled={disabled}
-                                    ref='ORDER_PAYMENT'
-                                    value={transportOrder.ORDER_PAYMENT || ''}
-                                    onChange={() => {this.onChangeInput('ORDER_PAYMENT')}}
-                            >
-                                <option value=""></option>
-                                <option value="1">Không thu tiền</option>
-                                <option value="2">Thu hộ tiền cước và tiền hàng</option>
-                                <option value="3">Thu hộ tiền hàng</option>
-                                <option value="4">Thu hộ tiền cước</option>
-                            </select>
-                        </div>
-                    </div>   
-
-                    <div className="col-md-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Dịch vụ</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <select className="form-control"
-                                    disabled={disabled}
-                                    ref='ORDER_SERVICE'
-                                    value={transportOrder.ORDER_SERVICE || ''}
-                                    onChange={() => {this.onChangeInput('ORDER_SERVICE')}}
-                            >
-                                <option value=""></option>
-                                {
-                                    services.length > 0 && services.map(s => {
-                                        return <option value={s.SERVICE_CODE} key={s.SERVICE_CODE}>{s.SERVICE_NAME}</option>
-                                    })
-                                }
-                            </select>
-                        </div>
-                    </div>
+                        onChangeInput={this.onChangeInput.bind(this)}
+                        disabled={disabled}
+                    />
                 </div>
 
-                <div className="form-group row"> 
-                    <div className="col-md-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Ghi chú</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type='text'
-                                    className="form-control"
-                                    disabled={disabled}
-                                    ref='ORDER_NOTE'
-                                    value={transportOrder.ORDER_NOTE || ''}
-                                    onChange={() => {this.onChangeInput('ORDER_NOTE')}}
-                            />
-                        </div>
-                    </div>
-                    <div className="col-md-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Phí vận chuyển</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type='number'
-                                    className="form-control"
-                                    disabled={disabled}
-                                    ref='MONEY_TRANSPORT'
-                                    value={transportOrder.MONEY_TRANSPORT || ''}
-                                    onChange={() => {this.onChangeInput('MONEY_TRANSPORT')}}
-                            />
-                        </div>
-                    </div>
-                </div>
+                <div className="col-sm-12">
+                    <OtherServiceInfoPanel
+                        tracking_id={transportOrder.tracking_id}
+                        money_transport={transportOrder.money_transport}
+                        money_collection={transportOrder.money_collection}
 
-                <div className="form-group row">
-                    <div className="col-md-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Tiền thu hộ</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type='number'
-                                    className="form-control"
-                                    disabled={disabled}
-                                    ref='MONEY_COLLECTION'
-                                    value={transportOrder.MONEY_COLLECTION || ''}
-                                    onChange={() => {this.onChangeInput('MONEY_COLLECTION')}}
-                            />
-                        </div>
-                    </div>
+                        onChangeInput={this.onChangeInput.bind(this)}
+                        disabled={disabled}
+                    />
                 </div>
             </div>
         )

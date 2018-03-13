@@ -95,20 +95,7 @@ class FmsCreateTransportingProviderModal extends Component {
 
     onChangeInput(refName, newValue = this.refs[refName].value) {
         const newProvider = {...this.state.providerInfo};
-
-        switch (refName) {
-            case 'PROVINCE_ID':
-                newProvider.PROVINCE_ID = newValue;
-                newProvider.DISTRICT_ID = '';
-                newProvider.WARDS_ID = '';
-                break;
-            case 'DISTRICT_ID':
-                newProvider.DISTRICT_ID = newValue;
-                newProvider.WARDS_ID = '';
-                break;
-            default:
-                newProvider[refName] = newValue;
-        }
+        newProvider[refName] = newValue;
 
         this.setState({providerInfo: newProvider});
     }

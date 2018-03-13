@@ -64,10 +64,13 @@ class FmsCreateTransportOrderModal extends Component {
     }
 
     createOtherTransportOrder() {
-        const order_id = this.props.order._id;
+        const {order} = this.props;
+        const order_id = order._id;
         const {transportOrder, transportingProvider} = this.state;
 
         this.setState({isLoading: true});
+
+        if (!transportOrder.tracking_id) transportOrder.tracking_id = order.id;
 
         createTransportOrder(transportOrder, order_id, transportingProvider)
             .then(res => {
