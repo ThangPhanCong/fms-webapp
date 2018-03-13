@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import propTypes from "prop-types";
-import {getTransportOrderInfo} from "../../api/TransportProviderApi";
+import {getTransportOrderInfo} from "../../../api/TransportProviderApi";
 import ic_viettel from 'images/ic_viettel.png';
 import ic_mobi from 'images/ic_mobi.png';
 import ic_vina from 'images/ic_vina.png';
@@ -11,7 +11,7 @@ import {extract} from "utils/phone-extract-utils";
 class FmsExportOrderItem extends Component {
     state = {
         order: {},
-        haveTransportOrder: false
+        transportOrder: null
     };
 
     getPhoneProviderImage(phone) {
@@ -79,9 +79,9 @@ class FmsExportOrderItem extends Component {
         getTransportOrderInfo(order_id)
             .then(res => {
                 if (res.is_not_created) {
-                    this.setState({haveTransportOrder: false});
+                    this.setState({transportOrder: {}});
                 } else {
-                    this.setState({haveTransportOrder: true});
+                    this.setState({transportOrder: res});
                 }
             });
     }
@@ -98,7 +98,7 @@ class FmsExportOrderItem extends Component {
         if (nextProps.order && nextProps.order !== this.props.order) {
             this.getTransportOrderInfo(nextProps.order._id);
         }
-    } 
+    }
 
     render() {
         const {
@@ -108,7 +108,7 @@ class FmsExportOrderItem extends Component {
             onSelectTransportOrderDetailModal
         } = this.props;
 
-        const {haveTransportOrder, order} = this.state;
+        const {transportOrder, order} = this.state;
 
         if (order) {
             return (
@@ -125,11 +125,11 @@ class FmsExportOrderItem extends Component {
                     <td>{order.customer_name}</td>
                     <td>{order.customer_phone}</td>
                     <td><img src={this.getPhoneProviderImage(order.customer_phone)}/></td>
-    
+
                     {
                         this.renderProductIdItem(order.products)
                     }
-    
+
                     <td>{order.private_note}</td>
                     {
                         this.renderDatetime(order.created_time)
@@ -146,28 +146,31 @@ class FmsExportOrderItem extends Component {
                         {
                             order.order_tag ?
                                 <span className="label tag-label"
-                                        style={{
-                                            backgroundColor: order.order_tag.color,
-                                            color: 'white'
-                                        }}
+                                      style={{
+                                          backgroundColor: order.order_tag.color,
+                                          color: 'white'
+                                      }}
                                 >{order.order_tag.name}</span>
                                 : null
                         }
                     </td>
                     <td>
                         {
-                            haveTransportOrder ?
-                            <button
-                                className='btn btn-sm btn-primary'
-                                onClick={() => onSelectTransportOrderDetailModal(order._id)}
-                            > Xem vận đơn
-                            </button>
-                            :
-                            <button
-                                className='btn btn-outline btn-sm btn-primary'
-                                onClick={() => onSelectCreateTransportOrderModal(order)}
-                            > Tạo vận đơn
-                            </button>
+                            (transportOrder && transportOrder.transport_tracking_id) ?
+                                (
+                                    <span
+                                        className='badge badge-info clickable primary-background'
+                                        onClick={() => onSelectTransportOrderDetailModal(order._id)}
+                                    >{transportOrder.transport_tracking_id}</span>
+                                )
+                                : (
+                                    transportOrder ? (
+                                        <button
+                                            className='btn btn-outline btn-sm btn-primary'
+                                            onClick={() => onSelectCreateTransportOrderModal(order)}
+                                        > Tạo vận đơn</button>
+                                    ) : null
+                                )
                         }
                     </td>
                 </tr>

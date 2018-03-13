@@ -3,7 +3,7 @@ import {getOrders, ORDER_STATUS} from "../../../api/OrderApi";
 import FmsSpin from "../../../commons/FmsSpin/FmsSpin";
 import FmsOrderDetailModal from "../../../commons/order-modal/FmsOrderDetailModal";
 import FmsExportOrderSearchBar from "./FmsExportOrderSearchBar";
-import FmsExportOrderTable from "../../stock/FmsExportOrderTable";
+import FmsExportOrderTable from "../../stock/export-order/FmsExportOrderTable";
 import FmsCreateTransportOrderModal from '../../../commons/transport-order-modal/FmsCreateTransportOrderModal';
 import FmsTransportOrderDetailModal from '../../../commons/transport-order-modal/FmsTransportOrderDetailModal';
 import {getAllProviders} from '../../../api/TransportProviderApi';

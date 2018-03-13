@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-import FmsProductDetailModal from "./modals/FmsProductDetailModal";
-import {toReadablePrice} from "../../utils/price-utils";
+import FmsProductDetailModal from "../modals/FmsProductDetailModal";
+import {toReadablePrice} from "../../../utils/price-utils";
 
 class FmsProductTable extends Component {
 

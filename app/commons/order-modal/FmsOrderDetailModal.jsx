@@ -263,7 +263,9 @@ class FmsOrderDetailModal extends Component {
                         <FmsSourcePostPanel
                             posts={this.props.posts}
                             source={order.source}
-                            onChangeInput={this.onChangeInput.bind(this)}/>
+                            onChangeInput={this.onChangeInput.bind(this)}
+                            disabled={!config.source_post_info}
+                        />
                     </div>
 
                     <div className="col-sm-6">

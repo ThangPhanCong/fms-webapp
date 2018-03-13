@@ -1,8 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
-// import './FmsTimeline.scss';
-
 class FmsTimeline extends React.Component {
     state = {
         items: [],
@@ -14,8 +12,8 @@ class FmsTimeline extends React.Component {
     }
 
     updatePaddingDotsEvent() {
-        const length = this.props.items.length;
-        this.setState({padding: this.refs.events.offsetWidth / length});
+        // const length = this.props.items.length;
+        // this.setState({padding: this.refs.events.offsetWidth / length});
     }
 
     componentWillMount() {

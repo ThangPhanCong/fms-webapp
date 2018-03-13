@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-class FmsTransportingSearchBar extends Component {
+class FmsTransportingOrderSearchBar extends Component {
     render () {
         return (
             <div className="row">
@@ -48,4 +48,4 @@ class FmsTransportingSearchBar extends Component {
     }
 }
 
-export default FmsTransportingSearchBar;
+export default FmsTransportingOrderSearchBar;

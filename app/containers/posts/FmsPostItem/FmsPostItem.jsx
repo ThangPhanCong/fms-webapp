@@ -3,6 +3,7 @@ import React from 'react';
 import FmsCroppedImage from '../../../commons/FmsCroppedImage/FmsCroppedImage';
 import FmsScrollableDiv from '../../../commons/scroll-bar/FmsScrollableDiv';
 import FmsDate from '../../../helpers/FmsDate';
+import {noti} from "../../notification/NotificationService";
 
 class FmsPostItem extends React.Component {
     onToggleChange(hide_phone) {
@@ -12,6 +13,24 @@ class FmsPostItem extends React.Component {
     getCreatedTime() {
         let date = new FmsDate(this.props.data.created_time);
         return date.getTimePostItem();
+    }
+
+    navigateToNewTab(fb_id) {
+        window.open('https://facebook.com/' + fb_id);
+    }
+
+    copyToClipboard(text) {
+        let textarea = document.createElement('textarea');
+        textarea.id = 't';
+        textarea.style.height = "0";
+        textarea.style.width = "0";
+        document.body.appendChild(textarea);
+        textarea.value = text;
+        document.querySelector('#t').select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+
+        noti("success", "Đã sao chép " + text);
     }
 
     renderImgs() {
@@ -54,20 +73,33 @@ class FmsPostItem extends React.Component {
                     <i className="glyphicon glyphicon-option-vertical clickable dropdown-toggle"
                        data-toggle="dropdown"/>
                     <ul className="dropdown-menu">
-                        <li className="clickable">
-                            <a href={"https://facebook.com/" + fb_id} target="_blank">
+                        <li className="clickable"
+                            onClick={() => this.navigateToNewTab(fb_id)}>
+                            <a>
                                 Đi tới bài đăng trên facebook
                             </a>
                         </li>
+                        <li className="clickable"
+                            onClick={() => this.copyToClipboard(fb_id)}>
+                            <a>
+                                Sao chép id bài viết
+                            </a>
+                        </li>
                         <li className='divider'/>
-                        <li className="clickable" onClick={() => {this.onToggleChange(false)}}>
+                        <li className="clickable" onClick={() => {
+                            this.onToggleChange(false)
+                        }}>
                             <span>Ẩn tất cả bình luận</span>
                             {hide_comment ?
                                 <i className="glyphicon glyphicon-ok"/> :
                                 null
                             }
                         </li>
-                        <li className="clickable" onClick={() => {this.onToggleChange(true)}}>
+                        <li className="clickable"
+                            onClick={() => {
+                                this.onToggleChange(true)
+                            }}
+                        >
                             <span>Ẩn bình luận có số điện thoại</span>
                             {hide_phone ?
                                 <i className="glyphicon glyphicon-ok"/> :

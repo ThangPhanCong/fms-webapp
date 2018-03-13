@@ -12,6 +12,7 @@ import FmsProgress from "../commons/FmsProgress/FmsProgress";
 import {registerNotiCenter} from "./notification/NotificationService";
 import Loadable from 'react-loadable';
 import trackUserBehavior from 'utils/track-user-behavior';
+import embedMessengerSupport from 'utils/messenger-support-embeded';
 
 const LoadableFmsLogin = Loadable({
     loader: () => import('./login/FmsLogin'),
@@ -52,6 +53,11 @@ class FmsApp extends Component {
 
         dispatch(verifyAccessToken(access_token));
         registerNotiCenter(this.noti.bind(this));
+
+        // init facebook messenger support
+        if (process.env.NODE_ENV !== "dev") {
+            embedMessengerSupport();
+        }
 
         LoadableFmsProject.preload();
         LoadableFmsDashboard.preload();

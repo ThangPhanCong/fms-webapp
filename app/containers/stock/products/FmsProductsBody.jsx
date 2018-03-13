@@ -1,13 +1,13 @@
 import React, {Component, Fragment} from 'react';
 import {delay} from 'utils/timeout-utils';
-import {getProducts} from "../../api/ProductApi";
-import FmsSpin from "../../commons/FmsSpin/FmsSpin";
+import {getProducts} from "../../../api/ProductApi";
+import FmsSpin from "../../../commons/FmsSpin/FmsSpin";
 import FmsProductSearchBar from "./FmsProductSearchBar";
 import FmsProductTable from "./FmsProductTable";
-import FmsCreateNewProductModal from "./modals/FmsCreateNewProductModal";
-import FmsBlankPage from "../../commons/blank-page/FmsBlankPage";
-import * as storage from "../../helpers/storage";
-import {getProductView, postProductView} from "../../api/UserViewApi";
+import FmsCreateNewProductModal from "../modals/FmsCreateNewProductModal";
+import FmsBlankPage from "../../../commons/blank-page/FmsBlankPage";
+import * as storage from "../../../helpers/storage";
+import {getProductView, postProductView} from "../../../api/UserViewApi";
 
 class FmsProductsBody extends Component {
 

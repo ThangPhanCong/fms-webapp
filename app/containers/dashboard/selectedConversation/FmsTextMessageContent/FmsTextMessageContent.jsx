@@ -42,11 +42,6 @@ class FmsTextMessageContent extends React.Component {
         document.execCommand('copy');
         document.body.removeChild(textarea);
         noti("success", "Đã sao chép số điện thoại");
-        // let text = ReactDOM.findDOMNode(this.refs.phone);
-        // let range = window.getSelection().getRangeAt(0);
-        // range.selectNode(text);
-        // window.getSelection().addRange(range);
-        // document.execCommand('copy');
     }
 
     renderTextMsg(msg) {

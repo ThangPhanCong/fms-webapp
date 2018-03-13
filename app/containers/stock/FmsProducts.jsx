@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import FmsPageTitle from "../../commons/page-title/FmsPageTitle";
 import {delay} from 'utils/timeout-utils';
-import FmsProductsBody from "./FmsProductsBody";
+import FmsProductsBody from "./products/FmsProductsBody";
 
 class FmsProducts extends Component {
 

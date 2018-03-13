@@ -13,7 +13,7 @@ import FmsSettings from '../../settings/FmsProjectSettings';
 import FmsConversationSettings from '../../conversation-settings/FmsConversationSettings';
 import FmsStaffs from '../../staff/FmsStaffs';
 import FmsTransportingProviders from "../../transport/transporting-providers/FmsTransportingProviders";
-import FmsTransporting from "../../transport/FmsTransporting";
+import FmsTransportingOrder from "../../transport/FmsTransportingOrder";
 
 export const treeConfig = [
     {
@@ -89,7 +89,7 @@ export const treeConfig = [
                 required: 'allorder_view',
                 title: 'Đang vận chuyển',
                 headerColor: '#f3f3f4',
-                component: (props) => <FmsTransporting {...props}/>
+                component: (props) => <FmsTransportingOrder {...props}/>
             },
             {
                 route: 'saved-orders',

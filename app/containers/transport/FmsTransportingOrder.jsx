@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import FmsPageTitle from "../../commons/page-title/FmsPageTitle";
 import FmsSpin from "../../commons/FmsSpin/FmsSpin";
-import FmsExportOrderSearchBar from "../orders/all-orders/FmsExportOrderSearchBar";
-import FmsExportOrderTable from "./export-order/FmsExportOrderTable";
 import {getOrders, ORDER_STATUS} from "../../api/OrderApi";
 import {getAllProviders} from '../../api/TransportProviderApi';
 import FmsOrderDetailModal from "../../commons/order-modal/FmsOrderDetailModal";
 import FmsCreateTransportOrderModal from '../../commons/transport-order-modal/FmsCreateTransportOrderModal';
 import FmsTransportOrderDetailModal from '../../commons/transport-order-modal/FmsTransportOrderDetailModal';
+import FmsTransportingOrderSearchBar from "./transporting-order/FmsTransportingOrderSearchBar";
+import FmsTransportingOrderTable from "./transporting-order/FmsTransportingOrderTable";
 
 class FmsExportOrders extends Component {
 
@@ -110,8 +110,8 @@ class FmsExportOrders extends Component {
 
         return (
             [
-                <FmsPageTitle key={1} title="Yêu cầu xuất hàng"
-                              route={`${project.name}/Quản lí đơn hàng/Yêu cầu xuất hàng`}/>,
+                <FmsPageTitle key={1} title="Đang vận chuyển"
+                              route={`${project.name}/Quản lí đơn hàng/Đang vận chuyển`}/>,
 
                 <div key={2} className="wrapper wrapper-content">
                     <div className="row">
@@ -119,13 +119,13 @@ class FmsExportOrders extends Component {
                             <div className="ibox">
                                 <div className="ibox-content">
 
-                                    <FmsExportOrderSearchBar onChangeFilter={this.onChangeFilter.bind(this)}/>
+                                    <FmsTransportingOrderSearchBar onChangeFilter={this.onChangeFilter.bind(this)}/>
 
                                     {
                                         isLoading ?
                                             <FmsSpin size={25} center={true}/>
                                             :
-                                            <FmsExportOrderTable
+                                            <FmsTransportingOrderTable
                                                 orders={orders}
                                                 project={project}
                                                 onReloadOrders={this.reloadOrders.bind(this)}
@@ -140,10 +140,10 @@ class FmsExportOrders extends Component {
                                         project={project}
                                         onClose={this.onCloseDetailModal.bind(this)}
                                         isShown={isShownDetailModal}
-                                        typeModalName='EXPORT_ORDER'
+                                        typeModalName='TRANSPORTING_ORDER'
                                     />
 
-                                    <FmsCreateTransportOrderModal 
+                                    <FmsCreateTransportOrderModal
                                         order={selectedOrder}
                                         onClose={this.onCloseCreateTransportOrderModal.bind(this)}
                                         isShown={isShownCreateTransportOrderModal}
