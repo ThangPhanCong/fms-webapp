@@ -115,7 +115,8 @@ class FmsCreateTransportingProviderModal extends Component {
 
     render() {
         const {
-            isShown
+            isShown,
+            activeProviders
         } = this.props;
 
         const {
@@ -132,13 +133,20 @@ class FmsCreateTransportingProviderModal extends Component {
                 break;
             case 'GHTK':
                 panel = <GiaoHangTietKiemPanel onChangeInput={this.onChangeInput.bind(this)}
-                                          providerInfo={providerInfo}/>;
+                                               providerInfo={providerInfo}/>;
                 break;
             case 'OTHER':
                 panel = <OtherProviderPanel onChangeInput={this.onChangeInput.bind(this)}
                                             providerInfo={providerInfo}/>;
                 break;
         }
+
+        const allProviders = [
+            {name: 'VIETTEL', display_name: "Viettel Post"},
+            {name: 'GHTK', display_name: "Giao Hàng Tiết Kiệm"},
+            {name: 'OTHER', display_name: "Đơn vị khác"},
+        ];
+
         return (
             <Modal show={isShown} backdrop='static' keyboard={false} bsSize='large'>
                 <div className='inmodal'>
@@ -153,9 +161,10 @@ class FmsCreateTransportingProviderModal extends Component {
                                     style={{fontSize: '15px', marginLeft: '15px'}}
                             >
                                 <option value=""/>
-                                <option value="VIETTEL">Viettel Post</option>
-                                <option value="GHTK">Giao Hàng Tiết Kiệm</option>
-                                <option value="OTHER">Đơn vị khác</option>
+                                {
+                                    allProviders.filter(p => !activeProviders.find(ap => ap.provider_name === p.name))
+                                        .map(p => <option value={p.name}>{p.display_name}</option>)
+                                }
                             </select>
                         </h4>
                     </Modal.Header>
@@ -186,7 +195,8 @@ class FmsCreateTransportingProviderModal extends Component {
 
 FmsCreateTransportingProviderModal.propTypes = {
     isShown: propTypes.bool.isRequired,
-    onClose: propTypes.func.isRequired
+    onClose: propTypes.func.isRequired,
+    activeProviders: propTypes.array,
 };
 
 export default FmsCreateTransportingProviderModal;

@@ -1,8 +1,8 @@
 import React, {Component, Fragment} from 'react';
-import FmsPageTitle from "../../../commons/page-title/FmsPageTitle";
-import FmsTransportingProviderTable from "./FmsTransportingProviderTable";
-import FmsCreateTransportingProviderModal from '../modals/FmsCreateTransportingProviderModal';
-import {getAllProviders} from '../../../api/TransportProviderApi';
+import FmsPageTitle from "../../commons/page-title/FmsPageTitle";
+import FmsTransportingProviderTable from "./transporting-providers/FmsTransportingProviderTable";
+import FmsCreateTransportingProviderModal from './modals/FmsCreateTransportingProviderModal';
+import {getAllProviders} from '../../api/TransportProviderApi';
 
 
 class FmsTransportingProviders extends Component {
@@ -78,6 +78,7 @@ class FmsTransportingProviders extends Component {
                     isShown={isShownCreateModal}
                     onClose={this.onCloseCreateModal.bind(this)}
                     providers={providers}
+                    activeProviders={providers}
                 />
             </Fragment>
         )

@@ -79,153 +79,162 @@ class GiaoHangTietKiemPanel extends Component {
 
         return (
             <div>
-                <div className="row">
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Tên</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="text"
-                                   className="form-control"
-                                   ref='name'
-                                   value={providerInfo.name || ''}
-                                   onChange={() => {
-                                       this.onChangeInput('name')
-                                   }}
-                                   disabled={disabled}
-                            />
-                        </div>
-                    </div>
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Email</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input type="text"
-                                   className="form-control"
-                                   ref='email'
-                                   value={providerInfo.email || ''}
-                                   onChange={() => {
-                                       this.onChangeInput('email')
-                                   }}
-                                   disabled={disabled}
-                            />
-                        </div>
-                    </div>
-                </div>
+                <p style={{marginBottom: 30}}>Để cấu hình nhà vận chuyển Giao Hàng Tiết Kiệm, bạn phải tạo tài khoản Giao Hàng Tiết Kiệm mới thông qua Adsbold.
+                    Tài khoản này có thể dùng như tài khoản Giao Hàng Tiết Kiệm bình thường.</p>
 
                 <div className="row">
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Số điện thoại</label>
+                    <div className="col-sm-6">
+
+                        <div className="form-group col-sm-12">
+                            <div className="col-sm-4">
+                                <label className="control-label">Tên</label>
+                            </div>
+                            <div className="col-sm-8">
+                                <input type="text"
+                                       className="form-control"
+                                       ref='name'
+                                       value={providerInfo.name || ''}
+                                       onChange={() => {
+                                           this.onChangeInput('name')
+                                       }}
+                                       disabled={disabled}
+                                />
+                            </div>
                         </div>
-                        <div className="col-sm-8">
-                            <input type="text"
-                                   className="form-control"
-                                   ref='tel'
-                                   value={providerInfo.tel || ''}
-                                   onChange={() => {
-                                       this.onChangeInput('tel')
-                                   }}
-                                   disabled={disabled}
-                            />
+
+                        <div className="form-group col-sm-12">
+                            <div className="col-sm-4">
+                                <label className="control-label">Email</label>
+                            </div>
+                            <div className="col-sm-8">
+                                <input type="text"
+                                       className="form-control"
+                                       ref='email'
+                                       value={providerInfo.email || ''}
+                                       onChange={() => {
+                                           this.onChangeInput('email')
+                                       }}
+                                       disabled={disabled}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="form-group col-sm-12">
+                            <div className="col-sm-4">
+                                <label className="control-label">Số điện thoại</label>
+                            </div>
+                            <div className="col-sm-8">
+                                <input type="text"
+                                       className="form-control"
+                                       ref='tel'
+                                       value={providerInfo.tel || ''}
+                                       onChange={() => {
+                                           this.onChangeInput('tel')
+                                       }}
+                                       disabled={disabled}
+                                />
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div className="col-sm-6">
+                        <div className="form-group col-sm-12">
+                            <div className="col-sm-4">
+                                <label className="control-label">Tỉnh/Thành phố</label>
+                            </div>
+                            <div className="col-sm-8">
+                                <select className="form-control"
+                                        ref='province'
+                                        value={providerInfo.province || ''}
+                                        onChange={() => {
+                                            this.onChangeProvince()
+                                        }}
+                                        disabled={disabled}
+                                >
+                                    <option value=""/>
+                                    {
+                                        provinces.length > 0 && provinces.map(p => (
+                                            <option value={p.PROVINCE_NAME} key={p.PROVINCE_ID}>
+                                                {p.PROVINCE_NAME}
+                                            </option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="form-group col-sm-12">
+                            <div className="col-sm-4">
+                                <label className="control-label">Quận/Huyện</label>
+                            </div>
+                            <div className="col-sm-8">
+                                <select className="form-control"
+                                        ref='district'
+                                        value={providerInfo.district || ''}
+                                        onChange={() => {
+                                            this.onChangeDistrict()
+                                        }}
+                                        disabled={disabled}
+                                >
+                                    <option value=""/>
+                                    {
+                                        districts.length > 0 && districts.map(p => (
+                                            <option value={p.DISTRICT_NAME} key={p.DISTRICT_ID}>
+                                                {convert_case(p.DISTRICT_NAME)}
+                                            </option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="form-group col-sm-12">
+                            <div className="col-sm-4">
+                                <label className="control-label">Làng/Xã</label>
+                            </div>
+                            <div className="col-sm-8">
+                                <select className="form-control"
+                                        ref='ward'
+                                        value={providerInfo.ward || ''}
+                                        onChange={() => {
+                                            this.onChangeInput('ward')
+                                        }}
+                                        disabled={disabled}
+                                >
+                                    <option value=""/>
+                                    {
+                                        wards.length > 0 && wards.map(p => (
+                                            <option value={p.WARDS_NAME} key={p.WARDS_ID}>
+                                                {convert_case(p.WARDS_NAME)}
+                                            </option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="form-group col-sm-12">
+                            <div className="col-sm-4">
+                                <label className="control-label">Địa chỉ</label>
+                            </div>
+                            <div className="col-sm-8">
+                                <input className="form-control"
+                                       ref='first_address'
+                                       value={providerInfo.first_address || ''}
+                                       onChange={() => {
+                                           this.onChangeInput('first_address')
+                                       }}
+                                       disabled={disabled}
+                                />
+                            </div>
                         </div>
                     </div>
+
+
+
                 </div>
-
-                <div className="row">
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Tỉnh/Thành phố</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <select className="form-control"
-                                    ref='province'
-                                    value={providerInfo.province || ''}
-                                    onChange={() => {
-                                        this.onChangeProvince()
-                                    }}
-                                    disabled={disabled}
-                            >
-                                <option value=""/>
-                                {
-                                    provinces.length > 0 && provinces.map(p => (
-                                        <option value={p.PROVINCE_NAME} key={p.PROVINCE_ID}>
-                                            {p.PROVINCE_NAME}
-                                        </option>
-                                    ))
-                                }
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Quận/Huyện</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <select className="form-control"
-                                    ref='district'
-                                    value={providerInfo.district || ''}
-                                    onChange={() => {
-                                        this.onChangeDistrict()
-                                    }}
-                                    disabled={disabled}
-                            >
-                                <option value=""/>
-                                {
-                                    districts.length > 0 && districts.map(p => (
-                                        <option value={p.DISTRICT_NAME} key={p.DISTRICT_ID}>
-                                            {convert_case(p.DISTRICT_NAME)}
-                                        </option>
-                                    ))
-                                }
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Làng/Xã</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <select className="form-control"
-                                    ref='ward'
-                                    value={providerInfo.ward || ''}
-                                    onChange={() => {
-                                        this.onChangeInput('ward')
-                                    }}
-                                    disabled={disabled}
-                            >
-                                <option value=""/>
-                                {
-                                    wards.length > 0 && wards.map(p => (
-                                        <option value={p.WARDS_NAME} key={p.WARDS_ID}>
-                                            {convert_case(p.WARDS_NAME)}
-                                        </option>
-                                    ))
-                                }
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className="form-group col-sm-6">
-                        <div className="col-sm-4">
-                            <label className="control-label">Địa chỉ</label>
-                        </div>
-                        <div className="col-sm-8">
-                            <input className="form-control"
-                                   ref='first_address'
-                                   value={providerInfo.first_address || ''}
-                                   onChange={() => {
-                                       this.onChangeInput('first_address')
-                                   }}
-                                   disabled={disabled}
-                            />
-                        </div>
-                    </div>
-                </div>
-
 
             </div>
         )
