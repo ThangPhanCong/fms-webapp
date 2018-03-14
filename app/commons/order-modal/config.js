@@ -45,7 +45,7 @@ export const typesModal = [
         transport_info: false,
 
         delete_btn: true,
-        save_btn: false,
+        save_btn: true,
         export_btn: false,
         transporting_btn: false,
         update_btn: true
