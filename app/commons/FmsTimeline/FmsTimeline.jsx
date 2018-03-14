@@ -3,31 +3,33 @@ import propTypes from 'prop-types';
 
 class FmsTimeline extends React.Component {
     state = {
-        items: [],
         padding: 0
     };
 
-    componentDidMount() {
-        this.updatePaddingDotsEvent();
-    }
-
     updatePaddingDotsEvent() {
+        const {items} = this.props;
         const length = this.props.items.length;
         this.setState({padding: this.refs.events.offsetWidth / length});
-    }
-
-    componentWillMount() {
-        this.setState({items: this.props.items});
-        window.addEventListener("resize", this.updatePaddingDotsEvent.bind(this));
     }
 
     componentWillUnmount() {
         window.removeEventListener("resize", this.updatePaddingDotsEvent.bind(this));
     }
 
+    componentDidMount() {
+        this.updatePaddingDotsEvent();
+        window.addEventListener("resize", this.updatePaddingDotsEvent.bind(this));
+    }
+
+    componentWillReceiveProps() {
+        this.updatePaddingDotsEvent();
+    }
+
     render() {
-        const {padding, items} = this.state;
+        const {padding} = this.state;
+        const {items} = this.props;
         let width = (items.length - 1) * padding + 90;
+
         return (
             <section className="cd-horizontal-timeline">
                 {/* <div className="events-content">
