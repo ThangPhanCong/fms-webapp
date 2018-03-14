@@ -29,6 +29,7 @@ export const AuthenService = {
         broadcast();
     },
     verifyAccessToken: (access_token) => {
+        if (!access_token) access_token = store.get('access_token');
         store.set('access_token', access_token);
         isLoading = true;
         broadcast();
