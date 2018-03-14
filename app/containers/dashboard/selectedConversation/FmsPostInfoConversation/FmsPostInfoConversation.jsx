@@ -1,5 +1,4 @@
 import React from 'react';
-import uuid from 'uuid';
 import {connect} from 'react-redux';
 import DashboardApi from '../../../../api/DashboardApi';
 import {setPostInfo} from '../../../../actions/dashboard/chat/messages';

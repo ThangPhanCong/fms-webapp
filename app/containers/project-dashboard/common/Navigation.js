@@ -3,14 +3,12 @@ import {Location} from 'react-router-dom';
 import NavItem from "./NavItem";
 
 import {treeConfig, filterConfigByPerms} from './RouteConfig'
-import {connect} from "react-redux";
-import {logOut} from "../../../actions/auth";
+import {AuthenService} from "../../../services/AuthenService";
 
 class Navigation extends Component {
 
     onLogoutBtnClick() {
-        const {dispatch} = this.props;
-        dispatch(logOut());
+        AuthenService.logOut();
     }
 
     updateMenu() {
@@ -22,15 +20,16 @@ class Navigation extends Component {
         this.updateMenu();
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate() {
         this.updateMenu();
     }
 
     renderHeaderNavItem() {
+        const user = AuthenService.getUser();
         const {
-            user, project
+            project
         } = this.props;
-        const avaUser = `https://graph.facebook.com/v2.10/${user.fb_id}/picture`;
+        const avaUser = `https://graph.facebook.com/v2.10/${user.fb_id || 1469054753182852}/picture`;
 
         return (
             <li className="nav-header">
@@ -86,10 +85,4 @@ class Navigation extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.auth.user
-    }
-};
-
-export default connect(mapStateToProps)(Navigation);
+export default Navigation;
