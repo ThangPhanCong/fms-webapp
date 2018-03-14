@@ -1,25 +1,21 @@
 import * as store from "../helpers/storage";
 import * as tokenApi from "../api/TokenApi";
 
-let listeners = [];
+let listeners = {};
 let isLoading = true;
 let user;
 let isAuthenticated = null;
 
 function broadcast() {
-    listeners.forEach(cb => cb({user, isLoading, isAuthenticated}));
+    for (let key in listeners) {
+        listeners[key]({user, isLoading, isAuthenticated});
+    }
 }
 
 export const AuthenService = {
     isLoading: () => isLoading,
     getUser: () => user,
     isAuthenticated: () => isAuthenticated,
-    setAuthenInfo: (info) => {
-        if (info.user) user = info.user;
-        if (info.isAuthenticated) isAuthenticated = info.isAuthenticated;
-        if (info.isLoading) isLoading = info.isLoading;
-        broadcast();
-    },
     logOut: () => {
         store.clear('access_token');
         store.clear('projects');
@@ -34,23 +30,27 @@ export const AuthenService = {
         isLoading = true;
         broadcast();
 
-        return tokenApi.verifyAccessToken(access_token)
-            .then(userData => {
-                user = userData;
-                isAuthenticated = true;
-                isLoading = false;
-                broadcast();
-            })
-            .catch(() => {
-                store.clear('access_token');
-                user = null;
-                isAuthenticated = null;
+        tokenApi.verifyAccessToken(access_token)
+            .then(
+                userData => {
+                    user = userData;
+                    isAuthenticated = true;
+                },
+                () => {
+                    store.clear('access_token');
+                    user = null;
+                    isAuthenticated = null;
+                }
+            )
+            .then(() => {
                 isLoading = false;
                 broadcast();
             })
     },
-    register: (callback) => {listeners.push(callback)},
-    unregister: (callback) => {
-        listeners = listeners.filter(l => l !== callback)
+    register: (self, callback) => {
+        listeners[self] = callback;
+    },
+    unregister: (self) => {
+        delete listeners[self];
     }
 };
