@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {getNotifications} from "../../../api/NotificationsApi";
-import {connect} from "react-redux";
 import FmsNotificationItem from "./FmsNotificationItem";
+import {AuthenService} from "../../../services/AuthenService";
 
 class FmsArchiveNotification extends Component {
     state = {
@@ -15,7 +15,7 @@ class FmsArchiveNotification extends Component {
     }
 
     async getNotification() {
-        const {_id} = this.props.user;
+        const {_id} = AuthenService.getUser();
         let data;
 
         try {
@@ -52,10 +52,4 @@ class FmsArchiveNotification extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        user: state.auth.user
-    }
-};
-
-export default connect(mapStateToProps)(FmsArchiveNotification);
+export default FmsArchiveNotification;

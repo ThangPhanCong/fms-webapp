@@ -1,18 +1,16 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {Alert, AlertContainer} from "react-bs-notifier";
-import {Switch, Redirect, withRouter} from 'react-router-dom';
+import {Switch, Redirect} from 'react-router-dom';
 import uuid from 'uuid';
-import propTypes from 'prop-types';
 import FmsLoading from '../commons/FmsLoading/FmsLoading';
 import FmsRoute from '../commons/FmsRoute';
 import {ALERT_TIME_DISMIS} from '../constants/alert';
-import {verifyAccessToken} from '../actions/auth';
 import FmsProgress from "../commons/FmsProgress/FmsProgress";
 import {registerNotiCenter} from "./notification/NotificationService";
 import Loadable from 'react-loadable';
 import trackUserBehavior from 'utils/track-user-behavior';
 import embedMessengerSupport from 'utils/messenger-support-embeded';
+import {AuthenService} from "../services/AuthenService";
 
 const LoadableFmsLogin = Loadable({
     loader: () => import('./login/FmsLogin'),
@@ -39,19 +37,18 @@ class FmsApp extends Component {
         super(props);
 
         this.state = {
-            alerts: [],
-            isLoading: true
+            alerts: []
         };
     }
 
     componentDidMount() {
-        const {dispatch} = this.props;
-
         const search = this.props.location.search;
         const params = new URLSearchParams(search);
         const access_token = params.get('access_token');
 
-        dispatch(verifyAccessToken(access_token));
+        this.updateView = () => {this.forceUpdate()};
+        AuthenService.register(this.updateView);
+        AuthenService.verifyAccessToken(access_token);
         registerNotiCenter(this.noti.bind(this));
 
         // init facebook messenger support
@@ -62,6 +59,10 @@ class FmsApp extends Component {
         LoadableFmsProject.preload();
         LoadableFmsDashboard.preload();
         LoadableFmsDashboardNotification.preload();
+    }
+
+    componentWillUnmount() {
+        AuthenService.unregister(this.updateView);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -114,14 +115,12 @@ class FmsApp extends Component {
     }
 
     render() {
-        const {isLoading, isAuthenticated} = this.props;
-
-        if (isLoading) {
+        if (AuthenService.isLoading()) {
             return (
                 <FmsLoading/>
             )
         } else {
-            if (isAuthenticated) {
+            if (AuthenService.isAuthenticated()) {
                 return (
                     <div>
                         {
@@ -153,18 +152,4 @@ class FmsApp extends Component {
     }
 }
 
-FmsApp.propTypes = {
-    isLoading: propTypes.bool.isRequired,
-    isAuthenticated: propTypes.bool.isRequired,
-    user: propTypes.object
-};
-
-const mapStateToProps = (state) => {
-    return {
-        isLoading: state.auth.isLoading,
-        isAuthenticated: state.auth.isAuthenticated,
-        user: state.auth.user
-    }
-};
-
-export default withRouter(connect(mapStateToProps)(FmsApp));
+export default FmsApp;

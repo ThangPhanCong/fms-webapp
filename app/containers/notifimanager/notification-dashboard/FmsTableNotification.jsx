@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {getNotifications} from "../../../api/NotificationsApi";
-import {connect} from "react-redux";
 import FmsNotificationItem from "./FmsNotificationItem";
+import {AuthenService} from "../../../services/AuthenService";
 
 class FmsTableNotification extends Component {
     state = {
@@ -13,7 +13,7 @@ class FmsTableNotification extends Component {
     }
 
     async getNotification() {
-        const {_id} = this.props.user;
+        const {_id} = AuthenService.getUser();
 
         try {
             const data = await getNotifications(_id, 'BASE');
@@ -47,12 +47,4 @@ class FmsTableNotification extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        user: state.auth.user
-    }
-};
-
-const TableNotification = connect(mapStateToProps)(FmsTableNotification)
-
-export default TableNotification;
+export default FmsTableNotification;

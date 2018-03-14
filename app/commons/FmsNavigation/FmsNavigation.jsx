@@ -4,20 +4,19 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {Image} from 'react-bootstrap';
 
-import {logOut} from '../../actions/auth';
 import FmsNotificationPopup from "../../containers/notifimanager/notify-popup/FmsNotificationPopup";
+import {AuthenService} from "../../services/AuthenService";
 
 class FmsNavigation extends React.Component {
 
     onLogoutBtnClick() {
-        const {dispatch} = this.props;
-        dispatch(logOut());
+        AuthenService.logOut();
     }
 
     render() {
         let self = this;
+        let user = AuthenService.getUser();
         const {
-            user,
             show_noti,
             redirect_shop
         } = this.props;
@@ -71,9 +70,7 @@ class FmsNavigation extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        projects: state.projects,
-        isAuthenticated: state.auth.isAuthenticated,
-        user: state.auth.user
+        projects: state.projects
     }
 };
 
