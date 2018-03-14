@@ -2,7 +2,7 @@ import * as store from "../helpers/storage";
 import * as tokenApi from "../api/TokenApi";
 
 let listeners = [];
-let isLoading = false;
+let isLoading = true;
 let user;
 let isAuthenticated = null;
 
