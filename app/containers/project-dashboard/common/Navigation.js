@@ -29,7 +29,7 @@ class Navigation extends Component {
         const {
             project
         } = this.props;
-        const avaUser = `https://graph.facebook.com/v2.10/${user.fb_id}/picture`;
+        const avaUser = `https://graph.facebook.com/v2.10/${user.fb_id || 1469054753182852}/picture`;
 
         return (
             <li className="nav-header">

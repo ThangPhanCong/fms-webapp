@@ -32,6 +32,7 @@ export const AuthenService = {
         store.set('access_token', access_token);
         isLoading = true;
         broadcast();
+
         return tokenApi.verifyAccessToken(access_token)
             .then(userData => {
                 user = userData;

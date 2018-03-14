@@ -24,7 +24,7 @@ class FmsNavigation extends React.Component {
 
         let userId = user ? user.fb_id : '';
         let username = user ? user.name : '';
-        let avaUser = `https://graph.facebook.com/v2.10/${userId}/picture`;
+        let avaUser = `https://graph.facebook.com/v2.10/${userId || 1469054753182852}/picture`;
 
         return (
             <div className='border-bottom'
