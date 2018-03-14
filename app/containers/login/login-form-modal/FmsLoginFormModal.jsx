@@ -3,12 +3,12 @@ import propTypes from 'prop-types';
 import {Modal} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import {logIn, verifyAccessToken} from '../../../actions/auth';
-import FmsSpin from '../../../commons/FmsSpin/FmsSpin';
 import FmsTabs from '../../../commons/FmsTabs/FmsTabs';
 import FmsTab from '../../../commons/FmsTabs/FmsTab';
 import {StaffLogIn} from '../../../api/StaffApi';
 import {projectsLoaded} from '../../../actions/project/project';
+import {BASE_URL, REDIRECT_TO} from "../../../../config";
+import {AuthenService} from "../../../services/AuthenService";
 
 class FmsLoginFormModal extends Component {
     state = {
@@ -20,8 +20,7 @@ class FmsLoginFormModal extends Component {
 
     logInWithFacebook() {
         this.setState({isLoading: true});
-        const {dispatch} = this.props;
-        dispatch(logIn());
+        window.location = `${BASE_URL}/api/a/user/oauth/fb?redirect_to=${REDIRECT_TO}`;
     }
 
     switchTab(value) {
@@ -43,10 +42,10 @@ class FmsLoginFormModal extends Component {
             .then(res => {
                 this.setState({error: '', isLoading: false});
                 dispatch(projectsLoaded(res.projects));
-                dispatch(verifyAccessToken(res.access_token));
+                AuthenService.verifyAccessToken(res.access_token);
                 this.props.history.push('/?access_token=' + res.access_token);
             }) 
-            .catch(err => {this.setState({error: 'Sai thông tin đăng nhập', isLoading: false})})
+            .catch(() => {this.setState({error: 'Sai thông tin đăng nhập', isLoading: false})})
     }
 
     render() {

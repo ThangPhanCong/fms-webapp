@@ -1,8 +1,6 @@
 import React, {Component} from "react";
-import {connect} from "react-redux";
 import {getNotifications, updateArchived} from "../../../api/NotificationsApi";
-import FmsTooltip from "../../../commons/tooltip/FmsTooltip";
-import {noti} from "../../notification/NotificationService";
+import {AuthenService} from "../../../services/AuthenService";
 
 class FmsDetailNotificationItem extends Component {
     state = {
@@ -14,7 +12,7 @@ class FmsDetailNotificationItem extends Component {
     }
 
     async getNotification() {
-        const {_id} = this.props.user;
+        const {_id} = AuthenService.getUser();
         const {id} = this.props.match.params;
         let data;
 
@@ -34,7 +32,7 @@ class FmsDetailNotificationItem extends Component {
     //     this.props.history.goBack();
     // }
     async onUpdateArchived(is_archived) {
-        const {_id} = this.props.user;
+        const {_id} = AuthenService.getUser();
         const {id} = this.props.match.params;
         let data;
 
@@ -56,7 +54,6 @@ class FmsDetailNotificationItem extends Component {
 
     render() {
         const {current_notifi} = this.state;
-        const {user} = this.props;
 
         return (
             <div>
@@ -74,10 +71,4 @@ class FmsDetailNotificationItem extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        user: state.auth.user
-    }
-};
-
-export default connect(mapStateToProps)(FmsDetailNotificationItem);
+export default FmsDetailNotificationItem;

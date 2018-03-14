@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
 class FmsNavLeftNotification extends Component {
@@ -68,11 +67,4 @@ class FmsNavLeftNotification extends Component {
     }
 }
 
-
-const mapStateToProps = (state) => {
-    return {
-        user: state.auth.user
-    }
-};
-
-export default connect(mapStateToProps)(FmsNavLeftNotification);
+export default FmsNavLeftNotification;

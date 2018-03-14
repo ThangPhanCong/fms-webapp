@@ -6,12 +6,10 @@ import {Observable} from 'rxjs/Observable';
 import FmsSpin from '../../commons/FmsSpin/FmsSpin';
 import FmsProjectItem from './FmsProjectItem';
 import FmsNewProjectModal from './modals/FmsNewProjectModal';
-import FmsAddPagesModal from './modals/FmsAddPagesModal';
-import {getProjects, createNewProject, ADD_NEW_PROJECT} from '../../actions/project/project';
 import projectApi from '../../api/ProjectApi';
 import FmsNavigation from "../../commons/FmsNavigation/FmsNavigation";
-import {Redirect} from 'react-router-dom';
 import * as storage from "../../helpers/storage";
+import {AuthenService} from "../../services/AuthenService";
 
 let timeout, name, subscription;
 let observable = Observable.create(observer => {
@@ -42,7 +40,7 @@ class FmsProject extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, user, projects} = this.props;
+        const user = AuthenService.getUser();
         if (user && user.role === 'SHOP_OWNER') {
             // dispatch(getProjects());
             this.loadProjects();
@@ -122,32 +120,9 @@ class FmsProject extends Component {
         this.setState({
             isCreateProjectModalShown: false,
             isProjectNameVerified: false,
-            projectName: '',
-
-            // isAddPagesModalShown: true,
-            // activePages: []
+            projectName: ''
         });
-
-        // this.props.dispatch(createNewProject(projectName));
         this.createNewProject(projectName);
-
-        // this.props.dispatch(getPages());
-    }
-
-    onAddPagesModalClose(selectedPages) {
-        if (Array.isArray(selectedPages) && selectedPages.length > 0) {
-            // create project
-            const projectName = this.state.projectName;
-            const page_ids = selectedPages.map(page => page.fb_id);
-
-            this.props.dispatch(createNewProject(projectName, page_ids));
-        }
-
-        this.setState({
-            isAddPagesModalShown: false,
-            projectName: '',
-            activePages: []
-        })
     }
 
     navigateToProject(projectAlias) {
@@ -159,7 +134,7 @@ class FmsProject extends Component {
         const {projects, isProjectLoading} = this.state;
 
         if (projects.length > 0) {
-            return projects.map((project, i) => (
+            return projects.map((project) => (
                 <FmsProjectItem
                     key={project.data._id}
                     data={project.data}
@@ -176,16 +151,12 @@ class FmsProject extends Component {
     }
 
     render() {
-        const {pages, user} = this.props;
+        const user = AuthenService.getUser();
         const {
             isCreateProjectModalShown,
             isNewProjectLoading,
             isProjectNameVerified,
-            isAddPagesModalShown,
-            projectName
         } = this.state;
-        const role = this.props.user.role;
-        const unActivePages = pages.filter(page => !page.is_active);
 
         return (
             <div style={{backgroundColor: '#f3f2f2', minHeight: '100vh'}}>
@@ -221,15 +192,6 @@ class FmsProject extends Component {
                         onProjectNameChange={this.onProjectNameChange.bind(this)}
                         onClose={this.onProjectModalClose.bind(this)}
                     />
-
-                    {/*<FmsAddPagesModal*/}
-                    {/*isShown={isAddPagesModalShown}*/}
-                    {/*isLoading={isPagesLoading}*/}
-                    {/*pages={unActivePages}*/}
-                    {/*projectName={projectName}*/}
-                    {/*onClose={this.onAddPagesModalClose.bind(this)}*/}
-                    {/*/>*/}
-
                 </div>
             </div>
         );
@@ -241,15 +203,13 @@ FmsProject.propTypes = {
     isProjectLoading: propTypes.bool.isRequired,
     isPagesLoading: propTypes.bool.isRequired,
     projects: propTypes.array,
-    pages: propTypes.array,
-    user: propTypes.object
+    pages: propTypes.array
 };
 
 const mapStateToProps = state => {
     return {
         projects: state.project.projects,
         pages: state.page.pages,
-        user: state.auth.user,
         isProjectLoading: state.project.isProjectLoading,
         isPagesLoading: state.page.isPagesLoading
     }
