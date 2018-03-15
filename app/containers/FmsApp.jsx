@@ -46,8 +46,7 @@ class FmsApp extends Component {
         const params = new URLSearchParams(search);
         const access_token = params.get('access_token');
 
-        this.updateView = () => {this.forceUpdate()};
-        AuthenService.register(this.updateView);
+        AuthenService.register(this, () => {this.forceUpdate()});
         AuthenService.verifyAccessToken(access_token);
         registerNotiCenter(this.noti.bind(this));
 
@@ -62,7 +61,7 @@ class FmsApp extends Component {
     }
 
     componentWillUnmount() {
-        AuthenService.unregister(this.updateView);
+        AuthenService.unregister(this);
     }
 
     componentWillReceiveProps(nextProps) {
