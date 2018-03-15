@@ -12,8 +12,8 @@
 
     "build-local": "NODE_ENV=local webpack --progress --config config/webpack/webpack.local.js",
     "build-dev": "NODE_ENV=dev webpack --config config/webpack/webpack.dev.js",
-    "build-prod": "NODE_ENV=production webpack --config config/webpack/webpack.prod.js",
-    "build-staging": "NODE_ENV=staging webpack --config config/webpack/webpack.staging.js"
+    "build-staging": "NODE_ENV=staging webpack --config config/webpack/webpack.staging.js",
+    "build-prod": "NODE_ENV=production webpack --config config/webpack/webpack.prod.js"
   },
   "author": "Adsbold team",
   "license": "MIT",
