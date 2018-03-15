@@ -51,7 +51,7 @@ class FmsApp extends Component {
         registerNotiCenter(this.noti.bind(this));
 
         // init facebook messenger support
-        if (process.env.NODE_ENV !== "dev") {
+        if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === 'staging') {
             embedMessengerSupport();
         }
 
