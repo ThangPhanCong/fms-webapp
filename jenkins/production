@@ -19,7 +19,7 @@ pipeline {
       stage('Deploy to production') {
           steps {
 			  sh 'sudo ssh -i /.ssh/WI-backend-server.pem ubuntu@13.251.22.187 && sudo rm -fr /var/www/adsbold/production/*'
-			  sh 'sudo rsync --delete -azvv ./* -e "ssh -i /.ssh/WI-backend-server.pem" --rsync-path="sudo rsync" ubuntu@13.251.22.187:/var/www/adsbold/production'
+			  sh 'sudo rsync --delete -azvv ./build/* -e "ssh -i /.ssh/WI-backend-server.pem" --rsync-path="sudo rsync" ubuntu@13.251.22.187:/var/www/adsbold/production'
           }
       }
     }
