@@ -26,7 +26,12 @@ class FmsCreateTransportingProviderModal extends Component {
     }
 
     onChangeTypeProvider(e) {
-        this.setState({typeProvider: e.target.value});
+        const typeProvider = e.target.value;
+        this.setState({typeProvider});
+
+        if (typeProvider === '') {
+            this.setState({providerInfo: {}});
+        }
     }
 
     onCreateProvider() {
@@ -48,6 +53,7 @@ class FmsCreateTransportingProviderModal extends Component {
         const providerInfo = this.state.providerInfo;
         if (providerInfo.PASSWORD && providerInfo.PASSWORD.length > 7) {
             this.setState({isLoading: true});
+
             createViettelAccount(providerInfo)
                 .then(res => {
                     this.setState({providerInfo: {}, isLoading: false});
@@ -171,7 +177,7 @@ class FmsCreateTransportingProviderModal extends Component {
                         <button
                             className='btn btn-primary'
                             onClick={this.onCreateProvider.bind(this)}
-                            disabled={isLoading}>Tạo mới
+                            disabled={Object.keys(providerInfo).length === 0 || isLoading}>Tạo mới
                         </button>
                     </Modal.Footer>
                 </div>
