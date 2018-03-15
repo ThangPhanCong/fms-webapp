@@ -6,10 +6,8 @@
     "prestart": "npm i",
     "clean": "rimraf build",
     "start": "node server.js",
-
     "local": "npm run clean && webpack -w --progress --config config/webpack/webpack.local.js",
     "local:alz": "npm run clean && webpack --progress --config config/webpack/webpack.local-alz.js",
-
     "build-local": "NODE_ENV=local webpack --progress --config config/webpack/webpack.local.js",
     "build-dev": "NODE_ENV=dev webpack --progress --config config/webpack/webpack.dev.js",
     "build-staging": "NODE_ENV=staging webpack --progress --config config/webpack/webpack.staging.js",

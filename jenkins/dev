@@ -12,7 +12,7 @@ pipeline {
 
       stage('Build') {
           steps {
-              sh 'npm run build-dev'
+              sh 'npm run build-dev --silent'
           }
       }
 
