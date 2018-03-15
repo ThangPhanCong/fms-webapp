@@ -7,7 +7,7 @@ import FmsTabs from '../../../commons/FmsTabs/FmsTabs';
 import FmsTab from '../../../commons/FmsTabs/FmsTab';
 import {StaffLogIn} from '../../../api/StaffApi';
 import {projectsLoaded} from '../../../actions/project/project';
-import {BASE_URL, REDIRECT_TO} from "../../../../config";
+import {BASE_URL, REDIRECT_TO} from "CONFIG";
 import {AuthenService} from "../../../services/AuthenService";
 
 class FmsLoginFormModal extends Component {
