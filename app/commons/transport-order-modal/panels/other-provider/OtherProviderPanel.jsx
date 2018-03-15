@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import propTypes from 'prop-types';
 import * as ghtkApi from 'api/GiaoHangTietKiemApi';
 import {toReadableDatetime} from "../../../../utils/datetime-utils";
+import * as orderCalculateUtils from 'utils/order-calculate-price-utils';
 import OtherTransportInfoPanel from "./OtherTransportInfoPanel";
 import OtherServiceInfoPanel from "./OtherServiceInfoPanel";
 
@@ -40,9 +41,16 @@ class OtherProviderPanel extends Component {
             transportOrder.receiver_phone = order.customer_phone;
         }
 
+        if (order.customer_email) {
+            transportOrder.receiver_email = order.customer_email;
+        }
+
         if (order.full_address) {
             transportOrder.receiver_address = order.full_address;
         }
+
+        transportOrder.money_transport = order.transport_fee && parseInt(order.transport_fee) || 0;
+        transportOrder.money_collection = orderCalculateUtils.calculateTotalPrice(order);
 
         if (order.province) {
             const cacheProvinces = await ghtkApi.getProvinces();
@@ -86,6 +94,7 @@ class OtherProviderPanel extends Component {
                     <OtherTransportInfoPanel
                         receiver_fullname={transportOrder.receiver_fullname}
                         receiver_phone={transportOrder.receiver_phone}
+                        receiver_email={transportOrder.receiver_email}
                         receiver_province={transportOrder.receiver_province}
                         receiver_district={transportOrder.receiver_district}
                         receiver_ward={transportOrder.receiver_ward}

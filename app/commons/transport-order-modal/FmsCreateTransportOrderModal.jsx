@@ -6,8 +6,10 @@ import OtherProviderPanel from './panels/other-provider/OtherProviderPanel';
 import {createTransportOrder} from '../../api/TransportProviderApi';
 import {createViettelTransportOrder} from '../../api/ViettelPostApi';
 import * as ghtkApi from '../../api/GiaoHangTietKiemApi';
-import {toReadableDatetime} from 'utils/datetime-utils.js';
+import {toReadableDatetime} from 'utils/datetime-utils';
+import * as orderCalculateUtils from 'utils/order-calculate-price-utils';
 import GiaoHangTietKiemPanel from "./panels/giao-hang-tiet-kiem/GiaoHangTietKiemPanel";
+import {toReadablePrice} from "../../utils/price-utils";
 
 class FmsCreateTransportOrderModal extends Component {
 
@@ -176,7 +178,46 @@ class FmsCreateTransportOrderModal extends Component {
 
                         <div className="form-group row">
                             <div className="col-sm-3">
-                                <label className="control-label">Đơn vị vận chuyển</label>
+                                <label className='control-label'>Tiền sản phẩm</label>
+                            </div>
+                            <div className="col-sm-9">
+                                <input className='form-control'
+                                       type="text"
+                                       disabled={true}
+                                       value={order ? toReadablePrice(orderCalculateUtils.calculateProductsPrice(order.products)) : '0'}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <div className="col-sm-3">
+                                <label className='control-label'>Tiền vận chuyển</label>
+                            </div>
+                            <div className="col-sm-9">
+                                <input className='form-control'
+                                       type="text"
+                                       disabled={true}
+                                       value={order ? toReadablePrice(order.transport_fee) : '0'}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <div className="col-sm-3">
+                                <label className='control-label'>Tổng cộng</label>
+                            </div>
+                            <div className="col-sm-9">
+                                <input className='form-control'
+                                       type="text"
+                                       disabled={true}
+                                       value={order ? toReadablePrice(orderCalculateUtils.calculateTotalPrice(order)) : '0'}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="form-group row">
+                            <div className="col-sm-3">
+                                <label className="control-label required-field">Đơn vị vận chuyển</label>
                             </div>
                             <div className="col-sm-9">
                                 <select

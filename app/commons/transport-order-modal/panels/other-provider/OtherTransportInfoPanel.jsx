@@ -87,6 +87,7 @@ class OtherTransportInfoPanel extends Component {
 
             receiver_fullname,
             receiver_phone,
+            receiver_email,
             receiver_province,
             receiver_district,
             receiver_ward,
@@ -109,10 +110,10 @@ class OtherTransportInfoPanel extends Component {
 
                         <div className="col-sm-6">
                             <div className="col-sm-12 form-group">
-                                <div className="col-sm-4">
-                                    <label className="control-label">Tên khách hàng</label>
+                                <div className="col-sm-5">
+                                    <label className="control-label required-field">Tên khách hàng</label>
                                 </div>
-                                <div className="col-sm-8">
+                                <div className="col-sm-7">
                                     <input type="text"
                                            className="form-control"
                                            ref='receiver_fullname'
@@ -124,11 +125,11 @@ class OtherTransportInfoPanel extends Component {
                             </div>
 
                             <div className="col-sm-12 form-group">
-                                <div className="col-sm-4">
-                                    <label className="control-label">Điện thoại</label>
+                                <div className="col-sm-5">
+                                    <label className="control-label required-field">Điện thoại</label>
                                 </div>
-                                <div className="col-sm-8">
-                                    <input type="text"
+                                <div className="col-sm-7">
+                                    <input type="number"
                                            className="form-control"
                                            ref='receiver_phone'
                                            value={receiver_phone || ''}
@@ -138,14 +139,29 @@ class OtherTransportInfoPanel extends Component {
                                 </div>
                             </div>
 
+                            <div className="col-sm-12 form-group">
+                                <div className="col-sm-5">
+                                    <label className="control-label">Email</label>
+                                </div>
+                                <div className="col-sm-7">
+                                    <input type="text"
+                                           className="form-control"
+                                           ref='receiver_email'
+                                           value={receiver_email || ''}
+                                           onChange={() => {this.onChangeInput('receiver_email')}}
+                                           disabled={disabled}
+                                    />
+                                </div>
+                            </div>
+
                         </div>
 
                         <div className="col-sm-6">
                             <div className="col-sm-12 form-group">
-                                <div className="col-sm-4">
-                                    <label className="control-label">Tỉnh/Thành phố</label>
+                                <div className="col-sm-5">
+                                    <label className="control-label required-field">Tỉnh/Thành phố</label>
                                 </div>
-                                <div className="col-sm-8">
+                                <div className="col-sm-7">
                                     <select className="form-control"
                                             ref='receiver_province'
                                             value={receiver_province || ''}
@@ -163,10 +179,10 @@ class OtherTransportInfoPanel extends Component {
                             </div>
 
                             <div className="col-sm-12 form-group">
-                                <div className="col-sm-4">
-                                    <label className="control-label">Quận/Huyện</label>
+                                <div className="col-sm-5">
+                                    <label className="control-label required-field">Quận/Huyện</label>
                                 </div>
-                                <div className="col-sm-8">
+                                <div className="col-sm-7">
                                     <select className="form-control"
                                             ref='receiver_district'
                                             value={receiver_district || ''}
@@ -184,10 +200,10 @@ class OtherTransportInfoPanel extends Component {
                             </div>
 
                             <div className="col-sm-12 form-group">
-                                <div className="col-sm-4">
-                                    <label className="control-label">Phường/Xã</label>
+                                <div className="col-sm-5">
+                                    <label className="control-label required-field">Phường/Xã</label>
                                 </div>
-                                <div className="col-sm-8">
+                                <div className="col-sm-7">
                                     <select className="form-control"
                                             ref='receiver_ward'
                                             value={receiver_ward || ''}
@@ -205,10 +221,10 @@ class OtherTransportInfoPanel extends Component {
                             </div>
 
                             <div className="col-sm-12 form-group">
-                                <div className="col-sm-4">
-                                    <label className="control-label">Địa chỉ</label>
+                                <div className="col-sm-5">
+                                    <label className="control-label required-field">Địa chỉ chi tiết</label>
                                 </div>
-                                <div className="col-sm-8">
+                                <div className="col-sm-7">
                                     <input type="text"
                                            className="form-control"
                                            ref='receiver_address'
@@ -235,6 +251,7 @@ OtherTransportInfoPanel.propTypes = {
 
     receiver_fullname: propTypes.string,
     receiver_phone: propTypes.string,
+    receiver_email: propTypes.string,
     receiver_province: propTypes.string,
     receiver_district: propTypes.string,
     receiver_ward: propTypes.string,

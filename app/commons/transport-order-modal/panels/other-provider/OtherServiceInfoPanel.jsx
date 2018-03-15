@@ -23,48 +23,52 @@ class OtherServiceInfoPanel extends Component {
 
         return (
             <div className="row">
-                <div className="col-sm-6 form-group">
-                    <div className="col-sm-4">
-                        <label className="control-label">Mã vận đơn</label>
-                    </div>
-                    <div className="col-sm-8">
-                        <input type="text"
-                               className="form-control"
-                               ref='tracking_id'
-                               value={tracking_id || ''}
-                               onChange={() => {this.onChangeInput('tracking_id')}}
-                               disabled={disabled}
-                        />
-                    </div>
-                </div>
-
-                <div className="col-sm-6 form-group">
-                    <div className="col-sm-4">
-                        <label className="control-label">Phí vận chuyển</label>
-                    </div>
-                    <div className="col-sm-8">
-                        <input type="text"
-                               className="form-control"
-                               ref='money_transport'
-                               value={money_transport || ''}
-                               onChange={() => {this.onChangeInput('money_transport')}}
-                               disabled={disabled}
-                        />
+                <div className="col-sm-6">
+                    <div className="col-sm-12 form-group">
+                        <div className="col-sm-5">
+                            <label className="control-label">Mã vận đơn</label>
+                        </div>
+                        <div className="col-sm-7">
+                            <input type="text"
+                                   className="form-control"
+                                   ref='tracking_id'
+                                   value={tracking_id || ''}
+                                   onChange={() => {this.onChangeInput('tracking_id')}}
+                                   disabled={disabled}
+                            />
+                        </div>
                     </div>
                 </div>
 
-                <div className="col-sm-6 form-group">
-                    <div className="col-sm-4">
-                        <label className="control-label">Tiền thu hộ</label>
+                <div className="col-sm-6">
+                    <div className="col-sm-12 form-group">
+                        <div className="col-sm-5">
+                            <label className="control-label required-field">Phí vận chuyển</label>
+                        </div>
+                        <div className="col-sm-7">
+                            <input type="number"
+                                   className="form-control"
+                                   ref='money_transport'
+                                   value={money_transport || ''}
+                                   onChange={() => {this.onChangeInput('money_transport')}}
+                                   disabled={disabled}
+                            />
+                        </div>
                     </div>
-                    <div className="col-sm-8">
-                        <input type="text"
-                               className="form-control"
-                               ref='money_collection'
-                               value={money_collection || ''}
-                               onChange={() => {this.onChangeInput('money_collection')}}
-                               disabled={disabled}
-                        />
+
+                    <div className="col-sm-12 form-group">
+                        <div className="col-sm-5">
+                            <label className="control-label required-field">Tiền thu hộ</label>
+                        </div>
+                        <div className="col-sm-7">
+                            <input type="number"
+                                   className="form-control"
+                                   ref='money_collection'
+                                   value={money_collection || ''}
+                                   onChange={() => {this.onChangeInput('money_collection')}}
+                                   disabled={disabled}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -77,8 +81,8 @@ OtherServiceInfoPanel.propTypes = {
     disabled: propTypes.bool,
 
     tracking_id: propTypes.string,
-    money_transport: propTypes.string,
-    money_collection: propTypes.string,
+    money_transport: propTypes.number,
+    money_collection: propTypes.number,
 };
 
 export default OtherServiceInfoPanel;

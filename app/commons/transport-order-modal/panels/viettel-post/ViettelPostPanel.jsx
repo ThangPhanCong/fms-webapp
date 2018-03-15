@@ -4,6 +4,7 @@ import ViettelTransportInfoPanel from './ViettelTransportInfoPanel';
 import ViettelProductInfoPanel from './ViettelProductInfoPanel';
 import ViettelServiceInfoPanel from "./ViettelServiceInfoPanel";
 import {toReadableDatetime} from "../../../../utils/datetime-utils";
+import * as orderCalculateUtils from 'utils/order-calculate-price-utils';
 import {
     getDistrictsCache, getProvincesCache, getViettelInventories,
     getWardsCache
@@ -14,6 +15,17 @@ class ViettelPostPanel extends Component {
     state = {
         transportOrder: {}
     };
+
+    formatProductsName(products) {
+        if (!Array.isArray(products)) return '';
+
+        return products.reduce(
+            (acc, p, i) => {
+                return acc + (p.name || '') + (i !== products.length - 1 ? ', ' : '');
+            },
+            ''
+        )
+    }
 
     onChangeInput(refName, newValue) {
         const newTransportOrder = {...this.state.transportOrder};
@@ -29,6 +41,7 @@ class ViettelPostPanel extends Component {
                 newTransportOrder.RECEIVER_WARD = '';
                 break;
             case 'DELIVERY_DATE':
+                console.log('date time', newValue)
                 const datetime = toReadableDatetime(newValue);
                 newTransportOrder.DELIVERY_DATE = datetime.date + ' ' + datetime.time + ':00';
                 break;
@@ -49,6 +62,7 @@ class ViettelPostPanel extends Component {
         const {order} = this.props;
 
         const viettelInventoriesResponse = await getViettelInventories();
+
         const transportOrder = {
             ...this.state.transportOrder,
             CUS_ID: viettelInventoriesResponse[0].CUS_ID,
@@ -56,7 +70,14 @@ class ViettelPostPanel extends Component {
             RECEIVER_FULLNAME: order.customer_name || '',
             RECEIVER_PHONE: order.customer_phone || '',
             RECEIVER_ADDRESS: order.full_address || '',
-            RECEIVER_EMAIL: order.customer_email || ''
+            RECEIVER_EMAIL: order.customer_email || '',
+
+            PRODUCT_NAME: this.formatProductsName(order.products),
+            PRODUCT_DESCRIPTION: '',
+            PRODUCT_QUANTITY: order.products && order.products.length || 0,
+            PRODUCT_PRICE: orderCalculateUtils.calculateProductsPrice(order.products),
+
+            MONEY_COLLECTION: orderCalculateUtils.calculateTotalPrice(order),
         };
 
         if (order.province) {
@@ -104,7 +125,6 @@ class ViettelPostPanel extends Component {
                         RECEIVER_DISTRICT={transportOrder.RECEIVER_DISTRICT}
                         RECEIVER_WARD={transportOrder.RECEIVER_WARD}
                         RECEIVER_ADDRESS={transportOrder.RECEIVER_ADDRESS}
-                        DELIVERY_DATE={transportOrder.DELIVERY_DATE}
 
                         onChangeInput={this.onChangeInput.bind(this)}
                         disabled={disabled}
@@ -129,6 +149,7 @@ class ViettelPostPanel extends Component {
 
                 <div className="col-sm-12">
                     <ViettelServiceInfoPanel
+                        DELIVERY_DATE={transportOrder.DELIVERY_DATE}
                         ORDER_PAYMENT={transportOrder.ORDER_PAYMENT}
                         ORDER_SERVICE={transportOrder.ORDER_SERVICE}
                         ORDER_SERVICE_ADD={transportOrder.ORDER_SERVICE_ADD}

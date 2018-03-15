@@ -36,3 +36,8 @@
 .primary-background {
   background-color: #1ab394;
 }
+
+.required-field:after {
+  content: ' *';
+  color: red;
+}

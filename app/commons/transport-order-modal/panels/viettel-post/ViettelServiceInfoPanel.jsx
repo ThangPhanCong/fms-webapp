@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {getViettelExtraServices, getViettelServices} from "../../../../api/ViettelPostApi";
 import propTypes from "prop-types";
+import {toDatetimeLocal} from "../../../../utils/datetime-utils";
 
 class ViettelServiceInfoPanel extends Component {
     state = {
@@ -31,6 +32,8 @@ class ViettelServiceInfoPanel extends Component {
     render() {
         const {
             disabled,
+
+            DELIVERY_DATE,
             ORDER_PAYMENT,
             ORDER_SERVICE,
             ORDER_SERVICE_ADD,
@@ -47,11 +50,11 @@ class ViettelServiceInfoPanel extends Component {
         return (
             <div className='row'>
                 <div className="col-md-6 form-group">
-                    <div className="col-sm-4">
-                        <label className="control-label">Loại vận đơn</label>
+                    <div className="col-sm-5">
+                        <label className="control-label required-field">Loại vận đơn</label>
                     </div>
-                    <div className="col-sm-8">
-                        <select className="form-control"
+                    <div className="col-sm-7">
+                        <select className="form-control required-field"
                                 disabled={disabled || isLoading}
                                 ref='ORDER_PAYMENT'
                                 value={ORDER_PAYMENT || ''}
@@ -62,17 +65,17 @@ class ViettelServiceInfoPanel extends Component {
                             <option value=""/>
                             <option value="1">Không thu tiền</option>
                             <option value="2">Thu hộ tiền cước và tiền hàng</option>
-                            <option value="3">Thu hộ tiền hàng</option>
-                            <option value="4">Thu hộ tiền cước</option>
+                            {/*<option value="3">Thu hộ tiền hàng</option>*/}
+                            {/*<option value="4">Thu hộ tiền cước</option>*/}
                         </select>
                     </div>
                 </div>
 
                 <div className="col-md-6 form-group">
-                    <div className="col-sm-4">
-                        <label className="control-label">Dịch vụ</label>
+                    <div className="col-sm-5">
+                        <label className="control-label required-field">Dịch vụ</label>
                     </div>
-                    <div className="col-sm-8">
+                    <div className="col-sm-7">
                         <select className="form-control"
                                 disabled={disabled || isLoading}
                                 ref='ORDER_SERVICE'
@@ -92,10 +95,10 @@ class ViettelServiceInfoPanel extends Component {
                 </div>
 
                 <div className="col-md-6 form-group">
-                    <div className="col-sm-4">
-                        <label className="control-label">Dịch vụ cộng thêm</label>
+                    <div className="col-sm-5">
+                        <label className="control-label required-field">Dịch vụ cộng thêm</label>
                     </div>
-                    <div className="col-sm-8">
+                    <div className="col-sm-7">
                         <select className="form-control"
                                 disabled={disabled || isLoading}
                                 ref='ORDER_SERVICE_ADD'
@@ -115,10 +118,10 @@ class ViettelServiceInfoPanel extends Component {
                 </div>
 
                 <div className="col-md-6 form-group">
-                    <div className="col-sm-4">
-                        <label className="control-label">Ghi chú</label>
+                    <div className="col-sm-5">
+                        <label className="control-label required-field">Ghi chú</label>
                     </div>
-                    <div className="col-sm-8">
+                    <div className="col-sm-7">
                         <input type='text'
                                className="form-control"
                                disabled={disabled || isLoading}
@@ -131,11 +134,28 @@ class ViettelServiceInfoPanel extends Component {
                     </div>
                 </div>
 
-                <div className="col-md-6 form-group">
-                    <div className="col-sm-4">
-                        <label className="control-label">Tiền thu hộ</label>
+                <div className="col-md-6">
+                    <div className="col-sm-5">
+                        <label className="control-label required-field">Ngày lấy hàng</label>
                     </div>
-                    <div className="col-sm-8">
+                    <div className="col-sm-7">
+                        <input type="datetime-local"
+                               className="form-control"
+                               ref='DELIVERY_DATE'
+                               value={toDatetimeLocal(DELIVERY_DATE) || ''}
+                               onChange={() => {
+                                   this.onChangeInput('DELIVERY_DATE')
+                               }}
+                               disabled={disabled}
+                        />
+                    </div>
+                </div>
+
+                <div className="col-md-6 form-group">
+                    <div className="col-sm-5">
+                        <label className="control-label required-field">Tiền thu hộ</label>
+                    </div>
+                    <div className="col-sm-7">
                         <input type='number'
                                className="form-control"
                                disabled={disabled || isLoading}
@@ -157,10 +177,11 @@ ViettelServiceInfoPanel.propTypes = {
     disabled: propTypes.bool,
 
     ORDER_PAYMENT: propTypes.string,
+    DELIVERY_DATE: propTypes.string,
     ORDER_SERVICE: propTypes.string,
     ORDER_SERVICE_ADD: propTypes.string,
     ORDER_NOTE: propTypes.string,
-    MONEY_COLLECTION: propTypes.string
+    MONEY_COLLECTION: propTypes.number
 };
 
 export default ViettelServiceInfoPanel;

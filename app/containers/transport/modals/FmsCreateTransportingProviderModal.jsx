@@ -27,11 +27,7 @@ class FmsCreateTransportingProviderModal extends Component {
 
     onChangeTypeProvider(e) {
         const typeProvider = e.target.value;
-        this.setState({typeProvider});
-
-        if (typeProvider === '') {
-            this.setState({providerInfo: {}});
-        }
+        this.setState({typeProvider, providerInfo: {}});
     }
 
     onCreateProvider() {

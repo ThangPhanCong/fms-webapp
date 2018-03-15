@@ -124,7 +124,7 @@ class FmsProductDetailModal extends Component {
                             <label className="control-label">Số lượng</label>
                         </div>
                         <div className="col-sm-9">
-                            <input type="text"
+                            <input type="number"
                                    className="form-control"
                                    ref='quantity'
                                    value={updatedProduct.quantity}
@@ -142,7 +142,7 @@ class FmsProductDetailModal extends Component {
                             <label className="control-label">Giảm giá</label>
                         </div>
                         <div className="col-sm-9">
-                            <input type="text"
+                            <input type="number"
                                    className="form-control"
                                    ref='discount'
                                    value={updatedProduct.discount}
