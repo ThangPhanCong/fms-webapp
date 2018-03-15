@@ -1,0 +1,1 @@
+export const ALERT_TIME_DISMIS = 2500;

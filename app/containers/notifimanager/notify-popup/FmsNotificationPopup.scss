@@ -1,0 +1,40 @@
+.count-info .label {
+  line-height: 12px;
+  padding: 2px 5px;
+  position: absolute;
+  right: 6px;
+  top: 12px;
+}
+
+.count-info {
+  color: #999c9e;
+}
+
+.item-content {
+  word-break: break-all;
+  text-align: left;
+}
+
+.label {
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
+
+.none_notify {
+  font-family: $font-family-sans-serif;
+  font-size: 12px;
+  a {
+    color: #676A6C;
+  }
+}
+
+.text-notify {
+  margin-top: 8px;
+}
+
+.seeall-notify {
+  position: relative;
+  bottom: 10px;
+}

@@ -1,0 +1,99 @@
+.textarea-new-post {
+  width: 100%;
+  resize: none;
+  border-radius: 3px;
+  border: none;
+  font-size: 16px;
+  background-color: #f8fafb;
+  &:focus {
+    outline: none;
+  }
+}
+
+.inmodal {
+  .selected-pages {
+    padding-left: 2px;
+  }
+}
+
+.spin-wrapper {
+  margin: auto;
+  text-align: center;
+}
+
+.add-post-page-item {
+  padding: 5px 0;
+  .add-post-checkbox {
+    display: inline-block;
+    margin-right: 8px;
+  }
+  .page-name {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 500;
+  }
+}
+
+.add-post-image-wrapper {
+  .image-wrapper {
+    width: 124px;
+    height: 124px;
+    margin: 8px 10px 0 0;
+    display: inline-block;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .border {
+    border: 1px solid #cacaca;
+    padding-top: 48px;
+  }
+  .image {
+    width: 124px;
+    height: 124px;
+  }
+}
+
+.add-post-add-images {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  font-size: 14px;
+  padding-left: 2px;
+  .add-image-button {
+    height: 124px;
+    width: 124px;
+    display: inline-block;
+    border: 2px dashed #cecece;
+    background-color: #f8fafb;
+    z-index: 10;
+    position: relative;
+    border-radius: 4px;
+    margin: 8px 10px 0 0;
+    .glyphicon-add {
+      color: #cfcfcf;
+      font-size: 30px;
+      margin: 43px 47px;
+      display: block;
+    }
+  }
+  .add-image-button:hover {
+    cursor: pointer;
+  }
+  .input-file {
+    position: absolute;
+    bottom: 12px;
+    right: 22px;
+    width: 100px;
+    height: 100px;
+  }
+  .input-file:focus {
+    outline: none;
+  }
+  .input-file:hover {
+    cursor: pointer;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}

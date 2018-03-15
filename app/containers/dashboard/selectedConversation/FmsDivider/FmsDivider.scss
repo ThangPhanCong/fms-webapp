@@ -1,0 +1,17 @@
+.divider-wrapper {
+  text-align: center;
+  margin-bottom: -18px;
+  margin-top: 30px;
+
+  .divider {
+    border-top: 1px solid #cecece;
+    width: calc(100% - 84px);
+    margin: auto auto -24px;
+  }
+  .divider-text {
+    text-align: center;
+    display: inline-block;
+    background-color: white;
+    padding: 12px;
+  }
+}

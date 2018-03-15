@@ -1,0 +1,93 @@
+.client-item {
+  cursor: pointer;
+  padding: 10px 12px;
+  background-color: white;
+  display: flex;
+  min-width: 75px;
+  height: 78px;
+  align-items: center;
+
+  .not-seen {
+    font-weight: 700;
+    color: black;
+  }
+}
+
+.client-profile-wrapper {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.client-profile {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+.name-and-message {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.name-and-time {
+  display: flex;
+}
+
+.updated-time {
+  float: right;
+  padding-top: 1px;
+  margin-left: 3px;
+  font-weight: 400 !important;
+  font-size: 13px;
+  color: rgba(0, 0, 0, .40);
+}
+
+.client-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 15px;
+  flex: 1;
+  color: rgba(0, 0, 0, 1);
+  font-weight: 400;
+}
+
+.message-and-type {
+  display: flex;
+}
+
+.lastest-message {
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgba(153, 153, 153, 1);
+  font-weight: 400;
+  flex: 1;
+  padding-right: 12px;
+}
+
+.client-item-tags {
+  display: inherit;
+  padding-top: 5px;
+}
+
+.client-item-tag {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  margin-right: 4px;
+
+}
+
+.icon-type {
+  display: inline-block;
+  width: 20px;
+  float: right;
+  height: 20px;
+}

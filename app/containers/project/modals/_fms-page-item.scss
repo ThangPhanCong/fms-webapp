@@ -1,0 +1,36 @@
+.page-item {
+  cursor: pointer;
+  padding: 8px;
+  margin: 9px;
+  border-radius: 5px;
+  border: 1px solid #eaeaea;
+  min-width: 400px;
+  background-color: white;
+  width: 98%;
+  display: inline-block;
+}
+
+.page-profile {
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  margin-right: 24px;
+}
+
+.fanpage-title {
+  vertical-align: middle;
+  font-size: 20px;
+  color: #1abc9c;
+}
+
+.tick {
+  float: right;
+  width: 32px;
+  margin-right: 8px;
+  margin-top: 10px;
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

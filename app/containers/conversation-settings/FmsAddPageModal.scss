@@ -1,0 +1,22 @@
+.inmodal {
+  .add-page-checkbox {
+    display: inline-block;
+    margin-right: 8px;
+  }
+  .start-date {
+    font-weight: bold;
+    display: inline-block;
+  }
+  .get-history-option {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .custom-date-picker {
+    input {
+      display: inline-block;
+      width: initial;
+      margin-left: 5px;
+    }
+  }
+}

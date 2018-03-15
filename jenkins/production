@@ -1,0 +1,26 @@
+pipeline {
+    agent {
+        label 'master'
+    }
+
+    stages {
+      stage('Install Dependencies') {
+          steps {
+              sh 'npm i'
+          }
+      }
+
+      stage('Build') {
+          steps {
+              sh 'npm run build-prod || true'
+          }
+      }
+
+      stage('Deploy to production') {
+          steps {
+			  sh 'sudo ssh -i /.ssh/WI-backend-server.pem ubuntu@13.251.22.187 rm -fr /var/www/adsbold/production/*'
+			  sh 'sudo rsync --delete -azvv ./* -e "ssh -i /.ssh/WI-backend-server.pem" --rsync-path="sudo rsync" ubuntu@13.251.22.187:/var/www/adsbold/production'
+          }
+      }
+    }
+}

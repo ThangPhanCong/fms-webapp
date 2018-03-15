@@ -1,15 +1,16 @@
-# Facebook manangement suite
+# Adsbold webapp
 
 ## config
-Create `app/config.json` like `app/config.example.json`
+Create `config.json`
+```
+{
+  "BASE_URL" : "https://adsbold.com",
+  "REDIRECT_TO" : "http://localhost:3000"
+}
+```
 
 ## Build
 `npm run build`
 
 ## Run Dev-server
 `npm start`
-
-## Deploy
-Only on Linux and Unix OS base
-`chmod 600 ./script/server.key`
-`npm run deploy`

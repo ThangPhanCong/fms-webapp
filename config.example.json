@@ -1,4 +1,4 @@
 {
-  "BASE_URL" : "http://localhost:3001",
-  "REDIRECT_TO" : "http://localhost:3000/login"
+  "BASE_URL" : "https://adsbold.com",
+  "REDIRECT_TO" : "http://localhost:3000"
 }

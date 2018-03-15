@@ -1,5 +1,8 @@
 node_modules/
+.idea
 build
 config.json
 .DS_Store
 .idea/
+test.js
+.git-old/
