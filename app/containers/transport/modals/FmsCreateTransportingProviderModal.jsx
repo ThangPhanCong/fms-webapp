@@ -150,7 +150,7 @@ class FmsCreateTransportingProviderModal extends Component {
                                 <option value=""/>
                                 {
                                     allProviders.filter(p => !activeProviders.find(ap => ap.provider_name === p.name))
-                                        .map(p => <option value={p.name}>{p.display_name}</option>)
+                                        .map(p => <option key={p.name} value={p.name}>{p.display_name}</option>)
                                 }
                             </select>
                         </h4>
