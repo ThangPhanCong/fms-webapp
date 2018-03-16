@@ -217,7 +217,7 @@ class FmsStaffDetailModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Vai trò</label>
+                            <label className="control-label required-field">Vai trò</label>
                         </div>
                         <div className="col-sm-8">
                             <select className="form-control"
