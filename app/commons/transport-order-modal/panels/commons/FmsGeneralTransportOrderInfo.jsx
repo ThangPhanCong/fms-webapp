@@ -1,6 +1,5 @@
 import React, {Component, Fragment} from "react";
 import propTypes from 'prop-types';
-import FmsTimeline from "../../../FmsTimeline/FmsTimeline";
 
 class FmsGeneralTransportOrderInfo extends Component {
 
@@ -41,27 +40,39 @@ class FmsGeneralTransportOrderInfo extends Component {
                     </div>
                 </div>
 
-                {
-                    timelineItems.length > 0 ? (
-                        <div className='row'>
-                            <FmsTimeline items={timelineItems}/>
+                <div className="ibox">
+                    <div className="ibox-title">
+                        <h5>Lịch trình đơn hàng</h5>
+                    </div>
+                    <div className="ibox-content">
+                        <div className="table-responsive">
+                            <table className='table table-striped'>
+                                <thead>
+                                <tr>
+                                    <th>Thời gian</th>
+                                    <th>Trạng thái</th>
+                                    <th>Địa điểm</th>
+                                    <th>Ghi chú</th>
+                                </tr>
+                                </thead>
 
-                            <div className='m-l-xl'>
-
-                                        <span className='m-l-lg'>
-                                            <i className="fa fa-circle" style={{color: '#7b9d6f'}}/>
-                                            {' '} Trạng thái đơn hàng
-                                        </span>
-
-                                <span className='m-l-lg'>
-                                            <i className="fa fa-circle" style={{color: '#e91b3d'}}/>
-                                    {' '} Yêu cầu của shop
-                                        </span>
-                            </div>
-                            <hr/>
+                                <tbody>
+                                {
+                                    timelineItems && timelineItems.map(i => (
+                                        <tr key={i.created_time}>
+                                            <td>{i.created_time}</td>
+                                            <td>{i.content}</td>
+                                            <td>{i.location || ''}</td>
+                                            <td>{i.note}</td>
+                                        </tr>
+                                    ))
+                                }
+                                </tbody>
+                            </table>
                         </div>
-                    ) : null
-                }
+                    </div>
+                </div>
+
             </Fragment>
         )
     }
