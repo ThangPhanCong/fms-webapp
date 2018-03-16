@@ -65,8 +65,8 @@ class ViettelServiceInfoPanel extends Component {
                             <option value=""/>
                             <option value="1">Không thu tiền</option>
                             <option value="2">Thu hộ tiền cước và tiền hàng</option>
-                            {/*<option value="3">Thu hộ tiền hàng</option>*/}
-                            {/*<option value="4">Thu hộ tiền cước</option>*/}
+                            <option value="3">Thu hộ tiền hàng</option>
+                            <option value="4">Thu hộ tiền cước</option>
                         </select>
                     </div>
                 </div>
@@ -96,7 +96,7 @@ class ViettelServiceInfoPanel extends Component {
 
                 <div className="col-md-6 form-group">
                     <div className="col-sm-5">
-                        <label className="control-label required-field">Dịch vụ cộng thêm</label>
+                        <label className="control-label">Dịch vụ cộng thêm</label>
                     </div>
                     <div className="col-sm-7">
                         <select className="form-control"

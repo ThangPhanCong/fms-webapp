@@ -77,6 +77,7 @@ class ViettelPostPanel extends Component {
             PRODUCT_QUANTITY: order.products && order.products.length || 0,
             PRODUCT_PRICE: orderCalculateUtils.calculateProductsPrice(order.products),
 
+            ORDER_SERVICE_ADD: '',
             MONEY_COLLECTION: orderCalculateUtils.calculateTotalPrice(order),
         };
 

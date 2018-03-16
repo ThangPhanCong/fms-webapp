@@ -80,7 +80,7 @@ class OtherProviderOptionActionPanel extends Component {
                 <div id='toogle' className='collapse' style={{marginTop: '20px'}}>
                     <div className="row form-group">
                         <div className="col-sm-2">
-                            <label className="control-label">Tên trạng thái</label>
+                            <label className="control-label">Nội dung</label>
                         </div>
                         <div className="col-sm-4">
                             <select className="form-control"
@@ -101,7 +101,7 @@ class OtherProviderOptionActionPanel extends Component {
                         </div>
 
                         <div className="col-sm-2">
-                            <label className="control-label">Thời gian cập nhật</label>
+                            <label className="control-label">Ngày tháng</label>
                         </div>
                         <div className="col-sm-4">
                             <input type='datetime-local'
@@ -118,7 +118,7 @@ class OtherProviderOptionActionPanel extends Component {
 
                     <div className="row form-group">
                         <div className="col-sm-2">
-                            <label className="control-label">Yêu cầu</label>
+                            <label className="control-label">Ghi chú</label>
                         </div>
                         <div className="col-sm-10">
                             <textarea
