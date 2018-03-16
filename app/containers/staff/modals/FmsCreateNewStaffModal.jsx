@@ -167,7 +167,7 @@ class FmsCreateNewStaffModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Vai trò</label>
+                            <label className="control-label required-field">Vai trò</label>
                         </div>
                         <div className="col-sm-8">
                             <select className="form-control"
@@ -175,7 +175,7 @@ class FmsCreateNewStaffModal extends Component {
                                 value={staff.role_id || ''}
                                 onChange={() => {this.onChangeInput('role_id')}}
                             >
-                                <option value=""></option>
+                                <option value=""/>
                                 {
                                     roles.map(role => {
                                         return <option value={role._id} key={role._id}>{role.name}</option>
