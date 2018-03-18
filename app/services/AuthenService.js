@@ -25,27 +25,37 @@ export const AuthenService = {
         broadcast();
     },
     verifyAccessToken: (access_token) => {
-        if (!access_token) access_token = store.get('access_token');
-        store.set('access_token', access_token);
-        isLoading = true;
-        broadcast();
+        if (!access_token) {
+            access_token = store.get('access_token');
+        }
 
-        tokenApi.verifyAccessToken(access_token)
-            .then(
-                userData => {
-                    user = userData;
-                    isAuthenticated = true;
-                },
-                () => {
-                    store.clear('access_token');
-                    user = null;
-                    isAuthenticated = null;
-                }
-            )
-            .then(() => {
-                isLoading = false;
-                broadcast();
-            })
+        if (access_token) {
+            store.set('access_token', access_token);
+            isLoading = true;
+
+            tokenApi.verifyAccessToken(access_token)
+                .then(
+                    userData => {
+                        user = userData;
+                        isAuthenticated = true;
+                    },
+                    () => {
+                        store.clear('access_token');
+                        user = null;
+                        isAuthenticated = null;
+                    }
+                )
+                .then(() => {
+                    isLoading = false;
+                    broadcast();
+                })
+        } else {
+            user = null;
+            isAuthenticated = null;
+            isLoading = false;
+        }
+
+        broadcast();
     },
     register: (self, callback) => {
         listeners[self] = callback;

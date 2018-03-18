@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import {Modal} from 'react-bootstrap';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import FmsTabs from '../../../commons/FmsTabs/FmsTabs';
 import FmsTab from '../../../commons/FmsTabs/FmsTab';
 import {StaffLogIn} from '../../../api/StaffApi';
@@ -131,9 +131,9 @@ class FmsLoginFormModal extends Component {
                                                     </button>
 
                                                     <p className="text-muted text-center">
-                                                        <a href="#" className='text-center'>
+                                                        <Link to='/forget-password' replace>
                                                             <small>Quên mật khẩu?</small>
-                                                        </a>
+                                                        </Link>
                                                     </p>
                                                 </form>
                                             </div>

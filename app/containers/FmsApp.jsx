@@ -32,6 +32,16 @@ const LoadableFmsProject = Loadable({
     loading: FmsLoading
 });
 
+const LoadableFmsForgetPassword = Loadable({
+    loader: () => import('./forget-password/FmsForgetPassword'),
+    loading: FmsLoading
+});
+
+const LoadableFmsResetPassword = Loadable({
+    loader: () => import('./reset-password/FmsResetPassword'),
+    loading: FmsLoading
+});
+
 class FmsApp extends Component {
     constructor(props) {
         super(props);
@@ -142,7 +152,10 @@ class FmsApp extends Component {
             } else {
                 return (
                     <Switch>
-                        <FmsRoute exact path="/" component={LoadableFmsLogin} noti={this.noti.bind(this)}/>
+                        <FmsRoute exact path="/" component={LoadableFmsLogin}/>
+                        <FmsRoute path="/forget-password" component={LoadableFmsForgetPassword}/>
+                        <FmsRoute path="/reset-password" component={LoadableFmsResetPassword}/>
+
                         <Redirect to="/"/>
                     </Switch>
                 )
