@@ -42,6 +42,8 @@ class FmsForgetPassword extends Component {
             <div>
                 <div className="col-md-4 col-md-offset-4">
                     <div className="ibox-content">
+                        <h2>Quên mật khẩu</h2>
+
                         {
                             isSendEmail ?
                                 (

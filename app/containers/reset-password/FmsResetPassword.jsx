@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import forgetPassApi from '../../api/ForgetPasswordApi';
+import {Link} from "react-router-dom";
 
 class FmsResetPassword extends Component {
     state = {
@@ -49,10 +50,18 @@ class FmsResetPassword extends Component {
             <div>
                 <div className="col-md-4 col-md-offset-4">
                     <div className="ibox-content">
+                        <h2>Cập nhật mật khẩu</h2>
                         {
                             isSendPass ?
                                 (
-                                    <p>Mật khẩu cập nhật thành công!</p>
+                                    <div>
+                                        <p>Cập nhật mật khẩu thành công!</p>
+                                        <Link
+                                            className='btn btn-primary'
+                                            to='/'
+                                            replace
+                                        >Đăng nhập ngay</Link>
+                                    </div>
                                 )
                                 : (
                                     <form className="m-t null">
