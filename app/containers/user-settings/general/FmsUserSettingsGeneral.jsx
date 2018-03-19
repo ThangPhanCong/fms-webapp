@@ -42,7 +42,6 @@ class FmsUserSettingsGeneral extends Component {
 
     componentDidMount() {
         const userInfo = AuthenService.getUser();
-        console.log(userInfo)
         this.setState({
             name: userInfo.name,
             email: userInfo.email
