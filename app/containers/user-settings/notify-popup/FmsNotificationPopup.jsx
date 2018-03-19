@@ -98,9 +98,9 @@ class FmsNotificationPopup extends Component {
 
         const button_seeall = <li>
             <div className="text-center link-block">
-                <Link to="/notifications">
+                <Link to="/settings/notifications">
                     <strong>Xem tất cả </strong>
-                    <i className="fa fa-angle-right"></i>
+                    <i className="fa fa-angle-right"/>
                 </Link>
             </div>
         </li>;
@@ -109,21 +109,21 @@ class FmsNotificationPopup extends Component {
             <p className="text-notify">
                 Không có thông báo mới!
             </p>
-            <li className="divider"></li>
+            <li className="divider"/>
             <br/>
             <div className="seeall-notify">
-                <Link to="/notifications">
+                <Link to="/settings/notifications">
                     <strong>Xem tất cả </strong>
-                    <i className="fa fa-angle-right"></i>
+                    <i className="fa fa-angle-right"/>
                 </Link>
             </div>
-        </div>
+        </div>;
 
         return (
             <li className="dropdown">
                 <a className="dropdown-toggle count-info" data-toggle="dropdown"
                    onClick={() => this.onSeenNotification(false, userid)}>
-                    <i className="fa fa-bell"></i>
+                    <i className="fa fa-bell"/>
                     <span className="label label-primary">{
                         countNotificationSeen(notifications)
                     }</span>

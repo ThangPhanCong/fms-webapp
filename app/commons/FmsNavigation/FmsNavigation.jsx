@@ -1,10 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {Image} from 'react-bootstrap';
 
-import FmsNotificationPopup from "../../containers/notifimanager/notify-popup/FmsNotificationPopup";
+import FmsNotificationPopup from "../../containers/user-settings/notify-popup/FmsNotificationPopup";
 import {AuthenService} from "../../services/AuthenService";
 
 class FmsNavigation extends React.Component {
@@ -54,6 +54,8 @@ class FmsNavigation extends React.Component {
                                     <li className='dropdown-header'
                                         style={{color: '#676a6c', fontSize: '14px'}}>{username}</li>
                                     <li className='divider'/>
+                                    <li className=""><Link to={'/settings'}
+                                                        style={{textAlign: 'center'}}>Cài đặt</Link></li>
                                     <li className=""><a onClick={self.onLogoutBtnClick.bind(this)}
                                                         style={{textAlign: 'center'}}>Đăng xuất</a></li>
                                 </ul>

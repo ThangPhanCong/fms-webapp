@@ -35,18 +35,24 @@ class FmsArchiveNotification extends Component {
         const {notifications} = this.state;
 
         return (
-            <div>
-                <table className="table table-mail table-hover"
-                       style={notifications.length != 0 ? {border: "solid 0.2px #EEEEEE"} : null}>
-                    <tbody>
-                    {notifications.map((noti, i) => {
-                        return (
-                            <FmsNotificationItem noti={noti} key={i} position={i}/>
-                        )
+            <div className='ibox'>
+                <h2>Lưu trữ thông báo</h2>
+                <div className="ibox-content">
+                    <table className="table table-mail table-hover"
+                           style={notifications.length !== 0 ? {border: "solid 0.2px #EEEEEE"} : null}>
+                        <tbody>
+                        {   notifications.length !== 0 ?
+                            notifications.map((noti, i) => {
+                                return (
+                                    <FmsNotificationItem noti={noti} key={i} position={i}/>
+                                )
 
-                    })}
-                    </tbody>
-                </table>
+                            })
+                            : <p>Không có lưu trữ thông báo!</p>
+                        }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         )
     }

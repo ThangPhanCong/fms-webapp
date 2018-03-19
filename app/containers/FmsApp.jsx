@@ -22,8 +22,8 @@ const LoadableFmsDashboard = Loadable({
     loading: FmsLoading
 });
 
-const LoadableFmsDashboardNotification = Loadable({
-    loader: () => import('./notifimanager/notification-dashboard/FmsDashboardNotification'),
+const LoadableFmsUserSettings = Loadable({
+    loader: () => import('./user-settings/FmsUserSettings'),
     loading: FmsLoading
 });
 
@@ -67,7 +67,7 @@ class FmsApp extends Component {
 
         LoadableFmsProject.preload();
         LoadableFmsDashboard.preload();
-        LoadableFmsDashboardNotification.preload();
+        LoadableFmsUserSettings.preload();
     }
 
     componentWillUnmount() {
@@ -140,7 +140,7 @@ class FmsApp extends Component {
 
                         <Switch>
                             <FmsRoute exact path="/shops" component={LoadableFmsProject}/>
-                            <FmsRoute path="/notifications" component={LoadableFmsDashboardNotification}/>
+                            <FmsRoute path="/settings" component={LoadableFmsUserSettings}/>
                             <FmsRoute path="/shops/:project_alias" component={LoadableFmsDashboard}/>
 
                             <Redirect to="/shops"/>

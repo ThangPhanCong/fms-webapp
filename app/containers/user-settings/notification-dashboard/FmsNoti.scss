@@ -53,9 +53,27 @@
     list-style: none;
 
     li {
-      &:hover {
-        background: #F5F5F5;
-        cursor: pointer;
+      display: block;
+
+      a {
+        display: block;
+        color: black;
+        padding: 8px 100px 8px 10px;
+
+
+        &:hover {
+          background: #F5F5F5;
+          cursor: pointer;
+        }
+        &.active {
+          border-left: solid #18A689 2px;
+          font-weight: bold;
+          color: #18A689;
+        }
+      }
+
+      &.devider {
+        height: 30px;
       }
     }
   }
