@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Location} from 'react-router-dom';
+import {Link, Location} from 'react-router-dom';
 import NavItem from "./NavItem";
 
 import {treeConfig, filterConfigByPerms} from './RouteConfig'
@@ -45,6 +45,7 @@ class Navigation extends Component {
                             </span>
                     </a>
                     <ul className="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><Link to='/settings'> Cài đặt</Link></li>
                         <li><a onClick={this.onLogoutBtnClick.bind(this)}> Đăng xuất</a></li>
                     </ul>
                 </div>
