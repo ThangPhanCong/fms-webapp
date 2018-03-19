@@ -15,6 +15,13 @@ function broadcast() {
 export const AuthenService = {
     isLoading: () => isLoading,
     getUser: () => user,
+    setUser: (_user) => {
+        user = _user;
+        broadcast();
+    },
+    setAccessToken: (access_token) => {
+        store.set('access_token', access_token);
+    },
     isAuthenticated: () => isAuthenticated,
     logOut: () => {
         store.clear('access_token');

@@ -19,12 +19,15 @@ class FmsUserSettingsGeneral extends Component {
 
         const userInfo = AuthenService.getUser();
         try {
+            let response;
             if (userInfo.role === 'SHOP_OWNER') {
-                await shopOwnerSettingsApi.updateGeneralInfo(userInfo._id, {email, name});
+                response = await shopOwnerSettingsApi.updateGeneralInfo(userInfo._id, {email, name});
             } else if (userInfo.role === 'STAFF') {
-                await staffSettingsApi.updateGeneralInfo(userInfo._id, {email, name});
+                response = await staffSettingsApi.updateGeneralInfo(userInfo._id, {email, name});
             }
 
+            AuthenService.setUser(response.user_info);
+            AuthenService.setAccessToken(response.access_token);
             alert('Cập nhật thông tin thành công');
         } catch (err) {
             alert(err.message);
