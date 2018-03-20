@@ -26,15 +26,13 @@ class FmsNavLeftNotification extends Component {
                 <li className='devider'/>
 
                 <li><NavLink
-                    exact
                     to={match.url + "/notifications"}
                     replace
                 >Thông báo
                 </NavLink></li>
 
                 <li><NavLink
-                    exact
-                    to={match.url + "/notifications/archived"}
+                    to={match.url + "/notifications-archived"}
                     replace
                 >
                     Lưu trữ

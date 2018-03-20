@@ -6,7 +6,7 @@ class FmsNotificationItem extends Component {
     render() {
         const {
             noti,
-            position
+            link
         } = this.props;
 
         return (
@@ -16,7 +16,7 @@ class FmsNotificationItem extends Component {
                 </td>
 
                 <td>
-                    <Link to={`/notifications/${noti._id}`}>{noti.title}</Link>
+                    <Link to={link}>{noti.title}</Link>
                 </td>
             </tr>
         )

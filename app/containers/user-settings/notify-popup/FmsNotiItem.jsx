@@ -14,7 +14,10 @@ class FmsNotiItem extends Component {
 
         return (
             <li key={position} className="list-noti">
-                <Link to={`/notifications/${noti._id}`}>
+                <Link
+                    to={`/settings/notifications/${noti._id}`}
+                    replace
+                >
                     <div
                         onMouseEnter={onShowArchived}
                     >

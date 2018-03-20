@@ -28,8 +28,9 @@ class FmsUserSettings extends Component {
                                 <Route path={match.url + "/security"} exact component={FmsUserSecurity} />
 
                                 <Route path={match.url + "/notifications"} exact component={FmsTableNotification} />
-                                <Route path={match.url + "/notifications/archived"} exact component={FmsArchiveNotification} />
                                 <Route path={match.url + "/notifications/:id"} component={FmsDetailNotificationItem} />
+                                <Route path={match.url + "/notifications-archived"} exact component={FmsArchiveNotification} />
+                                <Route path={match.url + "/notifications-archived/:id"} component={FmsDetailNotificationItem} />
 
                                 <Redirect to={match.url + '/general'}/>
                             </Switch>
