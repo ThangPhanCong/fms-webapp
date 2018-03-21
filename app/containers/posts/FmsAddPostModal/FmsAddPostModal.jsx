@@ -129,8 +129,6 @@ class FmsAddPostModal extends React.Component {
         }
 
 
-
-
         let isValid = true;
         files = files.filter(f => {
             if (f.size < MAX_FILE_SIZE) return true;
@@ -207,7 +205,20 @@ class FmsAddPostModal extends React.Component {
         })
     }
 
-    async onPost() {
+    async onPostOption(pages_fb_id, content) {
+        try {
+            await postsApi.addNewPost(pages_fb_id, content);
+            this.onSetNullContent();
+            this.props.closeModal();
+            this.setState({isPosting: false, files: [], states: []});
+            noti("success", `Đăng thành công bài viết cho ${pages_fb_id.length} trang.`);
+        } catch (err) {
+            this.setState({isPosting: false});
+            alert("Something went wrong");
+        }
+    }
+
+    onPost() {
         let message = this.state.editorState.getCurrentContent().getPlainText();
 
         if (!message) {
@@ -221,18 +232,10 @@ class FmsAddPostModal extends React.Component {
         const {files} = this.state;
 
         this.setState({isPosting: true});
-        if (files.length == 0) {
+        if (!files.length) {
             let content = {message, urls: images, published: true};
-            try {
-                await postsApi.addNewPost(pages_fb_id, content);
-                this.onSetNullContent();
-                this.props.closeModal();
-                this.setState({isPosting: false, files: [], states: []});
-                noti("success", `Đăng thành công bài viết cho ${pages_fb_id.length} trang.`);
-            } catch (err) {
-                this.setState({isPosting: false});
-                alert("Something went wrong");
-            }
+
+            this.onPostOption(pages_fb_id, content);
         } else if (files) {
             const last_files = files[files.length - 1];
 
@@ -244,31 +247,13 @@ class FmsAddPostModal extends React.Component {
                     description: message
                 };
 
-                try {
-                    await postsApi.addNewPost(pages_fb_id, content);
-                    this.onSetNullContent();
-                    this.props.closeModal();
-                    this.setState({isPosting: false, files: [], states: []});
-                    noti("success", `Đăng thành công bài viết cho ${pages_fb_id.length} trang.`);
-                } catch (err) {
-                    this.setState({isPosting: false});
-                    alert("Something went wrong");
-                    console.log(err)
-                }
+                this.onPostOption(pages_fb_id, content);
             }
 
             if (last_files.type.includes("image")) {
                 let content = {message, urls: images, published: true};
-                try {
-                    await postsApi.addNewPost(pages_fb_id, content);
-                    this.onSetNullContent();
-                    this.props.closeModal();
-                    this.setState({isPosting: false, files: [], states: []});
-                    noti("success", `Đăng thành công bài viết cho ${pages_fb_id.length} trang.`);
-                } catch (err) {
-                    this.setState({isPosting: false});
-                    alert("Something went wrong");
-                }
+
+                this.onPostOption(pages_fb_id, content);
             }
 
         }
