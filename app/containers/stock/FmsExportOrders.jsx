@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 import FmsPageTitle from "../../commons/page-title/FmsPageTitle";
 import FmsSpin from "../../commons/FmsSpin/FmsSpin";
 import FmsExportOrderSearchBar from "../orders/all-orders/FmsExportOrderSearchBar";
-import FmsExportOrderTable from "./FmsExportOrderTable";
+import FmsExportOrderTable from "./export-order/FmsExportOrderTable";
 import {getOrders, ORDER_STATUS} from "../../api/OrderApi";
 import {getAllProviders} from '../../api/TransportProviderApi';
 import FmsOrderDetailModal from "../../commons/order-modal/FmsOrderDetailModal";
-import FmsCreateTransportOrderModal from './modals/FmsCreateTransportOrderModal';
-import FmsTransportOrderDetailModal from './modals/FmsTransportOrderDetailModal';
+import FmsCreateTransportOrderModal from '../../commons/transport-order-modal/FmsCreateTransportOrderModal';
+import FmsTransportOrderDetailModal from '../../commons/transport-order-modal/FmsTransportOrderDetailModal';
 
 class FmsExportOrders extends Component {
 

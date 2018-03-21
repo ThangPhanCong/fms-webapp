@@ -3,9 +3,9 @@ import {getOrders, ORDER_STATUS} from "../../../api/OrderApi";
 import FmsSpin from "../../../commons/FmsSpin/FmsSpin";
 import FmsOrderDetailModal from "../../../commons/order-modal/FmsOrderDetailModal";
 import FmsExportOrderSearchBar from "./FmsExportOrderSearchBar";
-import FmsExportOrderTable from "../../stock/FmsExportOrderTable";
-import FmsCreateTransportOrderModal from '../../stock/modals/FmsCreateTransportOrderModal';
-import FmsTransportOrderDetailModal from '../../stock/modals/FmsTransportOrderDetailModal';
+import FmsExportOrderTable from "../../stock/export-order/FmsExportOrderTable";
+import FmsCreateTransportOrderModal from '../../../commons/transport-order-modal/FmsCreateTransportOrderModal';
+import FmsTransportOrderDetailModal from '../../../commons/transport-order-modal/FmsTransportOrderDetailModal';
 import {getAllProviders} from '../../../api/TransportProviderApi';
 
 class FmsExportOrderTab extends Component {

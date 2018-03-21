@@ -6,10 +6,11 @@ import {Link} from "react-router-dom";
 import {flatConfig} from "./RouteConfig";
 import {getRouteNameAtLevel} from "../../../utils/route-utils";
 import {setAlias} from "../../../actions/dashboard/conversations";
-import FmsNotificationPopup from "../../notifimanager/notify-popup/FmsNotificationPopup";
+import FmsNotificationPopup from "../../user-settings/notify-popup/FmsNotificationPopup";
 import * as tokenApi from "../../../api/TokenApi";
 import * as store from "../../../helpers/storage";
 import {connect} from "react-redux";
+import {AuthenService} from "../../../services/AuthenService";
 
 class TopHeader extends React.Component {
 
@@ -97,7 +98,7 @@ class TopHeader extends React.Component {
     renderRightNavItem() {
         const {
             _id
-        } = this.props.user;
+        } = AuthenService.getUser();
 
         return (
             <ul className="nav navbar-top-links navbar-right">
@@ -139,10 +140,4 @@ class TopHeader extends React.Component {
 
 }
 
-const mapStateToProps = (state) => {
-    return {
-        user: state.auth.user
-    }
-};
-
-export default connect(mapStateToProps)(TopHeader);
+export default TopHeader;

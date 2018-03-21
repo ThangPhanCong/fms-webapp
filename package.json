@@ -1,16 +1,17 @@
 {
-  "name": "Adsbold",
+  "name": "adsbold-webapp",
   "version": "2.0.0",
   "description": "Facebook management suite",
   "scripts": {
-    "clean": "rimraf build",
     "prestart": "npm i",
+    "clean": "rimraf build",
     "start": "node server.js",
-    "dev": "npm run clean && webpack -w --progress --config config/webpack/webpack.dev.js",
-    "dev:alz": "npm run clean && webpack --progress --config config/webpack/webpack.dev-alz.js",
-    "build": "webpack --progress --config config/webpack/webpack.dev.js",
-    "build-prod": "NODE_ENV=production webpack --config config/webpack/webpack.prod.js",
-    "build-staging": "NODE_ENV=staging webpack --config config/webpack/webpack.staging.js"
+    "local": "npm run clean && webpack -w --progress --config config/webpack/webpack.local.js",
+    "local:alz": "npm run clean && webpack --progress --config config/webpack/webpack.local-alz.js",
+    "build-local": "NODE_ENV=local webpack --progress --config config/webpack/webpack.local.js",
+    "build-dev": "NODE_ENV=dev webpack --progress --config config/webpack/webpack.dev.js",
+    "build-staging": "NODE_ENV=staging webpack --progress --config config/webpack/webpack.staging.js",
+    "build-prod": "NODE_ENV=production webpack --progress --config config/webpack/webpack.prod.js"
   },
   "author": "Adsbold team",
   "license": "MIT",

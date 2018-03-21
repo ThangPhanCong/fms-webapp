@@ -16,7 +16,7 @@ import {EditorState} from 'draft-js';
 import $ from 'jquery';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
 import uuid from 'uuid';
-import {connect} from "react-redux";
+import {AuthenService} from "../../../services/AuthenService";
 
 const hashtagPlugin = createHashtagPlugin();
 const linkifyPlugin = createLinkifyPlugin();
@@ -357,7 +357,9 @@ class FmsAddPostModal extends React.Component {
         let postisDisabled = (this.state.isHandling || this.state.isPosting
             || this.isNoSelectedPages() || this.isUploadingFiles());
         let cancelIsDisabled = this.state.isHandling || this.state.isPosting;
-        const {fb_id} = this.props.user;
+        const {
+            fb_id
+        } = AuthenService.getUser();
 
         return (
             <Modal
@@ -420,11 +422,4 @@ class FmsAddPostModal extends React.Component {
     }
 }
 
-
-const mapStateToProps = (state) => {
-    return {
-        user: state.auth.user
-    }
-};
-
-export default connect(mapStateToProps)(FmsAddPostModal);
+export default FmsAddPostModal;

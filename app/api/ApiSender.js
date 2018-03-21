@@ -4,12 +4,12 @@ import tokenGetter from 'helpers/token-getter';
 
 // store token scope
 const config = {
-    '/api/a' : 'BASE',
-    '/api/p' : 'PROJECT',
-    '/api/o' : 'PROJECT',
-    '/api/n' : 'PROJECT',
-    '/api/ui' : 'PROJECT',
-    '/api/t' : 'PROJECT'
+    '/api/a': 'BASE',
+    '/api/p': 'PROJECT',
+    '/api/o': 'PROJECT',
+    '/api/n': 'PROJECT',
+    '/api/ui': 'PROJECT',
+    '/api/t': 'PROJECT'
 };
 
 function getTypeToken(route) {
@@ -69,10 +69,17 @@ function handleResponse(res) {
         } else {
             return Promise.reject(new Error(res.data.reason));
         }
-    };
-};
+    }
+}
 
 exports.getWithoutAuth = (route) => {
     let url = BASE_URL + route;
-    return axios.get(url);
+    return axios.get(url)
+        .then(handleResponse);
+};
+
+exports.postWithoutAuth = (route, payload) => {
+    let url = BASE_URL + route;
+    return axios.post(url, payload)
+        .then(handleResponse);
 };

@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 import {getRoles} from '../../../api/RoleApi';
-import {updateStaff, deleteStaff} from '../../../api/StaffApi';
+import * as staffApi from '../../../api/StaffApi';
+import {cloneDiff} from "../../../utils/object-utils";
 
 class FmsStaffDetailModal extends Component {
 
@@ -14,41 +15,54 @@ class FmsStaffDetailModal extends Component {
 
     onUpdateStaff() {
         const {project} = this.props;
-        const {staff} = this.state;
         this.setState({isLoading: true});
-        if (!!staff.name && !!staff.email) {
-            updateStaff(project._id, staff)
-                .then(
-                    staff => {
-                        const shouldUpdate = true;
-                        this.closeModal(shouldUpdate);
-                    },
-                    err => {
-                        alert(err.message);
-                    }
-                )
-                .then(this.setState({staff: {}, isLoading: false}));
-        } else {
-            this.setState({isLoading: false});
-            alert('Cần điền đầy đủ các trường Tên nhân viên, Email');
-        } 
+
+        const diff = cloneDiff({...this.props.staff}, {...this.state.staff});
+
+        console.log('diff', diff);
+
+        if (Object.keys(diff).length === 0) {
+            this.setState({staff: {}, isLoading: false});
+            this.closeModal();
+            return;
+        }
+
+        staffApi.updateStaff(project._id, this.props.staff._id, diff)
+            .then(
+                staff => {
+                    const shouldUpdate = true;
+
+                    this.setState({staff: {}});
+                    this.closeModal(shouldUpdate);
+                },
+                err => {
+                    alert(err.message);
+                }
+            )
+            .then(this.setState({isLoading: false}));
     }
 
     onDeleteStaff() {
         const {project} = this.props;
-        const {staff} = this.state;
 
         const allow = confirm('Bạn có chắc chắn muốn xóa nhân viên này?');
 
         if (allow) {
             this.setState({isLoading: true});
 
-            deleteStaff(project._id, staff._id)
-                .then(staff => {
-                    const shouldUpdate = true;
-                    this.closeModal(shouldUpdate);
-                })
-                .then(this.setState({staff: {}, isLoading: false}))
+            staffApi.deleteStaff(project._id, this.props.staff._id)
+                .then(
+                    staff => {
+                        const shouldUpdate = true;
+
+                        this.setState({staff: {}});
+                        this.closeModal(shouldUpdate);
+                    },
+                    err => {
+                        alert(err.message);
+                    }
+                )
+                .then(this.setState({isLoading: false}));
         }
     }
 
@@ -73,11 +87,11 @@ class FmsStaffDetailModal extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        let staff = this.state.staff;
         const {isShown, project} = this.props;
 
-        if (nextProps.staff && nextProps.staff !== staff) {
-            staff = nextProps.staff;
+        if (nextProps.staff) {
+            const staff = {...nextProps.staff};
+
             if (staff.role) staff.role_id = staff.role._id;
             if (staff.birthday && staff.birthday !== null) staff.birthday = staff.birthday.split('T')[0];
             this.setState({staff});
@@ -103,7 +117,8 @@ class FmsStaffDetailModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Tên nhân viên <span className='required-text'>*</span></label>
+                            <label className="control-label">Tên nhân viên <span
+                                className='required-text'>*</span></label>
                         </div>
                         <div className="col-sm-8">
                             <input type="text"
@@ -202,7 +217,7 @@ class FmsStaffDetailModal extends Component {
                 <div className="row">
                     <div className="form-group col-sm-6">
                         <div className="col-sm-4">
-                            <label className="control-label">Vai trò</label>
+                            <label className="control-label required-field">Vai trò</label>
                         </div>
                         <div className="col-sm-8">
                             <select className="form-control"
@@ -212,7 +227,7 @@ class FmsStaffDetailModal extends Component {
                                         this.onChangeInput('role_id')
                                     }}
                             >
-                                <option value=""></option>
+                                <option value=""/>
                                 {
                                     roles.map(role => {
                                         return <option value={role._id} key={role._id}>{role.name}</option>

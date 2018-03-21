@@ -84,6 +84,8 @@ if (process.env.NODE_ENV === 'production') {
     configPath = path.resolve(__rootdir, 'config/env/config-prod.json');
 } else if (process.env.NODE_ENV === 'staging') {
     configPath = path.resolve(__rootdir, 'config/env/config-staging.json');
+} else if (process.env.NODE_ENV === 'dev') {
+    configPath = path.resolve(__rootdir, 'config/env/config-dev.json');
 } else {
     configPath = path.resolve(__rootdir, 'config.json');
     entry['index-test'] = indextestHtml;

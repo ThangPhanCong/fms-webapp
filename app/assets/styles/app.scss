@@ -32,3 +32,12 @@
     opacity: 1 !important;
   }
 }
+
+.primary-background {
+  background-color: #1ab394;
+}
+
+.required-field:after {
+  content: ' *';
+  color: red;
+}

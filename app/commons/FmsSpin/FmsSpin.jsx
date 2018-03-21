@@ -22,4 +22,4 @@ FmsSpin.defaultProps = {
     size: 35
 };
 
-module.exports = FmsSpin;
+export default FmsSpin;

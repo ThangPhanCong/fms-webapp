@@ -1,4 +1,4 @@
 {
   "BASE_URL" : "https://adsbold.com",
-  "REDIRECT_TO" : "https://dev.adsbold.com"
+  "REDIRECT_TO" : "https://stag.adsbold.com"
 }

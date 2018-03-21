@@ -13,6 +13,10 @@ class FmsSearchDropdown extends Component {
         this.setState({showMenuItem: true});
     }
 
+    onBlurInput(e) {
+        // console.log('e blur', e)
+    }
+
     onChangeInput(refName, newValue = this.refs[refName].value) {
         const {onSearchChange} = this.props;
         const {showMenuItem} = this.state;
@@ -73,6 +77,7 @@ class FmsSearchDropdown extends Component {
                         placeholder={placeholder || ''}
                         onChange={() => this.onChangeInput('search')}
                         onFocus={this.onFocusInput.bind(this)}
+                        onBlur={this.onBlurInput.bind(this)}
                         disabled={disabled}
                     />
                     {

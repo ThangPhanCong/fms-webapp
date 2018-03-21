@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import propTypes from 'prop-types';
 import uuid from 'uuid';
+import * as timeoutUtil from "../../utils/timeout-utils";
 
-class FmsSearchDropdown extends Component {
+class FmsEditableDropdown extends Component {
 
     state = {
         showMenuItem: false
@@ -10,6 +11,15 @@ class FmsSearchDropdown extends Component {
 
     onFocusInput() {
         this.setState({showMenuItem: true});
+    }
+
+    onBlurInput(e) {
+        timeoutUtil.delay(300)
+            .then(() => {
+                const {showMenuItem} = this.state;
+
+                if (showMenuItem) this.setState({showMenuItem: false});
+            })
     }
 
     onChangeInput(refName, newValue = this.refs[refName].value) {
@@ -71,6 +81,7 @@ class FmsSearchDropdown extends Component {
                         placeholder={placeholder || ''}
                         onChange={() => this.onChangeInput('search')}
                         onFocus={this.onFocusInput.bind(this)}
+                        onBlur={this.onBlurInput.bind(this)}
                         disabled={disabled}
                     />
                 </div>
@@ -91,7 +102,7 @@ class FmsSearchDropdown extends Component {
     }
 }
 
-FmsSearchDropdown.propTypes = {
+FmsEditableDropdown.propTypes = {
     value: propTypes.string,
     onSearchChange: propTypes.func,
     onSelectItem: propTypes.func,
@@ -102,4 +113,4 @@ FmsSearchDropdown.propTypes = {
     disabled: propTypes.bool
 };
 
-export default FmsSearchDropdown;
+export default FmsEditableDropdown;

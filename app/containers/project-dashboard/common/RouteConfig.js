@@ -12,8 +12,8 @@ import FmsExportOrders from "../../stock/FmsExportOrders";
 import FmsSettings from '../../settings/FmsProjectSettings';
 import FmsConversationSettings from '../../conversation-settings/FmsConversationSettings';
 import FmsStaffs from '../../staff/FmsStaffs';
-import FmsTransportingProviders from "../../transport/transporting-providers/FmsTransportingProviders";
-import FmsTransporting from "../../transport/FmsTransporting";
+import FmsTransportingProviders from "../../transport/FmsTransportingProviders";
+import FmsTransportingOrder from "../../transport/FmsTransportingOrder";
 
 export const treeConfig = [
     {
@@ -89,7 +89,7 @@ export const treeConfig = [
                 required: 'allorder_view',
                 title: 'Đang vận chuyển',
                 headerColor: '#f3f3f4',
-                component: (props) => <FmsTransporting {...props}/>
+                component: (props) => <FmsTransportingOrder {...props}/>
             },
             {
                 route: 'saved-orders',
@@ -122,18 +122,12 @@ export const treeConfig = [
         ]
     },
     {
-        route: '#',
+        route: 'transport-providers',
         title: 'Quản lí vận chuyển',
         icon: 'fa-truck',
-        children: [
-            {
-                route: 'transporting-providers',
-                required: 'transportunit_view',
-                title: 'Đơn vị vận chuyển',
-                headerColor: '#f3f3f4',
-                component: (props) => <FmsTransportingProviders {...props}/>
-            }
-        ]
+        required: 'transportunit_view',
+        headerColor: '#f3f3f4',
+        component: (props) => <FmsTransportingProviders {...props}/>
     },
     {
         route: 'staffs',
