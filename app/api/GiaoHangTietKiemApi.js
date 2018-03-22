@@ -38,9 +38,7 @@ export function createNewAccount(account) {
     return post(`/api/t/providers/ghtk/new-account`, payload);
 }
 
-export function createExistedAccount(account) {
-    const payload = {...account};
-
+export function createExistedAccount(payload) {
     return post(`/api/t/providers/ghtk/existed-account`, payload);
 }
 

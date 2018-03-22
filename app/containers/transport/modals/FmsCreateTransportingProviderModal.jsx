@@ -3,7 +3,7 @@ import {Modal} from 'react-bootstrap';
 import propTypes from 'prop-types';
 import ViettelPostPanel from './panels/ViettelPostPanel';
 import OtherProviderPanel from './panels/OtherProviderPanel';
-import {createViettelAccount, getViettelInfoAccount} from '../../../api/ViettelPostApi';
+import * as viettelApi from '../../../api/ViettelPostApi';
 import * as ghtkApi from '../../../api/GiaoHangTietKiemApi';
 import {createOtherProvider} from '../../../api/TransportProviderApi';
 import GiaoHangTietKiemPanel from "./panels/GiaoHangTietKiemPanel";
@@ -46,29 +46,26 @@ class FmsCreateTransportingProviderModal extends Component {
     }
 
     createViettelPost() {
-        const providerInfo = this.state.providerInfo;
-        if (providerInfo.PASSWORD && providerInfo.PASSWORD.length > 7) {
-            this.setState({isLoading: true});
+        this.setState({isLoading: true});
 
-            createViettelAccount(providerInfo)
-                .then(res => {
-                    this.setState({providerInfo: {}, isLoading: false});
-                    let shouldUpdate = true;
-                    this.closeModal(shouldUpdate);
-                })
-                .catch(err => {
-                    alert(err);
-                    this.setState({isLoading: false});
-                });
-        } else {
-            alert('Mật khẩu phải lớn hơn 7 ký tự');
-        }
+        const providerInfo = this.state.providerInfo;
+
+        viettelApi.configExistedViettelAccount(providerInfo)
+            .then(res => {
+                this.setState({providerInfo: {}, isLoading: false});
+                let shouldUpdate = true;
+                this.closeModal(shouldUpdate);
+            })
+            .catch(err => {
+                alert(err);
+                this.setState({isLoading: false});
+            });
     }
 
     createGHTK() {
         const providerInfo = this.state.providerInfo;
 
-        ghtkApi.createNewAccount(providerInfo)
+        ghtkApi.createExistedAccount(providerInfo)
             .then(res => {
                 this.setState({providerInfo: {}, isLoading: false});
                 let shouldUpdate = true;
@@ -83,6 +80,7 @@ class FmsCreateTransportingProviderModal extends Component {
     createOtherProvider() {
         const providerInfo = this.state.providerInfo;
         this.setState({isLoading: true});
+
         createOtherProvider(providerInfo)
             .then(res => {
                 this.setState({providerInfo: {}, isLoading: false});

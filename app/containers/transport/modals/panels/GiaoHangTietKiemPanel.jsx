@@ -79,14 +79,30 @@ class GiaoHangTietKiemPanel extends Component {
 
         return (
             <div>
-                <p style={{marginBottom: 30}}>Để cấu hình nhà vận chuyển Giao Hàng Tiết Kiệm, bạn phải tạo tài khoản Giao Hàng Tiết Kiệm mới thông qua Adsbold.
-                    Tài khoản này có thể dùng như tài khoản Giao Hàng Tiết Kiệm bình thường.</p>
+                <p style={{marginBottom: 30}}>Để cấu hình nhà vận chuyển Giao Hàng Tiết Kiệm, bạn phải là khách hàng của Giao Hàng Tiết Kiệm, và yêu cầu GHTK cung cấp những thông tin sau.</p>
 
                 <div className="panel panel-primary">
                     <div className="panel-heading">Thông tin tài khoản</div>
                     <div className="panel-body">
 
                         <div className="row">
+                            <div className="form-group col-sm-6">
+                                <div className="col-sm-4">
+                                    <label className="control-label">API token</label>
+                                </div>
+                                <div className="col-sm-8">
+                                    <input type="text"
+                                           className="form-control"
+                                           ref='token'
+                                           value={providerInfo.token || ''}
+                                           onChange={() => {
+                                               this.onChangeInput('token')
+                                           }}
+                                           disabled={disabled}
+                                    />
+                                </div>
+                            </div>
+
                             <div className="form-group col-sm-6">
                                 <div className="col-sm-4">
                                     <label className="control-label">Tên</label>
