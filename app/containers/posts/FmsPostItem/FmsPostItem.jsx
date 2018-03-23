@@ -11,9 +11,11 @@ class FmsPostItem extends React.Component {
     }
 
     componentDidMount() {
-        const parse_message = twemoji.parse(this.props.data.message);
-        const message = $.parseHTML(parse_message);
-        $("#content").replaceWith(message)
+        if (this.props.data.message) {
+            const parse_message = twemoji.parse(this.props.data.message);
+            const message = $.parseHTML(parse_message);
+            $("#content").replaceWith(message)
+        }
     }
 
     getCreatedTime() {
