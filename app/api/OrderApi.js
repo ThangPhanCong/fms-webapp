@@ -24,6 +24,10 @@ export function countOrders(project_id, filter = {}) {
     return get(`/api/o/orders/count?${queryParams}`, getByProjectId(project_id));
 }
 
+export function countSourceOrders(fb_id) {
+    return get(`/api/o/orders/source/${fb_id}/count`);
+}
+
 export function createOrder(projectAlias, order) {
     return post(`/api/o/orders`, order);
 }

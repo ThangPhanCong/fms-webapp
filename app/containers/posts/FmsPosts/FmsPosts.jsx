@@ -1,19 +1,20 @@
 import React from 'react';
-import {Grid, Row, Col, Button} from 'react-bootstrap';
-import FmsPostItem from '../FmsPostItem/FmsPostItem';
+import {Button} from 'react-bootstrap';
 import FmsSpin from "../../../commons/FmsSpin/FmsSpin";
 import FmsAddPostModal from '../FmsAddPostModal/FmsAddPostModal';
 import FmsPageTitle from '../../../commons/page-title/FmsPageTitle';
 import PostsApi from "../../../api/PostsApi";
 import {noti} from "../../notification/NotificationService";
+import FmsDate from "../../../helpers/FmsDate";
+import FmsPostDetailModal from "../FmsPostDetailModal/FmsPostDetailModal";
 
 class FmsPosts extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             isShownModal: false,
+            selectedPost: null,
             isLoading: true,
-            isLoadMore: false,
             posts: [],
             paging: {next: null}
         };
@@ -31,33 +32,25 @@ class FmsPosts extends React.Component {
         }
     }
 
+    getCreatedTime(time) {
+        let date = new FmsDate(time);
+        return date.getTimePostItem();
+    }
+
     getPosts(paging) {
-        if (paging) {
-            this.setState({isLoadMore: true});
-            PostsApi.getPostsOfProject(paging)
-                .then(data => {
-                    if (data) {
-                        let paging = data.paging ? data.paging : null;
-                        let posts = this.state.posts.concat(data.data);
-                        this.setState({posts, paging, isLoadMore: false});
-                    } else {
-                        throw new Error("Posts not found");
-                    }
-                })
-                .catch(err => alert(err));
-        } else {
-            this.setState({isLoading: true});
-            PostsApi.getPostsOfProject()
-                .then(data => {
-                    if (data) {
-                        let paging = data.paging ? data.paging : null;
-                        this.setState({posts: data.data, paging, isLoading: false});
-                    } else {
-                        throw new Error("Posts not found");
-                    }
-                })
-                .catch(err => alert(err));
-        }
+        this.setState({isLoading: true});
+        PostsApi.getPostsOfProject(paging)
+            .then(data => {
+                if (data) {
+                    let paging = data.paging ? data.paging : null;
+                    let posts = this.state.posts.concat(data.data);
+                    this.setState({posts, paging, isLoading: false});
+                } else {
+                    this.setState({isLoading: false});
+                    alert("Posts not found");
+                }
+            })
+            .catch(err => alert(err));
     }
 
     onToggleChange(post_id, hide_phone) {
@@ -110,6 +103,14 @@ class FmsPosts extends React.Component {
         }
     }
 
+    openPostDetailModal(post) {
+        this.setState({selectedPost: post});
+    }
+
+    closePostDetailModal() {
+        this.setState({selectedPost: null});
+    }
+
     openModal() {
         this.setState({isShownModal: true});
     }
@@ -123,60 +124,78 @@ class FmsPosts extends React.Component {
     }
 
     renderPosts() {
-        let {isLoading, posts} = this.state;
-        if (isLoading) {
+        let {posts} = this.state;
+        return posts.map((post) => {
+            let content = post.message || "Không có";
+            let id = post.fb_id.split("_").length > 1 ? post.fb_id.split("_")[1] : post.fb_id;
             return (
-                <FmsSpin/>
+                <tr key={post.fb_id} className="clickable"
+                    onClick={() => {
+                        this.openPostDetailModal(post)
+                    }}>
+                    <td>
+                        <img src={`https://graph.facebook.com/v2.10/${post.page.fb_id}/picture`}
+                             style={{width: "37px", borderRadius: "50%"}}/>
+                    </td>
+                    <td>{id}</td>
+                    <td style={{maxWidth: "423px"}}>
+                        {content.length < 145 ? content : (content.substr(0, 145) + "...")}
+                    </td>
+                    <td>{this.getCreatedTime(post.created_time)}</td>
+                    <td>0</td>
+                </tr>
             )
-        } else {
-            if (posts.length === 0) {
-                return (
-                    <div className="no-post">
-                        <p>Chưa có bài đăng nào</p>
-                    </div>
-                )
-            } else {
-                return posts.map((post) => {
-                    return (
-                        <Col xs={12} sm={6} md={4} key={post.fb_id}>
-                            <FmsPostItem data={post} onToggleChange={this.onToggleChange.bind(this)}/>
-                        </Col>
-                    )
-                });
-            }
-        }
+        });
     }
 
     render() {
-        let {isLoading, isLoadMore, paging} = this.state;
+        let {isLoading, paging} = this.state;
         let name = (this.props.project) ? this.props.project.name : null;
         let route = (name) ? `${name}/Quản lý trang/Bài viết` : "";
         return (
-            <div>
-                <FmsPageTitle title={"Bài viết"} route={route}/>
-                <Grid bsClass={"page posts"}>
-                    {
-                        name ?
-                            <button className="btn btn-primary add-post-btn" onClick={this.openModal.bind(this)}>
-                                Đăng bài mới
+            <div className="row">
+                <div className="col-lg-12">
+                    <FmsPageTitle title={"Bài viết"} route={route}/>
+                    <div className="row color-cards-wrapper">
+                        <div className="col-lg-12">
+                            <button className="btn btn-primary btn-sm" type="button" name="button"
+                                    onClick={() => {
+                                        this.openModal()
+                                    }} disabled={!name}>
+                                <i className="fa fa-plus"/> Đăng bài mới
                             </button>
-                            :
-                            null
-                    }
+                        </div>
+                        <div className="table-responsive color-cards-table">
+                            <table className="table table-striped post-table">
+                                <thead>
+                                <tr>
+                                    <th>Trang</th>
+                                    <th>Nguồn</th>
+                                    <th>Nội dung</th>
+                                    <th>Ngày đăng</th>
+                                    <th>Đơn hàng</th>
+                                </tr>
+                                </thead>
 
-                    <Row>
-                        {this.renderPosts()}
-                    </Row>
-                    <div className="loadmore-wrapper">
-                        {(paging && !isLoading) ?
-                            (!isLoadMore) ? <Button onClick={this.loadMorePosts.bind(this)}>Tải thêm</Button>
-                                : <FmsSpin/>
-                            : null}
+                                <tbody>
+                                {this.renderPosts()}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="loadmore-wrapper" style={{textAlign: "center"}}>
+                            {!isLoading ?
+                                (paging ? <Button onClick={this.loadMorePosts.bind(this)}>Tải thêm</Button> : null) :
+                                <FmsSpin size={27}/>
+                            }
 
+                        </div>
                     </div>
-                    <FmsAddPostModal isShown={this.state.isShownModal} closeModal={this.closeModal.bind(this)}
-                                     project={this.props.project}/>
-                </Grid>
+                </div>
+                <FmsAddPostModal isShown={this.state.isShownModal} closeModal={this.closeModal.bind(this)}
+                                 project={this.props.project}/>
+                <FmsPostDetailModal closeModal={this.closePostDetailModal.bind(this)}
+                                    isShown={!!this.state.selectedPost} post={this.state.selectedPost}
+                                    onToggleChange={this.onToggleChange.bind(this)}/>
             </div>
         );
     }
