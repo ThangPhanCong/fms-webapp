@@ -125,6 +125,7 @@ class FmsTransportOrderDetailModal extends Component {
                             (
                                 transportOrder && transportOrder.transport_provider
                                 && transportOrder.transport_provider.provider_name !== "VIETTEL"
+                                && transportOrder.transport_provider.provider_name !== "SHIPCHUNG"
                                 && transportOrder.transport_provider.provider_name !== "GHTK"
                                 && transportOrder.transport_provider.provider_name !== "GHN"
                             ) ?

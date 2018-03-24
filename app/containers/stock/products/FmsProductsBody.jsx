@@ -133,8 +133,7 @@ class FmsProductsBody extends Component {
                                 title="Quản lí sản phẩm"
                             >
                                 <p>
-                                    Tất cả đơn hàng là nơi quản lí đơn hàng đang trong quá trình xử lí. Bạn có thể tạo mới,
-                                    sửa đổi trạng thái đơn hàng bằng những thẻ màu.
+                                    Nơi quản lí tất cả sản phẩm trong cửa hàng của bạn.
                                 </p>
                                 <div style={{marginTop: 20}}>
                                     <button
