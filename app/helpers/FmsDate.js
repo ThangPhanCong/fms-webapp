@@ -92,12 +92,11 @@ export default class FmsDate {
     }
 
     getTimePostItem() {
-        let res = "Đăng";
         let whatday = this.whatday;
         if (this.whatday !== " hôm nay" && this.whatday !== " hôm qua") {
-            whatday = " ngày " + this.date + "/" + this.month + "/" + this.year;
+            whatday = this.date + "/" + this.month + "/" + this.year;
         }
         let moment = " lúc " + this.hour + ":" + this.minute;
-        return res + moment + whatday;
+        return whatday + moment;
     }
 }
