@@ -6,9 +6,11 @@ import OtherProviderPanel from './panels/OtherProviderPanel';
 import * as viettelApi from '../../../api/ViettelPostApi';
 import * as ghtkApi from '../../../api/GiaoHangTietKiemApi';
 import * as ghnApi from '../../../api/GiaoHangNhanhApi';
+import * as shipchungApi from '../../../api/ShipChungApi';
 import {createOtherProvider} from '../../../api/TransportProviderApi';
 import GiaoHangTietKiemPanel from "./panels/GiaoHangTietKiemPanel";
 import GiaoHangNhanhPanel from "./panels/GiaoHangNhanhPanel";
+import ShipChungPanel from "./panels/ShipChungPanel";
 
 class FmsCreateTransportingProviderModal extends Component {
 
@@ -38,6 +40,9 @@ class FmsCreateTransportingProviderModal extends Component {
             case 'VIETTEL':
                 this.createViettelPost();
                 break;
+            case 'SHIPCHUNG':
+                this.createShipchung();
+                break;
             case 'GHTK':
                 this.createGHTK();
                 break;
@@ -56,6 +61,23 @@ class FmsCreateTransportingProviderModal extends Component {
         const providerInfo = this.state.providerInfo;
 
         viettelApi.configExistedViettelAccount(providerInfo)
+            .then(res => {
+                this.setState({providerInfo: {}, isLoading: false});
+                let shouldUpdate = true;
+                this.closeModal(shouldUpdate);
+            })
+            .catch(err => {
+                alert(err);
+                this.setState({isLoading: false});
+            });
+    }
+
+    createShipchung() {
+        this.setState({isLoading: true});
+
+        const providerInfo = this.state.providerInfo;
+
+        shipchungApi.createExistedAccount(providerInfo)
             .then(res => {
                 this.setState({providerInfo: {}, isLoading: false});
                 let shouldUpdate = true;
@@ -138,13 +160,17 @@ class FmsCreateTransportingProviderModal extends Component {
                 panel = <ViettelPostPanel onChangeInput={this.onChangeInput.bind(this)}
                                           providerInfo={providerInfo}/>;
                 break;
+            case 'SHIPCHUNG':
+                panel = <ShipChungPanel onChangeInput={this.onChangeInput.bind(this)}
+                                        providerInfo={providerInfo}/>;
+                break;
             case 'GHTK':
                 panel = <GiaoHangTietKiemPanel onChangeInput={this.onChangeInput.bind(this)}
                                                providerInfo={providerInfo}/>;
                 break;
             case 'GHN':
                 panel = <GiaoHangNhanhPanel onChangeInput={this.onChangeInput.bind(this)}
-                                               providerInfo={providerInfo}/>;
+                                            providerInfo={providerInfo}/>;
                 break;
             case 'OTHER':
                 panel = <OtherProviderPanel onChangeInput={this.onChangeInput.bind(this)}
@@ -154,6 +180,7 @@ class FmsCreateTransportingProviderModal extends Component {
 
         const allProviders = [
             {name: 'VIETTEL', display_name: "Viettel Post"},
+            {name: 'SHIPCHUNG', display_name: "Ship Chung"},
             {name: 'GHTK', display_name: "Giao Hàng Tiết Kiệm"},
             {name: 'GHN', display_name: "Giao Hàng Nhanh"},
             {name: 'OTHER', display_name: "Đơn vị khác"},

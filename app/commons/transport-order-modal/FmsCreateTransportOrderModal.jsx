@@ -6,10 +6,14 @@ import OtherProviderPanel from './panels/other-provider/OtherProviderPanel';
 import {createTransportOrder} from '../../api/TransportProviderApi';
 import {createViettelTransportOrder} from '../../api/ViettelPostApi';
 import * as ghtkApi from '../../api/GiaoHangTietKiemApi';
+import * as ghnApi from '../../api/GiaoHangNhanhApi';
+import * as shipchungApi from '../../api/ShipChungApi';
 import {toReadableDatetime} from 'utils/datetime-utils';
 import * as orderCalculateUtils from 'utils/order-calculate-price-utils';
 import GiaoHangTietKiemPanel from "./panels/giao-hang-tiet-kiem/GiaoHangTietKiemPanel";
 import {toReadablePrice} from "../../utils/price-utils";
+import GiaoHangNhanhPanel from "./panels/giao-hang-nhanh/GiaoHangNhanhPanel";
+import ShipChungPanel from "./panels/ship-chung/ShipChungPanel";
 
 class FmsCreateTransportOrderModal extends Component {
 
@@ -25,6 +29,12 @@ class FmsCreateTransportOrderModal extends Component {
         switch (transportingProvider) {
             case 'VIETTEL':
                 this.createViettelPostTransportOrder();
+                break;
+            case 'SHIPCHUNG':
+                this.createShipchungOrder();
+                break;
+            case 'GHN':
+                this.createGhnOrder();
                 break;
             case 'GHTK':
                 this.createGhtkTransportOrder();
@@ -42,6 +52,50 @@ class FmsCreateTransportOrderModal extends Component {
         this.setState({isLoading: true});
 
         createViettelTransportOrder(transportOrder, order_id)
+            .then(res => {
+                let shouldUpdate = true;
+                this.closeModal(shouldUpdate);
+            })
+            .catch(err => alert(err))
+            .then(() => this.setState({isLoading: false}));
+    }
+
+    createShipchungOrder() {
+        const order_id = this.props.order._id;
+        const {transportOrder} = this.state;
+
+        this.setState({isLoading: true});
+
+        const tOrderPayload = Object.keys(transportOrder).reduce(
+            (acc, key, i) => {
+                if (key.indexOf('_') !== -1) {
+                    const realKey = key.replace("_", ".");
+                    acc[realKey] = transportOrder[key];
+                } else {
+                    acc[key] = transportOrder[key];
+                }
+
+                return acc;
+            },
+            {}
+        );
+
+        shipchungApi.createTransportOrder(tOrderPayload, order_id)
+            .then(res => {
+                let shouldUpdate = true;
+                this.closeModal(shouldUpdate);
+            })
+            .catch(err => alert(err))
+            .then(() => this.setState({isLoading: false}));
+    }
+
+    createGhnOrder() {
+        const order_id = this.props.order._id;
+        const {transportOrder} = this.state;
+
+        this.setState({isLoading: true});
+
+        ghnApi.createTransportOrder(transportOrder, order_id)
             .then(res => {
                 let shouldUpdate = true;
                 this.closeModal(shouldUpdate);
@@ -125,6 +179,24 @@ class FmsCreateTransportOrderModal extends Component {
             case 'VIETTEL':
                 panel = (
                     <ViettelPostPanel
+                        onChangeTransportOrderInfo={this.onChangeTransportOrderInfo.bind(this)}
+                        order={order}
+                        disabled={isLoading}
+                    />
+                );
+                break;
+            case 'SHIPCHUNG':
+                panel = (
+                    <ShipChungPanel
+                        onChangeTransportOrderInfo={this.onChangeTransportOrderInfo.bind(this)}
+                        order={order}
+                        disabled={isLoading}
+                    />
+                );
+                break;
+            case 'GHN':
+                panel = (
+                    <GiaoHangNhanhPanel
                         onChangeTransportOrderInfo={this.onChangeTransportOrderInfo.bind(this)}
                         order={order}
                         disabled={isLoading}

@@ -9,6 +9,7 @@ import {cloneDeep} from 'utils/object-utils.js';
 import ViettelPostOptionActionPanel from "./panels/viettel-post/ViettelPostOptionActionPanel";
 import FmsGeneralTransportOrderInfo from "./panels/commons/FmsGeneralTransportOrderInfo";
 import OtherProviderOptionActionPanel from "./panels/other-provider/OtherProviderOptionActionPanel";
+import GiaoHangNhanhOptionActionPanel from "./panels/giao-hang-nhanh/GiaoHangNhanhOptionActionPanel";
 
 class FmsTransportOrderDetailModal extends Component {
     state = {
@@ -110,10 +111,22 @@ class FmsTransportOrderDetailModal extends Component {
                         }
 
                         {
+                            (transportOrder && transportOrder.transport_provider
+                                && transportOrder.transport_provider.provider_name === "GHN") ?
+                                <GiaoHangNhanhOptionActionPanel
+                                    transportOrder={transportOrder}
+                                    disabled={isLoading}
+
+                                    onUpdateTransportOrder={() => this.updateTransportOrderInfo()}
+                                /> : null
+                        }
+
+                        {
                             (
                                 transportOrder && transportOrder.transport_provider
                                 && transportOrder.transport_provider.provider_name !== "VIETTEL"
                                 && transportOrder.transport_provider.provider_name !== "GHTK"
+                                && transportOrder.transport_provider.provider_name !== "GHN"
                             ) ?
                                 <OtherProviderOptionActionPanel
                                     transportOrder={transportOrder}

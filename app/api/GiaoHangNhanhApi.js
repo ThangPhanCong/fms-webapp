@@ -22,6 +22,16 @@ export function calculatePrice(order) {
     return post(`/api/t/providers/ghn/calculate-price`, payload);
 }
 
+/**
+ 2. Hủy đơn hàng
+ 3. Hoàn hàng về
+ */
+export function updateTransportOrderStatus(transportOrder, order_id) {
+    const payload = {...transportOrder};
+
+    return post(`/api/t/orders/${order_id}/transport-order/ghn/actions`, payload);
+}
+
 export function createTransportOrder(transportOrder, order_id) {
     const payload = {...transportOrder};
 

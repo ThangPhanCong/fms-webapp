@@ -50,7 +50,8 @@ class GiaoHangNhanhPanel extends Component {
     }
 
     componentDidMount() {
-        const {province, district} = this.props.providerInfo;
+        const province = this.props.providerInfo['FromProvinceID'];
+        const district = this.props.providerInfo['FromDistrictID'];
 
         ghnApi.getProvinces()
             .then(provinces => this.setState({provinces}));
@@ -61,7 +62,7 @@ class GiaoHangNhanhPanel extends Component {
         }
         if (district !== '' && district !== undefined) {
             ghnApi.getWards(district)
-                .then(res => this.setState({wards: res}));
+                .then(res => this.setState({wards: res['Wards']}));
         }
     }
 
@@ -161,6 +162,23 @@ class GiaoHangNhanhPanel extends Component {
                                            value={providerInfo['ClientContactPhone'] || ''}
                                            onChange={() => {
                                                this.onChangeInput('ClientContactPhone')
+                                           }}
+                                           disabled={disabled}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="form-group col-sm-6">
+                                <div className="col-sm-4">
+                                    <label className="control-label">Gói dịch vụ</label>
+                                </div>
+                                <div className="col-sm-8">
+                                    <input type="number"
+                                           className="form-control"
+                                           ref='ServiceID'
+                                           value={providerInfo['ServiceID'] || ''}
+                                           onChange={() => {
+                                               this.onChangeInput('ServiceID')
                                            }}
                                            disabled={disabled}
                                     />

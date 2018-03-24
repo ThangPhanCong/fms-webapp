@@ -5,6 +5,7 @@ import ViettelPostPanel from './panels/ViettelPostPanel';
 import OtherProviderPanel from './panels/OtherProviderPanel';
 import GiaoHangTietKiemPanel from "./panels/GiaoHangTietKiemPanel";
 import GiaoHangNhanhPanel from "./panels/GiaoHangNhanhPanel";
+import ShipChungPanel from "./panels/ShipChungPanel";
 
 class FmsTransportingProviderDetailModal extends Component {
 
@@ -45,6 +46,9 @@ class FmsTransportingProviderDetailModal extends Component {
         switch (provider.provider_name) {
             case 'VIETTEL':
                 panel = <ViettelPostPanel providerInfo={providerInfo} disabled={disabled}/>;
+                break;
+            case 'SHIPCHUNG':
+                panel = <ShipChungPanel providerInfo={providerInfo && providerInfo.data && JSON.parse(providerInfo.data)} disabled={disabled}/>;
                 break;
             case 'GHTK':
                 panel = <GiaoHangTietKiemPanel providerInfo={providerInfo} disabled={disabled}/>;
