@@ -152,11 +152,13 @@ class FmsApp extends Component {
             } else {
                 return (
                     <Switch>
-                        <FmsRoute exact path="/" component={LoadableFmsLogin}/>
+                        <FmsRoute exact path="/login" component={LoadableFmsLogin}/>
                         <FmsRoute path="/forget-password" component={LoadableFmsForgetPassword}/>
                         <FmsRoute path="/reset-password" component={LoadableFmsResetPassword}/>
 
-                        <Redirect to="/"/>
+
+
+                        <Redirect to="/login"/>
                     </Switch>
                 )
             }

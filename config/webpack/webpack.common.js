@@ -8,7 +8,7 @@ const __rootdir = path.join(__dirname, '/../..');
 let configPath;
 let check_env = true;
 
-const indexHtml = path.join(__rootdir, 'app', 'index.html');
+const indexHtml = path.join(__rootdir, 'app', 'app.html');
 const indextestHtml = path.join(__rootdir, 'app', 'index-test.html');
 const appJs = path.join(__rootdir, 'app', 'index.js');
 const apptestJs = path.join(__rootdir, 'app', 'index-test.js');
@@ -57,8 +57,15 @@ let plugins = [
         inject: true,
         title: 'Adsbold',
         chunks: ['app', 'vendor'],
-        template: 'app/index.html',
+        template: 'app/app.html',
         myid: 'root',
+        filename: './app.html'
+    }),
+    new HtmlWebpackPlugin({
+        hash: true,
+        inject: true,
+        title: 'Adsbold',
+        template: 'app/index.html',
         filename: './index.html'
     }),
     new HtmlWebpackPlugin({
@@ -66,7 +73,7 @@ let plugins = [
         inject: true,
         title: 'Adsbold Test',
         chunks: ['app-test', 'vendor'],
-        template: 'app/index.html',
+        template: 'app/app.html',
         myid: 'app-test',
         filename: './index-test.html'
     }),
