@@ -7,6 +7,7 @@ import PostsApi from "../../../api/PostsApi";
 import {noti} from "../../notification/NotificationService";
 import FmsDate from "../../../helpers/FmsDate";
 import FmsPostDetailModal from "../FmsPostDetailModal/FmsPostDetailModal";
+import $ from "jquery";
 
 class FmsPosts extends React.Component {
     constructor(props) {
@@ -138,7 +139,7 @@ class FmsPosts extends React.Component {
                              style={{width: "37px", borderRadius: "50%"}}/>
                     </td>
                     <td>{id}</td>
-                    <td style={{maxWidth: "423px"}}>
+                    <td style={{maxWidth: "423px"}} id="post-content">
                         {content.length < 145 ? content : (content.substr(0, 145) + "...")}
                     </td>
                     <td>{this.getCreatedTime(post.created_time)}</td>
