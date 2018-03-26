@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import FmsTransportingProviderDetailModal from "../modals/FmsTransportingProviderDetailModal";
 import viettelpost from 'images/viettelpost.png';
 import icGHTK from 'images/ic_ghtk.png';
-import {getViettelInfoAccount} from '../../../api/ViettelPostApi';
+import icShipchung from 'images/ic_shipchung.png';
+import icGHN from 'images/ic_ghn.png';
 import {toReadableDatetime} from 'utils/datetime-utils';
 
 class FmsTransportingProviderTable extends Component {
@@ -41,6 +42,10 @@ class FmsTransportingProviderTable extends Component {
                 return viettelpost;
             case 'GHTK':
                 return icGHTK;
+            case 'GHN':
+                return icGHN;
+            case 'SHIPCHUNG':
+                return icShipchung;
         }
 
         return null;

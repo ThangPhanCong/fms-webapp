@@ -28,10 +28,20 @@ export function getViettelInfoAccount() {
     return get(`/api/t/providers/viettel`);
 }
 
+export function configExistedViettelAccount(account) {
+    const payload = {...account};
+
+    return post(`/api/t/providers/viettel/existed-account`, payload);
+}
+
 export function createViettelAccount(account) {
     const payload = {...account};
 
-    return post(`/api/t/providers/viettel`, payload);
+    return post(`/api/t/providers/viettel/new-account`, payload);
+}
+
+export function getViettelWebhookLink() {
+    return get(`/api/t/providers/viettel/webhook-link`);
 }
 
 export function calculatePriceViettel(order) {

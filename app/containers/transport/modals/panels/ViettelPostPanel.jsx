@@ -4,7 +4,8 @@ import {
     getProvincesCache,
     getDistrictsCache,
     getWardsCache,
-    getViettelInfoAccount
+    getViettelInfoAccount,
+    getViettelWebhookLink
 } from '../../../../api/ViettelPostApi';
 import {convert_case} from 'utils/location-string-utils';
 
@@ -12,7 +13,8 @@ class ViettelPostPanel extends Component {
     state = {
         provinces: [],
         districts: [],
-        wards: []
+        wards: [],
+        webhook_link: ''
     };
 
     onChangeInput(refName) {
@@ -57,6 +59,9 @@ class ViettelPostPanel extends Component {
     componentDidMount() {
         const {PROVINCE_ID, DISTRICT_ID} = this.props.providerInfo;
 
+        getViettelWebhookLink()
+            .then(({link}) => this.setState({webhook_link: link}));
+
         getProvincesCache()
             .then(provinces => this.setState({provinces}));
 
@@ -64,6 +69,7 @@ class ViettelPostPanel extends Component {
             getDistrictsCache(PROVINCE_ID)
                 .then(res => this.setState({districts: res}));
         }
+
         if (DISTRICT_ID !== '' && DISTRICT_ID !== undefined) {
             getWardsCache(DISTRICT_ID)
                 .then(res => this.setState({wards: res}));
@@ -79,13 +85,31 @@ class ViettelPostPanel extends Component {
         const {
             provinces,
             districts,
-            wards
+            wards,
+            webhook_link
         } = this.state;
 
         return (
             <div>
-                <p style={{marginBottom: 30}}>Để cấu hình nhà vận chuyển Viettel Post, bạn phải tạo tài khoản Viettel Post mới thông qua Adsbold.
-                    Tài khoản này có thể dùng như tài khoản Viettel Post bình thường.</p>
+                {/*<p style={{marginBottom: 30}}>Để cấu hình nhà vận chuyển Viettel Post, bạn phải tạo tài khoản Viettel*/}
+                {/*Post mới thông qua Adsbold.*/}
+                {/*Tài khoản này có thể dùng như tài khoản Viettel Post bình thường.</p>*/}
+                <p style={{marginBottom: 30}}>Để cấu hình nhà vận chuyển Viettel Post, bạn phải là khách hàng của
+                    Viettel Post và <strong>cấu hình URL nhận hành trình</strong> của Adsbold cho Viettel Post</p>
+
+                <div className="row form-group">
+                    <div className="col-sm-4">
+                        <label className="control-label">Đường dẫn nhận hành trình</label>
+                    </div>
+                    <div className="col-sm-8">
+                        <input type="text"
+                               className="form-control"
+                               ref='webhook_link'
+                               value={webhook_link || ''}
+                               disabled={true}
+                        />
+                    </div>
+                </div>
 
                 <div className="panel panel-primary">
                     <div className="panel-heading">Thông tin tài khoản</div>
@@ -94,86 +118,15 @@ class ViettelPostPanel extends Component {
                         <div className="row">
                             <div className="form-group col-sm-6">
                                 <div className="col-sm-4">
-                                    <label className="control-label">Họ</label>
+                                    <label className="control-label">Họ và Tên</label>
                                 </div>
                                 <div className="col-sm-8">
                                     <input type="text"
                                            className="form-control"
-                                           ref='LASTNAME'
-                                           value={providerInfo.LASTNAME || ''}
+                                           ref='NAME'
+                                           value={providerInfo.NAME || ''}
                                            onChange={() => {
-                                               this.onChangeInput('LASTNAME')
-                                           }}
-                                           disabled={disabled}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="form-group col-sm-6">
-                                <div className="col-sm-4">
-                                    <label className="control-label">Tên</label>
-                                </div>
-                                <div className="col-sm-8">
-                                    <input type="text"
-                                           className="form-control"
-                                           ref='FIRSTNAME'
-                                           value={providerInfo.FIRSTNAME || ''}
-                                           onChange={() => {
-                                               this.onChangeInput('FIRSTNAME')
-                                           }}
-                                           disabled={disabled}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="form-group col-sm-6">
-                                <div className="col-sm-4">
-                                    <label className="control-label">Tên hiển thị</label>
-                                </div>
-                                <div className="col-sm-8">
-                                    <input type="text"
-                                           className="form-control"
-                                           ref='DISPLAYNAME'
-                                           value={providerInfo.DISPLAYNAME || ''}
-                                           onChange={() => {
-                                               this.onChangeInput('DISPLAYNAME')
-                                           }}
-                                           disabled={disabled}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="form-group col-sm-6">
-                                <div className="col-sm-4">
-                                    <label className="control-label">Giới tính</label>
-                                </div>
-                                <div className="col-sm-8">
-                                    <select className="form-control"
-                                            ref='SEX'
-                                            value={providerInfo.SEX || ''}
-                                            onChange={() => {
-                                                this.onChangeInput('SEX')
-                                            }}
-                                            disabled={disabled}
-                                    >
-                                        <option value=""/>
-                                        <option value="1">Nam</option>
-                                        <option value="0">Nữ</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div className="form-group col-sm-6">
-                                <div className="col-sm-4">
-                                    <label className="control-label">Giới thiệu</label>
-                                </div>
-                                <div className="col-sm-8">
-                                    <input type="text"
-                                           className="form-control"
-                                           ref='INTRODUCTION'
-                                           value={providerInfo.INTRODUCTION || ''}
-                                           onChange={() => {
-                                               this.onChangeInput('INTRODUCTION')
+                                               this.onChangeInput('NAME')
                                            }}
                                            disabled={disabled}
                                     />

@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import propTypes from 'prop-types';
-import * as ghtkApi from '../../../../api/GiaoHangTietKiemApi';
+import * as ghnApi from '../../../../api/GiaoHangNhanhApi';
 import {convert_case} from 'utils/location-string-utils';
 
-class GiaoHangTietKiemPanel extends Component {
+class GiaoHangNhanhPanel extends Component {
     state = {
         provinces: [],
         districts: [],
@@ -21,47 +21,48 @@ class GiaoHangTietKiemPanel extends Component {
 
     onChangeProvince() {
         const {onChangeInput} = this.props;
-        const newValue = this.refs['province'].value;
+        const newValue = this.refs['FromProvinceID'].value;
 
         if (newValue === '') {
             this.setState({districts: [], wards: []});
 
-            onChangeInput('province', '');
+            onChangeInput('FromProvinceID', '');
         } else {
-            ghtkApi.getAllDistricts(newValue)
+            ghnApi.getDistricts(newValue)
                 .then(res => this.setState({districts: res, wards: []}));
-            onChangeInput('province', newValue);
+            onChangeInput('FromProvinceID', newValue);
         }
     }
 
     onChangeDistrict() {
         const {onChangeInput} = this.props;
-        const newValue = this.refs['district'].value;
+        const newValue = this.refs['FromDistrictID'].value;
 
         if (newValue === '') {
             this.setState({wards: []});
 
-            onChangeInput('district', '');
+            onChangeInput('FromDistrictID', '');
         } else {
-            ghtkApi.getAllWards(newValue)
-                .then(res => this.setState({wards: res}));
-            onChangeInput('district', newValue);
+            ghnApi.getWards(newValue)
+                .then(res => this.setState({wards: res['Wards']}));
+            onChangeInput('FromDistrictID', newValue);
         }
     }
 
     componentDidMount() {
-        const {province, district} = this.props.providerInfo;
+        const province = this.props.providerInfo['FromProvinceID'];
+        const district = this.props.providerInfo['FromDistrictID'];
 
-        ghtkApi.getProvinces()
+        ghnApi.getProvinces()
             .then(provinces => this.setState({provinces}));
 
         if (province !== '' && province !== undefined) {
-            ghtkApi.getAllDistricts(province)
+            ghnApi.getDistricts(province)
                 .then(res => this.setState({districts: res}));
         }
         if (district !== '' && district !== undefined) {
-            ghtkApi.getAllWards(district)
-                .then(res => this.setState({wards: res}));
+            ghnApi.getWards(district)
+                .then(res => this.setState({wards: res['Wards']}));
         }
     }
 
@@ -77,9 +78,22 @@ class GiaoHangTietKiemPanel extends Component {
             wards
         } = this.state;
 
+        /**
+         check('Email').exists(),
+         check('Password').exists(),
+
+         check('ClientContactName').exists(),
+         check('ClientContactPhone').exists(),
+
+         check('FromDistrictID').exists(),
+         check('FromWardCode').exists(),
+         check('ClientAddress').exists(),
+         */
+
         return (
             <div>
-                <p style={{marginBottom: 30}}>Để cấu hình nhà vận chuyển Giao Hàng Tiết Kiệm, bạn phải là khách hàng của Giao Hàng Tiết Kiệm, và yêu cầu GHTK cung cấp những thông tin sau.</p>
+                <p style={{marginBottom: 30}}>Để cấu hình nhà vận chuyển Giao Hàng Nhanh, bạn phải là khách hàng của
+                    Giao Hàng Nhanh, và yêu cầu GHN cung cấp những thông tin sau.</p>
 
                 <div className="panel panel-primary">
                     <div className="panel-heading">Thông tin tài khoản</div>
@@ -88,15 +102,32 @@ class GiaoHangTietKiemPanel extends Component {
                         <div className="row">
                             <div className="form-group col-sm-6">
                                 <div className="col-sm-4">
-                                    <label className="control-label">API token</label>
+                                    <label className="control-label">Email</label>
                                 </div>
                                 <div className="col-sm-8">
                                     <input type="text"
                                            className="form-control"
-                                           ref='token'
-                                           value={providerInfo.token || ''}
+                                           ref='Email'
+                                           value={providerInfo['Email'] || ''}
                                            onChange={() => {
-                                               this.onChangeInput('token')
+                                               this.onChangeInput('Email')
+                                           }}
+                                           disabled={disabled}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="form-group col-sm-6">
+                                <div className="col-sm-4">
+                                    <label className="control-label">Mật khẩu</label>
+                                </div>
+                                <div className="col-sm-8">
+                                    <input type="password"
+                                           className="form-control"
+                                           ref='Password'
+                                           value={providerInfo['Password'] || ''}
+                                           onChange={() => {
+                                               this.onChangeInput('Password')
                                            }}
                                            disabled={disabled}
                                     />
@@ -110,27 +141,10 @@ class GiaoHangTietKiemPanel extends Component {
                                 <div className="col-sm-8">
                                     <input type="text"
                                            className="form-control"
-                                           ref='name'
-                                           value={providerInfo.name || ''}
+                                           ref='ClientContactName'
+                                           value={providerInfo['ClientContactName'] || ''}
                                            onChange={() => {
-                                               this.onChangeInput('name')
-                                           }}
-                                           disabled={disabled}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="form-group col-sm-6">
-                                <div className="col-sm-4">
-                                    <label className="control-label">Email</label>
-                                </div>
-                                <div className="col-sm-8">
-                                    <input type="text"
-                                           className="form-control"
-                                           ref='email'
-                                           value={providerInfo.email || ''}
-                                           onChange={() => {
-                                               this.onChangeInput('email')
+                                               this.onChangeInput('ClientContactName')
                                            }}
                                            disabled={disabled}
                                     />
@@ -144,10 +158,27 @@ class GiaoHangTietKiemPanel extends Component {
                                 <div className="col-sm-8">
                                     <input type="number"
                                            className="form-control"
-                                           ref='tel'
-                                           value={providerInfo.tel || ''}
+                                           ref='ClientContactPhone'
+                                           value={providerInfo['ClientContactPhone'] || ''}
                                            onChange={() => {
-                                               this.onChangeInput('tel')
+                                               this.onChangeInput('ClientContactPhone')
+                                           }}
+                                           disabled={disabled}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="form-group col-sm-6">
+                                <div className="col-sm-4">
+                                    <label className="control-label">Gói dịch vụ</label>
+                                </div>
+                                <div className="col-sm-8">
+                                    <input type="number"
+                                           className="form-control"
+                                           ref='ServiceID'
+                                           value={providerInfo['ServiceID'] || ''}
+                                           onChange={() => {
+                                               this.onChangeInput('ServiceID')
                                            }}
                                            disabled={disabled}
                                     />
@@ -163,7 +194,6 @@ class GiaoHangTietKiemPanel extends Component {
                     <div className="panel-heading">Thông tin kho hàng</div>
                     <div className="panel-body">
 
-
                         <div className="row">
                             <div className="form-group col-sm-6">
                                 <div className="col-sm-5">
@@ -171,8 +201,8 @@ class GiaoHangTietKiemPanel extends Component {
                                 </div>
                                 <div className="col-sm-7">
                                     <select className="form-control"
-                                            ref='province'
-                                            value={providerInfo.province || ''}
+                                            ref='FromProvinceID'
+                                            value={providerInfo['FromProvinceID'] || ''}
                                             onChange={() => {
                                                 this.onChangeProvince()
                                             }}
@@ -181,8 +211,8 @@ class GiaoHangTietKiemPanel extends Component {
                                         <option value=""/>
                                         {
                                             provinces.length > 0 && provinces.map(p => (
-                                                <option value={p.PROVINCE_NAME} key={p.PROVINCE_ID}>
-                                                    {p.PROVINCE_NAME}
+                                                <option value={p.ProvinceID} key={p.ProvinceID}>
+                                                    {p.ProvinceName}
                                                 </option>
                                             ))
                                         }
@@ -196,8 +226,8 @@ class GiaoHangTietKiemPanel extends Component {
                                 </div>
                                 <div className="col-sm-7">
                                     <select className="form-control"
-                                            ref='district'
-                                            value={providerInfo.district || ''}
+                                            ref='FromDistrictID'
+                                            value={providerInfo['FromDistrictID'] || ''}
                                             onChange={() => {
                                                 this.onChangeDistrict()
                                             }}
@@ -206,8 +236,8 @@ class GiaoHangTietKiemPanel extends Component {
                                         <option value=""/>
                                         {
                                             districts.length > 0 && districts.map(p => (
-                                                <option value={p.DISTRICT_NAME} key={p.DISTRICT_ID}>
-                                                    {convert_case(p.DISTRICT_NAME)}
+                                                <option value={p.DistrictID} key={p.DistrictID}>
+                                                    {p.DistrictName}
                                                 </option>
                                             ))
                                         }
@@ -221,18 +251,18 @@ class GiaoHangTietKiemPanel extends Component {
                                 </div>
                                 <div className="col-sm-7">
                                     <select className="form-control"
-                                            ref='ward'
-                                            value={providerInfo.ward || ''}
+                                            ref='FromWardCode'
+                                            value={providerInfo['FromWardCode'] || ''}
                                             onChange={() => {
-                                                this.onChangeInput('ward')
+                                                this.onChangeInput('FromWardCode')
                                             }}
                                             disabled={disabled}
                                     >
                                         <option value=""/>
                                         {
                                             wards.length > 0 && wards.map(p => (
-                                                <option value={p.WARDS_NAME} key={p.WARDS_ID}>
-                                                    {convert_case(p.WARDS_NAME)}
+                                                <option value={p.WardCode} key={p.WardCode}>
+                                                    {p.WardName}
                                                 </option>
                                             ))
                                         }
@@ -246,17 +276,16 @@ class GiaoHangTietKiemPanel extends Component {
                                 </div>
                                 <div className="col-sm-7">
                                     <input className="form-control"
-                                           ref='first_address'
-                                           value={providerInfo.first_address || ''}
+                                           ref='ClientAddress'
+                                           value={providerInfo['ClientAddress'] || ''}
                                            onChange={() => {
-                                               this.onChangeInput('first_address')
+                                               this.onChangeInput('ClientAddress')
                                            }}
                                            disabled={disabled}
                                     />
                                 </div>
                             </div>
                         </div>
-
 
 
                     </div>
@@ -267,10 +296,10 @@ class GiaoHangTietKiemPanel extends Component {
     }
 }
 
-GiaoHangTietKiemPanel.propTypes = {
+GiaoHangNhanhPanel.propTypes = {
     providerInfo: propTypes.object,
     onChangeInput: propTypes.func,
     disabled: propTypes.bool
 };
 
-export default GiaoHangTietKiemPanel;
+export default GiaoHangNhanhPanel;

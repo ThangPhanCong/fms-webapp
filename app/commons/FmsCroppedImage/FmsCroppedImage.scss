@@ -1,11 +1,11 @@
 .cropped-image-wrapper {
   display: inline-block;
-  //position: relative;
+  position: relative;
   overflow: hidden;
   border-radius: 4px;
-  //.cropped-image {
-  //  position: absolute;
-  //  left: 0;
-  //  top: 0;
-  //}
+  .cropped-image {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
 }

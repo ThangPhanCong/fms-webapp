@@ -108,18 +108,12 @@ export const treeConfig = [
         ]
     },
     {
-        route: '#',
+        route: 'products',
         title: 'Quản lí kho',
         icon: 'fa-cubes',
-        children: [
-            {
-                route: 'products',
-                required: 'product_view',
-                title: 'Sản phẩm',
-                headerColor: '#f3f3f4',
-                component: (props) => <FmsProducts {...props}/>
-            }
-        ]
+        required: 'product_view',
+        headerColor: '#f3f3f4',
+        component: (props) => <FmsProducts {...props}/>
     },
     {
         route: 'transport-providers',

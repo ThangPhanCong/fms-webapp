@@ -13,13 +13,19 @@ class FmsCroppedImage extends React.Component {
 
     onLoad() {
         let image = ReactDom.findDOMNode(this.refs.image);
+        let image_wrapper = ReactDom.findDOMNode(this.refs.image_wrapper);
         let width = image.clientWidth;
         let height = image.clientHeight;
         let style = {};
-        if (width > height) {
-            style = {height: 100 + "%"};
-        } else {
+        // if (width > height) {
+        //     style = {height: 100 + "%"};
+        // } else {
+        //     style = {width: 100 + "%"};
+        // }
+        if (image_wrapper.clientWidth / image_wrapper.clientHeight > width / height) {
             style = {width: 100 + "%"};
+        } else {
+            style = {height: 100 + "%"};
         }
         this.setState({style: style});
     }
@@ -29,7 +35,7 @@ class FmsCroppedImage extends React.Component {
         let style = this.state.style || {};
         let styleWrapper = {height: this.props.height, width: this.props.width};
         return (
-            <div className={"cropped-image-wrapper " + className} style={styleWrapper}>
+            <div className={"cropped-image-wrapper " + className} style={styleWrapper} ref="image_wrapper">
                 {this.props.src.includes("video") ?
                     <div>
                         <video name="video" id={this.props.id} className="cropped-image" src={this.props.src}

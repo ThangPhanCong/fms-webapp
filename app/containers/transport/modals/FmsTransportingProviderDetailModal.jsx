@@ -4,6 +4,8 @@ import propTypes from 'prop-types';
 import ViettelPostPanel from './panels/ViettelPostPanel';
 import OtherProviderPanel from './panels/OtherProviderPanel';
 import GiaoHangTietKiemPanel from "./panels/GiaoHangTietKiemPanel";
+import GiaoHangNhanhPanel from "./panels/GiaoHangNhanhPanel";
+import ShipChungPanel from "./panels/ShipChungPanel";
 
 class FmsTransportingProviderDetailModal extends Component {
 
@@ -41,15 +43,21 @@ class FmsTransportingProviderDetailModal extends Component {
         } = this.state;
 
         let panel = null;
-        switch(provider.provider_name) {
+        switch (provider.provider_name) {
             case 'VIETTEL':
-                panel = <ViettelPostPanel providerInfo={providerInfo} disabled={disabled} />;
+                panel = <ViettelPostPanel providerInfo={providerInfo} disabled={disabled}/>;
+                break;
+            case 'SHIPCHUNG':
+                panel = <ShipChungPanel providerInfo={providerInfo && providerInfo.data && JSON.parse(providerInfo.data)} disabled={disabled}/>;
                 break;
             case 'GHTK':
-                panel = <GiaoHangTietKiemPanel providerInfo={providerInfo} disabled={disabled} />;
+                panel = <GiaoHangTietKiemPanel providerInfo={providerInfo} disabled={disabled}/>;
+                break;
+            case 'GHN':
+                panel = <GiaoHangNhanhPanel providerInfo={providerInfo} disabled={disabled}/>;
                 break;
             default:
-                panel = <OtherProviderPanel providerInfo={providerInfo} disabled={disabled} />;
+                panel = <OtherProviderPanel providerInfo={providerInfo} disabled={disabled}/>;
                 break;
         }
         return (
@@ -71,7 +79,7 @@ class FmsTransportingProviderDetailModal extends Component {
                         <button
                             className='btn btn-white'
                             onClick={this.onCloseButtonClick.bind(this)}
-                            >Đóng
+                        >Đóng
                         </button>
                     </Modal.Footer>
                 </div>

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import FmsPageTitle from "../../commons/page-title/FmsPageTitle";
 import FmsSpin from "../../commons/FmsSpin/FmsSpin";
 import FmsExportOrderSearchBar from "../orders/all-orders/FmsExportOrderSearchBar";
@@ -8,21 +8,49 @@ import {getAllProviders} from '../../api/TransportProviderApi';
 import FmsOrderDetailModal from "../../commons/order-modal/FmsOrderDetailModal";
 import FmsCreateTransportOrderModal from '../../commons/transport-order-modal/FmsCreateTransportOrderModal';
 import FmsTransportOrderDetailModal from '../../commons/transport-order-modal/FmsTransportOrderDetailModal';
+import * as storage from "../../helpers/storage";
+import FmsBlankPage from "../../commons/blank-page/FmsBlankPage";
+import * as uiApi from "../../api/UserViewApi";
 
 class FmsExportOrders extends Component {
 
-    state = {
-        orders: [],
-        selectedOrder: null,
-        selectedOrderId: null,
-        isLoading: true,
-        isShownDetailModal: false,
-        isShownCreateTransportOrderModal: false,
-        isShownTransportOrderDetailModal: false,
-        providers: [],
-        filter: {},
-        timeoutKey: null
-    };
+    constructor(props) {
+        super(props);
+
+        const project_id = this.props.project._id;
+        const isFirstTime = !storage.get(project_id + '_' + 'ALL_ORDER_VIEW');
+
+        this.state = {
+            orders: [],
+            selectedOrder: null,
+            selectedOrderId: null,
+            isLoading: true,
+            isShownDetailModal: false,
+            isShownCreateTransportOrderModal: false,
+            isShownTransportOrderDetailModal: false,
+            providers: [],
+            filter: {},
+            timeoutKey: null,
+
+            isFirstTime
+        };
+
+        if (isFirstTime) {
+            this.updateOrderView(project_id);
+        }
+    }
+
+    updateOrderView(project_id) {
+        uiApi.getOrderView(project_id)
+            .then(rs => {
+                if (rs.is_view) {
+                    this.setState({isFirstTime: false});
+                    storage.set(project_id + '_' + 'ALL_ORDER_VIEW', true);
+                } else {
+                    this.setState({isFirstTime: true});
+                }
+            })
+    }
 
     onChangeFilter(filter) {
         const {timeoutKey} = this.state;
@@ -86,6 +114,9 @@ class FmsExportOrders extends Component {
             this.updateOrderList();
             getAllProviders()
                 .then(res => this.setState({providers: res}));
+
+            // update first view
+            this.updateOrderView(nextProps.project._id);
         }
     }
 
@@ -97,6 +128,7 @@ class FmsExportOrders extends Component {
 
     render() {
         const {project} = this.props;
+
         const {
             orders,
             selectedOrder,
@@ -105,63 +137,75 @@ class FmsExportOrders extends Component {
             isShownDetailModal,
             isShownCreateTransportOrderModal,
             isShownTransportOrderDetailModal,
-            providers
+            providers,
+
+            isFirstTime
         } = this.state;
 
         return (
-            [
-                <FmsPageTitle key={1} title="Yêu cầu xuất hàng"
-                              route={`${project.name}/Quản lí đơn hàng/Yêu cầu xuất hàng`}/>,
+            <Fragment>
+                <FmsPageTitle title="Yêu cầu xuất hàng"
+                              route={`${project.name}/Quản lí đơn hàng/Yêu cầu xuất hàng`}/>
 
-                <div key={2} className="wrapper wrapper-content">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="ibox">
-                                <div className="ibox-content">
+                {
+                    isFirstTime ? (
+                        <FmsBlankPage title='Yêu cầu xuất đơn hàng'>
+                            <p>
+                                Bạn có thể tạo vận đơn và cập nhật vận đơn ở đây.
+                            </p>
+                        </FmsBlankPage>
+                    ) : (
+                        <div className="wrapper wrapper-content">
+                            <div className="row">
+                                <div className="col-lg-12">
+                                    <div className="ibox">
+                                        <div className="ibox-content">
 
-                                    <FmsExportOrderSearchBar onChangeFilter={this.onChangeFilter.bind(this)}/>
+                                            <FmsExportOrderSearchBar onChangeFilter={this.onChangeFilter.bind(this)}/>
 
-                                    {
-                                        isLoading ?
-                                            <FmsSpin size={25} center={true}/>
-                                            :
-                                            <FmsExportOrderTable
-                                                orders={orders}
+                                            {
+                                                isLoading ?
+                                                    <FmsSpin size={25} center={true}/>
+                                                    :
+                                                    <FmsExportOrderTable
+                                                        orders={orders}
+                                                        project={project}
+                                                        onReloadOrders={this.reloadOrders.bind(this)}
+                                                        onSelectItem={this.onOpenDetailModal.bind(this)}
+                                                        onSelectCreateTransportOrderModal={this.onOpenCreateTransportOrderModal.bind(this)}
+                                                        onSelectTransportOrderDetailModal={this.onOpenTransportOrderDetailModal.bind(this)}
+                                                    />
+                                            }
+
+                                            <FmsOrderDetailModal
+                                                order={selectedOrder}
                                                 project={project}
-                                                onReloadOrders={this.reloadOrders.bind(this)}
-                                                onSelectItem={this.onOpenDetailModal.bind(this)}
-                                                onSelectCreateTransportOrderModal={this.onOpenCreateTransportOrderModal.bind(this)}
-                                                onSelectTransportOrderDetailModal={this.onOpenTransportOrderDetailModal.bind(this)}
+                                                onClose={this.onCloseDetailModal.bind(this)}
+                                                isShown={isShownDetailModal}
+                                                typeModalName='EXPORT_ORDER'
                                             />
-                                    }
 
-                                    <FmsOrderDetailModal
-                                        order={selectedOrder}
-                                        project={project}
-                                        onClose={this.onCloseDetailModal.bind(this)}
-                                        isShown={isShownDetailModal}
-                                        typeModalName='EXPORT_ORDER'
-                                    />
+                                            <FmsCreateTransportOrderModal
+                                                order={selectedOrder}
+                                                onClose={this.onCloseCreateTransportOrderModal.bind(this)}
+                                                isShown={isShownCreateTransportOrderModal}
+                                                providers={providers}
+                                            />
 
-                                    <FmsCreateTransportOrderModal 
-                                        order={selectedOrder}
-                                        onClose={this.onCloseCreateTransportOrderModal.bind(this)}
-                                        isShown={isShownCreateTransportOrderModal}
-                                        providers={providers}
-                                    />
-
-                                    <FmsTransportOrderDetailModal
-                                        order_id={selectedOrderId}
-                                        onClose={this.onCloseTransportOrderDetailModal.bind(this)}
-                                        isShown={isShownTransportOrderDetailModal}
-                                        providers={providers}
-                                    />
+                                            <FmsTransportOrderDetailModal
+                                                order_id={selectedOrderId}
+                                                onClose={this.onCloseTransportOrderDetailModal.bind(this)}
+                                                isShown={isShownTransportOrderDetailModal}
+                                                providers={providers}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            ]
+                    )
+                }
+            </Fragment>
         )
     }
 }

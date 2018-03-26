@@ -24,3 +24,9 @@
 .add-post-btn {
   margin: 15px 0;
 }
+.post-table {
+  td {
+    vertical-align: inherit !important;
+    height: 54px;
+  }
+}
