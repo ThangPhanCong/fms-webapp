@@ -75,7 +75,7 @@ export default class FmsPostDetailModal extends React.Component {
                 backdrop='static' keyboard={false}
                 bsSize="large">
                 <div className="inmodal">
-                    <Modal.Header>
+                    <Modal.Header closeButton>
                         <h4 className="fms-modal-title">Chi tiết bài đăng</h4>
                     </Modal.Header>
                     <Modal.Body>
