@@ -7,7 +7,6 @@ import PostsApi from "../../../api/PostsApi";
 import {noti} from "../../notification/NotificationService";
 import FmsDate from "../../../helpers/FmsDate";
 import FmsPostDetailModal from "../FmsPostDetailModal/FmsPostDetailModal";
-import $ from "jquery";
 
 class FmsPosts extends React.Component {
     constructor(props) {
@@ -133,7 +132,7 @@ class FmsPosts extends React.Component {
             const parse_content = <span
                 className="content-emoji"
                 dangerouslySetInnerHTML={{__html: twemoji_content}}>
-            </span>
+            </span>;
 
             return (
                 <tr key={post.fb_id} className="clickable"

@@ -6,6 +6,7 @@ import {Image} from 'react-bootstrap';
 
 import FmsNotificationPopup from "../../containers/user-settings/notify-popup/FmsNotificationPopup";
 import {AuthenService} from "../../services/AuthenService";
+import defaultAva from "../../assets/images/default_ava.jpg";
 
 class FmsNavigation extends React.Component {
 
@@ -24,7 +25,7 @@ class FmsNavigation extends React.Component {
 
         let userId = user ? user.fb_id : '';
         let username = user ? user.name : '';
-        let avaUser = `https://graph.facebook.com/v2.10/${userId || 1469054753182852}/picture`;
+        let avaUser = userId ? `https://graph.facebook.com/v2.10/${userId}/picture` : defaultAva;
 
         return (
             <div className='border-bottom'

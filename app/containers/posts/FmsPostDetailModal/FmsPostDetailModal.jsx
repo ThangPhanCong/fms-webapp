@@ -1,6 +1,5 @@
 import React from 'react';
 import Modal from "react-bootstrap/es/Modal";
-import FmsScrollableDiv from "../../../commons/scroll-bar/FmsScrollableDiv";
 import FmsCroppedImage from "../../../commons/FmsCroppedImage/FmsCroppedImage";
 import FmsDate from "../../../helpers/FmsDate";
 import * as OrderApi from "../../../api/OrderApi";
@@ -25,9 +24,6 @@ export default class FmsPostDetailModal extends React.Component {
             }, err => {
                 console.log(err);
             });
-    }
-
-    onParseMessage() {
         const parse_message = twemoji.parse(this.props.post.message);
         const message = $.parseHTML(parse_message);
         $("#content").replaceWith(message);
@@ -36,7 +32,7 @@ export default class FmsPostDetailModal extends React.Component {
     componentDidUpdate(prevProps) {
         if (!prevProps.isShown && this.props.isShown && this.props.post) {
             setTimeout(() => {
-                this.onParseMessage()
+                this.updateModal();
             }, 0)
         }
     }
@@ -63,7 +59,7 @@ export default class FmsPostDetailModal extends React.Component {
 
     render() {
         if (!this.props.post) return <div/>;
-        let {page, message, hide_comment, fb_id, hide_phone} = this.props.post;
+        let {page, hide_comment, fb_id, hide_phone} = this.props.post;
         let avaUrl = `https://graph.facebook.com/v2.10/${page.fb_id}/picture`;
         let pageFb = `https://facebook.com/${page.fb_id}`;
         let attachments = (this.props.post.attachments) ? "" : " hide";
@@ -96,16 +92,11 @@ export default class FmsPostDetailModal extends React.Component {
                                             <div className="created-time">{this.getCreatedTime()}</div>
                                         </div>
                                     </div>
-                                    <FmsScrollableDiv className="content-wrapper">
-                                        <div className="list-content">
-                                            <p id="content"></p>
-                                        </div>
-                                        <div className={"image-wrapper" + attachments}>
-                                            {this.renderImgs()}
-                                        </div>
-                                    </FmsScrollableDiv>
-                                    <div className="order-info">
-
+                                    <div className="list-content">
+                                        <p id="content"/>
+                                    </div>
+                                    <div className={"image-wrapper" + attachments}>
+                                        {this.renderImgs()}
                                     </div>
                                     <div className="dropdown">
                                         <i className="glyphicon glyphicon-option-vertical clickable dropdown-toggle"

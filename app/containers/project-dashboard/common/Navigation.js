@@ -4,6 +4,7 @@ import NavItem from "./NavItem";
 
 import {treeConfig, filterConfigByPerms} from './RouteConfig'
 import {AuthenService} from "../../../services/AuthenService";
+import defaultAva from "../../../assets/images/default_ava.jpg";
 
 class Navigation extends Component {
 
@@ -29,7 +30,7 @@ class Navigation extends Component {
         const {
             project
         } = this.props;
-        const avaUser = `https://graph.facebook.com/v2.10/${user.fb_id || 1469054753182852}/picture`;
+        const avaUser = user.fb_id ? `https://graph.facebook.com/v2.10/${user.fb_id}/picture` : defaultAva;
 
         return (
             <li className="nav-header">
