@@ -30,6 +30,8 @@ export const AuthenService = {
         user = null;
         isAuthenticated = null;
         broadcast();
+
+        window.location = "/";
     },
     verifyAccessToken: (access_token) => {
         if (!access_token) {

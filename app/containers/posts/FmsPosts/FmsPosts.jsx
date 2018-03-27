@@ -7,6 +7,7 @@ import PostsApi from "../../../api/PostsApi";
 import {noti} from "../../notification/NotificationService";
 import FmsDate from "../../../helpers/FmsDate";
 import FmsPostDetailModal from "../FmsPostDetailModal/FmsPostDetailModal";
+import $ from "jquery";
 
 class FmsPosts extends React.Component {
     constructor(props) {
@@ -128,6 +129,12 @@ class FmsPosts extends React.Component {
         return posts.map((post) => {
             let content = post.message || "Không có";
             let id = post.fb_id.split("_").length > 1 ? post.fb_id.split("_")[1] : post.fb_id;
+            let twemoji_content = twemoji.parse(content);
+            const parse_content = <span
+                className="content-emoji"
+                dangerouslySetInnerHTML={{__html: twemoji_content}}>
+            </span>
+
             return (
                 <tr key={post.fb_id} className="clickable"
                     onClick={() => {
@@ -138,8 +145,8 @@ class FmsPosts extends React.Component {
                              style={{width: "37px", borderRadius: "50%"}}/>
                     </td>
                     <td>{id}</td>
-                    <td style={{maxWidth: "423px"}}>
-                        {content.length < 145 ? content : (content.substr(0, 145) + "...")}
+                    <td style={{maxWidth: "423px"}} id="post-content">
+                        {content.length < 145 ? parse_content : (content.substr(0, 145) + "...")}
                     </td>
                     <td>{this.getCreatedTime(post.created_time)}</td>
                     <td>0</td>

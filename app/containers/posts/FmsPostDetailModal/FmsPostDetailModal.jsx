@@ -19,11 +19,6 @@ export default class FmsPostDetailModal extends React.Component {
     }
 
     updateModal() {
-        if (this.props.post.message) {
-            const parse_message = twemoji.parse(this.props.post.message);
-            const message = $.parseHTML(parse_message);
-            $("#content").replaceWith(message)
-        }
         OrderApi.countSourceOrders(this.props.post.fb_id)
             .then(res => {
                 this.setState({orderStatistic: res});
@@ -32,9 +27,17 @@ export default class FmsPostDetailModal extends React.Component {
             });
     }
 
+    onParseMessage() {
+        const parse_message = twemoji.parse(this.props.post.message);
+        const message = $.parseHTML(parse_message);
+        $("#content").replaceWith(message);
+    }
+
     componentDidUpdate(prevProps) {
         if (!prevProps.isShown && this.props.isShown && this.props.post) {
-            this.updateModal();
+            setTimeout(() => {
+                this.onParseMessage()
+            }, 0)
         }
     }
 
@@ -95,7 +98,7 @@ export default class FmsPostDetailModal extends React.Component {
                                     </div>
                                     <FmsScrollableDiv className="content-wrapper">
                                         <div className="list-content">
-                                            <p id="content">{message}</p>
+                                            <p id="content"></p>
                                         </div>
                                         <div className={"image-wrapper" + attachments}>
                                             {this.renderImgs()}
@@ -105,38 +108,38 @@ export default class FmsPostDetailModal extends React.Component {
 
                                     </div>
                                     <div className="dropdown">
-                                    <i className="glyphicon glyphicon-option-vertical clickable dropdown-toggle"
-                                       data-toggle="dropdown"/>
-                                    <ul className="dropdown-menu">
-                                        <li className="clickable"
-                                            onClick={() => this.navigateToNewTab(fb_id)}>
-                                            <a>
-                                                Đi tới bài đăng trên facebook
-                                            </a>
-                                        </li>
-                                        <li className='divider'/>
-                                        <li className="clickable" onClick={() => {
-                                            this.onToggleChange(false)
-                                        }}>
-                                            <span>Ẩn tất cả bình luận</span>
-                                            {hide_comment ?
-                                                <i className="glyphicon glyphicon-ok"/> :
-                                                null
-                                            }
-                                        </li>
-                                        <li className="clickable"
-                                            onClick={() => {
-                                                this.onToggleChange(true)
-                                            }}
-                                        >
-                                            <span>Ẩn bình luận có số điện thoại</span>
-                                            {hide_phone ?
-                                                <i className="glyphicon glyphicon-ok"/> :
-                                                null
-                                            }
-                                        </li>
-                                    </ul>
-                                </div>
+                                        <i className="glyphicon glyphicon-option-vertical clickable dropdown-toggle"
+                                           data-toggle="dropdown"/>
+                                        <ul className="dropdown-menu">
+                                            <li className="clickable"
+                                                onClick={() => this.navigateToNewTab(fb_id)}>
+                                                <a>
+                                                    Đi tới bài đăng trên facebook
+                                                </a>
+                                            </li>
+                                            <li className='divider'/>
+                                            <li className="clickable" onClick={() => {
+                                                this.onToggleChange(false)
+                                            }}>
+                                                <span>Ẩn tất cả bình luận</span>
+                                                {hide_comment ?
+                                                    <i className="glyphicon glyphicon-ok"/> :
+                                                    null
+                                                }
+                                            </li>
+                                            <li className="clickable"
+                                                onClick={() => {
+                                                    this.onToggleChange(true)
+                                                }}
+                                            >
+                                                <span>Ẩn bình luận có số điện thoại</span>
+                                                {hide_phone ?
+                                                    <i className="glyphicon glyphicon-ok"/> :
+                                                    null
+                                                }
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                             <div className="col-sm-5 statistic">
